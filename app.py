@@ -1,0 +1,1467 @@
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+from io import BytesIO
+import zipfile
+import re
+
+st.set_page_config(page_title="FP&A Copilot", layout="wide")
+
+st.title("FP&A Copilot")
+st.write(
+    "Upload a P&L file to analyse variance, key movements, trend charts, "
+    "commentary, summary cards, and export a management pack."
+)
+
+uploaded_file = st.file_uploader("Upload CSV or Excel", type=["csv", "xlsx"])
+debug_mode = st.sidebar.checkbox("Show Debug Info", value=False)
+
+
+# -----------------------------
+# CONFIG
+# -----------------------------
+CATEGORY_RULES = {
+    "Revenue": [
+        "sales", "income", "revenue", "turnover", "fees", "fee income",
+        "service income", "consultancy income", "grant income", "contract income",
+        "funding", "uplift payment", "private income", "teaching income", "training hub",
+        "qof", "global sum", "lcs", "des", "apms", "vaccination", "vaccinations",
+        "influenza", "flu", "mmr", "rotavirus", "hpv", "rsv", "pertussis", "shingles",
+        "teledermatology", "healthchecks", "health checks", "weight management",
+        "access lis", "pcn", "arrs", "participation payment", "meeting backfill",
+        "capacity and access fund", "supervision", "educational supervision", "grant",
+        "gnrh", "academic funding", "winter planning", "advice & guidance"
+    ],
+
+    "Direct Costs": [
+        "cost of sales", "cos", "direct cost", "direct costs", "subcontractor",
+        "subcontractors", "delivery costs", "project costs", "materials", "consumables",
+        "drugs and vaccines", "medical supplies", "vaccines"
+    ],
+
+    "Staff Costs": [
+        "wage", "wages", "salary", "salaries", "payroll", "ni", "national insurance",
+        "pension", "staff costs", "staff cost", "bonus", "bonuses", "overtime",
+        "holiday pay", "training wages", "agency staff", "temporary staff",
+        "staff welfare", "work force", "workforce", "receptionist", "receptionists",
+        "practice nurse", "nurse lead", "nursing associate", "clinical lead",
+        "pharmacist", "pharmacists", "salaried gp", "care navigator",
+        "administrator", "senior administrator", "operational support",
+        "operational lead", "practice managers", "trainee gp nurse", "hca",
+        "doctors - clinical", "nurses clinical", "operations"
+    ],
+
+    "Management Costs": [
+        "management", "management fee", "management fees", "manager", "leadership",
+        "director", "directors", "board costs"
+    ],
+
+    "IT Costs": [
+        "it", "it costs", "it + office equipment", "software", "hardware", "licence",
+        "licences", "license", "licenses", "system", "systems", "tech", "technology",
+        "computer", "computers", "microsoft", "office 365", "google workspace",
+        "adobe", "xero", "sage", "subscription", "subscriptions", "server", "hosting",
+        "domain", "website hosting", "internet", "broadband", "wifi", "telecoms",
+        "telephone system", "telephone & internet", "office equipment"
+    ],
+
+    "Premises Costs": [
+        "rent", "rates", "business rates", "service charge", "service charges",
+        "utilities", "electricity", "gas", "water", "cleaning", "repairs",
+        "maintenance", "security", "premises", "office rent", "building",
+        "facilities", "room bookings", "room booking", "premises costs",
+        "non-reimburseable premises costs", "non-reimbursable premises costs",
+        "repair, renewals & maintenance"
+    ],
+
+    "Professional Fees": [
+        "legal", "legal fees", "accountancy", "accounting", "audit", "auditor",
+        "consultancy", "consultant", "professional fees", "advisor", "adviser",
+        "legal expenses & professional fees"
+    ],
+
+    "Marketing Costs": [
+        "marketing", "advertising", "promotion", "promotional", "branding", "seo",
+        "google ads", "facebook ads", "meta ads", "campaign"
+    ],
+
+    "Travel & Entertainment": [
+        "travel", "subsistence", "hotel", "hotels", "mileage", "train", "parking",
+        "taxi", "taxis", "entertainment", "client entertainment"
+    ],
+
+    "Office & Admin": [
+        "postage", "courier", "printing", "stationery", "office supplies",
+        "admin", "administration", "general expenses", "sundry", "misc",
+        "miscellaneous", "cqc costs", "postage, freight & courier"
+    ],
+
+    "Insurance": [
+        "insurance", "liability insurance", "professional indemnity", "employers liability"
+    ],
+
+    "Finance Costs": [
+        "bank charges", "interest", "loan interest", "finance charges", "merchant fees"
+    ],
+
+    "Depreciation & Amortisation": [
+        "depreciation", "amortisation", "amortization"
+    ],
+
+    "Tax": [
+        "corporation tax", "taxation", "tax"
+    ]
+}
+
+ACCOUNT_CATEGORY_OVERRIDES = {
+    "global sum": "Revenue",
+    "qof": "Revenue",
+    "enhanced services": "Revenue",
+    "private income": "Revenue",
+    "training grant": "Revenue",
+    "teaching income": "Revenue",
+    "pcn des participation payment": "Revenue",
+    "access lis funding": "Revenue",
+    "winter planning": "Revenue",
+    "teledermatology": "Revenue",
+    "mmr": "Revenue",
+    "rotavirus": "Revenue",
+    "shingles": "Revenue",
+    "flu": "Revenue",
+    "vaccinations": "Revenue",
+    "staff cost - practice care navigator": "Staff Costs",
+    "staff cost - receptionist": "Staff Costs",
+    "staff cost - salaried gp": "Staff Costs",
+    "staff cost - pharmacist": "Staff Costs",
+    "it + office equipment": "IT Costs",
+    "telephone & internet": "IT Costs",
+    "legal expenses & professional fees": "Professional Fees",
+    "non-reimburseable premises costs": "Premises Costs",
+    "non-reimbursable premises costs": "Premises Costs",
+    "cqc costs": "Office & Admin"
+}
+
+KPI_LABELS = {
+    "Revenue": [
+        "total turnover",
+        "turnover",
+        "revenue",
+        "total revenue",
+        "sales",
+        "income",
+        "fees",
+        "gross income",
+        "total income"
+    ],
+    "Administrative Costs": [
+        "total administrative costs",
+        "administrative costs",
+        "admin costs",
+        "admin cost",
+        "admin expenses",
+        "administrative expenses",
+        "operating expenses",
+        "total operating expenses",
+        "operating expense",
+        "overheads",
+        "total overheads",
+        "overhead",
+        "indirect costs",
+        "total indirect costs",
+        "expenses",
+        "total expenses",
+        "office expenses",
+        "general expenses",
+        "fixed costs",
+        "running costs"
+    ],
+    "Operating Profit": [
+        "operating profit",
+        "net operating profit",
+        "operating surplus"
+    ]
+}
+
+EXPENSE_CATEGORIES = [
+    "Direct Costs",
+    "Staff Costs",
+    "Management Costs",
+    "IT Costs",
+    "Premises Costs",
+    "Professional Fees",
+    "Marketing Costs",
+    "Travel & Entertainment",
+    "Office & Admin",
+    "Insurance",
+    "Finance Costs",
+    "Depreciation & Amortisation",
+    "Tax",
+    "Other"
+]
+
+SECTION_TO_CATEGORY = {
+    "turnover": "Revenue",
+    "revenue": "Revenue",
+    "income": "Revenue",
+    "administrative costs": "Other",
+    "other costs": "Other",
+    "staff & workforce": "Staff Costs",
+    "staff and workforce": "Staff Costs"
+}
+
+
+# -----------------------------
+# FORMATTING
+# -----------------------------
+def format_currency(value):
+    if pd.isna(value):
+        return ""
+    if value < 0:
+        return f"-£{abs(value):,.0f}"
+    return f"£{value:,.0f}"
+
+
+def format_percentage(value):
+    if pd.isna(value):
+        return ""
+    return f"{value:.1f}%"
+
+
+def format_period_label(period_value, period_type):
+    if pd.isna(period_value):
+        return ""
+    if period_type == "Monthly":
+        return pd.Timestamp(period_value).strftime("%b %Y")
+    return str(period_value)
+
+
+# -----------------------------
+# TEXT / ACCOUNT HELPERS
+# -----------------------------
+def clean_text(value):
+    if pd.isna(value):
+        return ""
+    return str(value).strip()
+
+
+def normalise_text(value):
+    return clean_text(value).lower().strip()
+
+
+def first_non_blank(values):
+    for value in values:
+        text = clean_text(value)
+        if text != "" and text.lower() != "nan":
+            return text
+    return ""
+
+
+def is_heading_only_row(left_text, account_text):
+    left = normalise_text(left_text)
+    account = normalise_text(account_text)
+
+    headings = {
+        "turnover",
+        "administrative costs",
+        "other costs",
+        "staff & workforce",
+        "staff and workforce"
+    }
+
+    return left in headings and account == ""
+
+
+def is_total_or_profit_line(left_text, account_text):
+    left = normalise_text(left_text)
+    account = normalise_text(account_text)
+
+    subtotal_keywords = [
+        "total ",
+        "gross profit",
+        "operating profit",
+        "operating surplus",
+        "profit on ordinary activities before taxation",
+        "profit before taxation",
+        "profit before tax",
+        "profit after taxation",
+        "profit after tax",
+        "net profit",
+        "profit for the period",
+        "ebitda",
+        "ebit"
+    ]
+
+    return any(keyword in left for keyword in subtotal_keywords) or any(
+        keyword in account for keyword in subtotal_keywords
+    )
+
+
+# -----------------------------
+# FILE LOADING
+# -----------------------------
+def load_file_with_dynamic_header(uploaded_file):
+    if uploaded_file.name.endswith(".csv"):
+        raw = pd.read_csv(uploaded_file, header=None)
+    else:
+        raw = pd.read_excel(uploaded_file, header=None)
+
+    header_row = None
+    for i in range(min(25, len(raw))):
+        row_values = raw.iloc[i].astype(str).str.strip().str.lower().tolist()
+        if "account" in row_values:
+            header_row = i
+            break
+
+    if header_row is None:
+        raise ValueError("Could not find an 'Account' header row.")
+
+    headers = raw.iloc[header_row].astype(str).str.strip().tolist()
+    df = raw.iloc[header_row + 1:].copy()
+    df.columns = headers
+
+    first_col = df.columns[0]
+    account_col = None
+
+    for col in df.columns:
+        if str(col).strip().lower() == "account":
+            account_col = col
+            break
+
+    if account_col is None:
+        raise ValueError("Could not find the Account column after reading the file.")
+
+    df = df.rename(columns={first_col: "Level_1", account_col: "Level_2_Account"})
+
+    section = None
+    built_rows = []
+
+    month_cols = [col for col in df.columns if col not in ["Level_1", "Level_2_Account"]]
+
+    for _, row in df.iterrows():
+        left_text = clean_text(row.get("Level_1", ""))
+        account_text = clean_text(row.get("Level_2_Account", ""))
+
+        if is_heading_only_row(left_text, account_text):
+            section = left_text
+            continue
+
+        if is_total_or_profit_line(left_text, account_text):
+            account_name = first_non_blank([left_text, account_text])
+        else:
+            account_name = first_non_blank([account_text, left_text])
+
+        if account_name == "":
+            continue
+
+        built_row = {"Account": account_name, "Section": section}
+
+        for col in month_cols:
+            built_row[col] = row[col]
+
+        built_rows.append(built_row)
+
+    clean_df = pd.DataFrame(built_rows)
+    return clean_df
+
+
+# -----------------------------
+# DATA CLEANING / CLASSIFICATION
+# -----------------------------
+def clean_numeric_series(series):
+    cleaned = (
+        series.astype(str)
+        .str.replace(",", "", regex=False)
+        .str.replace("£", "", regex=False)
+        .str.replace("(", "-", regex=False)
+        .str.replace(")", "", regex=False)
+        .str.replace(r"[^\d\.\-]", "", regex=True)
+        .str.strip()
+        .replace("", pd.NA)
+    )
+    return pd.to_numeric(cleaned, errors="coerce")
+
+
+def classify_account(account, section=None):
+    account = normalise_text(account)
+    section = normalise_text(section)
+
+    if account in ACCOUNT_CATEGORY_OVERRIDES:
+        return ACCOUNT_CATEGORY_OVERRIDES[account]
+
+    for override_key, override_category in ACCOUNT_CATEGORY_OVERRIDES.items():
+        if override_key in account:
+            return override_category
+
+    if section in SECTION_TO_CATEGORY:
+        section_category = SECTION_TO_CATEGORY[section]
+
+        if section_category == "Revenue":
+            return "Revenue"
+
+        if section_category == "Staff Costs":
+            return "Staff Costs"
+
+    for category, keywords in CATEGORY_RULES.items():
+        for keyword in keywords:
+            if keyword in account:
+                return category
+
+    if re.search(r"\bit\b", account):
+        return "IT Costs"
+
+    if section in ["administrative costs", "other costs"]:
+        return "Other"
+
+    return "Other"
+
+
+def is_subtotal(account):
+    account = normalise_text(account)
+
+    subtotal_keywords = [
+        "total ",
+        "gross profit",
+        "operating profit",
+        "operating surplus",
+        "profit on ordinary activities before taxation",
+        "profit before taxation",
+        "profit before tax",
+        "profit after taxation",
+        "profit after tax",
+        "net profit",
+        "profit for the period",
+        "ebitda",
+        "ebit"
+    ]
+
+    return any(keyword in account for keyword in subtotal_keywords)
+
+
+def find_matching_account(df, selected_period, aliases, period_col="Period"):
+    period_df = df[df[period_col] == selected_period].copy()
+
+    for alias in aliases:
+        match = period_df[
+            period_df["Account"].astype(str).str.lower().str.strip() == alias.lower().strip()
+        ]
+        if not match.empty:
+            return match.iloc[0]
+
+    for alias in aliases:
+        match = period_df[
+            period_df["Account"].astype(str).str.lower().str.contains(alias.lower(), na=False)
+        ]
+        if not match.empty:
+            return match.iloc[0]
+
+    return None
+
+
+def resolve_kpi_account_name(df_source, aliases):
+    account_series = (
+        df_source["Account"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+    )
+
+    for alias in aliases:
+        exact_matches = account_series[
+            account_series.str.lower().str.strip() == alias.lower().strip()
+        ]
+        if not exact_matches.empty:
+            return exact_matches.iloc[0]
+
+    for alias in aliases:
+        contains_matches = account_series[
+            account_series.str.lower().str.contains(alias.lower(), na=False)
+        ]
+        if not contains_matches.empty:
+            return contains_matches.iloc[0]
+
+    return None
+
+
+def make_insight(row):
+    direction = "increased" if row["Variance"] > 0 else "decreased"
+
+    if pd.notna(row["Variance %"]):
+        return (
+            f"{row['Account']} {direction} by "
+            f"{format_currency(abs(row['Variance']))} "
+            f"({abs(row['Variance %']):.1f}%) versus prior period."
+        )
+
+    return (
+        f"{row['Account']} {direction} by "
+        f"{format_currency(abs(row['Variance']))} versus prior period."
+    )
+
+
+# -----------------------------
+# FY / QUARTER LOGIC
+# -----------------------------
+def get_financial_year(dt):
+    dt = pd.Timestamp(dt)
+    if dt.month >= 4:
+        return dt.year
+    return dt.year - 1
+
+
+def get_financial_quarter(dt):
+    dt = pd.Timestamp(dt)
+    if dt.month in [4, 5, 6]:
+        q = "Q1"
+    elif dt.month in [7, 8, 9]:
+        q = "Q2"
+    elif dt.month in [10, 11, 12]:
+        q = "Q3"
+    else:
+        q = "Q4"
+
+    fy = get_financial_year(dt)
+    return f"FY{str(fy)[-2:]}/{str(fy + 1)[-2:]} {q}"
+
+
+def quarter_sort_key(period_label):
+    quarter_order = {"Q1": 1, "Q2": 2, "Q3": 3, "Q4": 4}
+    fy_part = period_label.split(" ")[0]
+    q_part = period_label.split(" ")[1]
+    fy_start = int("20" + fy_part[2:4])
+    return fy_start * 10 + quarter_order[q_part]
+
+
+def build_period_view(df_long, period_type):
+    df = df_long.copy()
+
+    if period_type == "Monthly":
+        df["Period"] = df["Month"]
+    else:
+        df["Period"] = df["Month"].apply(get_financial_quarter)
+
+    grouped = (
+        df.groupby(["Account", "Section", "Period"], as_index=False)["Value"]
+        .sum()
+    )
+
+    if period_type == "Monthly":
+        grouped["Period Sort"] = pd.to_datetime(grouped["Period"])
+    else:
+        grouped["Period Sort"] = grouped["Period"].apply(quarter_sort_key)
+
+    grouped = grouped.sort_values(["Account", "Period Sort"])
+    grouped["Previous Value"] = grouped.groupby("Account")["Value"].shift(1)
+    grouped["Variance"] = grouped["Value"] - grouped["Previous Value"]
+    grouped["Variance %"] = grouped.apply(
+        lambda row: ((row["Variance"] / row["Previous Value"]) * 100)
+        if pd.notna(row["Previous Value"]) and row["Previous Value"] != 0
+        else None,
+        axis=1
+    )
+    grouped["Abs Variance"] = grouped["Variance"].abs()
+    grouped["Category"] = grouped.apply(
+        lambda row: classify_account(row["Account"], row["Section"]),
+        axis=1
+    )
+    grouped["Is Subtotal"] = grouped["Account"].apply(is_subtotal)
+
+    return grouped
+
+
+# -----------------------------
+# KPI TREND HELPERS
+# -----------------------------
+def get_kpi_trend_series(df_source, aliases):
+    matched_account = resolve_kpi_account_name(df_source, aliases)
+
+    if matched_account is None:
+        return pd.DataFrame(columns=["Month", "Value"])
+
+    out = (
+        df_source[
+            df_source["Account"].astype(str).str.strip() == matched_account
+        ]
+        .groupby("Month", as_index=False)["Value"]
+        .sum()
+    )
+
+    return out
+
+
+def build_kpi_trend_view(kpi_monthly_rows, trend_view):
+    revenue_trend = get_kpi_trend_series(kpi_monthly_rows, KPI_LABELS["Revenue"]).rename(columns={"Value": "Revenue"})
+    costs_trend = get_kpi_trend_series(kpi_monthly_rows, KPI_LABELS["Administrative Costs"]).rename(columns={"Value": "Costs"})
+    profit_trend = get_kpi_trend_series(kpi_monthly_rows, KPI_LABELS["Operating Profit"]).rename(columns={"Value": "Profit"})
+
+    kpi_pivot = revenue_trend.merge(costs_trend, on="Month", how="outer")
+    kpi_pivot = kpi_pivot.merge(profit_trend, on="Month", how="outer")
+    kpi_pivot = kpi_pivot.sort_values("Month").fillna(0)
+
+    if trend_view == "Monthly":
+        return kpi_pivot
+
+    quarterly_df = kpi_pivot.copy()
+    quarterly_df["Quarter"] = quarterly_df["Month"].apply(get_financial_quarter)
+    quarterly_df["Quarter Sort"] = quarterly_df["Quarter"].apply(quarter_sort_key)
+
+    quarterly_df = (
+        quarterly_df.groupby(["Quarter", "Quarter Sort"], as_index=False)[["Revenue", "Costs", "Profit"]]
+        .sum()
+        .sort_values("Quarter Sort")
+    )
+
+    return quarterly_df
+
+
+# -----------------------------
+# PIE CHART HELPERS
+# -----------------------------
+def prepare_split_df(period_df, categories, split_basis="Account", use_absolute=False, top_n=6):
+    split_df = period_df[
+        (period_df["Category"].isin(categories)) &
+        (~period_df["Is Subtotal"])
+    ].copy()
+
+    if split_df.empty:
+        return pd.DataFrame(columns=[split_basis, "Chart Value", "Split %"])
+
+    group_col = "Account" if split_basis == "Account" else "Category"
+
+    split_df = split_df.groupby(group_col, as_index=False)["Value"].sum()
+
+    if use_absolute:
+        split_df["Chart Value"] = split_df["Value"].abs()
+    else:
+        split_df["Chart Value"] = split_df["Value"]
+
+    split_df = split_df[split_df["Chart Value"] > 0].copy()
+
+    if split_df.empty:
+        return pd.DataFrame(columns=[group_col, "Chart Value", "Split %"])
+
+    split_df = split_df.sort_values("Chart Value", ascending=False)
+
+    if len(split_df) > top_n:
+        top_df = split_df.head(top_n).copy()
+        other_value = split_df.iloc[top_n:]["Chart Value"].sum()
+
+        if other_value > 0:
+            other_row = pd.DataFrame([{
+                group_col: "Other",
+                "Value": other_value,
+                "Chart Value": other_value
+            }])
+            split_df = pd.concat([top_df, other_row], ignore_index=True)
+        else:
+            split_df = top_df
+
+    total_value = split_df["Chart Value"].sum()
+    split_df["Split %"] = (split_df["Chart Value"] / total_value) * 100
+
+    return split_df
+
+
+def plot_pie_chart(split_df, label_col, title):
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.pie(
+        split_df["Chart Value"],
+        labels=split_df[label_col],
+        autopct="%1.1f%%",
+        startangle=90
+    )
+    ax.set_title(title)
+    ax.axis("equal")
+    st.pyplot(fig)
+    plt.close(fig)
+
+
+# -----------------------------
+# STYLING
+# -----------------------------
+def variance_colour_general(val):
+    if pd.isna(val):
+        return ""
+    if val > 0:
+        return "color: #b00020; font-weight: 600;"
+    if val < 0:
+        return "color: #0a7d33; font-weight: 600;"
+    return ""
+
+
+def contribution_colour(val):
+    if pd.isna(val):
+        return ""
+    if val > 0:
+        return "color: #b00020;"
+    if val < 0:
+        return "color: #0a7d33;"
+    return ""
+
+
+def style_financial_df(df, currency_cols=None, pct_cols=None, variance_cols=None, contribution_cols=None):
+    currency_cols = currency_cols or []
+    pct_cols = pct_cols or []
+    variance_cols = variance_cols or []
+    contribution_cols = contribution_cols or []
+
+    format_dict = {}
+    for col in currency_cols:
+        if col in df.columns:
+            format_dict[col] = format_currency
+    for col in pct_cols:
+        if col in df.columns:
+            format_dict[col] = lambda x: format_percentage(x)
+
+    styler = df.style.format(format_dict)
+
+    for col in variance_cols:
+        if col in df.columns:
+            styler = styler.map(variance_colour_general, subset=[col])
+
+    for col in contribution_cols:
+        if col in df.columns:
+            styler = styler.map(contribution_colour, subset=[col])
+
+    styler = styler.set_properties(**{
+        "text-align": "left",
+        "white-space": "nowrap"
+    })
+
+    return styler
+
+
+# -----------------------------
+# COMMENTARY
+# -----------------------------
+def make_management_commentary(selected_period, driver_period_df, analysis_df, period_type):
+    period_label = format_period_label(selected_period, period_type)
+
+    revenue_row = find_matching_account(analysis_df, selected_period, KPI_LABELS["Revenue"])
+    cost_row = find_matching_account(analysis_df, selected_period, KPI_LABELS["Administrative Costs"])
+    profit_row = find_matching_account(analysis_df, selected_period, KPI_LABELS["Operating Profit"])
+
+    commentary = []
+
+    if profit_row is not None and pd.notna(profit_row["Variance"]):
+        if profit_row["Variance"] > 0:
+            commentary.append(
+                f"Operating profit improved in {period_label} by "
+                f"{format_currency(abs(profit_row['Variance']))} versus prior period."
+            )
+        elif profit_row["Variance"] < 0:
+            commentary.append(
+                f"Operating profit declined in {period_label} by "
+                f"{format_currency(abs(profit_row['Variance']))} versus prior period."
+            )
+        else:
+            commentary.append(
+                f"Operating profit was unchanged in {period_label} versus prior period."
+            )
+
+    if revenue_row is not None and pd.notna(revenue_row["Variance"]):
+        direction = "increased" if revenue_row["Variance"] > 0 else "decreased"
+        if revenue_row["Variance"] == 0:
+            commentary.append("Revenue was unchanged versus prior period.")
+        else:
+            commentary.append(
+                f"Revenue {direction} by {format_currency(abs(revenue_row['Variance']))} "
+                f"({abs(revenue_row['Variance %']):.1f}%) versus prior period."
+            )
+
+    if cost_row is not None and pd.notna(cost_row["Variance"]):
+        direction = "increased" if cost_row["Variance"] > 0 else "decreased"
+        if cost_row["Variance"] == 0:
+            commentary.append("Administrative costs were unchanged versus prior period.")
+        else:
+            commentary.append(
+                f"Administrative costs {direction} by {format_currency(abs(cost_row['Variance']))} "
+                f"({abs(cost_row['Variance %']):.1f}%) versus prior period."
+            )
+
+    drivers = driver_period_df.sort_values("Abs Variance", ascending=False).head(3)
+
+    for _, row in drivers.iterrows():
+        if pd.isna(row["Variance"]) or row["Variance"] == 0:
+            continue
+        direction = "increased" if row["Variance"] > 0 else "decreased"
+        pct_text = f" ({abs(row['Variance %']):.1f}%)" if pd.notna(row["Variance %"]) else ""
+        commentary.append(
+            f"{row['Account']} {direction} by {format_currency(abs(row['Variance']))}{pct_text} versus prior period."
+        )
+
+    return commentary, revenue_row, cost_row, profit_row
+
+
+# -----------------------------
+# EXPORTS
+# -----------------------------
+def make_management_pack_zip(
+    selected_period_label,
+    category_summary,
+    driver_period_df,
+    top_movements,
+    commentary_lines,
+    revenue_row,
+    costs_row,
+    profit_row
+):
+    buffer = BytesIO()
+
+    safe_label = str(selected_period_label).replace(" ", "_").replace("/", "-")
+
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(f"category_summary_{safe_label}.csv", category_summary.to_csv(index=False))
+        zf.writestr(f"variance_detail_{safe_label}.csv", driver_period_df.to_csv(index=False))
+        zf.writestr(f"top_movements_{safe_label}.csv", top_movements.to_csv(index=False))
+
+        summary_lines = [
+            f"Management Pack Summary - {selected_period_label}",
+            "",
+            f"Revenue: {format_currency(revenue_row['Value']) if revenue_row is not None else 'N/A'}",
+            f"Administrative Costs: {format_currency(costs_row['Value']) if costs_row is not None else 'N/A'}",
+            f"Operating Profit: {format_currency(profit_row['Value']) if profit_row is not None else 'N/A'}",
+            f"Profit Variance vs Prior Period: {format_currency(profit_row['Variance']) if profit_row is not None and pd.notna(profit_row['Variance']) else 'N/A'}",
+            "",
+            "Management Commentary:",
+        ]
+
+        if commentary_lines:
+            summary_lines.extend([f"- {line}" for line in commentary_lines])
+        else:
+            summary_lines.append("No commentary available.")
+
+        zf.writestr(f"management_commentary_{safe_label}.txt", "\n".join(summary_lines))
+
+    buffer.seek(0)
+    return buffer.getvalue()
+
+
+def add_pdf_text_page(pdf, title, lines, fontsize=11, lines_per_page=32):
+    if not lines:
+        lines = [""]
+
+    chunks = [lines[i:i + lines_per_page] for i in range(0, len(lines), lines_per_page)]
+
+    for page_num, chunk in enumerate(chunks):
+        fig, ax = plt.subplots(figsize=(8.27, 11.69))
+        ax.axis("off")
+
+        page_title = title if page_num == 0 else f"{title} (cont.)"
+        ax.text(0.02, 0.98, page_title, fontsize=16, fontweight="bold", va="top")
+
+        y = 0.93
+        for line in chunk:
+            ax.text(0.02, y, str(line), fontsize=fontsize, va="top", wrap=True)
+            y -= 0.026
+
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
+
+def add_pdf_table_page(pdf, title, df, max_rows=18):
+    if df.empty:
+        add_pdf_text_page(pdf, title, ["No data available."])
+        return
+
+    chunks = [df.iloc[i:i + max_rows].copy() for i in range(0, len(df), max_rows)]
+
+    for page_num, chunk in enumerate(chunks):
+        fig, ax = plt.subplots(figsize=(11.69, 8.27))
+        ax.axis("off")
+
+        page_title = title if page_num == 0 else f"{title} (cont.)"
+        ax.set_title(page_title, fontsize=14, fontweight="bold", loc="left", pad=12)
+
+        display_df = chunk.copy()
+
+        for col in display_df.columns:
+            if "Variance %" in col or "Contribution %" in col or "Split %" in col:
+                display_df[col] = display_df[col].apply(format_percentage)
+            elif col in ["Value", "Previous Value", "Variance", "Abs Variance", "Chart Value"]:
+                display_df[col] = display_df[col].apply(format_currency)
+
+        table = ax.table(
+            cellText=display_df.values,
+            colLabels=display_df.columns,
+            loc="center"
+        )
+        table.auto_set_font_size(False)
+        table.set_fontsize(8)
+        table.scale(1, 1.4)
+
+        pdf.savefig(fig, bbox_inches="tight")
+        plt.close(fig)
+
+
+def make_management_pack_pdf(
+    selected_period_label,
+    revenue_row,
+    costs_row,
+    profit_row,
+    commentary_lines,
+    category_summary,
+    top_movements,
+    driver_period_df
+):
+    buffer = BytesIO()
+
+    with PdfPages(buffer) as pdf:
+        summary_lines = [
+            f"Period: {selected_period_label}",
+            "",
+            f"Revenue: {format_currency(revenue_row['Value']) if revenue_row is not None else 'N/A'}",
+            f"Revenue variance: {format_currency(revenue_row['Variance']) if revenue_row is not None and pd.notna(revenue_row['Variance']) else 'N/A'}",
+            "",
+            f"Administrative Costs: {format_currency(costs_row['Value']) if costs_row is not None else 'N/A'}",
+            f"Administrative cost variance: {format_currency(costs_row['Variance']) if costs_row is not None and pd.notna(costs_row['Variance']) else 'N/A'}",
+            "",
+            f"Operating Profit: {format_currency(profit_row['Value']) if profit_row is not None else 'N/A'}",
+            f"Operating profit variance: {format_currency(profit_row['Variance']) if profit_row is not None and pd.notna(profit_row['Variance']) else 'N/A'}",
+            "",
+            "Management Commentary:",
+        ]
+        if commentary_lines:
+            summary_lines.extend([f"- {line}" for line in commentary_lines])
+        else:
+            summary_lines.append("No commentary available.")
+
+        add_pdf_text_page(pdf, f"FP&A Copilot Management Pack - {selected_period_label}", summary_lines)
+
+        add_pdf_table_page(
+            pdf,
+            "Category Summary",
+            category_summary[["Category", "Value", "Previous Value", "Variance", "Variance %", "Abs Variance"]]
+        )
+
+        add_pdf_table_page(
+            pdf,
+            "Top 10 Movements",
+            top_movements[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]]
+        )
+
+        add_pdf_table_page(
+            pdf,
+            "Variance Detail",
+            driver_period_df[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]]
+        )
+
+    buffer.seek(0)
+    return buffer.getvalue()
+
+
+# -----------------------------
+# MAIN APP
+# -----------------------------
+if uploaded_file is not None:
+    try:
+        df = load_file_with_dynamic_header(uploaded_file)
+    except Exception as e:
+        st.error(f"Error reading file: {e}")
+        st.stop()
+
+    df = df.dropna(how="all")
+
+    if "Account" not in df.columns:
+        st.error("No usable account structure found after loading the file.")
+        st.stop()
+
+    df["Account"] = df["Account"].astype(str).str.strip()
+    df["Section"] = df["Section"].astype(str).replace("nan", "").fillna("")
+
+    df = df[df["Account"].notna()]
+    df = df[df["Account"] != ""]
+    df = df[df["Account"].str.lower() != "nan"]
+
+    possible_month_cols = [col for col in df.columns if col not in ["Account", "Section"]]
+
+    clean_month_cols = []
+    for col in possible_month_cols:
+        col_str = str(col).replace("Sept", "Sep").strip()
+        parsed = pd.to_datetime(col_str, errors="coerce")
+        if pd.notna(parsed):
+            clean_month_cols.append(col)
+
+    if debug_mode:
+        with st.expander("Debug Information"):
+            st.subheader("Raw Data Preview")
+            st.dataframe(df.head(20), use_container_width=True)
+
+            st.subheader("Column Names Check")
+            st.write(df.columns.tolist())
+
+            st.subheader("Valid Month Columns Detected")
+            st.write(clean_month_cols)
+
+    if not clean_month_cols:
+        st.error("No valid month columns were detected. Check the column headers in your source file.")
+        st.stop()
+
+    df_long = df.melt(
+        id_vars=["Account", "Section"],
+        value_vars=clean_month_cols,
+        var_name="Month",
+        value_name="Value"
+    )
+
+    df_long["Month"] = (
+        df_long["Month"]
+        .astype(str)
+        .str.replace("Sept", "Sep", regex=False)
+        .str.strip()
+    )
+    df_long["Month"] = pd.to_datetime(df_long["Month"], errors="coerce")
+    df_long["Value"] = clean_numeric_series(df_long["Value"])
+    df_long = df_long.dropna(subset=["Month", "Value"])
+
+    df_long = (
+        df_long.groupby(["Account", "Section", "Month"], as_index=False)["Value"]
+        .sum()
+    )
+
+    if debug_mode:
+        with st.expander("Long Format Preview"):
+            st.subheader("Reshaped Data (Long Format)")
+            st.dataframe(df_long.head(20), use_container_width=True)
+
+        with st.expander("Classification Preview"):
+            debug_class = df_long[["Account", "Section"]].drop_duplicates().copy()
+            debug_class["Category"] = debug_class.apply(
+                lambda row: classify_account(row["Account"], row["Section"]),
+                axis=1
+            )
+            st.dataframe(debug_class.sort_values(["Section", "Category", "Account"]), use_container_width=True)
+
+    st.sidebar.subheader("Analysis Settings")
+    period_type = st.sidebar.selectbox("View by", ["Monthly", "Quarterly"])
+
+    analysis_df = build_period_view(df_long, period_type)
+    driver_analysis_df = analysis_df[~analysis_df["Is Subtotal"]].copy()
+    kpi_monthly_rows = df_long.copy()
+
+    if debug_mode:
+        with st.expander("KPI Account Debug"):
+            st.write(sorted(analysis_df["Account"].dropna().astype(str).unique().tolist()))
+
+        with st.expander("Resolved KPI Accounts"):
+            resolved_revenue = resolve_kpi_account_name(kpi_monthly_rows, KPI_LABELS["Revenue"])
+            resolved_costs = resolve_kpi_account_name(kpi_monthly_rows, KPI_LABELS["Administrative Costs"])
+            resolved_profit = resolve_kpi_account_name(kpi_monthly_rows, KPI_LABELS["Operating Profit"])
+
+            st.write(f"Revenue KPI account: {resolved_revenue}")
+            st.write(f"Administrative Costs KPI account: {resolved_costs}")
+            st.write(f"Operating Profit KPI account: {resolved_profit}")
+
+        with st.expander("Unclassified Accounts"):
+            unclassified = analysis_df[
+                (~analysis_df["Is Subtotal"]) &
+                (analysis_df["Category"] == "Other")
+            ][["Account", "Section"]].drop_duplicates().sort_values(["Section", "Account"])
+            st.dataframe(unclassified, use_container_width=True)
+
+    if driver_analysis_df.empty:
+        st.warning("No period-on-period driver variance could be calculated from this file.")
+        st.stop()
+
+    # -----------------------------
+    # KPI TREND CHARTS
+    # -----------------------------
+    st.subheader("KPI Trends")
+
+    trend_view = st.radio(
+        "Trend chart view",
+        ["Monthly", "Quarterly"],
+        horizontal=True
+    )
+
+    kpi_trend_df = build_kpi_trend_view(kpi_monthly_rows, trend_view)
+
+    if trend_view == "Monthly":
+        trend_index_col = "Month"
+        trend_title_suffix = "Monthly"
+    else:
+        trend_index_col = "Quarter"
+        trend_title_suffix = "Quarterly"
+
+    st.markdown(f"**Revenue vs Costs vs Profit ({trend_title_suffix})**")
+    trend_available_cols = [col for col in ["Revenue", "Costs", "Profit"] if col in kpi_trend_df.columns]
+    if trend_available_cols:
+        st.line_chart(kpi_trend_df.set_index(trend_index_col)[trend_available_cols])
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown(f"**Revenue Trend ({trend_title_suffix})**")
+        if "Revenue" in kpi_trend_df.columns:
+            st.line_chart(kpi_trend_df.set_index(trend_index_col)["Revenue"])
+
+    with col2:
+        st.markdown(f"**Cost Trend ({trend_title_suffix})**")
+        if "Costs" in kpi_trend_df.columns:
+            st.line_chart(kpi_trend_df.set_index(trend_index_col)["Costs"])
+
+    st.markdown(f"**Operating Profit Trend ({trend_title_suffix})**")
+    if "Profit" in kpi_trend_df.columns:
+        st.line_chart(kpi_trend_df.set_index(trend_index_col)["Profit"])
+
+    # -----------------------------
+    # PERIOD SELECTION
+    # -----------------------------
+    st.subheader(f"Select Analysis {('Month' if period_type == 'Monthly' else 'Quarter')}")
+
+    period_options = (
+        analysis_df[["Period", "Period Sort"]]
+        .drop_duplicates()
+        .sort_values("Period Sort")["Period"]
+        .tolist()
+    )
+
+    selected_period = st.selectbox(
+        "Choose period",
+        period_options,
+        format_func=lambda x: format_period_label(x, period_type)
+    )
+
+    period_label = format_period_label(selected_period, period_type)
+
+    period_df = analysis_df[analysis_df["Period"] == selected_period].copy()
+    driver_period_df = driver_analysis_df[driver_analysis_df["Period"] == selected_period].copy()
+
+    commentary_lines, revenue_row, costs_row, profit_row = make_management_commentary(
+        selected_period, driver_period_df, analysis_df, period_type
+    )
+
+    # -----------------------------
+    # SUMMARY CARDS
+    # -----------------------------
+    st.subheader("Summary Cards")
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        if revenue_row is not None:
+            delta = format_currency(revenue_row["Variance"]) if pd.notna(revenue_row["Variance"]) else None
+            st.metric("Revenue", format_currency(revenue_row["Value"]), delta)
+        else:
+            st.metric("Revenue", "N/A")
+
+    with col2:
+        if costs_row is not None:
+            delta = format_currency(costs_row["Variance"]) if pd.notna(costs_row["Variance"]) else None
+            st.metric("Administrative Costs", format_currency(costs_row["Value"]), delta)
+        else:
+            st.metric("Administrative Costs", "N/A")
+
+    with col3:
+        if profit_row is not None:
+            delta = format_currency(profit_row["Variance"]) if pd.notna(profit_row["Variance"]) else None
+            st.metric("Operating Profit", format_currency(profit_row["Value"]), delta)
+        else:
+            st.metric("Operating Profit", "N/A")
+
+    with col4:
+        if profit_row is not None and pd.notna(profit_row["Variance %"]):
+            st.metric("Profit Variance %", f"{profit_row['Variance %']:.1f}%")
+        else:
+            st.metric("Profit Variance %", "N/A")
+
+    # -----------------------------
+    # CATEGORY SUMMARY
+    # -----------------------------
+    category_summary = (
+        driver_period_df.groupby("Category", as_index=False)
+        .agg({
+            "Value": "sum",
+            "Previous Value": "sum",
+            "Variance": "sum"
+        })
+    )
+
+    category_summary["Variance %"] = category_summary.apply(
+        lambda row: ((row["Variance"] / row["Previous Value"]) * 100)
+        if pd.notna(row["Previous Value"]) and row["Previous Value"] != 0
+        else None,
+        axis=1
+    )
+    category_summary["Abs Variance"] = category_summary["Variance"].abs()
+
+    st.subheader("Category Summary")
+    st.dataframe(
+        style_financial_df(
+            category_summary,
+            currency_cols=["Value", "Previous Value", "Variance", "Abs Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    # -----------------------------
+    # REVENUE / EXPENSE SPLIT PIE CHARTS
+    # -----------------------------
+    st.subheader(f"Revenue and Expense Split - {period_label}")
+
+    view_all_segments = st.checkbox("View all segments", value=False)
+
+    if view_all_segments:
+        pie_top_n = 9999
+    else:
+        pie_top_n = st.slider("Number of segments to show before grouping into 'Other'", 3, 20, 6)
+    split_basis = st.radio(
+        "Split charts by",
+        ["Account", "Category"],
+        horizontal=True
+    )
+
+    revenue_split_df = prepare_split_df(
+        period_df=period_df,
+        categories=["Revenue"],
+        split_basis=split_basis,
+        use_absolute=False,
+        top_n=pie_top_n
+    )
+
+    expense_split_df = prepare_split_df(
+        period_df=period_df,
+        categories=EXPENSE_CATEGORIES,
+        split_basis=split_basis,
+        use_absolute=True,
+        top_n=pie_top_n
+    )
+
+    label_col = "Account" if split_basis == "Account" else "Category"
+
+    pie_col1, pie_col2 = st.columns(2)
+
+    with pie_col1:
+        st.markdown(f"**Revenue Split by {split_basis}**")
+        if revenue_split_df.empty:
+            st.info("No revenue data found for this period.")
+        else:
+            plot_pie_chart(
+                revenue_split_df,
+                label_col=label_col,
+                title=f"Revenue Split by {split_basis} - {period_label}"
+            )
+            st.dataframe(
+                style_financial_df(
+                    revenue_split_df[[label_col, "Chart Value", "Split %"]],
+                    currency_cols=["Chart Value"],
+                    pct_cols=["Split %"]
+                ),
+                use_container_width=True
+            )
+
+    with pie_col2:
+        st.markdown(f"**Expense Split by {split_basis}**")
+        if expense_split_df.empty:
+            st.info("No expense data found for this period.")
+        else:
+            plot_pie_chart(
+                expense_split_df,
+                label_col=label_col,
+                title=f"Expense Split by {split_basis} - {period_label}"
+            )
+            st.dataframe(
+                style_financial_df(
+                    expense_split_df[[label_col, "Chart Value", "Split %"]],
+                    currency_cols=["Chart Value"],
+                    pct_cols=["Split %"]
+                ),
+                use_container_width=True
+            )
+
+    # -----------------------------
+    # ACCOUNT MOVEMENTS
+    # -----------------------------
+    significant_df = driver_period_df[
+        (driver_period_df["Variance"].abs() >= 500) |
+        (driver_period_df["Variance %"].abs() >= 10)
+    ].copy()
+
+    top_movements = driver_period_df.sort_values("Abs Variance", ascending=False).head(10)
+    top_increases = driver_period_df.sort_values("Variance", ascending=False).head(10)
+    top_decreases = driver_period_df.sort_values("Variance", ascending=True).head(10)
+
+    st.subheader(f"Top 10 Movements - {period_label}")
+    st.dataframe(
+        style_financial_df(
+            top_movements[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]],
+            currency_cols=["Value", "Previous Value", "Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    st.subheader("Top 10 Account Movements Chart")
+    chart_df = top_movements.copy().sort_values("Variance")
+    st.bar_chart(chart_df.set_index("Account")["Variance"])
+
+    st.subheader("Top 10 Increases")
+    st.dataframe(
+        style_financial_df(
+            top_increases[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]],
+            currency_cols=["Value", "Previous Value", "Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    st.subheader("Top 10 Decreases")
+    st.dataframe(
+        style_financial_df(
+            top_decreases[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]],
+            currency_cols=["Value", "Previous Value", "Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    revenue_df = driver_period_df[driver_period_df["Category"] == "Revenue"].copy()
+    cost_df = driver_period_df[
+        driver_period_df["Category"].isin(EXPENSE_CATEGORIES)
+    ].copy()
+
+    top_revenue_changes = revenue_df.sort_values("Abs Variance", ascending=False).head(10)
+    top_cost_increases = cost_df.sort_values("Variance", ascending=False).head(10)
+
+    st.subheader("Top Revenue Changes")
+    st.dataframe(
+        style_financial_df(
+            top_revenue_changes[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]],
+            currency_cols=["Value", "Previous Value", "Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    st.subheader("Top Cost Increases")
+    st.dataframe(
+        style_financial_df(
+            top_cost_increases[["Account", "Category", "Value", "Previous Value", "Variance", "Variance %"]],
+            currency_cols=["Value", "Previous Value", "Variance"],
+            pct_cols=["Variance %"],
+            variance_cols=["Variance", "Variance %"]
+        ),
+        use_container_width=True
+    )
+
+    # -----------------------------
+    # INSIGHTS / COMMENTARY
+    # -----------------------------
+    st.subheader("Key Account Insights")
+
+    if significant_df.empty:
+        st.write("No significant movements found for the selected period using the current thresholds.")
+    else:
+        top_insights = significant_df.sort_values("Abs Variance", ascending=False).head(5)
+        for _, row in top_insights.iterrows():
+            st.write("- " + make_insight(row))
+
+    st.subheader("Category Insights")
+
+    top_category_moves = category_summary.sort_values("Abs Variance", ascending=False).head(3)
+
+    for _, row in top_category_moves.iterrows():
+        if row["Variance"] == 0:
+            st.write(f"- {row['Category']} was unchanged versus prior period.")
+            continue
+
+        direction = "increased" if row["Variance"] > 0 else "decreased"
+        pct_text = f" ({abs(row['Variance %']):.1f}%)" if pd.notna(row["Variance %"]) else ""
+
+        st.write(
+            f"- {row['Category']} {direction} by "
+            f"{format_currency(abs(row['Variance']))}{pct_text} versus prior period."
+        )
+
+    st.subheader("Management Commentary")
+
+    if commentary_lines:
+        for line in commentary_lines:
+            st.write("- " + line)
+    else:
+        st.write("No commentary available for the selected period.")
+
+    # -----------------------------
+    # EXPORT MANAGEMENT PACK
+    # -----------------------------
+    st.subheader("Export Management Pack")
+
+    export_format = st.radio(
+        "Choose export format",
+        options=["CSV Pack (.zip)", "PDF Pack (.pdf)"],
+        horizontal=True
+    )
+
+    if export_format == "CSV Pack (.zip)":
+        management_pack_data = make_management_pack_zip(
+            selected_period_label=period_label,
+            category_summary=category_summary,
+            driver_period_df=driver_period_df,
+            top_movements=top_movements,
+            commentary_lines=commentary_lines,
+            revenue_row=revenue_row,
+            costs_row=costs_row,
+            profit_row=profit_row
+        )
+
+        st.download_button(
+            label="Download Management Pack (ZIP)",
+            data=management_pack_data,
+            file_name=f"management_pack_{period_label.replace(' ', '_').replace('/', '-')}.zip",
+            mime="application/zip"
+        )
+    else:
+        management_pack_pdf = make_management_pack_pdf(
+            selected_period_label=period_label,
+            revenue_row=revenue_row,
+            costs_row=costs_row,
+            profit_row=profit_row,
+            commentary_lines=commentary_lines,
+            category_summary=category_summary,
+            top_movements=top_movements,
+            driver_period_df=driver_period_df
+        )
+
+        st.download_button(
+            label="Download Management Pack (PDF)",
+            data=management_pack_pdf,
+            file_name=f"management_pack_{period_label.replace(' ', '_').replace('/', '-')}.pdf",
+            mime="application/pdf"
+        )
+
+    # -----------------------------
+    # PERIOD MOVEMENT SUMMARY
+    # -----------------------------
+    total_variance = driver_period_df["Variance"].sum()
+
+    st.subheader("Period Movement Summary")
+    st.write(f"Net movement across all driver accounts: {format_currency(total_variance)}")
+
+    driver_df = driver_period_df.sort_values("Abs Variance", ascending=False).head(5).copy()
+    abs_total = driver_df["Variance"].abs().sum()
+
+    if abs_total != 0:
+        driver_df["Contribution %"] = (driver_df["Variance"].abs() / abs_total) * 100
+    else:
+        driver_df["Contribution %"] = 0
+
+    st.subheader("Top Drivers of Movement")
+    st.dataframe(
+        style_financial_df(
+            driver_df[["Account", "Category", "Variance", "Contribution %"]],
+            currency_cols=["Variance"],
+            pct_cols=["Contribution %"],
+            variance_cols=["Variance"],
+            contribution_cols=["Contribution %"]
+        ),
+        use_container_width=True
+    )
+
+else:
+    st.info("Please upload a CSV or Excel P&L file to begin.")

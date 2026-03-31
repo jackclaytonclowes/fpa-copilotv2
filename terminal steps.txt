@@ -1,0 +1,7 @@
+pip install streamlit pandas openpyxl matplotlib
+
+streamlit run app.py
+
+If streamlit is not recognised, use:
+
+python -m streamlit run app.py
