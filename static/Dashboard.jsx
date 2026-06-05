@@ -3,7 +3,7 @@ const { useState: useStateDash, useEffect: useEffectDash, useRef: useRefDash } =
 
 const CHART_COLORS = ["var(--c-1)","var(--c-2)","var(--c-3)","var(--c-4)","var(--c-5)","var(--c-6)","var(--c-7)","var(--c-8)"];
 
-function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange }) {
+function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
   const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
   const [data, setData]       = useStateDash(initialData);
   const [loading, setLoading] = useStateDash(false);
@@ -52,6 +52,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
   if (!data) return <div className="loading"><div className="spinner" />Loading…</div>;
 
+  const isBvA = (analysisType || data.analysis_type) === "budget_vs_actual";
   const { kpis, trend, revenue_split, expense_split, movements, commentary, waterfall, period, selected_period } = data;
 
   // Short month labels for waterfall x-axis  e.g. "August 2025" → "Aug"
@@ -105,8 +106,71 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
   const tabs = ["movements", "revenue", "costs", "commentary"];
 
+  // ── BvA KPI helpers ────────────────────────────────────────────────
+  const bvaRevKpi  = isBvA ? (kpis || []).find(k => !k.pct_only && k.icon === "trending-up")  : null;
+  const bvaProfKpi = isBvA ? (kpis || []).find(k => !k.pct_only && k.icon === "wallet")        : null;
+
+  // ── BvA account-level profit waterfall bars ─────────────────────
+  // Profit impact: Revenue variance improves profit; cost overspend reduces it.
+  let bvaWaterfallBars  = null;
+  let bvaWaterfallReady = false;
+  if (isBvA && bvaProfKpi && bvaProfKpi.prior != null && bvaProfKpi.value != null) {
+    const budgetProfit = bvaProfKpi.prior;
+    const actualProfit = bvaProfKpi.value;
+    const netVariance  = actualProfit - budgetProfit;
+
+    const rawBars = (movements || [])
+      .filter(m => m.variance != null && m.variance !== 0)
+      .map(m => ({
+        label:  m.account,
+        impact: m.category === "Revenue" ? Number(m.variance) : -Number(m.variance),
+        fav:    m.is_fav,
+      }))
+      .sort((a, b) => Math.abs(b.impact) - Math.abs(a.impact))
+      .slice(0, 8);
+
+    // Residual: keep waterfall balanced
+    const explained = rawBars.reduce((s, b) => s + b.impact, 0);
+    const residual  = Math.round(netVariance - explained);
+    if (Math.abs(residual) > 1) {
+      rawBars.push({ label: "Other", impact: residual, fav: residual > 0 });
+    }
+
+    bvaWaterfallBars  = rawBars;
+    bvaWaterfallReady = true;
+  }
+
   return (
     <div className="content-inner reveal" style={{ opacity: loading ? 0.6 : 1, transition: "opacity .2s" }}>
+
+      {/* ── BvA analysis context badge ─────────────────────────────── */}
+      {isBvA && (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: 5,
+            font: "var(--text-body-strong)", fontSize: 11.5,
+            padding: "3px 10px", borderRadius: "var(--radius-pill)",
+            background: "var(--primary-soft)", color: "var(--primary)",
+          }}>
+            <Icon name="target" size={12} />
+            Budget vs Actual
+          </span>
+          <span style={{
+            display: "inline-flex", alignItems: "center", gap: 5,
+            font: "var(--text-body)", fontSize: 11.5,
+            padding: "3px 10px", borderRadius: "var(--radius-pill)",
+            background: "var(--surface-2)", color: "var(--fg-2)",
+          }}>
+            <Icon name="calendar" size={12} />
+            {(() => {
+              const sp = data.selected_bva_period;
+              if (!sp || sp === "full_year") return "Full Year";
+              try { return new Date(sp + "T00:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" }); }
+              catch (_) { return sp; }
+            })()}
+          </span>
+        </div>
+      )}
 
       {/* KPI row */}
       <div className="grid-kpi">
@@ -131,25 +195,69 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         ))}
       </div>
 
+      {/* ── BvA Revenue & Profit summary cards ────────────────────── */}
+      {isBvA && (bvaRevKpi || bvaProfKpi) && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+          {[
+            bvaRevKpi  && { label: "Actual Revenue",  value: bvaRevKpi.value,    isVar: false },
+            bvaRevKpi  && { label: "Budget Revenue",  value: bvaRevKpi.prior,    isVar: false },
+            bvaRevKpi  && { label: "Revenue Variance",value: bvaRevKpi.variance, isVar: true,  isFav: bvaRevKpi.is_fav,  pct: bvaRevKpi.pct },
+            bvaProfKpi && { label: "Actual Profit",   value: bvaProfKpi.value,   isVar: false },
+            bvaProfKpi && { label: "Budget Profit",   value: bvaProfKpi.prior,   isVar: false },
+            bvaProfKpi && { label: "Profit Variance", value: bvaProfKpi.variance,isVar: true,  isFav: bvaProfKpi.is_fav, pct: bvaProfKpi.pct },
+          ].filter(Boolean).map((c) => (
+            <div key={c.label} className="card" style={{ padding: "14px 16px" }}>
+              <div style={{
+                font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
+                letterSpacing: ".05em", color: "var(--fg-3)", marginBottom: 6,
+              }}>{c.label}</div>
+              <div style={{
+                font: "var(--text-metric)", fontSize: 20, fontVariantNumeric: "tabular-nums",
+                color: c.isVar
+                  ? (c.isFav ? "var(--favourable-text)" : "var(--adverse-text)")
+                  : "var(--ink)",
+              }}>
+                {c.isVar ? fmtSignedGBP(c.value) : fmtGBP(c.value)}
+              </div>
+              {c.isVar && c.pct != null && (
+                <div style={{
+                  marginTop: 4, font: "var(--text-body-strong)", fontSize: 12,
+                  color: c.isFav ? "var(--favourable-text)" : "var(--adverse-text)",
+                }}>
+                  {fmtPct(c.pct)} vs budget
+                </div>
+              )}
+              {!c.isVar && (
+                <div style={{ marginTop: 4, font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                  {c.label.startsWith("Actual") ? "Actual performance" : "Original budget"}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Trend + AI commentary */}
       <div className="grid-2">
-        <Card
-          title="Revenue vs costs vs profit"
-          sub={`Last ${(trend || []).length} periods · ${periodMode}`}
-          action={<Chip tone="info" icon="line-chart">Trend</Chip>}>
-          {trend && trend.length > 1 ? (
-            <TrendChart data={trend} series={[
-              { key: "revenue", label: "Revenue", color: "var(--c-1)" },
-              { key: "costs",   label: "Costs",   color: "var(--c-6)" },
-              { key: "profit",  label: "Profit",  color: "var(--c-5)" },
-            ]} />
-          ) : (
-            <div className="loading">Not enough periods for a trend chart</div>
-          )}
-        </Card>
+        {!isBvA && (
+          <Card
+            title="Revenue vs costs vs profit"
+            sub={`Last ${(trend || []).length} periods · ${periodMode}`}
+            action={<Chip tone="info" icon="line-chart">Trend</Chip>}>
+            {trend && trend.length > 1 ? (
+              <TrendChart data={trend} series={[
+                { key: "revenue", label: "Revenue", color: "var(--c-1)" },
+                { key: "costs",   label: "Costs",   color: "var(--c-6)" },
+                { key: "profit",  label: "Profit",  color: "var(--c-5)" },
+              ]} />
+            ) : (
+              <div className="loading">Not enough periods for a trend chart</div>
+            )}
+          </Card>
+        )}
         <Card
           title="AI commentary"
-          sub={`${period?.label || selected_period} · vs prior period`}
+          sub={isBvA ? "Budget vs Actual · key variances" : `${period?.label || selected_period} · vs prior period`}
           action={<span className="ai-badge"><Icon name="sparkles" size={13} />AI</span>}>
           <ul className="ai-list">
             {(commentary || []).map((c, i) => (
@@ -163,6 +271,84 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           </ul>
         </Card>
       </div>
+
+      {/* ── BvA Profit Variance Waterfall ──────────────────────────── */}
+      {isBvA && bvaWaterfallReady && (
+        <Card
+          title="Profit Variance Waterfall"
+          sub="How Budget Profit becomes Actual Profit — top account drivers"
+          action={<Chip tone="info" icon="bar-chart-2">Waterfall</Chip>}
+        >
+          {/* Summary row */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap",
+            paddingBottom: 14, marginBottom: 14,
+            borderBottom: "1px solid var(--border)",
+          }}>
+            <div>
+              <div style={{ font: "var(--text-label)", textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", fontSize: 10.5, marginBottom: 3 }}>
+                Budget Profit
+              </div>
+              <div style={{ font: "var(--text-metric)", fontSize: 21, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
+                {fmtGBP(bvaProfKpi.prior)}
+              </div>
+            </div>
+            <div style={{ color: "var(--fg-3)", fontSize: 20, flexShrink: 0 }}>→</div>
+            <div>
+              <div style={{ font: "var(--text-label)", textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", fontSize: 10.5, marginBottom: 3 }}>
+                Actual Profit
+              </div>
+              <div style={{ font: "var(--text-metric)", fontSize: 21, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
+                {fmtGBP(bvaProfKpi.value)}
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4, marginLeft: 4 }}>
+              <div style={{ font: "var(--text-label)", textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", fontSize: 10.5 }}>Net Variance</div>
+              <Delta fav={bvaProfKpi.variance >= 0} up={bvaProfKpi.variance >= 0}>
+                {fmtSignedGBP(bvaProfKpi.variance)}
+              </Delta>
+            </div>
+          </div>
+
+          {/* Account-level waterfall chart */}
+          <WaterfallChart
+            prior={bvaProfKpi.prior}
+            current={bvaProfKpi.value}
+            bars={bvaWaterfallBars}
+            priorLabel="Budget"
+            currentLabel="Actual"
+          />
+
+          {/* Account legend — scrollable list with fav/adv colour coding */}
+          <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 5 }}>
+            {bvaWaterfallBars.map((b, i) => (
+              <div key={i} style={{
+                display: "flex", alignItems: "center", gap: 10,
+                padding: "5px 10px", borderRadius: "var(--radius-sm)",
+                background: b.fav ? "var(--favourable-soft)" : "var(--adverse-soft)",
+              }}>
+                <span style={{ flexShrink: 0 }}>
+                  <Icon
+                    name={b.fav ? "trending-up" : "trending-down"}
+                    size={13}
+                    color={b.fav ? "var(--favourable)" : "var(--adverse)"}
+                  />
+                </span>
+                <span style={{ flex: 1, font: "var(--text-body)", fontSize: 13, color: "var(--ink)" }}>
+                  {b.label}
+                </span>
+                <span style={{
+                  font: "600 13px var(--font-mono)", fontVariantNumeric: "tabular-nums",
+                  color: b.fav ? "var(--favourable-text)" : "var(--adverse-text)",
+                  whiteSpace: "nowrap",
+                }}>
+                  {fmtSignedGBP(b.impact)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
 
       {/* Revenue + Expense splits */}
       <div className="grid-2b">
@@ -199,8 +385,10 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {/* ── Profit Drivers / Waterfall ─────────────────────────── */}
       {waterfall && (
         <Card
-          title="Profit Drivers"
-          sub={`${period?.label || selected_period} · vs ${period?.prior || "prior period"} · what drove the change?`}
+          title={isBvA ? "Budget vs Actual Profit Drivers" : "Profit Drivers"}
+          sub={isBvA
+            ? "What drove the difference between Actual and Budget profit?"
+            : `${period?.label || selected_period} · vs ${period?.prior || "prior period"} · what drove the change?`}
           action={<Chip tone="info" icon="bar-chart-2">Waterfall</Chip>}
         >
           {/* ── Summary row ── */}
@@ -212,7 +400,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
             {/* Prior profit */}
             <div>
               <div style={{ font: "var(--text-label)", textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", fontSize: 10.5, marginBottom: 3 }}>
-                {period?.prior || "Prior period"}
+                {isBvA ? "Budget profit" : (period?.prior || "Prior period")}
               </div>
               <div style={{ font: "var(--text-metric)", fontSize: 21, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
                 {fmtGBP(waterfall.prior_profit)}
@@ -221,10 +409,10 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
             <div style={{ color: "var(--fg-3)", fontSize: 20, flexShrink: 0 }}>→</div>
 
-            {/* Current profit */}
+            {/* Current / Actual profit */}
             <div>
               <div style={{ font: "var(--text-label)", textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", fontSize: 10.5, marginBottom: 3 }}>
-                {period?.label || selected_period}
+                {isBvA ? "Actual profit" : (period?.label || selected_period)}
               </div>
               <div style={{ font: "var(--text-metric)", fontSize: 21, color: "var(--ink)", fontVariantNumeric: "tabular-nums" }}>
                 {fmtGBP(waterfall.current_profit)}
@@ -318,7 +506,15 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
                     // ── Sub-label (plain-English explanation) ─────────────
                     let subLabel = null;
-                    if (b.label === "Revenue") {
+                    if (isBvA) {
+                      if (b.label === "Revenue") {
+                        subLabel = b.fav ? "Revenue above budget" : "Revenue below budget";
+                      } else if (b.label === "Other Movements") {
+                        subLabel = b.fav ? "Other items above budget (net)" : "Other items below budget (net)";
+                      } else {
+                        subLabel = b.fav ? "Costs below budget (favourable)" : "Costs above budget (adverse)";
+                      }
+                    } else if (b.label === "Revenue") {
                       subLabel = b.fav ? "Higher revenue improved profit" : "Lower revenue reduced profit";
                     } else if (b.label === "Other Movements") {
                       subLabel = b.fav ? "Net other movements improved profit" : "Net other movements reduced profit";
@@ -401,7 +597,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {/* ── Variance movements table — tabbed ─────────────────── */}
       <Card
         title="Variance movements"
-        sub={`${period?.label || selected_period} vs prior period`}>
+        sub={isBvA ? "Actual vs Budget · sorted by absolute variance" : `${period?.label || selected_period} vs prior period`}>
         <div style={{
           display: "flex", gap: 6, marginBottom: 16,
           borderBottom: "1px solid var(--border)", paddingBottom: 0,
@@ -430,8 +626,8 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 <tr>
                   <th className="l">Account</th>
                   <th className="l">Category</th>
-                  <th>Current</th>
-                  <th>Prior</th>
+                  <th>{isBvA ? "Actual" : "Current"}</th>
+                  <th>{isBvA ? "Budget" : "Prior"}</th>
                   <th>Variance</th>
                   <th>Var %</th>
                 </tr>

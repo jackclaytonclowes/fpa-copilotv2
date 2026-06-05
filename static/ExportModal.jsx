@@ -1,7 +1,7 @@
 /* FP&A Copilot — export management pack modal */
 const { useState: useStateExport } = React;
 
-function ExportModal({ onClose, sessionId, period }) {
+function ExportModal({ onClose, sessionId, period, analysisType }) {
   const { Icon, Button } = window;
   const [fmt, setFmt] = useStateExport("pdf");
   const [loading, setLoading] = useStateExport(false);
@@ -14,9 +14,17 @@ function ExportModal({ onClose, sessionId, period }) {
   const download = async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams({ period: period?.label || "", fmt });
+      const periodParam = analysisType === "budget_vs_actual"
+        ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
+        : (period?.label || "");
+      const params = new URLSearchParams({ period: periodParam, fmt });
       const res = await fetch(`/api/export/${sessionId}?${params}`);
-      if (!res.ok) throw new Error("Export failed");
+      if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try { const j = await res.json(); detail = j.detail || detail; } catch (_) {}
+        console.error("[MonthEndIQ Export]", detail);
+        throw new Error(detail);
+      }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -26,6 +34,7 @@ function ExportModal({ onClose, sessionId, period }) {
       URL.revokeObjectURL(url);
       onClose();
     } catch (e) {
+      console.error("[MonthEndIQ Export] Failed:", e);
       alert("Export failed: " + e.message);
     } finally {
       setLoading(false);
@@ -40,7 +49,11 @@ function ExportModal({ onClose, sessionId, period }) {
           <button className="x" onClick={onClose}><Icon name="x" size={18} /></button>
         </div>
         <div className="modal-b">
-          <div className="section-title">{period?.label || "Selected period"} · vs prior period</div>
+          <div className="section-title">
+            {analysisType === "budget_vs_actual"
+              ? "Actual vs Budget"
+              : `${period?.label || "Selected period"} · vs prior period`}
+          </div>
           {opts.map((o) => (
             <div key={o.id} className={`opt${fmt === o.id ? " on" : ""}`} onClick={() => setFmt(o.id)}>
               <div className="oic"><Icon name={o.icon} size={18} /></div>

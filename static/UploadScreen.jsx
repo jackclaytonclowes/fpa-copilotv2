@@ -4,8 +4,9 @@ const { useState: useStateUpload, useRef: useRefUpload } = React;
 function UploadScreen({ onLoad }) {
   const { Icon, Button } = window;
   const [dragging, setDragging] = useStateUpload(false);
-  const [loading, setLoading] = useStateUpload(false);
-  const [error, setError] = useStateUpload(null);
+  const [loading,  setLoading]  = useStateUpload(false);
+  const [error,    setError]    = useStateUpload(null);
+  const [mode,     setMode]     = useStateUpload("month_on_month");
   const inputRef = useRefUpload(null);
 
   const upload = async (file) => {
@@ -20,7 +21,7 @@ function UploadScreen({ onLoad }) {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const res = await fetch(`/api/upload?mode=${mode}`, { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Upload failed." }));
         throw new Error(err.detail || "Upload failed.");
@@ -50,6 +51,36 @@ function UploadScreen({ onLoad }) {
           analyse variance, surface key movements, write commentary, and build a management pack.
         </p>
 
+        {/* Analysis mode selector */}
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 8 }}>
+            Analysis mode
+          </div>
+          <div className="seg" style={{ display: "inline-flex" }}>
+            <button
+              className={mode === "month_on_month" ? "on" : ""}
+              onClick={() => setMode("month_on_month")}
+              style={{ display: "flex", alignItems: "center", gap: 6 }}
+            >
+              <Icon name="calendar-days" size={13} />
+              Month-on-Month
+            </button>
+            <button
+              className={mode === "budget_vs_actual" ? "on" : ""}
+              onClick={() => setMode("budget_vs_actual")}
+              style={{ display: "flex", alignItems: "center", gap: 6 }}
+            >
+              <Icon name="target" size={13} />
+              Budget vs Actual
+            </button>
+          </div>
+          <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 7, lineHeight: 1.5 }}>
+            {mode === "month_on_month"
+              ? "Upload a monthly P&L export. MonthEndIQ will compare each period against the prior period."
+              : "Upload a file with Actual and Budget columns. MonthEndIQ will calculate variances against budget."}
+          </div>
+        </div>
+
         <div
           className={`dropzone${dragging ? " drag" : ""}`}
           onClick={() => !loading && inputRef.current.click()}
@@ -61,7 +92,11 @@ function UploadScreen({ onLoad }) {
             <React.Fragment>
               <div className="spinner" style={{ margin: "0 auto 12px" }} />
               <div className="dz-t">Analysing your P&amp;L…</div>
-              <div className="dz-s">Classifying accounts and building variance analysis</div>
+              <div className="dz-s">
+                {mode === "budget_vs_actual"
+                  ? "Detecting Actual and Budget columns, calculating variances"
+                  : "Classifying accounts and building variance analysis"}
+              </div>
             </React.Fragment>
           ) : (
             <React.Fragment>
