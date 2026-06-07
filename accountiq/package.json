@@ -1,6 +1,7 @@
 {
   "name": "accountiq",
   "version": "0.1.0",
+  "description": "Gamified CIMA accounting learning app — Next.js 14, Supabase, Anthropic Claude",
   "private": true,
   "scripts": {
     "dev": "next dev",
