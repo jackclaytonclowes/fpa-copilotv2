@@ -31,7 +31,7 @@ export async function POST(
       .eq("lesson_id", lessonId),
     supabase
       .from("user_progress")
-      .select("id, status, attempts")
+      .select("id, status, attempts, score_percent")
       .eq("user_id", user.id)
       .eq("lesson_id", lessonId)
       .single(),
@@ -64,20 +64,27 @@ export async function POST(
   const existingProgress = progressRes.data;
   const alreadyCompleted = existingProgress?.status === "completed";
 
-  // Upsert progress
+  // Keep the best score across attempts — never overwrite with a lower score
+  const bestScore = Math.max(scorePercent, existingProgress?.score_percent ?? 0);
+
   const now = new Date().toISOString();
-  await supabase.from("user_progress").upsert(
-    {
-      user_id: user.id,
-      lesson_id: lessonId,
-      status: "completed",
-      score_percent: scorePercent,
-      xp_earned: xpReward,
-      attempts: (existingProgress?.attempts ?? 0) + 1,
-      first_completed_at: alreadyCompleted ? undefined : now,
-    },
-    { onConflict: "user_id,lesson_id" }
-  );
+  const upsertPayload: Record<string, unknown> = {
+    user_id: user.id,
+    lesson_id: lessonId,
+    status: "completed",
+    score_percent: bestScore,
+    xp_earned: xpReward,
+    attempts: (existingProgress?.attempts ?? 0) + 1,
+  };
+
+  // Only set first_completed_at on the very first completion
+  if (!alreadyCompleted) {
+    upsertPayload.first_completed_at = now;
+  }
+
+  await supabase
+    .from("user_progress")
+    .upsert(upsertPayload, { onConflict: "user_id,lesson_id" });
 
   // Award XP only on first completion
   if (!alreadyCompleted) {
@@ -191,7 +198,7 @@ export async function POST(
   return NextResponse.json({
     xp_earned: alreadyCompleted ? 0 : xpReward,
     new_total_xp: newTotalXp,
-    score_percent: scorePercent,
+    score_percent: bestScore,
     streak: currentStreak,
     achievements_earned: achievementsEarned,
   });

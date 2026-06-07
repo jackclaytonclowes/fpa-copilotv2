@@ -1,27 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import LessonClient from "./LessonClient";
-
-interface ContentCard {
-  type: "intro" | "explanation" | "table" | "worked_example";
-  heading: string;
-  body?: string;
-  emoji?: string;
-  key_terms?: Array<{ term: string; definition: string }>;
-  rows?: string[][];
-  headers?: string[];
-  steps?: string[];
-}
-
-interface Question {
-  id: string;
-  question_type: string;
-  prompt: string;
-  options: string[] | null;
-  correct_answer: string | string[];
-  explanation: string;
-  order_index: number;
-}
+import type { LessonPageData, Question } from "@/types";
 
 export default async function LessonPage({
   params,
@@ -39,19 +20,24 @@ export default async function LessonPage({
     supabase
       .from("lessons")
       .select(`
-        id, title, content, xp_reward, estimated_minutes,
-        modules!inner(course_id, title, courses!inner(title, color_hex, id))
+        id, title, content, xp_reward, estimated_minutes, module_id, order_index, is_published,
+        modules!inner(
+          course_id, title,
+          courses!inner(id, title, color_hex)
+        )
       `)
       .eq("id", params.id)
       .single(),
     supabase
       .from("questions")
-      .select("id, question_type, prompt, options, correct_answer, explanation, order_index")
+      .select(
+        "id, question_type, prompt, options, correct_answer, explanation, order_index"
+      )
       .eq("lesson_id", params.id)
       .order("order_index"),
     supabase
       .from("user_progress")
-      .select("status")
+      .select("status, score_percent")
       .eq("user_id", user.id)
       .eq("lesson_id", params.id)
       .single(),
@@ -59,24 +45,19 @@ export default async function LessonPage({
 
   if (!lessonRes.data) notFound();
 
-  const lesson = lessonRes.data as unknown as {
-    id: string;
-    title: string;
-    content: ContentCard[];
-    xp_reward: number;
-    estimated_minutes: number;
-    modules: {
-      course_id: string;
-      title: string;
-      courses: { title: string; color_hex: string; id: string };
-    };
-  };
+  const lesson = lessonRes.data as unknown as LessonPageData;
+  const questions = (questionsRes.data ?? []) as unknown as Question[];
+  const existingProgress = progressRes.data;
 
   return (
-    <LessonClient
-      lesson={lesson}
-      questions={(questionsRes.data ?? []) as Question[]}
-      alreadyCompleted={progressRes.data?.status === "completed"}
-    />
+    <ErrorBoundary>
+      <LessonClient
+        lesson={lesson}
+        questions={questions}
+        userId={user.id}
+        alreadyCompleted={existingProgress?.status === "completed"}
+        previousScore={existingProgress?.score_percent ?? null}
+      />
+    </ErrorBoundary>
   );
 }

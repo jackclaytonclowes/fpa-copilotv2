@@ -1,31 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
-export default function LoginPage() {
+interface LoginFields {
+  email: string;
+  password: string;
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackError = searchParams.get("error");
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFields>();
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  async function onSubmit(data: LoginFields) {
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
     if (error) {
-      setError(error.message);
-      setLoading(false);
+      setError("root", { message: error.message });
     } else {
       router.push("/dashboard/home");
       router.refresh();
@@ -38,7 +54,7 @@ export default function LoginPage() {
       provider: "google",
       options: { redirectTo: `${location.origin}/auth/callback` },
     });
-    if (error) setError(error.message);
+    if (error) setError("root", { message: error.message });
   }
 
   return (
@@ -49,42 +65,73 @@ export default function LoginPage() {
           <CardTitle className="text-2xl">AccountIQ</CardTitle>
           <CardDescription>Sign in to continue learning</CardDescription>
         </CardHeader>
+
         <CardContent className="space-y-4">
-          {error && (
+          {/* Callback error (e.g. OAuth failed) */}
+          {callbackError && (
             <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-700">
-              {error}
+              Authentication failed. Please try again.
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-3">
+          {/* Form-level error */}
+          {errors.root && (
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+              {errors.root.message}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3" noValidate>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                autoComplete="email"
+                className={`w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                  errors.email ? "border-red-400" : "border-gray-200"
+                }`}
                 placeholder="you@example.com"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Enter a valid email address",
+                  },
+                })}
               />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-600">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Password
               </label>
               <input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                autoComplete="current-password"
+                className={`w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+                  errors.password ? "border-red-400" : "border-gray-200"
+                }`}
                 placeholder="••••••••"
+                {...register("password", {
+                  required: "Password is required",
+                })}
               />
+              {errors.password && (
+                <p className="mt-1 text-xs text-red-600">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in…" : "Sign in"}
+
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Signing in…" : "Sign in"}
             </Button>
           </form>
 
@@ -126,12 +173,23 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-gray-500">
             No account?{" "}
-            <Link href="/signup" className="text-teal-600 font-medium hover:underline">
+            <Link
+              href="/signup"
+              className="text-teal-600 font-medium hover:underline"
+            >
               Sign up free
             </Link>
           </p>
         </CardContent>
       </Card>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }

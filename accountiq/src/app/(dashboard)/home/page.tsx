@@ -5,6 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ChevronRight, BookOpen, Target } from "lucide-react";
+import type { CourseWithModules, LessonSummary } from "@/types";
+
+const DAILY_GOAL_XP = 50;
+
+interface NextLesson extends LessonSummary {
+  courseTitle: string;
+  colorHex: string;
+  courseId: string;
+}
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -14,72 +23,120 @@ export default async function HomePage() {
 
   if (!user) redirect("/login");
 
-  const [coursesRes, progressRes, streakRes] = await Promise.all([
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+
+  const [coursesRes, progressRes, todayXpRes] = await Promise.all([
     supabase
       .from("courses")
-      .select("id, slug, title, cima_paper, color_hex, description")
+      .select(`
+        id, slug, title, description, cima_paper, color_hex, order_index, is_published,
+        modules(
+          id, order_index, title, is_published, course_id,
+          lessons(id, title, order_index, xp_reward, estimated_minutes, is_published)
+        )
+      `)
       .eq("is_published", true)
       .order("order_index"),
     supabase
       .from("user_progress")
-      .select("lesson_id, status, xp_earned")
-      .eq("user_id", user.id),
-    supabase
-      .from("user_streaks")
-      .select("current_streak, last_activity_date")
+      .select("lesson_id, status")
       .eq("user_id", user.id)
-      .single(),
+      .eq("status", "completed"),
+    // Only XP earned today — fixes the daily goal bug
+    supabase
+      .from("user_xp")
+      .select("amount")
+      .eq("user_id", user.id)
+      .gte("earned_at", todayStart.toISOString()),
   ]);
 
-  const courses = coursesRes.data ?? [];
-  const progress = progressRes.data ?? [];
-  const streak = streakRes.data;
-
+  const courses = (coursesRes.data ?? []) as unknown as CourseWithModules[];
   const completedIds = new Set(
-    progress.filter((p) => p.status === "completed").map((p) => p.lesson_id)
+    (progressRes.data ?? []).map((p) => p.lesson_id)
+  );
+  const todayXp = (todayXpRes.data ?? []).reduce(
+    (s, r) => s + r.amount,
+    0
   );
 
-  // Find the next incomplete lesson across all courses
-  const lessonsRes = await supabase
-    .from("lessons")
-    .select("id, title, module_id, modules!inner(course_id, courses!inner(title, color_hex, id))")
-    .eq("is_published", true)
-    .order("order_index");
-
-  const allLessons = (lessonsRes.data ?? []) as unknown as Array<{
-    id: string;
-    title: string;
-    module_id: string;
-    modules: { course_id: string; courses: { title: string; color_hex: string; id: string } };
-  }>;
-
-  const nextLesson = allLessons.find((l) => !completedIds.has(l.id));
-
-  // Build course completion percentages
-  const courseCompletions: Record<string, { done: number; total: number }> = {};
-  for (const lesson of allLessons) {
-    const cid = lesson.modules.course_id;
-    if (!courseCompletions[cid]) courseCompletions[cid] = { done: 0, total: 0 };
-    courseCompletions[cid].total++;
-    if (completedIds.has(lesson.id)) courseCompletions[cid].done++;
+  // Sort modules and lessons within each course by order_index
+  for (const course of courses) {
+    course.modules = (course.modules ?? []).sort(
+      (a, b) => a.order_index - b.order_index
+    );
+    for (const mod of course.modules) {
+      mod.lessons = (mod.lessons ?? [])
+        .filter((l) => l.is_published)
+        .sort((a, b) => a.order_index - b.order_index);
+    }
   }
 
-  const DAILY_GOAL_XP = 50;
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const todayXp = progress
-    .filter((p) => p.status === "completed")
-    .reduce((s, p) => s + (p.xp_earned ?? 0), 0);
-  const dailyProgress = Math.min(100, Math.round((todayXp / DAILY_GOAL_XP) * 100));
+  // Find first unlocked, incomplete lesson — respects the same lock rules as the course map
+  let nextLesson: NextLesson | null = null;
+
+  outer: for (const course of courses) {
+    for (let mi = 0; mi < course.modules.length; mi++) {
+      const mod = course.modules[mi];
+      for (let li = 0; li < mod.lessons.length; li++) {
+        const lesson = mod.lessons[li];
+        if (completedIds.has(lesson.id)) continue;
+
+        let unlocked = false;
+        if (mi === 0 && li === 0) {
+          unlocked = true;
+        } else if (li > 0) {
+          unlocked = completedIds.has(mod.lessons[li - 1].id);
+        } else {
+          const prevMod = course.modules[mi - 1];
+          unlocked =
+            !!prevMod &&
+            prevMod.lessons.length > 0 &&
+            completedIds.has(prevMod.lessons[prevMod.lessons.length - 1].id);
+        }
+
+        if (unlocked) {
+          nextLesson = {
+            ...lesson,
+            courseTitle: course.title,
+            colorHex: course.color_hex,
+            courseId: course.id,
+          };
+          break outer;
+        }
+      }
+    }
+  }
+
+  // Completion % per course
+  const courseStats: Record<string, { done: number; total: number }> = {};
+  for (const course of courses) {
+    let done = 0;
+    let total = 0;
+    for (const mod of course.modules) {
+      for (const lesson of mod.lessons) {
+        total++;
+        if (completedIds.has(lesson.id)) done++;
+      }
+    }
+    courseStats[course.id] = { done, total };
+  }
+
+  const dailyProgress = Math.min(
+    100,
+    Math.round((todayXp / DAILY_GOAL_XP) * 100)
+  );
 
   return (
     <div className="px-4 py-6 space-y-6 max-w-lg mx-auto">
-      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Good {getGreeting()}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Good {getGreeting()}
+        </h1>
         <p className="text-gray-500 text-sm mt-0.5">Keep up the momentum</p>
       </div>
 
-      {/* Daily goal */}
+      {/* Daily goal — XP earned today only */}
       <Card>
         <CardContent className="pt-5">
           <div className="flex items-center justify-between mb-2">
@@ -88,7 +145,7 @@ export default async function HomePage() {
               Daily goal
             </div>
             <span className="text-xs text-gray-400">
-              {todayXp}/{DAILY_GOAL_XP} XP
+              {todayXp} / {DAILY_GOAL_XP} XP today
             </span>
           </div>
           <Progress value={dailyProgress} className="h-3" />
@@ -100,8 +157,8 @@ export default async function HomePage() {
         </CardContent>
       </Card>
 
-      {/* Continue learning */}
-      {nextLesson && (
+      {/* Continue learning — only shows a lesson the user can actually access */}
+      {nextLesson ? (
         <div>
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
             Continue learning
@@ -112,16 +169,16 @@ export default async function HomePage() {
                 <div className="flex items-center gap-4">
                   <div
                     className="h-12 w-12 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: nextLesson.modules.courses.color_hex + "22" }}
+                    style={{ backgroundColor: nextLesson.colorHex + "22" }}
                   >
                     <BookOpen
                       className="h-6 w-6"
-                      style={{ color: nextLesson.modules.courses.color_hex }}
+                      style={{ color: nextLesson.colorHex }}
                     />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-gray-400 mb-0.5">
-                      {nextLesson.modules.courses.title}
+                      {nextLesson.courseTitle}
                     </p>
                     <p className="font-semibold text-gray-900 truncate">
                       {nextLesson.title}
@@ -133,9 +190,23 @@ export default async function HomePage() {
             </Card>
           </Link>
         </div>
+      ) : (
+        completedIds.size > 0 && (
+          <Card>
+            <CardContent className="pt-5 text-center">
+              <p className="text-2xl mb-2">🎓</p>
+              <p className="font-semibold text-gray-900">
+                All caught up!
+              </p>
+              <p className="text-sm text-gray-400 mt-1">
+                More lessons coming soon.
+              </p>
+            </CardContent>
+          </Card>
+        )
       )}
 
-      {/* Courses grid */}
+      {/* Course grid */}
       <div>
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
           Your courses
@@ -149,15 +220,24 @@ export default async function HomePage() {
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {courses.map((course) => {
-              const comp = courseCompletions[course.id] ?? { done: 0, total: 0 };
-              const pct = comp.total > 0 ? Math.round((comp.done / comp.total) * 100) : 0;
+              const stat = courseStats[course.id] ?? { done: 0, total: 0 };
+              const pct =
+                stat.total > 0
+                  ? Math.round((stat.done / stat.total) * 100)
+                  : 0;
               return (
-                <Link key={course.id} href={`/dashboard/courses/${course.id}`}>
+                <Link
+                  key={course.id}
+                  href={`/dashboard/courses/${course.id}`}
+                >
                   <Card className="h-full hover:shadow-md transition-shadow active:scale-[0.99]">
                     <CardContent className="pt-4 pb-4">
                       <div
                         className="h-10 w-10 rounded-xl mb-3 flex items-center justify-center"
-                        style={{ backgroundColor: (course.color_hex ?? "#0d9488") + "22" }}
+                        style={{
+                          backgroundColor:
+                            (course.color_hex ?? "#0d9488") + "22",
+                        }}
                       >
                         <BookOpen
                           className="h-5 w-5"
@@ -171,7 +251,9 @@ export default async function HomePage() {
                         {course.title}
                       </p>
                       <Progress value={pct} className="h-1.5" />
-                      <p className="text-xs text-gray-400 mt-1">{pct}% complete</p>
+                      <p className="text-xs text-gray-400 mt-1">
+                        {pct}% complete
+                      </p>
                     </CardContent>
                   </Card>
                 </Link>

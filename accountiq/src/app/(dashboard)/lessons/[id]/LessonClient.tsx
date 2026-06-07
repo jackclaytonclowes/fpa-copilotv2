@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -10,44 +11,16 @@ import {
   CheckCircle,
   XCircle,
   Star,
+  RotateCcw,
 } from "lucide-react";
-
-interface ContentCard {
-  type: "intro" | "explanation" | "table" | "worked_example";
-  heading: string;
-  body?: string;
-  emoji?: string;
-  key_terms?: Array<{ term: string; definition: string }>;
-  rows?: string[][];
-  headers?: string[];
-  steps?: string[];
-}
-
-interface Question {
-  id: string;
-  question_type: string;
-  prompt: string;
-  options: string[] | null;
-  correct_answer: string | string[];
-  explanation: string;
-  order_index: number;
-}
+import type { ContentCard, Question, LessonPageData, CompleteResponse } from "@/types";
 
 interface LessonClientProps {
-  lesson: {
-    id: string;
-    title: string;
-    content: ContentCard[];
-    xp_reward: number;
-    estimated_minutes: number;
-    modules: {
-      course_id: string;
-      title: string;
-      courses: { title: string; color_hex: string; id: string };
-    };
-  };
+  lesson: LessonPageData;
   questions: Question[];
+  userId: string;
   alreadyCompleted: boolean;
+  previousScore: number | null;
 }
 
 type Phase = "reading" | "quiz" | "complete";
@@ -55,17 +28,19 @@ type Phase = "reading" | "quiz" | "complete";
 export default function LessonClient({
   lesson,
   questions,
+  userId,
   alreadyCompleted,
+  previousScore,
 }: LessonClientProps) {
   const router = useRouter();
   const color = lesson.modules.courses.color_hex ?? "#0d9488";
-
   const cards = lesson.content ?? [];
   const totalSteps = cards.length + questions.length;
 
   const [phase, setPhase] = useState<Phase>(
     alreadyCompleted ? "complete" : "reading"
   );
+  const [isReviewing, setIsReviewing] = useState(false);
   const [cardIdx, setCardIdx] = useState(0);
   const [qIdx, setQIdx] = useState(0);
 
@@ -75,9 +50,23 @@ export default function LessonClient({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
-  const [xpEarned, setXpEarned] = useState(0);
-  const [achievementsEarned, setAchievementsEarned] = useState<string[]>([]);
+  const [result, setResult] = useState<CompleteResponse | null>(null);
   const [completing, setCompleting] = useState(false);
+
+  // Track in-progress state once on mount (only when starting fresh)
+  const progressWritten = useRef(false);
+  useEffect(() => {
+    if (alreadyCompleted || progressWritten.current) return;
+    progressWritten.current = true;
+    const supabase = createClient();
+    supabase
+      .from("user_progress")
+      .upsert(
+        { user_id: userId, lesson_id: lesson.id, status: "in_progress" },
+        { onConflict: "user_id,lesson_id", ignoreDuplicates: true }
+      )
+      .then();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const completedSteps =
     phase === "reading"
@@ -88,12 +77,26 @@ export default function LessonClient({
   const progress =
     totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 100;
 
+  function startReview() {
+    setIsReviewing(true);
+    setPhase("reading");
+    setCardIdx(0);
+    setQIdx(0);
+    setSelectedOption(null);
+    setFillValue("");
+    setSubmitted(false);
+    setIsCorrect(null);
+    setAnswers({});
+    setResult(null);
+  }
+
   function advanceCard() {
     if (cardIdx < cards.length - 1) {
       setCardIdx((i) => i + 1);
+    } else if (questions.length > 0) {
+      setPhase("quiz");
     } else {
-      if (questions.length > 0) setPhase("quiz");
-      else completeLesson();
+      completeLesson();
     }
   }
 
@@ -102,9 +105,8 @@ export default function LessonClient({
     const answer = selectedOption ?? fillValue;
     const correct = String(q.correct_answer).toLowerCase().trim();
     const given = answer.toLowerCase().trim();
-    const ok = given === correct;
 
-    setIsCorrect(ok);
+    setIsCorrect(given === correct);
     setSubmitted(true);
     setAnswers((prev) => ({ ...prev, [q.id]: answer }));
   }
@@ -129,79 +131,143 @@ export default function LessonClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers }),
       });
-      const data = await res.json();
-      setXpEarned(data.xp_earned ?? lesson.xp_reward);
-      setAchievementsEarned(data.achievements_earned ?? []);
+      const data: CompleteResponse = await res.json();
+      setResult(data);
     } catch {
-      setXpEarned(lesson.xp_reward);
+      // Best-effort fallback: show the lesson's base XP reward
+      setResult({
+        xp_earned: alreadyCompleted ? 0 : lesson.xp_reward,
+        new_total_xp: 0,
+        score_percent: 0,
+        streak: 0,
+        achievements_earned: [],
+      });
     }
     setPhase("complete");
     setCompleting(false);
   }
 
+  function backToCourse() {
+    router.push(`/dashboard/courses/${lesson.modules.courses.id}`);
+  }
+
+  // ─── Complete screen ─────────────────────────────────────────────────────────
+
   if (phase === "complete") {
+    const scoreImproved =
+      result !== null &&
+      previousScore !== null &&
+      result.score_percent > previousScore;
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-        <div className="text-6xl mb-4">🎉</div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Lesson complete!</h1>
-        <p className="text-gray-500 mb-6">{lesson.title}</p>
-
-        <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-2xl px-6 py-4 mb-4">
-          <Star className="h-6 w-6 text-yellow-500 fill-yellow-400" />
-          <span className="text-2xl font-bold text-yellow-700">+{xpEarned} XP</span>
+        <div className="text-6xl mb-4">
+          {isReviewing ? "📖" : "🎉"}
         </div>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">
+          {isReviewing ? "Review complete!" : "Lesson complete!"}
+        </h1>
+        <p className="text-gray-500 text-sm mb-6">{lesson.title}</p>
 
-        {achievementsEarned.length > 0 && (
-          <div className="mb-6 space-y-2">
-            {achievementsEarned.map((a) => (
+        {/* XP — only on first completion */}
+        {result && result.xp_earned > 0 && (
+          <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-2xl px-6 py-4 mb-3">
+            <Star className="h-6 w-6 text-yellow-500 fill-yellow-400" />
+            <span className="text-2xl font-bold text-yellow-700">
+              +{result.xp_earned} XP
+            </span>
+          </div>
+        )}
+
+        {/* Score */}
+        {result && questions.length > 0 && (
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl px-6 py-3 mb-3 w-full max-w-xs">
+            <p className="text-sm text-gray-500 mb-1">Quiz score</p>
+            <p className="text-2xl font-bold text-gray-900">
+              {result.score_percent}%
+            </p>
+            {scoreImproved && (
+              <p className="text-xs text-teal-600 font-medium mt-1">
+                New best score! (was {previousScore}%)
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Achievements */}
+        {result && result.achievements_earned.length > 0 && (
+          <div className="mb-3 space-y-2 w-full max-w-xs">
+            {result.achievements_earned.map((a) => (
               <div
                 key={a}
                 className="bg-teal-50 border border-teal-200 rounded-xl px-4 py-2 text-sm font-medium text-teal-700"
               >
-                🏆 Achievement unlocked: {a}
+                🏆 {a}
               </div>
             ))}
           </div>
         )}
 
-        <Button
-          className="w-full max-w-xs"
-          onClick={() =>
-            router.push(`/dashboard/courses/${lesson.modules.courses.id}`)
-          }
-        >
-          Back to course map
-        </Button>
-        <Button
-          variant="ghost"
-          className="mt-2 w-full max-w-xs"
-          onClick={() => router.push("/dashboard/home")}
-        >
-          Go home
-        </Button>
+        <div className="w-full max-w-xs space-y-2 mt-2">
+          <Button className="w-full" onClick={backToCourse}>
+            Back to course map
+          </Button>
+
+          {/* Review option — only when first completing (not already in review) */}
+          {!isReviewing && (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={startReview}
+            >
+              <RotateCcw className="h-4 w-4" />
+              Review lesson
+            </Button>
+          )}
+
+          <Button
+            variant="ghost"
+            className="w-full"
+            onClick={() => router.push("/dashboard/home")}
+          >
+            Go home
+          </Button>
+        </div>
       </div>
     );
   }
 
+  // ─── Reading + quiz screen ───────────────────────────────────────────────────
+
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Progress bar header */}
+      {/* Progress bar */}
       <div className="sticky top-0 z-20 bg-white border-b border-gray-100 px-4 py-3">
         <div className="flex items-center gap-3 max-w-lg mx-auto">
           <button
-            onClick={() =>
-              router.push(`/dashboard/courses/${lesson.modules.courses.id}`)
-            }
-            className="text-gray-400 hover:text-gray-600"
+            onClick={backToCourse}
+            className="text-gray-400 hover:text-gray-600 shrink-0"
+            aria-label="Back to course"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <div className="flex-1">
             <Progress value={progress} />
           </div>
-          <span className="text-xs text-gray-400 shrink-0">{progress}%</span>
+          <span className="text-xs text-gray-400 shrink-0 w-8 text-right">
+            {progress}%
+          </span>
         </div>
       </div>
+
+      {/* Review mode banner */}
+      {isReviewing && (
+        <div className="bg-teal-50 border-b border-teal-100 px-4 py-2 text-center">
+          <p className="text-xs text-teal-700 font-medium">
+            Review mode — no additional XP will be awarded
+          </p>
+        </div>
+      )}
 
       <div className="flex-1 px-4 py-6 max-w-lg mx-auto w-full">
         {phase === "reading" && <ContentCardView card={cards[cardIdx]} />}
@@ -220,7 +286,7 @@ export default function LessonClient({
         )}
       </div>
 
-      {/* Bottom action */}
+      {/* Bottom action bar */}
       <div className="sticky bottom-0 bg-white border-t border-gray-100 px-4 py-4">
         <div className="max-w-lg mx-auto">
           {phase === "reading" && (
@@ -230,9 +296,11 @@ export default function LessonClient({
                   Continue <ChevronRight className="h-4 w-4" />
                 </>
               ) : questions.length > 0 ? (
-                "Start quiz"
+                isReviewing ? "Re-attempt quiz" : "Start quiz"
               ) : completing ? (
-                "Completing…"
+                "Saving…"
+              ) : isReviewing ? (
+                "Finish reviewing"
               ) : (
                 "Complete lesson"
               )}
@@ -244,10 +312,9 @@ export default function LessonClient({
               className="w-full"
               onClick={submitAnswer}
               disabled={
-                (questions[qIdx].question_type !== "fill_blank" &&
-                  !selectedOption) ||
-                (questions[qIdx].question_type === "fill_blank" &&
-                  !fillValue.trim())
+                questions[qIdx].question_type !== "fill_blank"
+                  ? !selectedOption
+                  : !fillValue.trim()
               }
             >
               Check answer
@@ -296,6 +363,8 @@ export default function LessonClient({
   );
 }
 
+// ─── Content card renderer ────────────────────────────────────────────────────
+
 function ContentCardView({ card }: { card: ContentCard }) {
   if (!card) return null;
 
@@ -303,17 +372,29 @@ function ContentCardView({ card }: { card: ContentCard }) {
     <div className="animate-slide-up space-y-4">
       {card.type === "intro" && (
         <div className="text-center py-4">
-          {card.emoji && <div className="text-5xl mb-4">{card.emoji}</div>}
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">{card.heading}</h1>
-          {card.body && <p className="text-gray-600 text-base leading-relaxed">{card.body}</p>}
+          {card.emoji && (
+            <div className="text-5xl mb-4">{card.emoji}</div>
+          )}
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">
+            {card.heading}
+          </h1>
+          {card.body && (
+            <p className="text-gray-600 text-base leading-relaxed">
+              {card.body}
+            </p>
+          )}
         </div>
       )}
 
       {card.type === "explanation" && (
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-3">{card.heading}</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">
+            {card.heading}
+          </h2>
           {card.body && (
-            <p className="text-gray-600 text-base leading-relaxed mb-4">{card.body}</p>
+            <p className="text-gray-600 text-base leading-relaxed mb-4">
+              {card.body}
+            </p>
           )}
           {card.key_terms && card.key_terms.length > 0 && (
             <div className="space-y-2">
@@ -325,8 +406,12 @@ function ContentCardView({ card }: { card: ContentCard }) {
                   key={kt.term}
                   className="rounded-xl bg-teal-50 border border-teal-100 p-3"
                 >
-                  <p className="font-semibold text-teal-800 text-sm">{kt.term}</p>
-                  <p className="text-gray-600 text-sm mt-0.5">{kt.definition}</p>
+                  <p className="font-semibold text-teal-800 text-sm">
+                    {kt.term}
+                  </p>
+                  <p className="text-gray-600 text-sm mt-0.5">
+                    {kt.definition}
+                  </p>
                 </div>
               ))}
             </div>
@@ -336,7 +421,9 @@ function ContentCardView({ card }: { card: ContentCard }) {
 
       {card.type === "table" && (
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-3">{card.heading}</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">
+            {card.heading}
+          </h2>
           <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="w-full text-sm">
               {card.headers && (
@@ -355,9 +442,15 @@ function ContentCardView({ card }: { card: ContentCard }) {
               )}
               <tbody>
                 {(card.rows ?? []).map((row, ri) => (
-                  <tr key={ri} className={ri % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                  <tr
+                    key={ri}
+                    className={ri % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
                     {row.map((cell, ci) => (
-                      <td key={ci} className="px-3 py-2 text-gray-700 border-b border-gray-100">
+                      <td
+                        key={ci}
+                        className="px-3 py-2 text-gray-700 border-b border-gray-100"
+                      >
                         {cell}
                       </td>
                     ))}
@@ -371,14 +464,18 @@ function ContentCardView({ card }: { card: ContentCard }) {
 
       {card.type === "worked_example" && (
         <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-3">{card.heading}</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">
+            {card.heading}
+          </h2>
           <div className="space-y-3">
             {(card.steps ?? []).map((step, i) => (
               <div key={i} className="flex gap-3">
                 <div className="h-7 w-7 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                   {i + 1}
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed pt-1">{step}</p>
+                <p className="text-gray-700 text-sm leading-relaxed pt-1">
+                  {step}
+                </p>
               </div>
             ))}
           </div>
@@ -387,6 +484,8 @@ function ContentCardView({ card }: { card: ContentCard }) {
     </div>
   );
 }
+
+// ─── Quiz renderer ────────────────────────────────────────────────────────────
 
 function QuizView({
   question,
@@ -420,21 +519,21 @@ function QuizView({
         </h2>
       </div>
 
-      {(question.question_type === "mcq") && (
+      {question.question_type === "mcq" && (
         <div className="space-y-2">
           {(question.options ?? []).map((opt) => {
+            const correct = String(question.correct_answer);
             let style =
               "border-gray-200 bg-white hover:border-teal-400 hover:bg-teal-50";
             if (submitted) {
-              const correct = String(question.correct_answer);
-              if (opt === correct) style = "border-teal-500 bg-teal-50";
+              if (opt === correct)
+                style = "border-teal-500 bg-teal-50";
               else if (opt === selectedOption)
                 style = "border-red-400 bg-red-50";
               else style = "border-gray-100 bg-gray-50 opacity-60";
             } else if (opt === selectedOption) {
               style = "border-teal-500 bg-teal-50";
             }
-
             return (
               <button
                 key={opt}
@@ -452,9 +551,9 @@ function QuizView({
       {question.question_type === "true_false" && (
         <div className="grid grid-cols-2 gap-3">
           {["True", "False"].map((opt) => {
+            const correct = String(question.correct_answer);
             let style = "border-gray-200 bg-white hover:border-teal-400";
             if (submitted) {
-              const correct = String(question.correct_answer);
               if (opt === correct) style = "border-teal-500 bg-teal-50";
               else if (opt === selectedOption)
                 style = "border-red-400 bg-red-50";
@@ -477,22 +576,20 @@ function QuizView({
       )}
 
       {question.question_type === "fill_blank" && (
-        <div>
-          <input
-            type="text"
-            value={fillValue}
-            disabled={submitted}
-            onChange={(e) => onFillChange(e.target.value)}
-            placeholder="Type your answer…"
-            className={`w-full rounded-xl border-2 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
-              submitted
-                ? isCorrect
-                  ? "border-teal-500 bg-teal-50"
-                  : "border-red-400 bg-red-50"
-                : "border-gray-200"
-            }`}
-          />
-        </div>
+        <input
+          type="text"
+          value={fillValue}
+          disabled={submitted}
+          onChange={(e) => onFillChange(e.target.value)}
+          placeholder="Type your answer…"
+          className={`w-full rounded-xl border-2 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 ${
+            submitted
+              ? isCorrect
+                ? "border-teal-500 bg-teal-50"
+                : "border-red-400 bg-red-50"
+              : "border-gray-200"
+          }`}
+        />
       )}
     </div>
   );
