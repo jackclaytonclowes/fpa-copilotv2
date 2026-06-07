@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
-
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+import { getAIProvider } from "@/lib/ai";
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -41,10 +39,7 @@ export async function POST(request: NextRequest) {
   );
 
   if (todayMessages >= 10) {
-    return NextResponse.json(
-      { error: "Daily limit reached" },
-      { status: 429 }
-    );
+    return NextResponse.json({ error: "Daily limit reached" }, { status: 429 });
   }
 
   // Load lesson context if provided
@@ -57,7 +52,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (lessonRes.data) {
-      const cards = (lessonRes.data.content as Array<{ heading?: string; body?: string }>) ?? [];
+      const cards =
+        (lessonRes.data.content as Array<{ heading?: string; body?: string }>) ?? [];
       const summary = cards
         .map((c) => `${c.heading ?? ""}: ${c.body ?? ""}`)
         .join(" ")
@@ -66,10 +62,11 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const systemPrompt = `You are AccountIQ Tutor, an expert CIMA accounting teacher. ${lessonContext ? lessonContext + "." : ""} Be concise, encouraging, and use UK English. Show full working for calculations. Format answers with clear steps when appropriate. Keep responses under 300 words unless a detailed calculation is needed.`;
+  const system = `You are AccountIQ Tutor, an expert CIMA accounting teacher. ${
+    lessonContext ? lessonContext + "." : ""
+  } Be concise, encouraging, and use UK English. Show full working for calculations. Format answers with clear steps when appropriate. Keep responses under 300 words unless a detailed calculation is needed.`;
 
-  // Build message history for Anthropic
-  const anthropicMessages: Anthropic.MessageParam[] = [
+  const messages = [
     ...history
       .filter((m: { role: string; content: string }) => m.role !== "system")
       .slice(-8)
@@ -80,65 +77,43 @@ export async function POST(request: NextRequest) {
     { role: "user" as const, content: message },
   ];
 
-  // Stream response
-  const stream = await anthropic.messages.stream({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1024,
-    system: systemPrompt,
-    messages: anthropicMessages,
-  });
+  // Persist conversation once streaming completes
+  async function persist(fullText: string) {
+    const today = new Date().toISOString().slice(0, 10);
+    const existingConvRes = await supabase
+      .from("ai_tutor_conversations")
+      .select("id, messages")
+      .eq("user_id", user!.id)
+      .eq("lesson_id", lesson_id ?? null)
+      .gte("created_at", new Date(today).toISOString())
+      .single();
 
-  const readable = new ReadableStream({
-    async start(controller) {
-      let fullResponse = "";
+    const newMessages = [
+      ...((existingConvRes.data?.messages as Array<unknown>) ?? history),
+      { role: "user", content: message },
+      { role: "assistant", content: fullText },
+    ];
 
-      for await (const chunk of stream) {
-        if (
-          chunk.type === "content_block_delta" &&
-          chunk.delta.type === "text_delta"
-        ) {
-          const text = chunk.delta.text;
-          fullResponse += text;
-          controller.enqueue(new TextEncoder().encode(text));
-        }
-      }
-
-      controller.close();
-
-      // Persist conversation
-      const today = new Date().toISOString().slice(0, 10);
-      const existingConvRes = await supabase
+    if (existingConvRes.data) {
+      await supabase
         .from("ai_tutor_conversations")
-        .select("id, messages")
-        .eq("user_id", user.id)
-        .eq("lesson_id", lesson_id ?? null)
-        .gte("created_at", new Date(today).toISOString())
-        .single();
+        .update({ messages: newMessages, updated_at: new Date().toISOString() })
+        .eq("id", existingConvRes.data.id);
+    } else {
+      await supabase.from("ai_tutor_conversations").insert({
+        user_id: user!.id,
+        lesson_id: lesson_id ?? null,
+        messages: newMessages,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+    }
+  }
 
-      const newMessages = [
-        ...((existingConvRes.data?.messages as Array<unknown>) ?? history),
-        { role: "user", content: message },
-        { role: "assistant", content: fullResponse },
-      ];
+  const ai = getAIProvider();
+  const stream = await ai.streamChat({ system, messages, onComplete: persist });
 
-      if (existingConvRes.data) {
-        await supabase
-          .from("ai_tutor_conversations")
-          .update({ messages: newMessages, updated_at: new Date().toISOString() })
-          .eq("id", existingConvRes.data.id);
-      } else {
-        await supabase.from("ai_tutor_conversations").insert({
-          user_id: user.id,
-          lesson_id: lesson_id ?? null,
-          messages: newMessages,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
-      }
-    },
-  });
-
-  return new NextResponse(readable, {
+  return new NextResponse(stream, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
       "Transfer-Encoding": "chunked",
