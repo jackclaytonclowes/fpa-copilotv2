@@ -16,7 +16,7 @@ export interface ContentCard {
   heading: string;
   body?: string;
   emoji?: string;
-  key_terms?: KeyTerm[];
+  key_terms?: (KeyTerm | string)[];
   rows?: string[][];
   headers?: string[];
   steps?: string[];

@@ -12,6 +12,9 @@ import {
   XCircle,
   Star,
   RotateCcw,
+  BookOpen,
+  PenLine,
+  FileText,
 } from "lucide-react";
 import type { ContentCard, Question, LessonPageData, CompleteResponse } from "@/types";
 
@@ -24,6 +27,7 @@ interface LessonClientProps {
 }
 
 type Phase = "reading" | "quiz" | "complete";
+type StudyMode = "learn" | "quiz" | "summary";
 
 export default function LessonClient({
   lesson,
@@ -40,6 +44,7 @@ export default function LessonClient({
   const [phase, setPhase] = useState<Phase>(
     alreadyCompleted ? "complete" : "reading"
   );
+  const [studyMode, setStudyMode] = useState<StudyMode>("learn");
   const [isReviewing, setIsReviewing] = useState(false);
   const [cardIdx, setCardIdx] = useState(0);
   const [qIdx, setQIdx] = useState(0);
@@ -77,11 +82,21 @@ export default function LessonClient({
   const progress =
     totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 100;
 
-  function startReview() {
-    setIsReviewing(true);
-    setPhase("reading");
-    setCardIdx(0);
-    setQIdx(0);
+  function switchToMode(mode: StudyMode) {
+    setStudyMode(mode);
+    if (mode === "learn") {
+      setPhase("reading");
+      setCardIdx(0);
+      resetQuiz();
+    } else if (mode === "quiz") {
+      setPhase("quiz");
+      setQIdx(0);
+      resetQuiz();
+    }
+    // summary mode just changes the display — phase stays as-is
+  }
+
+  function resetQuiz() {
     setSelectedOption(null);
     setFillValue("");
     setSubmitted(false);
@@ -90,11 +105,26 @@ export default function LessonClient({
     setResult(null);
   }
 
+  function startReview() {
+    setIsReviewing(true);
+    setStudyMode("learn");
+    setPhase("reading");
+    setCardIdx(0);
+    setQIdx(0);
+    resetQuiz();
+  }
+
+  function startRevisionNotes() {
+    setIsReviewing(true);
+    setStudyMode("summary");
+  }
+
   function advanceCard() {
     if (cardIdx < cards.length - 1) {
       setCardIdx((i) => i + 1);
     } else if (questions.length > 0) {
       setPhase("quiz");
+      setStudyMode("quiz");
     } else {
       completeLesson();
     }
@@ -134,7 +164,6 @@ export default function LessonClient({
       const data: CompleteResponse = await res.json();
       setResult(data);
     } catch {
-      // Best-effort fallback: show the lesson's base XP reward
       setResult({
         xp_earned: alreadyCompleted ? 0 : lesson.xp_reward,
         new_total_xp: 0,
@@ -213,16 +242,25 @@ export default function LessonClient({
             Back to course map
           </Button>
 
-          {/* Review option — only when first completing (not already in review) */}
           {!isReviewing && (
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={startReview}
-            >
-              <RotateCcw className="h-4 w-4" />
-              Review lesson
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={startRevisionNotes}
+              >
+                <FileText className="h-4 w-4" />
+                Revision notes
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={startReview}
+              >
+                <RotateCcw className="h-4 w-4" />
+                Review lesson
+              </Button>
+            </>
           )}
 
           <Button
@@ -232,6 +270,49 @@ export default function LessonClient({
           >
             Go home
           </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Summary mode ────────────────────────────────────────────────────────────
+
+  if (studyMode === "summary") {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <div className="sticky top-0 z-20 bg-white border-b border-gray-100 px-4 py-3">
+          <div className="flex items-center gap-3 max-w-lg mx-auto">
+            <button
+              onClick={backToCourse}
+              className="text-gray-400 hover:text-gray-600 shrink-0"
+              aria-label="Back to course"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-gray-700 truncate">
+                {lesson.title}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <StudyModeTabs
+          current={studyMode}
+          hasQuiz={questions.length > 0}
+          onSwitch={switchToMode}
+        />
+
+        <div className="flex-1 px-4 py-6 max-w-lg mx-auto w-full">
+          <RevisionSummaryView cards={cards} />
+        </div>
+
+        <div className="sticky bottom-0 bg-white border-t border-gray-100 px-4 py-4">
+          <div className="max-w-lg mx-auto">
+            <Button className="w-full" variant="outline" onClick={backToCourse}>
+              Back to course
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -259,6 +340,12 @@ export default function LessonClient({
           </span>
         </div>
       </div>
+
+      <StudyModeTabs
+        current={studyMode}
+        hasQuiz={questions.length > 0}
+        onSwitch={switchToMode}
+      />
 
       {/* Review mode banner */}
       {isReviewing && (
@@ -363,6 +450,160 @@ export default function LessonClient({
   );
 }
 
+// ─── Study mode tab bar ───────────────────────────────────────────────────────
+
+function StudyModeTabs({
+  current,
+  hasQuiz,
+  onSwitch,
+}: {
+  current: StudyMode;
+  hasQuiz: boolean;
+  onSwitch: (m: StudyMode) => void;
+}) {
+  const tabs: { mode: StudyMode; label: string; Icon: React.ElementType }[] = [
+    { mode: "learn", label: "Learn", Icon: BookOpen },
+    ...(hasQuiz ? [{ mode: "quiz" as StudyMode, label: "Quiz", Icon: PenLine }] : []),
+    { mode: "summary", label: "Summary", Icon: FileText },
+  ];
+
+  return (
+    <div className="flex border-b border-gray-100 bg-white">
+      {tabs.map(({ mode, label, Icon }) => (
+        <button
+          key={mode}
+          onClick={() => onSwitch(mode)}
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold transition-colors ${
+            current === mode
+              ? "text-teal-600 border-b-2 border-teal-600"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
+        >
+          <Icon className="h-3.5 w-3.5" />
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Revision summary view ────────────────────────────────────────────────────
+
+function RevisionSummaryView({ cards }: { cards: ContentCard[] }) {
+  const sections = cards.filter(
+    (c) => c.type === "explanation" || c.type === "worked_example" || c.type === "table"
+  );
+
+  if (sections.length === 0) {
+    return (
+      <p className="text-gray-400 text-sm text-center py-8">
+        No revision notes available for this lesson.
+      </p>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-lg font-bold text-gray-900 mb-1">Revision Notes</h2>
+        <p className="text-xs text-gray-400">Key concepts from this lesson</p>
+      </div>
+
+      {sections.map((card, idx) => (
+        <div key={idx} className="space-y-3">
+          <h3 className="font-semibold text-gray-800 text-sm">{card.heading}</h3>
+
+          {card.body && (
+            <p className="text-gray-600 text-sm leading-relaxed">{card.body}</p>
+          )}
+
+          {card.key_terms && card.key_terms.length > 0 && (
+            <div className="space-y-2">
+              {card.key_terms.map((kt, i) => {
+                if (typeof kt === "string") {
+                  const colonIdx = kt.indexOf(":");
+                  const term = colonIdx > -1 ? kt.slice(0, colonIdx).trim() : kt;
+                  const def = colonIdx > -1 ? kt.slice(colonIdx + 1).trim() : "";
+                  return (
+                    <div
+                      key={i}
+                      className="rounded-xl bg-teal-50 border border-teal-100 p-3"
+                    >
+                      <p className="font-semibold text-teal-800 text-sm">{term}</p>
+                      {def && (
+                        <p className="text-gray-600 text-sm mt-0.5">{def}</p>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <div
+                    key={(kt as { term: string }).term ?? i}
+                    className="rounded-xl bg-teal-50 border border-teal-100 p-3"
+                  >
+                    <p className="font-semibold text-teal-800 text-sm">
+                      {(kt as { term: string }).term}
+                    </p>
+                    <p className="text-gray-600 text-sm mt-0.5">
+                      {(kt as { definition: string }).definition}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {card.type === "worked_example" && card.steps && card.steps.length > 0 && (
+            <div className="space-y-2">
+              {card.steps.map((step, i) => (
+                <div key={i} className="flex gap-2.5">
+                  <div className="h-5 w-5 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                    {i + 1}
+                  </div>
+                  <p className="text-gray-700 text-sm leading-relaxed">{step}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {card.type === "table" && card.headers && card.rows && (
+            <div className="overflow-x-auto rounded-xl border border-gray-200">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    {card.headers.map((h, i) => (
+                      <th
+                        key={i}
+                        className="px-3 py-2 text-left font-semibold text-gray-700 border-b border-gray-200 text-xs"
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {card.rows.map((row, ri) => (
+                    <tr key={ri} className={ri % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      {row.map((cell, ci) => (
+                        <td
+                          key={ci}
+                          className="px-3 py-2 text-gray-700 border-b border-gray-100 text-xs"
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Content card renderer ────────────────────────────────────────────────────
 
 function ContentCardView({ card }: { card: ContentCard }) {
@@ -401,19 +642,37 @@ function ContentCardView({ card }: { card: ContentCard }) {
               <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
                 Key terms
               </p>
-              {card.key_terms.map((kt) => (
-                <div
-                  key={kt.term}
-                  className="rounded-xl bg-teal-50 border border-teal-100 p-3"
-                >
-                  <p className="font-semibold text-teal-800 text-sm">
-                    {kt.term}
-                  </p>
-                  <p className="text-gray-600 text-sm mt-0.5">
-                    {kt.definition}
-                  </p>
-                </div>
-              ))}
+              {card.key_terms.map((kt, i) => {
+                if (typeof kt === "string") {
+                  const colonIdx = kt.indexOf(":");
+                  const term = colonIdx > -1 ? kt.slice(0, colonIdx).trim() : kt;
+                  const def = colonIdx > -1 ? kt.slice(colonIdx + 1).trim() : "";
+                  return (
+                    <div
+                      key={i}
+                      className="rounded-xl bg-teal-50 border border-teal-100 p-3"
+                    >
+                      <p className="font-semibold text-teal-800 text-sm">{term}</p>
+                      {def && (
+                        <p className="text-gray-600 text-sm mt-0.5">{def}</p>
+                      )}
+                    </div>
+                  );
+                }
+                return (
+                  <div
+                    key={(kt as { term: string }).term ?? i}
+                    className="rounded-xl bg-teal-50 border border-teal-100 p-3"
+                  >
+                    <p className="font-semibold text-teal-800 text-sm">
+                      {(kt as { term: string }).term}
+                    </p>
+                    <p className="text-gray-600 text-sm mt-0.5">
+                      {(kt as { definition: string }).definition}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
