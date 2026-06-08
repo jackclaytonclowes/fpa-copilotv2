@@ -1,7 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import SignOutButton from "./SignOutButton";
 
 export default async function ProfilePage() {
@@ -42,88 +40,91 @@ export default async function ProfilePage() {
   const displayName = profile?.display_name ?? user.email ?? "Learner";
 
   return (
-    <div className="px-4 py-6 max-w-lg mx-auto space-y-6">
-      {/* Avatar + name */}
-      <div className="flex items-center gap-4">
-        <div className="h-16 w-16 rounded-full bg-teal-100 border-4 border-teal-200 flex items-center justify-center text-teal-700 text-2xl font-bold uppercase">
-          {displayName[0]}
+    <div className="max-w-lg mx-auto">
+      {/* Profile hero */}
+      <div className="ink-card rounded-none px-5 pt-6 pb-8">
+        <div className="flex items-center gap-4 mb-6">
+          <div
+            className="h-16 w-16 rounded-full flex items-center justify-center text-ink text-2xl font-bold uppercase shrink-0"
+            style={{ background: "#D4F04A" }}
+          >
+            {displayName[0]}
+          </div>
+          <div>
+            <h1 className="font-display text-xl font-bold text-white leading-tight">
+              {displayName}
+            </h1>
+            <p className="text-sand-400 text-sm mt-0.5">{user.email}</p>
+          </div>
         </div>
-        <div>
-          <p className="font-bold text-xl text-gray-900">{displayName}</p>
-          <p className="text-sm text-gray-400">{user.email}</p>
+
+        {/* Stat strip */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="text-center">
+            <p className="premium-numeral text-3xl text-white">
+              {streak?.current_streak ?? 0}
+            </p>
+            <p className="text-xs text-sand-400 mt-1">Day streak 🔥</p>
+          </div>
+          <div className="text-center border-x border-white/10">
+            <p className="premium-numeral text-3xl" style={{ color: "#D4F04A" }}>
+              {totalXp.toLocaleString()}
+            </p>
+            <p className="text-xs text-sand-400 mt-1">Total XP ⭐</p>
+          </div>
+          <div className="text-center">
+            <p className="premium-numeral text-3xl text-white">
+              {achievements.length}
+            </p>
+            <p className="text-xs text-sand-400 mt-1">Achievements 🏆</p>
+          </div>
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
-        <Card>
-          <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-orange-500">
-              🔥 {streak?.current_streak ?? 0}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">Current streak</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-yellow-500">
-              ⭐ {totalXp.toLocaleString()}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">Total XP</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-4 pb-4 text-center">
-            <p className="text-2xl font-bold text-teal-600">
-              🏆 {achievements.length}
-            </p>
-            <p className="text-xs text-gray-400 mt-1">Achievements</p>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="px-4 py-6 space-y-5">
+        {/* Longest streak */}
+        {streak && streak.longest_streak > 0 && (
+          <div className="premium-card p-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold text-sand-500 uppercase tracking-widest mb-1">
+                Longest streak
+              </p>
+              <p className="font-display text-2xl font-bold text-ink">
+                {streak.longest_streak} days
+              </p>
+            </div>
+            <span className="text-3xl">🔥</span>
+          </div>
+        )}
 
-      {streak && streak.longest_streak > 0 && (
-        <Card>
-          <CardContent className="pt-4 pb-4">
-            <p className="text-sm text-gray-500">
-              Longest streak:{" "}
-              <span className="font-bold text-gray-900">
-                {streak.longest_streak} days 🔥
-              </span>
-            </p>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Achievements */}
-      {achievements.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-            Achievements
-          </h2>
-          <div className="space-y-2">
-            {achievements.map((a, i) => (
-              <Card key={i}>
-                <CardContent className="pt-3 pb-3 flex items-center gap-3">
-                  <span className="text-2xl">
+        {/* Achievements */}
+        {achievements.length > 0 && (
+          <div>
+            <h2 className="text-xs font-bold text-sand-500 uppercase tracking-[0.1em] mb-3">
+              Achievements
+            </h2>
+            <div className="space-y-2">
+              {achievements.map((a, i) => (
+                <div key={i} className="premium-card px-4 py-3 flex items-center gap-3">
+                  <span className="text-2xl shrink-0">
                     {a.achievements?.icon ?? "🏅"}
                   </span>
                   <div>
-                    <p className="font-semibold text-sm text-gray-900">
+                    <p className="font-semibold text-sm text-ink">
                       {a.achievements?.title ?? "Achievement"}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-sand-500 mt-0.5">
                       {a.achievements?.description}
                     </p>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <SignOutButton />
+        <SignOutButton />
+      </div>
     </div>
   );
 }

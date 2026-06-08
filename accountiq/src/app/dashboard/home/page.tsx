@@ -1,10 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { ChevronRight, BookOpen, Target } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
+import { ProgressRing } from "@/components/ui/progress-ring";
 import type { CourseWithModules, LessonSummary } from "@/types";
 
 const DAILY_GOAL_XP = 50;
@@ -43,7 +41,6 @@ export default async function HomePage() {
       .select("lesson_id, status")
       .eq("user_id", user.id)
       .eq("status", "completed"),
-    // Only XP earned today — fixes the daily goal bug
     supabase
       .from("user_xp")
       .select("amount")
@@ -60,7 +57,6 @@ export default async function HomePage() {
     0
   );
 
-  // Sort modules and lessons within each course by order_index
   for (const course of courses) {
     course.modules = (course.modules ?? []).sort(
       (a, b) => a.order_index - b.order_index
@@ -72,7 +68,6 @@ export default async function HomePage() {
     }
   }
 
-  // Find first unlocked, incomplete lesson — respects the same lock rules as the course map
   let nextLesson: NextLesson | null = null;
 
   outer: for (const course of courses) {
@@ -108,7 +103,6 @@ export default async function HomePage() {
     }
   }
 
-  // Completion % per course
   const courseStats: Record<string, { done: number; total: number }> = {};
   for (const course of courses) {
     let done = 0;
@@ -126,97 +120,113 @@ export default async function HomePage() {
     100,
     Math.round((todayXp / DAILY_GOAL_XP) * 100)
   );
+  const goalMet = dailyProgress >= 100;
 
   return (
     <div className="px-4 py-6 space-y-6 max-w-lg mx-auto">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">
-          Good {getGreeting()}
+      {/* Ink hero card — greeting + daily goal */}
+      <div className="ink-card p-6">
+        {/* Greeting */}
+        <p className="text-sand-300 text-sm font-medium mb-1">
+          {getGreeting()}
+        </p>
+        <h1 className="font-display text-3xl font-bold text-white mb-4 leading-tight">
+          Keep building
+          <br />
+          <em className="not-italic" style={{ color: "#D4F04A" }}>momentum.</em>
         </h1>
-        <p className="text-gray-500 text-sm mt-0.5">Keep up the momentum</p>
+
+        {/* Daily goal row */}
+        <div className="flex items-center gap-4">
+          <ProgressRing
+            value={dailyProgress}
+            size={64}
+            strokeWidth={5}
+            color={goalMet ? "#7EEBC7" : "#D4F04A"}
+            trackColor="rgba(255,255,255,0.12)"
+          >
+            <span className="text-xs font-bold text-white">
+              {dailyProgress}%
+            </span>
+          </ProgressRing>
+          <div>
+            <p className="text-white font-semibold text-sm">
+              {goalMet ? "Goal complete!" : "Daily goal"}
+            </p>
+            <p className="text-sand-400 text-xs mt-0.5">
+              {todayXp} / {DAILY_GOAL_XP} XP today
+            </p>
+            {goalMet && (
+              <p className="text-mint-300 text-xs font-medium mt-0.5">
+                🎉 Excellent work
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Daily goal — XP earned today only */}
-      <Card>
-        <CardContent className="pt-5">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Target className="h-4 w-4 text-teal-600" />
-              Daily goal
-            </div>
-            <span className="text-xs text-gray-400">
-              {todayXp} / {DAILY_GOAL_XP} XP today
-            </span>
-          </div>
-          <Progress value={dailyProgress} className="h-3" />
-          {dailyProgress >= 100 && (
-            <p className="text-xs text-teal-600 font-medium mt-2">
-              Goal complete! 🎉
-            </p>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Continue learning — only shows a lesson the user can actually access */}
+      {/* Continue learning */}
       {nextLesson ? (
         <div>
-          <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          <h2 className="text-xs font-bold text-sand-500 uppercase tracking-[0.1em] mb-3">
             Continue learning
           </h2>
           <Link href={`/dashboard/lessons/${nextLesson.id}`}>
-            <Card className="hover:shadow-md transition-shadow active:scale-[0.99]">
-              <CardContent className="pt-5">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="h-12 w-12 rounded-2xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: nextLesson.colorHex + "22" }}
-                  >
-                    <BookOpen
-                      className="h-6 w-6"
-                      style={{ color: nextLesson.colorHex }}
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-gray-400 mb-0.5">
-                      {nextLesson.courseTitle}
-                    </p>
-                    <p className="font-semibold text-gray-900 truncate">
-                      {nextLesson.title}
-                    </p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-gray-300 shrink-0" />
+            <div className="premium-card p-4">
+              <div className="flex items-center gap-4">
+                <div
+                  className="h-12 w-12 rounded-2xl flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: nextLesson.colorHex + "18" }}
+                >
+                  <BookOpen
+                    className="h-6 w-6"
+                    style={{ color: nextLesson.colorHex }}
+                  />
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-sand-500 mb-0.5">
+                    {nextLesson.courseTitle}
+                  </p>
+                  <p className="font-semibold text-ink text-sm leading-snug truncate">
+                    {nextLesson.title}
+                  </p>
+                  <p className="text-xs text-sand-500 mt-0.5">
+                    {nextLesson.estimated_minutes} min · {nextLesson.xp_reward} XP
+                  </p>
+                </div>
+                <div
+                  className="h-8 w-8 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: "#D4F04A" }}
+                >
+                  <ChevronRight className="h-4 w-4 text-ink" />
+                </div>
+              </div>
+            </div>
           </Link>
         </div>
       ) : (
         completedIds.size > 0 && (
-          <Card>
-            <CardContent className="pt-5 text-center">
-              <p className="text-2xl mb-2">🎓</p>
-              <p className="font-semibold text-gray-900">
-                All caught up!
-              </p>
-              <p className="text-sm text-gray-400 mt-1">
-                More lessons coming soon.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="premium-card p-6 text-center">
+            <p className="text-4xl mb-3">🎓</p>
+            <h3 className="font-display font-bold text-lg text-ink mb-1">
+              All caught up!
+            </h3>
+            <p className="text-sm text-sand-500">
+              More lessons coming soon.
+            </p>
+          </div>
         )
       )}
 
       {/* Course grid */}
       <div>
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+        <h2 className="text-xs font-bold text-sand-500 uppercase tracking-[0.1em] mb-3">
           Your courses
         </h2>
         {courses.length === 0 ? (
-          <Card>
-            <CardContent className="pt-5 text-center text-gray-400 text-sm">
-              No courses yet — check back soon.
-            </CardContent>
-          </Card>
+          <div className="premium-card p-6 text-center text-sand-500 text-sm">
+            No courses yet — check back soon.
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {courses.map((course) => {
@@ -230,32 +240,37 @@ export default async function HomePage() {
                   key={course.id}
                   href={`/dashboard/courses/${course.id}`}
                 >
-                  <Card className="h-full hover:shadow-md transition-shadow active:scale-[0.99]">
-                    <CardContent className="pt-4 pb-4">
+                  <div className="premium-card p-4 h-full">
+                    {/* Course colour dot */}
+                    <div
+                      className="h-10 w-10 rounded-xl mb-3 flex items-center justify-center"
+                      style={{ backgroundColor: (course.color_hex ?? "#0d9488") + "18" }}
+                    >
+                      <BookOpen
+                        className="h-5 w-5"
+                        style={{ color: course.color_hex ?? "#0d9488" }}
+                      />
+                    </div>
+                    <span className="citron-badge mb-2 inline-block">
+                      {course.cima_paper}
+                    </span>
+                    <p className="font-semibold text-sm text-ink leading-tight mb-3">
+                      {course.title}
+                    </p>
+                    {/* Progress track */}
+                    <div className="h-1.5 w-full rounded-full bg-sand-200 overflow-hidden">
                       <div
-                        className="h-10 w-10 rounded-xl mb-3 flex items-center justify-center"
+                        className="h-full rounded-full transition-all duration-500"
                         style={{
-                          backgroundColor:
-                            (course.color_hex ?? "#0d9488") + "22",
+                          width: `${pct}%`,
+                          background: pct === 100 ? "#7EEBC7" : "#D4F04A",
                         }}
-                      >
-                        <BookOpen
-                          className="h-5 w-5"
-                          style={{ color: course.color_hex ?? "#0d9488" }}
-                        />
-                      </div>
-                      <Badge variant="outline" className="text-xs mb-2">
-                        {course.cima_paper}
-                      </Badge>
-                      <p className="font-semibold text-sm text-gray-900 leading-tight mb-2">
-                        {course.title}
-                      </p>
-                      <Progress value={pct} className="h-1.5" />
-                      <p className="text-xs text-gray-400 mt-1">
-                        {pct}% complete
-                      </p>
-                    </CardContent>
-                  </Card>
+                      />
+                    </div>
+                    <p className="text-xs text-sand-500 mt-1.5">
+                      {pct}% complete
+                    </p>
+                  </div>
                 </Link>
               );
             })}
@@ -268,7 +283,7 @@ export default async function HomePage() {
 
 function getGreeting() {
   const h = new Date().getHours();
-  if (h < 12) return "morning";
-  if (h < 17) return "afternoon";
-  return "evening";
+  if (h < 12) return "Good morning";
+  if (h < 17) return "Good afternoon";
+  return "Good evening";
 }

@@ -1,8 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Lock, Circle, ChevronLeft, Clock, Star } from "lucide-react";
+import { CheckCircle, Lock, ChevronLeft, Clock, Zap } from "lucide-react";
 
 interface Lesson {
   id: string;
@@ -63,7 +62,6 @@ export default async function CourseMapPage({
       .map((p) => p.lesson_id)
   );
 
-  // Sort lessons within each module
   for (const mod of modules) {
     mod.lessons = (mod.lessons ?? [])
       .filter((l) => l.is_published)
@@ -71,15 +69,12 @@ export default async function CourseMapPage({
   }
   modules.sort((a, b) => a.order_index - b.order_index);
 
-  // Determine which lessons are unlocked
-  // First lesson of each module is unlocked if previous module's last lesson is done (or it's the first module)
   function isUnlocked(modIdx: number, lesIdx: number): boolean {
     if (modIdx === 0 && lesIdx === 0) return true;
     if (lesIdx > 0) {
       const prev = modules[modIdx].lessons[lesIdx - 1];
       return completedIds.has(prev.id);
     }
-    // First lesson of module N: need last lesson of module N-1 completed
     const prevMod = modules[modIdx - 1];
     if (!prevMod || prevMod.lessons.length === 0) return true;
     return completedIds.has(prevMod.lessons[prevMod.lessons.length - 1].id);
@@ -87,51 +82,90 @@ export default async function CourseMapPage({
 
   const color = course.color_hex ?? "#0d9488";
 
+  // Total progress
+  let totalDone = 0;
+  let totalLessons = 0;
+  for (const mod of modules) {
+    for (const lesson of mod.lessons) {
+      totalLessons++;
+      if (completedIds.has(lesson.id)) totalDone++;
+    }
+  }
+  const pct = totalLessons > 0 ? Math.round((totalDone / totalLessons) * 100) : 0;
+
   return (
     <div className="max-w-lg mx-auto">
-      {/* Course header */}
-      <div
-        className="px-4 pt-6 pb-8"
-        style={{ backgroundColor: color + "18" }}
-      >
+      {/* Course hero header */}
+      <div className="ink-card mx-0 rounded-none px-5 pt-5 pb-8">
+        {/* Back link */}
         <Link
           href="/dashboard/courses"
-          className="inline-flex items-center text-sm text-gray-500 mb-4 hover:text-gray-700"
+          className="inline-flex items-center gap-1 text-sand-400 text-sm mb-5 hover:text-white transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
           All courses
         </Link>
-        <Badge variant="outline" className="mb-2" style={{ borderColor: color, color }}>
+
+        <span
+          className="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3"
+          style={{ background: color + "30", color: color }}
+        >
           {course.cima_paper}
-        </Badge>
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">{course.title}</h1>
+        </span>
+
+        <h1 className="font-display text-2xl font-bold text-white mb-2 leading-tight">
+          {course.title}
+        </h1>
         {course.description && (
-          <p className="text-sm text-gray-600">{course.description}</p>
+          <p className="text-sand-400 text-sm leading-relaxed mb-4">
+            {course.description}
+          </p>
         )}
+
+        {/* Progress bar */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{ width: `${pct}%`, background: "#D4F04A" }}
+            />
+          </div>
+          <span className="text-xs font-bold text-sand-400 shrink-0">
+            {totalDone}/{totalLessons}
+          </span>
+        </div>
       </div>
 
       {/* Lesson path */}
-      <div className="px-4 py-6 space-y-8">
+      <div className="px-4 py-6 space-y-10">
         {modules.map((mod, modIdx) => (
           <div key={mod.id}>
-            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
-              {mod.title}
-            </h2>
+            {/* Module header */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="h-px flex-1 bg-sand-200" />
+              <span className="text-xs font-bold uppercase tracking-[0.12em] text-sand-500 px-1">
+                {mod.title}
+              </span>
+              <div className="h-px flex-1 bg-sand-200" />
+            </div>
+
             <div className="relative">
               {/* Vertical connecting line */}
               {mod.lessons.length > 1 && (
                 <div
-                  className="absolute left-6 top-6 bottom-6 w-0.5 bg-gray-200"
+                  className="absolute left-6 top-6 bottom-6 w-px"
+                  style={{ background: "#E8E0D4" }}
                   aria-hidden
                 />
               )}
+
               <div className="space-y-4">
                 {mod.lessons.map((lesson, lesIdx) => {
                   const done = completedIds.has(lesson.id);
                   const unlocked = isUnlocked(modIdx, lesIdx);
                   const isCurrent = !done && unlocked;
 
-                  const node = (
+                  const nodeContent = (
                     <div
                       key={lesson.id}
                       className={`flex items-center gap-4 ${
@@ -142,29 +176,39 @@ export default async function CourseMapPage({
                       <div
                         className={`relative z-10 h-12 w-12 rounded-full flex items-center justify-center shrink-0 transition-all ${
                           done
-                            ? "bg-teal-600 text-white"
+                            ? "text-white"
                             : isCurrent
-                            ? "bg-white border-4 border-teal-600 animate-pulse-ring text-teal-600"
-                            : "bg-gray-100 text-gray-300 border-2 border-gray-200"
+                            ? "bg-white border-[3px] citron-pulse"
+                            : "bg-sand-100 border-2 border-sand-300"
                         }`}
+                        style={
+                          done
+                            ? { background: color }
+                            : isCurrent
+                            ? { borderColor: "#D4F04A" }
+                            : undefined
+                        }
                       >
                         {done ? (
                           <CheckCircle className="h-6 w-6" />
                         ) : isCurrent ? (
-                          <Circle className="h-5 w-5 fill-teal-600" />
+                          <div
+                            className="h-3 w-3 rounded-full"
+                            style={{ background: "#D4F04A" }}
+                          />
                         ) : (
-                          <Lock className="h-5 w-5" />
+                          <Lock className="h-4 w-4 text-sand-400" />
                         )}
                       </div>
 
-                      {/* Lesson info */}
+                      {/* Lesson card */}
                       <div
                         className={`flex-1 rounded-2xl border p-3 transition-all ${
                           done
-                            ? "border-teal-100 bg-teal-50"
+                            ? "border-mint-200 bg-mint-50"
                             : isCurrent
-                            ? "border-teal-200 bg-white shadow-sm"
-                            : "border-gray-100 bg-gray-50 opacity-60"
+                            ? "border-citron-200 bg-white shadow-sm"
+                            : "border-sand-200 bg-sand-100/50 opacity-50"
                         }`}
                       >
                         <p
@@ -172,19 +216,19 @@ export default async function CourseMapPage({
                             done
                               ? "text-teal-800"
                               : isCurrent
-                              ? "text-gray-900"
-                              : "text-gray-400"
+                              ? "text-ink"
+                              : "text-sand-500"
                           }`}
                         >
                           {lesson.title}
                         </p>
-                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-sand-500">
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            {lesson.estimated_minutes} min
+                            {lesson.estimated_minutes}m
                           </span>
                           <span className="flex items-center gap-1">
-                            <Star className="h-3 w-3" />
+                            <Zap className="h-3 w-3" />
                             {lesson.xp_reward} XP
                           </span>
                         </div>
@@ -197,10 +241,10 @@ export default async function CourseMapPage({
                       key={lesson.id}
                       href={`/dashboard/lessons/${lesson.id}`}
                     >
-                      {node}
+                      {nodeContent}
                     </Link>
                   ) : (
-                    <div key={lesson.id}>{node}</div>
+                    <div key={lesson.id}>{nodeContent}</div>
                   );
                 })}
               </div>
@@ -209,7 +253,7 @@ export default async function CourseMapPage({
         ))}
 
         {modules.length === 0 && (
-          <p className="text-center text-gray-400 py-12">No lessons yet.</p>
+          <p className="text-center text-sand-500 py-12">No lessons yet.</p>
         )}
       </div>
     </div>

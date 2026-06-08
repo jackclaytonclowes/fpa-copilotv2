@@ -29,30 +29,36 @@ export default function DashboardShell({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-cream-100">
       {/* Top bar */}
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-100 px-4 h-14 flex items-center justify-between">
-        <span className="font-bold text-teal-700 text-base tracking-tight">
-          AccountIQ
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-sand-200 px-5 h-14 flex items-center justify-between">
+        <span
+          className="font-display text-lg font-bold tracking-tight"
+          style={{ color: "#0C0E1A" }}
+        >
+          Account<span style={{ color: "#D4F04A" }}>IQ</span>
         </span>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 text-sm font-semibold text-orange-500">
-            <span>🔥</span>
-            <span>{streak}</span>
+          {/* Streak */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 border border-orange-100">
+            <span className="text-sm leading-none">🔥</span>
+            <span className="text-xs font-bold text-orange-600">{streak}</span>
           </div>
-          <div className="flex items-center gap-1 text-sm font-semibold text-yellow-600">
-            <span>⭐</span>
-            <span>{totalXp.toLocaleString()}</span>
+          {/* XP */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-citron-50 border border-citron-200">
+            <span className="text-sm leading-none">⭐</span>
+            <span className="text-xs font-bold text-ink-900">{totalXp.toLocaleString()}</span>
           </div>
+          {/* Avatar */}
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={displayName}
-              className="h-8 w-8 rounded-full object-cover border-2 border-teal-200"
+              className="h-8 w-8 rounded-full object-cover ring-2 ring-sand-200"
             />
           ) : (
-            <div className="h-8 w-8 rounded-full bg-teal-100 border-2 border-teal-200 flex items-center justify-center text-teal-700 text-xs font-bold uppercase">
+            <div className="h-8 w-8 rounded-full bg-ink flex items-center justify-center text-citron text-xs font-bold uppercase ring-2 ring-sand-200">
               {displayName[0]}
             </div>
           )}
@@ -63,29 +69,41 @@ export default function DashboardShell({
       <main className="flex-1 overflow-y-auto pb-20">{children}</main>
 
       {/* Bottom nav */}
-      <nav className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-100 flex">
-        {NAV_ITEMS.map(({ href, label, Icon }) => {
-          const active =
-            href === "/dashboard/courses"
-              ? pathname.startsWith("/dashboard/courses") ||
-                pathname.startsWith("/dashboard/lessons")
-              : pathname === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-xs font-medium transition-colors ${
-                active ? "text-teal-600" : "text-gray-400 hover:text-gray-600"
-              }`}
-            >
-              <Icon
-                className={`h-5 w-5 ${active ? "stroke-teal-600" : ""}`}
-                strokeWidth={active ? 2.5 : 2}
-              />
-              {label}
-            </Link>
-          );
-        })}
+      <nav className="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-sm border-t border-sand-200">
+        <div className="flex max-w-lg mx-auto">
+          {NAV_ITEMS.map(({ href, label, Icon }) => {
+            const active =
+              href === "/dashboard/courses"
+                ? pathname.startsWith("/dashboard/courses") ||
+                  pathname.startsWith("/dashboard/lessons")
+                : pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className="flex-1 flex flex-col items-center justify-center py-2 gap-0.5 relative"
+              >
+                {active && (
+                  <span
+                    className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full"
+                    style={{ background: "#D4F04A" }}
+                  />
+                )}
+                <Icon
+                  className="h-5 w-5 transition-colors"
+                  style={{ color: active ? "#0C0E1A" : "#AFA090" }}
+                  strokeWidth={active ? 2.5 : 1.8}
+                />
+                <span
+                  className="text-xs font-medium transition-colors"
+                  style={{ color: active ? "#0C0E1A" : "#AFA090" }}
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </nav>
     </div>
   );
