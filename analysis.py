@@ -13,7 +13,7 @@ import pandas as pd
 # ─────────────────────────────────────────────
 CATEGORY_RULES = {
     "Revenue": [
-        "sales", "income", "revenue", "turnover", "fees", "fee income",
+        "sales", "income", "revenue", "turnover", "fee income",
         "service income", "consultancy income", "grant income", "contract income",
         "funding", "uplift payment", "private income", "teaching income", "training hub",
         "qof", "global sum", "lcs", "des", "apms", "vaccination", "vaccinations",
@@ -24,7 +24,7 @@ CATEGORY_RULES = {
         "gnrh", "academic funding", "winter planning", "advice & guidance",
     ],
     "Direct Costs": [
-        "cost of sales", "cos", "direct cost", "direct costs", "subcontractor",
+        "cost of sales", "direct cost", "direct costs", "subcontractor",
         "subcontractors", "delivery costs", "project costs", "materials", "consumables",
         "drugs and vaccines", "medical supplies", "vaccines",
     ],
@@ -55,6 +55,7 @@ CATEGORY_RULES = {
         "rent", "rates", "business rates", "service charge", "service charges",
         "utilities", "electricity", "gas", "water", "cleaning", "repairs",
         "maintenance", "security", "premises", "office rent", "building",
+        "sewage", "drainage",
         "facilities", "room bookings", "room booking", "premises costs",
         "non-reimburseable premises costs", "non-reimbursable premises costs",
         "repair, renewals & maintenance",
@@ -106,6 +107,9 @@ ACCOUNT_CATEGORY_OVERRIDES = {
     "non-reimburseable premises costs": "Premises Costs",
     "non-reimbursable premises costs": "Premises Costs",
     "cqc costs": "Office & Admin",
+    "cost of sales": "Direct Costs",
+    "cost of goods sold": "Direct Costs",
+    "cogs": "Direct Costs",
 }
 
 EXPENSE_CATEGORIES = [
@@ -247,6 +251,12 @@ def clean_numeric(series):
 # ─────────────────────────────────────────────
 # CLASSIFICATION
 # ─────────────────────────────────────────────
+def _kw_matches(kw: str, acc: str) -> bool:
+    if any(c in kw for c in (" ", "-", "&")):
+        return kw in acc
+    return bool(re.search(r'\b' + re.escape(kw) + r'\b', acc))
+
+
 def classify(account, section=None):
     acc = normalise(account)
     sec = normalise(section) if section else ""
@@ -261,10 +271,8 @@ def classify(account, section=None):
         if sc in ("Revenue", "Staff Costs"):
             return sc
     for cat, kws in CATEGORY_RULES.items():
-        if any(kw in acc for kw in kws):
+        if any(_kw_matches(kw, acc) for kw in kws):
             return cat
-    if re.search(r"\bit\b", acc):
-        return "IT Costs"
     return "Other"
 
 

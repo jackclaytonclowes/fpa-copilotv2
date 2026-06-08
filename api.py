@@ -144,6 +144,74 @@ def demo():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DEMO — Budget vs Actual
+# ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/demo-bva")
+def demo_bva():
+    """Return a fully-analysed full-year Budget vs Actual demo dataset for Meridian Software Ltd."""
+
+    rows = [
+        # (Account,                    Section,             Actual,    Budget)
+        ("Software Licences",          "Turnover",          760_000,   740_000),
+        ("Consulting Services",        "Turnover",          596_000,   640_000),
+        ("Total Turnover",             "Turnover",        1_356_000, 1_380_000),
+        ("Direct Delivery Costs",      "Cost of Sales",     271_300,   262_000),
+        ("Total Cost of Sales",        "Cost of Sales",     271_300,   262_000),
+        ("Gross Profit",               "Profit",          1_084_700, 1_118_000),
+        ("Staff Wages",                "Staff Costs",       436_500,   420_000),
+        ("Employer NI",                "Staff Costs",        48_500,    46_900),
+        ("Pension Contributions",      "Staff Costs",        21_825,    21_000),
+        ("Total Staff Costs",          "Staff Costs",       506_825,   487_900),
+        ("Office Rent",                "Premises",          102_000,   102_000),
+        ("Business Rates",             "Premises",           14_400,    14_400),
+        ("Total Premises Costs",       "Premises",          116_400,   116_400),
+        ("IT Software",                "IT",                 43_000,    40_000),
+        ("IT Hardware",                "IT",                  5_700,     8_000),
+        ("Total IT Costs",             "IT",                 48_700,    48_000),
+        ("Online Marketing",           "Marketing",          68_800,    76_000),
+        ("Paid Advertising",           "Marketing",          34_500,    40_000),
+        ("Total Marketing",            "Marketing",         103_300,   116_000),
+        ("Legal Expenses",             "Professional Fees",  14_050,    18_000),
+        ("Accountancy",                "Professional Fees",  14_400,    14_400),
+        ("Total Professional Fees",    "Professional Fees",  28_450,    32_400),
+        ("Office Supplies",            "Office & Admin",      8_740,     9_200),
+        ("Postage & Couriers",         "Office & Admin",      2_465,     2_500),
+        ("Total Office & Admin",       "Office & Admin",     11_205,    11_700),
+        ("Bank Charges",               "Finance",             2_400,     2_400),
+        ("Loan Interest",              "Finance",            10_200,    10_200),
+        ("Total Finance Costs",        "Finance",            12_600,    12_600),
+        ("Depreciation",               "Depreciation",       26_400,    26_400),
+        ("Total Depreciation",         "Depreciation",       26_400,    26_400),
+        ("Operating Profit",           "Profit",            230_820,   266_600),
+    ]
+
+    df = pd.DataFrame(rows, columns=["Account", "Section", "Actual", "Budget"])
+
+    bva_snapshot = build_bva(df, "Actual", "Budget")
+    kpi_accounts = detect_kpis(df)
+
+    session_id = str(uuid.uuid4())
+    filename   = "Meridian Software Ltd — Demo (BvA)"
+    SESSIONS[session_id] = {
+        "df":            df,
+        "bva_data":      bva_snapshot,
+        "bva_long":      None,
+        "bva_periods":   [],
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "budget_vs_actual",
+        "chat":          [],
+    }
+
+    data = get_bva_data(bva_snapshot, kpi_accounts, filename)
+    data["session_id"]            = session_id
+    data["file_name"]             = filename
+    data["available_bva_periods"] = []
+    data["selected_bva_period"]   = "full_year"
+    return data
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # UPLOAD
 # ─────────────────────────────────────────────────────────────────────────────
 def _friendly_upload_error(raw: str, mode: str) -> str:

@@ -93,6 +93,55 @@ class TestClassify:
         assert analysis.classify("global sum") == "Revenue"
         assert analysis.classify("flu") == "Revenue"
 
+    def test_fee_income_still_revenue(self):
+        assert analysis.classify("Fee Income") == "Revenue"
+
+    def test_direct_costs_override(self):
+        assert analysis.classify("Cost of Sales") == "Direct Costs"
+        assert analysis.classify("Cost of Goods Sold") == "Direct Costs"
+
+
+class TestClassifyWordBoundaryFixes:
+    """Regression tests for substring-matching bugs fixed by _kw_matches()."""
+
+    def test_cleaning_is_premises_not_staff(self):
+        # 'ni' inside 'cleaning' must not match the NI (National Insurance) keyword
+        assert analysis.classify("Cleaning Supplies") == "Premises Costs"
+        assert analysis.classify("Cleaning Services") == "Premises Costs"
+
+    def test_audit_is_professional_fees_not_it(self):
+        # 'it' inside 'audit' must not match the IT Costs keyword
+        assert analysis.classify("Audit Fees") == "Professional Fees"
+        assert analysis.classify("External Audit") == "Professional Fees"
+
+    def test_digital_is_marketing_not_it(self):
+        # 'it' inside 'digital' must not match the IT Costs keyword
+        assert analysis.classify("Digital Marketing") == "Marketing Costs"
+
+    def test_professional_fees_not_revenue(self):
+        # 'fees' as a bare keyword was wrongly matching Revenue
+        assert analysis.classify("Professional Fees") == "Professional Fees"
+        assert analysis.classify("Legal Fees") == "Professional Fees"
+        assert analysis.classify("Consultancy Fees") == "Professional Fees"
+
+    def test_consultancy_costs_not_direct(self):
+        # 'cos' inside 'consultancy costs' was wrongly matching Direct Costs
+        assert analysis.classify("Consultancy Costs") == "Professional Fees"
+
+    def test_employer_ni_still_staff(self):
+        # 'ni' as a whole word must still match Staff Costs
+        assert analysis.classify("Employer NI") == "Staff Costs"
+        assert analysis.classify("NI Contributions") == "Staff Costs"
+
+    def test_it_standalone_still_it(self):
+        # Standalone 'IT' (word boundary) must still match IT Costs
+        assert analysis.classify("IT Department") == "IT Costs"
+        assert analysis.classify("IT Software") == "IT Costs"
+
+    def test_sewage_is_premises_not_staff(self):
+        # 'wage' inside 'sewage' must not match Staff Costs
+        assert analysis.classify("Sewage Treatment") == "Premises Costs"
+
 
 class TestIsSubtotal:
     def test_total_lines(self):

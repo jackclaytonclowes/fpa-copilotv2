@@ -42,7 +42,8 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     setDemoLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/demo");
+      const endpoint = mode === "budget_vs_actual" ? "/api/demo-bva" : "/api/demo";
+      const res = await fetch(endpoint);
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Demo load failed." }));
         throw new Error(err.detail || "Demo load failed.");
@@ -156,7 +157,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
           >
             {demoLoading
               ? <React.Fragment><div className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} /> Loading demo…</React.Fragment>
-              : <React.Fragment><Icon name="play-circle" size={16} />Use Demo Data — Meridian Software Ltd</React.Fragment>
+              : <React.Fragment><Icon name="play-circle" size={16} />{mode === "budget_vs_actual" ? "Use Demo Data — BvA (Meridian Software Ltd)" : "Use Demo Data — Month-on-Month (Meridian Software Ltd)"}</React.Fragment>
             }
           </button>
         )}
