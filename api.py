@@ -212,6 +212,100 @@ def demo_bva():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DEMO — Xero-format (Apex Digital Ltd)
+# ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/demo-xero")
+def demo_xero():
+    """Return a fully-analysed 12-month demo dataset for Apex Digital Ltd (Xero-format account codes)."""
+
+    months = [
+        "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+        "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
+    ]
+
+    # (Account, Section, [Jul..Jun values])
+    rows = [
+        # ── Revenue ──────────────────────────────────────────────────────────
+        ("200 Digital Services Revenue", "Turnover",      [48000,42000,55000,61000,68000,58000,52000,56000,64000,53000,58000,65000]),
+        ("205 Project Revenue",          "Turnover",      [18000,12000,22000,25000,30000,15000,20000,24000,35000,18000,22000,28000]),
+        ("210 Retainer Income",          "Turnover",      [24000,24000,26000,26000,28000,28000,28000,30000,30000,30000,32000,32000]),
+        ("Total Turnover",               "Turnover",      [90000,78000,103000,112000,126000,101000,100000,110000,129000,101000,112000,125000]),
+        # ── Cost of Sales ─────────────────────────────────────────────────────
+        ("300 Subcontractors",           "Cost of Sales", [22500,19500,25750,28000,31500,25250,25000,27500,32250,25250,28000,31250]),
+        ("Total Cost of Sales",          "Cost of Sales", [22500,19500,25750,28000,31500,25250,25000,27500,32250,25250,28000,31250]),
+        # ── Gross Profit ──────────────────────────────────────────────────────
+        ("Gross Profit",                 "Profit",        [67500,58500,77250,84000,94500,75750,75000,82500,96750,75750,84000,93750]),
+        # ── Staff Costs ───────────────────────────────────────────────────────
+        ("400 Salaries & Wages",         "Staff Costs",   [36000,36000,37500,37500,40500,37500,37500,39000,39000,40500,40500,42000]),
+        ("401 Employer NI",              "Staff Costs",   [4100,4100,4300,4300,4700,4300,4300,4500,4500,4700,4700,4900]),
+        ("402 Pension Contributions",    "Staff Costs",   [1800,1800,1875,1875,2025,1875,1875,1950,1950,2025,2025,2100]),
+        ("Total Staff Costs",            "Staff Costs",   [41900,41900,43675,43675,47225,43675,43675,45450,45450,47225,47225,49000]),
+        # ── Premises ─────────────────────────────────────────────────────────
+        ("420 Office Rent",              "Premises",      [8000]*12),
+        ("421 Business Rates",           "Premises",      [1500]*12),
+        ("Total Premises Costs",         "Premises",      [9500]*12),
+        # ── IT ───────────────────────────────────────────────────────────────
+        ("430 Software & Subscriptions", "IT",            [2200,2200,2400,2400,2600,3200,2400,2400,2600,2600,2600,2800]),
+        ("Total IT Costs",               "IT",            [2200,2200,2400,2400,2600,3200,2400,2400,2600,2600,2600,2800]),
+        # ── Marketing ────────────────────────────────────────────────────────
+        ("440 Marketing & Business Development", "Marketing", [2500,1800,3000,3500,4500,2500,2000,3000,4000,2500,3000,4000]),
+        ("Total Marketing",              "Marketing",     [2500,1800,3000,3500,4500,2500,2000,3000,4000,2500,3000,4000]),
+        # ── Professional Fees ────────────────────────────────────────────────
+        ("450 Legal & Professional",     "Professional Fees", [1000,500,800,1200,1500,1800,1000,800,1500,1000,600,900]),
+        ("Total Professional Fees",      "Professional Fees", [1000,500,800,1200,1500,1800,1000,800,1500,1000,600,900]),
+        # ── Finance Costs ────────────────────────────────────────────────────
+        ("460 Bank & Finance Charges",   "Finance",       [300]*12),
+        ("Total Finance Costs",          "Finance",       [300]*12),
+        # ── Depreciation ─────────────────────────────────────────────────────
+        ("470 Depreciation",             "Depreciation",  [1000]*12),
+        ("Total Depreciation",           "Depreciation",  [1000]*12),
+        # ── Operating Profit ─────────────────────────────────────────────────
+        ("Operating Profit",             "Profit",        [9100,1300,16575,22425,27875,13775,15125,20050,32400,11625,19775,26250]),
+    ]
+
+    data_dict: dict = {"Account": [], "Section": []}
+    for m in months:
+        data_dict[m] = []
+
+    for account, section, values in rows:
+        data_dict["Account"].append(account)
+        data_dict["Section"].append(section)
+        for i, m in enumerate(months):
+            data_dict[m].append(float(values[i]))
+
+    df = pd.DataFrame(data_dict)
+
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m)
+    analysis_q   = build_analysis(df_long_q)
+
+    session_id = str(uuid.uuid4())
+    filename   = "Apex Digital Ltd — Demo (Xero)"
+    SESSIONS[session_id] = {
+        "df":            df,
+        "df_long_m":     df_long_m,
+        "df_long_q":     df_long_q,
+        "analysis_m":    analysis_m,
+        "analysis_q":    analysis_q,
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "month_on_month",
+        "chat":          [],
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest    = periods_m[-1]
+
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    data["analysis_type"] = "month_on_month"
+    data["session_id"]    = session_id
+    data["file_name"]     = filename
+    return data
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # UPLOAD
 # ─────────────────────────────────────────────────────────────────────────────
 def _friendly_upload_error(raw: str, mode: str) -> str:
