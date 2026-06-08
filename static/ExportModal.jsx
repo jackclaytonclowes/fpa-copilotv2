@@ -18,7 +18,7 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
         ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
         : (period?.label || "");
       const params = new URLSearchParams({ period: periodParam, fmt });
-      const res = await fetch(`/api/export/${sessionId}?${params}`);
+      const res = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
       if (!res.ok) {
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); detail = j.detail || detail; } catch (_) {}

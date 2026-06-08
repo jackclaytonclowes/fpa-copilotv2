@@ -474,7 +474,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
         ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
         : (period?.label || "");
       const params = new URLSearchParams({ period: periodParam, fmt });
-      const res = await fetch(`/api/export/${sessionId}?${params}`);
+      const res = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
       if (!res.ok) {
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); detail = j.detail || detail; } catch (_) {}
@@ -518,7 +518,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
     setLoading(true);
     try {
       const params = new URLSearchParams({ period, mode });
-      const res = await fetch(`/api/data/${sessionId}?${params}`);
+      const res = await fetch(apiUrl(`/api/data/${sessionId}?${params}`));
       if (res.ok) {
         const newData = await res.json();
         setData(newData);

@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "buildCommand": "node scripts/inject-config.js",
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/static/index.html" }
+  ]
+}

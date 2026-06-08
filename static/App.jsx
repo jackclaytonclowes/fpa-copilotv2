@@ -226,7 +226,7 @@ function App() {
   useEffectApp(() => {
     const saved = loadSessionPointer();
     if (!saved) { setRestoring(false); return; }
-    fetch("/api/data/" + saved.sessionId + "?period=&mode=monthly")
+    fetch(apiUrl("/api/data/" + saved.sessionId + "?period=&mode=monthly"))
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then((data) => {
         data.session_id = saved.sessionId;

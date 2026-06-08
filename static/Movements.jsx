@@ -16,7 +16,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
   // Load available categories once on mount
   useEffectM(() => {
-    fetch("/api/categories")
+    fetch(apiUrl("/api/categories"))
       .then(r => r.json())
       .then(d => setCategories(d.categories || []))
       .catch(() => {});
@@ -39,7 +39,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
     setLoading(true);
     try {
       const params = new URLSearchParams({ period, mode });
-      const res = await fetch(`/api/data/${sessionId}?${params}`);
+      const res = await fetch(apiUrl(`/api/data/${sessionId}?${params}`));
       if (res.ok) {
         const newData = await res.json();
         setData(newData);
@@ -148,7 +148,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const handleReclassify = async (account, category) => {
     setReclassState(prev => ({ ...prev, [account]: { saving: true, category } }));
     try {
-      const res = await fetch(`/api/reclassify/${sessionId}`, {
+      const res = await fetch(apiUrl(`/api/reclassify/${sessionId}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account, category }),

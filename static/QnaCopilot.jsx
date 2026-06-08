@@ -175,7 +175,7 @@ function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisTyp
       }));
 
     try {
-      const res = await fetch("/api/ask/" + sessionId, {
+      const res = await fetch(apiUrl("/api/ask/" + sessionId), {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({

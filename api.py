@@ -17,6 +17,7 @@ load_dotenv(Path(__file__).parent / ".env")
 
 import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -29,6 +30,22 @@ from analysis import (
 )
 
 app = FastAPI(title="MonthEndIQ")
+
+# CORS — allow the Vercel frontend (and localhost for dev) to call the API.
+# Set ALLOWED_ORIGINS on Render to your Vercel URL, e.g.:
+#   https://monthendiq.vercel.app,https://monthendiq-*.vercel.app
+_raw_origins = os.environ.get("ALLOWED_ORIGINS", "")
+_allowed_origins: list[str] = (
+    [o.strip() for o in _raw_origins.split(",") if o.strip()]
+    if _raw_origins else ["*"]
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # In-memory session store
 SESSIONS: dict = {}

@@ -31,7 +31,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
     setLoading(true);
     try {
       const params = new URLSearchParams({ period, mode });
-      const res = await fetch(`/api/data/${sessionId}?${params}`);
+      const res = await fetch(apiUrl(`/api/data/${sessionId}?${params}`));
       if (res.ok) {
         const newData = await res.json();
         setData(newData);

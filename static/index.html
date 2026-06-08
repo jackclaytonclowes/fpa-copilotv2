@@ -13,6 +13,8 @@
 </head>
 <body class="fpa">
   <div id="root"></div>
+  <!-- API base URL — empty in dev (uses relative paths), set by Vercel build for prod -->
+  <script src="/static/api-base.js"></script>
   <!-- Load order: primitives → charts → views → app -->
   <!-- ?v= query string busts the browser cache on every index.html refresh -->
   <script type="text/babel" src="/static/Primitives.jsx?v=20260608b"></script>

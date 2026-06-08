@@ -1,5 +1,9 @@
 /* FP&A Copilot — shared primitives: Icon, Button, Card, Chip, Delta, Logo */
 
+// Prepend the API base URL set by scripts/inject-config.js at Vercel build time.
+// Empty string in local dev so all fetch calls hit the FastAPI server via relative paths.
+window.apiUrl = (path) => (window.__MONTHENDIQ_API_BASE__ || '') + path;
+
 function Icon({ name, size = 18, stroke = 1.75, color, style, className }) {
   const lib = (window.lucide && window.lucide.icons) || {};
   const key = String(name).split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("");

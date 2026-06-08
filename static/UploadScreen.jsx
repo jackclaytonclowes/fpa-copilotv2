@@ -102,7 +102,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch(`/api/upload?mode=${mode}`, { method: "POST", body: fd });
+      const res = await fetch(apiUrl(`/api/upload?mode=${mode}`), { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Upload failed." }));
         throw new Error(err.detail || "Upload failed.");
@@ -121,7 +121,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     setDemoLoading(key);
     setError(null);
     try {
-      const res = await fetch(endpoint);
+      const res = await fetch(apiUrl(endpoint));
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Demo load failed." }));
         throw new Error(err.detail || "Demo load failed.");

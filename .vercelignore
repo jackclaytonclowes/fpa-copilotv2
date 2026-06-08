@@ -1,0 +1,11 @@
+# Backend files — served by Render, not Vercel
+api.py
+analysis.py
+requirements.txt
+tests/
+scripts/
+*.xlsx
+*.txt
+__pycache__/
+.env
+venv/
