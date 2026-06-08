@@ -197,7 +197,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -322,6 +322,14 @@ function App() {
         onDataChange={onDataChange}
         analysisType={analysisType}
         onNavigateCopilot={navigateToCopilot}
+      />
+    );
+  } else if (view === "data") {
+    body = (
+      <DataSources
+        sessionData={sessionData}
+        availablePeriods={availablePeriods}
+        onLoad={onLoad}
       />
     );
   } else {

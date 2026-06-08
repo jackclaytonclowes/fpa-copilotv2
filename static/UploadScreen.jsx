@@ -420,4 +420,4 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     </div>
   );
 }
-Object.assign(window, { UploadScreen });
+Object.assign(window, { UploadScreen, MethodCard, DemoCard });
