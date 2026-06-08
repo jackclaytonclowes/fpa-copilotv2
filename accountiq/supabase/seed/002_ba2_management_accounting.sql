@@ -62,7 +62,7 @@ values
   'A factory manager salary is best classified as:',
   '["A direct cost","A variable cost","An indirect production overhead","A period cost"]',
   '"An indirect production overhead"',
-  'A factory manager salary cannot be traced to individual units of output so it is an indirect (overhead) cost. Because it relates to the production function, it is a production overhead and therefore a product cost under absorption costing.',4);
+  'A factory manager salary cannot be traced to individual units of output so it is an indirect (overhead) cost. Because it relates to the production function, it is a production overhead and therefore a product cost under absorption costing.',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 1.2: Cost Behaviour and High-Low Method
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -99,7 +99,7 @@ values
   'A telephone bill with a monthly line rental plus a charge per call is an example of:',
   '["A fixed cost","A variable cost","A stepped cost","A semi-variable cost"]',
   '"A semi-variable cost"',
-  'A semi-variable (mixed) cost has both a fixed element (line rental — incurred regardless of calls made) and a variable element (per-call charge that increases with usage).',4);
+  'A semi-variable (mixed) cost has both a fixed element (line rental — incurred regardless of calls made) and a variable element (per-call charge that increases with usage).',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 1.3: Marginal vs Absorption Costing
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -136,7 +136,7 @@ values
   'The Overhead Absorption Rate (OAR) is calculated as:',
   '["Actual overheads divided by actual activity","Budgeted overheads divided by budgeted activity","Actual overheads divided by budgeted activity","Budgeted overheads divided by actual activity"]',
   '"Budgeted overheads divided by budgeted activity"',
-  'OAR = Budgeted fixed overheads ÷ Budgeted activity level. It is set in advance using budgeted (not actual) figures. This means over- or under-absorption arises when actuals differ from budget.',4);
+  'OAR = Budgeted fixed overheads ÷ Budgeted activity level. It is set in advance using budgeted (not actual) figures. This means over- or under-absorption arises when actuals differ from budget.',4) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 2: Breakeven and CVP Analysis
@@ -186,7 +186,7 @@ values
   'Fixed costs are £50,000. Contribution per unit is £10. What level of sales is needed to achieve a target profit of £20,000?',
   '["2,000 units","5,000 units","7,000 units","3,000 units"]',
   '"7,000 units"',
-  'Required sales = (Fixed costs + Target profit) ÷ Contribution per unit = (£50,000 + £20,000) ÷ £10 = £70,000 ÷ £10 = 7,000 units.',4);
+  'Required sales = (Fixed costs + Target profit) ÷ Contribution per unit = (£50,000 + £20,000) ÷ £10 = £70,000 ÷ £10 = 7,000 units.',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 2.2: Limiting Factor Analysis
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -223,7 +223,7 @@ values
   'A limiting factor analysis is needed when:',
   '["A company has unlimited resources","One resource cannot meet total demand for all products","Fixed costs exceed contribution","Sales demand exceeds budgeted output"]',
   '"One resource cannot meet total demand for all products"',
-  'Limiting factor analysis applies when the supply of a resource (materials, labour hours, machine capacity) is insufficient to meet the combined demand for all products. The business must decide the optimal production mix to maximise contribution.',4);
+  'Limiting factor analysis applies when the supply of a resource (materials, labour hours, machine capacity) is insufficient to meet the combined demand for all products. The business must decide the optimal production mix to maximise contribution.',4) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 3: Budgeting and Variance Analysis
@@ -273,7 +273,7 @@ values
   'The PRIMARY purpose of comparing actual results against the budget is to:',
   '["Motivate employees","Identify and investigate variances for control purposes","Coordinate departmental activities","Communicate management plans"]',
   '"Identify and investigate variances for control purposes"',
-  'While budgets serve all four purposes (planning, control, coordination, motivation), the primary use of the budget vs actual comparison is control — highlighting where performance deviates from plan so corrective action can be taken.',4);
+  'While budgets serve all four purposes (planning, control, coordination, motivation), the primary use of the budget vs actual comparison is control — highlighting where performance deviates from plan so corrective action can be taken.',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 3.2: Flexible Budgets and Variance Analysis
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -310,7 +310,7 @@ values
   'Which variance arises purely because the volume of sales was different from budget?',
   '["Sales price variance","Expenditure variance","Sales volume variance","Labour efficiency variance"]',
   '"Sales volume variance"',
-  'The sales volume variance measures the profit impact of selling a different volume from budget. It is calculated as (Actual units − Budgeted units) × Standard contribution (marginal costing) or standard profit (absorption costing).',4);
+  'The sales volume variance measures the profit impact of selling a different volume from budget. It is calculated as (Actual units − Budgeted units) × Standard contribution (marginal costing) or standard profit (absorption costing).',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 3.3: Standard Costing and Material/Labour Variances
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -347,7 +347,7 @@ values
   'An ideal standard is rarely used in practice because:',
   '["It is too difficult to calculate","It assumes perfect efficiency and is unlikely to be achieved, which can demotivate staff","It only applies to manufacturing businesses","It ignores fixed overhead costs"]',
   '"It assumes perfect efficiency and is unlikely to be achieved, which can demotivate staff"',
-  'Ideal standards assume no waste, no machine breakdowns, and no idle time — perfection. In practice, achieving this is nearly impossible, so variances are always adverse. This can demotivate managers and make variances uninformative. Attainable standards are generally preferred.',4);
+  'Ideal standards assume no waste, no machine breakdowns, and no idle time — perfection. In practice, achieving this is nearly impossible, so variances are always adverse. This can demotivate managers and make variances uninformative. Attainable standards are generally preferred.',4) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 4: Investment Appraisal
@@ -397,7 +397,7 @@ values
   'ARR is calculated as:',
   '["Initial investment divided by average annual profit","Average annual profit divided by average investment","Total profit divided by total investment","Annual cash flow divided by initial investment"]',
   '"Average annual profit divided by average investment"',
-  'ARR = (Average annual accounting profit ÷ Average investment) × 100%. Average investment = (Initial cost + Residual value) ÷ 2. A project is accepted if its ARR exceeds the target rate.',4);
+  'ARR = (Average annual accounting profit ÷ Average investment) × 100%. Average investment = (Initial cost + Residual value) ÷ 2. A project is accepted if its ARR exceeds the target rate.',4) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 4.2: NPV and IRR
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -435,4 +435,4 @@ values
   'A project has NPV of +£8,000 at 10% and −£4,000 at 15%. Using interpolation, the IRR is approximately:',
   '["11.7%","13.3%","12.5%","14.2%"]',
   '"13.3%"',
-  'IRR = L + [NPV(L) ÷ (NPV(L) − NPV(H))] × (H − L) = 10 + [8,000 ÷ (8,000 − (−4,000))] × (15 − 10) = 10 + [8,000 ÷ 12,000] × 5 = 10 + 0.667 × 5 = 10 + 3.33 = 13.3%.',4);
+  'IRR = L + [NPV(L) ÷ (NPV(L) − NPV(H))] × (H − L) = 10 + [8,000 ÷ (8,000 − (−4,000))] × (15 − 10) = 10 + [8,000 ÷ 12,000] × 5 = 10 + 0.667 × 5 = 10 + 3.33 = 13.3%.',4) ON CONFLICT (id) DO NOTHING;
