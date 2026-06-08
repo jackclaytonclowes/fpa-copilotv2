@@ -4,21 +4,22 @@
 -- ============================================================
 -- COURSE
 -- ============================================================
-INSERT INTO courses (id, title, slug, description, color, icon, order_index)
+INSERT INTO public.courses (id, slug, title, description, cima_paper, color_hex, order_index, is_published)
 VALUES (
   'ba400000-0000-0000-0000-000000000000',
-  'BA4 – Fundamentals of Ethics, Corporate Governance and Business Law',
   'ba4-ethics-governance-law',
+  'BA4 – Fundamentals of Ethics, Corporate Governance and Business Law',
   'Understand the ethical responsibilities of management accountants, corporate governance frameworks, internal controls, and the key principles of business law.',
+  'BA4',
   '#D97706',
-  '⚖️',
-  4
+  4,
+  true
 ) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 1: Ethics and Professionalism
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba400000-0001-0000-0000-000000000000',
   'ba400000-0000-0000-0000-000000000000',
@@ -28,7 +29,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 1.1: CIMA Fundamental Ethical Principles
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0001-0001-0000-000000000000',
   'ba400000-0001-0000-0000-000000000000',
@@ -94,7 +95,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0001-0001-0000-000000000001',
@@ -138,7 +139,7 @@ VALUES
 );
 
 -- Lesson 1.2: Ethical Conflicts and Whistleblowing
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0001-0002-0000-000000000000',
   'ba400000-0001-0000-0000-000000000000',
@@ -195,7 +196,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0001-0002-0000-000000000001',
@@ -241,7 +242,7 @@ VALUES
 -- ============================================================
 -- MODULE 2: Corporate Governance and Risk
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba400000-0002-0000-0000-000000000000',
   'ba400000-0000-0000-0000-000000000000',
@@ -251,7 +252,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 2.1: Corporate Governance Frameworks
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0002-0001-0000-000000000000',
   'ba400000-0002-0000-0000-000000000000',
@@ -318,7 +319,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0002-0001-0000-000000000001',
@@ -362,7 +363,7 @@ VALUES
 );
 
 -- Lesson 2.2: Internal Controls and Risk Management
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0002-0002-0000-000000000000',
   'ba400000-0002-0000-0000-000000000000',
@@ -426,7 +427,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0002-0002-0000-000000000001',
@@ -472,7 +473,7 @@ VALUES
 -- ============================================================
 -- MODULE 3: Business Law
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba400000-0003-0000-0000-000000000000',
   'ba400000-0000-0000-0000-000000000000',
@@ -482,7 +483,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 3.1: Contract Law
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0003-0001-0000-000000000000',
   'ba400000-0003-0000-0000-000000000000',
@@ -548,7 +549,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0003-0001-0000-000000000001',
@@ -592,7 +593,7 @@ VALUES
 );
 
 -- Lesson 3.2: Company Law and Employment Law
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba400000-0003-0002-0000-000000000000',
   'ba400000-0003-0000-0000-000000000000',
@@ -660,7 +661,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba400000-0003-0002-0000-000000000001',
@@ -706,31 +707,31 @@ VALUES
 -- ============================================================
 -- ACHIEVEMENTS for BA4
 -- ============================================================
-INSERT INTO achievements (id, title, description, xp_value, icon, condition_type, condition_value)
+INSERT INTO public.achievements (id, slug, title, description, icon, trigger_type, trigger_value)
 VALUES
 (
   'ba400000-aaaa-0001-0000-000000000000',
+  'ba4-ethics-champion',
   'Ethics Champion',
   'Complete your first BA4 lesson',
-  25,
   '🎓',
   'lesson_complete',
   '{"course_slug": "ba4-ethics-governance-law", "min_lessons": 1}'
 ),
 (
   'ba400000-aaaa-0002-0000-000000000000',
+  'ba4-governance-expert',
   'Governance Expert',
   'Complete the Corporate Governance and Risk module',
-  75,
   '🏛️',
   'module_complete',
   '{"module_id": "ba400000-0002-0000-0000-000000000000"}'
 ),
 (
   'ba400000-aaaa-0003-0000-000000000000',
+  'ba4-qualified-professional',
   'Qualified Professional',
   'Complete all BA4 modules',
-  150,
   '⚖️',
   'course_complete',
   '{"course_slug": "ba4-ethics-governance-law"}'

@@ -4,21 +4,22 @@
 -- ============================================================
 -- COURSE
 -- ============================================================
-INSERT INTO courses (id, title, slug, description, color, icon, order_index)
+INSERT INTO public.courses (id, slug, title, description, cima_paper, color_hex, order_index, is_published)
 VALUES (
   'ba100000-0000-0000-0000-000000000000',
-  'BA1 – Fundamentals of Business Economics',
   'ba1-business-economics',
+  'BA1 – Fundamentals of Business Economics',
   'Understand the economic environment in which businesses operate, including microeconomics, macroeconomics, and international economics.',
+  'BA1',
   '#1D4ED8',
-  '📈',
-  3
+  3,
+  true
 ) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 1: Microeconomics
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba100000-0001-0000-0000-000000000000',
   'ba100000-0000-0000-0000-000000000000',
@@ -28,7 +29,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 1.1: Supply, Demand and Market Equilibrium
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0001-0001-0000-000000000000',
   'ba100000-0001-0000-0000-000000000000',
@@ -99,7 +100,7 @@ $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Questions for Lesson 1.1
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0001-0001-0000-000000000001',
@@ -143,7 +144,7 @@ VALUES
 );
 
 -- Lesson 1.2: Price Elasticity of Demand and Supply
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0001-0002-0000-000000000000',
   'ba100000-0001-0000-0000-000000000000',
@@ -218,7 +219,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0001-0002-0000-000000000001',
@@ -262,7 +263,7 @@ VALUES
 );
 
 -- Lesson 1.3: Market Structures
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0001-0003-0000-000000000000',
   'ba100000-0001-0000-0000-000000000000',
@@ -327,7 +328,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0001-0003-0000-000000000001',
@@ -373,7 +374,7 @@ VALUES
 -- ============================================================
 -- MODULE 2: Macroeconomics
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba100000-0002-0000-0000-000000000000',
   'ba100000-0000-0000-0000-000000000000',
@@ -383,7 +384,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 2.1: GDP, Business Cycles and Economic Growth
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0002-0001-0000-000000000000',
   'ba100000-0002-0000-0000-000000000000',
@@ -437,7 +438,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0002-0001-0000-000000000001',
@@ -481,7 +482,7 @@ VALUES
 );
 
 -- Lesson 2.2: Inflation and Unemployment
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0002-0002-0000-000000000000',
   'ba100000-0002-0000-0000-000000000000',
@@ -546,7 +547,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0002-0002-0000-000000000001',
@@ -590,7 +591,7 @@ VALUES
 );
 
 -- Lesson 2.3: Fiscal and Monetary Policy
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0002-0003-0000-000000000000',
   'ba100000-0002-0000-0000-000000000000',
@@ -659,7 +660,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0002-0003-0000-000000000001',
@@ -705,7 +706,7 @@ VALUES
 -- ============================================================
 -- MODULE 3: International Economics
 -- ============================================================
-INSERT INTO modules (id, course_id, title, description, order_index)
+INSERT INTO public.modules (id, course_id, title, description, order_index)
 VALUES (
   'ba100000-0003-0000-0000-000000000000',
   'ba100000-0000-0000-0000-000000000000',
@@ -715,7 +716,7 @@ VALUES (
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 3.1: Exchange Rates and International Trade
-INSERT INTO lessons (id, module_id, title, order_index, xp_reward, content)
+INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
 VALUES (
   'ba100000-0003-0001-0000-000000000000',
   'ba100000-0003-0000-0000-000000000000',
@@ -779,7 +780,7 @@ VALUES (
 $CONTENT$
 ) ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO questions (id, lesson_id, type, question, options, correct_answer, explanation, order_index)
+insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 VALUES
 (
   'ba100000-0003-0001-0000-000000000001',
@@ -825,31 +826,31 @@ VALUES
 -- ============================================================
 -- ACHIEVEMENTS for BA1
 -- ============================================================
-INSERT INTO achievements (id, title, description, xp_value, icon, condition_type, condition_value)
+INSERT INTO public.achievements (id, slug, title, description, icon, trigger_type, trigger_value)
 VALUES
 (
   'ba100000-aaaa-0001-0000-000000000000',
+  'ba1-economist',
   'Economist',
   'Complete your first BA1 lesson',
-  25,
   '📈',
   'lesson_complete',
   '{"course_slug": "ba1-business-economics", "min_lessons": 1}'
 ),
 (
   'ba100000-aaaa-0002-0000-000000000000',
+  'ba1-market-analyst',
   'Market Analyst',
   'Complete the Microeconomics module',
-  75,
   '⚖️',
   'module_complete',
   '{"module_id": "ba100000-0001-0000-0000-000000000000"}'
 ),
 (
   'ba100000-aaaa-0003-0000-000000000000',
+  'ba1-policy-advisor',
   'Policy Advisor',
   'Complete all BA1 modules',
-  150,
   '🏦',
   'course_complete',
   '{"course_slug": "ba1-business-economics"}'
