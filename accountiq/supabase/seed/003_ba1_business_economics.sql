@@ -141,7 +141,7 @@ VALUES
   '"A technological improvement reducing production costs"',
   'Lower production costs increase profitability, encouraging producers to supply more at every price — shifting the supply curve rightward (increase in supply).',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 1.2: Price Elasticity of Demand and Supply
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -260,7 +260,7 @@ VALUES
   '"Perishable or time-specific output"',
   'Perishable goods (e.g. fresh flowers, electricity) cannot be stored and must be sold regardless of price — making supply inelastic. Spare capacity and short lead times increase elasticity.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 1.3: Market Structures
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -369,7 +369,7 @@ VALUES
   '"Oligopoly"',
   'Oligopoly features a small number of dominant firms (e.g. UK supermarkets: Tesco, Sainsbury''s, Asda, Morrisons). Interdependence means each firm''s actions affect rivals, leading to strategic behaviour.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 2: Macroeconomics
@@ -479,7 +479,7 @@ VALUES
   '"Investment spending by firms"',
   'Injections add money into the circular flow: Investment (I), Government spending (G), and Exports (X). Withdrawals remove money: Savings (S), Taxation (T), and Imports (M). Remember: IGX = injections; STM = withdrawals.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 2.2: Inflation and Unemployment
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -588,7 +588,7 @@ VALUES
   '"In the long run, inflation expectations adjust, eliminating the trade-off"',
   'In the short run, unexpected inflation can reduce unemployment. But workers and firms adjust their expectations. In the long run, the economy returns to the natural rate regardless of the inflation rate — making the long-run Phillips Curve vertical.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 2.3: Fiscal and Monetary Policy
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -701,7 +701,7 @@ VALUES
   '"Increase the productive capacity and long-run potential of the economy"',
   'Supply-side policies (e.g. education, deregulation, privatisation) shift the aggregate supply curve outward, increasing potential GDP. This enables non-inflationary growth, unlike demand-side policies which stimulate spending.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 3: International Economics
@@ -821,7 +821,7 @@ VALUES
   '"A protectionist measure to reduce import competition"',
   'A tariff is a tax on imports. It raises the price of imported goods, making domestic producers more competitive. Protectionist measures restrict free trade and are often criticised for reducing global economic efficiency.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- ACHIEVEMENTS for BA1

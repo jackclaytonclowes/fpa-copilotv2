@@ -136,7 +136,7 @@ VALUES
   '"Self-review threat"',
   'Self-review threat occurs when an accountant evaluates or audits their own previous work. Objectivity is compromised because they are unlikely to identify errors or issues in work they produced themselves.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 1.2: Ethical Conflicts and Whistleblowing
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -237,7 +237,7 @@ VALUES
   '"Refuse and document the request; discuss the concern with the manager or seek guidance"',
   'The accountant should refuse to act unethically, document the instruction in writing, and attempt to resolve the matter internally first. Immediately going external (auditor, regulator) skips the internal escalation steps. Compliance passes no moral or legal protection.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 2: Corporate Governance and Risk
@@ -360,7 +360,7 @@ VALUES
   '"To oversee financial reporting, internal controls, and auditor relationships"',
   'The audit committee''s key roles are: overseeing the integrity of financial statements, monitoring internal control and risk management systems, managing the relationship with external auditors (appointment, fees, independence), and overseeing the internal audit function.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 2.2: Internal Controls and Risk Management
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -468,7 +468,7 @@ VALUES
   '"Detective control"',
   'Bank reconciliations detect errors and discrepancies after they have occurred (transactions have already been processed). Preventive controls stop errors from occurring in the first place. Reconciliations are a key detective control.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 3: Business Law
@@ -590,7 +590,7 @@ VALUES
   '"Specific performance — court orders the buyer to complete the purchase"',
   'Specific performance is available where damages would be an inadequate remedy — typically for unique goods (land, specific antiques, art). A court order compels the buyer to pay and complete the purchase. Damages cannot easily replicate the value of something unique.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- Lesson 3.2: Company Law and Employment Law
 INSERT INTO public.lessons (id, module_id, title, order_index, xp_reward, content)
@@ -702,7 +702,7 @@ VALUES
   '"Failure to prevent bribery by an associated person"',
   'The Bribery Act 2010 s.7 creates a strict liability corporate offence: a company is guilty if a person associated with it (employee, agent, subsidiary) pays a bribe on its behalf, unless the company can show it had adequate anti-bribery procedures in place.',
   4
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- ACHIEVEMENTS for BA4

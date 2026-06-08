@@ -12,7 +12,7 @@ values (
   '#7C3AED',
   2,
   true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
 -- MODULE 1: Cost Classification and Behaviour
@@ -25,7 +25,7 @@ values (
   'Cost Classification and Behaviour',
   'Understand how costs are classified and how they behave as activity levels change.',
   1, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 1.1: Cost Classification
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -40,7 +40,7 @@ values (
     {"type":"table","heading":"Cost Classification Summary","headers":["Basis","Categories","Example"],"rows":[["Traceability","Direct / Indirect","Direct: timber in a chair. Indirect: factory insurance."],["Function","Production / Non-production","Production: assembly wages. Non-production: sales team salary."],["Behaviour","Fixed / Variable / Semi-variable","Fixed: rent. Variable: raw materials. Semi-variable: electricity."],["Timing","Product / Period","Product: manufacturing labour. Period: advertising."]]}
   ]$$,
   1, 10, 5, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -77,7 +77,7 @@ values (
     {"type":"table","heading":"Cost Behaviour Summary","headers":["Type","Total cost as output rises","Cost per unit as output rises","Example"],"rows":[["Fixed","Stays constant","Falls","Factory rent"],["Variable","Rises proportionally","Stays constant","Raw materials"],["Semi-variable","Rises (but not proportionally)","Falls","Electricity bill"]]}
   ]$$,
   2, 10, 6, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -114,7 +114,7 @@ values (
     {"type":"worked_example","heading":"Reconciling Marginal and Absorption Profits","steps":["When inventory levels change between periods, marginal and absorption costing give different profit figures.","Key rule: Absorption profit is HIGHER than marginal profit when inventory INCREASES (fixed overheads are carried forward in closing inventory). Absorption profit is LOWER when inventory DECREASES.","Reconciliation formula: Absorption profit = Marginal profit + (Closing inventory − Opening inventory) × Fixed overhead per unit","Example: Fixed overhead per unit = £3. Inventory increased by 200 units. Absorption profit = Marginal profit + (200 × £3) = Marginal profit + £600.","When inventory levels are unchanged, both methods give identical profit figures."]}
   ]$$,
   3, 15, 7, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -149,7 +149,7 @@ values (
   'Breakeven and CVP Analysis',
   'Use contribution, breakeven analysis, and limiting factor techniques to support business decisions.',
   2, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 2.1: Contribution and Breakeven
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -164,7 +164,7 @@ values (
     {"type":"table","heading":"CVP Formula Sheet","headers":["Measure","Formula"],"rows":[["Contribution per unit","Selling price − Variable cost per unit"],["C/S ratio","Contribution per unit ÷ Selling price"],["Breakeven (units)","Fixed costs ÷ Contribution per unit"],["Breakeven (revenue)","Fixed costs ÷ C/S ratio"],["Margin of safety (units)","Budgeted sales − Breakeven sales"],["Margin of safety (%)","Margin of safety ÷ Budgeted sales × 100"],["Target profit (units)","(Fixed costs + Target profit) ÷ Contribution per unit"]]}
   ]$$,
   1, 15, 7, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -201,7 +201,7 @@ values (
     {"type":"explanation","heading":"Shadow Prices","body":"A shadow price (also called an opportunity cost or dual price) is the increase in contribution that would result from obtaining one additional unit of the limiting factor. It represents the maximum premium a business should pay above the normal price to obtain extra units of the scarce resource.","key_terms":[{"term":"Shadow price","definition":"The additional contribution earned from obtaining one extra unit of the limiting factor. Also the maximum extra amount worth paying per unit of the scarce resource above its normal cost."}]}
   ]$$,
   2, 15, 7, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -236,7 +236,7 @@ values (
   'Budgeting and Variance Analysis',
   'Prepare flexible budgets, calculate variances, and understand standard costing.',
   3, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 3.1: Budgeting Purposes and Types
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -251,7 +251,7 @@ values (
     {"type":"table","heading":"Budget Types Compared","headers":["Type","Key Feature","Main Advantage","Main Disadvantage"],"rows":[["Incremental","Adjusts prior year budget","Quick and simple","Perpetuates inefficiencies"],["Zero-based","Justify all spending from scratch","Eliminates waste","Time-consuming and expensive"],["Rolling","Add new period as old one ends","Always up to date","Requires frequent revision"],["Participative","Set by the budget holder","Increases motivation","Risk of budget slack"]]}
   ]$$,
   1, 10, 5, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -288,7 +288,7 @@ values (
     {"type":"table","heading":"Variance Conventions","headers":["Variance","Favourable (F)","Adverse (A)"],"rows":[["Sales price","Actual price > budgeted price","Actual price < budgeted price"],["Sales volume","Actual volume > budgeted volume","Actual volume < budgeted volume"],["Cost","Actual cost < budgeted cost","Actual cost > budgeted cost"],["Profit","Actual profit > budgeted profit","Actual profit < budgeted profit"]]}
   ]$$,
   2, 15, 7, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -325,7 +325,7 @@ values (
     {"type":"table","heading":"Key Variance Formulas","headers":["Variance","Formula","F or A?"],"rows":[["Material price","(Std price − Actual price) × Actual qty","F if Std > Actual price"],["Material usage","(Std qty − Actual qty) × Std price","F if Std > Actual qty"],["Labour rate","(Std rate − Actual rate) × Actual hours","F if Std > Actual rate"],["Labour efficiency","(Std hours − Actual hours) × Std rate","F if Std < Actual hours"],["Sales price","(Actual price − Std price) × Actual units","F if Actual > Std price"],["Sales volume (MC)","(Actual units − Budgeted units) × Std contribution","F if Actual > Budget"]]}
   ]$$,
   3, 15, 8, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -360,7 +360,7 @@ values (
   'Investment Appraisal',
   'Evaluate long-term investment decisions using payback, ARR, NPV, and IRR.',
   4, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 -- LESSON 4.1: Payback and ARR
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
@@ -375,7 +375,7 @@ values (
     {"type":"explanation","heading":"Accounting Rate of Return (ARR)","body":"ARR expresses the average annual accounting profit as a percentage of the investment. Unlike payback, it uses profit (not cash flow) and considers the whole project life.","key_terms":[{"term":"ARR formula","definition":"ARR = (Average annual accounting profit ÷ Average investment) × 100%. Average investment = (Initial cost + Scrap value) ÷ 2."},{"term":"Limitations of ARR","definition":"Uses accounting profit, not cash flows. Ignores the time value of money. ARR is not consistent with NPV maximisation."}]}
   ]$$,
   1, 10, 6, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
@@ -413,7 +413,7 @@ values (
     {"type":"table","heading":"Investment Appraisal Method Comparison","headers":["Method","Uses cash flows?","Time value of money?","Decision rule","Main limitation"],"rows":[["Payback","Yes","No","Shorter is better","Ignores post-payback flows"],["ARR","No (profit)","No","ARR > target rate","Uses subjective accounting profit"],["NPV","Yes","Yes","NPV > 0, accept","Requires accurate cost of capital"],["IRR","Yes","Yes","IRR > cost of capital","Assumes reinvestment at IRR"]]}
   ]$$,
   2, 15, 8, true
-);
+) ON CONFLICT (id) DO NOTHING;
 
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
