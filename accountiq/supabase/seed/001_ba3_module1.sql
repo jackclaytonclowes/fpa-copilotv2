@@ -18,7 +18,7 @@ values (
 -- Module
 insert into public.modules (id, course_id, title, description, order_index, is_published)
 values (
-  'm1000000-0000-0000-0000-000000000001',
+  'b1000000-0000-0000-0000-000000000001',
   'c1000000-0000-0000-0000-000000000001',
   'Accounting Principles',
   'The conceptual framework underlying financial accounting.',
@@ -32,8 +32,8 @@ values (
 
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
 values (
-  'l1000000-0000-0000-0000-000000000001',
-  'm1000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000001',
+  'b1000000-0000-0000-0000-000000000001',
   'The Fundamental Principles',
   '[
     {
@@ -99,8 +99,8 @@ values (
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
 (
-  'q1000000-0000-0000-0000-000000000001',
-  'l1000000-0000-0000-0000-000000000001',
+  'e1000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000001',
   'mcq',
   'Under the accruals concept, when is revenue recognised?',
   '["When cash is received from the customer", "When the goods or services are delivered", "When the invoice is raised regardless of delivery", "At the year end only"]',
@@ -109,8 +109,8 @@ values
   1
 ),
 (
-  'q1000000-0000-0000-0000-000000000002',
-  'l1000000-0000-0000-0000-000000000001',
+  'e1000000-0000-0000-0000-000000000002',
+  'd1000000-0000-0000-0000-000000000001',
   'mcq',
   'A business is experiencing severe financial difficulties and may have to cease trading within six months. Which accounting concept is most directly threatened?',
   '["Prudence", "Accruals", "Going concern", "Consistency"]',
@@ -119,8 +119,8 @@ values
   2
 ),
 (
-  'q1000000-0000-0000-0000-000000000003',
-  'l1000000-0000-0000-0000-000000000001',
+  'e1000000-0000-0000-0000-000000000003',
+  'd1000000-0000-0000-0000-000000000001',
   'true_false',
   'Under the prudence concept, a business should record a potential gain as soon as it is possible (not certain) that it will arise.',
   null,
@@ -129,8 +129,8 @@ values
   3
 ),
 (
-  'q1000000-0000-0000-0000-000000000004',
-  'l1000000-0000-0000-0000-000000000001',
+  'e1000000-0000-0000-0000-000000000004',
+  'd1000000-0000-0000-0000-000000000001',
   'mcq',
   'Dragonfly Ltd changed its depreciation method from straight-line to reducing balance without disclosure. Which accounting principle has been violated?',
   '["Going concern", "Consistency", "Accruals", "Prudence"]',
@@ -145,8 +145,8 @@ values
 
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
 values (
-  'l1000000-0000-0000-0000-000000000002',
-  'm1000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000002',
+  'b1000000-0000-0000-0000-000000000001',
   'The Accruals Concept in Practice',
   '[
     {
@@ -210,8 +210,8 @@ values (
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
 (
-  'q2000000-0000-0000-0000-000000000001',
-  'l1000000-0000-0000-0000-000000000002',
+  'e2000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000002',
   'mcq',
   'Birch Ltd''s year end is 31 March 2024. It pays £4,800 rent on 1 January 2024 covering 12 months. What amount appears as a prepayment at 31 March 2024?',
   '["£1,200", "£3,600", "£4,800", "£400"]',
@@ -220,8 +220,8 @@ values
   1
 ),
 (
-  'q2000000-0000-0000-0000-000000000002',
-  'l1000000-0000-0000-0000-000000000002',
+  'e2000000-0000-0000-0000-000000000002',
+  'd1000000-0000-0000-0000-000000000002',
   'mcq',
   'Which account is CREDITED when recording an accrued expense at the year end?',
   '["The bank account", "The expense account in the income statement", "Accruals (current liability) in the balance sheet", "Share capital"]',
@@ -230,8 +230,8 @@ values
   2
 ),
 (
-  'q2000000-0000-0000-0000-000000000003',
-  'l1000000-0000-0000-0000-000000000002',
+  'e2000000-0000-0000-0000-000000000003',
+  'd1000000-0000-0000-0000-000000000002',
   'mcq',
   'Maple Ltd estimates electricity used but not yet billed at £800 at its 31 December year end. How does this appear in the financial statements?',
   '["£800 expense only in next year''s income statement", "£800 added to this year''s expenses; £800 current liability in the balance sheet", "£800 deducted from this year''s expenses; £800 current asset", "No entry needed until the bill arrives"]',
@@ -240,8 +240,8 @@ values
   3
 ),
 (
-  'q2000000-0000-0000-0000-000000000004',
-  'l1000000-0000-0000-0000-000000000002',
+  'e2000000-0000-0000-0000-000000000004',
+  'd1000000-0000-0000-0000-000000000002',
   'true_false',
   'A prepayment is classified as a current asset on the balance sheet.',
   null,
@@ -256,8 +256,8 @@ values
 
 insert into public.lessons (id, module_id, title, content, order_index, xp_reward, estimated_minutes, is_published)
 values (
-  'l1000000-0000-0000-0000-000000000003',
-  'm1000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000003',
+  'b1000000-0000-0000-0000-000000000001',
   'Materiality and Prudence',
   '[
     {
@@ -329,8 +329,8 @@ values (
 insert into public.questions (id, lesson_id, question_type, prompt, options, correct_answer, explanation, order_index)
 values
 (
-  'q3000000-0000-0000-0000-000000000001',
-  'l1000000-0000-0000-0000-000000000003',
+  'e3000000-0000-0000-0000-000000000001',
+  'd1000000-0000-0000-0000-000000000003',
   'mcq',
   'Ash Ltd holds inventory that cost £10 per unit. The selling price is now £8 and selling costs are £0.50 per unit. At what value should the inventory be shown in the balance sheet?',
   '["£10.00 — at historical cost", "£8.00 — at current selling price", "£7.50 — at net realisable value", "£8.50 — at selling price less half of selling costs"]',
@@ -339,8 +339,8 @@ values
   1
 ),
 (
-  'q3000000-0000-0000-0000-000000000002',
-  'l1000000-0000-0000-0000-000000000003',
+  'e3000000-0000-0000-0000-000000000002',
+  'd1000000-0000-0000-0000-000000000003',
   'mcq',
   'Which of the following best describes a material item in financial accounting?',
   '["Any item over £1,000 in value", "Any item that appears on the balance sheet", "An item whose omission or misstatement could influence users'' economic decisions", "An item that relates to non-current assets only"]',
@@ -349,8 +349,8 @@ values
   2
 ),
 (
-  'q3000000-0000-0000-0000-000000000003',
-  'l1000000-0000-0000-0000-000000000003',
+  'e3000000-0000-0000-0000-000000000003',
+  'd1000000-0000-0000-0000-000000000003',
   'true_false',
   'Under modern IFRS, deliberately understating profits to create hidden reserves is consistent with the prudence concept.',
   null,
@@ -359,8 +359,8 @@ values
   3
 ),
 (
-  'q3000000-0000-0000-0000-000000000004',
-  'l1000000-0000-0000-0000-000000000003',
+  'e3000000-0000-0000-0000-000000000004',
+  'd1000000-0000-0000-0000-000000000003',
   'mcq',
   'Oak Ltd has annual revenue of £2 million. A legal claim for £3,000 has been brought against the company. The legal team believes it is probable the company will lose. What treatment is MOST appropriate?',
   '["Disclose in the notes only — the amount is immaterial", "Create a provision of £3,000 in the financial statements", "Ignore — legal claims are never recognised until settled", "Reduce revenue by £3,000"]',
