@@ -289,7 +289,7 @@ function App() {
   if (restoring) {
     body = null;
   } else if (!hasData) {
-    body = <UploadScreen onLoad={onLoad} />;
+    body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
     body = <QnaCopilot
         sessionId={sessionId}

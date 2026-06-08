@@ -7,10 +7,6 @@ import zipfile
 from io import BytesIO
 
 import pandas as pd
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
 
 # ─────────────────────────────────────────────
 # CLASSIFICATION CONFIG
@@ -208,7 +204,7 @@ def load_file(uploaded_bytes: bytes, filename: str) -> pd.DataFrame:
     df = df.rename(columns={first_col: "Level_1", account_col: "Level_2_Account"})
     month_cols = [c for c in df.columns if c not in ["Level_1", "Level_2_Account"]]
 
-    section = None
+    section = ""
     rows = []
     for _, row in df.iterrows():
         left = clean_text(row.get("Level_1", ""))
@@ -1644,119 +1640,428 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
 
 def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: list,
              analysis_type: str = "month_on_month", waterfall: dict | None = None) -> bytes:
-    report = _build_report_text(period_label_str, movements, commentary, kpis,
-                                analysis_type, waterfall)
-    is_bva = analysis_type == "budget_vs_actual"
-    prior_word = report["prior_word"]
+    """Generate a professional management pack PDF using ReportLab platypus."""
+    import datetime
+    from reportlab.lib import colors as C
+    from reportlab.lib.pagesizes import A4, landscape as rl_landscape
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.units import cm
+    from reportlab.platypus import (
+        BaseDocTemplate, PageTemplate, Frame, NextPageTemplate,
+        Table, TableStyle, Paragraph, Spacer, PageBreak, KeepTogether,
+    )
+    from reportlab.lib.enums import TA_LEFT, TA_RIGHT
 
+    # ── Brand colours ────────────────────────────────────────────────────────
+    NAVY    = C.HexColor("#0C1726")
+    PRIMARY = C.HexColor("#2F62E8")
+    FAV_C   = C.HexColor("#0E8A57")
+    ADV_C   = C.HexColor("#D02B45")
+    FAV_BG  = C.HexColor("#E6F4EE")
+    ADV_BG  = C.HexColor("#FDE8EC")
+    SOFT    = C.HexColor("#F7F9FC")
+    BORDER  = C.HexColor("#E2E8F0")
+    FG2     = C.HexColor("#344054")
+    FG3     = C.HexColor("#667085")
+    AMBER   = C.HexColor("#D97706")
+    AMBER_BG = C.HexColor("#FEF3C7")
+
+    is_bva     = analysis_type == "budget_vs_actual"
+    prior_word  = "Budget"  if is_bva else "Prior"
+    actual_word = "Actual"  if is_bva else "Current"
+    report = _build_report_text(period_label_str, movements, commentary, kpis, analysis_type, waterfall)
+    gen_date = datetime.datetime.now().strftime("%d %B %Y")
+
+    # ── Formatters ───────────────────────────────────────────────────────────
+    def _f(v):
+        if v is None or (isinstance(v, float) and pd.isna(v)):
+            return "—"
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            return "—"
+        return ("-£" if v < 0 else "£") + f"{abs(v):,.0f}"
+
+    def _fs(v):
+        if v is None or (isinstance(v, float) and pd.isna(v)):
+            return "—"
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            return "—"
+        sign = "+" if v > 0 else ("-" if v < 0 else "")
+        return f"{sign}£{abs(v):,.0f}"
+
+    def _fp(v):
+        if v is None or (isinstance(v, float) and pd.isna(v)):
+            return "—"
+        try:
+            v = float(v)
+        except (TypeError, ValueError):
+            return "—"
+        sign = "+" if v > 0 else ("-" if v < 0 else "")
+        return f"{sign}{abs(v):.1f}%"
+
+    # ── Styles ───────────────────────────────────────────────────────────────
+    base = getSampleStyleSheet()
+
+    def _ps(name, **kw):
+        return ParagraphStyle(name, parent=base["Normal"], **kw)
+
+    s_body   = _ps("bd",  fontSize=9.5,  textColor=FG2,    leading=14)
+    s_bodyb  = _ps("bdb", fontSize=9.5,  textColor=FG2,    leading=14,  fontName="Helvetica-Bold")
+    s_cap    = _ps("cp",  fontSize=8.5,  textColor=FG3,    leading=12)
+    s_lbl    = _ps("lb",  fontSize=8,    textColor=FG3,    leading=10,  fontName="Helvetica-Bold")
+    s_num    = _ps("nm",  fontSize=9.5,  textColor=FG2,    leading=14,  alignment=TA_RIGHT)
+    s_numb   = _ps("nmb", fontSize=9.5,  textColor=FG2,    leading=14,  fontName="Helvetica-Bold", alignment=TA_RIGHT)
+    s_fav    = _ps("fv",  fontSize=9.5,  textColor=FAV_C,  leading=14,  fontName="Helvetica-Bold")
+    s_adv    = _ps("av",  fontSize=9.5,  textColor=ADV_C,  leading=14,  fontName="Helvetica-Bold")
+    s_favr   = _ps("fvr", fontSize=9.5,  textColor=FAV_C,  leading=14,  fontName="Helvetica-Bold", alignment=TA_RIGHT)
+    s_advr   = _ps("avr", fontSize=9.5,  textColor=ADV_C,  leading=14,  fontName="Helvetica-Bold", alignment=TA_RIGHT)
+    s_h2     = _ps("h2",  fontSize=12,   textColor=NAVY,   leading=16,  fontName="Helvetica-Bold",
+                   spaceBefore=14, spaceAfter=8)
+    s_h3     = _ps("h3",  fontSize=9,    textColor=FG3,    leading=12,  fontName="Helvetica-Bold",
+                   spaceBefore=12, spaceAfter=6)
+    s_navyb  = _ps("nb",  fontSize=9.5,  textColor=NAVY,   leading=14,  fontName="Helvetica-Bold")
+    s_white  = _ps("wh",  fontSize=8.5,  textColor=C.white, leading=11)
+    s_favsec = _ps("fvh", fontSize=11,   textColor=FAV_C,  leading=15,  fontName="Helvetica-Bold",
+                   spaceBefore=12, spaceAfter=6)
+    s_advsec = _ps("avh", fontSize=11,   textColor=ADV_C,  leading=15,  fontName="Helvetica-Bold",
+                   spaceBefore=12, spaceAfter=6)
+    s_capw   = _ps("cpw", fontSize=8,    textColor=C.HexColor("#94A3B8"), leading=11)
+    s_lbl_sm = _ps("lbs", fontSize=7.5,  textColor=FG3,    leading=10,  fontName="Helvetica-Bold",
+                   alignment=TA_RIGHT)
+
+    # ── Page geometry ────────────────────────────────────────────────────────
     buf = BytesIO()
-    with PdfPages(buf) as pdf:
-        # ── Page 1: Cover + Executive Summary + KPIs ──────────────────────
-        fig, ax = plt.subplots(figsize=(8.27, 11.69))
-        ax.axis("off")
-        ax.text(0.02, 0.98, "MonthEndIQ Management Pack", fontsize=18, fontweight="bold", va="top")
-        ax.text(0.02, 0.95, period_label_str, fontsize=12, va="top", color="#666")
-        y = 0.91
+    A4W, A4H   = A4
+    LDW, LDH   = rl_landscape(A4)
+    MARG       = 1.5 * cm
+    FOOT       = 1.3 * cm   # space at bottom for footer text
+    COV_TOP    = 3.3 * cm   # dark header on cover page
+    STD_TOP    = 1.4 * cm   # thin header on standard pages
 
-        ax.text(0.02, y, "KPI Summary", fontsize=13, fontweight="bold", va="top")
-        y -= 0.03
-        for k in kpis:
-            if not k.get("pct_only"):
-                var_str = _fmt_signed_gbp(k.get("variance"))
-                pct_str = f" ({fmt_pct(k.get('pct'))})" if k.get("pct") is not None else ""
-                fav_str = "favourable" if k.get("is_fav") else "adverse"
-                ax.text(0.02, y,
-                        f"{k['label']}: {fmt_gbp(k['value'])}  |  {prior_word}: {fmt_gbp(k.get('prior'))}  |  Variance: {var_str}{pct_str} [{fav_str}]",
-                        fontsize=9.5, va="top")
-                y -= 0.028
-        y -= 0.02
+    # frame(x, y_bottom, width, height)
+    cover_frame   = Frame(MARG, FOOT, A4W - 2*MARG, A4H - FOOT - COV_TOP - 0.4*cm, id="cover")
+    std_frame     = Frame(MARG, FOOT, A4W - 2*MARG, A4H - FOOT - STD_TOP - 0.3*cm, id="std")
+    land_frame    = Frame(MARG, FOOT, LDW - 2*MARG, LDH - FOOT - STD_TOP - 0.3*cm, id="land")
 
-        ax.text(0.02, y, "Executive Summary", fontsize=13, fontweight="bold", va="top")
-        y -= 0.03
-        for line in report["executive_summary"]:
-            ax.text(0.04, y, line, fontsize=9.5, va="top", wrap=True,
-                    transform=ax.transAxes, clip_on=False)
-            y -= 0.025
+    # ── Page decorators ──────────────────────────────────────────────────────
+    def _footer(canvas, doc):
+        canvas.saveState()
+        w, h = doc.pagesize
+        canvas.setFillColor(BORDER)
+        canvas.rect(MARG, FOOT - 0.15*cm, w - 2*MARG, 0.5, fill=1, stroke=0)
+        canvas.setFont("Helvetica", 7)
+        canvas.setFillColor(FG3)
+        canvas.drawString(MARG, FOOT - 0.5*cm,
+                          f"MonthEndIQ Management Pack  ·  {period_label_str}  ·  {gen_date}")
+        canvas.drawRightString(w - MARG, FOOT - 0.5*cm, f"Page {doc.page}")
+        canvas.restoreState()
 
-        y -= 0.02
-        ax.text(0.02, y, "Board Pack Commentary", fontsize=13, fontweight="bold", va="top")
-        y -= 0.03
-        for line in report["commentary"]:
-            ax.text(0.04, y, f"• {line}", fontsize=9.5, va="top", wrap=True)
-            y -= 0.025
+    def _cover_header(canvas, doc):
+        _footer(canvas, doc)
+        canvas.saveState()
+        w, h = doc.pagesize
+        # Dark header band
+        canvas.setFillColor(NAVY)
+        canvas.rect(0, h - COV_TOP, w, COV_TOP, fill=1, stroke=0)
+        # Primary accent strip
+        canvas.setFillColor(PRIMARY)
+        canvas.rect(0, h - COV_TOP - 0.18*cm, w, 0.18*cm, fill=1, stroke=0)
+        # MonthEndIQ wordmark
+        canvas.setFont("Helvetica-Bold", 16)
+        canvas.setFillColor(C.white)
+        canvas.drawString(MARG, h - 1.55*cm, "MonthEndIQ")
+        # "Management Pack" label
+        canvas.setFont("Helvetica-Bold", 13)
+        canvas.setFillColor(C.HexColor("#93C5FD"))
+        canvas.drawString(MARG + 6.3*cm, h - 1.55*cm, "Management Pack")
+        # Sub-line
+        canvas.setFont("Helvetica", 9.5)
+        canvas.setFillColor(C.HexColor("#94A3B8"))
+        analysis_lbl = "Budget vs Actual" if is_bva else "Month-on-Month Variance"
+        canvas.drawString(MARG, h - 2.55*cm,
+                          f"{period_label_str}  ·  {analysis_lbl}  ·  {gen_date}")
+        canvas.restoreState()
 
-        y -= 0.02
-        ax.text(0.02, y, "Recommended Actions", fontsize=13, fontweight="bold", va="top")
-        y -= 0.03
-        for line in report["actions"]:
-            ax.text(0.04, y, f"• {line}", fontsize=9, va="top", wrap=True)
-            y -= 0.025
+    def _std_header(canvas, doc):
+        _footer(canvas, doc)
+        canvas.saveState()
+        w, h = doc.pagesize
+        canvas.setFillColor(NAVY)
+        canvas.rect(0, h - STD_TOP, w, STD_TOP, fill=1, stroke=0)
+        canvas.setFont("Helvetica-Bold", 8.5)
+        canvas.setFillColor(C.white)
+        canvas.drawString(MARG, h - 0.9*cm, "MonthEndIQ Management Pack")
+        canvas.setFont("Helvetica", 8.5)
+        canvas.setFillColor(C.HexColor("#94A3B8"))
+        canvas.drawRightString(w - MARG, h - 0.9*cm, period_label_str)
+        canvas.restoreState()
 
-        pdf.savefig(fig, bbox_inches="tight")
-        plt.close(fig)
+    templates = [
+        PageTemplate(id="cover",    frames=[cover_frame], onPage=_cover_header, pagesize=A4),
+        PageTemplate(id="standard", frames=[std_frame],   onPage=_std_header,   pagesize=A4),
+        PageTemplate(id="landscape",frames=[land_frame],  onPage=_std_header,   pagesize=rl_landscape(A4)),
+    ]
+    doc = BaseDocTemplate(buf, pageTemplates=templates, pagesize=A4)
 
-        # ── Page 2: Key Findings ──────────────────────────────────────────
-        fig2, ax2 = plt.subplots(figsize=(8.27, 11.69))
-        ax2.axis("off")
-        ax2.text(0.02, 0.98, "Key Findings", fontsize=14, fontweight="bold", va="top")
-        y = 0.94
+    story = []
+    Sp = lambda n: Spacer(1, n * cm)
 
-        ax2.text(0.02, y, "Top Favourable Variances", fontsize=11, fontweight="bold", va="top", color="#16a34a")
-        y -= 0.025
-        for m in report["key_findings_fav"]:
-            pct_str = f" ({fmt_pct(m.get('variance_pct'))})" if m.get("variance_pct") is not None else ""
-            ax2.text(0.04, y, f"{m['account']} ({m['category']}): {_fmt_signed_gbp(m['variance'])}{pct_str}",
-                     fontsize=9.5, va="top")
-            y -= 0.022
+    # ────────────────────────────────────────────────────────────────────────
+    # PAGE 1 — Cover: KPIs · Executive Summary · Commentary · Actions
+    # ────────────────────────────────────────────────────────────────────────
+    AW = A4W - 2 * MARG   # available content width
 
-        y -= 0.02
-        ax2.text(0.02, y, "Top Adverse Variances", fontsize=11, fontweight="bold", va="top", color="#dc2626")
-        y -= 0.025
-        for m in report["key_findings_adv"]:
-            pct_str = f" ({fmt_pct(m.get('variance_pct'))})" if m.get("variance_pct") is not None else ""
-            ax2.text(0.04, y, f"{m['account']} ({m['category']}): {_fmt_signed_gbp(m['variance'])}{pct_str}",
-                     fontsize=9.5, va="top")
-            y -= 0.022
+    story.append(Sp(0.4))
+    story.append(Paragraph("KPI SUMMARY", s_h3))
 
-        if waterfall:
-            y -= 0.03
-            ax2.text(0.02, y, "Profit Drivers", fontsize=11, fontweight="bold", va="top")
-            y -= 0.025
-            ax2.text(0.04, y,
-                     f"{'Budget' if is_bva else 'Prior'} Profit: {fmt_gbp(waterfall['prior_profit'])}  →  "
-                     f"{'Actual' if is_bva else 'Current'} Profit: {fmt_gbp(waterfall['current_profit'])}  |  "
-                     f"Net: {_fmt_signed_gbp(waterfall['net_change'])}",
-                     fontsize=9.5, va="top")
-            y -= 0.025
-            for b in waterfall.get("bars", []):
-                fav_str = "favourable" if b.get("fav") else "adverse"
-                ax2.text(0.04, y, f"{b['label']}: {_fmt_signed_gbp(b['impact'])} [{fav_str}]",
-                         fontsize=9.5, va="top")
-                y -= 0.022
-
-        pdf.savefig(fig2, bbox_inches="tight")
-        plt.close(fig2)
-
-        # ── Page 3: Variance detail table ─────────────────────────────────
-        fig3, ax3 = plt.subplots(figsize=(11.69, 8.27))
-        ax3.axis("off")
-        ax3.set_title(f"Variance Analysis — {period_label_str}", fontsize=13, fontweight="bold", loc="left", pad=10)
-        actual_word = "Actual" if is_bva else "Current"
-        cols = ["Account", "Category", actual_word, prior_word, "Variance", "Var %", "Impact"]
-        rows = [[m["account"], m["category"],
-                 fmt_gbp(m["value"]), fmt_gbp(m["prior_value"]),
-                 _fmt_signed_gbp(m["variance"]), fmt_pct(m["variance_pct"]),
-                 "Favourable" if m.get("is_fav") else "Adverse"]
-                for m in movements[:20]]
-        if rows:
-            t = ax3.table(cellText=rows, colLabels=cols, loc="center")
-            t.auto_set_font_size(False)
-            t.set_fontsize(7.5)
-            t.scale(1, 1.4)
+    # KPI table
+    kpi_header = [
+        Paragraph("Metric",      s_lbl),
+        Paragraph(actual_word,   s_lbl),
+        Paragraph(prior_word,    s_lbl),
+        Paragraph("Variance",    s_lbl),
+        Paragraph("Change %",    s_lbl),
+    ]
+    kpi_data = [kpi_header]
+    for k in kpis:
+        if k.get("pct_only"):
+            pct = k.get("pct")
+            p_s = s_favr if k.get("is_fav") else s_advr
+            kpi_data.append([
+                Paragraph(k.get("label", ""), s_bodyb),
+                Paragraph("—", s_num), Paragraph("—", s_num),
+                Paragraph("—", s_num), Paragraph(_fp(pct), p_s),
+            ])
         else:
-            ax3.text(0.5, 0.5, "No variance data", ha="center", va="center", fontsize=12, color="#999")
-        pdf.savefig(fig3, bbox_inches="tight")
-        plt.close(fig3)
+            fav = k.get("is_fav", True)
+            p_s = s_favr if fav else s_advr
+            kpi_data.append([
+                Paragraph(k.get("label", ""), s_bodyb),
+                Paragraph(_f(k.get("value")),    s_num),
+                Paragraph(_f(k.get("prior")),    s_num),
+                Paragraph(_fs(k.get("variance")), p_s),
+                Paragraph(_fp(k.get("pct")),     p_s),
+            ])
 
+    cw = [AW * p for p in (0.30, 0.175, 0.175, 0.175, 0.175)]
+    kpi_tbl = Table(kpi_data, colWidths=cw)
+    kpi_tbl.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+        ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE",      (0, 0), (-1, 0), 8),
+        ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+        ("ALIGN",         (1, 0), (-1, -1), "RIGHT"),
+        ("ALIGN",         (0, 0), (0, -1), "LEFT"),
+        ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+        ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+        ("TOPPADDING",    (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+        ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+        ("FONTSIZE",      (0, 1), (-1, -1), 9.5),
+    ]))
+    story.append(kpi_tbl)
+    story.append(Sp(0.5))
+
+    # Executive Summary
+    if report["executive_summary"]:
+        story.append(Paragraph("EXECUTIVE SUMMARY", s_h3))
+        for line in report["executive_summary"]:
+            story.append(Paragraph(line, s_body))
+        story.append(Sp(0.35))
+
+    # Board Commentary
+    if report["commentary"]:
+        story.append(Paragraph("BOARD COMMENTARY", s_h3))
+        for line in report["commentary"]:
+            story.append(Paragraph(f"• {line}", s_body))
+        story.append(Sp(0.35))
+
+    # Recommended Actions
+    if report["actions"]:
+        story.append(Paragraph("RECOMMENDED ACTIONS", s_h3))
+        for line in report["actions"]:
+            if line.startswith("[HIGH]"):
+                pill_txt, pill_c, border_c = "HIGH",   ADV_C,  ADV_C
+                body_txt = line[7:].strip()
+            elif line.startswith("[MEDIUM]"):
+                pill_txt, pill_c, border_c = "MEDIUM", AMBER,  AMBER
+                body_txt = line[9:].strip()
+            else:
+                pill_txt, pill_c, border_c = "LOW",    FAV_C,  FAV_C
+                body_txt = line[6:].strip()
+            s_pill = _ps(f"pill_{pill_txt}", fontSize=8, fontName="Helvetica-Bold",
+                         textColor=pill_c, leading=10)
+            row = [[Paragraph(pill_txt, s_pill), Paragraph(body_txt, s_body)]]
+            at = Table(row, colWidths=[1.2*cm, AW - 1.2*cm])
+            at.setStyle(TableStyle([
+                ("BACKGROUND",   (0, 0), (-1, -1), SOFT),
+                ("VALIGN",       (0, 0), (-1, -1), "TOP"),
+                ("TOPPADDING",   (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("LINEBEFORE",   (0, 0), (0, -1), 3, border_c),
+                ("BOX",          (0, 0), (-1, -1), 0.3, BORDER),
+            ]))
+            story.append(at)
+            story.append(Sp(0.15))
+
+    # ────────────────────────────────────────────────────────────────────────
+    # PAGE 2 — Key Findings: Fav · Adv · Profit Drivers
+    # ────────────────────────────────────────────────────────────────────────
+    story.append(NextPageTemplate("standard"))
+    story.append(PageBreak())
+    story.append(Paragraph("Key Findings", _ps("kfh", fontSize=15, textColor=NAVY,
+                                               fontName="Helvetica-Bold", leading=19, spaceAfter=12)))
+
+    def _var_table(rows_data, bg_hdr):
+        hdr = [Paragraph(t, s_lbl) for t in ["Account", "Category", actual_word, prior_word, "Variance", "Var %"]]
+        tbl_data = [hdr]
+        for m in rows_data:
+            fav = m.get("is_fav", True)
+            rs = s_favr if fav else s_advr
+            tbl_data.append([
+                Paragraph(m["account"][:48], s_body),
+                Paragraph(m["category"],     s_cap),
+                Paragraph(_f(m.get("value")),       s_num),
+                Paragraph(_f(m.get("prior_value")), s_num),
+                Paragraph(_fs(m.get("variance")),   rs),
+                Paragraph(_fp(m.get("variance_pct")), rs),
+            ])
+        t = Table(tbl_data, colWidths=[AW*0.31, AW*0.18, AW*0.13, AW*0.13, AW*0.13, AW*0.12])
+        t.setStyle(TableStyle([
+            ("BACKGROUND",    (0, 0), (-1, 0), bg_hdr),
+            ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE",      (0, 0), (-1, 0), 8),
+            ("ALIGN",         (2, 0), (-1, -1), "RIGHT"),
+            ("ALIGN",         (0, 0), (1, -1), "LEFT"),
+            ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+            ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+            ("TOPPADDING",    (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 6),
+            ("FONTSIZE",      (0, 1), (-1, -1), 9),
+        ]))
+        return t
+
+    # Favourable
+    story.append(Paragraph("▲  Favourable Variances", s_favsec))
+    if report["key_findings_fav"]:
+        story.append(_var_table(report["key_findings_fav"], FAV_BG))
+    else:
+        story.append(Paragraph("No favourable variances in this period.", s_body))
+    story.append(Sp(0.4))
+
+    # Adverse
+    story.append(Paragraph("▼  Adverse Variances", s_advsec))
+    if report["key_findings_adv"]:
+        story.append(_var_table(report["key_findings_adv"], ADV_BG))
+    else:
+        story.append(Paragraph("No adverse variances in this period.", s_body))
+    story.append(Sp(0.4))
+
+    # Profit drivers
+    if waterfall:
+        story.append(Paragraph("Profit Drivers", _ps("pdh", fontSize=11, textColor=NAVY,
+                                                      fontName="Helvetica-Bold", leading=15,
+                                                      spaceBefore=10, spaceAfter=6)))
+        prior_lbl_wf   = "Budget Profit"  if is_bva else "Prior Period Profit"
+        current_lbl_wf = "Actual Profit"  if is_bva else "Current Period Profit"
+
+        wf_data = [[Paragraph(prior_lbl_wf, s_bodyb), Paragraph(_f(waterfall["prior_profit"]), s_numb)]]
+        for b in waterfall.get("bars", []):
+            rs = s_favr if b.get("fav") else s_advr
+            wf_data.append([Paragraph(b["label"], s_body), Paragraph(_fs(b["impact"]), rs)])
+        wf_data.append([Paragraph(current_lbl_wf, s_bodyb), Paragraph(_f(waterfall["current_profit"]), s_numb)])
+        net = waterfall.get("net_change", 0) or 0
+        net_rs = s_favr if net >= 0 else s_advr
+        wf_data.append([Paragraph("Net Change", s_navyb), Paragraph(_fs(net), net_rs)])
+
+        wf_t = Table(wf_data, colWidths=[AW * 0.65, AW * 0.35])
+        wf_style = [
+            ("ALIGN",         (1, 0), (1, -1), "RIGHT"),
+            ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+            ("TOPPADDING",    (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+            ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+            ("LINEABOVE",     (0, -1), (-1, -1), 1, NAVY),
+            ("TOPPADDING",    (0, -1), (-1, -1), 8),
+        ]
+        for i, b in enumerate(waterfall.get("bars", []), start=1):
+            wf_style.append(("BACKGROUND", (0, i), (-1, i), FAV_BG if b.get("fav") else ADV_BG))
+        n = len(wf_data)
+        wf_style.append(("BACKGROUND", (0, n-2), (-1, n-2), SOFT))
+        wf_t.setStyle(TableStyle(wf_style))
+        story.append(wf_t)
+
+    # ────────────────────────────────────────────────────────────────────────
+    # PAGE 3 — Variance Analysis (landscape)
+    # ────────────────────────────────────────────────────────────────────────
+    story.append(NextPageTemplate("landscape"))
+    story.append(PageBreak())
+    story.append(Paragraph(
+        f"Variance Analysis — {period_label_str}",
+        _ps("vah", fontSize=13, textColor=NAVY, fontName="Helvetica-Bold", leading=17, spaceAfter=10),
+    ))
+
+    LW = LDW - 2 * MARG
+    land_cw = [LW*p for p in (0.26, 0.14, 0.12, 0.12, 0.12, 0.09, 0.10, 0.05)]
+    land_hdr = [
+        Paragraph("Account",        s_white),
+        Paragraph("Category",       s_white),
+        Paragraph(actual_word,      s_white),
+        Paragraph(prior_word,       s_white),
+        Paragraph("Variance",       s_white),
+        Paragraph("Var %",          s_white),
+        Paragraph("Impact",         s_white),
+        Paragraph("",               s_white),
+    ]
+    land_data = [land_hdr]
+    for m in movements[:28]:
+        fav = m.get("is_fav", True)
+        rs  = s_favr if fav else s_advr
+        impact_lbl = _ps(f"imp_{id(m)}", fontSize=8, textColor=FAV_C if fav else ADV_C,
+                         fontName="Helvetica-Bold", leading=11)
+        land_data.append([
+            Paragraph(m["account"][:46],              s_body),
+            Paragraph(m["category"],                  s_cap),
+            Paragraph(_f(m.get("value")),             s_num),
+            Paragraph(_f(m.get("prior_value")),       s_num),
+            Paragraph(_fs(m.get("variance")),         rs),
+            Paragraph(_fp(m.get("variance_pct")),     rs),
+            Paragraph("Fav" if fav else "Adv",        impact_lbl),
+            Paragraph("",                             s_body),
+        ])
+
+    land_tbl = Table(land_data, colWidths=land_cw)
+    land_style = [
+        ("BACKGROUND",   (0, 0), (-1, 0), NAVY),
+        ("TEXTCOLOR",    (0, 0), (-1, 0), C.white),
+        ("FONTNAME",     (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE",     (0, 0), (-1, 0), 8),
+        ("ALIGN",        (2, 0), (-1, -1), "RIGHT"),
+        ("ALIGN",        (0, 0), (1, -1), "LEFT"),
+        ("GRID",         (0, 0), (-1, -1), 0.3, BORDER),
+        ("FONTSIZE",     (0, 1), (-1, -1), 8.5),
+        ("TOPPADDING",   (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+        ("LEFTPADDING",  (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+    ]
+    for i, m in enumerate(movements[:28], start=1):
+        bg = FAV_BG if m.get("is_fav") else (ADV_BG if m.get("variance", 0) != 0 else C.white)
+        land_style.append(("BACKGROUND", (0, i), (-1, i), bg))
+
+    land_tbl.setStyle(TableStyle(land_style))
+    story.append(land_tbl)
+
+    doc.build(story)
     buf.seek(0)
-    return buf.getvalue()
+    return buf.read()

@@ -25,7 +25,7 @@ from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
     get_period_data, load_bva_from_sheets, load_file, make_pdf, make_zip,
-    period_label, quarter_sort_key,
+    period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 
 app = FastAPI(title="MonthEndIQ")
@@ -43,8 +43,136 @@ def root():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DEMO
+# ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/demo")
+def demo():
+    """Return a fully-analysed 12-month demo dataset for Meridian Software Ltd."""
+
+    months = [
+        "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+        "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
+    ]
+
+    # (Account, Section, [Jul..Jun values])
+    rows = [
+        # ── Revenue ──────────────────────────────────────────────────────────
+        ("Software Licences",       "Turnover",          [55000,52000,58000,63000,68000,72000,67000,64000,71000,62000,60000,68000]),
+        ("Consulting Services",     "Turnover",          [42000,34000,48000,53000,58000,44000,46000,51000,61000,47000,54000,58000]),
+        ("Total Turnover",          "Turnover",          [97000,86000,106000,116000,126000,116000,113000,115000,132000,109000,114000,126000]),
+        # ── Cost of Sales ─────────────────────────────────────────────────────
+        ("Direct Delivery Costs",   "Cost of Sales",     [19500,17200,21200,23200,25200,23200,22600,23000,26400,21800,22800,25200]),
+        ("Total Cost of Sales",     "Cost of Sales",     [19500,17200,21200,23200,25200,23200,22600,23000,26400,21800,22800,25200]),
+        # ── Gross Profit ──────────────────────────────────────────────────────
+        ("Gross Profit",            "Profit",            [77500,68800,84800,92800,100800,92800,90400,92000,105600,87200,91200,100800]),
+        # ── Staff Costs ───────────────────────────────────────────────────────
+        ("Staff Wages",             "Staff Costs",       [34000,34500,35000,36000,37500,36000,36000,36500,37000,37500,38000,38500]),
+        ("Employer NI",             "Staff Costs",       [3800,3850,3900,4000,4200,4000,4000,4050,4100,4150,4200,4250]),
+        ("Pension Contributions",   "Staff Costs",       [1700,1725,1750,1800,1875,1800,1800,1825,1850,1875,1900,1925]),
+        ("Total Staff Costs",       "Staff Costs",       [39500,40075,40650,41800,43575,41800,41800,42375,42950,43525,44100,44675]),
+        # ── Premises ─────────────────────────────────────────────────────────
+        ("Office Rent",             "Premises",          [8500]*12),
+        ("Business Rates",          "Premises",          [1200]*12),
+        ("Total Premises Costs",    "Premises",          [9700]*12),
+        # ── IT ───────────────────────────────────────────────────────────────
+        ("IT Software",             "IT",                [3200,3200,3400,3400,3600,4800,3400,3400,3600,3600,3600,3800]),
+        ("IT Hardware",             "IT",                [0,0,2500,0,0,0,0,3200,0,0,0,0]),
+        ("Total IT Costs",          "IT",                [3200,3200,5900,3400,3600,4800,3400,6600,3600,3600,3600,3800]),
+        # ── Marketing ────────────────────────────────────────────────────────
+        ("Online Marketing",        "Marketing",         [4500,3800,5500,6000,7500,6000,5000,5500,6500,5500,6000,7000]),
+        ("Paid Advertising",        "Marketing",         [2000,1500,2500,3000,4000,3500,2500,3000,3500,2500,3000,3500]),
+        ("Total Marketing",         "Marketing",         [6500,5300,8000,9000,11500,9500,7500,8500,10000,8000,9000,10500]),
+        # ── Professional Fees ────────────────────────────────────────────────
+        ("Legal Expenses",          "Professional Fees", [1500,500,750,1200,1500,2000,1000,800,1800,1500,600,900]),
+        ("Accountancy",             "Professional Fees", [1200]*12),
+        ("Total Professional Fees", "Professional Fees", [2700,1700,1950,2400,2700,3200,2200,2000,3000,2700,1800,2100]),
+        # ── Office & Admin ───────────────────────────────────────────────────
+        ("Office Supplies",         "Office & Admin",    [650,580,700,720,850,900,680,710,780,690,720,760]),
+        ("Postage & Couriers",      "Office & Admin",    [180,150,200,210,240,260,190,200,220,195,205,215]),
+        ("Total Office & Admin",    "Office & Admin",    [830,730,900,930,1090,1160,870,910,1000,885,925,975]),
+        # ── Finance Costs ────────────────────────────────────────────────────
+        ("Bank Charges",            "Finance",           [200]*12),
+        ("Loan Interest",           "Finance",           [850]*12),
+        ("Total Finance Costs",     "Finance",           [1050]*12),
+        # ── Depreciation ─────────────────────────────────────────────────────
+        ("Depreciation",            "Depreciation",      [2200]*12),
+        ("Total Depreciation",      "Depreciation",      [2200]*12),
+        # ── Operating Profit ─────────────────────────────────────────────────
+        ("Operating Profit",        "Profit",            [11820,4845,14450,22320,25385,19390,21680,18665,32100,15540,18825,25800]),
+    ]
+
+    data_dict: dict = {"Account": [], "Section": []}
+    for m in months:
+        data_dict[m] = []
+
+    for account, section, values in rows:
+        data_dict["Account"].append(account)
+        data_dict["Section"].append(section)
+        for i, m in enumerate(months):
+            data_dict[m].append(float(values[i]))
+
+    df = pd.DataFrame(data_dict)
+
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m)
+    analysis_q   = build_analysis(df_long_q)
+
+    session_id = str(uuid.uuid4())
+    filename   = "Meridian Software Ltd — Demo"
+    SESSIONS[session_id] = {
+        "df":            df,
+        "df_long_m":     df_long_m,
+        "df_long_q":     df_long_q,
+        "analysis_m":    analysis_m,
+        "analysis_q":    analysis_q,
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "month_on_month",
+        "chat":          [],
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest    = periods_m[-1]
+
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    data["analysis_type"] = "month_on_month"
+    data["session_id"]    = session_id
+    data["file_name"]     = filename
+    return data
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # UPLOAD
 # ─────────────────────────────────────────────────────────────────────────────
+def _friendly_upload_error(raw: str, mode: str) -> str:
+    """Convert terse ValueError messages into actionable user-facing guidance."""
+    msg = raw.lower()
+    if "account" in msg and ("header" in msg or "column" in msg or "find" in msg):
+        return (
+            "Could not find an 'Account' column in your file.\n\n"
+            "MonthEndIQ looks for a column named exactly 'Account' containing your P&L line names. "
+            "Your file may use a different label (e.g. 'Description', 'GL Account', 'Nominal').\n\n"
+            "Quick fix: rename that column to 'Account' and re-upload.\n\n"
+            "Expected format (Month-on-Month):\n"
+            "  Section | Account | Apr 2024 | May 2024 | Jun 2024 …\n\n"
+            "Expected format (Budget vs Actual — single table):\n"
+            "  Section | Account | Actual | Budget\n\n"
+            "Expected format (Budget vs Actual — Excel workbook):\n"
+            "  Two sheets named 'Actuals' and 'Budget', each with Section | Account | month columns."
+        )
+    if "month" in msg or "period" in msg or "date" in msg:
+        return (
+            "No monthly period columns detected.\n\n"
+            "MonthEndIQ expects column headers in a recognisable date format "
+            "such as 'Apr 2024', 'April 2024', '2024-04', or 'Apr-24'.\n\n"
+            "Check that your file has at least two month columns after the Account column, "
+            "and that the column headers are dates rather than text like 'Month 1', 'Period 1'."
+        )
+    return raw
+
+
 @app.post("/api/upload")
 async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
     import sys
@@ -95,7 +223,7 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
             try:
                 df = load_file(contents, file.filename)
             except ValueError as e:
-                raise HTTPException(400, str(e))
+                raise HTTPException(400, _friendly_upload_error(str(e), mode))
             df["Account"] = df["Account"].astype(str).str.strip()
             df["Section"] = df["Section"].astype(str).replace("nan", "").fillna("")
             df = df[df["Account"].notna() & (df["Account"] != "") & (df["Account"].str.lower() != "nan")]
@@ -103,8 +231,12 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
             if not actual_col or not budget_col:
                 raise HTTPException(
                     400,
-                    "Budget vs Actual mode requires either an Excel workbook with Actuals and Budget "
-                    "sheets, or a single table with Actual and Budget columns. Please check your upload."
+                    "Budget vs Actual — no Actual/Budget columns found.\n\n"
+                    "MonthEndIQ expects one of these formats:\n"
+                    "• Excel workbook with separate sheets named 'Actuals' and 'Budget'\n"
+                    "• A single table with columns named 'Actual' (or 'Actuals') and 'Budget'\n\n"
+                    "Your file has these columns: "
+                    + ", ".join(f"'{c}'" for c in df.columns[:10])
                 )
             bva_snapshot = build_bva(df, actual_col, budget_col)
             df_for_kpis  = df
@@ -139,7 +271,7 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
     try:
         df = load_file(contents, file.filename)
     except ValueError as e:
-        raise HTTPException(400, str(e))
+        raise HTTPException(400, _friendly_upload_error(str(e), mode))
 
     df["Account"] = df["Account"].astype(str).str.strip()
     df["Section"] = df["Section"].astype(str).replace("nan", "").fillna("")
@@ -476,6 +608,64 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
                 lines.append(f"  - {clean}")
 
     return "\n".join(lines)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CHAT HISTORY  (server-side persistence, same lifetime as the analysis session)
+# ─────────────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# CATEGORIES
+# ─────────────────────────────────────────────────────────────────────────────
+ALL_CATEGORIES = ["Revenue"] + EXPENSE_CATEGORIES
+
+
+@app.get("/api/categories")
+def get_categories():
+    """Return the list of valid account categories for the reclassification UI."""
+    return {"categories": ALL_CATEGORIES}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CATEGORY REMAPPING
+# ─────────────────────────────────────────────────────────────────────────────
+class ReclassifyBody(BaseModel):
+    account:  str
+    category: str
+
+
+@app.post("/api/reclassify/{session_id}")
+def reclassify(session_id: str, body: ReclassifyBody):
+    """
+    Update an account's category classification for this session.
+    Updates all stored DataFrames in-place so subsequent /api/data calls
+    reflect the corrected categorisation immediately — no re-upload required.
+    """
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found. Please re-upload your file.")
+
+    account  = body.account.strip()
+    category = body.category.strip()
+
+    if category not in ALL_CATEGORIES:
+        raise HTTPException(400, f"Invalid category '{category}'. Valid options: {', '.join(ALL_CATEGORIES)}")
+
+    # Persist the user override so it survives period changes
+    s.setdefault("category_overrides", {})[account] = category
+
+    # Apply in-place to every stored DataFrame that carries a Category column
+    df_keys = ["analysis_m", "analysis_q", "bva_data", "bva_long"]
+    updated = 0
+    for key in df_keys:
+        df = s.get(key)
+        if df is not None and isinstance(df, pd.DataFrame):
+            if "Account" in df.columns and "Category" in df.columns:
+                mask = df["Account"].str.strip() == account
+                if mask.any():
+                    df.loc[mask, "Category"] = category
+                    updated += mask.sum()
+
+    return {"ok": True, "account": account, "category": category, "rows_updated": int(updated)}
 
 
 # ─────────────────────────────────────────────────────────────────────────────

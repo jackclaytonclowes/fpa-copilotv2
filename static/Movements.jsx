@@ -3,14 +3,24 @@ const { useState: useStateM, useEffect: useEffectM, useRef: useRefM, useMemo: us
 
 function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot }) {
   const { Icon, Card, Button, Delta, Chip } = window;
-  const [data, setData]             = useStateM(initialData);
-  const [loading, setLoading]       = useStateM(false);
-  const [activeTab, setActiveTab]   = useStateM("top");
-  const [search, setSearch]         = useStateM("");
-  const [sortCol, setSortCol]       = useStateM("abs_variance");
-  const [sortAsc, setSortAsc]       = useStateM(false);
+  const [data, setData]               = useStateM(initialData);
+  const [loading, setLoading]         = useStateM(false);
+  const [activeTab, setActiveTab]     = useStateM("top");
+  const [search, setSearch]           = useStateM("");
+  const [sortCol, setSortCol]         = useStateM("abs_variance");
+  const [sortAsc, setSortAsc]         = useStateM(false);
   const [expandedRow, setExpandedRow] = useStateM(null);
+  const [categories, setCategories]   = useStateM([]);
+  const [reclassState, setReclassState] = useStateM({});
   const lastFetched = useRefM({ period: initialData?.selected_period, mode: periodMode });
+
+  // Load available categories once on mount
+  useEffectM(() => {
+    fetch("/api/categories")
+      .then(r => r.json())
+      .then(d => setCategories(d.categories || []))
+      .catch(() => {});
+  }, []);
 
   const fmtGBP = (v) => {
     if (v == null || isNaN(v)) return "—";
@@ -133,6 +143,32 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
     return m.is_fav
       ? `${m.account} improved by ${fmtGBP(Math.abs(m.variance))}${pctStr} versus the prior period — a ${dir} movement.`
       : `${m.account} worsened by ${fmtGBP(Math.abs(m.variance))}${pctStr} versus the prior period — a ${dir} movement.`;
+  };
+
+  const handleReclassify = async (account, category) => {
+    setReclassState(prev => ({ ...prev, [account]: { saving: true, category } }));
+    try {
+      const res = await fetch(`/api/reclassify/${sessionId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account, category }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "Reclassify failed." }));
+        throw new Error(err.detail || "Reclassify failed.");
+      }
+      // Reload current period data to reflect the updated category
+      const period = data?.selected_period || data?.selected_bva_period || "";
+      await fetchPeriod(period, periodMode);
+      setReclassState(prev => ({ ...prev, [account]: { saved: true, category } }));
+      setTimeout(() => setReclassState(prev => {
+        const n = { ...prev };
+        delete n[account];
+        return n;
+      }), 2500);
+    } catch (e) {
+      setReclassState(prev => ({ ...prev, [account]: { error: e.message } }));
+    }
   };
 
   const handleExplainVariance = (m) => {
@@ -369,6 +405,67 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                               }}>
                                 {generateExplanation(m)}
                               </div>
+
+                              {/* ── Category reclassification ── */}
+                              {categories.length > 0 && (
+                                <div style={{
+                                  marginBottom: 12, padding: "10px 14px",
+                                  background: "var(--surface)", borderRadius: "var(--radius-sm)",
+                                  border: "1px solid var(--border)",
+                                  display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap",
+                                }}
+                                  onClick={e => e.stopPropagation()}
+                                >
+                                  <span style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)", letterSpacing: ".06em", flexShrink: 0 }}>
+                                    Reclassify
+                                  </span>
+                                  <select
+                                    defaultValue={m.category}
+                                    id={`cat-sel-${i}`}
+                                    style={{
+                                      font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
+                                      background: "var(--surface-2)", border: "1px solid var(--border)",
+                                      borderRadius: "var(--radius-sm)", padding: "4px 8px", cursor: "pointer",
+                                    }}
+                                  >
+                                    {categories.map(c => (
+                                      <option key={c} value={c}>{c}</option>
+                                    ))}
+                                  </select>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const sel = document.getElementById(`cat-sel-${i}`);
+                                      if (sel) handleReclassify(m.account, sel.value);
+                                    }}
+                                    disabled={reclassState[m.account]?.saving}
+                                    style={{
+                                      display: "inline-flex", alignItems: "center", gap: 5,
+                                      font: "var(--text-body-strong)", fontSize: 12.5,
+                                      padding: "5px 12px", borderRadius: "var(--radius-sm)",
+                                      border: "1px solid var(--border)",
+                                      background: "var(--surface-2)", color: "var(--fg-2)",
+                                      cursor: "pointer", opacity: reclassState[m.account]?.saving ? 0.6 : 1,
+                                    }}
+                                  >
+                                    {reclassState[m.account]?.saving
+                                      ? <><div className="spinner" style={{ width: 12, height: 12, borderWidth: 2 }} />Saving…</>
+                                      : <><Icon name="tag" size={13} />Save</>
+                                    }
+                                  </button>
+                                  {reclassState[m.account]?.saved && (
+                                    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "var(--text-body)", fontSize: 12.5, color: "var(--favourable-text)" }}>
+                                      <Icon name="check-circle" size={13} color="var(--favourable)" />
+                                      Updated to {reclassState[m.account]?.category}
+                                    </span>
+                                  )}
+                                  {reclassState[m.account]?.error && (
+                                    <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--adverse-text)" }}>
+                                      {reclassState[m.account].error}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
 
                               <button onClick={(e) => { e.stopPropagation(); handleExplainVariance(m); }}
                                 style={{
