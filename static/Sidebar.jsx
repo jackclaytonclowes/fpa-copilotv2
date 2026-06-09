@@ -7,15 +7,20 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "movements", icon: "list-tree",          label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
   ];
+  const learn = [
+    { id: "courses", icon: "graduation-cap", label: "Courses" },
+  ];
   const tools = [
     { id: "data",     icon: "database", label: "Data sources" },
     { id: "settings", icon: "settings", label: "Settings" },
   ];
+  // IDs that are always accessible regardless of whether data is loaded
+  const alwaysOn = ["data", "settings", "courses"];
   const Item = ({ it }) => (
     <div
-      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !["data","settings"].includes(it.id) ? " disabled" : ""}`}
-      onClick={() => (hasData || ["data","settings"].includes(it.id)) && onNav(it.id)}
-      style={!hasData && !["data","settings"].includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
+      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !alwaysOn.includes(it.id) ? " disabled" : ""}`}
+      onClick={() => (hasData || alwaysOn.includes(it.id)) && onNav(it.id)}
+      style={!hasData && !alwaysOn.includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
     >
       <span className="ic"><Icon name={it.icon} size={18} /></span>{it.label}
     </div>
@@ -25,6 +30,8 @@ function Sidebar({ active, onNav, hasData }) {
       <Logo />
       <div className="sb-sec">Analyse</div>
       {nav.map((it) => <Item key={it.id} it={it} />)}
+      <div className="sb-sec">Learn</div>
+      {learn.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-sec">Workspace</div>
       {tools.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-foot">
