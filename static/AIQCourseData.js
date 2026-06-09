@@ -8692,7 +8692,87 @@ const AIQ_COURSE_DATA = {
             "Describe the criteria for effective KPIs (SMART framework)",
             "Distinguish between financial and non-financial performance measures",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why Measure Performance?</h4>" +
+            "<p>Performance measurement systems provide the information managers need to assess whether the organisation is achieving its objectives, identify areas for improvement and make resource allocation decisions. A well-designed system gives stakeholders confidence that the organisation is being managed effectively. However, poorly designed systems can focus attention on the wrong metrics, distort behaviour and create a misleading picture of organisational health.</p>" +
+            "<h4>The Purpose of Performance Measurement</h4>" +
+            "<ul><li><strong>Strategy execution:</strong> Translates high-level objectives into actionable targets at every level.</li>" +
+            "<li><strong>Control:</strong> Highlights deviations from plan so corrective action can be taken promptly.</li>" +
+            "<li><strong>Motivation:</strong> Clear, fair targets motivate managers and employees to perform.</li>" +
+            "<li><strong>Communication:</strong> Reports performance to internal stakeholders (board, divisional managers) and external stakeholders (shareholders, regulators).</li>" +
+            "<li><strong>Learning:</strong> Identifies best practice and areas for capability development.</li></ul>" +
+            "<h4>Criteria for Effective KPIs — The SMART Framework</h4>" +
+            "<p>A KPI (Key Performance Indicator) is a quantified measure of a critical success factor. Effective KPIs must be:</p>" +
+            "<table><thead><tr><th>Letter</th><th>Criterion</th><th>Meaning</th></tr></thead><tbody>" +
+            "<tr><td><strong>S</strong></td><td>Specific</td><td>Clearly defined — no ambiguity about what is being measured</td></tr>" +
+            "<tr><td><strong>M</strong></td><td>Measurable</td><td>Can be quantified objectively and consistently over time</td></tr>" +
+            "<tr><td><strong>A</strong></td><td>Achievable</td><td>Realistic — challenging but within the manager's control to influence</td></tr>" +
+            "<tr><td><strong>R</strong></td><td>Relevant</td><td>Directly linked to a critical success factor and strategic objective</td></tr>" +
+            "<tr><td><strong>T</strong></td><td>Time-bound</td><td>Has a clear measurement period and deadline for achievement</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Financial vs Non-Financial Performance Measures</h4>" +
+            "<table><thead><tr><th>Financial Measures</th><th>Non-Financial Measures</th></tr></thead><tbody>" +
+            "<tr><td>Revenue, gross profit, operating profit, net profit</td><td>Customer satisfaction score (NPS), market share</td></tr>" +
+            "<tr><td>Return on capital employed (ROCE), ROI</td><td>Product quality (defect rate, returns)</td></tr>" +
+            "<tr><td>Earnings per share (EPS)</td><td>Delivery on-time performance (%)</td></tr>" +
+            "<tr><td>Cash flow from operations, free cash flow</td><td>Employee turnover, absenteeism, engagement scores</td></tr>" +
+            "<tr><td>Cost per unit, overhead absorption rate</td><td>Innovation (new products launched, R&D pipeline)</td></tr>" +
+            "</tbody></table>" +
+            "<p>Purely financial measures have well-known limitations: they are <strong>backward-looking</strong> (report what has happened, not what will happen), <strong>short-termist</strong> (pressure to hit quarterly figures), <strong>easily manipulated</strong> (through accounting policy choices), and <strong>incomplete</strong> (ignoring value drivers like brand, people, relationships and innovation).</p>" +
+            "<h4>Fitzgerald and Moon's Building Blocks Model</h4>" +
+            "<p>Originally designed for service businesses, the Building Blocks model organises performance measures into six dimensions grouped under three headings:</p>" +
+            "<ul><li><strong>Results:</strong> Financial performance (profitability, liquidity, capital structure) and Competitiveness (market share, sales growth).</li>" +
+            "<li><strong>Determinants:</strong> Quality (reliability, responsiveness, aesthetics), Flexibility (output flexibility, speed of delivery), Resource utilisation (productivity, efficiency) and Innovation (process/product innovation).</li></ul>" +
+            "<p>The key insight is that <em>results</em> are driven by <em>determinants</em> — so measuring only results means acting too late. Leading indicators (determinants) should be measured alongside lagging indicators (results).</p>" +
+            "<h4>Limitations of Performance Measurement Systems</h4>" +
+            "<ul><li><strong>Tunnel vision:</strong> Managers focus on measured areas and neglect unmeasured ones.</li>" +
+            "<li><strong>Gaming:</strong> Targets are gamed rather than genuinely improved (e.g., a hospital manipulates waiting lists to hit time targets).</li>" +
+            "<li><strong>Short-termism:</strong> Long-term investment is sacrificed to hit short-term metrics.</li>" +
+            "<li><strong>Measure fixation:</strong> The measure becomes the goal rather than the underlying objective it was designed to proxy.</li>" +
+            "<li><strong>Ossification:</strong> Outdated measures continue to be reported long after they cease to be relevant.</li></ul>",
+          workedExample: {
+            setup:
+              "SkyConnect plc operates an airline. The board wants to assess customer service performance and has proposed three KPIs: (1) On-time departure rate, (2) Customer satisfaction score (1–10), (3) Number of complaints received. Evaluate these against SMART criteria and suggest one improvement.",
+            steps: [
+              "KPI 1 — On-time departure rate: Specific (departures within 15 minutes of scheduled time), Measurable (% calculated from operational data), Achievable (industry benchmark ~85%), Relevant (directly linked to customer experience and operational efficiency), Time-bound (monthly). Assessment: SMART-compliant. Strong KPI.",
+              "KPI 2 — Customer satisfaction score (1–10): Specific? Depends on how the survey is conducted — need to define the exact question and scale. Measurable — yes, if survey methodology is consistent. Achievable — target should be set based on peer benchmarks. Relevant — highly relevant. Time-bound — if measured post-flight consistently. Assessment: Mostly SMART but lacks specificity in survey design.",
+              "KPI 3 — Number of complaints received: Problematic. A reduction in complaints might reflect improvement or might reflect reduced passenger numbers or a more difficult complaints process. It is not normalised for passenger volume. Suggestion: Replace with 'Complaints per 1,000 passengers' to make it comparable across periods and routes.",
+              "Improvement: Add a leading indicator such as 'Aircraft turnaround time (minutes)' — this predicts on-time departure rates and allows operational teams to intervene before a delay happens.",
+            ],
+            answer:
+              "KPI 1 is strong. KPI 2 needs precise survey methodology. KPI 3 should be expressed as a rate per 1,000 passengers to be meaningful. A leading indicator (turnaround time) would shift the system from lagging to predictive measurement, enabling proactive management.",
+          },
+          summary: [
+            "Performance measurement translates strategy into targets, enables control, motivates managers and communicates results to stakeholders.",
+            "Effective KPIs must be Specific, Measurable, Achievable, Relevant and Time-bound (SMART).",
+            "Financial measures are backward-looking and can be manipulated; non-financial measures provide leading indicators of future performance.",
+            "Fitzgerald and Moon's Building Blocks distinguishes results (financial, competitive) from determinants (quality, flexibility, resource utilisation, innovation).",
+            "Common measurement failures include tunnel vision, gaming, short-termism, measure fixation and ossification of outdated metrics.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following is a leading indicator of future financial performance?",
+              options: [
+                "Earnings per share for the prior year",
+                "Return on capital employed for the current year",
+                "Customer satisfaction score measured this month",
+                "Operating profit for the current period",
+              ],
+              answer: 2,
+              explanation: "A leading indicator predicts future performance — customer satisfaction today is a driver of future revenue and loyalty. EPS, ROCE and operating profit are lagging indicators: they report the financial outcome of decisions already made. They tell you what has happened, not what will happen.",
+            },
+            {
+              question: "A hospital sets a target of reducing average A&E waiting time to under 4 hours. It achieves this by discharging patients to hospital corridors rather than wards, so the 'in A&E' clock stops. Which performance measurement failure does this illustrate?",
+              options: [
+                "Tunnel vision",
+                "Ossification",
+                "Gaming — the measure is achieved without improving the underlying objective",
+                "Short-termism",
+              ],
+              answer: 2,
+              explanation: "This is classic gaming: the target metric (time in A&E) is technically met by manipulating the definition of 'in A&E', without improving patient care. The measure has become the goal rather than a proxy for the true objective (patient welfare). Gaming occurs when people optimise the measure rather than the underlying performance it was designed to capture.",
+            },
+          ],
         },
         {
           id: "p1-l26",
@@ -8704,7 +8784,78 @@ const AIQ_COURSE_DATA = {
             "Develop a strategy map linking objectives across the four perspectives",
             "Evaluate the Balanced Scorecard's advantages over purely financial measurement",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Origins and Purpose</h4>" +
+            "<p>The Balanced Scorecard (BSC) was developed by Robert Kaplan and David Norton in the early 1990s in response to evidence that companies relying solely on financial measures were making poor strategic decisions. The BSC is a strategic management framework that translates an organisation's vision and strategy into a coherent set of performance measures across <strong>four perspectives</strong>.</p>" +
+            "<h4>The Four Perspectives</h4>" +
+            "<table><thead><tr><th>Perspective</th><th>Core Question</th><th>Typical Measures</th></tr></thead><tbody>" +
+            "<tr><td><strong>Financial</strong></td><td>How do we look to shareholders?</td><td>ROCE, EPS, revenue growth, free cash flow, operating margin</td></tr>" +
+            "<tr><td><strong>Customer</strong></td><td>How do customers see us?</td><td>Customer satisfaction (NPS), market share, customer retention, on-time delivery</td></tr>" +
+            "<tr><td><strong>Internal Process</strong></td><td>What must we excel at internally?</td><td>Cycle time, defect rate, unit cost, order fulfilment accuracy</td></tr>" +
+            "<tr><td><strong>Learning and Growth</strong></td><td>Can we continue to improve and create value?</td><td>Employee engagement, training hours, innovation pipeline, IT capability</td></tr>" +
+            "</tbody></table>" +
+            "<p>The four perspectives are linked by <strong>cause-and-effect relationships</strong>: investments in learning and growth improve internal processes → better processes improve customer outcomes → satisfied customers drive better financial results. This causal chain is the core insight of the BSC.</p>" +
+            "<h4>Strategy Maps</h4>" +
+            "<p>A strategy map is a visual representation of the cause-and-effect relationships between strategic objectives across the four perspectives. It shows how achieving objectives in one perspective (e.g., 'skilled workforce' in Learning and Growth) leads to outcomes in another (e.g., 'faster order processing' in Internal Process, then 'higher customer satisfaction' in Customer, then 'revenue growth' in Financial).</p>" +
+            "<p>The strategy map forces management to make explicit the assumptions underlying their strategy — if the strategy says 'train staff to improve service quality', the map should show the chain: Training → Quality → Customer Satisfaction → Revenue.</p>" +
+            "<h4>Implementing the BSC — Cascading</h4>" +
+            "<p>Effective BSC implementation requires <strong>cascading</strong> — translating the corporate-level scorecard into divisional, departmental and individual scorecards that align with the corporate strategy. Each manager sees how their objectives contribute to the top-level strategic goals.</p>" +
+            "<h4>Advantages of the Balanced Scorecard</h4>" +
+            "<ul><li>Provides a <strong>balanced view</strong> — financial and non-financial, leading and lagging, internal and external.</li>" +
+            "<li>Communicates strategy throughout the organisation in a clear, structured framework.</li>" +
+            "<li>Makes strategic assumptions explicit through the strategy map — invalid assumptions become visible.</li>" +
+            "<li>Links individual and team objectives directly to corporate strategy.</li>" +
+            "<li>Encourages long-term thinking alongside short-term financial performance.</li></ul>" +
+            "<h4>Criticisms and Limitations</h4>" +
+            "<ul><li><strong>Too many measures:</strong> Without discipline, the BSC can accumulate dozens of KPIs and lose focus. Kaplan and Norton recommended 15–25 measures in total.</li>" +
+            "<li><strong>Cause-and-effect oversimplification:</strong> Real strategic relationships are complex and non-linear; the map may give false confidence in causal claims.</li>" +
+            "<li><strong>Implementation difficulty:</strong> Requires significant cultural change and management commitment; many implementations fail due to insufficient top-level buy-in.</li>" +
+            "<li><strong>Neglect of stakeholders:</strong> Original BSC focuses on shareholders and customers but does not explicitly include employees, suppliers or community (addressed by other frameworks like the Performance Prism).</li></ul>" +
+            "<h4>The Performance Prism</h4>" +
+            "<p>The Performance Prism (Neely et al., 2002) extended the BSC by putting <strong>all stakeholders</strong> — investors, customers, employees, suppliers and regulators/community — at the centre. It also includes a 'Strategies' facet (what strategies are needed to satisfy stakeholders?) and a 'Capabilities' facet (what capabilities do we need to execute strategies?).</p>",
+          workedExample: {
+            setup:
+              "GreenPath plc is a retail bank pursuing a strategy of 'digital-first customer service'. The board wants a Balanced Scorecard. For each of the four perspectives, suggest one strategic objective and one KPI that would reflect this strategy.",
+            steps: [
+              "Financial perspective: Objective — 'Grow revenue through digital channel penetration'. KPI — Percentage of transactions completed digitally (target: 75% by year-end). Also: net interest margin on digitally-originated products.",
+              "Customer perspective: Objective — 'Deliver a seamless digital experience that increases loyalty'. KPI — Net Promoter Score (NPS) for mobile app users (target: >60). Also: digital channel customer retention rate.",
+              "Internal Process perspective: Objective — 'Reduce cost-to-serve by automating routine transactions'. KPI — Average cost per transaction (digital vs. branch); target: digital cost 80% below branch cost. Also: straight-through processing rate (% of loan applications processed without human intervention).",
+              "Learning and Growth perspective: Objective — 'Build digital capability across the organisation'. KPI — % of customer-facing staff completing digital skills certification (target: 90%). Also: number of new digital features released per quarter.",
+            ],
+            answer:
+              "The four perspectives link causally: investing in digital skills (Learning & Growth) → enables automated processes (Internal Process) → creates a seamless customer experience (Customer) → drives revenue growth and cost reduction (Financial). The strategy map for GreenPath would show this causal chain explicitly, helping management test whether digital investment actually translates into the predicted financial outcomes.",
+          },
+          summary: [
+            "The Balanced Scorecard translates strategy into four linked perspectives: Financial, Customer, Internal Process, and Learning and Growth.",
+            "Cause-and-effect logic links the perspectives: L&G improvements → better processes → better customer outcomes → superior financial results.",
+            "A strategy map visualises the causal chains, making strategic assumptions explicit and testable.",
+            "BSC advantages: balanced (financial + non-financial, leading + lagging), strategy-communicating, alignment-building.",
+            "Limitations include risk of too many measures, oversimplified causality, implementation difficulty and neglect of non-investor stakeholders.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company's Balanced Scorecard includes 'Employee training hours per head' as a KPI. In which perspective does this measure sit?",
+              options: [
+                "Financial",
+                "Customer",
+                "Internal Process",
+                "Learning and Growth",
+              ],
+              answer: 3,
+              explanation: "Training hours per head is a measure of organisational capability development — it sits in the Learning and Growth perspective, which captures measures related to people, systems and organisational culture. The causal logic is: more training → improved skills → better internal processes → improved customer outcomes → better financial results.",
+            },
+            {
+              question: "Which of the following is the most significant advantage of the Balanced Scorecard over purely financial performance measurement?",
+              options: [
+                "It eliminates the need for financial reporting",
+                "It provides leading indicators that predict future financial performance",
+                "It reduces the number of performance measures that management must monitor",
+                "It ensures all employees receive the same bonus",
+              ],
+              answer: 1,
+              explanation: "The BSC's key advantage over purely financial measurement is the inclusion of non-financial leading indicators (customer satisfaction, process quality, employee capability) that predict future financial results. Financial measures alone are backward-looking. The BSC does NOT eliminate financial reporting (Option A) and typically increases, not decreases, the number of measures (Option C). It has no direct connection to bonus structures unless explicitly designed that way (Option D).",
+            },
+          ],
         },
         {
           id: "p1-l27",
@@ -8716,7 +8867,85 @@ const AIQ_COURSE_DATA = {
             "Calculate Residual Income (RI) and explain how it overcomes ROI's shortcomings",
             "Assess investment decisions using ROI and RI and identify dysfunctional behaviour",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Divisionalisation Context</h4>" +
+            "<p>Large organisations are typically divided into <strong>divisions</strong> — semi-autonomous business units with their own management and profit/loss responsibility. Performance measurement must balance two needs: giving divisional managers freedom to make decisions (decentralisation) while ensuring those decisions align with corporate goals (goal congruence). ROI and RI are the two most widely used financial measures for divisional performance.</p>" +
+            "<h4>Return on Investment (ROI)</h4>" +
+            "<p>ROI (also called Return on Capital Employed at divisional level) measures profit as a percentage of the assets employed to generate it:</p>" +
+            "<p><strong>ROI = (Divisional profit / Divisional net assets) × 100</strong></p>" +
+            "<p>Or: ROI = Asset turnover × Profit margin (the DuPont decomposition)</p>" +
+            "<p>Where: Asset turnover = Revenue / Net assets; Profit margin = Profit / Revenue</p>" +
+            "<p><strong>Advantages of ROI:</strong></p>" +
+            "<ul><li>Intuitive — links profit to the investment base, showing the return generated per £ of assets.</li>" +
+            "<li>Enables inter-divisional and inter-company comparisons (as a percentage, not an absolute figure).</li>" +
+            "<li>Widely understood by shareholders and board members.</li></ul>" +
+            "<p><strong>Limitations of ROI:</strong></p>" +
+            "<ul><li><strong>Goal incongruence — the key problem:</strong> A manager with an existing ROI of 25% may reject a new project earning 18% (above the cost of capital of 12%) because accepting it would dilute the division's ROI. This is dysfunctional — the project adds value for shareholders but the manager declines it.</li>" +
+            "<li><strong>Asset valuation:</strong> ROI rises automatically as assets age and depreciate (net book value falls), encouraging managers to retain old assets rather than replace them with more productive ones.</li>" +
+            "<li><strong>Short-termism:</strong> Managers may cut investment to boost short-run ROI.</li></ul>" +
+            "<h4>Residual Income (RI)</h4>" +
+            "<p>RI directly solves the goal incongruence problem by expressing performance as an absolute £ figure rather than a ratio:</p>" +
+            "<p><strong>RI = Divisional profit − (Cost of capital % × Net assets)</strong></p>" +
+            "<p>The 'imputed capital charge' (cost of capital × net assets) deducts the minimum return required by the organisation. Any profit above this charge is 'residual' — positive RI means the division is creating value above the cost of capital.</p>" +
+            "<p><strong>Advantages of RI:</strong></p>" +
+            "<ul><li><strong>Goal congruence:</strong> A manager will accept any project with RI > 0 (i.e., return > cost of capital), which aligns with shareholder value maximisation.</li>" +
+            "<li>Encourages investment in value-creating projects that would be rejected under ROI.</li>" +
+            "<li>Can use different cost of capital rates for different risk levels.</li></ul>" +
+            "<p><strong>Limitations of RI:</strong></p>" +
+            "<ul><li>Absolute £ figure — cannot easily compare divisions of different sizes (a large division will always have higher RI than a small one even if both are equally efficient).</li>" +
+            "<li>Still subject to asset valuation problems (NBV issue).</li>" +
+            "<li>Does not automatically account for risk differences between projects.</li></ul>" +
+            "<h4>Investment Decisions — Comparing ROI and RI</h4>" +
+            "<table><thead><tr><th></th><th>Existing division</th><th>New project</th><th>Combined</th></tr></thead><tbody>" +
+            "<tr><td>Profit</td><td>£500,000</td><td>£36,000</td><td>£536,000</td></tr>" +
+            "<tr><td>Net assets</td><td>£2,000,000</td><td>£200,000</td><td>£2,200,000</td></tr>" +
+            "<tr><td>ROI</td><td>25%</td><td>18%</td><td>24.4%</td></tr>" +
+            "<tr><td>RI (@ 12%)</td><td>£260,000</td><td>£12,000</td><td>£272,000</td></tr>" +
+            "</tbody></table>" +
+            "<p>Under ROI: the manager rejects the project (24.4% < 25% existing). Under RI: the manager accepts the project (RI increases by £12,000). The company's required return is 12%; the project earns 18% — clearly value-adding. Only RI leads to the goal-congruent decision.</p>",
+          workedExample: {
+            setup:
+              "Division Z has profit of £180,000 and net assets of £900,000. Cost of capital = 15%. A new investment opportunity has a cost of £200,000 and will generate annual profit of £34,000. Calculate (a) current ROI and RI, (b) ROI and RI if the investment is accepted, and (c) state whether the manager will accept under each measure and whether this is goal congruent.",
+            steps: [
+              "(a) Current ROI = £180,000 / £900,000 = 20%. Current RI = £180,000 − (15% × £900,000) = £180,000 − £135,000 = £45,000.",
+              "(b) New investment ROI = £34,000 / £200,000 = 17%. Combined ROI = (£180,000 + £34,000) / (£900,000 + £200,000) = £214,000 / £1,100,000 = 19.5%. Combined RI = £214,000 − (15% × £1,100,000) = £214,000 − £165,000 = £49,000.",
+              "(c) Under ROI: Combined ROI 19.5% < current ROI 20% → manager rejects. This is NOT goal congruent — the project earns 17% > 15% cost of capital, so it adds value.",
+              "(c) Under RI: Combined RI £49,000 > current RI £45,000 (increase of £4,000) → manager accepts. This IS goal congruent — the project adds £4,000 of residual income above the required return.",
+            ],
+            answer:
+              "ROI leads to dysfunctional rejection of a value-adding project. RI leads to goal-congruent acceptance. The project earns 17% on a 15% cost of capital — it creates £4,000 of incremental value. RI is the superior measure for investment decisions because it removes the 'dilution' bias inherent in ROI.",
+          },
+          summary: [
+            "ROI = Divisional profit / Net assets × 100; it is intuitive and comparable but creates goal incongruence when evaluating new investments.",
+            "A manager with high current ROI may reject profitable new investments that would dilute the division's ROI even if they exceed the cost of capital.",
+            "RI = Divisional profit − (Cost of capital % × Net assets); it is an absolute £ measure that promotes goal congruence.",
+            "Under RI, any investment earning a return above the cost of capital increases RI and will be accepted — aligning divisional decisions with shareholder value.",
+            "RI cannot easily compare divisions of different sizes; ROI enables cross-divisional comparison but risks dysfunctional behaviour.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A division has current ROI of 22% and the cost of capital is 14%. A new project would earn ROI of 16%. Which statement is correct?",
+              options: [
+                "The manager will accept under both ROI and RI measurement",
+                "The manager will reject under ROI but accept under RI measurement",
+                "The manager will accept under ROI but reject under RI measurement",
+                "The manager will reject under both ROI and RI measurement",
+              ],
+              answer: 1,
+              explanation: "Under ROI: project ROI (16%) < current division ROI (22%) — accepting would dilute the division's ROI, so the manager rejects. Under RI: project ROI (16%) > cost of capital (14%), so the project generates positive incremental RI — the manager accepts. The RI decision (accept) is goal congruent; the ROI decision (reject) is dysfunctional.",
+            },
+            {
+              question: "A division earns profit of £240,000 on net assets of £1,200,000. The cost of capital is 15%. What is the Residual Income?",
+              options: [
+                "£60,000",
+                "£20,000",
+                "£180,000",
+                "£240,000",
+              ],
+              answer: 0,
+              explanation: "RI = Divisional profit − (Cost of capital × Net assets) = £240,000 − (15% × £1,200,000) = £240,000 − £180,000 = £60,000. The division earns £60,000 above the minimum required return on its assets. ROI = £240,000 / £1,200,000 = 20%, which exceeds the 15% hurdle, consistent with positive RI.",
+            },
+          ],
         },
         {
           id: "p1-l28",
@@ -8728,7 +8957,78 @@ const AIQ_COURSE_DATA = {
             "Calculate EVA with accounting adjustments (add back R&D, operating lease adjustments)",
             "Evaluate the advantages of EVA as a performance measure and its practical difficulties",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is EVA?</h4>" +
+            "<p>Economic Value Added (EVA®) is a performance measure developed and trademarked by Stern Stewart & Co. It is conceptually similar to Residual Income but makes a series of <strong>accounting adjustments</strong> to convert profit from an accounting basis to an economic basis. The fundamental formula is:</p>" +
+            "<p><strong>EVA = NOPAT − (WACC × Capital Employed)</strong></p>" +
+            "<p>Where:</p>" +
+            "<ul><li><strong>NOPAT</strong> = Net Operating Profit After Tax (adjusted for economic reality)</li>" +
+            "<li><strong>WACC</strong> = Weighted Average Cost of Capital (both debt and equity)</li>" +
+            "<li><strong>Capital Employed</strong> = Adjusted total assets less current liabilities (the economic capital base)</li></ul>" +
+            "<h4>Why Adjust Accounting Profits?</h4>" +
+            "<p>Standard accounting profit is distorted by accounting conventions that do not reflect economic reality. Stern Stewart identified over 160 potential adjustments; in practice, companies implement a subset. The most important adjustments are:</p>" +
+            "<table><thead><tr><th>Adjustment</th><th>Rationale</th><th>Effect on NOPAT/Capital</th></tr></thead><tbody>" +
+            "<tr><td><strong>Add back R&D expenditure and amortise over useful life</strong></td><td>Accounting standards require immediate expensing of R&D, but economically it is a long-term investment creating future value</td><td>NOPAT increases (less expensed now); Capital increases (R&D asset capitalised)</td></tr>" +
+            "<tr><td><strong>Add back goodwill amortisation</strong></td><td>Goodwill represents real acquired value; amortisation creates a downward bias in profit</td><td>NOPAT increases</td></tr>" +
+            "<tr><td><strong>Capitalise operating leases (pre-IFRS 16)</strong></td><td>Off-balance-sheet leases understate capital employed; treating them as finance leases gives a truer picture</td><td>NOPAT increases (add back lease charges, deduct depreciation); Capital increases (lease asset added)</td></tr>" +
+            "<tr><td><strong>Add back brand/marketing investment</strong></td><td>Brand-building expenditure creates long-term value; expensing it penalises long-term investment</td><td>Similar to R&D treatment</td></tr>" +
+            "</tbody></table>" +
+            "<h4>EVA vs RI</h4>" +
+            "<p>RI uses accounting profit and book value of assets. EVA uses adjusted NOPAT and adjusted capital, with WACC (reflecting both debt and equity costs) rather than a simple hurdle rate. EVA is more rigorous but also more complex to calculate.</p>" +
+            "<p>Both EVA and RI will be positive when the organisation earns a return above its cost of capital — both measure economic value creation. The key difference is the level of accounting adjustment applied.</p>" +
+            "<h4>Advantages of EVA</h4>" +
+            "<ul><li>Closely aligned with shareholder value (NPV thinking) — positive EVA implies the company is creating wealth above the cost of all capital.</li>" +
+            "<li>Accounting adjustments remove distortions that penalise long-term investment in intangibles (R&D, brands, training).</li>" +
+            "<li>Encourages managers to optimise the capital base as well as profit (capital efficiency matters).</li>" +
+            "<li>Can be linked to managerial remuneration to drive value-creating behaviour.</li></ul>" +
+            "<h4>Disadvantages and Practical Difficulties</h4>" +
+            "<ul><li><strong>Complexity:</strong> The adjustments are numerous and subjective; different companies make different adjustments, making comparisons difficult.</li>" +
+            "<li><strong>Managerial understanding:</strong> Complex calculations may be poorly understood by the divisional managers being appraised.</li>" +
+            "<li><strong>Short-term focus:</strong> Annual EVA may still incentivise short-term behaviour despite the adjustment philosophy.</li>" +
+            "<li><strong>WACC estimation:</strong> Calculating WACC requires market data and assumptions (beta, market risk premium) that introduce estimation error.</li></ul>",
+          workedExample: {
+            setup:
+              "Apex Division reports the following for the year: Operating profit (per accounts) £500,000. During the year, R&D expenditure was £120,000 (written off immediately). The R&D should be capitalised and amortised over 5 years; £30,000 of prior years' R&D remains unamortised. Tax rate 25%. Capital employed (per accounts) £2,000,000. WACC = 12%. Calculate EVA.",
+            steps: [
+              "Step 1 — Adjust NOPAT: Accounting operating profit = £500,000. Add back R&D expensed this year: +£120,000. Deduct R&D amortisation for the year (£120,000 / 5 = £24,000): −£24,000. Adjusted operating profit before tax = £500,000 + £120,000 − £24,000 = £596,000. NOPAT (after tax) = £596,000 × (1 − 25%) = £447,000.",
+              "Step 2 — Adjust Capital Employed: Accounting capital = £2,000,000. Add capitalised R&D (current year £120,000 − current amortisation £24,000 = £96,000 net addition, plus prior years £30,000) = £2,000,000 + £96,000 + £30,000 = £2,126,000.",
+              "Step 3 — Capital charge: WACC × Adjusted capital = 12% × £2,126,000 = £255,120.",
+              "Step 4 — EVA: NOPAT − Capital charge = £447,000 − £255,120 = £191,880.",
+            ],
+            answer:
+              "EVA = £191,880. The R&D capitalisation adds £126,000 to the capital base but also increases NOPAT by removing the immediate expensing effect. The positive EVA of nearly £192,000 indicates that after meeting the full cost of all capital (both debt and equity) and adjusting for the economic treatment of R&D, the division is creating genuine value above its cost of capital.",
+          },
+          summary: [
+            "EVA = NOPAT − (WACC × Adjusted capital employed); it measures economic profit after charging for all capital used.",
+            "Key adjustments convert accounting profit to NOPAT: capitalise R&D, reverse goodwill amortisation, capitalise operating leases.",
+            "EVA is conceptually identical to RI but uses WACC and makes accounting adjustments to eliminate distortions that penalise long-term investment.",
+            "Positive EVA means the organisation earns above its cost of all capital — it is creating economic value for shareholders.",
+            "Practical difficulties include complexity of adjustments, difficulty of WACC estimation and poor managerial understanding.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company has NOPAT of £800,000, adjusted capital employed of £5,000,000 and WACC of 14%. What is the EVA?",
+              options: [
+                "£100,000 positive",
+                "£100,000 negative",
+                "£700,000 positive",
+                "£700,000 negative",
+              ],
+              answer: 1,
+              explanation: "EVA = NOPAT − (WACC × Capital) = £800,000 − (14% × £5,000,000) = £800,000 − £700,000 = £100,000 positive. The company earns £100,000 above its weighted average cost of capital — it is creating economic value. Note: Option A and B both say £100,000; the correct sign is positive (A).",
+            },
+            {
+              question: "Why does EVA add back R&D expenditure and capitalise it over its useful life?",
+              options: [
+                "To reduce the tax charge and increase after-tax profit",
+                "Because accounting standards require R&D to be capitalised",
+                "To avoid penalising managers for investing in long-term value-creating activities",
+                "To reduce the capital employed figure and improve the EVA calculation",
+              ],
+              answer: 2,
+              explanation: "Expensing R&D immediately reduces current-period profit, which would penalise a manager who invests in future value creation. EVA capitalises R&D to reflect its economic nature as a long-term investment, preventing managers from being discouraged from investing in R&D to avoid a profit hit. Option B is incorrect — IAS 38 requires development costs to be capitalised only when criteria are met, and research costs to be expensed. Option D is wrong — capitalising R&D increases (not reduces) the capital base, increasing the capital charge.",
+            },
+          ],
         },
         {
           id: "p1-l29",
@@ -8740,7 +9040,81 @@ const AIQ_COURSE_DATA = {
             "Calculate transfer prices using market price, cost-based and negotiated methods",
             "Apply the general transfer pricing rule and evaluate international transfer pricing issues",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Transfer Pricing?</h4>" +
+            "<p>When one division of a group supplies goods or services to another division, the price charged for the internal transfer is the <strong>transfer price</strong>. It is not a market transaction — there is no external buyer or seller — but it affects:</p>" +
+            "<ul><li>The <strong>profit</strong> of both the selling division (revenue) and the buying division (cost).</li>" +
+            "<li>The <strong>performance measurement</strong> of divisional managers (their profits depend on the transfer price).</li>" +
+            "<li>The <strong>tax liability</strong> of the group in different jurisdictions (internationally).</li>" +
+            "<li><strong>Goal congruence</strong> — whether divisional decisions align with group profit maximisation.</li></ul>" +
+            "<h4>Methods of Setting Transfer Prices</h4>" +
+            "<p><strong>1. Market Price</strong></p>" +
+            "<p>The transfer price equals the external market price for the product. This is theoretically ideal when a competitive external market exists — both divisions make profit/loss decisions as if they were dealing with external parties.</p>" +
+            "<p><em>Advantages:</em> Objective; maintains divisional autonomy; goal congruent when no spare capacity exists.</p>" +
+            "<p><em>Disadvantages:</em> No external market may exist (unique/intermediate goods); internal transfers may save costs (no sales commission, packaging) that market price does not reflect; adverse for the group if market price includes a competitor's profit.</p>" +
+            "<p><strong>2. Cost-Based Transfer Prices</strong></p>" +
+            "<p>Three variants exist:</p>" +
+            "<ul><li><strong>Marginal/variable cost:</strong> Encourages the buying division to make efficient decisions (only variable costs are relevant) but leaves the selling division with no contribution toward fixed costs — demotivating.</li>" +
+            "<li><strong>Full cost (absorption cost):</strong> Covers all costs but gives the selling division no profit — again demotivating for the selling division.</li>" +
+            "<li><strong>Cost plus mark-up:</strong> Full cost + a profit margin. Gives the selling division a profit but the mark-up is arbitrary; the buying division bears a cost that partly reflects the selling division's inefficiency.</li></ul>" +
+            "<p><strong>3. Negotiated Transfer Price</strong></p>" +
+            "<p>Divisional managers agree a price through negotiation, typically between marginal cost (minimum the selling division will accept) and market price (maximum the buying division will pay). Preserves divisional autonomy but is time-consuming and may be distorted by negotiating power imbalances.</p>" +
+            "<h4>The General Transfer Pricing Rule</h4>" +
+            "<p>The minimum transfer price acceptable to the selling division is:</p>" +
+            "<p><strong>Minimum TP = Marginal cost of production + Opportunity cost per unit to the seller</strong></p>" +
+            "<p>The opportunity cost = contribution lost on external sales that must be forgone to make the internal transfer.</p>" +
+            "<ul><li>If the selling division has <strong>spare capacity</strong>: no external sales are foregone → opportunity cost = 0 → minimum TP = marginal cost.</li>" +
+            "<li>If the selling division is <strong>operating at full capacity</strong>: every unit transferred internally displaces an external sale → opportunity cost = contribution per unit on external sales → minimum TP = marginal cost + contribution foregone.</li></ul>" +
+            "<h4>International Transfer Pricing</h4>" +
+            "<p>Multinational groups can shift profits between jurisdictions by manipulating transfer prices — transferring profits from high-tax to low-tax countries. Tax authorities combat this using the <strong>arm's length principle</strong>: the transfer price should be what unrelated parties would agree in an open market. The OECD Transfer Pricing Guidelines set out accepted methods (CUP, cost plus, resale price, profit split, TNMM).</p>" +
+            "<table><thead><tr><th>Scenario</th><th>Group position</th><th>Selling division prefers</th><th>Buying division prefers</th></tr></thead><tbody>" +
+            "<tr><td>Spare capacity in seller</td><td>Any price ≥ marginal cost is profit-neutral to group</td><td>High price (more revenue)</td><td>Low price (lower cost)</td></tr>" +
+            "<tr><td>No spare capacity</td><td>Price must at least cover marginal cost + lost contribution</td><td>High price to compensate lost external sales</td><td>Compare TP vs external supplier cost</td></tr>" +
+            "</tbody></table>",
+          workedExample: {
+            setup:
+              "Division A manufactures Component X. Variable cost = £15 per unit. It sells externally at £25/unit and currently produces and sells 10,000 units. Division B wants to purchase 3,000 units of Component X internally. Division A has capacity to produce 12,000 units. Calculate (a) the minimum transfer price if Division A has only 10,000 units of capacity, and (b) the minimum if capacity is 13,000 units.",
+            steps: [
+              "(a) Capacity = 10,000 units. Division A currently at full capacity. To supply 3,000 units to B, it must reduce external sales by 3,000 units.",
+              "(a) Contribution per unit on external sales = £25 − £15 = £10.",
+              "(a) Minimum TP = Marginal cost + Opportunity cost = £15 + £10 = £25 (= market price). Division A will not accept less than the external market price when at full capacity.",
+              "(b) Capacity = 13,000 units. Current external sales = 10,000. Spare capacity = 3,000 units — exactly enough to supply Division B without reducing external sales.",
+              "(b) Opportunity cost = £0 (no external sales foregone). Minimum TP = £15 + £0 = £15 (= marginal cost). At any price above £15, Division A earns a positive contribution and will accept the transfer.",
+            ],
+            answer:
+              "With spare capacity, Division A accepts any price ≥ £15 (marginal cost) — Division B should negotiate a price between £15 and £25 (its external market alternative). Without spare capacity, Division A requires £25 (full market price) — the transfer happens only if Division B cannot source more cheaply externally. The general rule always gives the group-optimal minimum price.",
+          },
+          summary: [
+            "Transfer prices affect divisional profits, performance measurement, group tax liabilities and goal congruence across internal transactions.",
+            "Market price is theoretically ideal but requires a competitive external market; cost-based and negotiated prices are common alternatives.",
+            "The general rule: minimum TP = marginal cost + opportunity cost per unit (contribution lost on foregone external sales).",
+            "With spare capacity, opportunity cost = zero, so minimum TP = marginal cost; at full capacity, minimum TP = market price.",
+            "Internationally, the arm's length principle (OECD guidelines) requires transfer prices between related parties to reflect open-market terms.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Division S has spare capacity and a variable cost of £20 per unit. It can sell externally at £30/unit. Division B requests 500 units. What is the minimum transfer price Division S should accept?",
+              options: [
+                "£30 per unit",
+                "£25 per unit",
+                "£20 per unit",
+                "£10 per unit",
+              ],
+              answer: 2,
+              explanation: "Minimum TP = Marginal (variable) cost + Opportunity cost. With spare capacity, no external sales are forgone, so opportunity cost = £0. Minimum TP = £20 + £0 = £20. Division S will accept any price at or above £20 — at exactly £20, it covers variable cost with zero contribution, which is acceptable when spare capacity would otherwise be idle.",
+            },
+            {
+              question: "A company shifts profits from a high-tax country to a low-tax country by setting a below-market transfer price for goods transferred from the high-tax subsidiary to the low-tax subsidiary. What principle do tax authorities use to challenge this?",
+              options: [
+                "The materiality principle",
+                "The arm's length principle",
+                "The matching concept",
+                "The going concern principle",
+              ],
+              answer: 1,
+              explanation: "Tax authorities apply the arm's length principle: transfer prices between related parties should reflect what independent, unrelated parties would agree in an open market. If transfer prices deviate from this (artificially low or high to shift profits), tax authorities can adjust the taxable profit in their jurisdiction. The OECD Transfer Pricing Guidelines provide the internationally accepted framework.",
+            },
+          ],
         },
         {
           id: "p1-l30",
@@ -8752,7 +9126,90 @@ const AIQ_COURSE_DATA = {
             "Describe sustainability and ESG metrics and their integration into performance frameworks",
             "Evaluate the challenges of measuring and reporting non-financial performance",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Importance of Non-Financial Performance Indicators</h4>" +
+            "<p>Financial metrics capture value that has already been created — they are <strong>lagging indicators</strong>. Non-financial performance indicators (NFPIs) measure the operational and strategic drivers of future financial performance. A business with deteriorating customer satisfaction, falling product quality or rising staff turnover will eventually see these reflected in financial results — but NFPIs give earlier warning, enabling corrective action before financial damage occurs.</p>" +
+            "<p>Non-financial measures are typically used in four areas: <strong>quality, delivery, flexibility and innovation</strong> — the determinants in Fitzgerald and Moon's Building Blocks model.</p>" +
+            "<h4>Key Non-Financial Performance Indicators</h4>" +
+            "<table><thead><tr><th>Area</th><th>Typical NFPIs</th></tr></thead><tbody>" +
+            "<tr><td><strong>Quality</strong></td><td>Defect rate (parts per million), customer returns/complaints, first-pass yield, warranty claims</td></tr>" +
+            "<tr><td><strong>Delivery/Speed</strong></td><td>On-time delivery %, order-to-delivery cycle time, machine utilisation rate, downtime</td></tr>" +
+            "<tr><td><strong>Flexibility</strong></td><td>Range of products/variants, time to introduce new product, changeover time</td></tr>" +
+            "<tr><td><strong>Innovation</strong></td><td>Number of new products launched, R&D spend as % of revenue, patents filed</td></tr>" +
+            "<tr><td><strong>People</strong></td><td>Staff turnover rate, absenteeism, engagement score, training hours per employee</td></tr>" +
+            "<tr><td><strong>Customer</strong></td><td>Net Promoter Score (NPS), customer retention rate, market share, mystery shopper scores</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Sustainability and ESG Metrics</h4>" +
+            "<p>Environmental, Social and Governance (ESG) metrics have become a major component of non-financial reporting. Investors, regulators and other stakeholders increasingly require organisations to measure and disclose their performance across three dimensions:</p>" +
+            "<p><strong>Environmental (E):</strong></p>" +
+            "<ul><li>Scope 1, 2 and 3 greenhouse gas (GHG) emissions (CO₂e tonnes)</li>" +
+            "<li>Energy consumption and renewable energy mix (%)</li>" +
+            "<li>Water usage and waste generated/recycled</li>" +
+            "<li>Biodiversity impact, land use</li></ul>" +
+            "<p><strong>Social (S):</strong></p>" +
+            "<ul><li>Employee diversity metrics (gender pay gap, % underrepresented groups in leadership)</li>" +
+            "<li>Health and safety (injury rate, lost-time accidents)</li>" +
+            "<li>Community investment (£ donated, volunteer hours)</li>" +
+            "<li>Supply chain labour standards (% of suppliers audited)</li></ul>" +
+            "<p><strong>Governance (G):</strong></p>" +
+            "<ul><li>Board independence (% independent non-executive directors)</li>" +
+            "<li>Executive pay ratio (CEO pay vs median employee pay)</li>" +
+            "<li>Anti-corruption policies, whistleblower mechanisms</li>" +
+            "<li>Tax transparency</li></ul>" +
+            "<h4>ESG Reporting Frameworks</h4>" +
+            "<ul><li><strong>GRI (Global Reporting Initiative):</strong> Comprehensive stakeholder-focused framework covering all sustainability dimensions.</li>" +
+            "<li><strong>TCFD (Task Force on Climate-related Financial Disclosures):</strong> Climate-specific framework — governance, strategy, risk management, metrics and targets.</li>" +
+            "<li><strong>ISSB (International Sustainability Standards Board):</strong> New global baseline standards (IFRS S1/S2) for sustainability-related financial disclosures.</li>" +
+            "<li><strong>UN SDGs:</strong> Many companies align ESG reporting to the 17 Sustainable Development Goals.</li></ul>" +
+            "<h4>Challenges of Non-Financial Measurement</h4>" +
+            "<ul><li><strong>Subjectivity:</strong> Many NFPIs (e.g., customer satisfaction, engagement scores) are based on surveys and judgements — harder to verify than financial data.</li>" +
+            "<li><strong>Comparability:</strong> No universal standards for measuring and reporting NFPIs; comparisons between companies are difficult.</li>" +
+            "<li><strong>Gaming:</strong> NFPIs can be gamed just as financial metrics can (e.g., manipulating NPS survey design).</li>" +
+            "<li><strong>Aggregation:</strong> Converting qualitative performance into a single number destroys nuance.</li>" +
+            "<li><strong>Short-termism:</strong> NFPIs like training hours or R&D spend may be cut to hit short-term financial targets.</li>" +
+            "<li><strong>Greenwashing:</strong> Companies may report favourable ESG metrics selectively without genuine change in behaviour.</li></ul>",
+          workedExample: {
+            setup:
+              "EcoLogic Ltd is a consumer goods manufacturer that has committed to net zero by 2035. It has set the following ESG targets: (1) Reduce Scope 1 and 2 GHG emissions by 40% from 2023 baseline by 2030; (2) Achieve 90% waste diversion from landfill by 2027; (3) Close the gender pay gap to within 3% by 2028. For each target, identify an appropriate KPI and explain one challenge in measuring it.",
+            steps: [
+              "Target 1 — GHG emissions: KPI = Total Scope 1 and 2 CO₂e tonnes, reported annually against 2023 baseline. Challenge: Scope 2 emissions depend on the energy mix of electricity suppliers (market-based vs location-based methodologies give different results); reporting methodology must be consistent and independently verified. Scope 3 (value chain) emissions are not captured here but represent the bulk of most consumer companies' footprint.",
+              "Target 2 — Waste diversion: KPI = % of total waste diverted from landfill (composted, recycled, energy recovery). Challenge: 'Diversion from landfill' sounds positive but includes energy recovery (incineration), which may not represent genuine sustainability. A more rigorous KPI would separate genuine recycling from incineration.",
+              "Target 3 — Gender pay gap: KPI = Mean/median gender pay gap (%) per statutory reporting. Challenge: The gender pay gap reflects workforce composition (more women in junior roles) rather than equal pay for equal work — a company can have a large gender pay gap while paying men and women equally for the same role. Supplementary measures (% women in senior roles, pay equity analysis by grade) are needed for a complete picture.",
+            ],
+            answer:
+              "All three targets have appropriate headline KPIs but each has measurement subtleties that require careful methodology. ESG metrics are most credible when independently assured, consistently defined over time and supplemented by qualitative commentary. EcoLogic should publish its measurement methodology (e.g., which GHG protocol, which waste classification standard) alongside the numbers.",
+          },
+          summary: [
+            "NFPIs measure operational drivers of future financial performance — quality, delivery, flexibility, innovation and people are key areas.",
+            "ESG metrics cover Environmental (GHG, energy, water), Social (diversity, H&S, community) and Governance (board structure, pay ratio) dimensions.",
+            "Major reporting frameworks include GRI, TCFD, ISSB (IFRS S1/S2) and the UN SDGs.",
+            "Challenges of non-financial measurement include subjectivity, lack of comparability, gaming, aggregation and greenwashing.",
+            "NFPIs complement financial measures by providing leading indicators — by the time financial deterioration is visible, damage may already be done.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following is a leading indicator of future customer revenue?",
+              options: [
+                "Revenue for the current quarter",
+                "Net Promoter Score measured this month",
+                "Operating profit margin for the year",
+                "Return on capital employed",
+              ],
+              answer: 1,
+              explanation: "Net Promoter Score (NPS) measures the likelihood of customers recommending the company — it is a leading indicator of future customer retention and revenue growth. Satisfied customers who recommend the business will drive future revenue. Revenue, operating profit margin and ROCE are all lagging financial indicators: they record the outcome of past decisions, not drivers of future performance.",
+            },
+            {
+              question: "Which ESG reporting framework specifically focuses on climate-related financial disclosures, covering governance, strategy, risk management, and metrics and targets?",
+              options: [
+                "GRI (Global Reporting Initiative)",
+                "ISSB (International Sustainability Standards Board)",
+                "TCFD (Task Force on Climate-related Financial Disclosures)",
+                "UN Sustainable Development Goals",
+              ],
+              answer: 2,
+              explanation: "TCFD is specifically focused on climate-related financial disclosures, structured around four pillars: governance (board oversight of climate), strategy (how climate affects business), risk management (processes for identifying climate risks) and metrics and targets (GHG targets and performance). GRI covers all sustainability dimensions. ISSB produces global baseline standards. The UN SDGs are broader development goals, not a detailed reporting framework.",
+            },
+          ],
         },
       ],
     },
