@@ -9236,7 +9236,78 @@ const AIQ_COURSE_DATA = {
             "Explain the standard-setting due process (discussion paper, exposure draft, standard)",
             "Distinguish between principles-based (IFRS) and rules-based (US GAAP) frameworks",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Need for Global Accounting Standards</h4>" +
+            "<p>Financial statements must be understandable to investors, lenders and other stakeholders across borders. Without common standards, a UK investor reading a Chinese company's accounts and a US company's accounts would be comparing incompatible numbers. The globalisation of capital markets has driven convergence towards a single set of high-quality accounting standards.</p>" +
+            "<h4>The IFRS Foundation and IASB</h4>" +
+            "<p>The <strong>IFRS Foundation</strong> is the not-for-profit organisation that oversees the production of IFRS Standards. Within it, the <strong>International Accounting Standards Board (IASB)</strong> is the independent standard-setting body. The IASB:</p>" +
+            "<ul><li>Develops and issues IFRS Standards (and historically IAS standards, which remain in force).</li>" +
+            "<li>Has 14 full-time members with diverse geographic and professional backgrounds.</li>" +
+            "<li>Is funded by contributions from companies, accounting firms and national standard-setters.</li></ul>" +
+            "<p>The <strong>IFRS Interpretations Committee (IFRIC)</strong> sits alongside the IASB, providing guidance on applying IFRS in ambiguous situations and issuing narrow-scope amendments.</p>" +
+            "<h4>The Due Process — How Standards Are Developed</h4>" +
+            "<p>IFRS standards are developed through a rigorous due process designed to ensure transparency and stakeholder input:</p>" +
+            "<ol><li><strong>Research:</strong> IASB staff identify a financial reporting problem, examine existing standards and research practice globally.</li>" +
+            "<li><strong>Discussion Paper (DP):</strong> An optional early-stage consultation document setting out preliminary views and inviting comment from stakeholders.</li>" +
+            "<li><strong>Exposure Draft (ED):</strong> A formal proposed standard issued for public comment (usually 3–6 months' comment period). All responses are published.</li>" +
+            "<li><strong>Re-deliberations:</strong> IASB considers all comment letters and makes revisions at public meetings.</li>" +
+            "<li><strong>Final Standard:</strong> Published with Basis for Conclusions explaining decisions taken and why feedback was accepted or rejected.</li>" +
+            "<li><strong>Post-implementation Review:</strong> After a standard has been in use for two years, the IASB conducts a post-implementation review to assess whether it is working as intended.</li></ol>" +
+            "<h4>Principles-Based vs Rules-Based Frameworks</h4>" +
+            "<table><thead><tr><th>Dimension</th><th>IFRS (Principles-Based)</th><th>US GAAP (Rules-Based)</th></tr></thead><tbody>" +
+            "<tr><td>Approach</td><td>Sets broad principles, requires professional judgement in application</td><td>Prescribes detailed rules for specific transactions</td></tr>" +
+            "<tr><td>Flexibility</td><td>More flexible — can handle novel transactions not explicitly addressed</td><td>Less flexible — must follow specific rules even if economically inappropriate</td></tr>" +
+            "<tr><td>Consistency</td><td>May produce inconsistent application across companies (different judgements)</td><td>More consistent within jurisdiction but mechanical compliance can obscure substance</td></tr>" +
+            "<tr><td>Standard volume</td><td>Shorter, fewer standards</td><td>Much larger body of literature (FASB ASC)</td></tr>" +
+            "<tr><td>Example</td><td>IAS 37 'best estimate' provision — requires judgement</td><td>Detailed rules for specific provision types (environmental, litigation)</td></tr>" +
+            "</tbody></table>" +
+            "<h4>IFRS Adoption Globally</h4>" +
+            "<p>As of 2025, over 140 jurisdictions require or permit IFRS for listed companies, including the EU, UK, Australia, Canada (IFRS for public entities), India and most of Asia-Pacific. The USA uses US GAAP; China has substantially converged ASBE standards with IFRS.</p>" +
+            "<p>In the UK, listed companies use UK-adopted IFRS. Unlisted companies use either FRS 102 (UK GAAP, aligned with the IFRS for SMEs standard) or choose to apply IFRS voluntarily.</p>",
+          workedExample: {
+            setup:
+              "A new financial reporting issue has emerged: how should companies account for cryptocurrency holdings? The IASB has received requests from preparers and users for guidance. Describe the steps the IASB would take to address this issue through its due process, and explain why due process is important.",
+            steps: [
+              "Step 1 — Research: IASB staff examine existing standards (IAS 38 currently applies — cryptocurrencies treated as intangible assets with indefinite life). They research global practice and identify that different companies apply different approaches, reducing comparability.",
+              "Step 2 — Discussion Paper: The IASB may issue a DP setting out preliminary views on whether crypto should be measured at cost (under IAS 38) or at fair value through profit or loss. Stakeholders have 4 months to comment.",
+              "Step 3 — Exposure Draft: Based on DP feedback, the IASB develops a proposed standard (e.g., fair value through profit or loss for 'active market' cryptocurrencies). The ED is open for public comment for 90–120 days.",
+              "Step 4 — Re-deliberation: The IASB considers the ~500 comment letters received. It may revise the scope or measurement approach. All meetings are public.",
+              "Step 5 — Final Standard: Published with Basis for Conclusions explaining why fair value was chosen over cost and how feedback was addressed. Effective date typically 12–24 months after publication.",
+            ],
+            answer:
+              "Due process ensures legitimacy and quality: input from users (investors who want fair value), preparers (who prefer cost), auditors and regulators is considered. Transparency (published comment letters, public meetings) builds trust and reduces the risk of standards that favour one stakeholder group. Without due process, standards might be captured by powerful interest groups or miss practical implementation issues.",
+          },
+          summary: [
+            "The IFRS Foundation oversees the IASB, which develops IFRS standards for use by listed companies in 140+ jurisdictions.",
+            "The due process runs: research → Discussion Paper → Exposure Draft → re-deliberations → Final Standard → post-implementation review.",
+            "Principles-based IFRS requires professional judgement; rules-based US GAAP provides more detailed prescriptions.",
+            "Over 140 countries require or permit IFRS; the US uses US GAAP; UK listed companies use UK-adopted IFRS.",
+            "The IFRIC provides guidance on interpreting IFRS in ambiguous situations through narrow-scope amendments.",
+          ],
+          practiceQuestions: [
+            {
+              question: "At which stage of the IASB's due process do external stakeholders formally submit written responses to a proposed new standard?",
+              options: [
+                "Discussion Paper",
+                "Research phase",
+                "Exposure Draft",
+                "Post-implementation review",
+              ],
+              answer: 2,
+              explanation: "The Exposure Draft (ED) is the formal document inviting public comment on a proposed standard. The comment period (typically 90–120 days) is the primary opportunity for stakeholders to influence the final standard. Responses are published. A Discussion Paper is an earlier, optional consultation. The research phase is internal. Post-implementation review is after the standard has been in force.",
+            },
+            {
+              question: "Which of the following best describes the principles-based nature of IFRS?",
+              options: [
+                "IFRS provides detailed rules for every specific transaction type, leaving little scope for judgement",
+                "IFRS sets broad objectives and principles, requiring professional judgement in application",
+                "IFRS is based on the US GAAP Accounting Standards Codification",
+                "IFRS requires all entities to use historical cost for all assets",
+              ],
+              answer: 1,
+              explanation: "IFRS is principles-based: it establishes broad objectives and qualitative principles (e.g., 'faithful representation', 'economic substance over legal form') and requires preparers to apply professional judgement. This contrasts with the rules-based US GAAP, which provides detailed, specific guidance for almost every transaction type. Principles-based standards are more flexible but require more judgement and can lead to less consistency.",
+            },
+          ],
         },
         {
           id: "f1-l2",
@@ -9248,7 +9319,85 @@ const AIQ_COURSE_DATA = {
             "Describe the qualitative characteristics: fundamental (relevance, faithful representation) and enhancing",
             "Apply the recognition criteria and measurement bases to practical scenarios",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Purpose of the Conceptual Framework</h4>" +
+            "<p>The IASB's Conceptual Framework for Financial Reporting (2018) is not an accounting standard — it does not override any standard. Instead, it is the theoretical foundation that underlies all IFRS standards. It provides the IASB with a basis for developing new standards consistently, and helps preparers resolve issues where no specific standard applies.</p>" +
+            "<h4>The Objective of General Purpose Financial Reporting</h4>" +
+            "<p>The primary objective is to provide <strong>financial information about the reporting entity that is useful to existing and potential investors, lenders and other creditors</strong> in making decisions about providing resources to the entity. These are the '<strong>primary users</strong>'.</p>" +
+            "<p>Other stakeholders (employees, customers, governments) may find financial statements useful but they are not the primary audience. The framework focuses on the <strong>capital allocation decisions</strong> of primary users — whether to buy, sell or hold equity; whether to extend or call in loans.</p>" +
+            "<h4>Qualitative Characteristics — Two Levels</h4>" +
+            "<p><strong>Fundamental Characteristics</strong> (must be present for information to be useful):</p>" +
+            "<ul><li><strong>Relevance:</strong> Information is relevant if it can make a difference to a decision — either by confirming or changing a user's expectation. It must have <em>predictive value</em> (helps forecast future outcomes) or <em>confirmatory value</em> (provides feedback on past decisions). Materiality is an entity-specific aspect of relevance.</li>" +
+            "<li><strong>Faithful Representation:</strong> Information must faithfully represent what it purports to represent. It must be <em>complete</em> (nothing material omitted), <em>neutral</em> (no bias), and <em>free from material error</em>. Note: accuracy is not the same as certainty — estimates can be faithfully represented if they are clearly identified as estimates and described with appropriate ranges.</li></ul>" +
+            "<p><strong>Enhancing Characteristics</strong> (improve usefulness but cannot make useless information useful):</p>" +
+            "<ul><li><strong>Comparability:</strong> Users can compare across periods and across companies — requires consistent application of policies.</li>" +
+            "<li><strong>Verifiability:</strong> Different knowledgeable, independent observers could agree the information faithfully represents what it claims to represent.</li>" +
+            "<li><strong>Timeliness:</strong> Information is available before it loses its capacity to influence decisions.</li>" +
+            "<li><strong>Understandability:</strong> Classified, characterised and presented clearly to users with a reasonable knowledge of business and finance.</li></ul>" +
+            "<p><strong>Cost constraint:</strong> The benefits of providing information must exceed the cost of producing and presenting it.</p>" +
+            "<h4>Elements of Financial Statements</h4>" +
+            "<table><thead><tr><th>Element</th><th>Definition</th></tr></thead><tbody>" +
+            "<tr><td>Asset</td><td>A present economic resource controlled by the entity as a result of past events</td></tr>" +
+            "<tr><td>Liability</td><td>A present obligation of the entity to transfer an economic resource as a result of past events</td></tr>" +
+            "<tr><td>Equity</td><td>The residual interest in the assets of the entity after deducting all its liabilities</td></tr>" +
+            "<tr><td>Income</td><td>Increases in assets, or decreases in liabilities, that result in increases in equity, other than those relating to contributions from holders of equity claims</td></tr>" +
+            "<tr><td>Expenses</td><td>Decreases in assets, or increases in liabilities, that result in decreases in equity, other than those relating to distributions to holders of equity claims</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Recognition and Derecognition</h4>" +
+            "<p>An item is <strong>recognised</strong> in the financial statements when:</p>" +
+            "<ul><li>It meets the definition of an element (asset, liability, income or expense); AND</li>" +
+            "<li>Recognising it would provide <strong>relevant</strong> information AND</li>" +
+            "<li>It can be <strong>faithfully represented</strong> (a measurement uncertainty that is too high may prevent recognition even if the definition is met).</li></ul>" +
+            "<p>Note the 2018 revision removed the probability criterion from recognition — probability is now a measurement uncertainty consideration, not a recognition gate.</p>" +
+            "<h4>Measurement Bases</h4>" +
+            "<table><thead><tr><th>Basis</th><th>Description</th><th>Common Application</th></tr></thead><tbody>" +
+            "<tr><td>Historical cost</td><td>Original transaction price</td><td>PPE (cost model), inventories</td></tr>" +
+            "<tr><td>Current cost</td><td>Cost to replace the asset today</td><td>Some inventory restatements</td></tr>" +
+            "<tr><td>Fair value (IFRS 13)</td><td>Exit price — amount received to sell an asset or paid to transfer a liability in an orderly transaction</td><td>Investment property (fair value model), financial instruments at FVTPL/FVOCI</td></tr>" +
+            "<tr><td>Value in use</td><td>PV of future cash flows expected from using and disposing of the asset</td><td>IAS 36 recoverable amount</td></tr>" +
+            "</tbody></table>",
+          workedExample: {
+            setup:
+              "TechVenture Ltd is preparing its financial statements. It has three items to consider: (1) A lawsuit for £2m where legal counsel advises a 30% probability of losing. (2) Internally developed brand worth an estimated £5m (based on a DCF model). (3) A machine purchased for £100,000 three years ago, now estimated to be worth £130,000 at fair value. For each item, apply the Conceptual Framework to determine the accounting treatment.",
+            steps: [
+              "(1) Lawsuit: Meets the liability definition — present obligation arising from past litigation event. Recognition: Under IAS 37, a provision is recognised when probable (>50%) — here only 30%, so NO provision. However, IAS 37 requires disclosure as a contingent liability. The Conceptual Framework's recognition criteria support non-recognition because the probability-weighted uncertainty means recognition would not faithfully represent a genuine present obligation.",
+              "(2) Internally generated brand: Fails the asset recognition criteria — while a brand may have future economic benefits, it cannot be separated from the business as a whole and cannot be measured reliably or verifiably (IAS 38 prohibits recognition of internally generated brands, goodwill, mastheads, customer lists). The Framework supports this: faithful representation requires the measurement to be verifiable; a £5m DCF estimate is too subjective and unverifiable to meet this threshold.",
+              "(3) Machine at fair value: Under historical cost, the machine would be carried at £100,000 less accumulated depreciation. Under IAS 16's revaluation model, the machine can be measured at fair value (£130,000) if fair values can be measured reliably. The Framework permits this — fair value is a recognised measurement basis that provides relevant (more current) information. The revaluation surplus of £30,000 (less depreciation already charged) would go to OCI.",
+            ],
+            answer:
+              "The Conceptual Framework guides but does not override specific standards. IAS 37 (provisions) and IAS 38 (intangibles) apply specific rules that are consistent with the Framework but add operational detail. The Framework's relevance/faithful representation trade-off explains why internally generated intangibles are not recognised (too subjective to be faithfully represented) and why contingent liabilities are disclosed but not recognised.",
+          },
+          summary: [
+            "The Conceptual Framework is the theoretical foundation of IFRS — not a standard itself, but the basis for developing consistent standards.",
+            "Primary objective: provide useful information to investors, lenders and creditors for capital allocation decisions.",
+            "Fundamental qualitative characteristics: Relevance (predictive + confirmatory value) and Faithful Representation (complete, neutral, error-free).",
+            "Enhancing characteristics: Comparability, Verifiability, Timeliness, Understandability — improve but cannot create usefulness.",
+            "Recognition requires meeting the element definition AND providing relevant information that can be faithfully represented.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An entity is involved in litigation where the probability of an outflow is 40%. Under the Conceptual Framework's recognition criteria, how should this be treated?",
+              options: [
+                "Recognised as a provision at the full amount of the claim",
+                "Not recognised but disclosed as a contingent liability",
+                "Recognised at the probability-weighted amount (40% of the claim)",
+                "Ignored as it does not meet the definition of a liability",
+              ],
+              answer: 1,
+              explanation: "The item meets the definition of a liability (present obligation from a past event — the litigation). However, under IAS 37, a provision is recognised only when an outflow is probable (>50%). At 40% probability, it is not probable, so no provision is recognised. Instead, it is disclosed as a contingent liability unless the possibility of an outflow is remote. Option C might seem appealing under the Framework's probability-weighting approach, but IAS 37's specific rules take precedence.",
+            },
+            {
+              question: "Which of the following is a FUNDAMENTAL qualitative characteristic of financial information under the Conceptual Framework?",
+              options: [
+                "Comparability",
+                "Verifiability",
+                "Faithful representation",
+                "Timeliness",
+              ],
+              answer: 2,
+              explanation: "The Conceptual Framework identifies two fundamental qualitative characteristics: Relevance and Faithful Representation. Comparability, Verifiability, Timeliness and Understandability are the four enhancing characteristics — they improve usefulness but cannot make irrelevant or unfaithfully represented information useful. Faithful representation requires information to be complete, neutral and free from material error.",
+            },
+          ],
         },
         {
           id: "f1-l3",
@@ -9260,7 +9409,87 @@ const AIQ_COURSE_DATA = {
             "Apply the classification of current and non-current assets and liabilities",
             "Explain the requirements for presenting the statement of profit or loss and OCI",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Purpose and Scope</h4>" +
+            "<p>IAS 1 <em>Presentation of Financial Statements</em> sets out the framework for how financial statements should be presented. It specifies what constitutes a complete set of financial statements, the minimum line items required, and the overall concepts of fair presentation, going concern and consistency.</p>" +
+            "<h4>Complete Set of Financial Statements</h4>" +
+            "<p>A complete set under IAS 1 comprises:</p>" +
+            "<ol><li><strong>Statement of Financial Position (SoFP)</strong> — the balance sheet</li>" +
+            "<li><strong>Statement of Profit or Loss and Other Comprehensive Income (P&amp;L and OCI)</strong> — may be presented as one or two statements</li>" +
+            "<li><strong>Statement of Changes in Equity (SOCE)</strong></li>" +
+            "<li><strong>Statement of Cash Flows (SoCF)</strong> — governed by IAS 7</li>" +
+            "<li><strong>Notes to the Financial Statements</strong> — accounting policies, disaggregation, disclosures</li>" +
+            "<li><strong>Comparative information</strong> for the preceding period</li></ol>" +
+            "<h4>Current vs Non-Current Classification</h4>" +
+            "<p>Assets are classified as <strong>current</strong> if they meet any of the following criteria:</p>" +
+            "<ul><li>Expected to be realised, or sold or consumed, in the normal operating cycle</li>" +
+            "<li>Held primarily for the purpose of trading</li>" +
+            "<li>Expected to be realised within 12 months of the reporting date</li>" +
+            "<li>Cash or cash equivalents (unless restricted for more than 12 months)</li></ul>" +
+            "<p>All other assets are <strong>non-current</strong>. The same logic applies to liabilities — current if expected to be settled within 12 months or the normal operating cycle (where longer), or held for trading, or the entity does not have an unconditional right to defer settlement beyond 12 months.</p>" +
+            "<p><em>Note on refinancing:</em> A liability is current if the entity has breached a loan covenant and the lender can demand immediate repayment, even if repayment has not actually been demanded — the right to defer has been lost.</p>" +
+            "<h4>Statement of Profit or Loss and OCI</h4>" +
+            "<p>Entities can present profit or loss in two ways:</p>" +
+            "<ul><li><strong>Single statement:</strong> P&amp;L components and OCI components in one statement, with a subtotal for profit or loss.</li>" +
+            "<li><strong>Two-statement approach:</strong> A separate Statement of Profit or Loss (income statement) followed by a Statement of OCI beginning with profit or loss from the first statement.</li></ul>" +
+            "<p><strong>Other Comprehensive Income (OCI)</strong> includes items that are not recognised in profit or loss but go directly to equity. The main items are:</p>" +
+            "<ul><li>Revaluation surpluses on PPE and intangible assets (IAS 16 / IAS 38)</li>" +
+            "<li>Remeasurements of defined benefit pension plans (IAS 19)</li>" +
+            "<li>Foreign currency translation differences on foreign operations (IAS 21)</li>" +
+            "<li>Gains/losses on financial assets at FVOCI (IFRS 9)</li>" +
+            "<li>Effective portion of hedging instruments (IFRS 9)</li></ul>" +
+            "<p>OCI items are classified as either <strong>items that may be reclassified to profit or loss</strong> (e.g., foreign currency translation, hedge accounting) or <strong>items that will never be reclassified</strong> (e.g., revaluation surpluses, pension remeasurements).</p>" +
+            "<h4>Key Disclosure Requirements</h4>" +
+            "<ul><li><strong>Minimum line items</strong> on the face of SoFP include: property plant &amp; equipment, intangible assets, financial assets, inventories, trade receivables, cash, equity components, borrowings, trade payables, tax liabilities and provisions.</li>" +
+            "<li><strong>Profit or loss</strong> must at minimum show: revenue, finance costs, tax expense, profit or loss for the period.</li>" +
+            "<li><strong>Extraordinary items</strong> are prohibited under IAS 1 — they may not be presented on the face of any statement.</li>" +
+            "<li><strong>Offsetting</strong> is prohibited unless a standard specifically requires or permits it — assets and liabilities, and income and expenses, are presented gross.</li></ul>" +
+            "<h4>Fair Presentation and Going Concern</h4>" +
+            "<p>IAS 1 requires management to assess going concern at each reporting date. If going concern is in doubt but management concludes it remains appropriate, disclosures about material uncertainties are required. If going concern is not appropriate, the financial statements must be prepared on a different basis (e.g., break-up basis) and this must be disclosed.</p>",
+          workedExample: {
+            setup:
+              "PrepCo Ltd has the following items to classify at its year end 31 December: (a) Trade receivables expected to be collected within 90 days — £180,000. (b) Land held for capital appreciation — £2,000,000. (c) Bank overdraft facility — £50,000 (no specified repayment date but repayable on demand). (d) A 5-year loan of £500,000 on which PrepCo breached a covenant in November (the bank has not yet demanded repayment). (e) Prepayments relating to the next 18 months — £24,000 (split: £16,000 within 12 months, £8,000 beyond). Classify each as current or non-current.",
+            steps: [
+              "(a) Trade receivables — CURRENT: expected collection within 12 months (within normal operating cycle).",
+              "(b) Land held for capital appreciation — NON-CURRENT: not expected to be realised within 12 months, not held for trading; it is investment property under IAS 40.",
+              "(c) Bank overdraft — CURRENT: repayable on demand means the entity does not have an unconditional right to defer settlement beyond 12 months.",
+              "(d) 5-year loan with covenant breach — CURRENT: although the bank has not demanded repayment, the covenant breach means the entity no longer has the unconditional right to defer settlement. Under IAS 1 paragraph 74, it becomes current. Exception: if the lender agrees before the reporting date to waive the breach for at least 12 months, it remains non-current.",
+              "(e) Prepayments — SPLIT: £16,000 current (expected to benefit within 12 months); £8,000 non-current (benefit expected beyond 12 months).",
+            ],
+            answer:
+              "Current: (a) £180k trade receivables, (c) £50k overdraft, (d) £500k loan (covenant breach), (e) £16k prepayments. Non-current: (b) £2m land, (e) £8k prepayments. The covenant breach classification is a common exam trick — even though repayment hasn't been demanded, the right to defer has been lost.",
+          },
+          summary: [
+            "A complete set of IFRS financial statements includes SoFP, P&L and OCI, SOCE, SoCF and notes, all with comparative information.",
+            "Current assets/liabilities: expected realisation within 12 months or the normal operating cycle; covenant breaches make loans current.",
+            "OCI includes revaluations, pension remeasurements, translation differences and FVOCI gains — some recyclable to P&L, some not.",
+            "Extraordinary items are prohibited; offsetting of assets/liabilities and income/expenses is generally prohibited.",
+            "Going concern assessment is required at each reporting date; material uncertainties must be disclosed.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company has a 10-year bank loan. During the year it breached a financial covenant. The bank has not demanded early repayment. How should the loan be classified at the year-end?",
+              options: [
+                "Non-current liability — the bank has not demanded repayment",
+                "Current liability — the covenant breach removes the unconditional right to defer settlement",
+                "Non-current liability — provided the breach was technical only",
+                "Split between current and non-current based on the amount due within 12 months",
+              ],
+              answer: 1,
+              explanation: "Under IAS 1 paragraph 74, when a covenant breach gives the lender the right to demand immediate repayment, the liability is classified as current at the reporting date — even if the lender has not yet exercised that right. The entity no longer has an unconditional right to defer settlement beyond 12 months. Exception: if the lender grants a waiver (before the reporting date) for at least 12 months, it remains non-current.",
+            },
+            {
+              question: "Which of the following is correctly classified as Other Comprehensive Income (OCI) rather than profit or loss?",
+              options: [
+                "Gain on sale of property",
+                "Foreign exchange loss on a trade payable settled during the year",
+                "Revaluation surplus on property, plant and equipment under IAS 16",
+                "Interest income on a loan",
+              ],
+              answer: 2,
+              explanation: "Under IAS 16, when property is revalued upward, the gain is recognised in OCI (and accumulated in the revaluation surplus in equity) rather than profit or loss. This reflects that the gain is unrealised and will only pass through P&L if the asset is sold. Gains on actual sales (Option A), settled FX losses (Option B) and interest income (Option D) all pass through profit or loss.",
+            },
+          ],
         },
 
         /* ── Module B: Non-Current Assets (L4–L9) ── */
@@ -9274,7 +9503,87 @@ const AIQ_COURSE_DATA = {
             "Calculate the cost of a PPE asset including directly attributable costs and borrowing costs",
             "Explain the initial measurement of self-constructed assets and assets received in exchange",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Scope and Definition</h4>" +
+            "<p>IAS 16 <em>Property, Plant and Equipment</em> applies to tangible assets held for use in the production or supply of goods/services, for rental to others, or for administrative purposes — and expected to be used for more than one period. It excludes investment property (IAS 40), biological assets (IAS 41) and mineral rights (IFRS 6).</p>" +
+            "<h4>Recognition Criteria</h4>" +
+            "<p>An item of PPE is recognised as an asset when <strong>both</strong> of the following are met:</p>" +
+            "<ol><li>It is <strong>probable that future economic benefits</strong> associated with the item will flow to the entity.</li>" +
+            "<li>The <strong>cost can be measured reliably</strong>.</li></ol>" +
+            "<p>IAS 16 does not define a minimum value threshold — materiality is an accounting concept, but legally there is no requirement to capitalise items above a specific value. In practice, entities set capitalisation thresholds (e.g., all assets over £500 are capitalised).</p>" +
+            "<p><strong>Component accounting:</strong> Each significant component of an asset with a different useful life must be depreciated separately. For example, a building might be split into: structure (50-year life), roof (20-year life), lifts (15-year life), interior fit-out (10-year life).</p>" +
+            "<h4>Initial Measurement — Cost</h4>" +
+            "<p>PPE is initially measured at cost, which includes:</p>" +
+            "<ul><li><strong>Purchase price</strong> less trade discounts and rebates (not including settlement discounts)</li>" +
+            "<li><strong>Import duties and non-recoverable purchase taxes</strong></li>" +
+            "<li><strong>Directly attributable costs</strong> of bringing the asset to the location and condition for its intended use</li>" +
+            "<li><strong>Initial estimate of dismantling and restoration costs</strong> (IAS 37 — decommissioning provision)</li></ul>" +
+            "<p><strong>Directly attributable costs include:</strong></p>" +
+            "<ul><li>Site preparation costs</li>" +
+            "<li>Delivery and handling costs</li>" +
+            "<li>Installation and assembly costs</li>" +
+            "<li>Testing costs (net of proceeds from test production)</li>" +
+            "<li>Professional fees (architect, surveyor) directly related to the asset</li></ul>" +
+            "<p><strong>Costs NOT included in PPE cost (expensed as incurred):</strong></p>" +
+            "<ul><li>Staff training costs (even if needed to operate the new asset)</li>" +
+            "<li>Administration and general overhead</li>" +
+            "<li>Advertising and promotion of new facility</li>" +
+            "<li>Initial operating losses while demand builds up</li></ul>" +
+            "<h4>Borrowing Costs — IAS 23</h4>" +
+            "<p>IAS 23 requires borrowing costs directly attributable to the acquisition or construction of a <strong>qualifying asset</strong> (one that takes a substantial period to get ready for use) to be capitalised as part of the cost of that asset. A qualifying asset is typically under construction for more than 12 months.</p>" +
+            "<p>Capitalisation begins when: expenditure is being incurred AND borrowing costs are being incurred AND activities necessary to prepare the asset are in progress. It ceases when the asset is ready for intended use.</p>" +
+            "<h4>Self-Constructed Assets and Exchange Transactions</h4>" +
+            "<p>For <strong>self-constructed assets</strong>, cost includes materials, direct labour and a reasonable proportion of production overheads. Abnormal costs (waste, idle capacity) are excluded.</p>" +
+            "<p>For assets acquired in <strong>exchange transactions</strong> (asset-for-asset swaps), the asset is initially measured at the <strong>fair value of the asset given up</strong> (or the fair value of the asset received if more reliably measurable). This rule applies unless the exchange lacks commercial substance.</p>",
+          workedExample: {
+            setup:
+              "BuildCo Ltd is constructing a new factory. The following costs were incurred: Land purchase £500,000; Architect fees £30,000; Site clearance £15,000; Foundation materials £80,000; Direct labour on construction £120,000; Staff training on new equipment £8,000; General overheads allocated to construction project £25,000 (based on a reasonable allocation method); Borrowing costs on a specific construction loan of £2m at 5% for 8 months during construction £66,667; Test production costs £12,000, proceeds from test output sold £3,000. Calculate the initial carrying amount of the factory.",
+            steps: [
+              "Land: £500,000 — included (land is a separate component with no depreciation).",
+              "Architect fees: £30,000 — directly attributable professional fees, included.",
+              "Site clearance: £15,000 — directly attributable site preparation, included.",
+              "Foundation materials: £80,000 — direct materials, included.",
+              "Direct labour: £120,000 — direct labour cost, included.",
+              "Staff training: £8,000 — EXCLUDED. IAS 16 specifically excludes training costs even if required to operate the asset.",
+              "General overheads: £25,000 — included if based on a reasonable allocation (direct overhead allocation is permitted under IAS 16).",
+              "Borrowing costs: £66,667 — included under IAS 23 as directly attributable to the qualifying asset (construction > 12 months implied).",
+              "Testing costs net of proceeds: £12,000 − £3,000 = £9,000 — included (net testing costs are part of cost).",
+              "Total: £500,000 + £30,000 + £15,000 + £80,000 + £120,000 + £25,000 + £66,667 + £9,000 = £845,667.",
+            ],
+            answer:
+              "Initial carrying amount = £845,667. Staff training (£8,000) is excluded. If the overhead allocation was not directly attributable but instead general admin overhead, it would also be excluded. The borrowing costs of £66,667 are capitalised under IAS 23 as the factory is a qualifying asset.",
+          },
+          summary: [
+            "PPE is recognised when probable future benefits will flow to the entity and cost can be measured reliably; component accounting applies.",
+            "Cost includes purchase price, import duties, directly attributable costs, testing costs (net) and decommissioning provision.",
+            "Training costs, general admin overheads and initial operating losses are excluded from PPE cost.",
+            "IAS 23 requires capitalisation of borrowing costs on qualifying assets (long construction period) — capitalise from start to asset ready-for-use.",
+            "Self-constructed assets include materials, direct labour and a reasonable overhead proportion; exchange transactions use fair value of asset given up.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company purchases new machinery. Which of the following costs should be INCLUDED in the cost of the asset under IAS 16?",
+              options: [
+                "Staff training costs for employees who will operate the machinery",
+                "Import duties paid on the machinery",
+                "Operating losses incurred during the first three months of use",
+                "Costs of advertising the new production capability to customers",
+              ],
+              answer: 1,
+              explanation: "Import duties are explicitly listed as a component of cost under IAS 16. Staff training, operating losses and advertising are all specifically excluded from the cost of PPE. Training is excluded even if it is essential to operate the asset safely — it is treated as a period expense.",
+            },
+            {
+              question: "Under IAS 23, borrowing costs on a qualifying asset should be:",
+              options: [
+                "Always expensed as incurred in the income statement",
+                "Capitalised only if the asset takes more than 5 years to complete",
+                "Capitalised as part of the cost of the qualifying asset",
+                "Disclosed in the notes but not capitalised",
+              ],
+              answer: 2,
+              explanation: "IAS 23 requires borrowing costs that are directly attributable to the acquisition, construction or production of a qualifying asset to be capitalised as part of the cost of that asset. A qualifying asset is one that necessarily takes a substantial period of time to get ready for its intended use or sale. Capitalisation ceases when the asset is substantially ready for use.",
+            },
+          ],
         },
         {
           id: "f1-l5",
@@ -9286,7 +9595,80 @@ const AIQ_COURSE_DATA = {
             "Account for revaluation of PPE including the revaluation surplus and deferred tax",
             "Prepare journal entries for the disposal of PPE and calculate gain or loss on disposal",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Depreciation</h4>" +
+            "<p>Depreciation is the systematic allocation of an asset's depreciable amount over its useful life. It reflects the consumption of the asset's economic benefits over time. Key principles:</p>" +
+            "<ul><li><strong>Depreciable amount</strong> = Cost (or revalued amount) − Residual value</li>" +
+            "<li><strong>Useful life</strong> = the period over which the asset is expected to be available for use</li>" +
+            "<li>Depreciation begins when an asset is <strong>available for use</strong>, not when it is placed in use</li>" +
+            "<li>Depreciation ceases when the asset is <strong>derecognised or classified as held for sale</strong> (IFRS 5)</li>" +
+            "<li><strong>Land</strong> is not depreciated (indefinite life)</li></ul>" +
+            "<p><strong>Straight-Line Method:</strong></p>" +
+            "<p>Annual depreciation = (Cost − Residual value) / Useful life in years</p>" +
+            "<p>Gives equal charge each year — appropriate when benefits are consumed evenly.</p>" +
+            "<p><strong>Reducing Balance Method:</strong></p>" +
+            "<p>Annual depreciation = Carrying amount at start of year × Depreciation %</p>" +
+            "<p>Front-loads the depreciation charge — appropriate when benefits are consumed faster in early years (e.g., vehicles, technology assets).</p>" +
+            "<h4>Revaluation Model (IAS 16)</h4>" +
+            "<p>As an alternative to the cost model, an entity may use the revaluation model for a class of PPE, carrying assets at <strong>fair value less subsequent accumulated depreciation and impairment</strong>. Revaluations must be carried out with sufficient regularity that carrying amount does not differ materially from fair value.</p>" +
+            "<p><strong>Accounting for revaluation increases:</strong></p>" +
+            "<ul><li>The increase is credited to <strong>OCI</strong> and accumulates in <strong>revaluation surplus</strong> (equity), UNLESS it reverses a previous revaluation decrease recognised in profit or loss — in which case, the reversal goes to profit or loss first.</li></ul>" +
+            "<p><strong>Accounting for revaluation decreases:</strong></p>" +
+            "<ul><li>The decrease is recognised in <strong>profit or loss</strong>, UNLESS there is an existing revaluation surplus for that asset — in which case the decrease is first charged against the surplus in OCI.</li></ul>" +
+            "<p>When a revalued asset is depreciated, the depreciation charge is based on the revalued amount. The 'excess depreciation' (depreciation on the revaluation increment) can be transferred from the revaluation surplus to retained earnings each period — this is optional but represents the realisation of the surplus.</p>" +
+            "<h4>Disposal</h4>" +
+            "<p>On disposal of a PPE asset:</p>" +
+            "<ol><li>Remove the asset's cost (or revalued amount) from the ledger.</li>" +
+            "<li>Remove accumulated depreciation from the ledger.</li>" +
+            "<li>Calculate <strong>gain or loss = Proceeds − Carrying amount at disposal date</strong>.</li>" +
+            "<li>Recognise the gain/loss in <strong>profit or loss</strong>.</li>" +
+            "<li>If the asset was revalued, transfer any remaining revaluation surplus for that asset directly to <strong>retained earnings</strong> (NOT through profit or loss).</li></ol>" +
+            "<p><strong>Journal entries for disposal:</strong></p>" +
+            "<pre>Dr Bank/Receivable (proceeds)\nDr Accumulated Depreciation\nDr Loss on disposal (if applicable)\n  Cr PPE — Cost\n  Cr Gain on disposal (if applicable)</pre>",
+          workedExample: {
+            setup:
+              "Equipment was purchased on 1 January Year 1 for £120,000. Useful life 10 years, residual value nil. Straight-line depreciation. At 31 December Year 3, the asset is revalued to £105,000. The asset is sold on 31 December Year 6 for £52,000. Calculate (a) the carrying amount before revaluation at 31 December Year 3, (b) the revaluation surplus, (c) the carrying amount at disposal, and (d) the gain or loss on disposal.",
+            steps: [
+              "(a) Cost £120,000. Annual depreciation = £120,000/10 = £12,000/year. After 3 years: accumulated depreciation = £36,000. Carrying amount before revaluation = £120,000 − £36,000 = £84,000.",
+              "(b) Revaluation surplus = £105,000 − £84,000 = £21,000 (recognised in OCI, accumulated in equity).",
+              "(c) After revaluation, the asset's remaining useful life is 7 years (10 − 3). New annual depreciation = £105,000 / 7 = £15,000. At disposal (end Year 6 = 3 more years of depreciation post-revaluation): accumulated depreciation post-revaluation = 3 × £15,000 = £45,000. Carrying amount at disposal = £105,000 − £45,000 = £60,000.",
+              "(d) Gain/loss on disposal = Proceeds − Carrying amount = £52,000 − £60,000 = −£8,000 (loss). Recognised in profit or loss.",
+              "Remaining revaluation surplus at disposal: original £21,000 less transfers of excess depreciation (£3,000/year × 3 years = £9,000 if the excess depreciation transfer was made). If no transfer was made, the full £21,000 remaining surplus is transferred directly to retained earnings (not through P&L) at the time of disposal.",
+            ],
+            answer:
+              "Carrying amount before revaluation = £84,000. Revaluation surplus = £21,000 (OCI). Carrying amount at disposal = £60,000. Loss on disposal = £8,000 (profit or loss). Any remaining revaluation surplus transfers directly to retained earnings — it is NOT recycled through profit or loss.",
+          },
+          summary: [
+            "Depreciable amount = Cost (or revalued amount) − residual value; depreciation begins when available for use, not when placed in service.",
+            "Straight-line spreads cost evenly; reducing balance front-loads depreciation; method must reflect the pattern of consumption.",
+            "Revaluation increases → OCI (revaluation surplus); revaluation decreases → P&L (unless surplus exists, then offset against it first).",
+            "Disposal: gain/loss = proceeds − carrying amount → P&L; remaining revaluation surplus → retained earnings directly (not through P&L).",
+            "After revaluation, depreciation is based on the revalued amount over the remaining useful life.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An asset cost £200,000 with a 10-year useful life and nil residual value. After 4 years it is revalued to £144,000. What is the revaluation surplus?",
+              options: [
+                "£56,000",
+                "£24,000",
+                "£64,000",
+                "£144,000",
+              ],
+              answer: 1,
+              explanation: "Annual straight-line depreciation = £200,000/10 = £20,000. After 4 years: accumulated depreciation = £80,000. Carrying amount before revaluation = £200,000 − £80,000 = £120,000. Revaluation surplus = £144,000 − £120,000 = £24,000. This is credited to OCI and accumulated in the revaluation surplus in equity.",
+            },
+            {
+              question: "A revalued asset is sold. Any remaining revaluation surplus that has not been transferred via depreciation should be:",
+              options: [
+                "Recognised in profit or loss as a gain on disposal",
+                "Left in the revaluation surplus permanently",
+                "Transferred directly to retained earnings, bypassing profit or loss",
+                "Recognised in OCI as a recycling item",
+              ],
+              answer: 2,
+              explanation: "Under IAS 16, when a revalued asset is disposed of, any remaining revaluation surplus is transferred directly to retained earnings. It is NOT recycled through profit or loss. This is one of the OCI items that 'will never be reclassified to profit or loss'. The gain or loss on disposal (proceeds vs carrying amount) is recognised in profit or loss separately.",
+            },
+          ],
         },
         {
           id: "f1-l6",
@@ -9298,7 +9680,80 @@ const AIQ_COURSE_DATA = {
             "Calculate recoverable amount as the higher of fair value less costs to sell and value in use",
             "Account for impairment losses for individual assets and cash-generating units",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Impairment Concept</h4>" +
+            "<p>IAS 36 <em>Impairment of Assets</em> requires that an asset is never carried at more than its <strong>recoverable amount</strong> — the economic benefit it can deliver. If an asset's carrying amount exceeds its recoverable amount, it is <strong>impaired</strong> and must be written down.</p>" +
+            "<p>The impairment charge = Carrying amount − Recoverable amount, recognised in profit or loss.</p>" +
+            "<h4>When to Test for Impairment</h4>" +
+            "<p>At each reporting date, entities must assess whether there is any <strong>indicator of impairment</strong>. If an indicator exists, a formal impairment test (recoverable amount calculation) must be performed.</p>" +
+            "<p><strong>External indicators:</strong></p>" +
+            "<ul><li>Significant decline in market value beyond normal wear</li>" +
+            "<li>Significant adverse changes in technology, market, economy or law</li>" +
+            "<li>Increased market interest rates (affecting discount rate for value in use)</li>" +
+            "<li>Carrying amount of net assets exceeds market capitalisation</li></ul>" +
+            "<p><strong>Internal indicators:</strong></p>" +
+            "<ul><li>Evidence of obsolescence or physical damage</li>" +
+            "<li>Significant adverse changes in how the asset is used or intended to be used</li>" +
+            "<li>Economic performance of the asset is worse than expected</li></ul>" +
+            "<p><strong>Annual mandatory testing (regardless of indicators):</strong></p>" +
+            "<ul><li>Goodwill acquired in a business combination</li>" +
+            "<li>Intangible assets with indefinite useful life</li>" +
+            "<li>Intangible assets not yet available for use</li></ul>" +
+            "<h4>Recoverable Amount</h4>" +
+            "<p><strong>Recoverable Amount = max(Fair Value Less Costs to Sell, Value in Use)</strong></p>" +
+            "<p><strong>Fair Value Less Costs to Sell (FVLCTS)</strong> = The price that would be received in an orderly market transaction (IFRS 13 fair value) minus incremental costs directly attributable to the disposal (legal fees, transfer taxes, removal costs). Does NOT include costs already recognised as liabilities.</p>" +
+            "<p><strong>Value in Use (VIU)</strong> = Present value of estimated future cash flows expected from continuing use and disposal of the asset. The discount rate is a pre-tax rate reflecting current market assessments of the time value of money and risks specific to the asset.</p>" +
+            "<h4>Cash-Generating Units (CGUs)</h4>" +
+            "<p>Where it is not possible to estimate the recoverable amount of an individual asset (because its cash flows are interdependent with other assets), IAS 36 requires the test to be performed at the level of a <strong>Cash-Generating Unit (CGU)</strong> — the smallest identifiable group of assets that generates cash inflows that are largely independent of cash inflows from other assets.</p>" +
+            "<p>Impairment losses in a CGU are allocated in the following order:</p>" +
+            "<ol><li>First against any <strong>goodwill</strong> allocated to the CGU</li>" +
+            "<li>Then pro rata across all other assets in the CGU on the basis of carrying amount</li></ol>" +
+            "<p>No individual asset in the CGU is written below its own recoverable amount (or zero).</p>" +
+            "<h4>Reversal of Impairment Losses</h4>" +
+            "<p>An impairment loss may be reversed if conditions have changed. The reversal is recognised in profit or loss (or OCI if the asset was previously revalued). However, <strong>goodwill impairment can never be reversed</strong>.</p>",
+          workedExample: {
+            setup:
+              "TechAssets Ltd has a machine with carrying amount £500,000. Indicators of impairment have been identified. Fair value is £420,000; estimated selling costs are £15,000. Value in use (PV of future cash flows) is £430,000. Separately, a CGU has carrying amounts: Goodwill £80,000; Plant £200,000; Equipment £120,000; Vehicles £60,000. Total CGU = £460,000. Recoverable amount of CGU = £380,000. Calculate (a) impairment of the machine, and (b) allocation of the CGU impairment.",
+            steps: [
+              "(a) Machine: FVLCTS = £420,000 − £15,000 = £405,000. VIU = £430,000. Recoverable amount = max(£405,000, £430,000) = £430,000. Impairment = £500,000 − £430,000 = £70,000 (recognised in P&L).",
+              "(b) CGU total impairment = £460,000 − £380,000 = £80,000.",
+              "Step 1 — allocate to goodwill first: £80,000 available impairment. Goodwill = £80,000 → write down goodwill by £80,000. Remaining impairment = £0.",
+              "All impairment absorbed by goodwill. No reduction needed for Plant, Equipment or Vehicles. If impairment had exceeded £80,000, the excess would be allocated pro rata across Plant (200/380), Equipment (120/380), Vehicles (60/380) of the remaining asset base.",
+            ],
+            answer:
+              "Machine impairment = £70,000. CGU impairment = £80,000, absorbed entirely by goodwill (which is written down to zero). Goodwill impairment cannot be reversed in future periods even if conditions improve.",
+          },
+          summary: [
+            "An asset is impaired when its carrying amount exceeds its recoverable amount; the impairment charge (carrying − recoverable) is recognised in P&L.",
+            "Recoverable amount = max(Fair Value Less Costs to Sell, Value in Use).",
+            "Goodwill, indefinite-life intangibles and intangibles not yet in use must be tested annually regardless of impairment indicators.",
+            "In a CGU, impairment is allocated first against goodwill, then pro rata to other assets (none written below its own recoverable amount).",
+            "Goodwill impairment can never be reversed; other asset impairments can be reversed if conditions improve.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An asset has a carrying amount of £600,000. Fair value less costs to sell is £520,000. Value in use is £560,000. What is the impairment loss?",
+              options: [
+                "£80,000",
+                "£40,000",
+                "£120,000",
+                "£0 — no impairment",
+              ],
+              answer: 1,
+              explanation: "Recoverable amount = max(FVLCTS, VIU) = max(£520,000, £560,000) = £560,000. Impairment = Carrying amount − Recoverable amount = £600,000 − £560,000 = £40,000. The recoverable amount is always the HIGHER of the two estimates — the entity can recover £560,000 by continuing to use the asset.",
+            },
+            {
+              question: "A cash-generating unit has carrying amounts: goodwill £50,000, other assets £200,000. Recoverable amount of the CGU is £175,000. Total impairment is £75,000. How is it allocated?",
+              options: [
+                "£37,500 to goodwill and £37,500 to other assets",
+                "£50,000 to goodwill and £25,000 to other assets",
+                "£75,000 to other assets only",
+                "£25,000 to goodwill and £50,000 to other assets",
+              ],
+              answer: 1,
+              explanation: "Under IAS 36, impairment of a CGU is allocated first to goodwill (to reduce it to zero), then pro rata to other assets. Total impairment = £75,000. First: allocate £50,000 to goodwill (reducing it to zero). Remaining impairment = £25,000. Allocate £25,000 pro rata to other assets (£200,000 base). No other asset is written below its own recoverable amount. Total: £50,000 goodwill + £25,000 other assets = £75,000.",
+            },
+          ],
         },
         {
           id: "f1-l7",
@@ -9310,7 +9765,88 @@ const AIQ_COURSE_DATA = {
             "Distinguish between research costs (expensed) and development costs (capitalised if criteria met)",
             "Apply amortisation and impairment to finite-life and indefinite-life intangible assets",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Definition and Recognition Criteria</h4>" +
+            "<p>IAS 38 defines an intangible asset as an <strong>identifiable non-monetary asset without physical substance</strong>. It must be:</p>" +
+            "<ul><li><strong>Identifiable:</strong> Either separable (can be sold, licensed, transferred) OR arising from contractual/legal rights.</li>" +
+            "<li><strong>Controlled by the entity</strong> (power to obtain benefits and restrict access of others).</li>" +
+            "<li>Expected to provide <strong>probable future economic benefits</strong>.</li></ul>" +
+            "<p>General recognition requires: definition met + probable future benefits + reliable measurement of cost.</p>" +
+            "<h4>Internally Generated Intangibles — What Cannot Be Recognised</h4>" +
+            "<p>IAS 38 prohibits recognition of internally generated:</p>" +
+            "<ul><li>Goodwill</li>" +
+            "<li>Brands, mastheads, publishing titles</li>" +
+            "<li>Customer lists</li>" +
+            "<li>Start-up costs, training costs</li></ul>" +
+            "<p>These cannot be separated from the business as a whole and cannot be measured reliably.</p>" +
+            "<h4>Research and Development</h4>" +
+            "<p>This is the most tested area. IAS 38 distinguishes sharply:</p>" +
+            "<p><strong>Research costs:</strong> Original and planned investigation undertaken to gain new scientific knowledge. Research costs are <strong>always expensed</strong> as incurred — the outcome is too uncertain to justify capitalisation.</p>" +
+            "<p><strong>Development costs:</strong> Application of research findings to a plan for the production of new or substantially improved products/processes. Development costs <strong>must be capitalised</strong> if ALL of the following can be demonstrated (the PIRATE mnemonic):</p>" +
+            "<ul><li><strong>P</strong>robability of technical feasibility to complete the asset</li>" +
+            "<li><strong>I</strong>ntention to complete and use/sell it</li>" +
+            "<li><strong>R</strong>esources adequate to complete development</li>" +
+            "<li><strong>A</strong>bility to use or sell the intangible asset</li>" +
+            "<li><strong>T</strong>echnical feasibility of completing the asset</li>" +
+            "<li><strong>E</strong>conomic (sufficient future economic benefits will be generated)</li></ul>" +
+            "<p>If ANY criterion is not met, the costs are expensed. Once capitalisation begins, past expensed research costs cannot be reinstated.</p>" +
+            "<h4>Subsequent Measurement — Two Models</h4>" +
+            "<p>Like IAS 16 PPE, IAS 38 permits two models:</p>" +
+            "<ul><li><strong>Cost model:</strong> Carry at cost less accumulated amortisation and impairment.</li>" +
+            "<li><strong>Revaluation model:</strong> Carry at revalued amount (fair value) less subsequent amortisation and impairment — but only where an <strong>active market</strong> exists for the intangible. In practice, active markets for intangibles are rare (some emission allowances, taxi licences).</li></ul>" +
+            "<h4>Amortisation</h4>" +
+            "<table><thead><tr><th></th><th>Finite useful life</th><th>Indefinite useful life</th></tr></thead><tbody>" +
+            "<tr><td>Amortisation</td><td>Amortise over useful life (reflect pattern of benefits)</td><td>No amortisation</td></tr>" +
+            "<tr><td>Impairment</td><td>Test when indicators exist</td><td>Annual mandatory impairment test</td></tr>" +
+            "<tr><td>Useful life review</td><td>Review estimate annually</td><td>Review annually — if now finite, begin amortising</td></tr>" +
+            "</tbody></table>" +
+            "<p>Note: Goodwill recognised in a business combination is also not amortised (IFRS 3) and subject to annual impairment testing under IAS 36.</p>",
+          workedExample: {
+            setup:
+              "BioTech Ltd is developing a new drug. Costs incurred: Year 1 research £200,000; Year 1 early development (criteria not yet met) £80,000; Year 2 development (all PIRATE criteria met from 1 January Year 2) £300,000; Year 2 marketing of the drug (after launch) £50,000. The drug is launched on 1 January Year 3 and has a useful life of 15 years. What is the carrying amount of the intangible asset at 31 December Year 3?",
+            steps: [
+              "Year 1 research £200,000 — EXPENSED. Always expense research.",
+              "Year 1 early development £80,000 — EXPENSED. PIRATE criteria not met.",
+              "Year 2 development £300,000 — CAPITALISED. All PIRATE criteria met from 1 Jan Year 2.",
+              "Year 2 marketing £50,000 — EXPENSED. Post-capitalisation marketing costs are period expenses.",
+              "Capitalised development cost = £300,000. Amortisation begins 1 January Year 3 (when asset available for use).",
+              "Annual amortisation = £300,000 / 15 years = £20,000.",
+              "Carrying amount at 31 December Year 3 = £300,000 − £20,000 = £280,000.",
+            ],
+            answer:
+              "Capitalised intangible asset at 31 December Year 3 = £280,000. £280,000 = opening £300,000 less one year's amortisation of £20,000. Total expensed in P&L: £200,000 (research) + £80,000 (early development) + £50,000 (marketing) = £330,000.",
+          },
+          summary: [
+            "Intangible assets must be identifiable, controlled by the entity, and expected to generate future economic benefits.",
+            "Internally generated brands, goodwill, customer lists and start-up costs cannot be recognised under IAS 38.",
+            "Research costs: always expense. Development costs: capitalise only when ALL PIRATE criteria are satisfied.",
+            "Finite-life intangibles are amortised; indefinite-life intangibles are not amortised but must be tested annually for impairment.",
+            "The revaluation model for intangibles requires an active market — rare in practice.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A pharmaceutical company spends £1.2m on research and £800,000 on development (all PIRATE criteria met). How should these be treated?",
+              options: [
+                "Both capitalised as intangible assets",
+                "Both expensed in the income statement",
+                "Research expensed (£1.2m); development capitalised (£800,000)",
+                "Research capitalised; development expensed",
+              ],
+              answer: 2,
+              explanation: "Under IAS 38, research costs are always expensed — the outcome is too uncertain. Development costs are capitalised IF all PIRATE criteria are met. Here all criteria are met, so the £800,000 development expenditure is capitalised as an intangible asset. The £1.2m research cost is expensed in the income statement.",
+            },
+            {
+              question: "An intangible asset with an indefinite useful life should be:",
+              options: [
+                "Amortised over a 40-year maximum period",
+                "Amortised over the entity's estimate of its useful life",
+                "Not amortised but tested annually for impairment",
+                "Written off immediately on acquisition",
+              ],
+              answer: 2,
+              explanation: "IAS 38 requires that intangible assets with indefinite useful lives are NOT amortised. Instead, they must be tested for impairment at least annually (regardless of impairment indicators) and whenever there is an indication of impairment. The estimate of useful life must be reviewed each period — if it is no longer indefinite, amortisation begins.",
+            },
+          ],
         },
         {
           id: "f1-l8",
@@ -9322,7 +9858,74 @@ const AIQ_COURSE_DATA = {
             "Compare the fair value model and cost model for investment property measurement",
             "Account for transfers between owner-occupied property and investment property",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Investment Property?</h4>" +
+            "<p>IAS 40 <em>Investment Property</em> defines investment property as property (land or building, or part of a building) held <strong>to earn rentals, for capital appreciation, or both</strong> — rather than for use in production/supply of goods or services (owner-occupied, IAS 16) or for sale in the ordinary course of business (inventory, IAS 2).</p>" +
+            "<p><strong>Examples of investment property:</strong></p>" +
+            "<ul><li>Land held for long-term capital appreciation</li>" +
+            "<li>Buildings leased out under operating leases</li>" +
+            "<li>Vacant property held to be leased out under operating leases</li>" +
+            "<li>Buildings under construction/development for future use as investment property</li></ul>" +
+            "<p><strong>NOT investment property:</strong></p>" +
+            "<ul><li>Property intended for sale in the near term (inventory — IAS 2)</li>" +
+            "<li>Property occupied by employees (even if at market rent)</li>" +
+            "<li>Owner-occupied property awaiting disposal</li></ul>" +
+            "<p><strong>Mixed-use property:</strong> If a property is partly rented and partly owner-occupied, the portions are accounted for separately if they can be sold separately. If not, the whole property is owner-occupied under IAS 16 unless the owner-occupied portion is insignificant.</p>" +
+            "<h4>Initial Measurement</h4>" +
+            "<p>Investment property is initially measured at <strong>cost</strong>, including transaction costs (legal fees, transfer taxes). This is the same as IAS 16 recognition.</p>" +
+            "<h4>Subsequent Measurement — Two Models</h4>" +
+            "<p>Unlike IAS 16 (where the revaluation model credits gains to OCI), IAS 40 offers:</p>" +
+            "<table><thead><tr><th>Model</th><th>Gains/Losses</th><th>Depreciation</th><th>Consistency</th></tr></thead><tbody>" +
+            "<tr><td><strong>Fair Value Model</strong></td><td>Changes in fair value recognised in <strong>profit or loss</strong></td><td>No depreciation charged</td><td>Must apply to all investment property</td></tr>" +
+            "<tr><td><strong>Cost Model</strong></td><td>No fair value gains — carried at depreciated cost</td><td>Depreciation charged (as IAS 16)</td><td>Fair value disclosed in notes</td></tr>" +
+            "</tbody></table>" +
+            "<p>A key distinction: under IAS 40 fair value model, gains/losses go to <strong>profit or loss</strong> (not OCI). Under IAS 16 revaluation model, surpluses go to OCI. This is frequently tested.</p>" +
+            "<h4>Transfers Between Categories</h4>" +
+            "<p>When the use of a property changes, it is transferred between investment property, owner-occupied property or inventories:</p>" +
+            "<ul><li><strong>Transfer FROM investment property (fair value) TO owner-occupied:</strong> Carrying amount (fair value) becomes the deemed cost for IAS 16 purposes going forward.</li>" +
+            "<li><strong>Transfer FROM owner-occupied TO investment property (fair value):</strong> Revalue the property to fair value first; difference = revaluation surplus (to OCI). Then carry at fair value under IAS 40.</li>" +
+            "<li><strong>Transfer FROM investment property TO inventories:</strong> Carrying amount (fair value) becomes cost for IAS 2.</li></ul>",
+          workedExample: {
+            setup:
+              "PropCo Ltd holds a building classified as investment property under the fair value model. Carrying value 1 January = £2,000,000. At 31 December, the property is valued at £2,250,000. During the year, PropCo also reclassifies another property from owner-occupied (IAS 16, carrying amount £800,000) to investment property. At the reclassification date, fair value is £950,000. Show the accounting treatment for both properties.",
+            steps: [
+              "Building 1 (investment property — fair value model): Fair value gain = £2,250,000 − £2,000,000 = £250,000. This is recognised in PROFIT OR LOSS (not OCI). Dr Investment Property £250,000; Cr P&L (Gain on fair value) £250,000.",
+              "Building 2 (reclassification from owner-occupied to investment property): Step 1 — Apply IAS 16 revaluation: fair value £950,000 vs carrying amount £800,000 → revaluation surplus = £150,000 to OCI. Step 2 — Transfer to IAS 40: carry at £950,000 under fair value model going forward. Subsequent fair value changes will go to P&L.",
+            ],
+            answer:
+              "Building 1: £250,000 fair value gain recognised in profit or loss. Building 2: £150,000 revaluation surplus to OCI at reclassification date; then carried under IAS 40 fair value model at £950,000. Key distinction: IAS 40 fair value changes go to P&L; IAS 16 revaluation surpluses go to OCI.",
+          },
+          summary: [
+            "Investment property is held for rental income or capital appreciation — not for owner-use (IAS 16) or sale (IAS 2).",
+            "Fair value model: changes in fair value recognised in profit or loss; no depreciation. Cost model: depreciate as per IAS 16; disclose fair value.",
+            "IAS 40 fair value gains go to P&L — this distinguishes it from IAS 16 where revaluation surpluses go to OCI.",
+            "Transfer from owner-occupied to IP: revalue first (excess to OCI), then carry under IAS 40. Transfer from IP to owner-occupied: fair value becomes IAS 16 cost.",
+            "Mixed-use property is split between IAS 16 and IAS 40 if the portions can be sold separately.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company uses the fair value model for investment property. During the year, fair value increases by £300,000. Where is this recognised?",
+              options: [
+                "In other comprehensive income (revaluation surplus)",
+                "In profit or loss",
+                "Directly in retained earnings",
+                "Disclosed in the notes only, not recognised",
+              ],
+              answer: 1,
+              explanation: "Under IAS 40 fair value model, gains and losses on investment property are recognised in profit or loss — NOT in OCI. This is a key difference from IAS 16 revaluation model (where surpluses go to OCI). The gain increases reported profit and is presented in the statement of profit or loss.",
+            },
+            {
+              question: "Which of the following best describes investment property under IAS 40?",
+              options: [
+                "A factory owned and occupied by the reporting entity",
+                "A retail property being developed for sale to customers",
+                "Office buildings leased out to tenants under operating leases",
+                "A warehouse used to store the entity's own inventory",
+              ],
+              answer: 2,
+              explanation: "Investment property is property held to earn rental income, for capital appreciation, or both — it is NOT owner-occupied and NOT held for sale. Office buildings leased to external tenants under operating leases are the classic example of investment property. A factory (Option A) and warehouse (Option D) used for the entity's own production are owner-occupied (IAS 16). Property developed for sale (Option B) is inventory (IAS 2).",
+            },
+          ],
         },
         {
           id: "f1-l9",
@@ -9334,7 +9937,76 @@ const AIQ_COURSE_DATA = {
             "Measure assets held for sale at the lower of carrying amount and fair value less costs to sell",
             "Present discontinued operations separately in the statement of profit or loss",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Purpose and Overview</h4>" +
+            "<p>IFRS 5 <em>Non-Current Assets Held for Sale and Discontinued Operations</em> ensures that assets that management intends to recover through sale (rather than continued use) are separately identified and measured at their expected net disposal proceeds. This makes financial statements more informative about imminent asset disposals.</p>" +
+            "<h4>Classification as Held for Sale</h4>" +
+            "<p>A non-current asset (or disposal group — a group of assets and associated liabilities to be disposed of together) is classified as <strong>held for sale</strong> when <strong>all</strong> of the following criteria are met:</p>" +
+            "<ol><li>The asset is <strong>available for immediate sale</strong> in its present condition (subject only to usual customary sale terms).</li>" +
+            "<li>Management is <strong>committed to a plan to sell</strong>.</li>" +
+            "<li>An active programme to locate a buyer and complete the sale has been <strong>initiated</strong>.</li>" +
+            "<li>The sale is <strong>highly probable</strong> — the asset is being actively marketed at a reasonable price relative to its fair value.</li>" +
+            "<li>The sale is expected to be completed within <strong>12 months</strong> of classification.</li>" +
+            "<li>It is <strong>unlikely that the plan will be significantly changed or withdrawn</strong>.</li></ol>" +
+            "<p>The 12-month period can be extended if the delay is caused by events outside management's control AND management remains committed to the sale.</p>" +
+            "<h4>Measurement</h4>" +
+            "<p>On initial classification as held for sale, the asset is measured at the <strong>lower of:</strong></p>" +
+            "<ul><li>Its <strong>carrying amount</strong> (immediately before reclassification — apply any required revaluation or impairment at that point); OR</li>" +
+            "<li><strong>Fair value less costs to sell</strong> (FVLCTS)</li></ul>" +
+            "<p>If FVLCTS < carrying amount → write down to FVLCTS; recognise impairment loss in P&L.</p>" +
+            "<p><strong>Once classified as held for sale:</strong></p>" +
+            "<ul><li><strong>Depreciation stops</strong> immediately.</li>" +
+            "<li>Subsequent changes in FVLCTS are recognised as gains (up to cumulative impairment previously recognised) or losses in P&L.</li></ul>" +
+            "<h4>Presentation — Held for Sale</h4>" +
+            "<p>Assets held for sale are presented <strong>separately</strong> on the face of the SoFP — as a single line item within current assets (even if the asset itself was previously non-current, since it is expected to be recovered within 12 months).</p>" +
+            "<h4>Discontinued Operations</h4>" +
+            "<p>A discontinued operation is a component of an entity that:</p>" +
+            "<ul><li>Has been disposed of or is classified as held for sale; AND</li>" +
+            "<li>Represents a separate major line of business or geographical area; OR a subsidiary acquired exclusively with a view to resale.</li></ul>" +
+            "<p><strong>Presentation:</strong> The post-tax profit or loss of the discontinued operation is presented as a <strong>single line</strong> in the statement of profit or loss, separate from continuing operations. Comparative information is re-presented. This enables users to assess the profitability of ongoing activities.</p>",
+          workedExample: {
+            setup:
+              "GlobeCo Ltd decides on 1 October to sell its logistics division. The division's assets had a carrying amount of £3,200,000 at that date. Fair value is estimated at £3,100,000 and costs to sell are £80,000. The division is actively marketed. Calculate (a) the measurement on reclassification as held for sale, and (b) state how the year-end financial statements should present the division.",
+            steps: [
+              "(a) Carrying amount = £3,200,000. FVLCTS = £3,100,000 − £80,000 = £3,020,000. Lower of carrying amount and FVLCTS = £3,020,000. Write-down = £3,200,000 − £3,020,000 = £180,000 impairment recognised in P&L.",
+              "(a) Depreciation stops on 1 October. No depreciation charged from 1 October to 31 December (3 months).",
+              "(b) SoFP: Present the logistics division assets as a single line item in current assets: 'Assets classified as held for sale £3,020,000'. Do NOT depreciate further.",
+              "(b) P&L: If the logistics division qualifies as a discontinued operation (separate major line of business), its results for the year are presented as a single line: 'Profit/(loss) from discontinued operations, net of tax'. Continuing and discontinued operations are presented separately. Comparatives are re-presented.",
+            ],
+            answer:
+              "Initial carrying value on held-for-sale classification: £3,020,000 (FVLCTS). Impairment: £180,000 charged to P&L. No further depreciation. Presented as current asset held for sale on SoFP. If it is a major line of business, the division's results are shown as discontinued operations in P&L.",
+          },
+          summary: [
+            "Classify as held for sale when: available for immediate sale, management committed, actively marketed, sale highly probable within 12 months.",
+            "Measure at lower of carrying amount and fair value less costs to sell on reclassification; depreciation ceases immediately.",
+            "Assets held for sale are presented separately as current assets on the SoFP.",
+            "Discontinued operations (major line of business) present post-tax results as a single line in P&L, separate from continuing operations.",
+            "If conditions leading to 'held for sale' classification no longer apply, reclassify back and restate at the lower of: (a) pre-classification carrying amount, adjusted for depreciation that would have been charged, or (b) recoverable amount.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A non-current asset with carrying amount £500,000 is reclassified as held for sale. Fair value is £480,000 and selling costs will be £25,000. What amount is the asset carried at after reclassification?",
+              options: [
+                "£500,000",
+                "£480,000",
+                "£455,000",
+                "£475,000",
+              ],
+              answer: 2,
+              explanation: "FVLCTS = £480,000 − £25,000 = £455,000. Carrying amount = £500,000. Measure at lower = £455,000. Impairment loss = £45,000 recognised in profit or loss. Depreciation stops at the date of reclassification.",
+            },
+            {
+              question: "Once an asset is classified as held for sale under IFRS 5, which of the following is correct?",
+              options: [
+                "Depreciation continues until the asset is sold",
+                "Depreciation ceases and the asset is measured at fair value",
+                "Depreciation ceases and the asset is measured at the lower of carrying amount and FVLCTS",
+                "The asset is removed from the statement of financial position immediately",
+              ],
+              answer: 2,
+              explanation: "IFRS 5 requires that once an asset is classified as held for sale, depreciation ceases and the asset is measured at the lower of its carrying amount (at classification date) and fair value less costs to sell. This reflects that the economic recovery will come from the sale proceeds, not from further use. The asset remains on the SoFP until it is actually sold.",
+            },
+          ],
         },
 
         /* ── Module C: Liabilities, Revenue and Other Standards (L10–L18) ── */
