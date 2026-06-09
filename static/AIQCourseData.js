@@ -10020,7 +10020,75 @@ const AIQ_COURSE_DATA = {
             "Distinguish between provisions, contingent liabilities and contingent assets",
             "Measure provisions using best estimate, probability-weighted, and expected value approaches",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why IAS 37 Matters</h4>" +
+            "<p>IAS 37 <em>Provisions, Contingent Liabilities and Contingent Assets</em> governs the recognition of obligations that are uncertain in timing or amount. Without it, companies could manipulate profits by creating or reversing provisions opportunistically. IAS 37 imposes rigorous recognition criteria to ensure provisions reflect genuine obligations.</p>" +
+            "<h4>Recognition Criteria for a Provision</h4>" +
+            "<p>A provision is recognised when ALL three criteria are met:</p>" +
+            "<ol><li><strong>Present obligation:</strong> As a result of a past event, the entity has a present obligation (legal or constructive) to transfer economic benefits to a third party.</li>" +
+            "<li><strong>Probable outflow:</strong> It is probable (more likely than not — >50%) that an outflow of resources embodying economic benefits will be required to settle the obligation.</li>" +
+            "<li><strong>Reliable estimate:</strong> A reliable estimate of the amount can be made.</li></ol>" +
+            "<p><strong>Legal obligation:</strong> Arises from a contract, legislation or other legal source.</p>" +
+            "<p><strong>Constructive obligation:</strong> Arises from a pattern of past practice, published policies or specific statements that have created a valid expectation in third parties that the entity will honour the obligation. Example: an entity with a published no-quibble returns policy has a constructive obligation to accept returns even without a legal requirement.</p>" +
+            "<h4>Decision Tree — Provision, Contingent Liability or Disclose/Ignore?</h4>" +
+            "<table><thead><tr><th>Situation</th><th>Treatment</th></tr></thead><tbody>" +
+            "<tr><td>Present obligation + probable outflow + reliable estimate</td><td>Recognise as a PROVISION</td></tr>" +
+            "<tr><td>Present obligation + possible (not probable) outflow OR cannot estimate</td><td>CONTINGENT LIABILITY — disclose in notes (do not recognise)</td></tr>" +
+            "<tr><td>Possible obligation (past event may have created an obligation, but confirmation depends on future events)</td><td>CONTINGENT LIABILITY — disclose (unless remote)</td></tr>" +
+            "<tr><td>Remote possibility of outflow</td><td>No disclosure required</td></tr>" +
+            "<tr><td>Possible asset — probable future inflow from past event (e.g., insurance claim likely to succeed)</td><td>CONTINGENT ASSET — disclose only if virtually certain recognise as asset</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Measurement — Best Estimate</h4>" +
+            "<p>A provision is measured at the <strong>best estimate</strong> of the expenditure required to settle the present obligation at the reporting date.</p>" +
+            "<ul><li>For a <strong>single obligation</strong>: management's best estimate (often the most likely outcome).</li>" +
+            "<li>For a <strong>large population of items</strong> (e.g., product warranty claims): use the <strong>expected value</strong> method — probability × amount for each scenario, summed.</li></ul>" +
+            "<p>If the effect of time value of money is material, the provision is <strong>discounted</strong> to present value. The unwinding of the discount is recognised as a finance cost in subsequent periods.</p>" +
+            "<h4>Specific Prohibitions</h4>" +
+            "<ul><li><strong>Future operating losses:</strong> Cannot be provided for — they do not meet the definition of a liability (no past event).</li>" +
+            "<li><strong>General provisions / reserves:</strong> Cannot be created without a specific obligation.</li>" +
+            "<li><strong>Restructuring provisions:</strong> Can be recognised only when the entity has a detailed formal plan AND has raised a valid expectation in those affected (e.g., by announcing it publicly or starting to implement it).</li></ul>",
+          workedExample: {
+            setup:
+              "TechFirm Ltd faces three situations at its year end 31 March: (1) A lawsuit by a customer claiming £500,000. Legal counsel advises a 70% chance of losing and estimates the settlement will be between £300,000 and £500,000, most likely £380,000. (2) A potential environmental cleanup — legal counsel says there is only a 15% chance it will become an obligation. (3) A warranty provision: past experience shows 2% of products sold will require a £200 repair and 0.5% will require a £600 repair. Sales this year were 10,000 units. Determine the accounting treatment for each.",
+            steps: [
+              "(1) Lawsuit: Present obligation? Yes (past event = lawsuit filed). Probable? Yes (70% > 50%). Reliable estimate? Yes. PROVISION recognised. Amount = best estimate = £380,000 (most likely amount for a single large obligation).",
+              "(2) Environmental cleanup: 15% probability — NOT probable (< 50%). No present obligation reliably established. CONTINGENT LIABILITY — disclose in the notes. The amount is not recognised.",
+              "(3) Warranty: Expected value approach. Low-cost repairs: 10,000 × 2% × £200 = £40,000. High-cost repairs: 10,000 × 0.5% × £600 = £30,000. Total warranty provision = £40,000 + £30,000 = £70,000.",
+            ],
+            answer:
+              "Provision for lawsuit: £380,000 (recognised in P&L and SoFP). Environmental: disclosed as contingent liability in notes, not recognised. Warranty provision: £70,000 (expected value across the population of sales). The warranty uses expected value because it covers a large population — even though no individual claim is certain, the aggregate is reliably estimable.",
+          },
+          summary: [
+            "A provision is recognised when: present obligation (legal or constructive), probable outflow (>50%), reliable estimate of amount.",
+            "Contingent liabilities (possible or probable but can't estimate) are disclosed in notes but not recognised.",
+            "Contingent assets are disclosed when probable; recognised only when virtually certain (rare).",
+            "Measurement: best estimate for single obligations; expected value (probability × amount) for large populations of similar items.",
+            "Future operating losses and general provisions cannot be recognised; restructuring provisions require a detailed plan and raised expectations.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An entity is sued for £1,000,000. Legal counsel advises a 40% chance of losing. How should this be treated under IAS 37?",
+              options: [
+                "Provision of £400,000 (40% × £1,000,000)",
+                "Provision of £1,000,000",
+                "Contingent liability disclosed in the notes",
+                "No recognition or disclosure required",
+              ],
+              answer: 2,
+              explanation: "The probability is 40% — this is 'possible but not probable' (below the 50% threshold for a provision). Under IAS 37, this is a contingent liability: a possible obligation that should be disclosed in the notes but NOT recognised as a provision. Option A (40% × £1m) is not permitted — you cannot recognise a provision at a probability-weighted amount when the obligation is not probable.",
+            },
+            {
+              question: "Which of the following cannot be recognised as a provision under IAS 37?",
+              options: [
+                "A warranty obligation on products sold during the year",
+                "An obligation to restore a leased site at the end of the lease term",
+                "Future operating losses expected in the next 12 months",
+                "A restructuring provision where a detailed plan has been announced to employees",
+              ],
+              answer: 2,
+              explanation: "Future operating losses cannot be provided for — they do not arise from a past event and do not meet the definition of a present obligation. Options A (warranty — present obligation from sales), B (decommissioning — present obligation from the lease), and D (restructuring with announced plan — constructive obligation exists) all meet the recognition criteria.",
+            },
+          ],
         },
         {
           id: "f1-l11",
@@ -10032,7 +10100,74 @@ const AIQ_COURSE_DATA = {
             "Explain the criteria for recognising revenue at a point in time versus over time",
             "Apply IFRS 15 to common scenarios: licenses, warranties, principal vs agent",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why IFRS 15?</h4>" +
+            "<p>IFRS 15 <em>Revenue from Contracts with Customers</em> replaced IAS 18 and IAS 11 with a single, comprehensive framework. The old standards contained multiple models and were inconsistent across industries. IFRS 15 provides a single five-step model applicable to almost all revenue transactions.</p>" +
+            "<h4>The Five-Step Model</h4>" +
+            "<p><strong>Step 1 — Identify the contract(s) with the customer</strong></p>" +
+            "<p>A contract must be approved by both parties, create enforceable rights and obligations, have commercial substance, and it must be probable that the entity will collect the consideration. Contracts can be written, oral or implied.</p>" +
+            "<p><strong>Step 2 — Identify the performance obligations</strong></p>" +
+            "<p>A performance obligation (PO) is a promise to transfer a <em>distinct</em> good or service to the customer. A good/service is distinct if: (a) the customer can benefit from it on its own or with readily available resources, AND (b) it is separately identifiable from other promises in the contract (not highly interdependent or interrelated).</p>" +
+            "<p>Example: A software contract bundling software licence + 12 months' support. These are likely two separate POs — the customer benefits from each independently and they are not highly integrated.</p>" +
+            "<p><strong>Step 3 — Determine the transaction price</strong></p>" +
+            "<p>The transaction price is the amount of consideration the entity expects to be entitled to. It includes fixed and variable elements. Variable consideration (discounts, rebates, returns, penalties) is estimated using the expected value or most likely amount method — subject to a constraint (recognise only to the extent that a significant reversal is not highly probable).</p>" +
+            "<p><strong>Step 4 — Allocate the transaction price to performance obligations</strong></p>" +
+            "<p>The transaction price is allocated to each PO based on the <strong>relative standalone selling price (SSP)</strong> of each distinct good/service. If the SSP is not directly observable, it is estimated (adjusted market assessment, expected cost plus margin, or residual approach).</p>" +
+            "<p><strong>Step 5 — Recognise revenue when (or as) performance obligations are satisfied</strong></p>" +
+            "<p>Revenue is recognised when control of the good/service is transferred to the customer:</p>" +
+            "<ul><li><strong>At a point in time:</strong> When control passes — typically on delivery, acceptance, or a specific event. Indicators: right to payment, transferred legal title, transferred physical possession, significant risks and rewards transferred, customer accepted the asset.</li>" +
+            "<li><strong>Over time:</strong> If any of three criteria are met: (i) customer simultaneously receives and consumes benefits as the entity performs (e.g., cleaning services); (ii) entity creates/enhances an asset the customer controls (e.g., construction on customer's land); (iii) asset has no alternative use to the entity and entity has right to payment for work done to date (e.g., bespoke software).</li></ul>" +
+            "<h4>Key Application Topics</h4>" +
+            "<p><strong>Warranties:</strong></p>" +
+            "<ul><li><em>Assurance warranty</em> (guarantees the product performs as specified) → NOT a separate PO; accounted for under IAS 37 as a provision.</li>" +
+            "<li><em>Service warranty</em> (additional service beyond assurance of specification) → Separate PO; allocate part of the transaction price to it.</li></ul>" +
+            "<p><strong>Principal vs Agent:</strong></p>" +
+            "<ul><li><em>Principal</em> → Recognises revenue gross (entity controls the good/service before transfer to customer).</li>" +
+            "<li><em>Agent</em> → Recognises only the net fee/commission (entity arranges for another to provide the good/service).</li></ul>",
+          workedExample: {
+            setup:
+              "TechSoft Ltd sells a bundle: software licence (standalone price £1,200) + 12-month support (standalone price £400). Customer pays £1,400 total. Licence is delivered immediately. Support is provided over 12 months. Allocate the transaction price and show revenue recognition over 12 months.",
+            steps: [
+              "Step 1: Valid contract — enforceable, both parties approved, commercial substance.",
+              "Step 2: Two POs — software licence (distinct; customer can use independently) and support (distinct service).",
+              "Step 3: Transaction price = £1,400.",
+              "Step 4: Allocate based on relative SSP. Total SSP = £1,200 + £400 = £1,600. Licence: £1,400 × (1,200/1,600) = £1,050. Support: £1,400 × (400/1,600) = £350.",
+              "Step 5: Licence revenue £1,050 — recognised at a point in time on delivery (control passes immediately). Support revenue £350 — recognised over 12 months = £29.17/month (straight-line over the service period).",
+            ],
+            answer:
+              "On delivery: recognise £1,050 licence revenue immediately. Over 12 months: recognise £350 support revenue (£29.17/month). Total: £1,050 + £350 = £1,400. A contract liability of £350 is recognised on delivery (unearned support revenue) and released to revenue monthly.",
+          },
+          summary: [
+            "IFRS 15 five-step model: identify contract → identify POs → determine price → allocate to POs → recognise when/as satisfied.",
+            "Revenue over time: customer receives and consumes simultaneously; or creates asset on customer's land; or bespoke with right to payment.",
+            "Revenue at a point in time: when control transfers — evidenced by right to payment, title, possession, risks/rewards, acceptance.",
+            "Warranties: assurance warranties → IAS 37 provision; service warranties → separate performance obligation under IFRS 15.",
+            "Principal recognises gross revenue; agent recognises only net fee/commission.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An entity provides bespoke IT consultancy services that create no alternative use. Its contract gives it the right to payment for all work done to date. How is revenue recognised?",
+              options: [
+                "At a single point in time when the project is complete",
+                "Equally over the contract term regardless of progress",
+                "Over time using the stage of completion",
+                "Only when the customer accepts the final deliverable",
+              ],
+              answer: 2,
+              explanation: "This meets IFRS 15 Criterion (iii) for revenue over time: the asset (consultancy output) has no alternative use to the entity AND the entity has a right to payment for performance completed to date. Revenue is recognised over time using an appropriate measure of progress (e.g., input method — costs incurred / total estimated costs; or output method — milestones, deliverables).",
+            },
+            {
+              question: "A company sells a 2-year software licence for £2,400. The software is delivered immediately. There is no additional service element. When is the £2,400 recognised?",
+              options: [
+                "£100 per month over 24 months",
+                "£1,200 in each of the two years",
+                "£2,400 immediately on delivery of the licence",
+                "£2,400 at the end of the licence term",
+              ],
+              answer: 2,
+              explanation: "A software licence (right to use as it exists at the point in time of delivery) is recognised at a point in time when control passes — on delivery. If the licence provides a right to access software as it exists throughout the period (e.g., with regular updates integral to its value), it might be over time. But a simple 2-year 'right to use' licence transfers control on delivery — £2,400 recognised immediately.",
+            },
+          ],
         },
         {
           id: "f1-l12",
@@ -10044,7 +10179,66 @@ const AIQ_COURSE_DATA = {
             "Apply the constraint on variable consideration recognition",
             "Account for contract modifications as new contracts or modifications of existing contracts",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Variable Consideration</h4>" +
+            "<p>Variable consideration exists when the amount a customer pays depends on uncertain future events — volume discounts, rebates, refunds, performance bonuses, penalties, price concessions. Under IFRS 15, variable consideration is <strong>estimated</strong> and included in the transaction price.</p>" +
+            "<p><strong>Two estimation methods:</strong></p>" +
+            "<ul><li><strong>Expected value:</strong> Probability-weighted sum of all possible outcomes. Best when there are many possible outcomes. Example: if there are three rebate scenarios (£0, £500, £1,000 with probabilities 30%, 50%, 20%), EV = 0×0.3 + 500×0.5 + 1,000×0.2 = £450 rebate.</li>" +
+            "<li><strong>Most likely amount:</strong> Single most probable outcome from a range. Best when the contract has two outcomes only. Example: performance bonus — either £0 or £10,000 depending on delivery date. If delivery on time is 70% likely, most likely amount = £10,000.</li></ul>" +
+            "<h4>The Constraint on Variable Consideration</h4>" +
+            "<p>An entity includes variable consideration in the transaction price only to the extent that it is <strong>highly probable that a significant reversal of cumulative recognised revenue will not occur</strong> when the uncertainty resolves. Factors that increase the risk of a reversal include:</p>" +
+            "<ul><li>Amount highly susceptible to factors outside the entity's influence (weather, market prices)</li>" +
+            "<li>Long time before uncertainty resolves</li>" +
+            "<li>Limited experience with similar contracts</li>" +
+            "<li>Wide range of possible outcomes</li></ul>" +
+            "<h4>Contract Modifications</h4>" +
+            "<p>A contract modification is a change in the scope or price of a contract approved by both parties. It is accounted for as either:</p>" +
+            "<p><strong>(a) A new separate contract:</strong> If the modification adds distinct goods/services AND the price increase reflects standalone selling price. The original contract continues unchanged; the additional goods/services are a new contract.</p>" +
+            "<p><strong>(b) A modification of the existing contract:</strong> If goods/services are not distinct OR price increase does not reflect standalone selling price. Two sub-treatments:</p>" +
+            "<ul><li><em>Prospective:</em> If remaining goods/services are distinct from those already transferred → cumulative catch-up adjustment at modification date.</li>" +
+            "<li><em>Combined approach:</em> If remaining goods/services are not distinct from those already transferred → recognise as single performance obligation, cumulative revenue recognised to date is adjusted.</li></ul>",
+          workedExample: {
+            setup:
+              "ContractCo enters a contract to provide 100 units at £50 each = £5,000. After delivering 60 units, the customer requests 40 additional units at £48 each (standalone selling price is £50 per unit). Also, the customer wants a rebate on all 100 units — if delivered in full within 3 months: £200 rebate (70% likely); if delivered within 6 months: £100 rebate (20% likely); no rebate (10% likely). (a) How should the modification be treated? (b) Estimate the variable consideration.",
+            steps: [
+              "(a) Modification: The 40 additional units are distinct (customer benefits independently). However, the price (£48) does NOT reflect standalone selling price (£50). Therefore, this is NOT a new separate contract. Treat as a modification of the existing contract (prospective method — remaining goods are distinct from already transferred). The remaining 40 original + 40 additional = 80 units at blended rate: [(40 × £50) + (40 × £48)] / 80 = (£2,000 + £1,920) / 80 = £49/unit going forward.",
+              "(b) Variable consideration — expected value method: EV = (£200 × 0.70) + (£100 × 0.20) + (£0 × 0.10) = £140 + £20 + £0 = £160 rebate. Apply constraint: is it highly probable that including £160 will not cause a significant reversal? Given 70% probability of £200, this is reasonably reliable. Include £160 as a reduction to transaction price.",
+              "Transaction price after modification and rebate: 60 units at £50 = £3,000 already recognised; remaining 80 units at £49 = £3,920; total = £6,920; less rebate £160 = £6,760 total contract revenue.",
+            ],
+            answer:
+              "Modification treated as a change to existing contract at blended price £49/unit for remaining 80 units. Variable consideration estimate: £160 rebate (expected value). Total contract revenue = £6,760. The blended rate reflects a 'prospective' approach — recognise at the adjusted rate going forward.",
+          },
+          summary: [
+            "Variable consideration is estimated using expected value (many outcomes) or most likely amount (binary or few outcomes).",
+            "Constraint: include only the portion where it is highly probable a significant revenue reversal will not occur when uncertainty resolves.",
+            "Modification is a new contract only if it adds distinct goods/services at standalone selling price; otherwise it modifies the existing contract.",
+            "Modification of existing contract is applied prospectively (remaining goods distinct) or using a combined/cumulative catch-up approach.",
+            "IFRS 15 requires regular reassessment of variable consideration estimates throughout the contract.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company sells a product with a variable rebate. The rebate is either £0 (30% probability) or £2,000 (70% probability). Which estimation method and amount should be used?",
+              options: [
+                "Expected value: £1,400",
+                "Most likely amount: £2,000",
+                "Expected value: £600",
+                "Most likely amount: £0",
+              ],
+              answer: 1,
+              explanation: "With only two possible outcomes, the most likely amount method is most appropriate under IFRS 15. The most likely outcome (70% probability) is that the rebate will be £2,000. Therefore, the most likely amount is £2,000. Subject to the constraint (is there high probability of no significant reversal?), £2,000 would be included in the estimate. Expected value = (0 × 0.30) + (2,000 × 0.70) = £1,400 — this method is less appropriate for binary outcomes.",
+            },
+            {
+              question: "A contract modification adds distinct goods at a price below standalone selling price. How is this treated under IFRS 15?",
+              options: [
+                "As a new separate contract",
+                "As a modification to the existing contract with prospective recognition",
+                "Fully recognised as revenue at the modification date",
+                "Recognised only when the original contract is complete",
+              ],
+              answer: 1,
+              explanation: "A modification is a new separate contract ONLY if the modification adds distinct goods/services AND the price reflects standalone selling price. Here the price is below SSP, so the second condition fails — it is NOT a new contract. Instead, it modifies the existing contract. Since the remaining goods are distinct, the prospective method applies: recognise remaining goods at a blended rate going forward.",
+            },
+          ],
         },
         {
           id: "f1-l13",
@@ -10056,7 +10250,75 @@ const AIQ_COURSE_DATA = {
             "Calculate the initial measurement of the right-of-use asset and lease liability",
             "Prepare the journal entries for lease payments and depreciation over the lease term",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The IFRS 16 Revolution</h4>" +
+            "<p>IFRS 16 <em>Leases</em> (effective 1 January 2019) fundamentally changed lessee accounting. Previously under IAS 17, operating leases were 'off-balance sheet' — only the annual rent expense appeared in P&L with no lease liability recognised. IFRS 16 requires <strong>virtually all leases to be recognised on the balance sheet</strong>, bringing billions of off-balance-sheet obligations into financial statements globally.</p>" +
+            "<h4>The Right-of-Use (ROU) Model</h4>" +
+            "<p>Under IFRS 16, a lessee recognises:</p>" +
+            "<ul><li>A <strong>Right-of-Use (ROU) asset</strong> — representing the lessee's right to use the underlying asset during the lease term.</li>" +
+            "<li>A <strong>Lease liability</strong> — representing the obligation to make future lease payments.</li></ul>" +
+            "<p><strong>Exemptions (optional short-cut recognition):</strong></p>" +
+            "<ul><li><strong>Short-term leases:</strong> Lease term ≤ 12 months (including options to extend). Expense payments straight-line.</li>" +
+            "<li><strong>Low-value assets:</strong> Underlying asset has low value when new (IASB illustrative threshold ~US$5,000). Expense payments straight-line.</li></ul>" +
+            "<h4>Initial Measurement</h4>" +
+            "<p><strong>Lease liability</strong> = Present value of lease payments not yet made at commencement date, discounted at the <strong>interest rate implicit in the lease</strong> (if determinable) or the lessee's <strong>incremental borrowing rate</strong>.</p>" +
+            "<p>Lease payments included: fixed payments less incentives, variable payments based on index/rate, exercise price of purchase options (if reasonably certain to exercise), payments in optional renewal periods (if reasonably certain to extend).</p>" +
+            "<p><strong>Right-of-Use asset</strong> = Initial lease liability PLUS:</p>" +
+            "<ul><li>Lease payments made at or before commencement date (minus lease incentives received)</li>" +
+            "<li>Initial direct costs incurred by the lessee</li>" +
+            "<li>Estimate of decommissioning/restoration costs (if applicable)</li></ul>" +
+            "<h4>Subsequent Measurement</h4>" +
+            "<p><strong>Lease liability</strong> is unwound using the effective interest method:</p>" +
+            "<pre>Opening lease liability\n+ Finance cost (liability × interest rate)\n− Lease payment made\n= Closing lease liability</pre>" +
+            "<p><strong>ROU asset</strong> is depreciated on a straight-line basis over the <strong>shorter of the lease term and the asset's useful life</strong> (if ownership transfers or purchase is likely, use the asset's full useful life).</p>" +
+            "<h4>Income Statement Impact</h4>" +
+            "<p>Under IFRS 16, the income statement shows:</p>" +
+            "<ul><li><strong>Depreciation</strong> on the ROU asset (typically in operating expenses)</li>" +
+            "<li><strong>Finance cost</strong> (interest on the lease liability)</li></ul>" +
+            "<p>Under the old IAS 17 operating lease model, only a single rental expense (typically straight-line) appeared. IFRS 16 front-loads total expense because finance cost is higher in early years when the lease liability balance is greater — this is the same pattern as any amortising loan.</p>",
+          workedExample: {
+            setup:
+              "LeaseCo Ltd enters a 4-year lease for equipment on 1 January Year 1. Annual payment: £10,000 payable at year end. Incremental borrowing rate: 5%. Initial direct costs: £500. Calculate (a) initial ROU asset and lease liability, (b) Year 1 lease liability movement, and (c) Year 1 income statement charges.",
+            steps: [
+              "(a) Lease liability = PV of 4 annual payments at 5%: PV = 10,000/(1.05) + 10,000/(1.05²) + 10,000/(1.05³) + 10,000/(1.05⁴) = 9,524 + 9,070 + 8,638 + 8,227 = £35,459. ROU asset = £35,459 (lease liability) + £500 (initial direct costs) = £35,959.",
+              "(b) Year 1 lease liability: Opening = £35,459. Finance cost = £35,459 × 5% = £1,773. Lease payment = £10,000. Closing = £35,459 + £1,773 − £10,000 = £27,232.",
+              "(c) Year 1 income statement: Depreciation = £35,959 / 4 years = £8,990 (straight-line). Finance cost = £1,773. Total lease-related charge = £10,763.",
+              "Comparison: under old IAS 17, rent expense = £10,000 flat. Under IFRS 16, Year 1 total = £10,763 — slightly higher in early years due to front-loading of finance cost.",
+            ],
+            answer:
+              "Initial lease liability: £35,459. Initial ROU asset: £35,959. Year 1: depreciation £8,990 and finance cost £1,773 = £10,763 total income statement charge. Closing lease liability £27,232. The ROU asset and lease liability appear on the balance sheet — this was off-balance-sheet under IAS 17.",
+          },
+          summary: [
+            "IFRS 16 requires lessees to recognise a right-of-use asset and lease liability for virtually all leases (exceptions: short-term ≤12m, low-value assets).",
+            "Lease liability = PV of future lease payments discounted at implicit rate or incremental borrowing rate.",
+            "ROU asset = initial lease liability + initial direct costs + lease incentive payments made + estimated decommissioning costs.",
+            "Lease liability unwinds using effective interest; ROU asset depreciated straight-line over shorter of lease term and useful life.",
+            "P&L shows depreciation + finance cost under IFRS 16; front-loads total expense vs flat rental charge under old IAS 17.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Under IFRS 16, what does the initial lease liability represent?",
+              options: [
+                "The total undiscounted lease payments over the lease term",
+                "The present value of lease payments not yet made at the commencement date",
+                "The fair value of the underlying asset",
+                "The right-of-use asset less initial direct costs",
+              ],
+              answer: 1,
+              explanation: "The lease liability is measured at the present value (discounted) of lease payments not yet made at the commencement date, using the interest rate implicit in the lease or the lessee's incremental borrowing rate. The total undiscounted payments would overstate the liability by ignoring time value of money. The ROU asset (not the underlying asset) is recognised separately.",
+            },
+            {
+              question: "A lessee has a 6-year lease on a machine with a useful economic life of 10 years. The lease agreement does not transfer ownership and there is no purchase option. The ROU asset should be depreciated over:",
+              options: [
+                "10 years (the machine's useful life)",
+                "6 years (the lease term)",
+                "4 years (remaining useful life after lease ends)",
+                "8 years (average of lease term and useful life)",
+              ],
+              answer: 1,
+              explanation: "IFRS 16 requires the ROU asset to be depreciated over the shorter of the lease term and the asset's useful life — unless ownership transfers at the end of the lease or it is reasonably certain the lessee will exercise a purchase option (in which case, depreciate over the full useful life). Here: ownership does not transfer, no purchase option, lease term (6) < useful life (10) → depreciate over 6 years.",
+            },
+          ],
         },
         {
           id: "f1-l14",
@@ -10068,7 +10330,74 @@ const AIQ_COURSE_DATA = {
             "Explain the business model test and contractual cash flow characteristics test",
             "Apply the effective interest method to amortise financial instruments at amortised cost",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Scope of IFRS 9</h4>" +
+            "<p>IFRS 9 <em>Financial Instruments</em> replaced IAS 39. It governs recognition, classification, measurement and impairment of financial instruments. At F1 level, the focus is on <strong>classification of financial assets</strong> and the <strong>effective interest method</strong>.</p>" +
+            "<h4>Classification of Financial Assets — Two Tests</h4>" +
+            "<p>Classification into one of three categories depends on two criteria:</p>" +
+            "<p><strong>Test 1 — Business Model Test:</strong> What is the objective of holding this financial asset?</p>" +
+            "<ul><li><em>Hold to collect</em> (HTB) — collect contractual cash flows only</li>" +
+            "<li><em>Hold to collect and sell</em> (HTCAS) — collect cash flows AND sell assets</li>" +
+            "<li><em>Other</em> — held for trading or other purpose</li></ul>" +
+            "<p><strong>Test 2 — Contractual Cash Flow Characteristics (SPPI Test):</strong> Do the contractual cash flows represent solely payments of principal and interest (SPPI)?</p>" +
+            "<table><thead><tr><th>Business Model</th><th>SPPI?</th><th>Classification</th><th>Gains/Losses</th></tr></thead><tbody>" +
+            "<tr><td>Hold to collect</td><td>Yes</td><td><strong>Amortised Cost</strong></td><td>Effective interest in P&L; gains/losses on disposal in P&L</td></tr>" +
+            "<tr><td>Hold to collect and sell</td><td>Yes</td><td><strong>FVOCI (debt)</strong></td><td>Fair value changes in OCI; reclassify to P&L on disposal (recycling)</td></tr>" +
+            "<tr><td>Other / held for trading</td><td>Any</td><td><strong>FVTPL</strong></td><td>All fair value changes in P&L</td></tr>" +
+            "<tr><td>Any</td><td>No</td><td><strong>FVTPL</strong></td><td>All fair value changes in P&L</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Equity instruments:</strong> Always FVTPL by default. However, entities may irrevocably elect to classify a non-trading equity instrument at <strong>FVOCI (equity)</strong> — gains/losses go to OCI and are NEVER recycled to P&L (no recycling on disposal).</p>" +
+            "<h4>Effective Interest Method</h4>" +
+            "<p>Financial assets held at amortised cost are measured using the effective interest method. The effective interest rate (EIR) equates the present value of all future cash flows to the initial carrying amount (including transaction costs).</p>" +
+            "<pre>Year opening balance\n× Effective interest rate\n= Finance income (P&L)\n− Cash received (coupon)\n= Year closing balance (amortised cost)</pre>" +
+            "<p>This is relevant when a bond is purchased at a premium or discount — the amortised cost method spreads the difference between purchase price and redemption value over the bond's life, producing a constant rate of return.</p>" +
+            "<h4>Financial Liabilities</h4>" +
+            "<p>Most financial liabilities are measured at <strong>amortised cost</strong> using the effective interest method. Financial liabilities held for trading (or designated at FVTPL) are measured at FVTPL. Borrowings at amortised cost are a key exam area — the effective rate on a bond issued at a discount means the interest charge exceeds the coupon paid.</p>",
+          workedExample: {
+            setup:
+              "Bond Co issues a 3-year bond with face value £100,000 and 5% annual coupon. The bond is issued at £95,000 (reflecting a market yield of 7.26%). Using the effective interest method, calculate the interest charge in Year 1 and the carrying amount at end of Year 1. Coupon payment = £5,000/year.",
+            steps: [
+              "Opening carrying amount = £95,000 (issued proceeds).",
+              "Effective interest rate = 7.26% (the yield that discounts all cash flows to £95,000).",
+              "Year 1 finance cost = £95,000 × 7.26% = £6,897.",
+              "Coupon paid = £5,000.",
+              "Amortisation of discount = £6,897 − £5,000 = £1,897.",
+              "Closing carrying amount = £95,000 + £1,897 = £96,897.",
+            ],
+            answer:
+              "Year 1 finance cost in P&L = £6,897. Cash coupon paid = £5,000. Carrying amount at end Year 1 = £96,897. The amortised cost gradually increases towards £100,000 (par) over the 3 years, as the discount is amortised. By end Year 3, carrying amount = £100,000 and the bond is redeemed at par.",
+          },
+          summary: [
+            "IFRS 9 classifies financial assets based on business model (hold to collect, hold to collect and sell, other) and SPPI test.",
+            "Amortised cost: HTB + SPPI; FVOCI (debt): HTCAS + SPPI; FVTPL: all others or failed SPPI.",
+            "Equity instruments: FVTPL unless irrevocable FVOCI election — OCI gains never recycled to P&L.",
+            "Effective interest method: finance income = opening balance × EIR; amortises premium/discount over life of instrument.",
+            "At amortised cost, carrying amount is adjusted for discount/premium amortisation, moving towards par value over the instrument's life.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An entity holds a portfolio of government bonds and intends to collect the contractual interest and principal — it will sell bonds occasionally to manage liquidity. The bonds pay fixed interest. How should they be classified under IFRS 9?",
+              options: [
+                "Amortised cost",
+                "FVOCI",
+                "FVTPL",
+                "Cannot be determined without the fair value",
+              ],
+              answer: 1,
+              explanation: "The business model is 'hold to collect and sell' (HTCAS) — the entity intends to collect cash flows but will also sell bonds. The bonds pass the SPPI test (fixed interest = solely payments of principal and interest). HTCAS + SPPI = FVOCI (debt). Fair value changes go to OCI; on disposal the cumulative OCI gain/loss is recycled to P&L.",
+            },
+            {
+              question: "A bond is purchased for £92,000 with a face value of £100,000, 6% annual coupon, 4-year term. The effective interest rate is 8%. What is the interest income in Year 1?",
+              options: [
+                "£5,520",
+                "£6,000",
+                "£7,360",
+                "£8,000",
+              ],
+              answer: 2,
+              explanation: "Interest income under effective interest method = Opening carrying amount × EIR = £92,000 × 8% = £7,360. The coupon received is £100,000 × 6% = £6,000. The difference (£1,360) amortises the discount. The P&L charge/income is always based on the carrying amount × the effective rate — not the face value × coupon rate.",
+            },
+          ],
         },
         {
           id: "f1-l15",
@@ -10080,7 +10409,75 @@ const AIQ_COURSE_DATA = {
             "Distinguish between changes in accounting policy (retrospective) and changes in estimate (prospective)",
             "Account for the correction of prior period errors with retrospective restatement",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Accounting Policies</h4>" +
+            "<p>Accounting policies are the specific principles, bases, conventions, rules and practices applied by an entity in preparing and presenting financial statements. When an IFRS standard applies to a transaction, the policy is determined by that standard. When no standard specifically applies, management uses judgement to develop a policy that is relevant and reliable (using IFRS hierarchy: specific IFRS first, Conceptual Framework next, other standards analogically).</p>" +
+            "<p><strong>Consistency principle:</strong> The same accounting policies must be applied consistently from period to period. If a policy is changed, the change must be disclosed and comparative information restated.</p>" +
+            "<h4>Changes in Accounting Policy</h4>" +
+            "<p>An entity changes an accounting policy only if:</p>" +
+            "<ul><li>Required by an IFRS standard; OR</li>" +
+            "<li>The change will result in more relevant and reliable information.</li></ul>" +
+            "<p>Changes in policy are accounted for <strong>retrospectively</strong> — as if the new policy had always been applied:</p>" +
+            "<ul><li>Restate all prior period comparative amounts presented.</li>" +
+            "<li>Adjust the opening balance of retained earnings for the earliest period presented (cumulative catch-up).</li></ul>" +
+            "<h4>Changes in Accounting Estimate</h4>" +
+            "<p>An accounting estimate is a value that cannot be determined with precision — for example, useful life of a PPE asset, provision for bad debts, warranty provision. As new information or developments make a revision necessary, a change in estimate occurs.</p>" +
+            "<p>Changes in estimates are accounted for <strong>prospectively</strong>:</p>" +
+            "<ul><li>No restatement of prior periods.</li>" +
+            "<li>Apply the revised estimate in the current and future periods.</li></ul>" +
+            "<p><strong>Distinguishing policy from estimate:</strong> This is a common exam challenge. If the change is in the measurement basis (e.g., from FIFO to weighted average cost for inventories), it is a <em>policy change</em> (retrospective). If the change is in a measured amount within the same policy (e.g., changing useful life from 10 years to 8 years under straight-line depreciation), it is an <em>estimate change</em> (prospective).</p>" +
+            "<h4>Correction of Prior Period Errors</h4>" +
+            "<p>Errors include mathematical mistakes, mistakes in applying policies, misstatement or omission of information, and fraud. <strong>Material prior period errors</strong> are corrected <strong>retrospectively</strong>:</p>" +
+            "<ul><li>Restate comparative amounts for prior periods where the error occurred.</li>" +
+            "<li>Adjust the opening balance of retained earnings for the earliest period presented.</li></ul>" +
+            "<p>Immaterial errors can be corrected in the current period without restatement.</p>" +
+            "<p><strong>Key difference:</strong></p>" +
+            "<table><thead><tr><th></th><th>Method</th><th>Trigger</th></tr></thead><tbody>" +
+            "<tr><td>Change in policy</td><td>Retrospective (restate)</td><td>New standard or more reliable information</td></tr>" +
+            "<tr><td>Change in estimate</td><td>Prospective (current + future)</td><td>New information about existing estimate</td></tr>" +
+            "<tr><td>Correction of error</td><td>Retrospective (restate)</td><td>Error identified in prior period statements</td></tr>" +
+            "</tbody></table>",
+          workedExample: {
+            setup:
+              "BuildAssets Ltd has two situations: (1) It changes its inventory cost formula from FIFO to weighted average cost (the change produces more reliable information). The cumulative effect on retained earnings at 1 January Year 2 is a decrease of £80,000. (2) It changes the useful life of a machine from 10 years to 8 years (4 years into its life). Original cost £200,000, nil residual value. Show the accounting treatment for each.",
+            steps: [
+              "(1) Change in accounting policy — retrospective. Restate Year 1 comparatives to reflect weighted average cost throughout. Adjust opening retained earnings at 1 January Year 2 by −£80,000 (the cumulative effect). Disclose: nature of change, why more reliable, amounts of adjustment for each period presented.",
+              "(2) Change in estimate — prospective. Original straight-line depreciation: £200,000 / 10 years = £20,000/year. After 4 years: accumulated depreciation = £80,000. Carrying amount = £120,000. Remaining life changes from 6 years to 4 years (8 − 4). New annual depreciation = £120,000 / 4 = £30,000. Apply from Year 5 onwards — NO restatement of Years 1-4.",
+            ],
+            answer:
+              "Inventory policy change: retrospective — restate comparatives and adjust opening retained earnings by −£80,000. Depreciation estimate change: prospective — depreciate £30,000/year for remaining 4 years starting from Year 5. No restatement. Disclosure in both cases: nature of change and financial effect.",
+          },
+          summary: [
+            "Accounting policies must be applied consistently; changes occur only when required by a standard or to provide more reliable information.",
+            "Policy changes: retrospective restatement of comparative periods and adjustment to opening retained earnings.",
+            "Estimate changes: prospective application in current and future periods — no restatement.",
+            "Prior period errors: retrospective restatement, same method as policy changes.",
+            "Key distinction: policy = measurement basis (retrospective); estimate = measured amount within same basis (prospective).",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company changes the depreciation method for its machinery from reducing balance to straight-line. This is best described as:",
+              options: [
+                "A change in accounting estimate — apply prospectively",
+                "A change in accounting policy — apply retrospectively",
+                "A correction of an error — restate prior periods",
+                "An immaterial adjustment — no disclosure required",
+              ],
+              answer: 0,
+              explanation: "The depreciation method is considered a change in accounting estimate under IAS 8. Both reducing balance and straight-line are acceptable methods under IAS 16; the entity is changing its estimate of how the asset's benefits are consumed over time. Changes in estimates are applied prospectively — no restatement of prior periods. Note: this is a frequently debated area, but IAS 8 paragraphs 36-38 confirm that changes in depreciation method are treated as changes in estimate.",
+            },
+            {
+              question: "A material error (understated inventory by £150,000) is discovered in the financial statements for Year 1, which have already been published. It is now Year 2. How should this be corrected under IAS 8?",
+              options: [
+                "Adjust Year 2 income statement with a prior period correction",
+                "Disclose in the notes only — no restatement of Year 1 comparatives",
+                "Restate Year 1 comparative amounts and adjust opening Year 2 retained earnings",
+                "Recognise the £150,000 as income in Year 2",
+              ],
+              answer: 2,
+              explanation: "Under IAS 8, material prior period errors are corrected retrospectively: restate the comparative amounts shown in the Year 2 financial statements (i.e., the Year 1 comparatives are restated to correct the inventory understatement), and adjust the opening balance of retained earnings for Year 2. This ensures the financial statements present accurate information for both periods.",
+            },
+          ],
         },
         {
           id: "f1-l16",
@@ -10092,7 +10489,68 @@ const AIQ_COURSE_DATA = {
             "Distinguish between adjusting and non-adjusting events after the reporting period",
             "Apply IAS 10 to determine whether to adjust financial statements or disclose only",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What are Events After the Reporting Period?</h4>" +
+            "<p>Events after the reporting period are those events (favourable and unfavourable) that occur between the <strong>end of the reporting period</strong> (e.g., 31 December) and the <strong>date the financial statements are authorised for issue</strong> (when the board approves the accounts for publication). This window can be weeks or months.</p>" +
+            "<h4>Two Types of Post-Reporting Events</h4>" +
+            "<p><strong>Adjusting events:</strong> Events that provide evidence of conditions that existed at the reporting date. The financial statements must be adjusted to reflect these events because they confirm or refine our understanding of the year-end position.</p>" +
+            "<p><strong>Non-adjusting events:</strong> Events that arise after the reporting date (new conditions that did not exist at year end). These are NOT adjusted in the financial statements but are disclosed in the notes if material.</p>" +
+            "<table><thead><tr><th>Example Event</th><th>Type</th><th>Reason</th></tr></thead><tbody>" +
+            "<tr><td>Customer goes bankrupt after year end, confirming a debtor was uncollectable at year end</td><td>Adjusting</td><td>Confirms debtor's financial difficulty existed at year end → adjust receivables provision</td></tr>" +
+            "<tr><td>Sale of inventory after year end at below cost price</td><td>Adjusting</td><td>Confirms NRV was below cost at year end → write down inventory</td></tr>" +
+            "<tr><td>Fraud discovered after year end relating to year-end balances</td><td>Adjusting</td><td>Confirms financial statements were misstated at year end</td></tr>" +
+            "<tr><td>Major fire destroying a factory after year end</td><td>Non-adjusting</td><td>New event — conditions at year end were fine; disclose if material</td></tr>" +
+            "<tr><td>Acquisition of a subsidiary after year end</td><td>Non-adjusting</td><td>New event — does not change year-end position; disclose</td></tr>" +
+            "<tr><td>Announcement of a restructuring after year end (no plan at year end)</td><td>Non-adjusting</td><td>New event — unless a constructive obligation existed at year end</td></tr>" +
+            "<tr><td>Ordinary dividends declared after year end</td><td>Non-adjusting</td><td>Dividend declared after year end → not a liability at year end; disclose only</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Going Concern</h4>" +
+            "<p>If management decides after the reporting date that the entity is no longer a going concern, IAS 10 requires the financial statements to be prepared on a different basis (break-up basis). This is an extreme adjusting event — it changes the entire basis of preparation.</p>" +
+            "<h4>Dividends</h4>" +
+            "<p>Dividends declared after the reporting date are NOT recognised as a liability at year end (no present obligation at year end). They are disclosed in the notes and recognised when declared. This is a commonly tested non-adjusting event.</p>",
+          workedExample: {
+            setup:
+              "MegaCorp Ltd has a year end of 31 December Year 1. Financial statements are approved on 15 March Year 2. The following events occurred between 1 January and 15 March Year 2: (a) A major customer owing £200,000 at year end went insolvent on 20 January — a receiver was appointed. (b) A new factory was acquired on 10 February for £5,000,000. (c) On 1 March, the board declared a final dividend of £0.20 per share (5,000,000 shares). (d) A fire destroyed an overseas warehouse on 5 March. Determine the treatment for each.",
+            steps: [
+              "(a) Customer insolvency: Adjusting event — the insolvency confirms that the receivable was doubtful at 31 December. Adjust: write off (or increase provision for) the £200,000 receivable.",
+              "(b) Factory acquisition: Non-adjusting event — the factory did not exist in the group at year end. Disclose in notes: description of acquisition, purchase price £5,000,000.",
+              "(c) Dividend declared: Non-adjusting event — no liability existed at 31 December because the dividend was not declared until March Year 2. Disclose in notes: dividend declared of £1,000,000 (5m × £0.20).",
+              "(d) Fire: Non-adjusting event — the fire occurred after year end and is a new event. Unless the warehouse was already impaired at year end for separate reasons. Disclose in notes: nature of fire, estimated financial impact.",
+            ],
+            answer:
+              "Adjusting: (a) write down £200,000 receivable — confirms year-end position. Non-adjusting (disclose): (b) factory acquisition; (c) dividend declared (£1,000,000); (d) warehouse fire. The distinction is whether the event confirms year-end conditions or creates a new condition.",
+          },
+          summary: [
+            "Events after the reporting period occur between year-end and the date financial statements are authorised for issue.",
+            "Adjusting events provide evidence of conditions at year end → adjust the financial statements.",
+            "Non-adjusting events arise after year end (new conditions) → disclose in notes if material, do not adjust.",
+            "Dividends declared after year end are non-adjusting — not a liability at year end.",
+            "If going concern ceases to be appropriate after year end, financial statements must be recast on a break-up basis.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company's year end is 30 September. On 15 November, after the accounts were being finalised, a customer with an outstanding balance of £80,000 at 30 September declared bankruptcy. This event is:",
+              options: [
+                "A non-adjusting event — it happened after year end",
+                "An adjusting event — it confirms the receivable was doubtful at year end",
+                "Ignored — the accounts cannot be changed once drafted",
+                "A change in accounting estimate",
+              ],
+              answer: 1,
+              explanation: "The customer's bankruptcy on 15 November is an adjusting event under IAS 10: it provides evidence that the £80,000 receivable was already doubtful at 30 September. The financial difficulty that led to bankruptcy almost certainly existed at year end. The financial statements should be adjusted to write off or provide for the £80,000.",
+            },
+            {
+              question: "A final dividend is declared on 10 January, two months after the 31 October year end. At 31 October, how should the proposed dividend be treated?",
+              options: [
+                "Recognised as a liability at 31 October",
+                "Deducted from retained earnings at 31 October",
+                "Not recognised — only disclosed in the notes to the year-end accounts",
+                "Recognised in other comprehensive income",
+              ],
+              answer: 2,
+              explanation: "Under IAS 10, dividends declared after the reporting date are not a liability at year end — no obligation existed at 31 October because the board had not yet declared the dividend. The dividend is disclosed in the notes (non-adjusting event) and recognised as a liability when it is declared in January.",
+            },
+          ],
         },
         {
           id: "f1-l17",
@@ -10104,7 +10562,76 @@ const AIQ_COURSE_DATA = {
             "Classify investing and financing activities and prepare those sections",
             "Reconcile the opening and closing cash and cash equivalents balances",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Purpose of the Cash Flow Statement</h4>" +
+            "<p>The statement of cash flows (IAS 7) provides information about the entity's <strong>actual cash generation and usage</strong> during the period, classified into operating, investing and financing activities. Unlike the income statement (which is accruals-based), the cash flow statement is based on actual cash movements and reveals whether the entity can generate cash to meet obligations.</p>" +
+            "<h4>Cash and Cash Equivalents</h4>" +
+            "<p>The statement reconciles changes in <strong>cash and cash equivalents</strong>:</p>" +
+            "<ul><li>Cash: cash on hand and demand deposits</li>" +
+            "<li>Cash equivalents: short-term, highly liquid investments with original maturity ≤ 3 months, readily convertible to known amounts, subject to negligible risk of change in value</li></ul>" +
+            "<p>Bank overdrafts repayable on demand are included as part of cash and cash equivalents (they form an integral part of the entity's cash management).</p>" +
+            "<h4>Three Sections</h4>" +
+            "<p><strong>1. Operating Activities</strong> — cash generated from the principal revenue-producing activities. Two methods:</p>" +
+            "<ul><li><strong>Direct method:</strong> Lists actual cash received from customers, paid to suppliers, paid to employees.</li>" +
+            "<li><strong>Indirect method (most common):</strong> Starts with profit before tax, reverses non-cash items (depreciation, amortisation, impairment), adjusts for working capital changes (increase in receivables = cash absorbed; increase in payables = cash generated), then deducts tax paid. IAS 7 encourages the direct method but permits indirect.</li></ul>" +
+            "<p><strong>Indirect Method Framework:</strong></p>" +
+            "<pre>Profit before tax                        £X\nAdjust for non-cash items:\n  Add: Depreciation                       +X\n  Add: Amortisation                       +X\n  Add: Impairment                         +X\n  Add: Loss on disposal (deduct: gain)    ±X\n  Add: Finance cost                       +X\n  Less: Investment income                 −X\nAdjust for working capital:\n  Increase in inventories                 −X\n  Decrease in receivables                 +X\n  Increase in payables                    +X\nCash generated from operations            X\nIncome tax paid                          −X\nNet cash from operating activities        X</pre>" +
+            "<p><strong>2. Investing Activities</strong> — acquisition and disposal of long-term assets and investments:</p>" +
+            "<ul><li>Cash paid to acquire PPE, intangibles, investments</li>" +
+            "<li>Cash received from disposal of PPE, intangibles, investments</li>" +
+            "<li>Cash paid/received for business combinations (IFRS 3)</li></ul>" +
+            "<p><strong>3. Financing Activities</strong> — changes in the size and composition of equity and borrowings:</p>" +
+            "<ul><li>Proceeds from issuing shares or borrowings</li>" +
+            "<li>Repayment of borrowings</li>" +
+            "<li>Dividends paid (can be operating or financing under IAS 7 — entity choice, but must be consistent)</li>" +
+            "<li>Payment of lease liabilities (IFRS 16 — principal element)</li></ul>" +
+            "<h4>Common Pitfalls</h4>" +
+            "<ul><li>Finance costs paid can be operating or financing (entity choice, must be consistent).</li>" +
+            "<li>Interest and dividends received can be operating or investing.</li>" +
+            "<li>The gain/loss on disposal of PPE is reversed in operating section — the actual cash proceeds appear in the investing section.</li></ul>",
+          workedExample: {
+            setup:
+              "Cashflow Ltd's profit before tax = £180,000. Other information: depreciation £40,000; gain on disposal of PPE £8,000; increase in inventories £15,000; decrease in receivables £10,000; increase in payables £5,000; tax paid £35,000; proceeds from sale of PPE £50,000; purchase of new PPE £90,000; shares issued £30,000; dividends paid £20,000; repayment of bank loan £25,000. Prepare the statement of cash flows.",
+            steps: [
+              "OPERATING ACTIVITIES: PBT £180,000. + Depreciation £40,000. − Gain on disposal £8,000. + Increase in inventories −£15,000. + Decrease in receivables +£10,000. + Increase in payables +£5,000. = Cash generated from operations £212,000. − Tax paid £35,000. Net cash from operating = £177,000.",
+              "INVESTING ACTIVITIES: Proceeds from PPE disposal +£50,000. Purchase of PPE −£90,000. Net cash used in investing = −£40,000.",
+              "FINANCING ACTIVITIES: Shares issued +£30,000. Dividends paid −£20,000. Loan repayment −£25,000. Net cash used in financing = −£15,000.",
+              "Net change in cash = £177,000 − £40,000 − £15,000 = +£122,000.",
+            ],
+            answer:
+              "Net cash from operating £177,000; net cash used in investing −£40,000; net cash used in financing −£15,000. Net increase in cash = £122,000. Note: gain on disposal is deducted in operating activities (non-cash) and the actual proceeds (£50,000) appear in investing activities.",
+          },
+          summary: [
+            "IAS 7 statement of cash flows shows cash movements from operating, investing and financing activities.",
+            "Indirect method: start with PBT, add back non-cash items (depreciation, impairment), adjust for working capital changes, deduct tax paid.",
+            "Investing activities: PPE/intangible purchases and disposals, acquisitions, investments.",
+            "Financing activities: share issuances, loan drawdowns/repayments, dividends paid, lease liability principal payments.",
+            "Gains/losses on disposal are reversed in operating activities; actual cash proceeds appear in investing activities.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In the indirect method cash flow statement, how is an increase in trade receivables during the year treated?",
+              options: [
+                "Added to profit before tax as a positive adjustment",
+                "Deducted from profit before tax as a negative adjustment",
+                "Shown as an investing activity inflow",
+                "Shown as a financing activity outflow",
+              ],
+              answer: 1,
+              explanation: "An increase in trade receivables means the entity has recognised revenue (included in profit) but has NOT yet received the cash. Therefore it is a negative working capital adjustment in the indirect method — cash received is less than revenue recognised. Deduct the increase from profit before tax to convert profit to cash generated from operations.",
+            },
+            {
+              question: "Which of the following is classified as a FINANCING activity under IAS 7?",
+              options: [
+                "Purchase of a new machine",
+                "Cash received from selling a subsidiary",
+                "Dividends paid to equity holders",
+                "Tax paid",
+              ],
+              answer: 2,
+              explanation: "Dividends paid to equity holders represent a distribution to the providers of equity capital — a financing activity (IAS 7 permits classification as operating OR financing, but financing is most common). Purchasing machinery (Option A) and selling a subsidiary (Option B) are investing activities. Tax paid (Option D) is generally operating activity.",
+            },
+          ],
         },
         {
           id: "f1-l18",
@@ -10116,7 +10643,75 @@ const AIQ_COURSE_DATA = {
             "Calculate inventory cost using FIFO and weighted average cost formulas",
             "Explain the disclosure requirements under IAS 2 and the write-down process",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Scope and Definition</h4>" +
+            "<p>IAS 2 <em>Inventories</em> applies to all inventories except: work in progress under construction contracts (IFRS 15), financial instruments (IFRS 9) and biological assets (IAS 41). Inventories are assets held for sale in the ordinary course of business, in the process of production for such sale, or in the form of materials/supplies to be consumed in the production process.</p>" +
+            "<h4>Measurement Principle — Lower of Cost and NRV</h4>" +
+            "<p>IAS 2's fundamental rule: inventories shall be measured at the <strong>lower of cost and net realisable value (NRV)</strong>.</p>" +
+            "<p><strong>Cost</strong> includes:</p>" +
+            "<ul><li>Purchase price less trade discounts and rebates</li>" +
+            "<li>Import duties and non-recoverable taxes</li>" +
+            "<li>Transport and handling</li>" +
+            "<li>Other costs directly attributable to acquisition</li>" +
+            "<li>For manufactured inventory: direct materials + direct labour + a systematic allocation of fixed and variable production overhead</li></ul>" +
+            "<p>General and administrative overheads are NOT included in inventory cost (period expenses).</p>" +
+            "<p><strong>Net Realisable Value (NRV)</strong> = Estimated selling price in the ordinary course of business LESS estimated costs of completion and selling costs.</p>" +
+            "<p>If NRV < Cost → write down to NRV; recognise write-down as expense in P&L in the period of write-down. If circumstances that led to write-down no longer exist, reverse the write-down (limited to original write-down amount).</p>" +
+            "<h4>Cost Formulas</h4>" +
+            "<p>For items that are not interchangeable and goods held for specific projects: use <strong>specific identification</strong>.</p>" +
+            "<p>For other inventories, IAS 2 permits two cost formulas:</p>" +
+            "<p><strong>First-In, First-Out (FIFO):</strong> Assumes items first purchased are first used or sold. Closing inventory = most recent purchases. In a rising price environment, FIFO gives higher closing inventory and lower COGS → higher reported profit.</p>" +
+            "<p><strong>Weighted Average Cost (AVCO):</strong> Cost of inventory is the weighted average of all units available. Recalculated either periodically (periodic AVCO) or after each purchase (perpetual AVCO).</p>" +
+            "<p>Note: LIFO (Last-In-First-Out) is NOT permitted under IAS 2.</p>" +
+            "<h4>IAS 2 Disclosures</h4>" +
+            "<ul><li>Accounting policies for measuring inventories, including cost formula used</li>" +
+            "<li>Total carrying amount and breakdown by classification (raw materials, WIP, finished goods)</li>" +
+            "<li>Amount recognised as expense during the period (COGS)</li>" +
+            "<li>Amount of any write-down and reversal during the period</li>" +
+            "<li>Inventories pledged as security for liabilities</li></ul>",
+          workedExample: {
+            setup:
+              "A retailer has 200 units of inventory. Purchases during the year (oldest first): 100 units @ £10, 150 units @ £12, 100 units @ £15. Sales during the year = 250 units. Also, some items in finished goods have a cost of £14 but NRV is estimated at £11 (due to damage): 30 units affected. Calculate closing inventory under (a) FIFO and (b) AVCO, and the write-down required.",
+            steps: [
+              "Total units available: 200 opening + 100+150+100 purchases = 550 units. Wait — re-read: 200 units, with those purchases being the 200 units available. Simplify: Purchases this year: Batch 1: 100 @ £10 = £1,000; Batch 2: 150 @ £12 = £1,800; Batch 3: 100 @ £15 = £1,500. Total 350 units, £4,300. Units sold = 250. Closing inventory = 100 units.",
+              "(a) FIFO — closing 100 units from most recent purchase: 100 @ £15 = £1,500.",
+              "(b) AVCO — weighted average cost = £4,300 / 350 = £12.29/unit. Closing 100 × £12.29 = £1,229.",
+              "NRV write-down: 30 units at cost £14 each; NRV £11 each. Write-down = 30 × (£14 − £11) = £90. If FIFO is used and closing inventory is the 100 × £15 batch, these 30 damaged units are in closing inventory at £15 cost and NRV £11 → write-down = 30 × (£15 − £11) = £120.",
+            ],
+            answer:
+              "FIFO closing inventory: £1,500 (but write down damaged units: 30 × £4 = £120 → net £1,500 − £120 = £1,380). AVCO closing inventory: £1,229 (write down 30 × (£12.29 − £11) = £38.70 → net ≈ £1,190). FIFO gives higher closing inventory in a rising price environment, resulting in lower COGS and higher profit than AVCO.",
+          },
+          summary: [
+            "Inventories measured at lower of cost and net realisable value (NRV = estimated selling price less completion and selling costs).",
+            "Cost includes purchase price, import duties, transport and for manufactured inventory: materials, labour and systematic production overhead allocation.",
+            "Permitted cost formulas: FIFO (older units sold first) and AVCO (weighted average). LIFO is prohibited under IAS 2.",
+            "Write-downs to NRV are expensed immediately; reversals are recognised as income when conditions change (limited to original write-down).",
+            "Disclosures: cost formula, COGS for period, write-down amounts, inventories pledged as security.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Inventory has a cost of £20 per unit and a net realisable value of £17 per unit. Under IAS 2, the inventory should be measured at:",
+              options: [
+                "£20 per unit (cost)",
+                "£17 per unit (NRV)",
+                "£18.50 per unit (average of cost and NRV)",
+                "£20 per unit until sold, then £17 per unit",
+              ],
+              answer: 1,
+              explanation: "IAS 2 requires inventory to be measured at the lower of cost and NRV. Since NRV (£17) < cost (£20), the inventory is written down to £17 per unit. The £3 write-down is recognised as an expense in the current period's profit or loss.",
+            },
+            {
+              question: "Which cost formula is explicitly prohibited for inventory measurement under IAS 2?",
+              options: [
+                "FIFO (First-In, First-Out)",
+                "AVCO (Weighted Average Cost)",
+                "LIFO (Last-In, First-Out)",
+                "Specific identification",
+              ],
+              answer: 2,
+              explanation: "LIFO (Last-In, First-Out) is explicitly prohibited under IAS 2 because it does not accurately reflect the physical flow of most inventories and, in a rising price environment, systematically understates closing inventory and overstates COGS, reducing reported profit. FIFO, AVCO and specific identification are all permitted methods.",
+            },
+          ],
         },
 
         /* ── Module D: Consolidated Financial Statements (L19–L28) ── */
