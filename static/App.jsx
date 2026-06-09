@@ -82,6 +82,10 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     data:      "Data sources",
     settings:  "Settings",
     courses:   "Courses",
+    lessons:   "Lesson",
+    quiz:      "Quiz",
+    tutor:     "Study Tutor",
+    profile:   "My Progress",
   };
 
   return (
@@ -303,11 +307,19 @@ function App() {
     setView("copilot");
   };
 
+  const { AIQLessons } = window;
+
   let body;
   if (restoring) {
     body = null;
   } else if (view === "courses") {
     body = <Courses onNavigate={navigateToAiq} />;
+  } else if (view === "lessons") {
+    body = <AIQLessons
+        paperId={aiqContext.paperId}
+        lessonId={aiqContext.lessonId}
+        onNavigate={navigateToAiq}
+      />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {
