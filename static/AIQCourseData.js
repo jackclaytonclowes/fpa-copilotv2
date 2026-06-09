@@ -1002,46 +1002,520 @@ const AIQ_COURSE_DATA = {
     },
 
     /* ══════════════════════════════════════════════════════════════════════
-       Operational Level papers (locked until BA1–BA4 complete)
+       OPERATIONAL LEVEL — unlocked after all BA1–BA4 are complete
        ══════════════════════════════════════════════════════════════════════ */
+
     {
       id: "e1",
       title: "E1",
       fullTitle: "Managing Finance in a Digital World",
       icon: "monitor",
-      modules: 0,
-      questions: 0,
-      mockExams: 0,
+      modules: 8,
+      questions: 160,
+      mockExams: 2,
       studyHoursTotal: 45,
       lessons: [
-        // TODO: add lessons for E1 — Managing Finance in a Digital World
+        {
+          id: "e1-l1",
+          title: "The Digital Finance Function",
+          topic: "Digital transformation",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain how digital technologies are reshaping the finance function",
+            "Identify automation, AI, and data analytics opportunities in finance",
+            "Describe the role of the finance business partner in a digital organisation",
+          ],
+          // TODO: add explanation for The Digital Finance Function
+          explanation: null,
+          // TODO: add worked example for The Digital Finance Function
+          workedExample: null,
+          // TODO: add summary for The Digital Finance Function
+          summary: null,
+          // TODO: add practice questions for The Digital Finance Function
+          practiceQuestions: null,
+        },
+        {
+          id: "e1-l2",
+          title: "Data and Information Management",
+          topic: "Data governance",
+          estimatedMinutes: 30,
+          objectives: [
+            "Distinguish between data, information and knowledge",
+            "Explain data governance and data quality principles",
+            "Describe cloud computing and its implications for finance",
+          ],
+          // TODO: add explanation for Data and Information Management
+          explanation: null,
+          // TODO: add worked example for Data and Information Management
+          workedExample: null,
+          // TODO: add summary for Data and Information Management
+          summary: null,
+          // TODO: add practice questions for Data and Information Management
+          practiceQuestions: null,
+        },
+        {
+          id: "e1-l3",
+          title: "Business Models and Value Creation",
+          topic: "Strategy",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the components of a business model",
+            "Apply frameworks to analyse value creation (e.g., Porter's Value Chain)",
+            "Assess the impact of digital disruption on business models",
+          ],
+          // TODO: add explanation for Business Models and Value Creation
+          explanation: null,
+          // TODO: add worked example for Business Models and Value Creation
+          workedExample: null,
+          // TODO: add summary for Business Models and Value Creation
+          summary: null,
+          // TODO: add practice questions for Business Models and Value Creation
+          practiceQuestions: null,
+        },
+        {
+          id: "e1-l4",
+          title: "Managing People and Relationships",
+          topic: "Leadership and people",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain motivation theories and their application",
+            "Describe leadership styles and when each is appropriate",
+            "Explain the finance business partnering model",
+          ],
+          // TODO: add explanation for Managing People and Relationships
+          explanation: null,
+          // TODO: add worked example for Managing People and Relationships
+          workedExample: null,
+          // TODO: add summary for Managing People and Relationships
+          summary: null,
+          // TODO: add practice questions for Managing People and Relationships
+          practiceQuestions: null,
+        },
+        {
+          id: "e1-l5",
+          title: "Risk and Control",
+          topic: "Risk management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Identify categories of risk facing organisations",
+            "Apply risk management frameworks (e.g., COSO, risk register)",
+            "Explain internal controls and their purpose",
+          ],
+          // TODO: add explanation for Risk and Control
+          explanation: null,
+          // TODO: add worked example for Risk and Control
+          workedExample: null,
+          // TODO: add summary for Risk and Control
+          summary: null,
+          // TODO: add practice questions for Risk and Control
+          practiceQuestions: null,
+        },
+        {
+          id: "e1-l6",
+          title: "Sustainability and Corporate Responsibility",
+          topic: "ESG",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the concept of sustainability and the triple bottom line",
+            "Describe ESG reporting frameworks (e.g., GRI, TCFD)",
+            "Explain how management accountants support sustainability reporting",
+          ],
+          // TODO: add explanation for Sustainability and Corporate Responsibility
+          explanation: null,
+          // TODO: add worked example for Sustainability and Corporate Responsibility
+          workedExample: null,
+          // TODO: add summary for Sustainability and Corporate Responsibility
+          summary: null,
+          // TODO: add practice questions for Sustainability and Corporate Responsibility
+          practiceQuestions: null,
+        },
       ],
     },
+
     {
       id: "p1",
       title: "P1",
       fullTitle: "Management Accounting",
       icon: "trending-up",
-      modules: 0,
-      questions: 0,
-      mockExams: 0,
+      modules: 9,
+      questions: 180,
+      mockExams: 2,
       studyHoursTotal: 45,
       lessons: [
-        // TODO: add lessons for P1 — Management Accounting
+        {
+          id: "p1-l1",
+          title: "Cost Accounting Systems",
+          topic: "Costing",
+          estimatedMinutes: 35,
+          objectives: [
+            "Compare job, batch, process and service costing systems",
+            "Prepare process accounts including normal and abnormal losses",
+            "Explain joint products and by-products",
+          ],
+          // TODO: add explanation for Cost Accounting Systems
+          explanation: null,
+          // TODO: add worked example for Cost Accounting Systems
+          workedExample: null,
+          // TODO: add summary for Cost Accounting Systems
+          summary: null,
+          // TODO: add practice questions for Cost Accounting Systems
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l2",
+          title: "Activity-Based Costing",
+          topic: "Costing",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the rationale for and principles of ABC",
+            "Calculate product costs using ABC",
+            "Compare ABC to traditional absorption costing",
+          ],
+          // TODO: add explanation for Activity-Based Costing
+          explanation: null,
+          // TODO: add worked example for Activity-Based Costing
+          workedExample: null,
+          // TODO: add summary for Activity-Based Costing
+          summary: null,
+          // TODO: add practice questions for Activity-Based Costing
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l3",
+          title: "Throughput Accounting",
+          topic: "Costing",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the Theory of Constraints",
+            "Calculate throughput accounting ratio (TPAR)",
+            "Use TPAR to prioritise production",
+          ],
+          // TODO: add explanation for Throughput Accounting
+          explanation: null,
+          // TODO: add worked example for Throughput Accounting
+          workedExample: null,
+          // TODO: add summary for Throughput Accounting
+          summary: null,
+          // TODO: add practice questions for Throughput Accounting
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l4",
+          title: "Advanced Variance Analysis",
+          topic: "Control",
+          estimatedMinutes: 45,
+          objectives: [
+            "Calculate mix and yield variances for materials",
+            "Calculate planning and operational variances",
+            "Explain the causes and investigate variances appropriately",
+          ],
+          // TODO: add explanation for Advanced Variance Analysis
+          explanation: null,
+          // TODO: add worked example for Advanced Variance Analysis
+          workedExample: null,
+          // TODO: add summary for Advanced Variance Analysis
+          summary: null,
+          // TODO: add practice questions for Advanced Variance Analysis
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l5",
+          title: "Performance Measurement",
+          topic: "Performance management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the Balanced Scorecard and its four perspectives",
+            "Apply financial and non-financial performance measures",
+            "Assess the performance of responsibility centres",
+          ],
+          // TODO: add explanation for Performance Measurement
+          explanation: null,
+          // TODO: add worked example for Performance Measurement
+          workedExample: null,
+          // TODO: add summary for Performance Measurement
+          summary: null,
+          // TODO: add practice questions for Performance Measurement
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l6",
+          title: "Pricing Decisions",
+          topic: "Decision-making",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply cost-plus, target and marginal cost pricing strategies",
+            "Explain price elasticity and its relevance to pricing",
+            "Evaluate transfer pricing methods",
+          ],
+          // TODO: add explanation for Pricing Decisions
+          explanation: null,
+          // TODO: add worked example for Pricing Decisions
+          workedExample: null,
+          // TODO: add summary for Pricing Decisions
+          summary: null,
+          // TODO: add practice questions for Pricing Decisions
+          practiceQuestions: null,
+        },
+        {
+          id: "p1-l7",
+          title: "Investment Appraisal",
+          topic: "Decision-making",
+          estimatedMinutes: 45,
+          objectives: [
+            "Apply NPV, IRR, payback, and ARR methods",
+            "Explain the time value of money",
+            "Account for risk in investment decisions",
+          ],
+          // TODO: add explanation for Investment Appraisal
+          explanation: null,
+          // TODO: add worked example for Investment Appraisal
+          workedExample: null,
+          // TODO: add summary for Investment Appraisal
+          summary: null,
+          // TODO: add practice questions for Investment Appraisal
+          practiceQuestions: null,
+        },
       ],
     },
+
     {
       id: "f1",
       title: "F1",
       fullTitle: "Financial Reporting and Taxation",
       icon: "file-text",
-      modules: 0,
-      questions: 0,
-      mockExams: 0,
+      modules: 9,
+      questions: 180,
+      mockExams: 2,
       studyHoursTotal: 45,
       lessons: [
-        // TODO: add lessons for F1 — Financial Reporting and Taxation
+        {
+          id: "f1-l1",
+          title: "The Regulatory Framework",
+          topic: "Financial reporting",
+          estimatedMinutes: 25,
+          objectives: [
+            "Explain the role of the IASB and IFRS Foundation",
+            "Describe the standard-setting process",
+            "Distinguish between principles-based and rules-based frameworks",
+          ],
+          // TODO: add explanation for The Regulatory Framework
+          explanation: null,
+          // TODO: add worked example for The Regulatory Framework
+          workedExample: null,
+          // TODO: add summary for The Regulatory Framework
+          summary: null,
+          // TODO: add practice questions for The Regulatory Framework
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l2",
+          title: "Non-Current Assets (IAS 16, IAS 38, IAS 40)",
+          topic: "Financial reporting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the recognition and measurement rules for PPE (IAS 16)",
+            "Account for intangible assets (IAS 38)",
+            "Explain investment property accounting (IAS 40)",
+          ],
+          // TODO: add explanation for Non-Current Assets
+          explanation: null,
+          // TODO: add worked example for Non-Current Assets
+          workedExample: null,
+          // TODO: add summary for Non-Current Assets
+          summary: null,
+          // TODO: add practice questions for Non-Current Assets
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l3",
+          title: "Provisions, Contingencies and Events (IAS 37, IAS 10)",
+          topic: "Financial reporting",
+          estimatedMinutes: 30,
+          objectives: [
+            "Apply the recognition criteria for provisions (IAS 37)",
+            "Distinguish provisions from contingent liabilities and assets",
+            "Adjust financial statements for events after the reporting period (IAS 10)",
+          ],
+          // TODO: add explanation for Provisions, Contingencies and Events
+          explanation: null,
+          // TODO: add worked example for Provisions, Contingencies and Events
+          workedExample: null,
+          // TODO: add summary for Provisions, Contingencies and Events
+          summary: null,
+          // TODO: add practice questions for Provisions, Contingencies and Events
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l4",
+          title: "Revenue Recognition (IFRS 15)",
+          topic: "Financial reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply the 5-step model for revenue recognition (IFRS 15)",
+            "Account for contract modifications and variable consideration",
+            "Identify performance obligations in contracts",
+          ],
+          // TODO: add explanation for Revenue Recognition
+          explanation: null,
+          // TODO: add worked example for Revenue Recognition
+          workedExample: null,
+          // TODO: add summary for Revenue Recognition
+          summary: null,
+          // TODO: add practice questions for Revenue Recognition
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l5",
+          title: "Leases (IFRS 16)",
+          topic: "Financial reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Identify lease arrangements and apply the IFRS 16 recognition criteria",
+            "Account for right-of-use assets and lease liabilities",
+            "Explain the exemptions for short-term and low-value leases",
+          ],
+          // TODO: add explanation for Leases
+          explanation: null,
+          // TODO: add worked example for Leases
+          workedExample: null,
+          // TODO: add summary for Leases
+          summary: null,
+          // TODO: add practice questions for Leases
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l6",
+          title: "Group Accounts — Introduction",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Define subsidiaries and explain when consolidation is required (IFRS 10)",
+            "Prepare a consolidated statement of financial position",
+            "Account for goodwill on acquisition",
+          ],
+          // TODO: add explanation for Group Accounts — Introduction
+          explanation: null,
+          // TODO: add worked example for Group Accounts — Introduction
+          workedExample: null,
+          // TODO: add summary for Group Accounts — Introduction
+          summary: null,
+          // TODO: add practice questions for Group Accounts — Introduction
+          practiceQuestions: null,
+        },
+        {
+          id: "f1-l7",
+          title: "Taxation in Financial Statements",
+          topic: "Taxation",
+          estimatedMinutes: 35,
+          objectives: [
+            "Distinguish between current and deferred tax",
+            "Calculate deferred tax using the temporary difference approach (IAS 12)",
+            "Explain the impact of deferred tax on the financial statements",
+          ],
+          // TODO: add explanation for Taxation in Financial Statements
+          explanation: null,
+          // TODO: add worked example for Taxation in Financial Statements
+          workedExample: null,
+          // TODO: add summary for Taxation in Financial Statements
+          summary: null,
+          // TODO: add practice questions for Taxation in Financial Statements
+          practiceQuestions: null,
+        },
       ],
+    },
+  ],
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     CAREER PATHWAY — maps CIMA levels to career roles and next steps
+     Used by the Profile dashboard and any "Where does this take me?" surfaces.
+     TODO: extend with salary data, employer case studies, and real job links.
+     ══════════════════════════════════════════════════════════════════════════ */
+  careerPathway: [
+    {
+      id: "certificate",
+      stage: "Certificate Level",
+      papers: ["ba1", "ba2", "ba3", "ba4"],
+      qualification: "CIMA Certificate in Business Accounting",
+      typicalRoles: [
+        "Accounts Assistant",
+        "Finance Assistant",
+        "Junior Management Accountant",
+        "Bookkeeper",
+      ],
+      skills: [
+        "Cost classification and behaviour",
+        "Double-entry bookkeeping",
+        "Variance analysis basics",
+        "Business economics fundamentals",
+        "Ethics and governance awareness",
+      ],
+      unlocks: "operational",
+      icon: "award",
+      // TODO: add real employer case studies for Certificate Level
+    },
+    {
+      id: "operational",
+      stage: "Operational Level",
+      papers: ["e1", "p1", "f1"],
+      qualification: "CIMA Operational Certificate",
+      typicalRoles: [
+        "Management Accountant",
+        "Finance Business Partner (junior)",
+        "Financial Analyst",
+        "Cost Accountant",
+      ],
+      skills: [
+        "Advanced costing (ABC, throughput)",
+        "Financial reporting (IFRS)",
+        "Digital finance and data analytics",
+        "Investment appraisal",
+        "Performance measurement",
+      ],
+      unlocks: "management",
+      icon: "trending-up",
+      // TODO: add real employer case studies for Operational Level
+    },
+    {
+      id: "management",
+      stage: "Management Level",
+      papers: ["e2", "p2", "f2"],
+      qualification: "CIMA Management Certificate",
+      typicalRoles: [
+        "Senior Management Accountant",
+        "Finance Business Partner",
+        "Financial Controller",
+        "Treasury Analyst",
+      ],
+      skills: [
+        "Advanced performance management",
+        "Risk management",
+        "Strategic financial analysis",
+        "Project and relationship management",
+      ],
+      unlocks: "strategic",
+      icon: "briefcase",
+      // TODO: populate Management Level course catalogue
+    },
+    {
+      id: "strategic",
+      stage: "Strategic Level",
+      papers: ["e3", "p3", "f3"],
+      qualification: "CIMA Strategic Certificate → CGMA designation",
+      typicalRoles: [
+        "Finance Director",
+        "CFO",
+        "Group Financial Controller",
+        "Commercial Director",
+      ],
+      skills: [
+        "Corporate strategy",
+        "Risk leadership",
+        "Advanced financial reporting",
+        "Leadership and board-level communication",
+      ],
+      unlocks: null,
+      icon: "star",
+      // TODO: populate Strategic Level course catalogue
     },
   ],
 };
