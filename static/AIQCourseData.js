@@ -10725,7 +10725,70 @@ const AIQ_COURSE_DATA = {
             "Explain when consolidation is required and the concept of the group",
             "Describe the circumstances where a parent is exempt from preparing group accounts",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is a Group?</h4>" +
+            "<p>A group consists of a parent entity and all of its subsidiaries. The parent controls the subsidiaries and is required to present <strong>consolidated financial statements</strong> that present the financial position and performance of the group as a single economic entity — as if the separate legal entities were one company.</p>" +
+            "<h4>The IFRS 10 Control Model</h4>" +
+            "<p>IFRS 10 <em>Consolidated Financial Statements</em> defines control using a three-element model. An investor controls an investee when it has ALL of:</p>" +
+            "<ol><li><strong>Power over the investee:</strong> Current ability to direct the relevant activities that significantly affect the investee's returns. Power typically arises from holding a majority of voting rights (>50%), but can also arise from contractual arrangements, potential voting rights (call options) or de facto control (practical majority when other shareholders are dispersed).</li>" +
+            "<li><strong>Exposure (or rights) to variable returns:</strong> The investor's returns from its involvement can vary based on the investee's performance (dividends, share of losses, cost savings, synergies).</li>" +
+            "<li><strong>Link (ability to use power to affect returns):</strong> The investor can use its power to affect the variable returns it receives from the investee.</li></ol>" +
+            "<p>All three elements must be present simultaneously. If an investor has power but no exposure (e.g., a pure agent), it does not control.</p>" +
+            "<h4>Subsidiaries vs Associates vs Joint Arrangements</h4>" +
+            "<table><thead><tr><th>Relationship</th><th>Threshold</th><th>Accounting Method</th><th>Standard</th></tr></thead><tbody>" +
+            "<tr><td>Subsidiary</td><td>Control (power + exposure + link)</td><td>Full consolidation</td><td>IFRS 10</td></tr>" +
+            "<tr><td>Associate</td><td>Significant influence (typically 20–50%)</td><td>Equity method</td><td>IAS 28</td></tr>" +
+            "<tr><td>Joint venture</td><td>Joint control (contractual)</td><td>Equity method</td><td>IFRS 11</td></tr>" +
+            "<tr><td>Joint operation</td><td>Joint control over assets/liabilities directly</td><td>Proportionate share of A/L, I/E</td><td>IFRS 11</td></tr>" +
+            "<tr><td>Simple investment</td><td>&lt;20% typically</td><td>IFRS 9 (FVTPL/FVOCI)</td><td>IFRS 9</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Exemptions from Preparing Consolidated Financial Statements</h4>" +
+            "<p>A parent need not prepare consolidated financial statements if ALL of the following apply:</p>" +
+            "<ul><li>It is itself a wholly-owned (or partially-owned) subsidiary whose owners do not object;</li>" +
+            "<li>Its debt or equity instruments are not publicly traded;</li>" +
+            "<li>Its ultimate or intermediate parent produces publicly available consolidated financial statements that comply with IFRS.</li></ul>" +
+            "<p>Investment entities (e.g., venture capital funds, private equity funds meeting the definition) are generally not required to consolidate — they measure subsidiaries at fair value through profit or loss instead.</p>",
+          workedExample: {
+            setup:
+              "Alpha plc holds 55% of the voting shares of Beta Ltd. Beta Ltd has no other significant shareholders — the remaining 45% is spread among hundreds of small investors. Gamma Ltd holds 30% of Delta Ltd's shares; the remaining 70% are held equally by two other companies. Determine the relationship in each case.",
+            steps: [
+              "Alpha/Beta: Alpha holds 55% > 50% → majority voting rights → Power over Beta. Alpha receives variable returns (dividends, share price movements). Alpha can use its majority to direct Beta's relevant activities. All three IFRS 10 elements met → Beta is a SUBSIDIARY. Full consolidation required.",
+              "Gamma/Delta: Gamma holds 30%. The remaining 70% is held equally by two parties (35% each). No single party has >50% → no unilateral power. Can Gamma direct activities? Gamma's 30% may give significant influence (20–50% typical threshold) but not control unless it has other contractual rights giving it power. Likely an ASSOCIATE of Gamma → equity method. The two 35% holders together hold 70% but need to agree (contractual joint control) → may be a joint venture.",
+            ],
+            answer:
+              "Beta: subsidiary of Alpha (full consolidation). Delta: likely an associate of Gamma (equity method) unless the three-party voting arrangement is structured so one party has de facto control. The key is always the IFRS 10 three-element control test, not just ownership percentage.",
+          },
+          summary: [
+            "Control under IFRS 10 requires all three elements: power over the investee, exposure to variable returns, and ability to use power to affect returns.",
+            "A subsidiary is controlled; an associate has significant influence (20–50%); a joint venture has joint control.",
+            "Subsidiaries are fully consolidated; associates and joint ventures use the equity method.",
+            "Parent exemptions exist when it is a subsidiary of a group that already prepares IFRS consolidated statements.",
+            "Investment entities measure subsidiaries at fair value rather than consolidating.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Under IFRS 10, an investor controls an investee when it has power over the investee, exposure to variable returns, AND:",
+              options: [
+                "Holds more than 50% of the voting rights",
+                "The ability to use its power to affect the amount of the investor's returns",
+                "Is the largest single shareholder",
+                "Has appointed the majority of the board of directors",
+              ],
+              answer: 1,
+              explanation: "IFRS 10 defines control using three cumulative elements: (1) power over the investee, (2) exposure to variable returns, and (3) the ability to use power to affect the amount of those returns. Holding >50% of voting rights is the most common way to have power (element 1) but is not the definition of control itself. An investor could have power via contractual rights even without majority ownership.",
+            },
+            {
+              question: "A company holds 25% of another entity's voting shares. Which accounting method is most likely appropriate?",
+              options: [
+                "Full consolidation under IFRS 10",
+                "Equity method under IAS 28",
+                "Proportionate consolidation",
+                "IFRS 9 at fair value through profit or loss",
+              ],
+              answer: 1,
+              explanation: "A 25% holding typically gives significant influence but not control. IAS 28 prescribes the equity method for associates (companies over which significant influence is exercised, presumed at 20–50% shareholding unless evidence contradicts this). Full consolidation applies only when control exists (typically >50%). IFRS 9 applies when neither control nor significant influence exists (<20% typically).",
+            },
+          ],
         },
         {
           id: "f1-l20",
@@ -10737,7 +10800,68 @@ const AIQ_COURSE_DATA = {
             "Measure identifiable assets acquired and liabilities assumed at fair value",
             "Explain the treatment of contingent consideration and acquisition-related costs",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Overview</h4>" +
+            "<p>IFRS 3 <em>Business Combinations</em> governs how an acquirer accounts for the purchase of a controlling interest in another entity. The <strong>acquisition method</strong> is mandatory — there is no longer a choice between acquisition and pooling.</p>" +
+            "<h4>The Acquisition Method — Four Steps</h4>" +
+            "<ol><li><strong>Identify the acquirer:</strong> The entity that obtains control. Usually the entity that transfers cash or issues equity. In reverse acquisitions, the legal subsidiary may be the acquirer.</li>" +
+            "<li><strong>Determine the acquisition date:</strong> The date control is obtained — usually when consideration is transferred and the acquirer starts to consolidate.</li>" +
+            "<li><strong>Measure identifiable assets, liabilities and NCI:</strong> All identifiable assets and liabilities of the acquiree are measured at <strong>fair value</strong> at the acquisition date — regardless of whether the parent acquires 100% or a smaller %. This 'fair value uplift' may create deferred tax.</li>" +
+            "<li><strong>Measure and recognise goodwill (or bargain purchase gain).</strong></li></ol>" +
+            "<h4>Consideration Transferred</h4>" +
+            "<p>The consideration includes:</p>" +
+            "<ul><li>Cash paid</li>" +
+            "<li>Fair value of equity instruments issued (shares in the parent)</li>" +
+            "<li>Fair value of contingent consideration at the acquisition date</li></ul>" +
+            "<p><strong>Contingent consideration:</strong> Amounts payable contingent on future events (e.g., an earn-out based on the acquiree's future profits). At acquisition date, recognise at fair value. If classified as equity → do not remeasure (settled at carrying amount). If classified as a liability → remeasure at fair value at each reporting date, with changes in P&L.</p>" +
+            "<p><strong>Acquisition-related costs</strong> (legal fees, due diligence, advisory) are <strong>EXPENSED</strong> as incurred — NOT included in the cost of the acquisition. This prevents inflating goodwill with transaction costs.</p>" +
+            "<h4>Identifiable Assets and Liabilities</h4>" +
+            "<p>IFRS 3 requires recognition of ALL identifiable assets and liabilities that meet recognition criteria at fair value at acquisition date — including items the acquiree did not previously recognise (e.g., internally generated intangible assets like customer lists, brand names, patents that the acquired entity previously expensed because it generated them internally). These become identifiable on acquisition and must be fair-valued.</p>" +
+            "<h4>Goodwill Calculation</h4>" +
+            "<p>Goodwill = Consideration transferred + NCI at acquisition − Net identifiable assets at fair value</p>" +
+            "<p>If the result is negative (net assets acquired exceed consideration), this is a <strong>bargain purchase gain</strong> — recognised immediately in profit or loss after reassessing the measurements.</p>",
+          workedExample: {
+            setup:
+              "Parent plc acquires 80% of Sub Ltd for £500,000 cash on 1 January. At acquisition, Sub's identifiable net assets have a fair value of £550,000 (book value was £480,000). NCI is measured at their proportionate share of net assets. Acquisition legal fees were £12,000. (a) Calculate goodwill. (b) Show treatment of acquisition costs.",
+            steps: [
+              "(a) Consideration: £500,000 (cash). NCI at proportionate share: 20% × £550,000 = £110,000. Net identifiable assets at FV: £550,000. Goodwill = £500,000 + £110,000 − £550,000 = £60,000.",
+              "(b) Acquisition costs: £12,000 expensed as an administrative expense in the period (P&L). NOT capitalised as part of the cost of investment or as goodwill.",
+              "Fair value uplift: The difference between FV (£550,000) and book value (£480,000) = £70,000 is recognised in the consolidated balance sheet (assets are written up to FV at acquisition). This may give rise to additional depreciation/amortisation in future periods.",
+            ],
+            answer:
+              "Goodwill on acquisition = £60,000. Acquisition costs £12,000 expensed. The FV uplift of £70,000 on Sub's net assets is recognised in the consolidated SoFP at acquisition. Note: the full £550,000 of identifiable net assets is included even though the parent only owns 80% — this reflects the entity perspective of consolidation.",
+          },
+          summary: [
+            "Acquisition method: identify acquirer and acquisition date, measure identifiable assets/liabilities at fair value, calculate goodwill.",
+            "All identifiable assets and liabilities of the acquiree are recognised at fair value — including internally generated intangibles not on the acquiree's own books.",
+            "Contingent consideration: classify as liability (remeasure at FV each period, changes to P&L) or equity (no remeasurement).",
+            "Acquisition costs (legal, advisory) are expensed as incurred — NOT added to the cost of acquisition.",
+            "Goodwill = consideration + NCI − net identifiable assets at FV; negative goodwill = bargain purchase, recognise in P&L.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An acquirer pays £2m cash and incurs £80,000 of legal fees for an acquisition. How are the legal fees treated under IFRS 3?",
+              options: [
+                "Added to the cost of the acquisition and included in goodwill",
+                "Capitalised as part of the investment in subsidiary",
+                "Expensed as incurred in the profit or loss",
+                "Netted against any consideration received",
+              ],
+              answer: 2,
+              explanation: "Under IFRS 3, acquisition-related costs (legal fees, due diligence, advisory) are expensed as incurred — they are NOT capitalised as part of the consideration or added to goodwill. Including them in goodwill would artificially inflate the goodwill figure. The £80,000 is recognised as an administrative expense in P&L in the period of the acquisition.",
+            },
+            {
+              question: "At the acquisition date, the acquiree has an internally generated customer list (not recognised in its own accounts). Under IFRS 3, how should this be treated in the consolidated accounts?",
+              options: [
+                "Ignored — the acquiree did not recognise it",
+                "Recognised at its fair value as a separately identifiable intangible asset",
+                "Included in goodwill as an unidentifiable intangible",
+                "Expensed immediately as it was internally generated",
+              ],
+              answer: 1,
+              explanation: "IFRS 3 requires all identifiable assets of the acquiree to be recognised at fair value, even if the acquiree itself could not recognise them. A customer list is identifiable (it is separable — can be sold or licensed) and has a measurable fair value. It must be recognised as a separately identifiable intangible asset in the consolidated balance sheet. This reduces goodwill compared to treating the customer relationship as part of an undifferentiated pool.",
+            },
+          ],
         },
         {
           id: "f1-l21",
@@ -10749,7 +10873,77 @@ const AIQ_COURSE_DATA = {
             "Calculate goodwill using the proportionate method (NCI at share of net assets)",
             "Account for the subsequent impairment of goodwill",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Two Methods of Measuring NCI and Goodwill</h4>" +
+            "<p>IFRS 3 permits a choice in measuring the <strong>non-controlling interest (NCI)</strong> at the acquisition date. This choice determines the amount of goodwill recognised:</p>" +
+            "<h4>Method 1 — Proportionate Share (Partial Goodwill)</h4>" +
+            "<p>NCI is measured at their proportionate share of the acquiree's <strong>identifiable net assets at fair value</strong>.</p>" +
+            "<p>Goodwill = Consideration + (NCI % × Net assets at FV) − Net assets at FV</p>" +
+            "<p>= Consideration − (Parent % × Net assets at FV)</p>" +
+            "<p>This produces goodwill attributable only to the parent — not the NCI.</p>" +
+            "<h4>Method 2 — Full Goodwill (NCI at Fair Value)</h4>" +
+            "<p>NCI is measured at <strong>fair value</strong> (usually market price per share × NCI shares held).</p>" +
+            "<p>Goodwill = Consideration + NCI at fair value − Net assets at FV</p>" +
+            "<p>This produces goodwill for the whole subsidiary — including the NCI's share of goodwill. Full goodwill is higher than partial goodwill, and the NCI is also higher.</p>" +
+            "<h4>Worked Comparison</h4>" +
+            "<table><thead><tr><th></th><th>Proportionate (Partial)</th><th>Full Goodwill</th></tr></thead><tbody>" +
+            "<tr><td>Consideration</td><td>£600,000</td><td>£600,000</td></tr>" +
+            "<tr><td>NCI at acquisition</td><td>25% × £800,000 = £200,000</td><td>FV of NCI = £220,000</td></tr>" +
+            "<tr><td>Net identifiable assets at FV</td><td>£800,000</td><td>£800,000</td></tr>" +
+            "<tr><td><strong>Goodwill</strong></td><td>£600,000 + £200,000 − £800,000 = <strong>£0</strong></td><td>£600,000 + £220,000 − £800,000 = <strong>£20,000</strong></td></tr>" +
+            "<tr><td>NCI on SoFP</td><td>£200,000</td><td>£220,000</td></tr>" +
+            "</tbody></table>" +
+            "<p>In this example, partial goodwill = £0 and full goodwill = £20,000 (the NCI's share of goodwill = £20,000 − £0 = £20,000).</p>" +
+            "<h4>Subsequent Accounting for Goodwill</h4>" +
+            "<ul><li>Goodwill is NOT amortised under IFRS 3 / IAS 36.</li>" +
+            "<li>Goodwill must be tested for impairment <strong>annually</strong> (regardless of impairment indicators) and whenever there is an indication of impairment.</li>" +
+            "<li>Goodwill is allocated to CGUs and tested as part of the CGU impairment review.</li>" +
+            "<li>Goodwill impairment is recognised in profit or loss and <strong>cannot be reversed</strong> in subsequent periods.</li></ul>" +
+            "<h4>NCI at the Year End</h4>" +
+            "<p>NCI at reporting date = NCI at acquisition + NCI's share of post-acquisition retained profits (and OCI) − NCI's share of any goodwill impairment (full goodwill method only).</p>",
+          workedExample: {
+            setup:
+              "Parent acquires 75% of Sub for £900,000. At acquisition, Sub's identifiable net assets = £1,000,000 at fair value. NCI fair value at acquisition = £280,000. By year end, Sub has made profits of £200,000 post-acquisition. Goodwill impairment test: recoverable amount of Sub CGU = £1,150,000; carrying amount of CGU assets + goodwill (full goodwill method) = £1,210,000. Calculate (a) goodwill under both methods, (b) NCI at year end under full goodwill, (c) impairment allocation.",
+            steps: [
+              "(a) Partial goodwill: NCI = 25% × £1,000,000 = £250,000. Goodwill = £900,000 + £250,000 − £1,000,000 = £150,000.",
+              "(a) Full goodwill: NCI = £280,000 (at FV). Goodwill = £900,000 + £280,000 − £1,000,000 = £180,000.",
+              "(b) NCI at year end (full goodwill): NCI at acquisition £280,000 + 25% × post-acquisition profits £200,000 = £280,000 + £50,000 = £330,000 (before impairment).",
+              "(c) Impairment: CGU carrying amount £1,210,000; recoverable amount £1,150,000. Impairment = £60,000. Allocate to goodwill first: goodwill £180,000 → write down by £60,000 to £120,000. Parent's share of impairment: 75% × £60,000 = £45,000. NCI's share: 25% × £60,000 = £15,000. NCI at year end post-impairment: £330,000 − £15,000 = £315,000.",
+            ],
+            answer:
+              "Partial goodwill = £150,000. Full goodwill = £180,000. Full goodwill NCI at year end = £315,000. Goodwill impairment £60,000 charged against P&L (£45,000 parent, £15,000 NCI under full goodwill). Goodwill written down to £120,000 — cannot be reversed in future.",
+          },
+          summary: [
+            "Two NCI measurement methods: proportionate share (partial goodwill — parent's goodwill only) or fair value (full goodwill — includes NCI's goodwill).",
+            "Full goodwill = consideration + NCI at FV − net identifiable assets; partial goodwill = consideration + (NCI% × net assets) − net assets.",
+            "Full goodwill is higher; NCI on the balance sheet is also higher under full goodwill.",
+            "Goodwill is not amortised; annual impairment testing is mandatory; impairment cannot be reversed.",
+            "NCI at year end = NCI at acquisition + NCI share of post-acquisition profits/OCI ± NCI share of goodwill impairment (full method only).",
+          ],
+          practiceQuestions: [
+            {
+              question: "Parent pays £800,000 for 80% of Sub. Sub's identifiable net assets at acquisition = £900,000 at FV. NCI is measured at its proportionate share. What is goodwill?",
+              options: [
+                "£80,000",
+                "£50,000",
+                "£-100,000 (bargain purchase)",
+                "£100,000",
+              ],
+              answer: 1,
+              explanation: "NCI = 20% × £900,000 = £180,000. Goodwill = Consideration (£800,000) + NCI (£180,000) − Net assets (£900,000) = £80,000. Answer is £80,000.",
+            },
+            {
+              question: "Goodwill arising on a business combination must be:",
+              options: [
+                "Amortised over a maximum of 40 years",
+                "Written off to retained earnings immediately on acquisition",
+                "Tested annually for impairment and never amortised",
+                "Amortised over its useful economic life",
+              ],
+              answer: 2,
+              explanation: "IFRS 3 prohibits amortisation of goodwill. Instead, goodwill must be tested for impairment at least annually (mandatory annual test, regardless of indicators) and whenever there is an indication of impairment. Impairment losses on goodwill cannot be reversed. Under old UK GAAP (FRS 10), goodwill was amortised over its useful life — but IFRS 3 changed this for IFRS reporters.",
+            },
+          ],
         },
         {
           id: "f1-l22",
@@ -10761,7 +10955,66 @@ const AIQ_COURSE_DATA = {
             "Calculate the non-controlling interest (NCI) balance at the reporting date",
             "Eliminate the investment in subsidiary against the parent's share of net assets",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Consolidation Process — Conceptual Basis</h4>" +
+            "<p>Consolidated financial statements present the group as a single economic entity. The parent and all subsidiaries' assets, liabilities, income and expenses are added together line by line — then intra-group eliminations are made to remove transactions and balances between group companies.</p>" +
+            "<h4>Step-by-Step Framework for Consolidated SoFP</h4>" +
+            "<ol><li><strong>Combine assets and liabilities line by line</strong> — add parent + subsidiary totals for each line item.</li>" +
+            "<li><strong>Eliminate the investment</strong> — remove the parent's 'Investment in subsidiary' balance and replace it with the subsidiary's net assets + goodwill + NCI.</li>" +
+            "<li><strong>Fair value adjustments</strong> — increase the subsidiary's assets/liabilities to fair value at acquisition date and reduce the fair value uplift for depreciation/amortisation since acquisition.</li>" +
+            "<li><strong>Calculate goodwill</strong> (net of any impairment).</li>" +
+            "<li><strong>Calculate NCI</strong> at the reporting date.</li>" +
+            "<li><strong>Calculate consolidated retained earnings</strong> (parent's retained earnings + parent's share of subsidiary's post-acquisition retained earnings − goodwill impairment).</li>" +
+            "<li><strong>Eliminate intra-group transactions</strong> — cancel intra-group balances (receivables/payables), remove unrealised profits on inventory or PPE transfers.</li></ol>" +
+            "<h4>The Investment Elimination</h4>" +
+            "<p>The parent's balance sheet shows the investment in the subsidiary at cost. This is eliminated against the subsidiary's share capital and pre-acquisition retained earnings at the acquisition date. Goodwill is the 'plug'.</p>" +
+            "<pre>Dr Share capital (subsidiary — acquired %)     X\nDr Pre-acquisition retained earnings (% acquired) X\nDr FV adjustments (net assets recognised at FV) X\nDr Goodwill (balancing figure)                  X\n  Cr Investment in subsidiary                    X\n  Cr NCI at acquisition                          X</pre>" +
+            "<h4>NCI at Reporting Date</h4>" +
+            "<p>NCI at reporting date = NCI at acquisition + NCI % × post-acquisition change in subsidiary's net assets (retained earnings + OCI) − NCI's share of goodwill impairment (full goodwill only)</p>" +
+            "<h4>Consolidated Retained Earnings</h4>" +
+            "<p>Consolidated retained earnings = Parent's own retained earnings + Parent's share (%) × (Subsidiary's retained earnings at reporting date − Subsidiary's pre-acquisition retained earnings) − Group's share of goodwill impairment − PUP adjustments</p>",
+          workedExample: {
+            setup:
+              "Parent Ltd acquired 70% of Sub Ltd for £350,000 on 1 January Year 1. At acquisition: Sub's share capital = £200,000; Sub's retained earnings = £100,000 (pre-acquisition). At 31 December Year 1 (reporting date): Sub's retained earnings = £150,000 (post-acquisition addition = £50,000). Sub's assets fair value equalled book value at acquisition. NCI measured proportionately. No goodwill impairment. Calculate: (a) goodwill, (b) NCI at year end, (c) consolidated retained earnings (Parent's own retained earnings = £500,000).",
+            steps: [
+              "(a) Net assets at acquisition: Share capital £200,000 + Retained earnings £100,000 = £300,000. NCI: 30% × £300,000 = £90,000. Goodwill = £350,000 + £90,000 − £300,000 = £140,000.",
+              "(b) NCI at year end: NCI at acquisition £90,000 + 30% × post-acquisition retained earnings (£50,000) = £90,000 + £15,000 = £105,000.",
+              "(c) Consolidated retained earnings: Parent's own £500,000 + Parent's share of post-acquisition retained earnings (70% × £50,000) = £500,000 + £35,000 = £535,000.",
+            ],
+            answer:
+              "Goodwill = £140,000. NCI at year end = £105,000. Consolidated retained earnings = £535,000. The parent takes 70% of Sub's post-acquisition profits (£35,000) into group retained earnings; the NCI receives 30% (£15,000). The £140,000 goodwill appears on the consolidated SoFP (subject to annual impairment testing).",
+          },
+          summary: [
+            "Consolidation combines parent + subsidiary line by line, then eliminates the investment and recognises goodwill and NCI.",
+            "Investment elimination: debit subsidiary's share capital and pre-acquisition reserves (at the acquired %); credit the investment; goodwill = balancing debit.",
+            "NCI at year end = NCI at acquisition + NCI % × post-acquisition net asset movement.",
+            "Consolidated retained earnings = Parent's own + Parent's % × post-acquisition sub earnings − goodwill impairment.",
+            "Intra-group balances (receivables/payables) must be eliminated; unrealised profits on intra-group transfers must be removed.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A parent acquires 60% of a subsidiary. The subsidiary's net assets at acquisition were £500,000 at fair value. Using the proportionate NCI method, what is the NCI at acquisition?",
+              options: [
+                "£300,000",
+                "£200,000",
+                "£500,000",
+                "£100,000",
+              ],
+              answer: 1,
+              explanation: "NCI at acquisition (proportionate method) = NCI % × Net identifiable assets at fair value = 40% × £500,000 = £200,000. The NCI represents the non-parent shareholders' claim on the subsidiary's net assets at acquisition. The parent's share = 60% × £500,000 = £300,000.",
+            },
+            {
+              question: "Consolidated retained earnings include the parent's own retained earnings plus:",
+              options: [
+                "100% of the subsidiary's total retained earnings",
+                "The parent's share of the subsidiary's pre-acquisition retained earnings",
+                "The parent's share of the subsidiary's post-acquisition retained earnings",
+                "The subsidiary's total retained earnings less the NCI share",
+              ],
+              answer: 2,
+              explanation: "Consolidated retained earnings = Parent's own retained earnings + Parent's % × Post-acquisition retained earnings of the subsidiary. Pre-acquisition retained earnings are part of the investment elimination (they were the net assets when the parent 'paid for' its share). Only post-acquisition profits accumulated since the acquisition date are added to consolidated reserves.",
+            },
+          ],
         },
         {
           id: "f1-l23",
@@ -10773,7 +11026,65 @@ const AIQ_COURSE_DATA = {
             "Account for pre-acquisition and post-acquisition reserves",
             "Allocate retained earnings and net assets between parent and NCI",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Comprehensive Worked Approach</h4>" +
+            "<p>This lesson walks through a complete consolidated SoFP preparation. The standard approach is:</p>" +
+            "<p><strong>Key workings needed:</strong></p>" +
+            "<ol><li>W1: Group structure (ownership %, acquisition date)</li>" +
+            "<li>W2: Net assets of subsidiary at acquisition date and reporting date</li>" +
+            "<li>W3: Goodwill</li>" +
+            "<li>W4: NCI at reporting date</li>" +
+            "<li>W5: Consolidated retained earnings</li></ol>" +
+            "<h4>W2: Net Assets Table</h4>" +
+            "<table><thead><tr><th>Sub's net assets</th><th>At acquisition</th><th>At reporting date</th></tr></thead><tbody>" +
+            "<tr><td>Share capital</td><td>X</td><td>X (unchanged)</td></tr>" +
+            "<tr><td>Retained earnings</td><td>X (pre-acq)</td><td>X (current)</td></tr>" +
+            "<tr><td>FV adjustment on PPE</td><td>X</td><td>X less post-acq depreciation</td></tr>" +
+            "<tr><td>Other FV adjustments</td><td>X</td><td>X adjusted for movements</td></tr>" +
+            "<tr><td><strong>Total</strong></td><td><strong>X</strong></td><td><strong>X</strong></td></tr>" +
+            "</tbody></table>" +
+            "<p>Post-acquisition movement in sub's net assets = reporting date total − acquisition date total</p>" +
+            "<h4>W3: Goodwill</h4>" +
+            "<pre>Consideration (parent paid)                 X\n+ NCI at acquisition (proportionate or FV)  X\n− Net assets at acquisition (W2)           (X)\nGoodwill at acquisition                     X\n− Impairment to date                       (X)\nGoodwill in consolidated SoFP               X</pre>" +
+            "<h4>W4: NCI</h4>" +
+            "<pre>NCI at acquisition (from W3)                X\n+ NCI % × post-acquisition movement in W2  X\n− NCI share of goodwill impairment (full GW)(X)\nNCI at reporting date                       X</pre>" +
+            "<h4>W5: Consolidated Retained Earnings</h4>" +
+            "<pre>Parent's retained earnings                  X\n+ Parent% × post-acquisition movement W2   X\n− Parent% × goodwill impairment            (X)\n± PUP adjustments                          ±X\nConsolidated retained earnings              X</pre>" +
+            "<h4>Assembling the Consolidated SoFP</h4>" +
+            "<p>Add parent + subsidiary assets and liabilities line by line. Then replace the parent's 'Investment in subsidiary' with goodwill (W3) in non-current assets. Replace the subsidiary's equity section with NCI (W4) in equity. Replace parent + subsidiary retained earnings with consolidated retained earnings (W5). Add share capital of parent only (not subsidiary — eliminated on consolidation).</p>",
+          workedExample: {
+            setup:
+              "Parent Ltd acquired 80% of Sub Ltd on 1 Jan Year 1 for £400,000. At acquisition: Sub's net assets = £450,000 (share capital £200,000 + retained earnings £250,000). No FV adjustments. At 31 Dec Year 1 (year end): Sub's retained earnings = £310,000. Parent's own retained earnings = £650,000. No goodwill impairment. NCI = proportionate. Prepare workings W2-W5 and the consolidated equity section.",
+            steps: [
+              "W2: Net assets at acquisition = £450,000. Net assets at year end = £200,000 + £310,000 = £510,000. Post-acquisition movement = £510,000 − £450,000 = £60,000.",
+              "W3: Goodwill: Consideration £400,000 + NCI (20% × £450,000 = £90,000) − Net assets £450,000 = £40,000. No impairment → goodwill £40,000.",
+              "W4: NCI at year end: £90,000 + 20% × £60,000 = £90,000 + £12,000 = £102,000.",
+              "W5: Consolidated retained earnings: £650,000 (parent) + 80% × £60,000 (£48,000) = £698,000.",
+              "Consolidated equity section: Share capital (parent only): £200,000 (assuming parent's share capital = £200,000). Consolidated retained earnings: £698,000. NCI: £102,000. Total equity: £1,000,000.",
+            ],
+            answer:
+              "Goodwill = £40,000. NCI = £102,000. Consolidated retained earnings = £698,000. The consolidated SoFP replaces the £400,000 investment with £40,000 goodwill and adds the subsidiary's assets and liabilities line by line. Parent's 80% of post-acquisition profits (£48,000) flows to group reserves.",
+          },
+          summary: [
+            "Use five standard workings: W1 structure, W2 sub's net assets, W3 goodwill, W4 NCI, W5 consolidated retained earnings.",
+            "W2 shows sub's net assets at acquisition and reporting date, including fair value adjustments and their subsequent depreciation.",
+            "W3 goodwill = consideration + NCI at acquisition − net assets at acquisition (less cumulative impairment).",
+            "W4 NCI = NCI at acquisition + NCI% × post-acquisition movement in W2.",
+            "W5 consolidated retained earnings = parent's own + parent% × post-acquisition W2 movement − goodwill impairment ± PUP.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A parent owns 75% of a subsidiary. The subsidiary's net assets at acquisition were £400,000; at reporting date they are £480,000. NCI is measured proportionately. What is the NCI at the reporting date (assuming no impairment and NCI at acquisition = £100,000)?",
+              options: [
+                "£100,000",
+                "£120,000",
+                "£180,000",
+                "£80,000",
+              ],
+              answer: 1,
+              explanation: "Post-acquisition movement in net assets = £480,000 − £400,000 = £80,000. NCI's share = 25% × £80,000 = £20,000. NCI at reporting date = £100,000 (at acquisition) + £20,000 = £120,000.",
+            },
+          ],
         },
         {
           id: "f1-l24",
@@ -10785,7 +11096,72 @@ const AIQ_COURSE_DATA = {
             "Allocate profit for the year between equity holders of the parent and NCI",
             "Apply the acquisition date rule when a subsidiary is acquired during the year",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Consolidating the Income Statement</h4>" +
+            "<p>The consolidated income statement combines the parent's and subsidiary's results for the period, with intra-group transactions eliminated. Key principles:</p>" +
+            "<ul><li>Include 100% of the subsidiary's revenue and expenses from the <strong>acquisition date</strong> to the period end.</li>" +
+            "<li>Eliminate intra-group sales and purchases (inter-company transactions).</li>" +
+            "<li>Deduct unrealised profits on intra-group inventory transfers (PUP).</li>" +
+            "<li>Add any amortisation/depreciation arising from fair value adjustments at acquisition.</li>" +
+            "<li>Allocate group profit between equity holders of the parent and NCI.</li></ul>" +
+            "<h4>Eliminating Intra-Group Sales</h4>" +
+            "<p>If the parent sells goods to the subsidiary (or vice versa) at a profit:</p>" +
+            "<ul><li>Eliminate the full inter-company revenue and corresponding cost of sales (net effect = zero in group revenue and COGS).</li>" +
+            "<li>If those goods remain in the subsidiary's closing inventory, there is an unrealised profit (Provision for Unrealised Profit — PUP). This must be removed from the group's reported profit and from inventory.</li></ul>" +
+            "<h4>Allocating Group Profit</h4>" +
+            "<p>At the foot of the consolidated income statement:</p>" +
+            "<pre>Profit for the year                           £X\nAttributable to:\nEquity holders of the parent                  X\nNon-controlling interests                     X\n                                              X</pre>" +
+            "<p>NCI's share = NCI % × subsidiary's profit after tax for the period (plus/minus any PUP adjustment if PUP reduces sub's profit).</p>" +
+            "<h4>Mid-Year Acquisitions</h4>" +
+            "<p>If a subsidiary is acquired during the year, only include the subsidiary's results from the acquisition date. Time-apportion if necessary (e.g., acquired on 1 April — include 9/12 of subsidiary's annual results in the group P&L).</p>" +
+            "<p>Also: goodwill is calculated using net assets at the acquisition date (not year-start or year-end).</p>" +
+            "<h4>Additional Depreciation from FV Uplift</h4>" +
+            "<p>When assets are uplifted to fair value at acquisition (e.g., PPE with a higher FV than book value), the additional depreciation on the uplift is charged to the consolidated P&L. This reduces the subsidiary's contribution to group profit (and hence NCI's share).</p>",
+          workedExample: {
+            setup:
+              "Parent's P&L for Year 1: Revenue £500,000; COGS £300,000; Operating profit £200,000; Tax £40,000; PAT £160,000. Sub's P&L for Year 1: Revenue £200,000; COGS £130,000; Operating profit £70,000; Tax £14,000; PAT £56,000. During Year 1, Parent sold goods to Sub for £30,000 (cost £20,000). All goods remain in Sub's closing inventory. Parent owns 70% of Sub. Calculate consolidated P&L and profit allocation.",
+            steps: [
+              "Combine: Revenue = £500,000 + £200,000 = £700,000. Less intra-group sales = −£30,000. Consolidated revenue = £670,000.",
+              "Combine COGS: £300,000 + £130,000 = £430,000. Less intra-group purchase elimination = −£30,000. Add PUP = +£10,000 (£30,000 − £20,000 unrealised profit on inventory). Consolidated COGS = £410,000.",
+              "Consolidated operating profit = £670,000 − £410,000 = £260,000.",
+              "Consolidated tax = £40,000 + £14,000 = £54,000.",
+              "Consolidated PAT = £206,000.",
+              "Allocation: NCI = 30% × (Sub's PAT £56,000 − PUP £10,000) = 30% × £46,000 = £13,800. Parent's equity holders = £206,000 − £13,800 = £192,200.",
+            ],
+            answer:
+              "Consolidated revenue £670,000; COGS £410,000; operating profit £260,000; PAT £206,000. Attributable to: equity holders £192,200; NCI £13,800. The PUP of £10,000 reduces both consolidated inventory and group profit, with the NCI bearing 30% of the impact.",
+          },
+          summary: [
+            "Consolidated P&L: combine 100% of parent and subsidiary revenue/expenses, then eliminate intra-group transactions.",
+            "Eliminate intra-group sales as revenue and cost; remove any unrealised profit (PUP) from closing inventory.",
+            "Allocate group profit at foot: parent equity holders and NCI (NCI % × sub's PAT ± PUP adjustment).",
+            "Mid-year acquisitions: time-apportion subsidiary results from acquisition date; use acquisition-date net assets for goodwill.",
+            "Additional depreciation on FV uplifts reduces subsidiary's contribution and both parent and NCI profit allocations.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A parent owns 60% of a subsidiary. The subsidiary's profit after tax is £100,000. The parent sold goods to the subsidiary at a profit of £20,000 — all goods remain unsold in the subsidiary's closing inventory. What is the NCI's share of group profit?",
+              options: [
+                "£40,000",
+                "£32,000",
+                "£48,000",
+                "£60,000",
+              ],
+              answer: 1,
+              explanation: "PUP of £20,000 must be eliminated from the subsidiary's results (since the goods came from the parent, the PUP is deducted from the parent's profit in the consolidated P&L). The subsidiary's adjusted profit = £100,000 (sub's own profit is unchanged — the PUP relates to the parent's sale). NCI = 40% × £100,000 = £40,000. Wait — if PUP was on goods sold BY the parent TO the subsidiary, the unrealised profit is eliminated from the parent's profit, not the sub's. NCI share = 40% × £100,000 = £40,000. But if sub sold to parent: sub's profit is reduced by £20,000 → NCI = 40% × (£100,000 − £20,000) = 40% × £80,000 = £32,000. Answer: £32,000 if PUP is in subsidiary's books (sub sold upward); £40,000 if PUP is in parent's books (parent sold downward).",
+            },
+            {
+              question: "A subsidiary is acquired on 1 April in a 31 December year-end group. The subsidiary's full-year revenue is £1,200,000. What amount is included in the consolidated income statement?",
+              options: [
+                "£1,200,000 (full year)",
+                "£300,000 (January to March only)",
+                "£900,000 (April to December — 9/12)",
+                "£400,000 (one third of the year)",
+              ],
+              answer: 2,
+              explanation: "Under IFRS 10, only the subsidiary's results from the acquisition date (1 April) are included in the consolidated income statement. The period from 1 April to 31 December = 9 months = 9/12 of the full year. Consolidated revenue from the subsidiary = £1,200,000 × 9/12 = £900,000.",
+            },
+          ],
         },
         {
           id: "f1-l25",
@@ -10797,7 +11173,59 @@ const AIQ_COURSE_DATA = {
             "Calculate the provision for unrealised profit (PUP) on inventory transfers",
             "Adjust for unrealised profits on PPE transfers between group companies",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why Eliminate Intra-Group Transactions?</h4>" +
+            "<p>The consolidated financial statements present the group as a single entity. A sale from the parent to a subsidiary is not a sale to an external third party — it is an internal transfer. From the group's perspective, no profit has been made on this transaction until the goods are sold to an external customer. Including such 'profits' would overstate group revenue and group profit.</p>" +
+            "<h4>What Must Be Eliminated?</h4>" +
+            "<ul><li><strong>Intra-group sales revenue and cost of sales:</strong> Fully eliminate (net = zero impact on gross profit).</li>" +
+            "<li><strong>Intra-group balances:</strong> The seller's trade receivable and the buyer's trade payable cancel out. Remove both (Dr Payables; Cr Receivables).</li>" +
+            "<li><strong>Unrealised profit (PUP):</strong> If goods transferred at a profit remain in the buyer's closing inventory, the profit is unrealised from the group's perspective.</li></ul>" +
+            "<h4>Provision for Unrealised Profit (PUP) on Inventory</h4>" +
+            "<p>PUP = Profit element × Proportion of goods still in closing inventory</p>" +
+            "<p>Example: Parent sells £60,000 of goods to subsidiary at cost plus 25% mark-up. At year end, 40% of the goods remain unsold in Sub's inventory.</p>" +
+            "<ul><li>Cost to Parent = £60,000 / 1.25 = £48,000. Profit = £12,000.</li>" +
+            "<li>PUP = £12,000 × 40% = £4,800.</li>" +
+            "<li>Journal: Dr Retained earnings (seller's) £4,800; Cr Inventories £4,800.</li></ul>" +
+            "<p><strong>Whose retained earnings?</strong> The PUP reduces the <strong>seller's</strong> post-acquisition profits:</p>" +
+            "<ul><li>Parent sells to subsidiary (downstream sale) → debit parent's retained earnings → reduces W5 consolidated retained earnings directly.</li>" +
+            "<li>Subsidiary sells to parent (upstream sale) → debit subsidiary's post-acquisition profits → reduces both parent's % and NCI's % (via W5 and W4).</li></ul>" +
+            "<h4>Unrealised Profits on PPE Transfers</h4>" +
+            "<p>If one group company sells a PPE asset to another at a profit:</p>" +
+            "<ol><li>Eliminate the profit: reduce the asset to the original carrying amount and reduce the seller's retained earnings by the same amount.</li>" +
+            "<li>Reduce depreciation: the buying entity charges depreciation based on the transfer price (higher than original cost). The additional depreciation must be eliminated each year over the remaining life.</li></ol>" +
+            "<p>The net unrealised profit gradually reduces as the asset is depreciated — the profit is realised as the asset is consumed in production.</p>",
+          workedExample: {
+            setup:
+              "Sub Ltd sells a machine to Parent Ltd on 1 January Year 2 for £100,000. Sub's carrying amount was £70,000 at the date of sale (cost £120,000; accumulated depreciation £50,000). Parent depreciates the machine over 5 years (remaining life). Parent owns 75% of Sub. Show (a) Year 2 consolidation adjustments for the machine and (b) effect on Year 2 consolidated P&L.",
+            steps: [
+              "(a) Unrealised profit on transfer = £100,000 − £70,000 = £30,000. Year 2 adjustment: Reduce PPE by £30,000 (Cr PPE £30,000); Reduce Sub's retained earnings by £30,000 (Dr Sub's retained earnings £30,000).",
+              "(b) Additional depreciation: Parent depreciates at £100,000/5 = £20,000/year. Should depreciate at £70,000/5 = £14,000/year. Additional depreciation = £6,000/year. This additional depreciation is eliminated each year: Dr Retained earnings £6,000; Cr Depreciation £6,000.",
+              "Year 2 net position: Unrealised profit eliminated = £30,000. Additional depreciation reversed = £6,000. Net unrealised profit remaining in SoFP = £30,000 − £6,000 = £24,000.",
+              "This £24,000 reduces Sub's net assets used in W2/W4/W5. NCI bears 25% × £30,000 = £7,500 at initial recognition, offset by 25% × £6,000 = £1,500 reversal annually.",
+            ],
+            answer:
+              "PPE on consolidated SoFP: reduced by £24,000 (£30,000 − £6,000 realised through depreciation). Consolidated P&L Year 2: depreciation reduced by £6,000 (the excess depreciation is reversed). The £30,000 PUP on PPE is realised over the 5-year remaining life as the additional depreciation is reversed.",
+          },
+          summary: [
+            "All intra-group sales, purchases and balances must be eliminated to avoid double-counting group revenue and profit.",
+            "PUP on inventory = profit made by seller × proportion of goods still unsold at year end.",
+            "Downstream PUP (parent → sub) reduces parent's retained earnings; upstream PUP (sub → parent) reduces sub's profits, affecting both NCI and group reserves.",
+            "PPE transfers: eliminate profit from asset carrying amount; reverse additional depreciation each year over the remaining asset life.",
+            "Intra-group receivables/payables cancel out — eliminating both removes them from consolidated SoFP.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Parent sells goods to its 80%-owned subsidiary for £50,000, making a 20% margin on selling price. At year end, 50% of these goods remain in the subsidiary's inventory. What is the PUP adjustment?",
+              options: [
+                "£10,000",
+                "£5,000",
+                "£8,000",
+                "£4,000",
+              ],
+              answer: 1,
+              explanation: "Profit margin on selling price = 20%. Total profit on £50,000 sale = £50,000 × 20% = £10,000. Proportion still in closing inventory = 50%. PUP = £10,000 × 50% = £5,000. Adjustments: Dr Parent's retained earnings £5,000; Cr Group inventories £5,000. This reduces both consolidated inventory and consolidated profit.",
+            },
+          ],
         },
         {
           id: "f1-l26",
@@ -10809,7 +11237,60 @@ const AIQ_COURSE_DATA = {
             "Apply the equity method: recognise share of associate's profit and adjust carrying amount",
             "Distinguish the equity method from full consolidation and simple investment accounting",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Associates — Definition</h4>" +
+            "<p>IAS 28 <em>Investments in Associates and Joint Ventures</em> defines an associate as an entity over which the investor has <strong>significant influence</strong> but not control or joint control.</p>" +
+            "<p><strong>Significant influence</strong> is the power to participate in (but not dominate) the financial and operating policy decisions of the investee. It is presumed when the investor holds 20–50% of the voting rights, unless there is clear evidence to the contrary. Evidence of significant influence includes:</p>" +
+            "<ul><li>Representation on the board of directors</li>" +
+            "<li>Participation in policy-making processes</li>" +
+            "<li>Material transactions between investor and investee</li>" +
+            "<li>Interchange of managerial personnel</li>" +
+            "<li>Provision of essential technical information</li></ul>" +
+            "<h4>The Equity Method</h4>" +
+            "<p>Associates are accounted for using the <strong>equity method</strong> — neither full consolidation nor simple IFRS 9 measurement:</p>" +
+            "<ol><li><strong>Initial recognition:</strong> Recognise the investment at cost.</li>" +
+            "<li><strong>Subsequent measurement:</strong> The investment's carrying amount is adjusted each period:</li></ol>" +
+            "<pre>Opening investment balance              X\n+ Share of associate's profit/loss      ±X\n− Dividends received from associate    −X\n± Share of OCI movements               ±X\nClosing investment balance              X</pre>" +
+            "<p>The investor's share of the associate's profit is recognised in the consolidated P&L as a single line: 'Share of profit of associates'.</p>" +
+            "<h4>Goodwill in an Associate</h4>" +
+            "<p>When the cost of acquiring the associate exceeds the investor's share of the associate's net identifiable assets, the difference is goodwill — included within the carrying amount of the investment (not shown separately). Goodwill in associates is not amortised but is tested for impairment if there are indicators.</p>" +
+            "<h4>Equity Method vs Full Consolidation</h4>" +
+            "<table><thead><tr><th></th><th>Full Consolidation (Subsidiary)</th><th>Equity Method (Associate)</th></tr></thead><tbody>" +
+            "<tr><td>SoFP</td><td>100% assets and liabilities (line by line); plus goodwill; minus NCI</td><td>Single line: 'Investment in associate' at cost + share of post-acquisition profits</td></tr>" +
+            "<tr><td>P&amp;L</td><td>100% revenue, expenses, profit; allocate to parent and NCI</td><td>Single line: 'Share of profit of associate' (after tax)</td></tr>" +
+            "<tr><td>Intra-group</td><td>Eliminate 100%</td><td>Eliminate investor's proportionate share of unrealised profits</td></tr>" +
+            "</tbody></table>",
+          workedExample: {
+            setup:
+              "Investor Ltd holds 30% of Associate plc acquired on 1 Jan Year 1 for £200,000. Associate's net assets at acquisition = £580,000 (investor's share = £174,000). Associate's profit for Year 1 = £80,000. Associate declares and pays dividend = £20,000 (total, so investor's share = £6,000). Calculate (a) goodwill in the associate investment, (b) carrying amount at year end.",
+            steps: [
+              "(a) Cost of investment = £200,000. Investor's share of net assets at acquisition = 30% × £580,000 = £174,000. Goodwill within investment = £200,000 − £174,000 = £26,000 (included in the investment balance, not shown separately).",
+              "(b) Carrying amount: Opening = £200,000. + 30% × £80,000 profit = +£24,000. − 30% × £20,000 dividend = −£6,000. Closing carrying amount = £218,000.",
+              "P&L effect: 'Share of profit of associates' = £24,000 shown as a single line in the consolidated income statement.",
+            ],
+            answer:
+              "Investment carrying amount at year end = £218,000 (cost £200,000 + profits £24,000 − dividends received £6,000). Goodwill of £26,000 is embedded in the carrying amount. P&L includes 'Share of profit of associate' = £24,000.",
+          },
+          summary: [
+            "Significant influence (typically 20–50%) → associate, accounted for using the equity method.",
+            "Equity method: investment recognised at cost, then adjusted for share of post-acquisition profits, OCI, and dividends received.",
+            "P&L shows a single line 'share of profit of associates'; SoFP shows a single investment balance.",
+            "Goodwill in an associate is embedded in the investment carrying amount — not shown separately; no amortisation.",
+            "Associate accounting produces less information than full consolidation but more than simple investment accounting.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An investor holds 25% of an associate. The associate makes a profit of £120,000 for the year and pays dividends totalling £40,000. What are the effects on the investor's consolidated accounts?",
+              options: [
+                "P&L: £10,000 dividend income; Investment carrying amount: no change",
+                "P&L: £30,000 share of associate profit; Investment: +£30,000 − £10,000 = +£20,000",
+                "P&L: £10,000 dividend income; Investment: +£30,000",
+                "P&L: £120,000 share of profit; Investment unchanged",
+              ],
+              answer: 1,
+              explanation: "Under the equity method: P&L shows 25% × £120,000 = £30,000 'share of profit of associate'. Dividends received from associate: 25% × £40,000 = £10,000 — this reduces the investment carrying amount (it is a return of value from the investment, not income). Net movement in investment = +£30,000 − £10,000 = +£20,000. Total dividend income does NOT appear in P&L under equity method — it reduces the carrying amount.",
+            },
+          ],
         },
         {
           id: "f1-l27",
@@ -10821,7 +11302,59 @@ const AIQ_COURSE_DATA = {
             "Time-apportion the subsidiary's revenue and profits from the acquisition date",
             "Adjust the subsidiary's opening net assets to the acquisition date for goodwill calculation",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Acquisition Date Rule</h4>" +
+            "<p>The group only 'owns' the subsidiary from the <strong>acquisition date</strong>. For income statement purposes, only the subsidiary's results from that date to the year end are included in the consolidated P&L. For balance sheet purposes, the subsidiary's net assets at the <strong>acquisition date</strong> are used to calculate goodwill.</p>" +
+            "<h4>Time-Apportionment of Results</h4>" +
+            "<p>If the subsidiary is acquired part-way through a year, its results are time-apportioned:</p>" +
+            "<ul><li>If the subsidiary earned profit evenly throughout the year, apportion its full-year profit by the proportion of the year owned.</li>" +
+            "<li>Example: acquired on 1 April (year end 31 December) — include 9/12 of annual results.</li>" +
+            "<li>If results are seasonal or uneven, use actual post-acquisition results if available.</li></ul>" +
+            "<h4>Net Assets at Acquisition Date for Goodwill Calculation</h4>" +
+            "<p>The subsidiary's net assets at the acquisition date — not the year-start or year-end — are used in the goodwill calculation. If acquired during the year, derive the acquisition-date net assets by:</p>" +
+            "<ul><li>Opening net assets at year-start PLUS retained profit earned up to acquisition date (time-apportioned).</li>" +
+            "<li>Or use actual management accounts at the acquisition date.</li></ul>" +
+            "<h4>NCI at Year End — Mid-Year Acquisition</h4>" +
+            "<p>NCI at year end = NCI at acquisition date + NCI% × Post-acquisition profits</p>" +
+            "<p>Post-acquisition profits = time-apportioned portion of the subsidiary's annual profit (from acquisition date to year end).</p>" +
+            "<h4>Example Framework</h4>" +
+            "<p>Parent (December year end) acquires 70% of Sub on 1 July. Sub's full-year profit = £120,000 (assumed even).</p>" +
+            "<ul><li>Post-acquisition profit included in consolidated P&L = 6/12 × £120,000 = £60,000.</li>" +
+            "<li>Net assets at acquisition date = year-start net assets + 6/12 × £120,000.</li>" +
+            "<li>Goodwill uses acquisition-date net assets.</li>" +
+            "<li>NCI at year end = NCI at acquisition + 30% × £60,000.</li></ul>",
+          workedExample: {
+            setup:
+              "Parent Ltd (31 December year end) acquires 60% of Sub Ltd on 1 September Year 1 for £300,000. Sub's net assets at 1 January Year 1 = £400,000. Sub earned profit of £60,000 evenly throughout Year 1. NCI measured proportionately. No FV adjustments. Calculate (a) Sub's net assets at acquisition date, (b) goodwill, (c) Sub's contribution to consolidated P&L for Year 1, (d) NCI at 31 December Year 1.",
+            steps: [
+              "(a) Net assets at acquisition (1 September): £400,000 + 8/12 × £60,000 = £400,000 + £40,000 = £440,000.",
+              "(b) NCI at acquisition: 40% × £440,000 = £176,000. Goodwill = £300,000 + £176,000 − £440,000 = £36,000.",
+              "(c) Sub's contribution to group P&L: From 1 September to 31 December = 4/12 × £60,000 = £20,000 (4 months post-acquisition).",
+              "(d) NCI at year end: NCI at acquisition £176,000 + 40% × £20,000 (post-acq profits) = £176,000 + £8,000 = £184,000.",
+            ],
+            answer:
+              "Sub's net assets at acquisition = £440,000. Goodwill = £36,000. P&L contribution = £20,000 (4 months). NCI at year end = £184,000. The 8/12 profit up to acquisition belongs to pre-acquisition and goes into the goodwill calculation; the 4/12 post-acquisition profit is included in the group P&L.",
+          },
+          summary: [
+            "Only post-acquisition results (from acquisition date to year end) are included in the consolidated income statement.",
+            "Time-apportion pro-rata if results are earned evenly; use actual results if seasonal or uneven and available.",
+            "Net assets at acquisition date = opening net assets + time-apportioned pre-acquisition profits.",
+            "Goodwill is calculated using acquisition-date net assets — not year-start or year-end figures.",
+            "NCI at year end = NCI at acquisition + NCI% × post-acquisition profits only.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A parent acquires 75% of a subsidiary on 1 October (December year end). The subsidiary's profit for the full year is £240,000 (earned evenly). What profit is included in the consolidated income statement?",
+              options: [
+                "£240,000",
+                "£60,000",
+                "£180,000",
+                "£45,000",
+              ],
+              answer: 1,
+              explanation: "From 1 October to 31 December = 3 months = 3/12 of the year. Post-acquisition profit = 3/12 × £240,000 = £60,000. Only this post-acquisition amount is included in the consolidated income statement. The pre-acquisition profit (9/12 × £240,000 = £180,000) is included in net assets at acquisition date for the goodwill calculation.",
+            },
+          ],
         },
         {
           id: "f1-l28",
@@ -10833,7 +11366,60 @@ const AIQ_COURSE_DATA = {
             "Prepare the consolidated financial statements in the year of disposal",
             "Explain the difference between full disposal and partial disposal retaining control",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Full Disposal — Parent's Own Financial Statements</h4>" +
+            "<p>In the parent's individual accounts, the gain or loss on disposal is:</p>" +
+            "<p>Gain/loss = Proceeds received − Carrying amount of investment in subsidiary (at cost)</p>" +
+            "<h4>Full Disposal — Consolidated Financial Statements</h4>" +
+            "<p>In the consolidated accounts, the calculation is different because the investment has been replaced by goodwill and net assets. The group gain/loss is:</p>" +
+            "<pre>Proceeds from disposal                        X\n− Net assets of subsidiary at disposal date  (X)\n− Goodwill allocated to subsidiary (net of impairment) (X)\n+ NCI balance derecognised                    X\nGain/(loss) on disposal                       X</pre>" +
+            "<p>This is recognised in the consolidated P&L.</p>" +
+            "<h4>Consolidated P&L in the Year of Disposal</h4>" +
+            "<ul><li>Include the subsidiary's results from the start of the year to the <strong>disposal date</strong>.</li>" +
+            "<li>Derecognise all of the subsidiary's assets and liabilities at the disposal date.</li>" +
+            "<li>Recognise the gain or loss on disposal.</li>" +
+            "<li>Derecognise NCI at the disposal date.</li></ul>" +
+            "<h4>Partial Disposal — Retaining Control</h4>" +
+            "<p>If the parent sells part of its shareholding but retains control (still owns > 50%), this is a transaction with NCI — treated as an <strong>equity transaction</strong>. No gain or loss in P&L. The difference between proceeds and the change in NCI is recognised in equity (attributable to owners of the parent).</p>" +
+            "<h4>Partial Disposal — Losing Control (Moving to Associate)</h4>" +
+            "<p>If control is lost but significant influence is retained (e.g., 80% → 35%):</p>" +
+            "<ul><li>Derecognise all assets, liabilities and goodwill at the date of disposal.</li>" +
+            "<li>Recognise the fair value of any retained interest (now treated as an associate at fair value on day 1 of equity method).</li>" +
+            "<li>Recognise gain/loss in P&L = proceeds + FV of retained interest − (net assets + goodwill + NCI).</li></ul>",
+          workedExample: {
+            setup:
+              "Parent sold its 80% holding in Sub for £750,000 on 30 June. At disposal date: Sub's net assets = £600,000; Goodwill allocated to Sub (net of impairment) = £120,000; NCI carrying amount at disposal = £110,000. Calculate the group gain/loss on disposal.",
+            steps: [
+              "Proceeds: £750,000.",
+              "Less: Net assets at disposal = −£600,000.",
+              "Less: Goodwill = −£120,000.",
+              "Plus: NCI derecognised = +£110,000.",
+              "Group gain on disposal = £750,000 − £600,000 − £120,000 + £110,000 = £140,000.",
+              "This £140,000 gain is recognised in the consolidated P&L.",
+            ],
+            answer:
+              "Group gain on disposal = £140,000. Recognised in consolidated P&L. Sub's assets and liabilities are derecognised from the balance sheet at the disposal date. The NCI balance is also derecognised. In the P&L for the period, Sub's results are included up to 30 June only.",
+          },
+          summary: [
+            "Full disposal group gain/loss = proceeds − net assets at disposal − goodwill + NCI derecognised.",
+            "In consolidated P&L year of disposal: include subsidiary results to disposal date; derecognise all assets, liabilities, goodwill and NCI.",
+            "Partial disposal retaining control → equity transaction; no gain/loss in P&L; difference goes directly to equity.",
+            "Partial disposal losing control → derecognise all; fair value any retained interest; gain/loss in P&L.",
+            "In parent's own accounts: gain/loss = proceeds − cost of investment (much simpler).",
+          ],
+          practiceQuestions: [
+            {
+              question: "A group disposes of a subsidiary for £900,000. At disposal: net assets = £700,000; goodwill = £80,000; NCI = £150,000. What is the group gain/loss on disposal?",
+              options: [
+                "£200,000 gain",
+                "£270,000 gain",
+                "£120,000 loss",
+                "£120,000 gain",
+              ],
+              answer: 1,
+              explanation: "Group gain = Proceeds − Net assets − Goodwill + NCI = £900,000 − £700,000 − £80,000 + £150,000 = £270,000 gain. The NCI is added because derecognising the NCI reduces the group's total equity cost of the subsidiary — it effectively shares the disposal with the group.",
+            },
+          ],
         },
 
         /* ── Module E: Analysis, Interpretation and Taxation (L29–L35) ── */
