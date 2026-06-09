@@ -282,7 +282,7 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
                     size="sm"
                     icon="arrow-right"
                     style={{ marginLeft: "auto" }}
-                    onClick={() => onNavigate && onNavigate("quiz", { paperId, lessonId: lesson.id })}
+                    onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}
                   >
                     Take full quiz
                   </Button>

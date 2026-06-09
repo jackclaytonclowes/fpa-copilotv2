@@ -1441,6 +1441,156 @@
 }
 .onb-edit-link:hover { color: var(--primary); }
 
+/* ── Quiz engine ───────────────────────────────────────────────────────────── */
+.qe-page {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 32px;
+  animation: fadeUp 0.25s ease both;
+}
+.qe-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.qe-exit {
+  flex-shrink: 0;
+}
+.qe-progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.qe-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: var(--radius-pill);
+  transition: width 0.35s ease;
+}
+.qe-counter {
+  font: var(--text-label);
+  color: var(--fg-3);
+  white-space: nowrap;
+  min-width: 44px;
+  text-align: right;
+}
+.qe-question-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.qe-question-body {
+  padding: 24px 24px 18px;
+}
+.qe-question-topic {
+  font: var(--text-label);
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 10px;
+}
+.qe-question-text {
+  font: var(--text-h3);
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.5;
+  font-size: 16px;
+}
+.qe-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 24px 20px;
+}
+.qe-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  font: var(--text-body);
+  font-size: 14px;
+  color: var(--ink);
+  min-height: 52px;
+  transition: border-color 0.13s, background 0.13s, transform 0.1s;
+  line-height: 1.45;
+}
+.qe-option:hover:not(.selected) {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+.qe-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  transform: scale(1.005);
+}
+.qe-option-letter {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--text-label);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background 0.13s, border-color 0.13s, color 0.13s;
+}
+.qe-option.selected .qe-option-letter {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.qe-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  background: var(--surface-2);
+}
+/* Empty state */
+.qe-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.qe-empty-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qe-empty-title {
+  font: var(--text-h3);
+  color: var(--ink);
+  margin: 0;
+}
+.qe-empty-sub {
+  font: var(--text-body);
+  color: var(--fg-2);
+  margin: 0;
+  max-width: 280px;
+}
+
 /* ── Skills Lab ────────────────────────────────────────────────────────────── */
 .slb-page-header {
   display: flex;
