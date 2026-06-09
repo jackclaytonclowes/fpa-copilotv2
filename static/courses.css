@@ -355,6 +355,54 @@
   box-shadow: var(--shadow-xs);
 }
 
+/* ── Unlock checklist ──────────────────────────────────────────────────────── */
+.crs-unlock-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.crs-unlock-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  transition: background 0.13s;
+  min-height: 44px;
+}
+.crs-unlock-check.done {
+  background: var(--favourable-soft);
+}
+.crs-unlock-check-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.crs-unlock-check-icon.done {
+  background: var(--favourable);
+  border-color: var(--favourable);
+}
+.crs-unlock-check-label {
+  font: var(--text-body);
+  font-size: 13.5px;
+  color: var(--fg-2);
+  flex: 1;
+}
+.crs-unlock-check-label.done {
+  color: var(--favourable-text);
+  font-weight: 600;
+}
+
 /* ── Unlock hint ───────────────────────────────────────────────────────────── */
 .crs-unlock-hint {
   display: flex;
