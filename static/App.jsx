@@ -81,6 +81,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     reports:   "Reports",
     data:      "Data sources",
     settings:  "Settings",
+    courses:   "Courses",
   };
 
   return (
@@ -197,7 +198,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -288,6 +289,8 @@ function App() {
   let body;
   if (restoring) {
     body = null;
+  } else if (view === "courses") {
+    body = <Courses />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {
