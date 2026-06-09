@@ -1,21 +1,10 @@
 /* Courses — Duolingo-style learning dashboard */
 const { useState: useCrsState } = React;
 
-/* ── Placeholder data ──────────────────────────────────────────────────────
-   TODO: replace all static values with real API responses from the backend
+/* ── Static course catalogue ───────────────────────────────────────────────
+   Progress values are overridden at render-time from aiqStore.paperProgress.
+   TODO: replace all static metadata with real API responses from the backend.
    ───────────────────────────────────────────────────────────────────────── */
-const CRS_LAST_ACCESSED = {
-  id: "ba2",
-  nextTopic: "Chapter 6: Cost Behaviour",
-};
-
-const CRS_STATS = {
-  // TODO: fetch from /api/user/stats
-  dailyGoalMinutes: 30,
-  todayMinutes: 18,
-  streak: 7,
-  xp: 1240,
-};
 
 const CRS_CERT_COURSES = [
   {
@@ -120,11 +109,19 @@ function CrsProgressBar({ value, height = 6, color }) {
 }
 
 /* ── Continue Learning Hero ──────────────────────────────────────────────── */
-function CrsHero() {
+function CrsHero({ courses, onNavigate }) {
   const { Icon, Button } = window;
-  const course = CRS_CERT_COURSES.find((c) => c.id === CRS_LAST_ACCESSED.id) || CRS_CERT_COURSES[0];
+
+  /* Pick the most recently active course (first in-progress, else first course) */
+  const store  = window.aiqStore.get();
+  const target = store.targetPaper;
+  const course = (courses || CRS_CERT_COURSES).find((c) => c.id === target)
+    || (courses || CRS_CERT_COURSES).find((c) => c.progress > 0 && c.progress < 1)
+    || (courses || CRS_CERT_COURSES)[0];
+
   const pct = Math.round(course.progress * 100);
   const remainingHrs = Math.ceil(course.studyHoursTotal * (1 - course.progress));
+  const isStarted = course.progress > 0;
 
   return (
     <div className="crs-hero card">
@@ -132,18 +129,17 @@ function CrsHero() {
         <div className="crs-hero-left">
           <div className="crs-hero-eyebrow">
             <Icon name="play-circle" size={14} />
-            Continue where you left off
+            {isStarted ? "Continue where you left off" : "Ready to start?"}
           </div>
           <h2 className="crs-hero-title">
             <span className="crs-course-badge">{course.title}</span>
             {course.fullTitle}
           </h2>
-          {CRS_LAST_ACCESSED.nextTopic && (
-            <div className="crs-hero-next">
-              <Icon name="bookmark" size={13} color="var(--fg-3)" />
-              Next: {CRS_LAST_ACCESSED.nextTopic}
-            </div>
-          )}
+          {/* TODO: replace with real last-accessed lesson from API */}
+          <div className="crs-hero-next">
+            <Icon name="bookmark" size={13} color="var(--fg-3)" />
+            {isStarted ? "Next: pick up from your last lesson" : "Start with lesson 1"}
+          </div>
           <div className="crs-hero-progress">
             <CrsProgressBar value={course.progress} height={10} />
             <div className="crs-hero-pct">
@@ -152,14 +148,53 @@ function CrsHero() {
           </div>
         </div>
         <div className="crs-hero-actions">
-          <Button variant="primary" icon="play" style={{ minHeight: 44, paddingLeft: 22, paddingRight: 22 }}>
-            Resume
+          <Button
+            variant="primary"
+            icon={isStarted ? "play" : "arrow-right"}
+            style={{ minHeight: 44, paddingLeft: 22, paddingRight: 22 }}
+            onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id })}
+          >
+            {isStarted ? "Resume" : "Start"}
           </Button>
-          <div className="crs-hero-stat">
-            <Icon name="clock" size={13} color="var(--fg-3)" />
-            {remainingHrs}h left
+          {isStarted && (
+            <div className="crs-hero-stat">
+              <Icon name="clock" size={13} color="var(--fg-3)" />
+              {remainingHrs}h left
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Operational Level Section (placeholder; enhanced in Item 2 commit) ─── */
+function CrsOperationalSection({ certComplete }) {
+  const { Icon } = window;
+  return (
+    <div className="crs-section crs-section--locked">
+      <div className="crs-section-header">
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <h2 className="crs-section-title crs-section-title--muted">Operational Level</h2>
+            <span className="crs-lock-badge">
+              <Icon name="lock" size={12} />
+              {certComplete ? "Unlocking…" : "Locked"}
+            </span>
+          </div>
+          <div className="crs-section-sub crs-section-sub--muted">
+            Complete Certificate Level to unlock E1, P1 and F1
           </div>
         </div>
+      </div>
+      <div className="crs-courses-grid">
+        {CRS_OPS_PAPERS.map((paper) => (
+          <CrsLockedCard key={paper.id} paper={paper} />
+        ))}
+      </div>
+      <div className="crs-unlock-hint">
+        <Icon name="lock" size={14} color="var(--fg-3)" />
+        Complete all Certificate Level papers to unlock Operational Level courses
       </div>
     </div>
   );
@@ -183,7 +218,7 @@ function CrsStatCard({ icon, tone, label, value, children }) {
 }
 
 /* ── Certificate Course Card ─────────────────────────────────────────────── */
-function CrsCourseCard({ course }) {
+function CrsCourseCard({ course, onNavigate }) {
   const { Icon, Button } = window;
   const pct = Math.round(course.progress * 100);
   const started = course.progress > 0;
@@ -238,7 +273,11 @@ function CrsCourseCard({ course }) {
         </div>
       </div>
       <div className="crs-course-card-footer">
-        <Button variant={started ? "primary" : "secondary"} icon={started ? "play" : "arrow-right"}>
+        <Button
+          variant={started ? "primary" : "secondary"}
+          icon={started ? "play" : "arrow-right"}
+          onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id })}
+        >
           {started ? "Continue" : "Start"}
         </Button>
       </div>
@@ -271,21 +310,42 @@ function CrsLockedCard({ paper }) {
 }
 
 /* ── Courses Page ────────────────────────────────────────────────────────── */
-function Courses() {
+function Courses({ onNavigate }) {
   const { Icon } = window;
 
-  // TODO: derive from real user progress data
-  const inProgress = CRS_CERT_COURSES.filter((c) => c.progress > 0 && c.progress < 1).length;
-  const certComplete = CRS_CERT_COURSES.every((c) => c.progress >= 1);
+  /* Read live values from store; fall back to sensible defaults so the page
+     renders correctly even before onboarding is complete. */
+  const store = window.aiqStore.get();
+  const paperProgress = store.paperProgress || {};
+  const dailyGoalMinutes = store.dailyGoalMinutes || 30; // TODO: replace with real API
+  const todayMinutes     = store.todayMinutes     || 0;
+  const streak           = store.streak           || 0;
+  const xp               = store.xp              || 0;
 
-  const dailyPct = Math.min(1, CRS_STATS.todayMinutes / CRS_STATS.dailyGoalMinutes);
+  /* Merge stored progress values into the static catalogue */
+  const certCourses = CRS_CERT_COURSES.map((c) => ({
+    ...c,
+    progress: paperProgress[c.id] !== undefined ? paperProgress[c.id] : c.progress,
+  }));
+
+  const inProgress  = certCourses.filter((c) => c.progress > 0 && c.progress < 1).length;
+  const certComplete = certCourses.every((c) => c.progress >= 1);
+  const dailyPct    = Math.min(1, todayMinutes / dailyGoalMinutes);
+
+  /* Derive streak label */
+  const streakLabel = streak === 1 ? "1 day" : `${streak} days`;
+  const streakSub   = streak === 0
+    ? "Start studying to begin your streak"
+    : streak >= 7
+    ? "Amazing streak — keep it up!"
+    : "Keep it going!";
 
   return (
     <div className="content">
       <div className="crs-page">
 
         {/* ── 1. Continue Learning Hero ───────────────────────────────── */}
-        <CrsHero />
+        <CrsHero courses={certCourses} onNavigate={onNavigate} />
 
         {/* ── 2. Stats Row ────────────────────────────────────────────── */}
         <div className="crs-stats-row">
@@ -293,30 +353,16 @@ function Courses() {
             icon="clock"
             tone="green"
             label="Daily Study Goal"
-            value={`${CRS_STATS.todayMinutes} / ${CRS_STATS.dailyGoalMinutes} min`}
+            value={`${todayMinutes} / ${dailyGoalMinutes} min`}
           >
-            <CrsProgressBar
-              value={dailyPct}
-              height={4}
-              color="var(--favourable)"
-            />
+            <CrsProgressBar value={dailyPct} height={4} color="var(--favourable)" />
           </CrsStatCard>
 
-          <CrsStatCard
-            icon="flame"
-            tone="amber"
-            label="Current Streak"
-            value={`${CRS_STATS.streak} days`}
-          >
-            Keep it going!
+          <CrsStatCard icon="flame" tone="amber" label="Current Streak" value={streakLabel}>
+            {streakSub}
           </CrsStatCard>
 
-          <CrsStatCard
-            icon="zap"
-            tone="blue"
-            label="XP Points"
-            value={CRS_STATS.xp.toLocaleString()}
-          >
+          <CrsStatCard icon="zap" tone="blue" label="XP Points" value={xp.toLocaleString()}>
             Total earned
           </CrsStatCard>
         </div>
@@ -331,50 +377,22 @@ function Courses() {
               </div>
             </div>
             {inProgress > 0 && (
-              <span className="chip info">
-                {inProgress} in progress
-              </span>
+              <span className="chip info">{inProgress} in progress</span>
             )}
           </div>
           <div className="crs-courses-grid">
-            {CRS_CERT_COURSES.map((course) => (
-              <CrsCourseCard key={course.id} course={course} />
+            {certCourses.map((course) => (
+              <CrsCourseCard key={course.id} course={course} onNavigate={onNavigate} />
             ))}
           </div>
         </div>
 
-        {/* ── 4. Operational Level (locked) ───────────────────────────── */}
-        <div className="crs-section crs-section--locked">
-          <div className="crs-section-header">
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <h2 className="crs-section-title crs-section-title--muted">
-                  Operational Level
-                </h2>
-                <span className="crs-lock-badge">
-                  <Icon name="lock" size={12} />
-                  Locked
-                </span>
-              </div>
-              <div className="crs-section-sub crs-section-sub--muted">
-                Complete Certificate Level to unlock E1, P1 and F1
-              </div>
-            </div>
-          </div>
-          <div className="crs-courses-grid">
-            {CRS_OPS_PAPERS.map((paper) => (
-              <CrsLockedCard key={paper.id} paper={paper} />
-            ))}
-          </div>
-          <div className="crs-unlock-hint">
-            <Icon name="lock" size={14} color="var(--fg-3)" />
-            Complete all Certificate Level papers to unlock Operational Level courses
-          </div>
-        </div>
+        {/* ── 4. Operational Level ────────────────────────────────────── */}
+        <CrsOperationalSection certCourses={certCourses} certComplete={certComplete} />
 
       </div>
     </div>
   );
 }
 
-Object.assign(window, { Courses });
+Object.assign(window, { Courses, CrsProgressBar, CrsStatCard, CrsLockedCard });
