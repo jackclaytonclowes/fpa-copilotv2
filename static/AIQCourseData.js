@@ -118,31 +118,70 @@ const AIQ_COURSE_DATA = {
             "Analyse the effects of shifts in supply and demand on equilibrium price and quantity",
           ],
           explanation:
-            "<p>Markets bring together buyers (demand) and sellers (supply). " +
-            "The <strong>demand curve</strong> slopes downward — as price rises, " +
-            "quantity demanded falls. The <strong>supply curve</strong> slopes upward — " +
-            "as price rises, producers are willing to supply more.</p>" +
-            "<p><strong>Equilibrium</strong> occurs where quantity demanded equals " +
-            "quantity supplied. At this price, there is no shortage or surplus.</p>" +
-            "<p>Shifts in demand (e.g., change in income) or supply (e.g., change in " +
-            "input costs) move the equilibrium to a new price and quantity.</p>",
+            "<h4>The Demand Curve</h4>" +
+            "<p>The <strong>law of demand</strong> states that, ceteris paribus (all else equal), as the price of a good rises, the quantity demanded falls. This gives the demand curve its characteristic downward slope. The logic has two components:</p>" +
+            "<ul>" +
+            "<li><strong>Substitution effect:</strong> a price rise makes the good more expensive relative to substitutes, so consumers switch away from it.</li>" +
+            "<li><strong>Income effect:</strong> a price rise reduces consumers' real purchasing power, so they buy less of most goods.</li>" +
+            "</ul>" +
+            "<p><strong>Movement along vs shift of the demand curve:</strong> a change in the good's own price causes a movement along the existing curve. A change in anything else causes a <em>shift</em> of the entire curve. Non-price determinants of demand (shift factors):</p>" +
+            "<ul>" +
+            "<li><strong>Income:</strong> rising income increases demand for <em>normal goods</em> (shift right) but reduces demand for <em>inferior goods</em> (shift left). A normal good is one consumers buy more of as they become wealthier (new cars, restaurant meals). An inferior good is one consumers buy less of when income rises because they can now afford better alternatives (own-brand foods, budget travel).</li>" +
+            "<li><strong>Prices of related goods:</strong> a rise in the price of a <em>substitute</em> (e.g., tea becoming more expensive) increases demand for the original good (e.g., coffee) — shift right. A rise in the price of a <em>complement</em> (e.g., printers becoming more expensive) reduces demand for the paired good (e.g., ink cartridges) — shift left.</li>" +
+            "<li><strong>Consumer preferences and tastes:</strong> advertising, health trends, and fashion all shift the demand curve.</li>" +
+            "<li><strong>Population size and demographics:</strong> a growing population or demographic shift (e.g., ageing) changes overall market demand.</li>" +
+            "<li><strong>Expectations of future prices:</strong> if consumers expect prices to rise, they buy now (shift right currently).</li>" +
+            "</ul>" +
+            "<h4>The Supply Curve</h4>" +
+            "<p>The <strong>law of supply</strong> states that, ceteris paribus, as price rises, producers are willing to supply more. The supply curve slopes upward because higher prices both cover higher marginal costs and attract new producers seeking profit.</p>" +
+            "<p><strong>Non-price determinants of supply (shift factors):</strong></p>" +
+            "<ul>" +
+            "<li><strong>Input costs:</strong> rising raw material or labour costs shift supply left (supply decreases — firms offer less at any given price).</li>" +
+            "<li><strong>Technology:</strong> improved technology reduces production costs, shifting supply right.</li>" +
+            "<li><strong>Number of producers:</strong> new firms entering the market shift supply right.</li>" +
+            "<li><strong>Government policy:</strong> a tax on production shifts supply left (raises effective cost); a subsidy shifts supply right (lowers effective cost).</li>" +
+            "<li><strong>Weather and natural factors:</strong> particularly relevant for agricultural goods.</li>" +
+            "</ul>" +
+            "<h4>Market Equilibrium</h4>" +
+            "<p><strong>Equilibrium</strong> is the price at which quantity demanded exactly equals quantity supplied. At this price, there is no tendency for price to change. If price is above equilibrium, a <em>surplus</em> emerges (supply > demand) — unsold stock builds, producers cut prices, and price falls back to equilibrium. If price is below equilibrium, a <em>shortage</em> emerges (demand > supply) — consumers bid up price until equilibrium is restored.</p>" +
+            "<h4>Shifts in Equilibrium — Worked Logic</h4>" +
+            "<p>When a shift factor changes, the entire supply or demand curve moves, creating a new equilibrium:</p>" +
+            "<table><thead><tr><th>Event</th><th>Effect on curve</th><th>New equilibrium</th></tr></thead><tbody>" +
+            "<tr><td>Consumer income rises (normal good)</td><td>Demand shifts right</td><td>Price ↑, Quantity ↑</td></tr>" +
+            "<tr><td>Consumer income rises (inferior good)</td><td>Demand shifts left</td><td>Price ↓, Quantity ↓</td></tr>" +
+            "<tr><td>Input costs rise</td><td>Supply shifts left</td><td>Price ↑, Quantity ↓</td></tr>" +
+            "<tr><td>New production technology</td><td>Supply shifts right</td><td>Price ↓, Quantity ↑</td></tr>" +
+            "<tr><td>Price of substitute rises</td><td>Demand shifts right</td><td>Price ↑, Quantity ↑</td></tr>" +
+            "<tr><td>Government subsidy to producers</td><td>Supply shifts right</td><td>Price ↓, Quantity ↑</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Government Intervention: Price Controls</h4>" +
+            "<p>Governments sometimes impose legal price limits that override the market equilibrium:</p>" +
+            "<ul>" +
+            "<li><strong>Price ceiling (maximum price):</strong> a legal maximum set <em>below</em> equilibrium. Intended to keep prices affordable (e.g., rent controls, energy price caps). Effect: quantity demanded exceeds quantity supplied → shortage. Black markets may emerge. Quality may decline as suppliers cut costs.</li>" +
+            "<li><strong>Price floor (minimum price):</strong> a legal minimum set <em>above</em> equilibrium. Used to support producers or workers (e.g., minimum wage, EU Common Agricultural Policy). Effect: quantity supplied exceeds quantity demanded → surplus. Governments may need to buy up the surplus (buffer stocks).</li>" +
+            "</ul>" +
+            "<h4>Taxes and Subsidies</h4>" +
+            "<p>A <strong>specific tax</strong> (e.g., excise duty on fuel) is added to the seller's costs, shifting supply left. This raises the equilibrium price and reduces quantity sold. The tax burden is shared between consumers (who pay more) and producers (who receive less per unit). The split depends on elasticities: the more inelastic side of the market bears the greater burden.</p>" +
+            "<p>A <strong>subsidy</strong> reduces producers' costs, shifting supply right. Price falls and quantity rises. Subsidies are used to encourage production of goods with positive externalities (e.g., renewable energy, public transport).</p>",
           workedExample: {
             setup:
-              "The price of coffee beans rises sharply. Analyse the effect on the market for coffee.",
+              "The government imposes a minimum price (price floor) of £3.50 per litre of milk. The free-market equilibrium price is £2.80. Analyse the consequences.",
             steps: [
-              "Coffee beans are an input cost for coffee producers.",
-              "Higher input costs shift the supply curve to the left (supply decreases).",
-              "At the original price, there is now a shortage — quantity supplied < quantity demanded.",
-              "Price rises until a new equilibrium is reached at a higher price and lower quantity.",
+              "The price floor of £3.50 is above the equilibrium price of £2.80 — it is therefore binding.",
+              "At £3.50, farmers are willing to supply more milk (quantity supplied increases along the supply curve).",
+              "At £3.50, consumers demand less milk (quantity demanded falls along the demand curve).",
+              "Surplus = quantity supplied − quantity demanded at £3.50. The market cannot self-correct because price cannot fall below the floor.",
+              "The government may need to buy the surplus (buffer stock), encourage exports, or allow it to be wasted.",
             ],
             answer:
-              "Equilibrium price rises; equilibrium quantity falls. Coffee becomes more expensive and less is sold.",
+              "A binding price floor creates a persistent surplus. Farmers benefit from higher prices; consumers pay more and buy less. The government bears the cost of managing the surplus.",
           },
           summary: [
-            "Demand curves slope down; supply curves slope up.",
-            "Equilibrium is where supply equals demand.",
-            "A leftward shift in supply raises price and reduces quantity.",
-            "A rightward shift in demand raises both price and quantity.",
+            "Demand curves slope down (law of demand); supply curves slope up (law of supply).",
+            "Normal goods: demand rises with income. Inferior goods: demand falls with income.",
+            "Equilibrium is where supply equals demand — cleared by price adjustment.",
+            "A price ceiling below equilibrium creates a shortage; a price floor above equilibrium creates a surplus.",
+            "Taxes shift supply left (raise price); subsidies shift supply right (lower price). Tax burden split depends on elasticities.",
           ],
           practiceQuestions: [
             {
@@ -155,7 +194,7 @@ const AIQ_COURSE_DATA = {
               ],
               correct: 2,
               explanation:
-                "For a normal good, rising consumer income increases demand at every price level, shifting the demand curve to the right.",
+                "For a normal good, rising consumer income increases demand at every price level, shifting the demand curve to the right. A change in the good's own price only causes movement along the curve, not a shift.",
               topic: "Demand shifts",
             },
             {
@@ -168,8 +207,21 @@ const AIQ_COURSE_DATA = {
               ],
               correct: 1,
               explanation:
-                "A surplus occurs when quantity supplied exceeds quantity demanded — this happens when market price is above equilibrium.",
+                "A surplus (excess supply) occurs when quantity supplied exceeds quantity demanded — this happens when market price is above equilibrium. Competitive pressure then pushes price back down.",
               topic: "Market equilibrium",
+            },
+            {
+              question: "The government imposes a specific tax on petrol. Which of the following best describes the effect?",
+              options: [
+                "The supply curve shifts right, reducing the price of petrol",
+                "The demand curve shifts left, reducing the price of petrol",
+                "The supply curve shifts left, raising the equilibrium price",
+                "Equilibrium price falls because government revenue increases",
+              ],
+              correct: 2,
+              explanation:
+                "A specific tax increases producers' effective costs, shifting the supply curve to the left. The equilibrium price rises and quantity falls. Both consumers and producers share the tax burden depending on their relative elasticities.",
+              topic: "Government intervention",
             },
           ],
         },
@@ -275,16 +327,42 @@ const AIQ_COURSE_DATA = {
             "Assess the efficiency implications of different market structures",
           ],
           explanation:
-            "<p>A <strong>market structure</strong> describes the key characteristics of a market — number of firms, product type, and barriers to entry — which together determine pricing power and firm behaviour.</p>" +
+            "<h4>The Spectrum of Market Structures</h4>" +
+            "<p>A <strong>market structure</strong> describes the key characteristics of a market — the number of firms, product homogeneity, and barriers to entry — which together determine pricing power and competitive behaviour. Real-world markets fall along a spectrum from perfect competition to pure monopoly.</p>" +
             "<table><thead><tr><th>Feature</th><th>Perfect competition</th><th>Monopolistic competition</th><th>Oligopoly</th><th>Monopoly</th></tr></thead>" +
             "<tbody>" +
-            "<tr><td>Number of sellers</td><td>Very many</td><td>Many</td><td>Few</td><td>One</td></tr>" +
-            "<tr><td>Product</td><td>Identical (homogeneous)</td><td>Differentiated</td><td>Differentiated or homogeneous</td><td>Unique</td></tr>" +
-            "<tr><td>Pricing power</td><td>None (price taker)</td><td>Some</td><td>Significant (interdependent)</td><td>Full (price maker)</td></tr>" +
-            "<tr><td>Barriers to entry</td><td>None</td><td>Low</td><td>High</td><td>Very high</td></tr>" +
-            "<tr><td>Example</td><td>Wheat farming</td><td>Restaurants</td><td>Mobile networks</td><td>National rail network</td></tr>" +
+            "<tr><td>Number of sellers</td><td>Very many</td><td>Many</td><td>Few (3–10 dominant)</td><td>One</td></tr>" +
+            "<tr><td>Product</td><td>Identical (homogeneous)</td><td>Differentiated</td><td>Differentiated or homogeneous</td><td>Unique (no close substitute)</td></tr>" +
+            "<tr><td>Pricing power</td><td>None (price taker)</td><td>Some (downward-sloping demand)</td><td>Significant (interdependent)</td><td>Full (price maker)</td></tr>" +
+            "<tr><td>Barriers to entry</td><td>None</td><td>Low</td><td>High</td><td>Very high (absolute)</td></tr>" +
+            "<tr><td>Long-run profit</td><td>Normal profit only</td><td>Normal profit only</td><td>Abnormal (supernormal) profit possible</td><td>Supernormal profit maintained</td></tr>" +
+            "<tr><td>Real example</td><td>Commodity trading, wheat farming</td><td>Restaurants, hairdressers</td><td>Mobile networks, supermarkets</td><td>National Grid, water utilities</td></tr>" +
             "</tbody></table>" +
-            "<p>In <strong>perfect competition</strong>, firms are price takers and earn only normal profit in the long run. In a <strong>monopoly</strong>, the firm restricts output to raise price above competitive levels, reducing consumer surplus — this is the deadweight loss of monopoly.</p>",
+            "<h4>Perfect Competition</h4>" +
+            "<p>In a perfectly competitive market, each firm is a <strong>price taker</strong> — it sells at whatever the market price happens to be (the price equals marginal revenue for each unit sold). The firm maximises profit by producing where P = MC.</p>" +
+            "<p>In the <strong>short run</strong>, firms may earn supernormal profit or make losses. In the <strong>long run</strong>, free entry and exit corrects this: if profit exists, new firms enter, supply increases, price falls, and profits are competed away. If losses persist, firms exit, supply decreases, price rises, and losses are eliminated. Long-run equilibrium: P = MC = AC (allocative and productive efficiency).</p>" +
+            "<h4>Monopolistic Competition</h4>" +
+            "<p>Many firms selling differentiated (but similar) products. Each firm has some pricing power over its own brand, but faces competition from close substitutes. Short-run supernormal profit is possible; in the long run, new entrants erode profits to normal. Firms compete on non-price dimensions: quality, advertising, location, after-sales service. This structure describes most retail and service markets.</p>" +
+            "<h4>Oligopoly and Interdependence</h4>" +
+            "<p>In an oligopoly, a small number of large firms dominate the market. The key feature is <strong>interdependence</strong> — each firm's pricing and output decisions are influenced by anticipated reactions of rivals. This makes oligopoly markets uniquely complex.</p>" +
+            "<p><strong>The kinked demand curve model</strong> attempts to explain price rigidity in oligopolies. The model assumes:</p>" +
+            "<ul>" +
+            "<li>If a firm raises its price, rivals will NOT follow (they gain market share) → demand is relatively elastic above the current price.</li>" +
+            "<li>If a firm cuts its price, rivals WILL match the cut (to avoid losing share) → demand is relatively inelastic below the current price.</li>" +
+            "</ul>" +
+            "<p>The result is a kinked demand curve — steep below the going price, shallow above it. This creates a range of marginal costs over which the firm will not change output or price, explaining the observed price stability in many oligopoly markets.</p>" +
+            "<p><strong>Game theory and the Prisoner's Dilemma</strong> provide another lens on oligopoly behaviour. Two rival firms (A and B) each choose whether to charge a high price or cut price. The dominant strategy for each firm is to cut price — regardless of what the other does, cutting price either increases market share or avoids losing it. The Nash Equilibrium is both firms cutting, earning lower profits than if they had colluded — but any attempt to fix prices above the competitive level is unstable (and illegal).</p>" +
+            "<p><strong>Collusion</strong> (explicit or tacit agreement to fix prices) allows oligopolists to act as a joint monopoly and maximise collective profit. Formal price-fixing cartels (e.g., OPEC) are illegal in most jurisdictions. Tacit collusion (parallel pricing) is harder to prosecute. The CMA (Competition and Markets Authority in the UK) investigates suspected anti-competitive behaviour.</p>" +
+            "<h4>Monopoly</h4>" +
+            "<p>A pure monopolist faces the entire market demand curve. To sell more output, it must lower price on all units — so marginal revenue (MR) lies below the demand (average revenue) curve. Profit maximisation: produce where MR = MC, then charge the highest price consumers will pay for that output (read from the demand curve). This results in:</p>" +
+            "<ul>" +
+            "<li>Output lower than the competitive level.</li>" +
+            "<li>Price higher than the competitive level.</li>" +
+            "<li>A <strong>deadweight welfare loss</strong> — mutually beneficial transactions that do not occur.</li>" +
+            "</ul>" +
+            "<p><strong>Natural monopoly:</strong> in some industries (e.g., water mains, electricity grid, rail track), the average cost of production falls continuously as output rises — a single large firm can supply the entire market at lower cost than multiple competing firms. Duplication of infrastructure would be wasteful. Natural monopolies are typically government-owned or tightly regulated to prevent exploitation of consumers.</p>" +
+            "<h4>Contestable Markets</h4>" +
+            "<p>Baumol's <strong>contestability theory</strong> argues that actual competition matters less than <em>potential</em> competition. A monopoly in a perfectly contestable market (no sunk costs, free entry and exit) cannot charge supernormal prices — the threat of a hit-and-run competitor entering disciplines behaviour. Low-cost airline routes are often cited as an example of contestable markets where the number of operators does not determine competitiveness.",
           workedExample: {
             setup: "Compare the pricing and output decisions of a perfectly competitive firm versus a monopoly, both facing the same cost structure.",
             steps: [
@@ -298,10 +376,11 @@ const AIQ_COURSE_DATA = {
             answer: "Monopoly: lower output, higher price, allocative inefficiency, deadweight loss. Perfect competition: higher output, lower price, allocative efficiency.",
           },
           summary: [
-            "Market structures range from perfect competition (many firms, no pricing power) to monopoly (one firm, full pricing power).",
-            "Oligopoly involves few large firms — their decisions are interdependent (game theory applies).",
-            "Barriers to entry protect monopoly power — patents, economies of scale, regulation, brand loyalty.",
-            "Monopoly restricts output and raises price above competitive level, creating deadweight welfare loss.",
+            "Market structures range from perfect competition (price taker, normal profit) to monopoly (price maker, supernormal profit).",
+            "In perfect competition, long-run equilibrium: P = MC = AC (allocative and productive efficiency).",
+            "Oligopoly: few interdependent firms; the kinked demand curve explains price rigidity; game theory explains strategic behaviour.",
+            "Monopoly: restricts output, charges above MC, creates deadweight welfare loss; natural monopolies warrant regulation.",
+            "Contestability: potential entry disciplines even a single firm if there are no sunk costs and entry/exit is free.",
           ],
           practiceQuestions: [
             {
@@ -426,15 +505,50 @@ const AIQ_COURSE_DATA = {
             "Describe the relationship between inflation and unemployment (Phillips Curve)",
           ],
           explanation:
-            "<p><strong>Inflation</strong> is a sustained rise in the general price level. It is measured by the <strong>Consumer Price Index (CPI)</strong> — a weighted average of prices of a representative basket of goods and services.</p>" +
-            "<p>Types of inflation:</p>" +
+            "<h4>Inflation — Definition and Measurement</h4>" +
+            "<p><strong>Inflation</strong> is a sustained rise in the general price level — not a one-off price increase but a persistent upward trend. It is distinct from a <em>price level</em> (the current level) and from a <em>relative price change</em> (one good becoming more expensive relative to others).</p>" +
+            "<p>In the UK, inflation is measured by the <strong>Consumer Price Index (CPI)</strong> — a weighted average of price changes for a representative basket of goods and services bought by a typical household. The weights reflect expenditure patterns (housing, transport, food, recreation, etc.). CPI is the Bank of England's target measure; the target is 2% per year.</p>" +
+            "<p><strong>CPIH</strong> extends CPI to include owner-occupiers' housing costs and is now the ONS's preferred measure. The older <strong>Retail Prices Index (RPI)</strong> includes mortgage interest payments and uses a different averaging formula, giving a typically higher reading.</p>" +
+            "<h4>Causes of Inflation</h4>" +
             "<ul>" +
-            "<li><strong>Demand-pull:</strong> excessive demand in the economy pulls prices up ('too much money chasing too few goods').</li>" +
-            "<li><strong>Cost-push:</strong> rising production costs (e.g., wages, raw materials) push prices up.</li>" +
-            "<li><strong>Imported inflation:</strong> caused by a falling exchange rate making imports more expensive.</li>" +
+            "<li><strong>Demand-pull inflation:</strong> arises when aggregate demand grows faster than the economy's productive capacity — 'too much money chasing too few goods.' Commonly occurs during booms, when consumer spending, government spending, or investment are very high.</li>" +
+            "<li><strong>Cost-push inflation:</strong> caused by rising production costs that firms pass on to consumers. Triggered by rising commodity prices (oil, metals), wage increases outstripping productivity, or supply shocks (e.g., a pandemic disrupting supply chains).</li>" +
+            "<li><strong>Imported inflation:</strong> a falling exchange rate makes imports more expensive. This feeds into domestic prices both directly (imported consumer goods) and indirectly (imported raw materials raise production costs).</li>" +
+            "<li><strong>Wage-price spiral:</strong> workers demand higher wages to compensate for rising prices; higher wages raise firms' costs, which are passed on as higher prices, prompting further wage demands. This self-reinforcing cycle is a serious risk in a tight labour market.</li>" +
             "</ul>" +
-            "<p><strong>Unemployment</strong> is measured as the percentage of the labour force actively seeking work but unable to find it. Types include frictional (between jobs), structural (skills mismatch), cyclical (lack of demand), and seasonal.</p>" +
-            "<p>The <strong>Phillips Curve</strong> describes a short-run trade-off between inflation and unemployment: lower unemployment tends to coincide with higher inflation. However, in the long run this trade-off breaks down as expectations adjust.</p>",
+            "<h4>Consequences of Inflation</h4>" +
+            "<ul>" +
+            "<li><strong>Erodes purchasing power:</strong> real value of money falls — a fixed income buys fewer goods over time.</li>" +
+            "<li><strong>Redistribution:</strong> inflation benefits borrowers (real value of debt falls) at the expense of savers and lenders (real value of savings falls). Pensioners on fixed incomes are particularly vulnerable.</li>" +
+            "<li><strong>Uncertainty and investment:</strong> unpredictable inflation makes business planning harder; firms may delay investment. Real interest rates become uncertain.</li>" +
+            "<li><strong>Competitiveness:</strong> if domestic inflation exceeds trading partners', exports become more expensive and imports cheaper, worsening the trade balance.</li>" +
+            "<li><strong>Menu costs:</strong> firms must update prices frequently — expensive and disruptive.</li>" +
+            "</ul>" +
+            "<h4>Deflation</h4>" +
+            "<p><strong>Deflation</strong> (a sustained fall in the general price level) sounds beneficial but is economically dangerous:</p>" +
+            "<ul>" +
+            "<li>Consumers delay purchases expecting prices to fall further → demand collapses.</li>" +
+            "<li>Real value of debt rises → debtors face mounting real burdens; defaults increase.</li>" +
+            "<li>Real interest rates rise even when nominal rates hit zero (the zero lower bound problem).</li>" +
+            "<li>In a <strong>deflationary spiral</strong>, falling demand leads to job losses, falling wages, further demand falls, and entrenched low inflation — as experienced in Japan's 'lost decades'.</li>" +
+            "</ul>" +
+            "<h4>Unemployment — Definition and Measurement</h4>" +
+            "<p><strong>Unemployment</strong> measures those who are of working age, without a job, available to start work, and actively seeking employment. Two main UK measures:</p>" +
+            "<ul>" +
+            "<li><strong>Claimant count:</strong> counts those claiming Jobseeker's Allowance or Universal Credit for unemployment. Administrative but narrow — misses those not claiming.</li>" +
+            "<li><strong>Labour Force Survey (ILO definition):</strong> broader survey-based measure; counts anyone who did no paid work in the reference week, is available to start within 2 weeks, and has actively sought work in the past 4 weeks.</li>" +
+            "</ul>" +
+            "<h4>Types of Unemployment</h4>" +
+            "<ul>" +
+            "<li><strong>Frictional:</strong> people between jobs — transitional unemployment while searching for a better match. Always present in a dynamic economy; not necessarily a problem.</li>" +
+            "<li><strong>Structural:</strong> caused by a mismatch between skills workers have and skills employers need, or by geographic mismatch. Results from industry decline (e.g., manufacturing moving overseas, coal mines closing). Requires retraining or relocation — hard to resolve quickly.</li>" +
+            "<li><strong>Cyclical (demand-deficient):</strong> caused by insufficient aggregate demand during a recession. Falls naturally as the economy recovers. Target of demand-side policy (fiscal stimulus, interest rate cuts).</li>" +
+            "<li><strong>Seasonal:</strong> jobs only available at certain times of year (tourism, agriculture, retail). Predictable but reflects genuine spare labour capacity at other times.</li>" +
+            "</ul>" +
+            "<h4>The Phillips Curve</h4>" +
+            "<p>A.W. Phillips (1958) observed an empirical relationship in UK data: years with low unemployment tended to have high wage inflation, and vice versa. The <strong>short-run Phillips Curve</strong> (SRPC) shows this inverse relationship between unemployment and inflation. The mechanism: when unemployment is low, workers have bargaining power → wages rise → firms raise prices → inflation rises.</p>" +
+            "<p>Policymakers saw this as a stable menu of choices: accept 3% unemployment and 4% inflation, or accept 6% unemployment and 1% inflation.</p>" +
+            "<p><strong>The long-run breakdown:</strong> Friedman and Phelps (1968) challenged this view. They argued the trade-off only holds in the short run when inflation is <em>unexpected</em>. Once workers form expectations of inflation and demand compensating wage rises, the economy returns to the <strong>Natural Rate of Unemployment (NRU)</strong> — or NAIRU (Non-Accelerating Inflation Rate of Unemployment) — at a higher inflation level. The long-run Phillips Curve (LRPC) is therefore <strong>vertical</strong> at the NAIRU: any level of inflation is compatible with the natural rate in the long run. Demand stimulus can only temporarily reduce unemployment below NAIRU before inflation accelerates.</p>",
           workedExample: {
             setup: "CPI basket prices: food £200 → £210; transport £150 → £162; housing £300 → £306. Weights: food 30%, transport 25%, housing 45%. Calculate the CPI inflation rate.",
             steps: [
@@ -447,10 +561,12 @@ const AIQ_COURSE_DATA = {
             answer: "CPI inflation = 4.4%. Housing dominates the basket by weight but rose least; transport rose most but has a smaller weight.",
           },
           summary: [
-            "Inflation is a sustained rise in the general price level, measured by the CPI.",
-            "Causes: demand-pull (excess demand), cost-push (rising costs), or imported (weak exchange rate).",
-            "Unemployment measures those actively seeking work but unable to find it.",
-            "The short-run Phillips Curve shows a trade-off: lower unemployment tends to coincide with higher inflation.",
+            "Inflation is a sustained rise in the general price level, measured by CPI (target: 2% in the UK).",
+            "Causes: demand-pull (excess AD), cost-push (input costs), imported (weak exchange rate), wage-price spiral.",
+            "Deflation is dangerous: deferred spending, rising real debt, deflationary spiral risk.",
+            "Unemployment types: frictional (between jobs), structural (skills mismatch), cyclical (recession), seasonal.",
+            "Short-run Phillips Curve: inverse trade-off between unemployment and inflation.",
+            "Long-run Phillips Curve is vertical at NAIRU — demand stimulus only temporarily reduces unemployment before inflation accelerates.",
           ],
           practiceQuestions: [
             {
@@ -485,17 +601,40 @@ const AIQ_COURSE_DATA = {
             "Assess the effectiveness and limitations of policy tools",
           ],
           explanation:
-            "<p><strong>Fiscal policy</strong> is the use of government spending and taxation to influence the economy.</p>" +
+            "<h4>Fiscal Policy</h4>" +
+            "<p><strong>Fiscal policy</strong> is the use of government spending and taxation to influence macroeconomic objectives — primarily managing aggregate demand (AD), growth, unemployment, and inflation.</p>" +
             "<ul>" +
-            "<li><strong>Expansionary fiscal policy:</strong> increase government spending and/or cut taxes — increases aggregate demand, stimulates growth.</li>" +
-            "<li><strong>Contractionary fiscal policy:</strong> cut spending and/or raise taxes — reduces aggregate demand, combats inflation.</li>" +
+            "<li><strong>Expansionary fiscal policy:</strong> increase government spending (G) and/or cut taxes (T) → higher household disposable income and public investment → higher AD → stimulates growth and reduces cyclical unemployment. Typically used in recession.</li>" +
+            "<li><strong>Contractionary (restrictive) fiscal policy:</strong> cut government spending and/or raise taxes → reduces AD → used to reduce inflation or cut budget deficits (austerity).</li>" +
             "</ul>" +
-            "<p><strong>Monetary policy</strong> is the use of interest rates, money supply, and credit conditions to influence economic activity. In the UK, the Bank of England's Monetary Policy Committee (MPC) sets the base rate.</p>" +
+            "<p><strong>The fiscal multiplier:</strong> an initial rise in government spending generates additional rounds of spending as recipients of that income spend a portion of it. The size of the multiplier depends on the <em>marginal propensity to consume (MPC)</em> — how much of each additional £ of income households spend rather than save. A higher MPC → larger multiplier. The simple formula: <code>Multiplier = 1 / (1 − MPC)</code>. If MPC = 0.8, multiplier = 1 / 0.2 = 5. So a £1bn spending increase raises GDP by £5bn. In practice, multipliers are smaller due to taxes, savings, and import leakages.</p>" +
+            "<p><strong>Crowding out:</strong> when government finances borrowing by issuing bonds (gilts), it competes with private sector for funds, potentially driving up interest rates. Higher rates choke off private investment (I ↓), offsetting some or all of the fiscal stimulus. The degree of crowding out depends on whether the economy is near full capacity and on monetary policy (if the central bank keeps rates low, crowding out is limited).</p>" +
+            "<p><strong>Automatic stabilisers:</strong> government spending and tax receipts that automatically adjust with the economic cycle without any policy change. In recession: tax revenues fall (incomes fall), welfare spending rises → fiscal deficit rises automatically, partially cushioning the downturn. In a boom: tax revenues rise, welfare spending falls → fiscal surplus, automatically damping inflationary pressure.</p>" +
+            "<h4>Monetary Policy</h4>" +
+            "<p><strong>Monetary policy</strong> is the use of interest rates, money supply, and credit conditions to achieve macroeconomic objectives (primarily inflation control). In the UK, the <strong>Bank of England's Monetary Policy Committee (MPC)</strong> sets the base interest rate independently of government (operational independence since 1997).</p>" +
+            "<p><strong>Interest rate transmission mechanism:</strong></p>" +
+            "<table><thead><tr><th>Rate change</th><th>Effect on borrowing</th><th>Effect on spending</th><th>Objective</th></tr></thead><tbody>" +
+            "<tr><td>Cut (lower)</td><td>Cheaper mortgages, loans, business finance</td><td>Consumer spending ↑, Investment ↑, Weaker £ → Exports ↑</td><td>Stimulate growth; fight recession</td></tr>" +
+            "<tr><td>Rise (higher)</td><td>Dearer mortgages, credit cards, overdrafts</td><td>Consumer spending ↓, Investment ↓, Stronger £ → Exports ↓</td><td>Reduce inflation; cool boom</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Quantitative Easing (QE):</strong> when the base rate is at or near zero (the <em>zero lower bound</em>) and cutting it further is impossible, the central bank can create electronic money and use it to buy financial assets (mainly government bonds) from banks. This injects money into the financial system, pushing asset prices up, bond yields down, and increasing banks' ability to lend. QE was deployed by the Bank of England after the 2008 financial crisis and again during COVID-19. Its effectiveness is debated — it inflated asset prices and benefited wealthier asset holders disproportionately.</p>" +
+            "<p><strong>Liquidity trap:</strong> a theoretical scenario where interest rates are already very low and further cuts fail to stimulate borrowing and spending, because individuals and firms prefer to hold cash (they expect low returns on investment or economic uncertainty). Standard monetary policy becomes ineffective — the economy is trapped at low output. The Great Depression and Japan's post-1990s stagnation are often cited examples.</p>" +
+            "<h4>Supply-Side Policy</h4>" +
+            "<p><strong>Supply-side policies</strong> aim to increase the productive capacity (long-run aggregate supply, LRAS) of the economy, rather than managing demand. Unlike demand-side policies, they target sustainable non-inflationary growth. Examples:</p>" +
             "<ul>" +
-            "<li><strong>Raising interest rates:</strong> reduces borrowing and spending; cools inflation but may slow growth.</li>" +
-            "<li><strong>Cutting interest rates:</strong> encourages borrowing and investment; stimulates growth but may fuel inflation.</li>" +
+            "<li><strong>Labour market reforms:</strong> reducing unemployment benefits to increase work incentives; reducing trade union power; improving retraining and skills programmes; cutting income tax (lower marginal rates → more incentive to work).</li>" +
+            "<li><strong>Investment incentives:</strong> cutting corporation tax to attract investment; R&amp;D tax credits; infrastructure spending (transport, broadband) to reduce business costs.</li>" +
+            "<li><strong>Deregulation:</strong> removing barriers to business entry and competition to improve efficiency.</li>" +
+            "<li><strong>Education and training:</strong> improving human capital quality raises productivity per worker.</li>" +
+            "<li><strong>Trade liberalisation:</strong> reducing tariffs and trade barriers increases competitive pressure and efficiency.</li>" +
             "</ul>" +
-            "<p><strong>Limitations:</strong> fiscal policy has time lags (political process); monetary policy may be ineffective in a liquidity trap. Both face the risk of policy conflict if governments and central banks have different objectives.</p>",
+            "<h4>Policy Conflicts and Limitations</h4>" +
+            "<ul>" +
+            "<li><strong>Time lags:</strong> fiscal policy involves legislative process (recognition lag → decision lag → implementation lag → effect lag). Monetary policy is faster but still takes 12–18 months to work through the economy.</li>" +
+            "<li><strong>Conflict between objectives:</strong> stimulating growth may cause inflation; controlling inflation may raise unemployment — policymakers face difficult trade-offs.</li>" +
+            "<li><strong>Central bank independence vs government coordination:</strong> if the Bank of England (monetary authority) and the Treasury (fiscal authority) pursue conflicting objectives, policy effectiveness is reduced.</li>" +
+            "<li><strong>Global constraints:</strong> in an open economy, domestic stimulus may leak abroad through imports; exchange rate movements can offset monetary policy (a rate cut that weakens the pound may import inflation).</li>" +
+            "</ul>",
           workedExample: {
             setup: "The economy is in recession with 8% unemployment and 1% GDP growth. The central bank cuts interest rates from 4% to 1.5%. Trace the expected transmission mechanism.",
             steps: [
@@ -508,10 +647,12 @@ const AIQ_COURSE_DATA = {
             answer: "Rate cut → cheaper borrowing → more spending and investment → higher aggregate demand → GDP growth and falling unemployment. Risk: if inflation is already high, the stimulus could overheat the economy.",
           },
           summary: [
-            "Fiscal policy: government uses spending and taxation to manage aggregate demand.",
-            "Monetary policy: central bank uses interest rates to influence borrowing, spending, and inflation.",
-            "Expansionary policy stimulates growth; contractionary policy reduces inflation.",
-            "Both policies face time lags and may conflict — the Bank of England is independent precisely to depoliticise monetary decisions.",
+            "Fiscal policy: government uses spending (G) and taxation (T) to manage aggregate demand; multiplier amplifies impact.",
+            "Crowding out: government borrowing may raise interest rates, suppressing private investment.",
+            "Automatic stabilisers (tax revenues, welfare spending) dampen business cycle fluctuations without discretionary action.",
+            "Monetary policy: Bank of England MPC sets base rate to hit 2% CPI target; QE used when rates hit zero lower bound.",
+            "Supply-side policy targets long-run productive capacity via labour market reform, investment incentives, and education.",
+            "All policies face time lags; fiscal and monetary policy must be coordinated to avoid conflicting signals.",
           ],
           practiceQuestions: [
             {
@@ -551,14 +692,47 @@ const AIQ_COURSE_DATA = {
             "Analyse the impact of exchange rate movements on businesses",
           ],
           explanation:
-            "<p>Countries trade because of <strong>comparative advantage</strong>: a country should specialise in the goods it produces at the lowest <em>opportunity cost</em> and import the rest, even if it is absolutely more efficient at producing everything.</p>" +
-            "<p>Trade barriers restrict free trade:</p>" +
+            "<h4>Why Countries Trade — Comparative Advantage</h4>" +
+            "<p>The foundation of international trade is <strong>comparative advantage</strong>, developed by David Ricardo. A country has a comparative advantage in a good when it can produce it at a lower <em>opportunity cost</em> than another country — even if it is not the most efficient producer in absolute terms. By specialising and trading, both countries can consume more of both goods than they could in isolation. This is the core case for free trade.</p>" +
+            "<p><strong>Absolute advantage</strong> is the simpler idea: a country has an absolute advantage if it can produce a good using fewer resources. Comparative advantage is the more powerful concept — it shows gains from trade exist even when one country is more efficient at producing everything (as in the classic worked example).</p>" +
+            "<h4>Trade Barriers</h4>" +
+            "<p>Despite the theoretical gains from free trade, governments frequently restrict imports. Common <strong>protectionist measures:</strong></p>" +
+            "<table><thead><tr><th>Barrier</th><th>How it works</th><th>Effect on domestic market</th></tr></thead><tbody>" +
+            "<tr><td><strong>Tariff</strong></td><td>Tax levied on imported goods</td><td>Raises import price → domestic producers protected; consumers pay more; government collects revenue</td></tr>" +
+            "<tr><td><strong>Quota</strong></td><td>Physical limit on import volume</td><td>Reduces supply from abroad → domestic price rises; domestic producers protected; no government revenue</td></tr>" +
+            "<tr><td><strong>Subsidy</strong></td><td>Government payment to domestic producers</td><td>Lowers domestic producers' costs → they can undercut imports; cost borne by taxpayers</td></tr>" +
+            "<tr><td><strong>Embargo</strong></td><td>Outright ban on imports of a good or from a country</td><td>Used for political/security reasons (sanctions); eliminates trade entirely for targeted goods</td></tr>" +
+            "<tr><td><strong>Non-tariff barriers</strong></td><td>Regulations, standards, customs procedures</td><td>Raise the compliance cost of exporting; effectively restrict trade without explicit tariffs</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Arguments for protectionism:</strong> protect infant industries (allow them to develop before facing global competition); protect jobs in strategic industries; national security; retaliate against unfair foreign subsidies. <strong>Arguments against:</strong> reduces global efficiency; invites retaliation; raises consumer prices; protects inefficient producers at consumers' expense.</p>" +
+            "<h4>Trade Agreements and Trading Blocs</h4>" +
             "<ul>" +
-            "<li><strong>Tariff</strong> — a tax on imports; raises the domestic price and protects home producers.</li>" +
-            "<li><strong>Quota</strong> — a physical limit on import volumes.</li>" +
-            "<li><strong>Subsidy</strong> — government payment to domestic producers to make them more competitive.</li>" +
+            "<li><strong>Free Trade Area (FTA):</strong> member countries remove tariffs on trade between themselves but maintain independent tariffs with non-members (e.g., UK–Australia FTA).</li>" +
+            "<li><strong>Customs Union:</strong> FTA plus a common external tariff on imports from non-members (e.g., the EU Customs Union).</li>" +
+            "<li><strong>Single Market (Common Market):</strong> customs union plus free movement of goods, services, capital, and labour (e.g., the EU Single Market).</li>" +
+            "<li><strong>Monetary Union:</strong> single market plus a shared currency and monetary policy (e.g., the eurozone).</li>" +
             "</ul>" +
-            "<p>The <strong>exchange rate</strong> is the price of one currency in terms of another. A <strong>stronger pound</strong> (appreciation) makes UK exports more expensive and imports cheaper. A <strong>weaker pound</strong> (depreciation) makes exports cheaper and imports more expensive, boosting export competitiveness but raising import costs (and inflation).</p>",
+            "<h4>The Balance of Payments</h4>" +
+            "<p>The <strong>balance of payments</strong> records all economic transactions between a country's residents and the rest of the world over a period. It has three accounts:</p>" +
+            "<ul>" +
+            "<li><strong>Current account:</strong> trade in goods (visibles) and services (invisibles), income (wages/dividends from abroad), and current transfers. A current account <em>deficit</em> means the country imports more than it exports in these items. The UK has run a persistent current account deficit.</li>" +
+            "<li><strong>Capital account:</strong> relatively small — transfers of capital ownership (e.g., debt forgiveness, migrants' assets).</li>" +
+            "<li><strong>Financial account:</strong> flows of investment — foreign direct investment (FDI), portfolio investment, and reserve assets. A current account deficit is typically financed by a financial account surplus (foreigners investing in the country).</li>" +
+            "</ul>" +
+            "<p>In principle, the three accounts sum to zero — a current account deficit must be matched by a net inflow on the capital/financial account.</p>" +
+            "<h4>Exchange Rates</h4>" +
+            "<p>The <strong>exchange rate</strong> is the price of one currency expressed in terms of another. Like any price, it is determined by supply and demand for the currency in the foreign exchange (forex) market.</p>" +
+            "<p><strong>Demand for sterling (£):</strong> comes from overseas buyers of UK goods, services, and assets — to buy UK exports or invest in the UK, foreigners need £.</p>" +
+            "<p><strong>Supply of sterling:</strong> comes from UK residents buying foreign goods, services, and assets — they supply £ to get foreign currency.</p>" +
+            "<p><strong>Effect of exchange rate changes:</strong></p>" +
+            "<table><thead><tr><th></th><th>Appreciation (stronger £)</th><th>Depreciation (weaker £)</th></tr></thead><tbody>" +
+            "<tr><td>UK exports</td><td>More expensive for foreign buyers → export volume ↓</td><td>Cheaper for foreign buyers → export volume ↑</td></tr>" +
+            "<tr><td>UK imports</td><td>Cheaper for UK buyers → import volume ↑</td><td>More expensive for UK buyers → import volume ↓</td></tr>" +
+            "<tr><td>UK inflation</td><td>Reduced (cheaper imports)</td><td>Increased (dearer imports — 'imported inflation')</td></tr>" +
+            "<tr><td>Current account</td><td>Worsens (deficit widens)</td><td>Improves (deficit narrows) — depends on Marshall-Lerner</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Fixed vs floating exchange rates:</strong> A <em>floating</em> rate is determined freely by market forces (UK, US, eurozone). A <em>fixed</em> rate is pegged to another currency or basket (e.g., some developing economies peg to the US dollar). A fixed rate provides certainty for trade but requires the central bank to hold reserves to defend the peg.</p>" +
+            "<p><strong>The J-curve effect:</strong> when the exchange rate depreciates, the current account may initially <em>worsen</em> before improving. In the short run, import prices rise but volumes are sticky (existing contracts), so import spending rises. Over time, volumes adjust — export demand rises (cheaper UK goods), import demand falls. The deficit first deepens then improves — tracing a J-shape over time. The improvement materialises only if the Marshall-Lerner condition is met (the sum of price elasticities of demand for exports and imports exceeds 1).</p>",
           workedExample: {
             setup: "Country A can produce: 1 hour = 10 cars or 20 tonnes of wheat. Country B: 1 hour = 6 cars or 18 tonnes of wheat. Should they specialise and trade?",
             steps: [
@@ -572,10 +746,12 @@ const AIQ_COURSE_DATA = {
             answer: "A should specialise in cars; B in wheat. Both countries can consume more of both goods through trade than without it — this is the gain from comparative advantage.",
           },
           summary: [
-            "Comparative advantage: specialise where your opportunity cost is lowest, even if not the most efficient producer overall.",
-            "Tariffs raise import prices, protecting domestic industry but reducing consumer welfare.",
-            "A strong currency helps importers but hurts exporters; a weak currency boosts exports but raises import prices.",
-            "Exchange rate movements affect inflation, trade balances, and business competitiveness.",
+            "Comparative advantage: specialise where opportunity cost is lowest — both countries gain from trade even if one is absolutely better at everything.",
+            "Protectionism (tariffs, quotas, subsidies) protects domestic producers but raises consumer prices and invites retaliation.",
+            "Balance of payments: current account (trade) + capital account + financial account = zero in total.",
+            "A current account deficit means imports exceed exports; typically financed by foreign investment inflows.",
+            "Depreciation makes exports cheaper (boosts competitiveness) but raises import costs and inflation.",
+            "J-curve: depreciation first worsens then improves the current account as volumes adjust over time.",
           ],
           practiceQuestions: [
             {
@@ -3023,16 +3199,46 @@ const AIQ_COURSE_DATA = {
             "Identify the principles of the UK Corporate Governance Code",
           ],
           explanation:
-            "<p><strong>Corporate governance</strong> is the system of rules, practices, and processes by which a company is directed and controlled. It addresses the <strong>agency problem</strong>: shareholders (principals) delegate control to directors (agents), whose interests may not always align.</p>" +
-            "<p>The <strong>UK Corporate Governance Code</strong> (apply or explain basis for listed companies) is built around five principles:</p>" +
+            "<h4>The Agency Problem</h4>" +
+            "<p><strong>Corporate governance</strong> is the system of rules, practices, and processes by which a company is directed and controlled. The central issue it addresses is the <strong>principal-agent problem</strong>: in most large companies, the owners (shareholders — principals) delegate day-to-day control to directors and managers (agents). Agents may act in their own interests rather than those of shareholders — pursuing high salaries, job security, empire-building, or excessive risk-taking. Good governance structures attempt to align these interests and provide accountability mechanisms.</p>" +
+            "<h4>The UK Corporate Governance Code</h4>" +
+            "<p>The <strong>UK Corporate Governance Code</strong> (updated 2024) applies on an <strong>'apply or explain'</strong> basis to premium-listed companies. Companies must either follow each provision or explain in the annual report why they have departed from it. The Code is organised around five principles:</p>" +
             "<ol>" +
-            "<li><strong>Board leadership and purpose</strong> — an effective and entrepreneurial board.</li>" +
-            "<li><strong>Division of responsibilities</strong> — the Chair and CEO roles should be held by different people.</li>" +
-            "<li><strong>Composition, succession and evaluation</strong> — appropriate balance of skills and independence.</li>" +
-            "<li><strong>Audit, risk and internal control</strong> — sound systems with an independent audit committee.</li>" +
-            "<li><strong>Remuneration</strong> — linked to long-term company and employee interests.</li>" +
+            "<li><strong>Board leadership and purpose:</strong> the board should establish the company's purpose, values, and strategy, and satisfy itself that these are aligned with the culture. An effective, entrepreneurial board promotes the long-term sustainable success of the company, generating value for shareholders and contributing to wider society.</li>" +
+            "<li><strong>Division of responsibilities:</strong> the Chair leads the board; the CEO runs the business. These roles must not be held by the same person. There should be a clear division between non-executive oversight and executive management. The board should include a sufficient number of independent non-executive directors (NEDs) to prevent any one individual or group dominating decision-making.</li>" +
+            "<li><strong>Composition, succession, and evaluation:</strong> appointments should be based on merit, with due regard to diversity (gender, ethnicity, skills, experience). The Nomination Committee oversees board composition and succession planning. Annual board performance evaluation is required.</li>" +
+            "<li><strong>Audit, risk, and internal control:</strong> the board is responsible for the integrity of financial reporting and the effectiveness of internal controls. The Audit Committee (independent NEDs) oversees these functions. A risk committee (or board as a whole) oversees the risk management framework.</li>" +
+            "<li><strong>Remuneration:</strong> executive pay should be aligned with long-term company performance and employee interests. The Remuneration Committee (independent NEDs) determines executive pay. Excessive pay packages that are not linked to performance have been a focus of shareholder activism.</li>" +
             "</ol>" +
-            "<p>The <strong>audit committee</strong> (independent non-executive directors) oversees financial reporting, internal controls, and the external audit relationship.</p>",
+            "<h4>Non-Executive Directors (NEDs)</h4>" +
+            "<p>NEDs are directors who are not involved in the day-to-day management of the company. Their role is to:</p>" +
+            "<ul>" +
+            "<li>Provide independent oversight and constructive challenge to executive management.</li>" +
+            "<li>Scrutinise management performance against agreed goals and objectives.</li>" +
+            "<li>Satisfy themselves on the integrity of financial information and the robustness of financial controls.</li>" +
+            "<li>Determine executive remuneration through the Remuneration Committee.</li>" +
+            "<li>Play a key role on the Audit and Nomination committees.</li>" +
+            "</ul>" +
+            "<p>For a NED to be considered <strong>independent</strong>, they must be free from relationships or circumstances that could affect their judgement. The Code identifies factors that may compromise independence: being a former employee, receiving additional pay, having close family ties to management, representing a significant shareholder, or having served on the board for more than nine years.</p>" +
+            "<h4>The Audit Committee</h4>" +
+            "<p>The Audit Committee is one of the most important board sub-committees. It must comprise at least three independent NEDs. Its responsibilities include:</p>" +
+            "<ul>" +
+            "<li>Monitoring the integrity of the company's financial statements and any formal announcements relating to financial performance.</li>" +
+            "<li>Reviewing the effectiveness of internal financial controls and the internal audit function.</li>" +
+            "<li>Managing the relationship with the external auditor — recommending appointment/removal, reviewing the audit plan, assessing independence (particularly where the auditor also provides non-audit services).</li>" +
+            "<li>Whistleblowing arrangements — ensuring there is a mechanism for staff to raise concerns confidentially.</li>" +
+            "</ul>" +
+            "<h4>Internal Audit vs External Audit</h4>" +
+            "<p>A common exam topic is distinguishing between internal and external audit:</p>" +
+            "<table><thead><tr><th>Dimension</th><th>Internal audit</th><th>External audit</th></tr></thead><tbody>" +
+            "<tr><td>Employed by</td><td>The company (or outsourced)</td><td>Appointed by shareholders; independent</td></tr>" +
+            "<tr><td>Reports to</td><td>Audit Committee / management</td><td>Shareholders (opinion in annual report)</td></tr>" +
+            "<tr><td>Purpose</td><td>Add value; improve risk management, governance, and internal controls</td><td>Give independent opinion on truth and fairness of financial statements</td></tr>" +
+            "<tr><td>Scope</td><td>Flexible — risk-based, operational, compliance, financial</td><td>Limited to financial statements</td></tr>" +
+            "<tr><td>Statutory requirement</td><td>Not always required (voluntary for many companies)</td><td>Required for plcs and larger companies by law</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Stakeholder Theory and the Wider Governance Debate</h4>" +
+            "<p>The traditional view (shareholder primacy) holds that the board's primary duty is to maximise shareholder wealth. The <strong>stakeholder theory</strong> argues that companies owe duties to a wider group — employees, customers, suppliers, communities — and that sustainable long-term value creation requires balancing all stakeholder interests. The UK Companies Act 2006 (s.172) requires directors to <em>promote the success of the company for the benefit of its members as a whole</em> whilst having regard to employees, long-term consequences, and reputational factors — a compromise between the two views.</p>",
           workedExample: {
             setup: "A listed company's CEO has also been appointed as Board Chair. Explain the corporate governance concern and what the UK Code recommends.",
             steps: [
@@ -3044,10 +3250,11 @@ const AIQ_COURSE_DATA = {
             answer: "This arrangement breaches the division of responsibilities principle. The company should separate the roles or explain its departure from the Code in its annual report.",
           },
           summary: [
-            "Corporate governance manages the agency problem between shareholders (owners) and directors (agents).",
-            "UK Corporate Governance Code (apply or explain) covers board leadership, division of responsibilities, composition, audit/risk, and remuneration.",
-            "The Chair and CEO should be different individuals to ensure independent board oversight.",
-            "The audit committee (independent NEDs) oversees financial reporting, internal audit, and external audit.",
+            "Corporate governance addresses the principal-agent problem: aligning director behaviour with shareholder interests.",
+            "UK Code (apply or explain): board leadership, division of responsibilities, composition, audit/risk, remuneration.",
+            "Chair and CEO must be separate; sufficient independent NEDs are required to prevent power concentration.",
+            "Audit Committee (3+ independent NEDs): financial statement integrity, internal audit oversight, external auditor independence.",
+            "Internal audit: employed by company, broad scope, reports to management/audit committee. External audit: independent, opinion on financial statements, statutory requirement.",
           ],
           practiceQuestions: [
             {
@@ -3087,15 +3294,56 @@ const AIQ_COURSE_DATA = {
             "Describe the rights and duties of directors and shareholders",
           ],
           explanation:
-            "<p>A <strong>company</strong> is a legal entity separate from its owners — it can own assets, enter contracts, and sue or be sued in its own name. Key types:</p>" +
+            "<h4>Forms of Business Entity</h4>" +
+            "<p>Before choosing how to structure a business, it is essential to understand the legal implications of different business forms. The key distinction is between <em>incorporated</em> and <em>unincorporated</em> structures:</p>" +
+            "<table><thead><tr><th>Form</th><th>Incorporation</th><th>Liability</th><th>Legal personality</th><th>Key features</th></tr></thead><tbody>" +
+            "<tr><td><strong>Sole trader</strong></td><td>No</td><td>Unlimited personal</td><td>None (owner IS the business)</td><td>Simple, low cost; owner bears all risk</td></tr>" +
+            "<tr><td><strong>General partnership</strong></td><td>No</td><td>Unlimited (joint and several)</td><td>None</td><td>Governed by Partnership Act 1890; each partner liable for all debts</td></tr>" +
+            "<tr><td><strong>Limited Liability Partnership (LLP)</strong></td><td>Yes (registered at Companies House)</td><td>Limited to contribution</td><td>Separate</td><td>Flexibility of partnership + limited liability; common for professional firms</td></tr>" +
+            "<tr><td><strong>Private limited company (Ltd)</strong></td><td>Yes</td><td>Limited to amount invested</td><td>Separate</td><td>Cannot offer shares to public; most common business form in UK</td></tr>" +
+            "<tr><td><strong>Public limited company (plc)</strong></td><td>Yes</td><td>Limited to amount invested</td><td>Separate</td><td>Can offer shares publicly; must have ≥£50,000 allotted share capital; subject to stricter disclosure rules</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Incorporation and Its Consequences</h4>" +
+            "<p>Incorporation is the process of forming a company recognised by law as a separate legal entity. Key consequences:</p>" +
             "<ul>" +
-            "<li><strong>Sole trader</strong>: one owner; unlimited personal liability; not incorporated.</li>" +
-            "<li><strong>Partnership</strong>: two or more owners sharing profits and (in a general partnership) unlimited liability.</li>" +
-            "<li><strong>Private limited company (Ltd)</strong>: incorporated; limited liability; shares cannot be publicly traded.</li>" +
-            "<li><strong>Public limited company (plc)</strong>: incorporated; limited liability; can offer shares to the public.</li>" +
+            "<li><strong>Separate legal personality:</strong> established in <em>Salomon v Salomon &amp; Co Ltd</em> [1897]. The company is distinct from its shareholders — it owns assets, incurs liabilities, and enters contracts in its own name. Salomon operated a shoe business as a sole trader, then incorporated. When the company failed, the House of Lords confirmed his personal assets were shielded from the company's creditors.</li>" +
+            "<li><strong>Limited liability:</strong> shareholders can lose at most the amount they paid for their shares. They cannot be required to contribute further to meet company debts.</li>" +
+            "<li><strong>Perpetual succession:</strong> the company continues to exist regardless of changes in shareholders or directors — it does not 'die' when an owner leaves or dies.</li>" +
+            "<li><strong>Capacity to sue and be sued:</strong> the company can take legal action and can be the defendant in proceedings in its own right.</li>" +
             "</ul>" +
-            "<p><strong>Incorporation</strong> creates a separate legal personality — the company is distinct from its shareholders. Shareholders enjoy <strong>limited liability</strong>: they can lose only the amount invested, not personal assets.</p>" +
-            "<p><strong>Directors' duties</strong> (Companies Act 2006): act within powers, promote success of the company, exercise independent judgement, avoid conflicts of interest, not accept benefits from third parties, declare interests in transactions.</p>",
+            "<p><strong>Piercing the corporate veil:</strong> in exceptional cases, courts will look through the corporate structure and hold shareholders personally liable — for example, where the company is used as a sham or a device to commit fraud (Smith, Stone &amp; Knight Ltd v Birmingham Corp).</p>" +
+            "<h4>Formation of a Company (Companies Act 2006)</h4>" +
+            "<p>A company is formed by registering at Companies House with the following documents:</p>" +
+            "<ul>" +
+            "<li><strong>Memorandum of association:</strong> states that the subscribers wish to form a company and agree to take shares.</li>" +
+            "<li><strong>Articles of association:</strong> the company's internal constitution — rules governing meetings, voting, directors' powers, share transfers, etc. Many companies adopt the Model Articles (default under CA 2006).</li>" +
+            "<li>Application form (IN01) — confirms details of first directors, registered office, and share capital.</li>" +
+            "</ul>" +
+            "<h4>Share Capital and Classes of Shares</h4>" +
+            "<p>A company is owned by its shareholders. Shares represent fractions of ownership. Key concepts:</p>" +
+            "<ul>" +
+            "<li><strong>Ordinary shares:</strong> the standard class. Carry voting rights (usually one vote per share) and the right to dividends (at the directors' discretion). Ordinary shareholders rank last on a winding-up — they receive what remains after all creditors and preference shareholders are paid.</li>" +
+            "<li><strong>Preference shares:</strong> carry a fixed preferential dividend (paid before ordinary dividends). <em>Cumulative</em> preference shares accumulate unpaid dividends. On winding-up, preference shareholders receive capital back before ordinary shareholders. Typically carry no or limited voting rights.</li>" +
+            "<li><strong>Debentures/loan stock:</strong> technically debt, not shares. Debenture holders are creditors, not members — they receive interest (not dividends) and rank above all shareholders on insolvency.</li>" +
+            "</ul>" +
+            "<h4>Directors' Duties (Companies Act 2006, s.171–177)</h4>" +
+            "<p>Directors owe the following duties to the company (not to individual shareholders):</p>" +
+            "<ol>" +
+            "<li><strong>s.171 — Act within powers:</strong> act in accordance with the company's constitution; exercise powers for the purposes for which they were conferred.</li>" +
+            "<li><strong>s.172 — Promote the success of the company:</strong> act in the way a director considers, in good faith, would be most likely to promote the success of the company for the benefit of its members as a whole, having regard to the long-term, employees, suppliers, community, and environment.</li>" +
+            "<li><strong>s.173 — Exercise independent judgement:</strong> not to be unduly influenced by third parties.</li>" +
+            "<li><strong>s.174 — Exercise reasonable care, skill, and diligence:</strong> objective standard (reasonably diligent director with general knowledge, skill, and experience expected of someone in that role) plus subjective standard (the director's actual knowledge and skill).</li>" +
+            "<li><strong>s.175 — Avoid conflicts of interest:</strong> do not exploit for personal gain opportunities that belong to the company.</li>" +
+            "<li><strong>s.176 — Not accept benefits from third parties:</strong> do not accept benefits (bribes) from outsiders.</li>" +
+            "<li><strong>s.177 — Declare interest in proposed transaction:</strong> disclose any personal interest in a transaction the company is considering.</li>" +
+            "</ol>" +
+            "<h4>Insolvency</h4>" +
+            "<p>When a company cannot pay its debts, it is insolvent. Key procedures:</p>" +
+            "<ul>" +
+            "<li><strong>Administration:</strong> an insolvency practitioner (administrator) takes over to try to rescue the company as a going concern, achieve a better result than immediate liquidation, or realise property for creditors.</li>" +
+            "<li><strong>Liquidation (winding-up):</strong> the company's assets are sold; proceeds distributed in priority order: secured creditors → preferential creditors (employees, HMRC) → unsecured creditors → shareholders.</li>" +
+            "<li><strong>Wrongful trading (Insolvency Act 1986, s.214):</strong> if a director knew (or should have known) the company could not avoid insolvent liquidation and failed to minimise losses to creditors, the court can order the director to contribute personally to the company's assets. This is a key exception to limited liability for directors (not shareholders).</li>" +
+            "</ul>",
           workedExample: {
             setup: "A shareholder holds 500 shares in an Ltd company, paid up at £1 each. The company later becomes insolvent with debts of £2 million. What is the shareholder's maximum loss?",
             steps: [
@@ -3107,10 +3355,12 @@ const AIQ_COURSE_DATA = {
             answer: "Maximum loss = £500 (the amount paid for the shares). Limited liability shields the shareholder's personal assets.",
           },
           summary: [
-            "Incorporation creates a separate legal entity — the company, not the shareholders, owns assets and owes debts.",
-            "Limited liability: shareholders' losses are capped at the amount invested.",
-            "Private Ltd: no public share trading. Public plc: can raise capital from the public.",
-            "Directors owe duties to the company under the Companies Act 2006, including promoting its long-term success.",
+            "Incorporation creates separate legal personality (Salomon v Salomon) — company is distinct from its shareholders.",
+            "Limited liability: shareholders lose only what they invested; personal assets are protected.",
+            "Ordinary shares: voting rights + residual dividends. Preference shares: fixed dividend, priority on liquidation, limited votes.",
+            "Directors' duties (CA 2006 s.171–177): act within powers, promote success, independent judgement, care and skill, avoid conflicts.",
+            "On insolvency, proceeds distributed: secured creditors → preferential (employees, HMRC) → unsecured → shareholders.",
+            "Wrongful trading (s.214): directors can be personally liable if they continued trading knowing insolvency was unavoidable.",
           ],
           practiceQuestions: [
             {
@@ -3150,20 +3400,46 @@ const AIQ_COURSE_DATA = {
             "Apply contract law principles to business scenarios",
           ],
           explanation:
-            "<p>A <strong>valid contract</strong> requires five elements:</p>" +
+            "<h4>Formation of a Contract — The Five Requirements</h4>" +
+            "<p>A <strong>legally binding contract</strong> is formed when five elements are present. If any element is missing, there is no contract — only a void agreement.</p>" +
             "<ol>" +
-            "<li><strong>Offer</strong> — a clear, definite proposal to be bound on certain terms.</li>" +
-            "<li><strong>Acceptance</strong> — unconditional agreement to all the terms of the offer.</li>" +
-            "<li><strong>Consideration</strong> — something of value exchanged by each party (e.g., goods for money).</li>" +
-            "<li><strong>Intention to create legal relations</strong> — presumed in commercial agreements.</li>" +
-            "<li><strong>Capacity</strong> — parties must be legally capable (e.g., not minors).</li>" +
+            "<li><strong>Offer:</strong> a clear, definite, and unconditional statement of willingness to be bound on specific terms. An offer must be communicated to the offeree. It can be made to one person, a class of persons, or the whole world (Carlill v Carbolic Smoke Ball Co — a reward notice held to be an offer to the world). An offer can be revoked at any time before acceptance, but revocation must be communicated.</li>" +
+            "<li><strong>Acceptance:</strong> unconditional agreement to all terms of the offer. Acceptance must mirror the offer exactly — a purported acceptance that varies any term is a <strong>counter-offer</strong>, not acceptance (Hyde v Wrench). The counter-offer terminates the original offer. A mere <strong>enquiry</strong> (asking for more information) does not constitute a counter-offer and does not kill the offer.</li>" +
+            "<li><strong>Consideration:</strong> something of value exchanged by each party — the 'price' paid for the other's promise. Consideration must be sufficient (of some economic value) but need not be adequate (the courts will not inquire into the fairness of the bargain). Past consideration (something already done before the contract) is not valid consideration (<em>Roscorla v Thomas</em>). An existing contractual duty is generally not good consideration for a new promise.</li>" +
+            "<li><strong>Intention to create legal relations:</strong> courts presume commercial agreements are intended to be legally binding. Social and domestic arrangements are presumed <em>not</em> to be legally binding (Balfour v Balfour — husband's promise to pay wife's allowance not enforceable). This presumption can be rebutted by clear evidence of contrary intention.</li>" +
+            "<li><strong>Capacity:</strong> parties must be legally capable of contracting. Minors (under 18) cannot be bound by most contracts. Companies have capacity within their constitution. Persons lacking mental capacity may be able to avoid contracts.</li>" +
             "</ol>" +
-            "<p>A <strong>counter-offer</strong> rejects the original offer and creates a new one. A mere <strong>enquiry</strong> (asking for more information) does not reject the offer.</p>" +
-            "<p><strong>Breach of contract</strong> occurs when a party fails to perform their obligations. Remedies include:</p>" +
+            "<h4>Invitation to Treat vs Offer</h4>" +
+            "<p>An <strong>invitation to treat</strong> is an invitation to make an offer — it is not itself an offer. Key examples:</p>" +
             "<ul>" +
-            "<li><strong>Damages</strong> — monetary compensation (aim to put the claimant in the position they would have been in had the contract been performed).</li>" +
-            "<li><strong>Specific performance</strong> — court order to carry out the contract (used where damages are inadequate, e.g., unique goods).</li>" +
-            "<li><strong>Injunction</strong> — court order to stop a breach (e.g., prevent disclosure of confidential information).</li>" +
+            "<li><strong>Goods on a shelf/display:</strong> displaying goods with a price tag is an invitation to treat, not an offer (<em>Pharmaceutical Society v Boots</em>). The customer makes an offer at the till; the retailer accepts (or rejects).</li>" +
+            "<li><strong>Advertisements:</strong> generally invitations to treat (<em>Partridge v Crittenden</em>). Exception: advertisements containing clear, definite, and unconditional promises (like the Carbolic Smoke Ball ad) can be offers.</li>" +
+            "<li><strong>Auction:</strong> an auction is an invitation to treat; the bid is the offer; the fall of the hammer is acceptance.</li>" +
+            "<li><strong>Tenders:</strong> invitations to tender are invitations to treat; each tender is an offer which may be accepted or rejected.</li>" +
+            "</ul>" +
+            "<h4>Communication of Acceptance — The Postal Rule</h4>" +
+            "<p>Generally, acceptance is effective when it is communicated (received by the offeror). Exception: the <strong>postal rule</strong> — where it is within the contemplation of the parties that the post may be used, acceptance is effective when the letter is <em>posted</em>, not when received (<em>Adams v Lindsell</em>). Key implications:</p>" +
+            "<ul>" +
+            "<li>If the offeror sends a revocation letter and the offeree posts acceptance before receiving the revocation, there is a binding contract.</li>" +
+            "<li>The postal rule does not apply to instantaneous communications (email, fax, telex, text) — acceptance is effective on receipt.</li>" +
+            "</ul>" +
+            "<h4>Terms of the Contract — Conditions and Warranties</h4>" +
+            "<p>Not all contract terms carry equal weight. A breach of a <strong>condition</strong> (a fundamental term going to the root of the contract) entitles the innocent party to both terminate the contract AND claim damages. A breach of a <strong>warranty</strong> (a less important term) gives only the right to claim damages — the innocent party cannot terminate the contract for a warranty breach alone. An <strong>innominate term</strong> is classified by the consequences of breach: if the consequences are serious, it is treated as a condition; if minor, as a warranty.</p>" +
+            "<h4>Vitiating Factors — When Contracts Are Not Valid</h4>" +
+            "<p>Even where the five formation elements exist, a contract may be void, voidable, or unenforceable due to:</p>" +
+            "<ul>" +
+            "<li><strong>Misrepresentation:</strong> a false statement of fact that induces the other party to enter the contract. Makes the contract voidable. Fraudulent misrepresentation allows the victim to rescind and claim damages in tort.</li>" +
+            "<li><strong>Mistake:</strong> certain fundamental mistakes (e.g., both parties mistaken about the existence of the subject matter) may render a contract void.</li>" +
+            "<li><strong>Duress and undue influence:</strong> consent obtained by illegitimate pressure or exploitation of a relationship of trust makes the contract voidable.</li>" +
+            "<li><strong>Illegality:</strong> contracts to perform illegal acts are void and unenforceable.</li>" +
+            "</ul>" +
+            "<h4>Breach of Contract and Remedies</h4>" +
+            "<p>Breach occurs when a party fails to perform their obligations. The innocent party's available remedies:</p>" +
+            "<ul>" +
+            "<li><strong>Damages:</strong> the primary remedy. Aim to put the claimant in the position they would have been in had the contract been performed (<em>expectation loss</em> / 'loss of bargain'). Key rules: the defendant is only liable for <em>reasonably foreseeable</em> losses at the time of contracting (<em>Hadley v Baxendale</em>). The claimant has a duty to <strong>mitigate</strong> their loss — they cannot recover for losses they could reasonably have avoided.</li>" +
+            "<li><strong>Specific performance:</strong> an equitable remedy — a court order compelling the defendant to perform their contractual obligation. Awarded only where damages are inadequate (e.g., contracts for unique items like a specific painting or land). Not available for personal service contracts.</li>" +
+            "<li><strong>Injunction:</strong> a court order restraining a party from doing something (e.g., preventing use of confidential information, preventing breach of a restrictive covenant). An equitable remedy granted at the court's discretion.</li>" +
+            "<li><strong>Repudiation and termination:</strong> where a party breaches a condition, the innocent party can accept the repudiation (treat the contract as ended) and sue for loss of bargain, or affirm the contract (insist on performance) and sue for any breach damages.</li>" +
             "</ul>",
           workedExample: {
             setup: "Alpha Ltd offers to sell 1,000 units of software to Beta Ltd at £50 each. Beta replies: 'We accept, but only at £45 each.' Is a contract formed?",
@@ -3177,10 +3453,11 @@ const AIQ_COURSE_DATA = {
             answer: "No contract at £50 or £45. Beta's reply is a counter-offer that kills Alpha's original offer. A contract will only form if both parties agree on new terms.",
           },
           summary: [
-            "A valid contract requires offer, acceptance, consideration, intention to create legal relations, and capacity.",
-            "A counter-offer terminates the original offer — it is not acceptance.",
-            "Breach occurs when a party fails to perform; remedies include damages, specific performance, or injunction.",
-            "Damages aim to put the innocent party in the position they would have been in had the contract been performed.",
+            "Five elements: offer, acceptance (unconditional), consideration (sufficient not adequate), intention to create legal relations, capacity.",
+            "Invitation to treat ≠ offer: goods on shelves, advertisements (usually), and auction catalogues are invitations to treat.",
+            "Postal rule: acceptance effective on posting (where post is contemplated); instantaneous communications effective on receipt.",
+            "Condition breach: terminate + damages. Warranty breach: damages only. Innominate term: depends on gravity of consequence.",
+            "Damages: reasonably foreseeable losses (Hadley v Baxendale); claimant must mitigate. Specific performance for unique goods only.",
           ],
           practiceQuestions: [
             {
@@ -3215,21 +3492,65 @@ const AIQ_COURSE_DATA = {
             "Explain unfair dismissal and redundancy",
           ],
           explanation:
-            "<p>It is important to distinguish between <strong>employees</strong> (employed under a contract of service) and <strong>independent contractors</strong> (working under a contract for services). Tests used by courts:</p>" +
+            "<h4>Employee vs Independent Contractor</h4>" +
+            "<p>The distinction between an employee (contract <em>of</em> service) and an independent contractor (contract <em>for</em> services) is fundamental — it determines which statutory rights apply and the employer's obligations regarding tax, National Insurance, and vicarious liability. Courts apply several tests:</p>" +
             "<ul>" +
-            "<li><strong>Control test</strong>: is the person told what to do and how to do it? (employee).</li>" +
-            "<li><strong>Integration test</strong>: is the person integrated into the business? (employee).</li>" +
-            "<li><strong>Multiple test</strong>: considers all factors including economic reality, risk, and equipment provision.</li>" +
+            "<li><strong>Control test:</strong> can the employer control not just what the worker does, but <em>how</em> they do it? A high degree of control suggests employment.</li>" +
+            "<li><strong>Integration test:</strong> is the worker integrated into the organisation — part of the core workforce rather than an accessory? Integration suggests employment.</li>" +
+            "<li><strong>Economic reality (multiple) test:</strong> looks at all the circumstances — does the person bear financial risk? Do they provide their own equipment? Can they sub-contract? Do they work for multiple clients? A person who is in business on their own account is more likely a contractor.</li>" +
             "</ul>" +
-            "<p>Key statutory employment rights:</p>" +
+            "<p>Misclassifying employees as self-employed exposes businesses to claims for employment rights, HMRC penalties for unpaid PAYE and National Insurance contributions, and vicarious liability claims. Landmark case: <em>Ready Mixed Concrete v Minister of Pensions</em> — established the key indicia of employment status.</p>" +
+            "<h4>Key Statutory Employment Rights</h4>" +
+            "<table><thead><tr><th>Right</th><th>Detail</th></tr></thead><tbody>" +
+            "<tr><td><strong>Written statement of employment particulars</strong></td><td>Must be provided on or before the first day of employment. Includes pay, hours, holiday entitlement, notice periods.</td></tr>" +
+            "<tr><td><strong>National Minimum Wage / National Living Wage</strong></td><td>NLW (23+) applies to older workers; NMW rates for under-23s. Employers committing wage theft face prosecution.</td></tr>" +
+            "<tr><td><strong>Paid annual leave</strong></td><td>5.6 weeks (28 days including bank holidays for full-time). Part-time workers entitled pro rata.</td></tr>" +
+            "<tr><td><strong>Unfair dismissal protection</strong></td><td>Arises after 2 years' continuous employment. Dismissed employees may bring tribunal claims.</td></tr>" +
+            "<tr><td><strong>Statutory maternity pay and leave</strong></td><td>Up to 52 weeks' maternity leave; 39 weeks' pay (90% earnings for first 6 weeks, then flat rate). Similar paternity and shared parental leave rights exist.</td></tr>" +
+            "<tr><td><strong>Maximum working hours</strong></td><td>Working Time Regulations 1998: 48 hours average per week (opt-out available); 11 hours' rest between shifts; 20-minute break in shifts over 6 hours.</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Unfair Dismissal</h4>" +
+            "<p>An employee with 2+ years' continuous service has the right not to be unfairly dismissed. For a dismissal to be <strong>potentially fair</strong>, it must be for one of five statutory reasons:</p>" +
+            "<ol>" +
+            "<li><strong>Capability or qualifications:</strong> the employee lacks the skill, health, or qualification to do the job.</li>" +
+            "<li><strong>Conduct:</strong> misconduct (e.g., persistent lateness, dishonesty). Gross misconduct (e.g., theft, violence) may justify summary dismissal without notice.</li>" +
+            "<li><strong>Redundancy:</strong> the role ceases to exist.</li>" +
+            "<li><strong>Statutory restriction:</strong> it would be illegal for the employee to continue working (e.g., a driver losing their licence).</li>" +
+            "<li><strong>Some other substantial reason (SOSR):</strong> other legitimate business reasons (e.g., end of a fixed-term contract, incompatibility).</li>" +
+            "</ol>" +
+            "<p>Even where one of these reasons applies, the employer must follow a <strong>fair procedure</strong> (Acas Code of Practice on Disciplinary and Grievance Procedures): investigate, inform the employee, hold a hearing, allow a companion (colleague or union representative), and give the right of appeal. Failure to follow the Acas Code does not automatically make a dismissal unfair but can increase any compensation award by up to 25%.</p>" +
+            "<p><strong>Constructive dismissal:</strong> the employee resigns because the employer has fundamentally breached the employment contract (e.g., demoting the employee, cutting pay without consent, creating an intolerable working environment). The employee treats the employer's conduct as repudiatory and can claim unfair dismissal.</p>" +
+            "<h4>Redundancy</h4>" +
+            "<p>Redundancy arises when a role genuinely ceases to exist or significantly diminishes. The employer must:</p>" +
             "<ul>" +
-            "<li>National Minimum Wage / National Living Wage</li>" +
-            "<li>Paid annual leave (5.6 weeks for full-time employees)</li>" +
-            "<li>Protection against unfair dismissal (after 2 years' service)</li>" +
-            "<li>Statutory maternity, paternity, and shared parental pay</li>" +
-            "<li>Right to written statement of employment terms</li>" +
+            "<li>Use a fair and objective selection procedure (not personal or discriminatory).</li>" +
+            "<li>Consult — individuals must be consulted; for 20+ redundancies, collective consultation with representatives is required (at least 45 days for 100+).</li>" +
+            "<li>Consider alternative employment within the company before dismissing.</li>" +
+            "<li>Pay <strong>statutory redundancy pay</strong> (to employees with 2+ years' service): calculated based on age, length of service, and weekly pay (subject to a weekly cap).</li>" +
             "</ul>" +
-            "<p><strong>Unfair dismissal</strong>: dismissal is potentially fair only on specific grounds (capability, conduct, redundancy, statutory restriction, some other substantial reason). The employer must follow a fair procedure. <strong>Redundancy</strong> arises when a role ceases to exist — employees are entitled to statutory redundancy pay (after 2 years' service).</p>",
+            "<h4>Discrimination Law — The Equality Act 2010</h4>" +
+            "<p>The <strong>Equality Act 2010</strong> consolidated previous anti-discrimination legislation. It protects employees and job applicants from less favourable treatment based on nine <strong>protected characteristics</strong>:</p>" +
+            "<ul>" +
+            "<li>Age, disability, gender reassignment, marriage and civil partnership, pregnancy and maternity, race, religion or belief, sex, and sexual orientation.</li>" +
+            "</ul>" +
+            "<p><strong>Types of discrimination:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Direct discrimination:</strong> treating a person less favourably because of a protected characteristic (e.g., refusing to hire a woman because she might become pregnant). Generally cannot be justified.</li>" +
+            "<li><strong>Indirect discrimination:</strong> a provision, criterion, or practice (PCP) that applies equally to all but puts those with a protected characteristic at a particular disadvantage — unless it is a proportionate means of achieving a legitimate aim (e.g., requiring all employees to work Saturdays may indirectly discriminate against Jews).</li>" +
+            "<li><strong>Harassment:</strong> unwanted conduct related to a protected characteristic that violates dignity or creates an intimidating, hostile, degrading, humiliating, or offensive environment.</li>" +
+            "<li><strong>Victimisation:</strong> treating someone less favourably because they have brought or supported a discrimination claim.</li>" +
+            "</ul>" +
+            "<h4>Data Protection — UK GDPR</h4>" +
+            "<p>The <strong>UK General Data Protection Regulation (UK GDPR)</strong> (post-Brexit version of EU GDPR, supplemented by the Data Protection Act 2018) governs how organisations handle personal data. Key principles:</p>" +
+            "<ul>" +
+            "<li>Data must be processed lawfully, fairly, and transparently.</li>" +
+            "<li>Collected for specified, explicit, and legitimate purposes.</li>" +
+            "<li>Adequate, relevant, and limited to what is necessary (data minimisation).</li>" +
+            "<li>Accurate and kept up to date.</li>" +
+            "<li>Kept no longer than necessary (storage limitation).</li>" +
+            "<li>Processed securely (integrity and confidentiality).</li>" +
+            "</ul>" +
+            "<p>Employees have rights under UK GDPR: access to their data (Subject Access Request), correction of inaccurate data, and in some cases erasure. Employers processing employee data (payroll, performance records, health data) must comply. Fines for serious breaches can reach £17.5 million or 4% of global annual turnover (whichever is higher), enforced by the Information Commissioner's Office (ICO).</p>",
           workedExample: {
             setup: "A worker works exclusively for one company, is provided with equipment, works set hours dictated by the company, and has no personal financial risk. Is this person likely an employee or independent contractor?",
             steps: [
@@ -3241,10 +3562,12 @@ const AIQ_COURSE_DATA = {
             answer: "This worker is most likely an employee. Misclassifying employees as contractors exposes the business to claims for employment rights and HMRC penalties for unpaid PAYE/NIC.",
           },
           summary: [
-            "Employee = contract of service; independent contractor = contract for services.",
-            "Employment status is determined by control, integration, and economic reality tests.",
-            "Key rights: minimum wage, paid leave, unfair dismissal protection (after 2 years).",
-            "Fair dismissal requires a valid reason (capability, conduct, redundancy) AND a fair procedure.",
+            "Employee (contract of service) vs contractor (contract for services): determined by control, integration, and economic reality tests.",
+            "Key rights: written statement from day 1, NMW/NLW, 5.6 weeks' paid leave, unfair dismissal protection (after 2 years).",
+            "Fair dismissal: valid reason (capability, conduct, redundancy, statutory restriction, SOSR) + fair procedure (Acas Code).",
+            "Constructive dismissal: employee resigns due to employer's fundamental breach of contract.",
+            "Equality Act 2010: nine protected characteristics; direct/indirect discrimination, harassment, and victimisation are prohibited.",
+            "UK GDPR: employee data must be lawfully processed, minimal, accurate, and secure; serious breaches attract fines up to £17.5m or 4% global turnover.",
           ],
           practiceQuestions: [
             {
