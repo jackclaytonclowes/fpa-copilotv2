@@ -1,5 +1,5 @@
 /* FP&A Copilot — app shell, routing, state */
-const { useState: useStateApp, useEffect: useEffectApp, useRef: useRefApp } = React;
+const { useState: useStateApp, useEffect: useEffectApp, useRef: useRefApp, useCallback: useCallbackApp } = React;
 
 /* ── Session persistence (localStorage) ─────────────────── */
 const SESSION_STORAGE_KEY = "monthendiq_session";
@@ -54,8 +54,10 @@ function formatPeriod(p, mode) {
 /* ── TopBar ─────────────────────────────────────────────── */
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
-                  bvaPeriods, bvaPeriod, onBvaPeriodChange }) {
+                  bvaPeriods, bvaPeriod, onBvaPeriodChange,
+                  aiqStats, aiqViews }) {
   const { Icon, Button } = window;
+  const showAiqStats = aiqViews && aiqViews.includes(view) && aiqStats && (aiqStats.xp > 0 || aiqStats.streak > 0);
 
   // Format a BvA period ISO string as a short month label ("Apr") or "Full Year"
   const fmtBvaPeriod = (p) => {
@@ -185,6 +187,28 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
           </Button>
         </div>
       )}
+
+      {/* AccountIQ live stats — shown on all Learn views */}
+      {showAiqStats && (
+        <div style={{ display: "flex", alignItems: "center", gap: 14, flexShrink: 0 }}>
+          {aiqStats.streak > 0 && (
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 5,
+              font: "var(--text-body-strong)", fontSize: 13, color: "var(--caution)",
+            }}>
+              <Icon name="flame" size={15} />
+              {aiqStats.streak}
+            </div>
+          )}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 5,
+            font: "var(--text-body-strong)", fontSize: 13, color: "var(--primary)",
+          }}>
+            <Icon name="zap" size={15} />
+            {aiqStats.xp.toLocaleString()} XP
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -283,6 +307,18 @@ function App() {
   const hasData      = !!sessionData;
   const sessionId    = sessionData?.session_id;
   const analysisType = sessionData?.analysis_type || "month_on_month";
+
+  // AccountIQ live stats — kept in React state so TopBar stays in sync
+  const [aiqStats, setAiqStats] = useStateApp({ xp: 0, streak: 0 });
+  useEffectApp(() => {
+    const refresh = (e) => {
+      const s = e ? e.detail : (window.aiqStore ? window.aiqStore.get() : {});
+      setAiqStats({ xp: s.xp || 0, streak: s.streak || 0 });
+    };
+    refresh(null); // read on mount
+    window.addEventListener("aiq-store-update", refresh);
+    return () => window.removeEventListener("aiq-store-update", refresh);
+  }, []);
 
   // AccountIQ onboarding gate — checked each time Courses section is entered
   const [showOnboarding, setShowOnboarding] = useStateApp(false);
@@ -405,6 +441,8 @@ function App() {
           bvaPeriods={bvaPeriods}
           bvaPeriod={bvaPeriod}
           onBvaPeriodChange={(p) => { setBvaPeriod(p); setSelectedPeriod(p); }}
+          aiqStats={aiqStats}
+          aiqViews={AIQ_VIEWS}
         />
         {body}
       </div>

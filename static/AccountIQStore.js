@@ -109,6 +109,8 @@ const aiqStore = {
       const current = this.get();
       const next = { ...current, ...patch };
       localStorage.setItem(AIQ_KEY, JSON.stringify(next));
+      // Notify any subscriber (e.g. App.jsx TopBar) that state changed
+      window.dispatchEvent(new CustomEvent("aiq-store-update", { detail: next }));
       return next;
     } catch {
       /* localStorage quota — non-critical */
