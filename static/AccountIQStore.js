@@ -54,6 +54,10 @@ const DEFAULT_STATE = {
   // TODO: replace with real API data
   mocksTaken: 0,
   questionsAnswered: 0,
+
+  /* Mock exam history --------------------------------------------------------- */
+  // Array of { id, paperId, date, score, total, pct, topicBreakdown, durationSeconds, passed }
+  mockExamHistory: [],
 };
 
 /* ── deriveDailyGoal ---------------------------------------------------------
@@ -186,6 +190,18 @@ const aiqStore = {
     const state = this.get();
     return this.set({
       quizHistory: [...state.quizHistory, { ...result, date: new Date().toISOString().slice(0, 10) }],
+    });
+  },
+
+  /* Convenience: save a completed mock exam result */
+  recordMockExam(result) {
+    const state = this.get();
+    return this.set({
+      mockExamHistory: [
+        ...state.mockExamHistory,
+        { ...result, date: new Date().toISOString().slice(0, 10) },
+      ],
+      mocksTaken: state.mocksTaken + 1,
     });
   },
 };

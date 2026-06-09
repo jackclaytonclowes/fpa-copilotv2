@@ -88,6 +88,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     lessons:    "Lesson",
     quizengine: "Quiz",
     quiz:      "Quiz",
+    mockexam:  "Mock Exam",
     tutor:     "Study Tutor",
     profile:   "My Progress",
   };
@@ -228,7 +229,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses, AIQOnboarding, AIQSkillsLab, AIQQuizEngine } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses, AIQOnboarding, AIQSkillsLab, AIQQuizEngine, AIQMockExam } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -323,7 +324,7 @@ function App() {
 
   // AccountIQ onboarding gate — checked each time Courses section is entered
   const [showOnboarding, setShowOnboarding] = useStateApp(false);
-  const AIQ_VIEWS = ["courses", "skillslab", "tutor", "profile", "lessons", "quiz", "quizengine"];
+  const AIQ_VIEWS = ["courses", "skillslab", "tutor", "profile", "lessons", "quiz", "quizengine", "mockexam"];
   const handleNavToLearn = (targetView) => {
     const store = window.aiqStore && window.aiqStore.get();
     if (store && !store.onboardingComplete) {
@@ -367,6 +368,12 @@ function App() {
         key={`${aiqContext.paperId}-${aiqContext.lessonId}`}
         paperId={aiqContext.paperId}
         lessonId={aiqContext.lessonId}
+        onNavigate={navigateToAiq}
+      />;
+  } else if (view === "mockexam") {
+    body = <AIQMockExam
+        key={aiqContext.paperId}
+        paperId={aiqContext.paperId}
         onNavigate={navigateToAiq}
       />;
   } else if (view === "quiz") {
