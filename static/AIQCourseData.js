@@ -3625,7 +3625,106 @@ const AIQ_COURSE_DATA = {
             "Describe the historical evolution from scorekeeper to strategic partner",
             "Identify the key capabilities required of modern finance professionals",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Historical Journey of Finance</h4>" +
+            "<p>The finance function has undergone a fundamental transformation over the past four decades. Understanding this evolution is central to E1 because it explains <em>why</em> organisations are investing in digital tools and why the skills profile of finance professionals has changed so dramatically.</p>" +
+            "<table><thead><tr><th>Era</th><th>Role</th><th>Focus</th><th>Tools</th></tr></thead><tbody>" +
+            "<tr><td><strong>1980s–1990s</strong></td><td>Scorekeeper / Historian</td><td>Accurate recording of past transactions; preparing statutory accounts; ensuring compliance</td><td>Paper ledgers, early PC-based accounting software (Sage, QuickBooks)</td></tr>" +
+            "<tr><td><strong>2000s</strong></td><td>Controller / Gatekeeper</td><td>Internal controls, risk management, month-end reporting cycles; finance as a cost centre</td><td>ERP systems (SAP, Oracle), spreadsheets</td></tr>" +
+            "<tr><td><strong>2010s</strong></td><td>Business Partner</td><td>Forward-looking analysis; supporting operational decisions; connecting financial insight to strategy</td><td>Business intelligence tools, dashboards, self-service analytics</td></tr>" +
+            "<tr><td><strong>2020s onwards</strong></td><td>Strategic Value Creator</td><td>Real-time data, predictive analytics, ESG integration, technology stewardship; finance as a driver of competitive advantage</td><td>AI, RPA, cloud ERP, advanced analytics, integrated reporting platforms</td></tr>" +
+            "</tbody></table>" +
+            "<h4>What is Digital Transformation?</h4>" +
+            "<p><strong>Digitalisation</strong> (not to be confused with mere digitisation) means fundamentally redesigning processes, business models and culture using digital technology. In finance, this means moving from:</p>" +
+            "<ul>" +
+            "<li>Reactive reporting → predictive and prescriptive analytics</li>" +
+            "<li>Manual data entry → automated data capture and processing</li>" +
+            "<li>Periodic month-end close → continuous or near-real-time close</li>" +
+            "<li>Siloed financial data → integrated enterprise data</li>" +
+            "<li>Finance as cost centre → finance as value creator</li>" +
+            "</ul>" +
+            "<p>Digital transformation is driven by several converging forces: cloud computing (reduced infrastructure cost), big data (vast volumes of structured and unstructured data), AI and machine learning (pattern recognition and prediction at scale), and robotic process automation (RPA) for rule-based task automation.</p>" +
+            "<h4>The Three Horizons Framework</h4>" +
+            "<p>CIMA and the AICPA use the <strong>Three Horizons</strong> model to describe how finance functions evolve their capabilities:</p>" +
+            "<ul>" +
+            "<li><strong>Horizon 1 — Efficiency:</strong> Automating high-volume, repetitive processes (accounts payable, reconciliations, expense processing) to reduce cost and error rates. The primary benefit is operational — doing the same things faster and cheaper.</li>" +
+            "<li><strong>Horizon 2 — Insight:</strong> Using data and analytics to generate deeper business insights. Finance moves beyond 'what happened' to 'why it happened' and 'what is likely to happen.' Finance business partners work alongside business units to interpret data and support decisions.</li>" +
+            "<li><strong>Horizon 3 — Influence:</strong> Finance professionals actively shape strategy, drive innovation and influence business model design. This requires commercial acumen, storytelling with data, and deep understanding of how value is created and destroyed.</li>" +
+            "</ul>" +
+            "<h4>Key Capabilities for Modern Finance Professionals</h4>" +
+            "<p>The <strong>CGMA Competency Framework</strong> identifies four core skills clusters:</p>" +
+            "<table><thead><tr><th>Skill Cluster</th><th>Key Competencies</th></tr></thead><tbody>" +
+            "<tr><td><strong>Technical &amp; Ethical</strong></td><td>Financial reporting, management accounting, tax, audit, risk management; adherence to professional ethics codes</td></tr>" +
+            "<tr><td><strong>Business</strong></td><td>Commercial awareness, strategy, market understanding, customer orientation, innovation mindset</td></tr>" +
+            "<tr><td><strong>People</strong></td><td>Communication, leadership, collaboration, influencing, storytelling with data, managing diverse teams</td></tr>" +
+            "<tr><td><strong>Digital</strong></td><td>Data analysis, technology literacy, process automation, digital tools proficiency, AI/ML understanding</td></tr>" +
+            "</tbody></table>" +
+            "<p>A critical insight from CIMA research: technical financial skills are now the <em>baseline</em> — organisations expect them. The differentiating capabilities that move finance professionals from scorekeeper to strategic partner are <strong>business acumen, digital literacy and people skills</strong>.</p>" +
+            "<h4>The Impact on Finance Headcount and Structure</h4>" +
+            "<p>Automation is reshaping finance teams. Transactional roles (data entry, basic reconciliations, standard reporting) are being automated or moved to shared service centres. The remaining human roles increasingly require judgement, communication and strategic thinking. This is sometimes described as 'moving up the value chain.' Finance teams are getting smaller at the transactional end but more impactful at the analytical and strategic end.</p>",
+          workedExample: {
+            setup: "TechFlow plc is a mid-sized technology company. Its finance team of 40 spends 70% of its time on transactional processing (invoicing, reconciliations, month-end journals) and 30% on analysis and reporting. The CFO wants to evolve to a digital finance model. Explain what this transformation might look like using the Three Horizons framework.",
+            steps: [
+              "Horizon 1 — Efficiency: TechFlow implements RPA bots for accounts payable invoice processing, bank reconciliations, and intercompany eliminations. These processes are rule-based and high-volume — ideal candidates for automation. Estimated saving: 15 FTEs over two years, redeployed or released.",
+              "Horizon 2 — Insight: With transactional burden reduced, finance analysts focus on business partnering. They build dashboards in Power BI showing real-time revenue by product, customer acquisition cost, and cash conversion cycle. They attend weekly commercial meetings, providing forward-looking forecasts rather than backward-looking reports.",
+              "Horizon 3 — Influence: Senior finance professionals work with the CEO and strategy team on M&A evaluation, new market entry decisions, and ESG performance metrics. The CFO presents to the board on integrated value creation — financial and non-financial — using the IIRC's six capitals framework.",
+              "Capability shift required: The 25 remaining finance staff need upskilling in data visualisation, Excel/Power BI analytics, commercial storytelling and project management. TechFlow partners with CIMA to provide a structured development programme.",
+            ],
+            answer: "Transformation moves TechFlow's finance team from 70:30 (transactional:analytical) to approximately 20:80. The team is smaller but delivers significantly more strategic value, acting as a genuine business partner rather than a back-office function.",
+          },
+          summary: [
+            "Finance has evolved from scorekeeper (recording past) → controller (compliance) → business partner (analysis) → strategic value creator (influencing strategy).",
+            "Digital transformation means redesigning processes, not just digitising them — moving to continuous close, predictive analytics, and integrated data.",
+            "The Three Horizons framework maps finance evolution: Horizon 1 (efficiency/automation), Horizon 2 (insight/analytics), Horizon 3 (influence/strategy).",
+            "Modern finance professionals need four skill clusters: Technical & Ethical, Business, People, and Digital — with digital and business skills now differentiating.",
+            "Automation is shifting finance headcount away from transactional roles toward analytical and strategic roles, requiring significant investment in retraining.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following best describes the difference between 'digitisation' and 'digitalisation'?",
+              options: [
+                "Digitisation redesigns business models using technology; digitalisation merely converts paper to electronic format",
+                "Digitisation converts analogue information to digital format; digitalisation redesigns processes and business models using digital technology",
+                "Digitisation and digitalisation are interchangeable terms meaning the same thing",
+                "Digitisation applies to finance functions only; digitalisation applies to the whole organisation",
+              ],
+              answer: 1,
+              explanation: "Digitisation is the conversion of analogue data to digital format (e.g., scanning paper invoices). Digitalisation is the broader transformation of processes, business models and culture using digital technologies — the key distinction tested in CIMA E1.",
+            },
+            {
+              question: "A finance team currently spends 80% of its time on transaction processing and 20% on analysis. Which 'horizon' does it currently occupy in the Three Horizons framework?",
+              options: [
+                "Horizon 3 — Influence",
+                "Horizon 2 — Insight",
+                "Horizon 1 — Efficiency (partly, still very transactional)",
+                "Between Horizon 1 and Horizon 2",
+              ],
+              answer: 2,
+              explanation: "A team dominated by transactional processing has not yet fully achieved even Horizon 1 (efficient automation of transactions). It sits below Horizon 1 or at the very start of it. CIMA E1 emphasises that automating transactional work is the prerequisite for moving to Insight and Influence.",
+            },
+            {
+              question: "According to the CGMA Competency Framework, which skill cluster is described as the 'baseline' that all finance professionals are expected to possess, but which no longer differentiates them in the modern environment?",
+              options: [
+                "Digital skills",
+                "Business skills",
+                "People skills",
+                "Technical and ethical skills",
+              ],
+              answer: 3,
+              explanation: "Technical and ethical skills (financial reporting, accounting standards, tax, ethics) are the baseline — organisations expect finance professionals to have them. The differentiating capabilities are digital literacy, business acumen and people/influencing skills.",
+            },
+            {
+              question: "A finance director states: 'Our finance function should be a strategic value creator, not just a cost centre.' Which of the following actions is MOST consistent with achieving Horizon 3 (Influence)?",
+              options: [
+                "Implementing RPA for accounts payable processing",
+                "Building a Power BI dashboard showing monthly cost variances",
+                "Attending board strategy meetings to evaluate new market entry options using financial modelling",
+                "Completing the month-end close two days faster than previously",
+              ],
+              answer: 2,
+              explanation: "Horizon 3 (Influence) involves finance actively shaping strategy. Attending board meetings and evaluating strategic options using financial modelling is a Horizon 3 activity. RPA is Horizon 1; dashboards and faster close are Horizon 2.",
+            },
+          ],
         },
         {
           id: "e1-l2",
@@ -3637,7 +3736,107 @@ const AIQ_COURSE_DATA = {
             "Explain the skills and competencies required of a finance business partner",
             "Describe how finance adds strategic value beyond reporting",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Finance Business Partnering?</h4>" +
+            "<p><strong>Finance business partnering</strong> (FBP) is a model in which finance professionals work alongside operational teams — marketing, sales, operations, HR, IT — as trusted advisers rather than as service providers delivering reports. The business partner's role is to translate financial data into commercial insight that improves decisions and drives performance.</p>" +
+            "<p>The concept emerged in the 1990s but has accelerated with digital transformation. As automation frees finance from transactional work, time previously spent processing invoices and preparing standard reports is redirected toward analysis, challenge and support.</p>" +
+            "<h4>The Business Partner Model vs Traditional Finance</h4>" +
+            "<table><thead><tr><th>Dimension</th><th>Traditional Finance</th><th>Finance Business Partner</th></tr></thead><tbody>" +
+            "<tr><td><strong>Focus</strong></td><td>Historical reporting; compliance; stewardship</td><td>Forward-looking insight; decision support; value creation</td></tr>" +
+            "<tr><td><strong>Relationship</strong></td><td>Finance produces; business receives</td><td>Collaborative, embedded in business unit</td></tr>" +
+            "<tr><td><strong>Language</strong></td><td>Accounting terminology; P&amp;L lines; variances</td><td>Business language; market share; customer lifetime value; EBITDA drivers</td></tr>" +
+            "<tr><td><strong>Output</strong></td><td>Month-end pack; budget vs actual reports</td><td>Scenario analysis; investment appraisals; commercial recommendations</td></tr>" +
+            "<tr><td><strong>Timing</strong></td><td>After the fact (month-end, quarter-end)</td><td>Real-time and forward-looking; part of planning cycle</td></tr>" +
+            "</tbody></table>" +
+            "<h4>The Four Pillars of Business Partnering</h4>" +
+            "<p>Research by CIMA and Deloitte identifies four pillars of effective finance business partnering:</p>" +
+            "<ol>" +
+            "<li><strong>Insight generation:</strong> Transforming raw data into meaningful, actionable commercial insight. This requires analytical skills, intellectual curiosity and the ability to see patterns across large datasets.</li>" +
+            "<li><strong>Influencing:</strong> Translating insight into changed behaviour and decisions. Finance partners must be persuasive communicators who can challenge management constructively. They need high emotional intelligence (EQ) and credibility built through track record.</li>" +
+            "<li><strong>Commercial acumen:</strong> Understanding the business model — how value is created, where costs arise, what drives customer behaviour, how competitors operate. Without this, financial analysis lacks context.</li>" +
+            "<li><strong>Trusted adviser status:</strong> Being seen as an objective, reliable source of challenge and support. This is built through consistent delivery, confidentiality, integrity and proactive engagement — not just responding to requests.</li>" +
+            "</ol>" +
+            "<h4>Skills and Competencies</h4>" +
+            "<p>Finance business partners require a broader skill set than traditional accountants:</p>" +
+            "<ul>" +
+            "<li><strong>Technical:</strong> Management accounting (CVP analysis, contribution, marginal costing), financial modelling, scenario planning, KPI design</li>" +
+            "<li><strong>Analytical:</strong> Data interrogation, root cause analysis, trend identification, statistical thinking</li>" +
+            "<li><strong>Interpersonal:</strong> Active listening, stakeholder management, negotiation, emotional intelligence, constructive challenge</li>" +
+            "<li><strong>Communication:</strong> Data visualisation, executive summary writing, board-level presentation, 'so what?' thinking — leading with the insight, not the methodology</li>" +
+            "<li><strong>Commercial:</strong> Strategy frameworks (Porter's Five Forces, SWOT), understanding of the industry value chain, customer and competitor analysis</li>" +
+            "</ul>" +
+            "<h4>How Finance Adds Strategic Value Beyond Reporting</h4>" +
+            "<p>Traditional finance reports 'what happened.' Strategic finance partners explain 'why it happened,' predict 'what will happen,' and recommend 'what we should do.' This is the shift from <em>descriptive</em> to <em>predictive</em> to <em>prescriptive</em> analytics.</p>" +
+            "<p>Specific examples of value-adding activities:</p>" +
+            "<ul>" +
+            "<li><strong>Investment appraisals:</strong> Robust NPV/IRR analysis with sensitivity modelling for capital decisions, rather than accepting management's preferred outcome</li>" +
+            "<li><strong>Pricing analysis:</strong> Contribution analysis by product/customer to identify profitable and loss-making segments</li>" +
+            "<li><strong>New market analysis:</strong> Financial modelling of entry scenarios; break-even analysis; market sizing</li>" +
+            "<li><strong>Continuous forecasting:</strong> Rolling 12-month forecasts updated monthly, replacing the annual budget as the primary planning tool</li>" +
+            "<li><strong>M&amp;A support:</strong> Due diligence, synergy modelling, integration business case development</li>" +
+            "</ul>" +
+            "<h4>Barriers to Effective Business Partnering</h4>" +
+            "<p>Common barriers identified in CIMA research include:</p>" +
+            "<ul>" +
+            "<li>Finance still spending too much time on transactional and compliance activities (the 'bogged down in the detail' problem)</li>" +
+            "<li>Finance professionals lacking commercial knowledge or confidence to challenge senior managers</li>" +
+            "<li>Business units not valuing or understanding what finance can offer beyond the numbers</li>" +
+            "<li>Organisational culture that treats finance as back-office rather than strategic</li>" +
+            "<li>Insufficient technology automation meaning partners have no time for analysis</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "Retail Chain Co has a traditional finance team that produces monthly management accounts three weeks after month-end. The sales director complains that by the time finance reports arrive, decisions have already been made without financial input. The CFO wants to introduce finance business partnering. Describe the changes needed and outline what a business partner would contribute to the sales function.",
+            steps: [
+              "Remove transactional burden: Automate standard reports (weekly flash P&L, automated reconciliations) so finance spends less time compiling and more time analysing. Target: management accounts available within 5 working days of month-end.",
+              "Embed a business partner: Assign a qualified finance manager to work physically alongside the sales team. They attend weekly sales pipeline meetings and monthly commercial reviews.",
+              "Shift the output: Instead of a 30-page variance report, the business partner produces a one-page commercial insight: Which customers are most profitable (contribution analysis)? Which product promotions are generating positive ROI? Which regions are underperforming against forecast and why?",
+              "Influence decisions in real time: The partner builds a simple pricing model showing how a proposed 5% discount would affect contribution margin. They provide this analysis before the sales director makes the pricing decision — not three weeks afterwards.",
+              "Build trusted adviser status: The partner consistently delivers analysis that helps the sales team hit targets. Over time, the sales director proactively asks for financial input on all major decisions.",
+            ],
+            answer: "The business partner transforms the finance-sales relationship from retrospective reporting to proactive commercial support. The sales function benefits from real-time profitability insight, better pricing decisions, and investment prioritisation. Finance moves from being seen as a reporting function to a strategic resource that helps the business grow profitably.",
+          },
+          summary: [
+            "Finance business partnering embeds finance professionals within operational teams to provide proactive commercial insight, not just retrospective reports.",
+            "The four pillars of business partnering are: insight generation, influencing, commercial acumen, and trusted adviser status.",
+            "Business partners require a T-shaped skill set: deep technical accounting knowledge plus broad commercial, interpersonal and communication competencies.",
+            "Key output shift: from 'what happened' (descriptive) to 'why it happened' (diagnostic) to 'what will happen' (predictive) to 'what should we do' (prescriptive).",
+            "Common barriers include: excessive transactional workload, lack of commercial confidence, business units not valuing finance, and insufficient technology automation.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following activities best illustrates a finance business partner working at the 'Prescriptive' analytics level?",
+              options: [
+                "Producing a month-end variance report showing that sales were £200k below budget",
+                "Identifying that the variance was caused by three underperforming product lines in the Northern region",
+                "Recommending discontinuing one product line and reallocating marketing spend to two higher-margin products, with supporting NPV analysis",
+                "Forecasting that sales will continue below budget for the next two months based on the pipeline",
+              ],
+              answer: 2,
+              explanation: "Prescriptive analytics recommends a course of action. Option A is descriptive (what happened); Option B is diagnostic (why); Option D is predictive (what will happen); Option C is prescriptive (what should we do, with analysis to support the recommendation).",
+            },
+            {
+              question: "A finance business partner is asked to present a complex NPV analysis to the executive team. Which communication approach is MOST appropriate?",
+              options: [
+                "Present all detailed calculations first, then conclude with the recommendation",
+                "Lead with the key insight and recommendation, then provide supporting analysis for those who want detail",
+                "Send the full spreadsheet model by email instead of presenting",
+                "Avoid making a recommendation and present the numbers neutrally",
+              ],
+              answer: 1,
+              explanation: "'So what?' thinking means leading with the insight and recommendation (the answer), then providing supporting evidence for those who want it. Executive audiences are time-pressured — they need the conclusion first.",
+            },
+            {
+              question: "Which of the following is identified as the MOST significant barrier to effective finance business partnering?",
+              options: [
+                "Finance professionals being too analytical",
+                "Finance spending too much time on transactional processing and compliance, leaving insufficient time for analysis",
+                "Business units having too much financial expertise already",
+                "CIMA qualifications not covering commercial skills",
+              ],
+              answer: 1,
+              explanation: "CIMA research consistently identifies the time spent on transactional work as the primary barrier. When finance teams are consumed by processing, reconciling and producing standard reports, there is no capacity for the analysis and partnering activities that create strategic value.",
+            },
+          ],
         },
         {
           id: "e1-l3",
@@ -3649,7 +3848,105 @@ const AIQ_COURSE_DATA = {
             "Compare outsourcing, co-sourcing and in-house finance delivery models",
             "Assess the factors influencing the make-or-buy decision for finance services",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Finance Operating Models Overview</h4>" +
+            "<p>Organisations face a fundamental choice about <em>how</em> to deliver finance services: build and run them internally, centralise them into a shared service centre, or transfer them to an external provider. This decision affects cost, control, quality and the strategic positioning of the finance function.</p>" +
+            "<h4>Shared Service Centres (SSCs)</h4>" +
+            "<p>A <strong>shared service centre</strong> is an internal unit that consolidates the delivery of transactional finance processes (accounts payable, accounts receivable, payroll, general ledger, management reporting) from multiple business units into a single standardised operation, usually located in a low-cost geography.</p>" +
+            "<p><strong>Advantages of SSCs:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Cost reduction:</strong> Economies of scale — processing 10,000 invoices in one location is cheaper per unit than 1,000 in ten locations. Staff costs are lower in SSC locations (e.g., India, Poland, Philippines).</li>" +
+            "<li><strong>Standardisation:</strong> Consistent processes and controls across the group, reducing variation and error rates. Easier to implement best practices when everyone uses the same process.</li>" +
+            "<li><strong>Technology leverage:</strong> Investing in high-quality ERP and automation tools is more cost-effective at scale.</li>" +
+            "<li><strong>Focus:</strong> Business units are freed from managing transactional finance, allowing local finance teams to focus on business partnering.</li>" +
+            "<li><strong>Quality improvement:</strong> Dedicated teams develop expertise and process maturity that decentralised teams cannot match.</li>" +
+            "</ul>" +
+            "<p><strong>Limitations of SSCs:</strong></p>" +
+            "<ul>" +
+            "<li>High implementation cost and complexity — migrating processes requires significant change management</li>" +
+            "<li>Risk of losing local knowledge and responsiveness — a centralised SSC may be slower to handle unusual local transactions</li>" +
+            "<li>Cultural resistance from business units who perceive loss of control</li>" +
+            "<li>Transition risks: service disruption during migration</li>" +
+            "<li>The SSC itself can become a cost centre bureaucracy if not governed effectively</li>" +
+            "</ul>" +
+            "<h4>Business Process Outsourcing (BPO)</h4>" +
+            "<p><strong>Outsourcing</strong> transfers responsibility for finance processes to an external third-party provider. The provider owns the staff, technology and process; the client pays a service fee and monitors performance against a service level agreement (SLA).</p>" +
+            "<p>Common outsourced finance processes: accounts payable, payroll, statutory reporting, tax compliance, internal audit support.</p>" +
+            "<table><thead><tr><th>Feature</th><th>SSC (Internal)</th><th>Outsourcing (External)</th></tr></thead><tbody>" +
+            "<tr><td><strong>Control</strong></td><td>High — same company, management oversight</td><td>Lower — governed by contract and SLA</td></tr>" +
+            "<tr><td><strong>Flexibility</strong></td><td>Moderate — can adapt to group priorities</td><td>Lower — changes require contract renegotiation</td></tr>" +
+            "<tr><td><strong>Cost certainty</strong></td><td>Variable — depends on volume and performance</td><td>Higher — fixed or unit-cost pricing model</td></tr>" +
+            "<tr><td><strong>Data security</strong></td><td>Higher — data stays within group</td><td>Risk of third-party data breach</td></tr>" +
+            "<tr><td><strong>Scale-up/down</strong></td><td>Requires internal restructuring</td><td>Easier — provider absorbs volume changes</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Co-Sourcing</h4>" +
+            "<p><strong>Co-sourcing</strong> is a hybrid model: the organisation retains some staff and management control but supplements capacity or capability with an external provider's resources. Common in internal audit (where specialist skills are needed periodically) and in technology implementations (where project resource is required but not permanently).</p>" +
+            "<p>Co-sourcing retains institutional knowledge and control while accessing specialist expertise and flexible capacity.</p>" +
+            "<h4>The Make-or-Buy Decision Framework</h4>" +
+            "<p>When deciding whether to in-source (SSC), outsource or co-source, organisations assess:</p>" +
+            "<ol>" +
+            "<li><strong>Strategic importance:</strong> Is this process core to competitive advantage? Core activities should generally be kept in-house. Transactional processing is typically non-core.</li>" +
+            "<li><strong>Cost:</strong> Total cost comparison including transition costs, ongoing fees, and hidden costs (management time, quality issues).</li>" +
+            "<li><strong>Quality and control:</strong> Can an external provider consistently deliver the required quality? What happens if they fail?</li>" +
+            "<li><strong>Capability:</strong> Does the organisation have the skills to run this process effectively? If not, can they be developed?</li>" +
+            "<li><strong>Risk:</strong> Data security, regulatory compliance, business continuity, and reputational risk associated with third-party delivery.</li>" +
+            "<li><strong>Reversibility:</strong> Once outsourced, rebuilding internal capability is costly and slow ('hollowing out'). This lock-in risk must be assessed.</li>" +
+            "</ol>" +
+            "<h4>Global Business Services (GBS)</h4>" +
+            "<p>The evolution of SSCs has led to the concept of <strong>Global Business Services</strong> — a more integrated model that extends beyond finance to HR, IT, procurement and legal, creating a single service delivery organisation. GBS centres are increasingly using AI and RPA to automate within the SSC, achieving a 'digital SSC' that provides both scale efficiency and analytical capability.</p>",
+          workedExample: {
+            setup: "Multinational Corp has finance teams in 12 countries processing accounts payable, payroll and management reporting independently. Each country team has 8–12 finance staff. The CFO is evaluating three options: (1) create a regional SSC in Poland, (2) outsource all transactional finance to a BPO provider, (3) continue with the current decentralised model. Evaluate the key considerations.",
+            steps: [
+              "Cost analysis: SSC in Poland: estimated 35% cost saving due to labour arbitrage and standardisation. BPO outsourcing: estimated 40% cost saving but with volume-based SLA pricing. Decentralised: highest cost, no scale benefits.",
+              "Control and quality: SSC retains full internal control. BPO requires robust SLA management; historical BPO failures in finance have caused regulatory fines. Decentralised has full local control but inconsistent quality across countries.",
+              "Strategic considerations: Transactional finance is not a source of competitive advantage for Multinational Corp — it is a support function. This makes outsourcing or SSC appropriate. However, the company processes data across 12 jurisdictions — regulatory compliance risk is high with a BPO provider.",
+              "Transition risk: Both SSC and BPO require significant transformation investment. SSC is lower risk as the company retains control during migration. BPO requires transferring knowledge to an external party — higher transition risk.",
+              "Recommendation: SSC in Poland, Phase 1 covering AP and management reporting. Retain payroll in-country for now due to local employment law complexity. Review BPO option in 3 years once standardisation is proven.",
+            ],
+            answer: "The SSC model balances cost reduction with acceptable risk levels. It is preferred over BPO given the complexity of multi-jurisdiction compliance and the importance of retaining control over financial data during the initial transformation phase.",
+          },
+          summary: [
+            "Shared service centres centralise transactional finance processes for multiple business units, achieving scale economies and standardisation while retaining internal control.",
+            "Outsourcing (BPO) transfers processes to an external provider; it offers potentially greater cost savings but reduces control and introduces third-party risk.",
+            "Co-sourcing is a hybrid: internal management supplemented by external resource, common in internal audit and specialist project work.",
+            "The make-or-buy decision framework considers: strategic importance, cost, quality, capability, risk, and reversibility (lock-in).",
+            "Global Business Services (GBS) extends the SSC concept beyond finance across multiple support functions, increasingly combining shared services with automation.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following is the MAIN advantage of establishing an internal Shared Service Centre compared to outsourcing?",
+              options: [
+                "Lower transition costs",
+                "Greater cost reduction from labour arbitrage",
+                "Retained management control and data security",
+                "No need for service level agreements",
+              ],
+              answer: 2,
+              explanation: "The primary advantage of an SSC over outsourcing is retained control. SSCs keep processes within the group boundary, maintaining management oversight, data security, and the ability to adapt processes without external contract renegotiation.",
+            },
+            {
+              question: "A company is deciding whether to outsource its accounts payable processing. The process handles sensitive supplier payment data and is subject to detailed regulatory reporting requirements. Which factor in the make-or-buy framework is MOST critical?",
+              options: [
+                "Cost — outsourcing will save money",
+                "Reversibility — in-house capability can be rebuilt easily",
+                "Risk — data security and regulatory compliance with a third party",
+                "Scale — the volume of transactions processed",
+              ],
+              answer: 2,
+              explanation: "When processes involve sensitive financial data and regulatory obligations, risk is the critical factor. Data security breaches and compliance failures with a third-party BPO provider carry reputational and financial penalties that may outweigh cost savings.",
+            },
+            {
+              question: "An organisation retains a Big 4 accounting firm to provide specialist internal audit resources for complex IT audit work while maintaining its own internal audit team for routine reviews. This arrangement is BEST described as:",
+              options: [
+                "Full outsourcing",
+                "Shared service centre",
+                "Co-sourcing",
+                "Business process re-engineering",
+              ],
+              answer: 2,
+              explanation: "Co-sourcing combines internal resources with external expertise. The organisation keeps its own team (retaining control and institutional knowledge) and supplements it with the firm's specialist capability as needed. This is the defining characteristic of co-sourcing.",
+            },
+          ],
         },
         {
           id: "e1-l4",
@@ -3661,7 +3958,102 @@ const AIQ_COURSE_DATA = {
             "Explain the role of automation in redesigning finance processes",
             "Evaluate the impact of digital operating models on finance headcount and skills",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is a Digital Finance Operating Model?</h4>" +
+            "<p>A <strong>digital finance operating model</strong> describes how the finance function organises people, processes, data and technology to deliver its outputs efficiently and at scale. The 'digital' qualifier signals that automation, data analytics and cloud technology are foundational — not peripheral additions — to how work gets done.</p>" +
+            "<p>The digital finance model contrasts with the traditional model in almost every dimension:</p>" +
+            "<table><thead><tr><th>Dimension</th><th>Traditional Model</th><th>Digital Finance Model</th></tr></thead><tbody>" +
+            "<tr><td><strong>Close cycle</strong></td><td>15–20 working days (monthly)</td><td>3–5 days or continuous close</td></tr>" +
+            "<tr><td><strong>Data</strong></td><td>Manual aggregation from multiple systems; often inconsistent</td><td>Single source of truth; real-time data from integrated ERP/cloud</td></tr>" +
+            "<tr><td><strong>Reporting</strong></td><td>Fixed monthly reports distributed by email</td><td>Self-service dashboards; role-based views; exception alerts</td></tr>" +
+            "<tr><td><strong>Planning</strong></td><td>Annual budget; quarterly forecasts built in spreadsheets</td><td>Rolling 12-month driver-based forecast; scenario modelling; AI-assisted planning</td></tr>" +
+            "<tr><td><strong>Controls</strong></td><td>Periodic manual checking</td><td>Continuous automated control monitoring; real-time audit trails</td></tr>" +
+            "<tr><td><strong>Headcount</strong></td><td>Large transactional teams; small analytical team</td><td>Lean transactional layer (automated); larger analytical and partnering team</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Process Automation — The Core Engine</h4>" +
+            "<p>Automation is the foundation of the digital finance model. Three key automation technologies for finance:</p>" +
+            "<ol>" +
+            "<li><strong>Robotic Process Automation (RPA):</strong> Software 'bots' that replicate human interactions with computer systems — logging in, copying data, running checks, posting entries. Ideal for: invoice processing, bank reconciliations, intercompany eliminations, standard journal posting. RPA works on top of existing systems without requiring system replacement.</li>" +
+            "<li><strong>Intelligent automation / AI:</strong> Combines RPA with machine learning to handle semi-structured inputs and exceptions. Example: AI reads unstructured invoices (different formats, languages), extracts data and posts the entry, flagging only true exceptions for human review.</li>" +
+            "<li><strong>ERP automation:</strong> Modern cloud ERP systems (SAP S/4HANA, Oracle Fusion, Microsoft Dynamics 365) have in-built automation for period-end processes, automatic three-way matching (PO/GRN/invoice), and exception management workflows.</li>" +
+            "</ol>" +
+            "<h4>The Finance Process Hierarchy</h4>" +
+            "<p>Finance processes can be mapped on a spectrum from 'highly automatable' to 'requires human judgement':</p>" +
+            "<table><thead><tr><th>Automatable (High)</th><th>Partially Automatable</th><th>Requires Human Judgement</th></tr></thead><tbody>" +
+            "<tr><td>Invoice processing and matching</td><td>Management reporting (data assembly automated; narrative requires judgement)</td><td>Strategic planning and scenario analysis</td></tr>" +
+            "<tr><td>Bank reconciliation</td><td>Variance analysis (calculation automated; root cause analysis requires judgement)</td><td>Business partnering and commercial advice</td></tr>" +
+            "<tr><td>Standard journal posting</td><td>Budgeting (driver modelling automated; assumption-setting requires judgement)</td><td>Accounting judgements (provisions, impairment)</td></tr>" +
+            "<tr><td>Intercompany eliminations</td><td>Tax computations (standard calculations automated; complex structures require expertise)</td><td>Ethics and governance decisions</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Impact on Finance Headcount and Skills</h4>" +
+            "<p>Digital transformation reshapes the skills profile of finance teams significantly:</p>" +
+            "<ul>" +
+            "<li><strong>Roles declining:</strong> Accounts payable clerks, payroll administrators, management accountants focused on data preparation, standard report writers — these are all highly automatable roles.</li>" +
+            "<li><strong>Roles growing:</strong> Finance business partners, FP&amp;A analysts, data scientists embedded in finance, finance technology specialists, finance transformation project managers.</li>" +
+            "<li><strong>New hybrid roles:</strong> 'Finance technologist' — someone who understands both accounting and data engineering; 'Quantitative analyst' — using statistical models for forecasting and optimisation.</li>" +
+            "</ul>" +
+            "<p>The CGMA research 'Future of Finance' (2019, updated 2023) projected that up to 40% of finance transactional roles would be automated within ten years. This is not uniformly happening at that pace, but the direction is clear.</p>" +
+            "<h4>Governance and Controls in the Digital Model</h4>" +
+            "<p>Digital automation introduces new control considerations. When bots process thousands of transactions, a programming error can propagate at scale before detection. Controls must shift from reviewing individual transactions to:</p>" +
+            "<ul>" +
+            "<li>Testing bot logic rigorously before deployment (UAT — user acceptance testing)</li>" +
+            "<li>Monitoring output statistics (exception rates, total values) for anomalies</li>" +
+            "<li>Regular bot audit and logic review</li>" +
+            "<li>Maintaining human override capability for all automated processes</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "Global Consumer Goods Co processes 50,000 supplier invoices per month across five finance teams in different countries. The current process takes an average of 14 days from invoice receipt to payment. Three accounts payable staff spend 80% of their time on data entry, matching and chasing approvals. Design a digital accounts payable process.",
+            steps: [
+              "Capture: Implement OCR (optical character recognition) and AI to read incoming invoices in any format (email attachments, PDFs, scanned paper) and extract: supplier, invoice number, date, line items, amounts, tax.",
+              "Three-way matching: RPA bot automatically matches invoice to purchase order (from ERP) and goods received note (GRN). If all three match within tolerance, the bot approves the invoice automatically — no human touch required.",
+              "Exception management: Non-matching invoices (quantity discrepancy, price variance, missing PO) are routed automatically to the relevant budget holder for approval via a mobile approval app. Target: <15% exception rate.",
+              "Payment run: Approved invoices are automatically scheduled for payment on the due date in the ERP. Dynamic discounting module offers early payment to suppliers who accept a small discount — optimising cash management.",
+              "Result: Invoice-to-payment cycle reduced from 14 days to 4 days. Two of three AP staff are redeployed to supplier relationship management and cash flow forecasting. Exception handling requires one part-time AP specialist.",
+            ],
+            answer: "The digital AP process removes manual data entry and approval chasing entirely. 85% of invoices are processed end-to-end without human intervention. Cost per invoice falls from £8 to £1.50. Staff previously doing data entry now manage exceptions, vendor relationships and process improvement — significantly higher-value work.",
+          },
+          summary: [
+            "A digital finance operating model integrates automation, real-time data and analytics as foundational capabilities, not add-ons.",
+            "Automation technologies include RPA (rule-based bot tasks), intelligent automation/AI (semi-structured data), and cloud ERP with built-in automation.",
+            "Finance processes span a spectrum: highly automatable (invoice processing) through partially automatable (management reporting) to requiring human judgement (strategic analysis, accounting estimates).",
+            "Digital transformation reduces transactional roles and grows analytical and partnering roles, requiring significant upskilling investment.",
+            "New control considerations arise when bots process at scale — controls must focus on bot logic testing, statistical output monitoring, and exception management.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A finance team implements RPA bots for bank reconciliation. Which control is MOST important to mitigate the risk that a programming error processes thousands of incorrect entries?",
+              options: [
+                "Reviewing every reconciliation manually after the bot runs",
+                "Testing bot logic against historical data before deployment and monitoring output statistics for anomalies in production",
+                "Removing the bot and returning to manual reconciliation",
+                "Having the bot run only once per quarter",
+              ],
+              answer: 1,
+              explanation: "The key risk with RPA at scale is that errors propagate before detection. Rigorous UAT (user acceptance testing) before deployment plus statistical monitoring of outputs (exception rates, total values) allows anomalies to be detected quickly without reviewing every transaction individually.",
+            },
+            {
+              question: "Which of the following finance roles is MOST likely to GROW in a digital finance operating model?",
+              options: [
+                "Accounts payable invoice processor",
+                "Management accountant focused on compiling month-end data",
+                "Finance business partner providing commercial insight to operational teams",
+                "Payroll administrator",
+              ],
+              answer: 2,
+              explanation: "Business partnering roles grow in digital finance because automation frees capacity from transactional processing. The value of human finance professionals shifts toward judgement, analysis, commercial insight and strategic influence — all activities a finance business partner provides.",
+            },
+            {
+              question: "A company's finance team uses RPA for 60% of its accounts payable process but still requires human review for complex invoices with non-standard formats. This represents which type of automation?",
+              options: [
+                "Full automation",
+                "Intelligent automation combining RPA with AI/ML",
+                "Partial RPA deployment with planned extension",
+                "Business process outsourcing",
+              ],
+              answer: 1,
+              explanation: "Using AI/ML to handle semi-structured and non-standard inputs alongside RPA for standard processing is 'intelligent automation.' Pure RPA handles structured, rule-based inputs only; when non-standard formats require interpretation, AI augments the RPA capability.",
+            },
+          ],
         },
         {
           id: "e1-l5",
@@ -3673,7 +4065,106 @@ const AIQ_COURSE_DATA = {
             "Explain the digital and commercial skills required in the modern finance team",
             "Identify strategies for talent development in a digital finance environment",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Modern CFO</h4>" +
+            "<p>The Chief Financial Officer (CFO) has been transformed from a financial steward and compliance guardian into one of the most strategically influential roles in the C-suite. Research by McKinsey, Deloitte and CIMA consistently shows that CFOs are now the CEO's primary strategic partner, often leading or co-leading digital transformation, capital allocation strategy, M&amp;A decisions and investor relations.</p>" +
+            "<p>The modern CFO agenda typically spans four areas, sometimes called the 'four faces of the CFO':</p>" +
+            "<table><thead><tr><th>Face</th><th>Description</th><th>Key Activities</th></tr></thead><tbody>" +
+            "<tr><td><strong>Steward</strong></td><td>Protecting assets and ensuring compliance</td><td>Financial controls, audit, regulatory compliance, tax, treasury</td></tr>" +
+            "<tr><td><strong>Operator</strong></td><td>Running an efficient finance function</td><td>Finance transformation, SSC/BPO, ERP implementation, cost reduction</td></tr>" +
+            "<tr><td><strong>Strategist</strong></td><td>Shaping company direction</td><td>M&amp;A, capital allocation, business model design, long-range planning</td></tr>" +
+            "<tr><td><strong>Catalyst</strong></td><td>Driving change across the organisation</td><td>Digital transformation leadership, cultural change, performance improvement, ESG</td></tr>" +
+            "</tbody></table>" +
+            "<p>The balance between these four roles has shifted: CFOs spend more time on Strategist and Catalyst roles than ever before. A Deloitte survey found that 70% of CFOs believe their role has become significantly more strategic over the past five years.</p>" +
+            "<h4>The CFO's Digital Agenda</h4>" +
+            "<p>Digital technology sits at the centre of the modern CFO's agenda for two reasons:</p>" +
+            "<ol>" +
+            "<li><strong>Transforming finance itself:</strong> Automating transactional work, implementing cloud ERP, building analytics capability, redesigning reporting.</li>" +
+            "<li><strong>Supporting digital transformation across the business:</strong> The CFO manages the investment case, risk assessment and financial modelling for the company's broader digital strategy.</li>" +
+            "</ol>" +
+            "<p>Key digital priorities on the CFO agenda:</p>" +
+            "<ul>" +
+            "<li>Cloud ERP migration (often SAP S/4HANA or Oracle Fusion) — providing integrated, real-time data across finance, supply chain, HR and operations</li>" +
+            "<li>Advanced analytics and FP&amp;A transformation — moving from spreadsheet-based budgeting to driver-based, AI-assisted planning</li>" +
+            "<li>RPA and intelligent automation — reducing the cost of transactional finance processing</li>" +
+            "<li>Cybersecurity investment — protecting financial data and systems from attack</li>" +
+            "<li>ESG measurement and reporting infrastructure — tracking carbon, water, social metrics with same rigour as financial data</li>" +
+            "</ul>" +
+            "<h4>Finance Talent in the Digital Age</h4>" +
+            "<p>The skills required of finance professionals have shifted materially. The 'T-shaped' professional model describes this well: deep technical accounting knowledge (the vertical bar) combined with broad skills across commercial acumen, digital literacy, leadership and communication (the horizontal bar).</p>" +
+            "<p><strong>Digital skills now required in the modern finance team:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Data analysis:</strong> Excel (advanced), Power BI, Tableau, SQL basics — the ability to query, visualise and interpret large datasets</li>" +
+            "<li><strong>Process automation literacy:</strong> Understanding RPA (even if not coding it directly); being able to design process maps suitable for automation</li>" +
+            "<li><strong>ERP proficiency:</strong> Navigation and configuration of ERP systems; understanding how data flows between modules</li>" +
+            "<li><strong>Python/R basics:</strong> Increasingly expected for FP&amp;A roles — statistical modelling, scenario analysis, machine learning for forecasting</li>" +
+            "<li><strong>AI literacy:</strong> Understanding what AI can and cannot do in finance; applying AI tools for anomaly detection, natural language reporting, forecasting</li>" +
+            "</ul>" +
+            "<h4>Talent Development Strategies</h4>" +
+            "<p>CIMA identifies several strategies organisations use to build digital finance capability:</p>" +
+            "<ol>" +
+            "<li><strong>Upskilling existing teams:</strong> Structured learning programmes covering data analytics tools, automation literacy, commercial skills. Partnerships with CIMA, Coursera, LinkedIn Learning.</li>" +
+            "<li><strong>Hiring for new roles:</strong> Recruiting data scientists, finance technologists, and digitally-native analysts into finance teams — not just CPAs or ACA/CIMA graduates.</li>" +
+            "<li><strong>Rotation programmes:</strong> Moving finance professionals through different roles — SSC, FP&amp;A, business partnering, technology project — to build breadth.</li>" +
+            "<li><strong>Finance academies:</strong> Internal 'academies' that continuously develop technical, digital and leadership skills, often in partnership with a business school or professional body.</li>" +
+            "<li><strong>Culture of continuous learning:</strong> Encouraging finance professionals to experiment with new tools, share learnings, and innovate — creating psychological safety to try and fail.</li>" +
+            "</ol>" +
+            "<h4>The CFO and People Leadership</h4>" +
+            "<p>The CFO must lead a finance team through significant change — automation, restructuring, new ways of working. This requires strong people leadership skills: communicating vision, managing anxiety about job displacement, building an inclusive culture, and recognising performance in non-traditional ways (e.g., rewarding a finance analyst who built an automated dashboard that saves 200 hours per year).</p>",
+          workedExample: {
+            setup: "DataTech plc's CFO has been asked by the board to present a three-year Finance Talent Strategy. The finance team of 60 is currently 80% technical accountants with traditional skills, 10% FP&A analysts, and 10% in managerial roles. The CFO expects automation to remove 15 transactional roles in year 1. Outline the key elements of a Finance Talent Strategy.",
+            steps: [
+              "Current state assessment: Map all 60 roles against the skills matrix. Identify which roles are at highest automation risk (AP clerks, payroll, standard management accountant tasks). Assess digital skills gaps — find that only 8 of 60 staff are proficient in Power BI or advanced analytics.",
+              "Future-state workforce design: Target end-state is 45 roles: 10 SSC/automation-managed transactional, 20 business partners, 10 FP&A/analytics specialists, 5 management. Identify the 15 redundant transactional roles for redeployment or departure.",
+              "Redeployment and reskilling: For the 15 at-risk staff, offer a structured 12-month reskilling programme in data analytics (Power BI, Excel advanced, financial modelling). Those who complete and perform are offered redeployment as junior business partners or analytics analysts.",
+              "New hiring: Recruit 5 external candidates: 2 data scientists (Python/ML), 2 experienced business partners from FMCG sector, 1 Finance Technology Manager with RPA/ERP expertise.",
+              "Development programme: Launch 'Finance Academy' with quarterly workshops on digital tools, commercial skills, and leadership. Partner with CIMA to provide structured CPD. Create rotation programme enabling analysts to spend 6 months in business partnering roles.",
+              "CFO communication: Present the talent strategy to the whole finance team — honest about automation impact, clear about investment in reskilling, positive about the opportunity for the team to do more interesting, valuable work.",
+            ],
+            answer: "The Talent Strategy addresses the full talent lifecycle: current-state assessment, future-state design, reskilling of at-risk roles, targeted new hiring, continuous development, and change communication. The CFO leads not just the financial plan but the human transformation required to execute it.",
+          },
+          summary: [
+            "The modern CFO operates across four roles: Steward (compliance), Operator (efficiency), Strategist (direction), Catalyst (change) — with increasing time on Strategist and Catalyst.",
+            "The CFO's digital agenda covers cloud ERP, advanced analytics, RPA, cybersecurity and ESG reporting infrastructure.",
+            "Finance professionals need 'T-shaped' skills: deep technical accounting plus broad digital literacy, commercial acumen, communication and leadership.",
+            "Key digital skills include: Power BI/data visualisation, ERP proficiency, automation literacy, Python/R basics, and AI application understanding.",
+            "Talent strategies combine upskilling, strategic hiring, rotation programmes, finance academies and a culture of continuous learning.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A CFO who is leading the organisation's digital transformation programme and building the investment case for adopting AI across business units is primarily operating in which of the four CFO roles?",
+              options: [
+                "Steward",
+                "Operator",
+                "Strategist",
+                "Catalyst",
+              ],
+              answer: 3,
+              explanation: "The Catalyst role involves driving change and transformation across the organisation. Leading a digital transformation programme and building the investment case for new technology investments is a Catalyst activity — the CFO is driving change beyond finance into the whole business.",
+            },
+            {
+              question: "Which of the following best describes the 'T-shaped' professional model for finance?",
+              options: [
+                "A finance professional who has two specialisations of equal depth",
+                "A finance professional with deep technical accounting expertise combined with broad commercial, digital and people skills",
+                "A finance professional who spends half their time on technical work and half on management",
+                "A finance professional who has worked in T-shaped finance functions across two companies",
+              ],
+              answer: 1,
+              explanation: "T-shaped describes the combination of depth (vertical bar: deep technical accounting expertise) and breadth (horizontal bar: commercial acumen, digital literacy, communication, leadership). This model is central to the CIMA/CGMA vision of the modern finance professional.",
+            },
+            {
+              question: "A finance team has 5 accounts payable clerks who will have their roles automated in 12 months. The CFO wants to retain their institutional knowledge. Which talent strategy is MOST appropriate?",
+              options: [
+                "Immediately make all five redundant and hire data analysts",
+                "Offer a structured reskilling programme in data analytics and business partnering, with redeployment for those who complete it",
+                "Keep the five clerks to manually check all automated outputs",
+                "Outsource the AP function to avoid the redundancy decision",
+              ],
+              answer: 1,
+              explanation: "Reskilling and redeployment is the appropriate strategy when roles are automated and the organisation wants to retain institutional knowledge, avoid redundancy costs, and invest in people. CIMA emphasises the human dimension of digital transformation — it should be managed responsibly.",
+            },
+          ],
         },
         {
           id: "e1-l6",
@@ -3685,7 +4176,110 @@ const AIQ_COURSE_DATA = {
             "Describe how management information and reporting have evolved with technology",
             "Identify the principles of effective financial and non-financial reporting",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Evolution of Financial Reporting</h4>" +
+            "<p>Financial reporting has traditionally focused on <em>financial capital</em> — the money flowing into and out of the organisation, summarised in income statements, balance sheets and cash flow statements. This remains essential, but it provides an increasingly incomplete picture of organisational value and performance.</p>" +
+            "<p>Two major developments are reshaping reporting:</p>" +
+            "<ol>" +
+            "<li><strong>Integrated Reporting (&lt;IR&gt;):</strong> A framework that connects financial and non-financial information to explain how an organisation creates value over time</li>" +
+            "<li><strong>Technology-enabled reporting:</strong> Digital tools that allow real-time, self-service, interactive reporting rather than static periodic reports</li>" +
+            "</ol>" +
+            "<h4>Integrated Reporting — The &lt;IR&gt; Framework</h4>" +
+            "<p>The <strong>International Integrated Reporting Council (IIRC)</strong>, now merged into the <strong>IFRS Foundation</strong>, developed the &lt;IR&gt; Framework. An integrated report explains how an organisation's strategy, governance and performance in the context of its external environment lead to the creation, preservation or erosion of value over the short, medium and long term.</p>" +
+            "<p>The framework is built around the <strong>Six Capitals</strong>:</p>" +
+            "<table><thead><tr><th>Capital</th><th>Definition</th><th>Example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Financial capital</strong></td><td>Pool of funds available to the organisation</td><td>Equity, debt, retained earnings</td></tr>" +
+            "<tr><td><strong>Manufactured capital</strong></td><td>Physical infrastructure used in production</td><td>Plant, machinery, buildings, IT systems</td></tr>" +
+            "<tr><td><strong>Intellectual capital</strong></td><td>Knowledge, patents, brand, reputation</td><td>R&amp;D pipeline, software, customer relationships</td></tr>" +
+            "<tr><td><strong>Human capital</strong></td><td>Competence, capability and experience of people</td><td>Skills, training, retention rates, culture</td></tr>" +
+            "<tr><td><strong>Social &amp; relationship capital</strong></td><td>Relationships with stakeholders and communities</td><td>Customer trust, supplier partnerships, community licence to operate</td></tr>" +
+            "<tr><td><strong>Natural capital</strong></td><td>Environmental resources and ecosystem services</td><td>Carbon emissions, water use, biodiversity impact</td></tr>" +
+            "</tbody></table>" +
+            "<p>The &lt;IR&gt; Framework requires organisations to report on how they use and affect each capital in creating value. This requires non-financial measurement and disclosure alongside traditional financial statements.</p>" +
+            "<h4>Guiding Principles of &lt;IR&gt;</h4>" +
+            "<p>The &lt;IR&gt; Framework identifies seven guiding principles:</p>" +
+            "<ol>" +
+            "<li><strong>Strategic focus and future orientation:</strong> Link the report to strategy and explain how value will be created in future</li>" +
+            "<li><strong>Connectivity of information:</strong> Show how capitals, activities, performance and future prospects are interconnected</li>" +
+            "<li><strong>Stakeholder relationships:</strong> Explain how the organisation engages with key stakeholders</li>" +
+            "<li><strong>Materiality:</strong> Focus on matters that substantively affect value creation — avoid boilerplate</li>" +
+            "<li><strong>Conciseness:</strong> Integrated reports should be concise, not lengthy compliance documents</li>" +
+            "<li><strong>Reliability and completeness:</strong> Include both positive and negative aspects; provide a balanced picture</li>" +
+            "<li><strong>Consistency and comparability:</strong> Present information consistently over time to enable comparison</li>" +
+            "</ol>" +
+            "<h4>Technology-Enabled Management Reporting</h4>" +
+            "<p>Traditional management reporting cycles — monthly packs distributed on day 10 after period-end — are being replaced by:</p>" +
+            "<ul>" +
+            "<li><strong>Real-time dashboards:</strong> Business intelligence tools (Power BI, Tableau, Qlik) connected to live ERP data. Business leaders can drill into KPIs at any time, not just at month-end.</li>" +
+            "<li><strong>Self-service analytics:</strong> Non-financial managers can query their own data without waiting for finance to produce a report. Finance's role shifts to building the model and governance, not running the reports.</li>" +
+            "<li><strong>Exception-based reporting:</strong> Automated alerts fire when KPIs breach thresholds — 'customer complaints exceeded 100 this week' — allowing management to focus attention where it matters.</li>" +
+            "<li><strong>Natural language generation:</strong> AI tools automatically write narrative commentary on performance data (e.g., 'Revenue was £2.3m this month, 8% above budget, driven by stronger-than-expected performance in the Northern region').</li>" +
+            "</ul>" +
+            "<h4>Principles of Effective Reporting</h4>" +
+            "<p>Whether financial, management or integrated, effective reporting should follow these principles:</p>" +
+            "<ul>" +
+            "<li><strong>Relevance:</strong> Report what matters for decisions, not everything that can be measured</li>" +
+            "<li><strong>Timeliness:</strong> Information delivered too late to influence decisions has little value</li>" +
+            "<li><strong>Accuracy:</strong> Numbers must be reliable and consistently calculated</li>" +
+            "<li><strong>Clarity:</strong> Presented in a way the audience understands — executives need executive summaries, not data tables</li>" +
+            "<li><strong>Balance:</strong> Show successes and failures; avoid cherry-picking favourable metrics</li>" +
+            "<li><strong>Actionability:</strong> Good reports enable decisions — they answer 'so what?' and 'what should we do?'</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "GreenEnergy plc is preparing its first integrated report. It has historically produced only statutory financial accounts. Outline what information should be covered in an integrated report using the six capitals and seven guiding principles.",
+            steps: [
+              "Financial capital: Report earnings, return on equity, cash generation, dividend policy, and capital structure. Explain how financial capital is allocated across strategic priorities.",
+              "Manufactured capital: Disclose investment in renewable generation assets (wind farms, solar), grid infrastructure, and digital monitoring technology. Report asset age and investment pipeline.",
+              "Intellectual capital: Describe proprietary energy management algorithms, patents on turbine efficiency technology, and brand strength in the green energy market. Quantify R&D investment.",
+              "Human capital: Report employee skills data (% with engineering qualifications), safety record (LTIFR — lost time injury frequency rate), diversity metrics, and engagement scores. Describe talent development programmes.",
+              "Social & relationship capital: Describe community engagement around wind farm siting, regulatory relationships with Ofgem, customer satisfaction NPS scores, and supply chain partnership programmes.",
+              "Natural capital: Report Scope 1, 2 and 3 carbon emissions, water consumption, land use and biodiversity impact. Show carbon reduction pathway aligned to net zero targets.",
+              "Apply guiding principles: Ensure the report is concise (not a 200-page compliance document), materially focused (covering what actually affects value creation), and forward-looking (strategic outlook, not just historical performance).",
+            ],
+            answer: "The integrated report gives investors, employees and regulators a comprehensive picture of GreenEnergy's value creation story — how it uses and affects all six capitals in pursuing its strategy. This goes far beyond what statutory financial accounts could communicate.",
+          },
+          summary: [
+            "Integrated Reporting (<IR>) explains how an organisation creates value using six capitals: Financial, Manufactured, Intellectual, Human, Social & Relationship, and Natural.",
+            "The <IR> Framework has seven guiding principles including strategic focus, connectivity, materiality, conciseness, reliability and comparability.",
+            "Technology enables real-time dashboards, self-service analytics, exception-based alerts and AI-written narratives — transforming management reporting from periodic to continuous.",
+            "Effective reporting is relevant, timely, accurate, clear, balanced and actionable — it answers 'so what?' not just 'what happened?'",
+            "The shift to integrated reporting reflects growing investor and regulatory demand for non-financial information, especially ESG data.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following BEST describes the purpose of Integrated Reporting under the <IR> Framework?",
+              options: [
+                "To provide a detailed breakdown of all six capitals for regulatory compliance",
+                "To communicate how an organisation's strategy, governance and performance lead to value creation over time",
+                "To replace traditional statutory financial statements with a single report",
+                "To disclose ESG metrics to investors for sustainability ratings",
+              ],
+              answer: 1,
+              explanation: "The IIRC defines integrated reporting as communicating how strategy, governance, performance and prospects in the context of the external environment lead to value creation over the short, medium and long term. It is forward-looking and holistic, not primarily a compliance exercise or ESG disclosure tool.",
+            },
+            {
+              question: "A company reports its employee training hours, diversity ratios, retention rate and key talent initiatives. Which capital is being reported on?",
+              options: [
+                "Intellectual capital",
+                "Social and relationship capital",
+                "Human capital",
+                "Manufactured capital",
+              ],
+              answer: 2,
+              explanation: "Human capital covers the competencies, capabilities and experience of an organisation's people — training, diversity, retention and talent development all fall within this capital. Intellectual capital covers knowledge assets like patents and brand; social and relationship capital covers external stakeholder relationships.",
+            },
+            {
+              question: "Under the <IR> guiding principle of 'materiality,' what does an integrated report focus on?",
+              options: [
+                "All six capitals equally, regardless of their relevance to the organisation",
+                "Only financial information that is material to the statutory accounts",
+                "Matters that substantively affect the organisation's ability to create value",
+                "The same information as a traditional annual report",
+              ],
+              answer: 2,
+              explanation: "Materiality in <IR> focuses the report on what matters for value creation — both financial and non-financial. Not every metric across every capital needs to be reported; the principle is to identify and communicate what is substantively important to understanding how the organisation creates value.",
+            },
+          ],
         },
 
         /* ── Module B: Technology in the Digital Age (L7–L14) ── */
@@ -3699,7 +4293,96 @@ const AIQ_COURSE_DATA = {
             "Describe the key characteristics of the Fourth Industrial Revolution",
             "Identify the main digital technologies reshaping business and finance",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Digitisation vs Digitalisation vs Digital Transformation</h4>" +
+            "<p>These three terms are often used interchangeably but have distinct meanings that are tested in CIMA E1:</p>" +
+            "<table><thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Digitisation</strong></td><td>Converting analogue information into digital format</td><td>Scanning paper invoices; converting paper ledgers to spreadsheets</td></tr>" +
+            "<tr><td><strong>Digitalisation</strong></td><td>Using digital technologies to change a business process or model</td><td>Replacing paper-based invoicing with an e-invoicing portal; using ERP instead of spreadsheets</td></tr>" +
+            "<tr><td><strong>Digital transformation</strong></td><td>Fundamentally reimagining how an organisation operates, delivers value and competes using digital technology — changing strategy, culture and structure, not just processes</td><td>A bank closing branches and rebuilding entirely as a mobile-first digital bank; a retailer becoming a platform connecting buyers and sellers</td></tr>" +
+            "</tbody></table>" +
+            "<h4>The Four Industrial Revolutions</h4>" +
+            "<p>The term <strong>Fourth Industrial Revolution (4IR)</strong> was coined by Klaus Schwab (founder of the World Economic Forum) in 2016. It describes the current wave of technological change, which is distinct from previous industrial revolutions in its <em>speed</em>, <em>scope</em> and <em>systemic impact</em>.</p>" +
+            "<table><thead><tr><th>Revolution</th><th>Period</th><th>Key Technology</th><th>Economic Impact</th></tr></thead><tbody>" +
+            "<tr><td><strong>First (1IR)</strong></td><td>1760s–1840s</td><td>Steam engine, mechanisation</td><td>Factory production replacing cottage industries; urbanisation</td></tr>" +
+            "<tr><td><strong>Second (2IR)</strong></td><td>1870s–1920s</td><td>Electricity, mass production</td><td>Assembly lines (Ford), steel, chemicals, telecommunications</td></tr>" +
+            "<tr><td><strong>Third (3IR)</strong></td><td>1960s–2000s</td><td>Electronics, computers, the internet</td><td>Automation of production; global information sharing; e-commerce</td></tr>" +
+            "<tr><td><strong>Fourth (4IR)</strong></td><td>2010s–present</td><td>AI, robotics, IoT, big data, blockchain, biotechnology</td><td>Fusion of physical, digital and biological worlds; human-machine collaboration; exponential change</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Key characteristics of 4IR (Schwab):</strong></p>" +
+            "<ul>" +
+            "<li><strong>Velocity:</strong> Change is happening faster than any previous revolution — months, not decades</li>" +
+            "<li><strong>Breadth and depth:</strong> Disrupting virtually every industry, not just manufacturing — finance, healthcare, education, agriculture, legal services</li>" +
+            "<li><strong>Systems impact:</strong> Transforming entire systems of production, management and governance — not just individual tasks or processes</li>" +
+            "<li><strong>Blurring of boundaries:</strong> Between digital and physical (smart products), between human and machine (AI augmenting human work), between sectors (tech companies entering finance; retailers becoming media companies)</li>" +
+            "</ul>" +
+            "<h4>Key Digital Technologies in 4IR</h4>" +
+            "<p>CIMA E1 covers eight key digital technologies. This lesson introduces them; subsequent lessons examine each in depth:</p>" +
+            "<table><thead><tr><th>Technology</th><th>Brief Description</th><th>Finance Relevance</th></tr></thead><tbody>" +
+            "<tr><td><strong>Cloud computing</strong></td><td>Delivering computing services over the internet</td><td>Cloud ERP; scalable infrastructure; remote working</td></tr>" +
+            "<tr><td><strong>Artificial Intelligence (AI)</strong></td><td>Systems that perform tasks requiring human-like intelligence</td><td>Predictive analytics; anomaly detection; forecasting; NLP for reporting</td></tr>" +
+            "<tr><td><strong>Robotic Process Automation (RPA)</strong></td><td>Software bots replicating rule-based human tasks</td><td>Invoice processing; reconciliations; journal posting</td></tr>" +
+            "<tr><td><strong>Blockchain</strong></td><td>Distributed ledger technology with cryptographic security</td><td>Smart contracts; audit trails; cryptocurrency; supply chain finance</td></tr>" +
+            "<tr><td><strong>Big data</strong></td><td>Extremely large datasets analysed for patterns and insight</td><td>Customer analytics; risk modelling; market analysis</td></tr>" +
+            "<tr><td><strong>Internet of Things (IoT)</strong></td><td>Physical devices connected to the internet, generating data</td><td>Real-time operational data; predictive maintenance cost management</td></tr>" +
+            "<tr><td><strong>Cybersecurity</strong></td><td>Protecting digital systems, data and networks from attack</td><td>Protecting financial data; fraud prevention; regulatory compliance</td></tr>" +
+            "<tr><td><strong>Data analytics</strong></td><td>Techniques for examining datasets to identify patterns and conclusions</td><td>FP&amp;A; performance management; risk analysis; audit analytics</td></tr>" +
+            "</tbody></table>" +
+            "<h4>The Technology Adoption Life Cycle</h4>" +
+            "<p>Everett Rogers' <strong>diffusion of innovations</strong> model describes how new technologies spread through populations over time: Innovators → Early Adopters → Early Majority → Late Majority → Laggards. Finance professionals need to understand where specific technologies sit on this curve — early adoption can confer competitive advantage but carries higher risk; late adoption reduces risk but may mean falling behind competitors.</p>",
+          workedExample: {
+            setup: "A traditional insurance company has paper-based claims processing, a legacy policy management system (30 years old), and manual actuarial modelling in spreadsheets. Classify its current state against the three terms (digitisation/digitalisation/digital transformation) and outline a transformation roadmap.",
+            steps: [
+              "Current state: The company is still partially in the analogue era. Some claims are paper-based (pre-digitisation). The policy system exists digitally but is a legacy system with limited integration (early digitisation only). Manual spreadsheet actuarial modelling represents digitisation of calculation but not digitalisation of the process.",
+              "Step 1 — Digitisation: Digitise all paper claims forms to digital input. Migrate paper records to document management system. Target: 100% digital input within 6 months.",
+              "Step 2 — Digitalisation: Replace legacy policy management with a modern cloud-based platform. Implement AI-powered claims assessment that auto-approves straightforward claims (estimated 60% of volume). Replace spreadsheet actuarial models with purpose-built actuarial software.",
+              "Step 3 — Digital transformation: Rebuild the customer relationship around a mobile app that provides real-time policy management, instant claims notification, and IoT-connected home/car monitoring for risk-based pricing. This is a fundamental reimagining of the customer proposition — not just process improvement.",
+              "Finance impact at each step: Digitisation reduces storage costs. Digitalisation enables straight-through processing, reducing claims cost by 30%. Transformation enables new revenue streams (data monetisation, adjacent services) and changes the cost structure fundamentally.",
+            ],
+            answer: "The roadmap illustrates that digital transformation is not a single event but a journey through progressively deeper levels of change. Finance must support each stage with investment appraisal, cost tracking and benefit realisation measurement.",
+          },
+          summary: [
+            "Digitisation converts analogue to digital; digitalisation redesigns processes using technology; digital transformation fundamentally reimagines the business model and strategy.",
+            "The Fourth Industrial Revolution is characterised by unprecedented velocity, breadth, depth and systems impact — blurring physical, digital and biological boundaries.",
+            "Key 4IR technologies include: cloud computing, AI, RPA, blockchain, big data, IoT, cybersecurity and data analytics.",
+            "Finance professionals need technology literacy to understand how these tools can be applied in finance and across the business, and to evaluate investment decisions.",
+            "Technology adoption follows the Rogers diffusion curve — early adoption offers competitive advantage but carries higher implementation risk.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A hospital replaces paper patient records with electronic health records stored in a central database. This is best described as:",
+              options: [
+                "Digital transformation",
+                "Digitalisation",
+                "Digitisation",
+                "Fourth Industrial Revolution",
+              ],
+              answer: 2,
+              explanation: "Converting paper records to digital format is digitisation — the conversion of analogue information to digital. It is not digitalisation (which would involve redesigning processes) nor digital transformation (which would involve reimagining the care model).",
+            },
+            {
+              question: "Which of the following characteristics is MOST distinctive about the Fourth Industrial Revolution compared to previous industrial revolutions?",
+              options: [
+                "Use of electricity to power machines",
+                "Mass production of consumer goods",
+                "The velocity of change and fusion of physical, digital and biological worlds",
+                "Global internet connectivity enabling e-commerce",
+              ],
+              answer: 2,
+              explanation: "Schwab's definition of 4IR emphasises velocity (faster than previous revolutions) and the fusion of physical, digital and biological worlds — which is new. Electricity characterises 2IR; mass production is 2IR; internet connectivity is 3IR.",
+            },
+            {
+              question: "A retail bank launches a mobile app that uses AI to provide personalised financial advice, IoT data from connected devices to set insurance premiums, and blockchain for instant cross-border payments — while closing 80% of its branches. This is best described as:",
+              options: [
+                "Digitisation",
+                "Digitalisation",
+                "Digital transformation",
+                "Robotic Process Automation",
+              ],
+              answer: 2,
+              explanation: "This is digital transformation — a fundamental reimagining of how the bank operates, delivers value and competes. It changes business model, customer relationship, distribution, and product fundamentally — not just improving existing processes. RPA, IoT and blockchain are tools used within the transformation.",
+            },
+          ],
         },
         {
           id: "e1-l8",
@@ -3711,7 +4394,93 @@ const AIQ_COURSE_DATA = {
             "Describe public, private and hybrid cloud deployment models",
             "Assess the benefits and risks of cloud adoption for finance functions",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Cloud Computing?</h4>" +
+            "<p><strong>Cloud computing</strong> is the delivery of computing services — servers, storage, databases, networking, software, analytics and intelligence — over the internet ('the cloud') on a pay-as-you-go basis. Instead of owning and maintaining physical data centres, organisations access computing resources from a provider (AWS, Microsoft Azure, Google Cloud) and pay only for what they use.</p>" +
+            "<h4>The Three Cloud Service Models</h4>" +
+            "<table><thead><tr><th>Model</th><th>What the provider delivers</th><th>What the customer manages</th><th>Finance example</th></tr></thead><tbody>" +
+            "<tr><td><strong>IaaS</strong> — Infrastructure as a Service</td><td>Virtualised hardware: servers, storage, networking</td><td>Operating system, applications, data</td><td>Hosting a company's own ERP server in AWS rather than on-premise</td></tr>" +
+            "<tr><td><strong>PaaS</strong> — Platform as a Service</td><td>Hardware + operating system + development tools</td><td>Applications and data only</td><td>Building a custom financial analytics app on Microsoft Azure PaaS without managing servers</td></tr>" +
+            "<tr><td><strong>SaaS</strong> — Software as a Service</td><td>Complete application delivered over internet</td><td>Data and user configuration only</td><td>Using Salesforce CRM, Workday Finance, SAP S/4HANA Cloud, or NetSuite — fully hosted software</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Memory aid:</strong> In IaaS you manage everything from the OS upwards. In PaaS you manage applications and data. In SaaS you manage almost nothing — just use the software and configure your data.</p>" +
+            "<h4>Cloud Deployment Models</h4>" +
+            "<table><thead><tr><th>Model</th><th>Description</th><th>Use case</th></tr></thead><tbody>" +
+            "<tr><td><strong>Public cloud</strong></td><td>Shared infrastructure owned by the provider; multi-tenant</td><td>SaaS applications (Microsoft 365, Salesforce); general workloads; lower cost</td></tr>" +
+            "<tr><td><strong>Private cloud</strong></td><td>Dedicated cloud infrastructure for one organisation; can be on-premise or hosted</td><td>Highly regulated industries (banking, defence); sensitive financial data; compliance requirements</td></tr>" +
+            "<tr><td><strong>Hybrid cloud</strong></td><td>Combination of public and private; data can move between them</td><td>Sensitive data kept on private cloud; non-sensitive workloads on public cloud; most large enterprises</td></tr>" +
+            "<tr><td><strong>Multi-cloud</strong></td><td>Using multiple public cloud providers simultaneously</td><td>Avoiding vendor lock-in; using best-of-breed services from different providers</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Benefits of Cloud Adoption for Finance</h4>" +
+            "<ul>" +
+            "<li><strong>Cost reduction:</strong> Eliminates capital expenditure on servers and data centres; shifts to operating expenditure (opex); pay-per-use eliminates over-provisioning</li>" +
+            "<li><strong>Scalability:</strong> Resources scale instantly to match demand — no need to provision for peak capacity</li>" +
+            "<li><strong>Real-time data:</strong> Cloud ERP (SAP S/4HANA Cloud, Oracle Fusion) provides real-time financial data accessible from anywhere — enabling continuous close and real-time dashboards</li>" +
+            "<li><strong>Automatic updates:</strong> Software updates are delivered automatically by the provider — no IT upgrade projects required</li>" +
+            "<li><strong>Remote working:</strong> Finance teams can access all systems from anywhere — critical resilience lesson from COVID-19</li>" +
+            "<li><strong>Innovation access:</strong> Cloud providers invest billions in AI, analytics and security that individual companies could not afford independently</li>" +
+            "</ul>" +
+            "<h4>Risks of Cloud Adoption</h4>" +
+            "<ul>" +
+            "<li><strong>Data security:</strong> Financial data stored in the cloud is accessible over the internet — requires robust encryption and access controls</li>" +
+            "<li><strong>Vendor lock-in:</strong> Switching cloud providers is costly once systems and data are migrated — negotiating exit clauses is important</li>" +
+            "<li><strong>Compliance and data sovereignty:</strong> Regulations (GDPR) may require data to be stored in specific geographies — cloud contracts must specify data location</li>" +
+            "<li><strong>Downtime risk:</strong> If the cloud provider suffers an outage, all services are unavailable — business continuity planning is essential</li>" +
+            "<li><strong>Loss of control:</strong> The organisation cannot physically inspect or directly manage infrastructure; it depends on the provider's security and reliability</li>" +
+            "<li><strong>Migration complexity:</strong> Moving from legacy on-premise systems to cloud ERP is a major project with execution risk</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "ManufactureCo currently runs its financial accounting on a 10-year-old on-premise SAP system. The server is end-of-support, requiring £2m upgrade. The CFO is evaluating migrating to SAP S/4HANA Cloud (SaaS). Assess the key benefits and risks of the migration.",
+            steps: [
+              "Cost comparison: On-premise upgrade: £2m capex + £300k/year maintenance + IT staff costs. SaaS migration: £500k migration project + £200k/year SaaS licence + reduced IT staff. Net saving: estimated £1.8m over five years.",
+              "Benefits: Real-time financial data; automatic quarterly updates from SAP; employees can access from anywhere; modern user interface improves finance team productivity; AI features built into S/4HANA for anomaly detection and cash forecasting.",
+              "Risks: Migration risk — moving 10 years of data to a new system requires careful data cleansing and testing. Business disruption during go-live. Compliance — ManufactureCo operates in Germany and UK; GDPR requires EU data residency (SAP's German data centres comply). Vendor lock-in — once on S/4HANA Cloud, switching is expensive; negotiate a 5-year contract with exit provisions.",
+              "Recommendation: Proceed with SaaS migration. Financial case is compelling. Manage migration risk with a phased approach: pilot in one business unit before full rollout. Ensure data residency compliance is contractually specified.",
+            ],
+            answer: "Cloud SaaS migration offers significant cost and capability benefits. The key risks — data security, compliance and migration complexity — are manageable with proper planning and contractual protections.",
+          },
+          summary: [
+            "Three cloud service models: IaaS (virtualised hardware), PaaS (hardware + platform for development), SaaS (complete software delivered over internet).",
+            "Deployment models: public (shared, multi-tenant), private (dedicated, high security), hybrid (combination), multi-cloud (multiple providers).",
+            "Finance benefits: cost reduction (capex → opex), scalability, real-time data, automatic updates, remote access, and access to provider-funded innovation.",
+            "Finance risks: data security, vendor lock-in, compliance/data sovereignty, outage risk, loss of control, and migration complexity.",
+            "Cloud ERP (SAP S/4HANA Cloud, Oracle Fusion, Workday) is transforming finance by enabling real-time continuous close and AI-integrated analytics.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company uses Microsoft 365 for email and collaboration and accesses its financial accounting software through a web browser with no local installation required. Which cloud service model is being used?",
+              options: [
+                "IaaS — Infrastructure as a Service",
+                "PaaS — Platform as a Service",
+                "SaaS — Software as a Service",
+                "Hybrid cloud",
+              ],
+              answer: 2,
+              explanation: "SaaS delivers complete software applications over the internet. Microsoft 365 and browser-based accounting software are classic SaaS examples — the customer manages only their data and user configuration; the provider manages everything else including the application itself.",
+            },
+            {
+              question: "A financial services firm stores its most sensitive customer financial data on its own dedicated cloud infrastructure but uses public cloud for non-sensitive analytical workloads. This is an example of:",
+              options: [
+                "Public cloud",
+                "Private cloud",
+                "Hybrid cloud",
+                "Multi-cloud",
+              ],
+              answer: 2,
+              explanation: "Hybrid cloud combines private cloud (for sensitive data requiring dedicated infrastructure and compliance control) with public cloud (for lower-sensitivity, scalable workloads). This is the most common deployment model for large regulated organisations.",
+            },
+            {
+              question: "Which of the following is the MAIN compliance risk when a UK-based company stores customer financial data in a US cloud provider's servers?",
+              options: [
+                "The cloud provider may go bankrupt",
+                "GDPR requires personal data of EU/UK individuals to be stored with appropriate safeguards when transferred outside the UK/EU",
+                "The company may lose access to the data during US national holidays",
+                "US cloud providers charge higher fees than UK providers",
+              ],
+              answer: 1,
+              explanation: "GDPR restricts the transfer of personal data outside the UK/EEA to countries that do not provide equivalent data protection standards. Cloud contracts must specify data residency and include appropriate transfer mechanisms (SCCs — Standard Contractual Clauses). This is a key compliance consideration for cloud adoption in finance.",
+            },
+          ],
         },
         {
           id: "e1-l9",
@@ -3723,7 +4492,96 @@ const AIQ_COURSE_DATA = {
             "Identify finance applications of AI: forecasting, fraud detection, NLP",
             "Assess the ethical and governance implications of AI in financial decision-making",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Understanding AI — The Hierarchy</h4>" +
+            "<p><strong>Artificial Intelligence (AI)</strong> is a broad term for any system that performs tasks that would normally require human intelligence — reasoning, learning, problem-solving, language understanding. Within AI, there is an important hierarchy:</p>" +
+            "<ul>" +
+            "<li><strong>Artificial Intelligence (AI):</strong> The overarching concept — machines that perform tasks requiring human-level intelligence</li>" +
+            "<li><strong>Machine Learning (ML):</strong> A subset of AI — systems that learn from data and improve their performance without being explicitly programmed. The computer finds patterns in data and makes predictions or decisions based on those patterns.</li>" +
+            "<li><strong>Deep Learning:</strong> A subset of ML — uses multi-layered neural networks (inspired by the human brain) to process large amounts of unstructured data (images, text, audio). Powers facial recognition, natural language processing, and self-driving cars.</li>" +
+            "<li><strong>Generative AI:</strong> AI that can create new content (text, images, code, music) based on patterns learned from training data. Examples: ChatGPT, Claude, DALL-E.</li>" +
+            "</ul>" +
+            "<h4>Machine Learning Approaches</h4>" +
+            "<table><thead><tr><th>Approach</th><th>How it works</th><th>Finance application</th></tr></thead><tbody>" +
+            "<tr><td><strong>Supervised learning</strong></td><td>Trained on labelled data (inputs with known correct outputs); learns to predict outputs for new inputs</td><td>Credit scoring (predict default probability); fraud detection (label each transaction as fraud/not fraud); sales forecasting</td></tr>" +
+            "<tr><td><strong>Unsupervised learning</strong></td><td>No labelled data; finds patterns and clusters in data without being told what to look for</td><td>Customer segmentation; anomaly detection in journal entries; identifying unusual spend patterns</td></tr>" +
+            "<tr><td><strong>Reinforcement learning</strong></td><td>Agent learns through trial and error; rewarded for correct actions</td><td>Algorithmic trading; portfolio optimisation; dynamic pricing</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Finance Applications of AI</h4>" +
+            "<p><strong>1. Forecasting and Planning</strong><br/>AI/ML models trained on historical financial data, economic indicators, weather, social media sentiment and other signals can produce significantly more accurate forecasts than traditional spreadsheet-based models. Adaptive planning tools (Anaplan, Pigment, OneStream) are embedding ML forecasting natively.</p>" +
+            "<p><strong>2. Fraud Detection</strong><br/>Banks and insurers use ML models to flag suspicious transactions in real time. The model learns what 'normal' transaction patterns look like for each customer and flags statistical anomalies. Advantage over rules-based systems: catches novel fraud patterns that no one has seen before.</p>" +
+            "<p><strong>3. Natural Language Processing (NLP)</strong><br/>NLP enables computers to understand and generate human language. Finance applications include:</p>" +
+            "<ul>" +
+            "<li>Automated report narrative generation (AI writes the commentary on results)</li>" +
+            "<li>Contract analysis (extracting key terms from thousands of supplier contracts)</li>" +
+            "<li>Sentiment analysis of earnings calls, news, and social media for investment decisions</li>" +
+            "<li>AI chatbots for finance queries (expense management, budget queries)</li>" +
+            "</ul>" +
+            "<p><strong>4. Audit Analytics</strong><br/>External auditors use ML to analyse 100% of transactions (not just samples), identifying anomalies, duplicate payments, and unusual journal entries. KPMG, Deloitte and PwC all have proprietary AI audit tools.</p>" +
+            "<p><strong>5. Treasury and Risk Management</strong><br/>AI models optimise cash positioning across global bank accounts, predict foreign exchange exposure, and dynamically hedge risks.</p>" +
+            "<h4>Ethical and Governance Implications of AI in Finance</h4>" +
+            "<p>AI in financial decision-making raises significant ethical and governance concerns:</p>" +
+            "<ul>" +
+            "<li><strong>Bias and discrimination:</strong> If ML models are trained on historically biased data, they perpetuate and amplify that bias. Example: a credit scoring model trained on data where minority groups were historically denied credit may continue to discriminate, even without explicit racial categories in the model.</li>" +
+            "<li><strong>Explainability ('black box'):</strong> Deep learning models may make decisions that cannot be explained to a human — they identify patterns in thousands of variables simultaneously. This is problematic for regulated financial decisions (credit, insurance pricing) where customers have the right to an explanation.</li>" +
+            "<li><strong>Accountability:</strong> When an AI system makes a wrong decision (incorrect fraud flag, unfair credit denial), who is accountable? The model developer? The deploying organisation? The regulator? Governance frameworks must assign clear accountability.</li>" +
+            "<li><strong>Data privacy:</strong> Training ML models requires vast amounts of data, much of it personal. GDPR imposes consent and purpose limitation requirements that constrain how personal financial data can be used for AI training.</li>" +
+            "<li><strong>Over-reliance:</strong> Finance professionals must retain the ability to challenge AI outputs — the risk that AI becomes an authority rather than a tool is real.</li>" +
+            "</ul>" +
+            "<p>Regulatory response: The EU AI Act (2024) classifies AI systems by risk level. High-risk AI (credit scoring, insurance pricing) requires transparency, human oversight, and registration. Finance organisations must embed AI governance into their risk management frameworks.</p>",
+          workedExample: {
+            setup: "RetailBank plc is implementing an AI model for small business credit decisions. The model uses ML trained on 500,000 historical loan applications. Identify the key governance requirements before deploying this AI credit model.",
+            steps: [
+              "Bias audit: Test the model for discriminatory outcomes across protected characteristics (gender, ethnicity, age, disability). If the training data contains historical discrimination, the model will learn and perpetuate it. Conduct fairness testing before deployment.",
+              "Explainability: Regulators (FCA in UK) require that credit decisions can be explained to applicants. Implement an explainability layer (e.g., SHAP values) that identifies the top factors driving each decision — e.g., 'Your application was declined primarily because your debt-to-income ratio exceeds our threshold.'",
+              "Human oversight: High-stakes credit decisions should not be fully automated. Implement a human review process for borderline cases (model confidence below threshold) and all declined applications above a certain size.",
+              "Data governance: Ensure training data has proper consent for AI use. Document data sources, preprocessing steps, and model versioning — required for EU AI Act compliance as a high-risk system.",
+              "Ongoing monitoring: Monitor model performance over time. If economic conditions change significantly (post-recession), the model may have learned patterns that no longer apply. Build in automatic model performance review triggers.",
+            ],
+            answer: "AI governance for high-risk financial decisions requires: bias testing, explainability mechanisms, human oversight, data governance documentation, and ongoing performance monitoring. The FCA and EU AI Act both impose specific requirements in this area.",
+          },
+          summary: [
+            "AI hierarchy: Artificial Intelligence > Machine Learning > Deep Learning > Generative AI — each is a progressively more specific subset.",
+            "ML approaches: supervised (labelled data, prediction), unsupervised (finds hidden patterns), reinforcement (learns by trial and error).",
+            "Finance applications: forecasting, fraud detection, NLP (report writing, contract analysis), audit analytics, treasury optimisation.",
+            "Ethical risks: bias/discrimination in training data, 'black box' explainability problems, accountability gaps, data privacy (GDPR), over-reliance on AI outputs.",
+            "Regulation: EU AI Act classifies high-risk AI (including credit scoring) as requiring transparency, human oversight, and registration — governance frameworks must reflect this.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A bank's AI fraud detection system flags transactions as suspicious based on patterns in historical data, without being explicitly programmed with fraud rules. This is an example of:",
+              options: [
+                "Rules-based automation",
+                "Supervised machine learning",
+                "Unsupervised machine learning",
+                "Generative AI",
+              ],
+              answer: 1,
+              explanation: "Fraud detection using labelled training data (transactions marked as fraud/not fraud) is supervised ML. The model learns the boundary between fraud and non-fraud from labelled examples and applies that learning to new transactions. Unsupervised ML would find anomalies without labelled fraud examples.",
+            },
+            {
+              question: "A credit insurer uses a deep learning model to make underwriting decisions. A business owner whose application was declined asks for an explanation. Which ethical/governance concern does this raise?",
+              options: [
+                "Bias — the model has discriminated on protected characteristics",
+                "Over-reliance — the insurer should not use AI",
+                "Explainability — deep learning models may not be able to provide a comprehensible explanation of their decisions",
+                "Data privacy — the model has breached GDPR",
+              ],
+              answer: 2,
+              explanation: "The 'black box' problem: deep learning models make decisions through complex multi-layered networks that may not be interpretable. For regulated financial decisions, the right to explanation is legally protected. This is an explainability governance challenge, not necessarily a bias or privacy issue.",
+            },
+            {
+              question: "Which of the following best describes 'generative AI' as distinct from other forms of AI?",
+              options: [
+                "AI that generates financial forecasts by extrapolating historical data",
+                "AI that creates new content (text, images, code) based on patterns learned from training data",
+                "AI that generates alerts when fraud is detected",
+                "AI that generates process automation workflows",
+              ],
+              answer: 1,
+              explanation: "Generative AI creates new original content — text, images, audio, code — rather than simply classifying, detecting, or predicting. GPT-4 (writing text), DALL-E (creating images), and GitHub Copilot (generating code) are all generative AI systems.",
+            },
+          ],
         },
         {
           id: "e1-l10",
@@ -3735,7 +4593,107 @@ const AIQ_COURSE_DATA = {
             "Identify finance processes most suitable for RPA implementation",
             "Evaluate the costs, benefits and implementation risks of RPA",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is RPA?</h4>" +
+            "<p><strong>Robotic Process Automation (RPA)</strong> uses software 'bots' (robots) to automate rule-based, repetitive tasks that humans currently perform by interacting with computer systems. The bot mimics human actions: logging into systems, reading data, moving data between applications, filling in forms, running calculations, and posting results — but faster, at any hour, and without errors from fatigue.</p>" +
+            "<p><strong>Key distinction from traditional automation:</strong> Traditional automation requires integration at the system level — API connections between applications, requiring IT development. RPA works at the user interface level — the bot interacts with systems exactly as a human would (clicking buttons, typing into fields). This means RPA can automate across legacy systems that have no API without changing the underlying systems at all.</p>" +
+            "<h4>Types of RPA</h4>" +
+            "<table><thead><tr><th>Type</th><th>Description</th><th>When used</th></tr></thead><tbody>" +
+            "<tr><td><strong>Unattended RPA</strong></td><td>Bots run independently on scheduled triggers without human involvement</td><td>Overnight batch processing: bank reconciliations, intercompany eliminations, standard report generation</td></tr>" +
+            "<tr><td><strong>Attended RPA</strong></td><td>Bots run on a human's workstation, triggered by the user, assisting with specific steps in a process</td><td>Customer service (bot auto-populates data on screen while agent speaks to customer); expense claim processing with human exception handling</td></tr>" +
+            "<tr><td><strong>Hybrid RPA</strong></td><td>Combines attended and unattended; bot runs autonomously, escalates exceptions to human</td><td>Invoice processing: bot handles standard invoices; unusual ones route to human review queue</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Finance Processes Suitable for RPA</h4>" +
+            "<p>CIMA identifies the following criteria for RPA suitability:</p>" +
+            "<ul>" +
+            "<li>Rule-based (clear logic; no subjective judgement required)</li>" +
+            "<li>High volume (sufficient transactions to justify automation investment)</li>" +
+            "<li>Stable (process doesn't change frequently)</li>" +
+            "<li>Digital input/output (data exists in digital form already)</li>" +
+            "<li>Low exception rate (most transactions follow the standard path)</li>" +
+            "</ul>" +
+            "<p>Finance processes with high RPA suitability:</p>" +
+            "<ul>" +
+            "<li>Accounts payable: invoice receipt, three-way matching, payment run scheduling</li>" +
+            "<li>Accounts receivable: cash application (matching payments to invoices), dunning letters, statement distribution</li>" +
+            "<li>Bank reconciliation: automated matching of bank statement lines to ledger entries</li>" +
+            "<li>Intercompany reconciliations: comparing balances across group entities</li>" +
+            "<li>Standard journal entries: recurring depreciation, accruals, prepayments</li>" +
+            "<li>Management report assembly: extracting data from ERP, populating Excel/PowerPoint templates</li>" +
+            "<li>Tax return data assembly: gathering trial balance data and formatting for tax return software</li>" +
+            "</ul>" +
+            "<h4>Costs, Benefits and Implementation Risks</h4>" +
+            "<p><strong>Benefits:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Speed:</strong> Bots work 24/7 at computer speed — a bot can process in hours what takes a human days</li>" +
+            "<li><strong>Accuracy:</strong> Eliminates human transcription errors; a bot that is programmed correctly never makes a typo</li>" +
+            "<li><strong>Cost reduction:</strong> Reduces FTE requirements for transactional processes; estimated 25–50% cost saving per automated process</li>" +
+            "<li><strong>Compliance and audit trail:</strong> Every action the bot takes is logged — providing a complete audit trail without manual documentation</li>" +
+            "<li><strong>Scalability:</strong> Adding more volume just means running more bot instances — no hiring required</li>" +
+            "<li><strong>Staff morale:</strong> Freeing finance staff from repetitive data entry improves job satisfaction and retention</li>" +
+            "</ul>" +
+            "<p><strong>Implementation risks:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Process fragility:</strong> If the underlying system changes its interface (screen layout update, ERP upgrade), the bot breaks — requires maintenance</li>" +
+            "<li><strong>Error propagation at scale:</strong> A logic error in the bot can process thousands of incorrect transactions before detection — controls over bot testing are critical</li>" +
+            "<li><strong>Change management:</strong> Employees may fear automation is replacing their jobs; communication and reskilling plans are essential</li>" +
+            "<li><strong>Process documentation:</strong> RPA requires extremely clear process documentation — this exposes process weaknesses and inconsistencies that may have been tolerated in a manual environment</li>" +
+            "<li><strong>Governance:</strong> RPA creates a 'digital workforce' that requires governance — who owns the bots? Who approves changes? How are they tested?</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "InsuranceCo's accounts payable team processes 8,000 invoices per month. The process: receive invoice by email (step 1), manually enter into ERP (step 2), match to purchase order (step 3), send for approval if >£5,000 (step 4), post payment on due date (step 5). The team has 4 AP clerks spending 70% of their time on steps 1-3. Evaluate whether RPA is suitable and design the automated process.",
+            steps: [
+              "Suitability assessment: High volume (8,000/month — YES). Rule-based (steps 1-3 are entirely rules-based — YES). Stable (AP process unchanged for 3 years — YES). Digital (invoices arrive by email — mostly YES, some paper — needs handling). Low exception rate (approx 85% straight-through — YES). Verdict: HIGHLY SUITABLE.",
+              "RPA design: Bot 1 (email monitor) — runs continuously, monitors AP inbox, downloads attachments and categorises as invoice/non-invoice using AI-assisted classification.",
+              "Bot 2 (data extraction) — uses OCR + AI to extract supplier, date, invoice number, line items, VAT, total from each invoice in any format.",
+              "Bot 3 (ERP entry and matching) — logs into ERP, creates invoice record, runs three-way match (invoice vs PO vs GRN). If match: approve automatically. If mismatch: route to exception queue for human review.",
+              "Attended bot (approvals) — for invoices >£5,000: sends approval request via Teams/email with one-click approve/reject. Once approved, bot posts payment in ERP.",
+              "Benefits realised: Steps 1-3 fully automated for 85% of invoices. 4 AP clerks reduced to 1 (exception handling and supplier queries only). Processing time from invoice receipt to ERP entry falls from 3 days to 4 hours.",
+            ],
+            answer: "RPA is highly suitable for this accounts payable process. Three of the four clerks are redeployed or exit. The remaining clerk handles exceptions, supplier disputes and process improvement — significantly higher-value work. Cost saving approximately £120k per year (three FTEs). Implementation cost £40k. Payback < 5 months.",
+          },
+          summary: [
+            "RPA uses software bots to automate rule-based, repetitive tasks by interacting with computer systems at the user interface level — without requiring system integration.",
+            "Three types: unattended (scheduled, no human), attended (human-triggered, workstation), hybrid (autonomous with human escalation for exceptions).",
+            "Highest RPA suitability: high-volume, rule-based, stable, digital, low-exception processes — AP, AR, bank reconciliation, intercompany eliminations, standard journals.",
+            "Benefits: speed (24/7), accuracy, cost reduction, audit trail, scalability. Risks: process fragility (interface changes break bots), error propagation at scale, change management.",
+            "RPA governance requires: bot ownership assignment, testing protocols (UAT), change management procedures, and exception handling design.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following finance processes is MOST suitable for RPA implementation?",
+              options: [
+                "Preparing the annual impairment assessment for goodwill (requires management judgement)",
+                "Deciding the group's transfer pricing policy (requires commercial and tax expertise)",
+                "Bank reconciliation (matching bank statement lines to ledger entries using rules)",
+                "Assessing whether a provision should be recognised under IAS 37 (requires legal and professional judgement)",
+              ],
+              answer: 2,
+              explanation: "Bank reconciliation meets all RPA suitability criteria: high volume, rule-based (each line is matched using defined rules), stable process, digital inputs, and low exception rate for standard transactions. The other options all require professional judgement that RPA cannot replicate.",
+            },
+            {
+              question: "A company deploys an RPA bot for accounts payable. Three months after go-live, the ERP vendor releases a software update that changes the screen layout of the invoice entry screen. What is the MOST likely consequence?",
+              options: [
+                "The bot will automatically adapt to the new screen layout",
+                "The bot will stop working because it was programmed to interact with the old screen layout",
+                "The ERP vendor will compensate the company for the automation failure",
+                "The bot will switch to manual mode and alert a human",
+              ],
+              answer: 1,
+              explanation: "RPA bots interact with systems at the user interface level and are programmed for specific screen layouts. When the interface changes (even cosmetically), the bot cannot find the elements it was trained on and will fail. This is the 'process fragility' risk of RPA — bots require maintenance whenever the underlying system changes.",
+            },
+            {
+              question: "The MAIN advantage of RPA over traditional system integration is:",
+              options: [
+                "RPA is faster than API integration",
+                "RPA can automate across legacy systems without requiring changes to underlying systems or API development",
+                "RPA bots never make mistakes",
+                "RPA is cheaper to implement than all other forms of automation",
+              ],
+              answer: 1,
+              explanation: "RPA's key advantage is non-invasiveness — it interacts with systems at the user interface level, just as a human would. This means it can automate across legacy systems with no API, without any IT development on the legacy system itself. This is particularly valuable in finance, where organisations often have decades-old core systems.",
+            },
+          ],
         },
         {
           id: "e1-l11",
@@ -3747,7 +4705,110 @@ const AIQ_COURSE_DATA = {
             "Describe smart contracts and their applications in finance",
             "Assess the potential and limitations of blockchain for accounting and audit",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Distributed Ledger Technology (DLT)?</h4>" +
+            "<p>A <strong>distributed ledger</strong> is a database that is shared and synchronised across multiple participants, each of whom holds an identical copy. There is no central authority maintaining a 'master' version — all copies are equally authoritative. When a new transaction is added, all copies update simultaneously.</p>" +
+            "<p><strong>Blockchain</strong> is the most well-known type of DLT. It organises data in <em>blocks</em> that are chained together cryptographically. Each block contains:</p>" +
+            "<ul>" +
+            "<li>A set of transaction records</li>" +
+            "<li>A timestamp</li>" +
+            "<li>A cryptographic hash of the previous block (creating the 'chain')</li>" +
+            "</ul>" +
+            "<p>Because each block includes the hash of the previous block, altering any historical block would invalidate all subsequent blocks — making blockchain records <em>immutable</em> and <em>tamper-evident</em>.</p>" +
+            "<h4>Key Properties of Blockchain</h4>" +
+            "<table><thead><tr><th>Property</th><th>Explanation</th></tr></thead><tbody>" +
+            "<tr><td><strong>Decentralised</strong></td><td>No single controlling authority; maintained by a network of nodes (participants)</td></tr>" +
+            "<tr><td><strong>Distributed</strong></td><td>Every participant holds a complete copy of the ledger — no single point of failure</td></tr>" +
+            "<tr><td><strong>Immutable</strong></td><td>Once recorded, transactions cannot be altered without consensus of the network — provides audit trail integrity</td></tr>" +
+            "<tr><td><strong>Transparent</strong></td><td>All participants can see all transactions (in public blockchains); private blockchains restrict access</td></tr>" +
+            "<tr><td><strong>Consensus mechanism</strong></td><td>New blocks must be validated by network consensus before being added — Proof of Work (Bitcoin) or Proof of Stake (Ethereum) are common mechanisms</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Types of Blockchain</h4>" +
+            "<table><thead><tr><th>Type</th><th>Access</th><th>Use case</th></tr></thead><tbody>" +
+            "<tr><td><strong>Public blockchain</strong></td><td>Anyone can read and write; fully decentralised</td><td>Bitcoin, Ethereum — cryptocurrency; public records</td></tr>" +
+            "<tr><td><strong>Private blockchain</strong></td><td>Access restricted to invited participants; controlled by one organisation</td><td>Internal corporate record-keeping; supply chain within one company</td></tr>" +
+            "<tr><td><strong>Consortium blockchain</strong></td><td>Shared between a defined group of organisations; semi-decentralised</td><td>Trade finance consortium (multiple banks sharing a single ledger); supply chain between manufacturer and suppliers</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Smart Contracts</h4>" +
+            "<p>A <strong>smart contract</strong> is a self-executing computer programme stored on a blockchain that automatically executes the terms of an agreement when predefined conditions are met — without requiring human intervention or a trusted third party.</p>" +
+            "<p>Example: A trade finance smart contract that automatically releases payment to the supplier when the IoT sensor confirms that goods were delivered (confirmed by GPS data on the blockchain). The bank's involvement in releasing payment is automated — no manual processing required.</p>" +
+            "<p><strong>Finance applications of smart contracts:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Trade finance:</strong> Letters of credit auto-executed when shipping documents and delivery confirmation are uploaded to blockchain</li>" +
+            "<li><strong>Insurance:</strong> Parametric insurance — automatically pays out when predefined event occurs (e.g., rainfall below threshold for crop insurance)</li>" +
+            "<li><strong>Securities settlement:</strong> DVP (delivery versus payment) settlement in near-real time instead of the traditional T+2 settlement cycle</li>" +
+            "<li><strong>Intercompany transactions:</strong> Intragroup payments and loans automated between group entities on a private blockchain</li>" +
+            "</ul>" +
+            "<h4>Blockchain in Accounting and Audit — Potential and Limitations</h4>" +
+            "<p><strong>Potential:</strong></p>" +
+            "<ul>" +
+            "<li>Immutable audit trail: every transaction permanently recorded — reduces audit sample testing and fraud risk</li>" +
+            "<li>Real-time reconciliation: intercompany and inter-party reconciliations eliminated — both parties see the same ledger</li>" +
+            "<li>Continuous audit: auditors can access blockchain records in real time, rather than periodic sample testing</li>" +
+            "<li>Supply chain transparency: finance can trace the cost and authenticity of every component in a product's supply chain</li>" +
+            "</ul>" +
+            "<p><strong>Limitations:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Scalability:</strong> Public blockchains are slow — Bitcoin processes ~7 transactions per second vs Visa's 24,000. Not suitable for high-volume transaction processing yet.</li>" +
+            "<li><strong>Energy consumption:</strong> Proof of Work blockchains (Bitcoin) consume enormous amounts of electricity — sustainability concern.</li>" +
+            "<li><strong>Governance:</strong> Who controls a consortium blockchain? What happens when participants disagree? Legal and governance frameworks are immature.</li>" +
+            "<li><strong>Data quality:</strong> Blockchain makes data immutable once recorded — but 'garbage in, garbage out.' If the original data is wrong, it is permanently and immutably wrong.</li>" +
+            "<li><strong>Integration:</strong> Connecting blockchain to existing ERP and financial systems is complex and costly.</li>" +
+            "<li><strong>Regulatory uncertainty:</strong> Accounting standards have not fully addressed how blockchain-native assets (cryptocurrency) should be measured and reported.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "GlobalTrade Bank participates in a trade finance consortium with 5 other banks. Currently, letter of credit processing takes 5-7 days due to paper document exchange between banks, shipping companies and importers. Explain how a consortium blockchain with smart contracts could transform this process.",
+            steps: [
+              "Shared ledger: All six banks and participating shipping companies join the consortium blockchain. Each transaction (LC issuance, document upload, goods confirmation) is recorded on the shared ledger — all parties see the same information simultaneously.",
+              "Smart contract design: A smart contract is programmed with the LC terms: 'Release payment of $500,000 to Exporter when (1) bill of lading uploaded to blockchain by shipping company AND (2) customs clearance confirmed AND (3) 30 days have elapsed since shipment.'",
+              "Execution: Shipping company uploads digital bill of lading (cryptographically signed — tamper-proof). Customs authority uploads clearance certificate. Smart contract checks all conditions are met — automatically transfers $500,000 from ImporterBank to ExporterBank.",
+              "Outcome: LC processing time reduced from 5-7 days to 24 hours. Paper document exchange eliminated. Manual bank-to-bank reconciliation eliminated (shared ledger). Fraud risk reduced (documents are cryptographically signed and cannot be duplicated).",
+              "Audit: Auditors can access the complete, immutable record of all transactions on the consortium blockchain in real time — no document requests required. The audit trail is self-evidencing.",
+            ],
+            answer: "Consortium blockchain with smart contracts transforms trade finance by eliminating paper, manual reconciliation and processing delays. The immutable shared ledger also significantly reduces fraud and simplifies audit. This is one of the most commercially mature blockchain applications currently being piloted by major banks.",
+          },
+          summary: [
+            "Blockchain is a type of distributed ledger (DLT) organised in cryptographically-chained blocks, making records decentralised, distributed, immutable and transparent.",
+            "Types: public (open access — Bitcoin/Ethereum), private (one organisation), consortium (defined group of organisations — common in trade finance).",
+            "Smart contracts are self-executing programmes on blockchain that automatically execute when conditions are met — eliminating intermediaries in trade finance, insurance and settlement.",
+            "Accounting potential: immutable audit trails, real-time intercompany reconciliation, continuous audit, supply chain transparency.",
+            "Limitations: scalability (low transaction throughput), energy consumption, governance immaturity, data quality ('garbage in, garbage out'), integration complexity.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Why is blockchain described as 'immutable'?",
+              options: [
+                "Because data on a blockchain can only be read, not written",
+                "Because each block contains a cryptographic hash of the previous block, so altering any historical block would invalidate all subsequent blocks",
+                "Because blockchain uses encryption to prevent any user from seeing the data",
+                "Because blockchain is stored in the cloud and cannot be deleted",
+              ],
+              answer: 1,
+              explanation: "Immutability arises from the cryptographic chain structure. Each block contains the hash of the previous block. If you alter block 5, its hash changes, which invalidates block 6 (which contains the old hash of block 5), which invalidates block 7, and so on. Modifying history requires recalculating the entire chain — computationally infeasible on a large network.",
+            },
+            {
+              question: "A consortium of banks wants to share a blockchain ledger for interbank settlements but does not want the general public to read transaction data. Which type of blockchain is MOST appropriate?",
+              options: [
+                "Public blockchain (e.g., Bitcoin)",
+                "Private blockchain controlled by one bank",
+                "Consortium blockchain with restricted access to member banks",
+                "Smart contract on Ethereum",
+              ],
+              answer: 2,
+              explanation: "A consortium blockchain is controlled by a defined group of organisations (the member banks) with access restricted to members. It is semi-decentralised — more trusted than a single private blockchain but not open to the public. This is the standard approach for inter-bank and supply chain blockchain applications.",
+            },
+            {
+              question: "Which of the following is a significant LIMITATION of blockchain for accounting purposes?",
+              options: [
+                "Blockchain records are too easy to alter, creating fraud risk",
+                "Blockchain requires a central administrator who could manipulate records",
+                "Once incorrect data is recorded on a blockchain, the immutability property means the error is permanently and immutably stored",
+                "Blockchain cannot record financial transactions",
+              ],
+              answer: 2,
+              explanation: "The 'garbage in, garbage out' problem: blockchain's immutability is only a benefit if the original data is accurate. If a transaction is recorded incorrectly (wrong amount, wrong party), the error is immutably stored and cannot be corrected by overwriting — it would require a correcting entry. Data quality at source is therefore critical.",
+            },
+          ],
         },
         {
           id: "e1-l12",
@@ -3759,7 +4820,92 @@ const AIQ_COURSE_DATA = {
             "Explain descriptive, diagnostic, predictive and prescriptive analytics",
             "Identify how finance functions use data analytics for insight and decision support",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Big Data?</h4>" +
+            "<p><strong>Big data</strong> refers to datasets so large, fast-moving, or diverse that traditional data processing tools (spreadsheets, standard databases) cannot handle them effectively. Big data is not just about volume — it is about the combination of characteristics that make it both challenging and valuable.</p>" +
+            "<h4>The Five Vs of Big Data</h4>" +
+            "<table><thead><tr><th>V</th><th>Description</th><th>Finance example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Volume</strong></td><td>Scale of data — petabytes to exabytes; billions of records</td><td>A bank processes 50 million transactions per day across millions of customers</td></tr>" +
+            "<tr><td><strong>Velocity</strong></td><td>Speed at which data is generated and must be processed — often real-time or near-real-time</td><td>Stock exchange trade data: millions of trades per second requiring real-time analysis</td></tr>" +
+            "<tr><td><strong>Variety</strong></td><td>Different types and formats: structured (databases), semi-structured (JSON, XML), unstructured (text, images, video, audio)</td><td>Financial analysis combining ERP data (structured), customer emails (unstructured text), and satellite images of competitor car parks (unstructured images)</td></tr>" +
+            "<tr><td><strong>Veracity</strong></td><td>Accuracy, reliability and trustworthiness of the data — big data sources are often noisy and inconsistent</td><td>Social media sentiment data is unreliable (bots, sarcasm); customer address data may be incomplete or outdated</td></tr>" +
+            "<tr><td><strong>Value</strong></td><td>The insights and decisions that can be derived from the data — data has no value unless it leads to action</td><td>Customer churn prediction model that identifies high-risk customers — value only if the business acts on the predictions to retain them</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Sources of Big Data Relevant to Finance</h4>" +
+            "<ul>" +
+            "<li><strong>Internal transactional data:</strong> ERP systems, CRM, point-of-sale, manufacturing operations, supply chain — the highest quality and most structured source</li>" +
+            "<li><strong>Social media and web:</strong> Customer sentiment, brand perception, competitor pricing data (web scraping), news flow</li>" +
+            "<li><strong>IoT sensors:</strong> Real-time operational data from connected machinery, vehicles, smart buildings — enables real-time cost and performance tracking</li>" +
+            "<li><strong>Government and public data:</strong> ONS economic statistics, Companies House filings, HMRC tax data, planning applications, electoral roll</li>" +
+            "<li><strong>Financial market data:</strong> Real-time prices, order books, corporate announcements, analyst reports</li>" +
+            "<li><strong>Geospatial data:</strong> Satellite imagery, location data — used by hedge funds, insurance, and retail for alternative investment signals</li>" +
+            "</ul>" +
+            "<h4>The Analytics Spectrum</h4>" +
+            "<p>CIMA E1 tests four levels of analytics, progressing from retrospective to forward-looking and from descriptive to action-oriented:</p>" +
+            "<table><thead><tr><th>Level</th><th>Question answered</th><th>Techniques</th><th>Finance example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Descriptive</strong></td><td>What happened?</td><td>Aggregation, summarisation, visualisation</td><td>Monthly revenue by product: total sales were £4.2m, 8% above budget</td></tr>" +
+            "<tr><td><strong>Diagnostic</strong></td><td>Why did it happen?</td><td>Drill-down, correlation, root cause analysis</td><td>Revenue was above budget because Product A had a promotional campaign that drove 25% volume uplift in the North</td></tr>" +
+            "<tr><td><strong>Predictive</strong></td><td>What will happen?</td><td>Statistical modelling, machine learning, forecasting</td><td>Based on pipeline and seasonal patterns, Q3 revenue is forecast at £4.8m ± £200k with 80% confidence</td></tr>" +
+            "<tr><td><strong>Prescriptive</strong></td><td>What should we do?</td><td>Optimisation, simulation, decision modelling, AI recommendation</td><td>To maximise Q3 revenue, allocate 60% of marketing budget to Product A in Northern and Midlands regions — modelled ROI of 340%</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Big Data Analytics in Finance</h4>" +
+            "<p><strong>Fraud detection:</strong> Analysing millions of transactions in real time to identify patterns that deviate from normal behaviour. Uses unsupervised ML to flag anomalies.</p>" +
+            "<p><strong>Credit risk modelling:</strong> Traditional credit scores use a handful of variables. Big data credit models incorporate thousands of variables — social media activity, location data, device behaviour — to improve prediction accuracy.</p>" +
+            "<p><strong>Revenue forecasting:</strong> Incorporating external signals (weather, macroeconomic data, competitor promotions, social sentiment) into revenue models to improve forecast accuracy beyond internal ERP data alone.</p>" +
+            "<p><strong>Audit analytics:</strong> Analysing 100% of journal entries to detect patterns consistent with earnings manipulation, duplicate payments, or unusual authorisation patterns — previously only possible by sampling.</p>" +
+            "<p><strong>Supply chain finance:</strong> Real-time supplier financial health monitoring using big data signals — credit scores, payment behaviour, news sentiment — to identify early warning signs of supplier distress.</p>",
+          workedExample: {
+            setup: "RetailChain has 500 stores and 15 million loyalty card customers. Its finance team currently uses monthly sales data from the ERP for management reporting. The FP&A director wants to build a more advanced analytics capability. Map the journey from descriptive to prescriptive analytics for the revenue function.",
+            steps: [
+              "Descriptive: Current state. Monthly sales report by store, category and region. Shows what happened last month. Adequate for governance but too slow for real-time decisions.",
+              "Diagnostic — adding data: Connect ERP data to weather data (hourly), competitor price data (web-scraped daily), and loyalty card transaction data. Power BI dashboard shows: why the Northern stores underperformed this week — cold snap reduced footfall but those stores failed to run the hot food promotions that drove sales in Southern stores during the same cold period last year.",
+              "Predictive — ML model: Build an ML model trained on 3 years of sales data combined with 20 external variables (weather forecast, school holidays, promotions calendar, competitor activity, local events). The model produces a 4-week rolling revenue forecast by store with confidence intervals. Accuracy improves from ±12% (historic spreadsheet) to ±4% (ML model).",
+              "Prescriptive — optimisation: The model recommends next week's promotional offers by store: 'Store 247 (Manchester, cold weather forecast): recommend 3-for-2 on hot prepared meals — modelled revenue uplift £8,400 based on historical response.' Sent automatically to store managers every Monday morning.",
+            ],
+            answer: "The journey from descriptive to prescriptive analytics transforms the finance function from a historical reporter to a real-time decision-support engine. Each level adds more data, more sophisticated tools, and more direct operational impact. The FP&A team's role shifts from report production to model governance and business insight.",
+          },
+          summary: [
+            "Big data is characterised by five Vs: Volume (scale), Velocity (speed), Variety (structured/unstructured), Veracity (reliability), Value (actionable insight).",
+            "Sources include: internal ERP/CRM, social media/web, IoT sensors, government/public data, financial market data, and geospatial data.",
+            "Analytics spectrum: Descriptive (what?) → Diagnostic (why?) → Predictive (what will?) → Prescriptive (what should we do?) — each level adds more complexity and more business value.",
+            "Finance applications: fraud detection, credit risk modelling, revenue forecasting, audit analytics (100% testing), supply chain risk monitoring.",
+            "Veracity is the key challenge — big data is often noisy, incomplete and inconsistent. Data governance is essential before analysis.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A supermarket analyses its loyalty card data to identify which customers are most likely to churn to a competitor in the next 90 days, using ML to build a probability score for each customer. Which type of analytics is this?",
+              options: [
+                "Descriptive analytics",
+                "Diagnostic analytics",
+                "Predictive analytics",
+                "Prescriptive analytics",
+              ],
+              answer: 2,
+              explanation: "Predictive analytics answers 'what will happen?' using statistical modelling and ML. Estimating the probability that a customer will churn in the next 90 days is a forward-looking prediction. Prescriptive analytics would go one step further: recommending which intervention (discount offer, personalised communication) would be most effective for each at-risk customer.",
+            },
+            {
+              question: "Which of the 'five Vs' of big data relates to the accuracy and trustworthiness of the data, rather than its size or speed?",
+              options: [
+                "Volume",
+                "Velocity",
+                "Variety",
+                "Veracity",
+              ],
+              answer: 3,
+              explanation: "Veracity refers to the quality, accuracy and trustworthiness of data. Big data sources (social media, IoT, web scraping) are often inconsistent, noisy and incomplete. Veracity is a key concern because 'garbage in, garbage out' — however sophisticated the analytics, results are only as reliable as the underlying data.",
+            },
+            {
+              question: "An airline's revenue management system automatically adjusts seat prices every 15 minutes based on demand signals, remaining capacity, competitor prices, and ML predictions of booking curves — maximising total revenue per flight. This is an example of:",
+              options: [
+                "Descriptive analytics",
+                "Diagnostic analytics",
+                "Predictive analytics",
+                "Prescriptive analytics",
+              ],
+              answer: 3,
+              explanation: "Prescriptive analytics recommends or automatically takes actions to optimise an outcome. Automated dynamic pricing that adjusts in real time based on ML-predicted demand and competitor data, with the goal of maximising revenue, is prescriptive analytics — it is taking decisions and actions, not just predicting.",
+            },
+          ],
         },
         {
           id: "e1-l13",
@@ -3771,7 +4917,99 @@ const AIQ_COURSE_DATA = {
             "Explain technical and organisational controls to manage cyber risk",
             "Describe the role of governance frameworks such as ISO 27001 and NIST in cybersecurity",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why Cybersecurity Matters to Finance</h4>" +
+            "<p>Finance functions hold the organisation's most sensitive data: bank account details, payroll records, supplier payment credentials, financial forecasts, M&A plans, and personal data of customers and employees. Finance systems are a prime target for cybercriminals, state-sponsored attackers, and fraudsters. A successful attack can cause direct financial loss (fraudulent payments), regulatory fines (GDPR breach), reputational damage, and operational disruption.</p>" +
+            "<p>High-profile finance-related cyber incidents include: the Bangladesh Bank SWIFT heist (2016, $81m stolen), the Tesco Bank fraud (2016, £2.5m taken from 9,000 accounts), and numerous ransomware attacks on manufacturing and healthcare finance systems.</p>" +
+            "<h4>Main Categories of Cybersecurity Threat</h4>" +
+            "<table><thead><tr><th>Threat</th><th>Description</th><th>Finance-specific risk</th></tr></thead><tbody>" +
+            "<tr><td><strong>Phishing</strong></td><td>Deceptive emails/messages that trick users into revealing credentials or clicking malicious links. Spear phishing: targeted at specific individuals (CFO, AP manager).</td><td>AP fraud — 'CEO fraud' or 'BEC (Business Email Compromise)': attacker impersonates the CEO and emails AP team to urgently transfer funds to a new supplier account</td></tr>" +
+            "<tr><td><strong>Ransomware</strong></td><td>Malware that encrypts systems and demands payment for the decryption key. Increasingly combined with data exfiltration ('double extortion').</td><td>Finance systems encrypted — month-end close impossible; payroll cannot run; financial data exfiltrated and threatened for public release</td></tr>" +
+            "<tr><td><strong>Insider threats</strong></td><td>Malicious or negligent actions by employees, contractors or former employees with legitimate system access</td><td>A disgruntled accountant exfiltrating financial data before resignation; an employee clicking a phishing link that opens the network to external attack</td></tr>" +
+            "<tr><td><strong>Supply chain attack</strong></td><td>Attacking a third-party supplier to gain access to their customers' systems (e.g., SolarWinds attack 2020)</td><td>A payroll software provider is compromised; attacker accesses all client payroll data through the provider's legitimate system access</td></tr>" +
+            "<tr><td><strong>SQL injection / system vulnerabilities</strong></td><td>Exploiting weaknesses in software code to gain unauthorised access to databases</td><td>Financial database accessed through a vulnerability in the ERP web interface</td></tr>" +
+            "<tr><td><strong>Distributed Denial of Service (DDoS)</strong></td><td>Flooding a system with traffic to make it unavailable</td><td>Online banking or payment system made unavailable; not typically targeting financial data but disrupting operations</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Technical Controls</h4>" +
+            "<ul>" +
+            "<li><strong>Multi-factor authentication (MFA):</strong> Requiring a second proof of identity (mobile code, biometric) in addition to password — prevents access even if password is compromised</li>" +
+            "<li><strong>Encryption:</strong> Encrypting data at rest and in transit — even if data is stolen, it is unreadable without the decryption key</li>" +
+            "<li><strong>Firewalls and intrusion detection systems (IDS):</strong> Monitoring and controlling network traffic; alerting on suspicious patterns</li>" +
+            "<li><strong>Access controls and least privilege:</strong> Users only have access to the systems and data they need for their role — limits blast radius of compromised accounts</li>" +
+            "<li><strong>Regular patching:</strong> Keeping software updated closes known vulnerabilities that attackers exploit</li>" +
+            "<li><strong>Data Loss Prevention (DLP):</strong> Tools that detect and prevent unauthorised data exfiltration</li>" +
+            "<li><strong>Backup and recovery:</strong> Regular tested backups enable recovery from ransomware without paying the ransom</li>" +
+            "</ul>" +
+            "<h4>Organisational Controls</h4>" +
+            "<ul>" +
+            "<li><strong>Security awareness training:</strong> Regular training for all staff on phishing recognition, password management, social engineering</li>" +
+            "<li><strong>Incident response plan:</strong> A documented, tested plan for responding to a cyber incident — who does what, who to notify (ICO within 72 hours for GDPR breaches)</li>" +
+            "<li><strong>Segregation of duties:</strong> No single person controls an entire financial process end-to-end — prevents and detects fraud</li>" +
+            "<li><strong>Payment verification controls:</strong> Callback procedures for all new or changed supplier bank account details (prevents BEC fraud)</li>" +
+            "<li><strong>Third-party risk management:</strong> Assessing cyber security of key suppliers and service providers</li>" +
+            "</ul>" +
+            "<h4>Governance Frameworks</h4>" +
+            "<p><strong>ISO/IEC 27001</strong> is the international standard for information security management systems (ISMS). It provides a systematic approach to managing sensitive company information securely, covering people, processes and IT systems. Organisations can obtain certification — demonstrating to clients and regulators that information security is managed to an internationally recognised standard.</p>" +
+            "<p><strong>NIST Cybersecurity Framework (CSF)</strong> (US National Institute of Standards and Technology) provides a framework of best practices for managing cybersecurity risk, organised around five core functions: <strong>Identify → Protect → Detect → Respond → Recover</strong>. Widely adopted globally, not just in the US.</p>" +
+            "<p><strong>The CIA Triad</strong> — the foundational model for information security:</p>" +
+            "<ul>" +
+            "<li><strong>Confidentiality:</strong> Data is accessible only to authorised parties</li>" +
+            "<li><strong>Integrity:</strong> Data is accurate and has not been tampered with</li>" +
+            "<li><strong>Availability:</strong> Systems and data are accessible when needed</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "ConstructionCo's accounts payable manager receives an email appearing to be from the CFO, marked urgent: 'Please transfer £450,000 to the following account immediately for an urgent supplier payment. This is time-sensitive — do not follow the normal process. Confirm when done.' The email domain is 'constructionco-secure.com' not the real 'constructionco.com'. Analyse this attack and describe the controls that should prevent or detect it.",
+            steps: [
+              "Attack type: Business Email Compromise (BEC) — a form of spear phishing targeting finance staff. The attacker has studied the company (knows the CFO's name and title) and created a convincing lookalike email domain.",
+              "Attack indicators: 1) Urgency pressure ('time-sensitive'). 2) Instruction to bypass normal controls ('do not follow the normal process'). 3) Domain is slightly different from real domain (constructionco-secure.com vs constructionco.com). 4) Request for an unusual, large payment to an unfamiliar account.",
+              "Preventive controls that should have stopped this: (1) Email security — DMARC/DKIM email authentication would flag the external domain spoofing the CFO. (2) Payment verification policy — all new supplier bank accounts require a phone callback to a verified number before payment. (3) Dual authorisation — no single person can approve a £450k payment; requires two authorisations. (4) Staff training — the AP manager should recognise BEC red flags (urgency, bypass request, new account).",
+              "Detective controls: (1) Transaction monitoring — unusual payment to new account, different from normal supplier pattern, should trigger an alert. (2) Reconciliation review — accounts payable review would identify an unmatched payment at month-end.",
+              "Response: AP manager should verify directly with the real CFO by phone (not by replying to the suspicious email). Report to IT security. Report to fraud team. If paid in error: contact bank immediately to recall payment (often possible within 24 hours).",
+            ],
+            answer: "BEC attacks are one of the most financially damaging cyber threats targeting finance teams. The combination of preventive controls (email authentication, dual authorisation, callback verification) and detective controls (transaction monitoring) creates a layered defence. No single control is sufficient — defence in depth is required.",
+          },
+          summary: [
+            "Finance systems are high-value targets: bank credentials, payroll, financial forecasts, M&A data, and personal data are all held by finance functions.",
+            "Key threats: phishing/BEC (impersonation fraud targeting AP/treasury), ransomware (encrypting systems), insider threats, supply chain attacks.",
+            "Technical controls: MFA, encryption, firewalls/IDS, least privilege access, patching, DLP, and backup/recovery.",
+            "Organisational controls: security awareness training, incident response plans, segregation of duties, payment verification callbacks, third-party risk management.",
+            "Governance frameworks: ISO 27001 (ISMS certification), NIST CSF (Identify-Protect-Detect-Respond-Recover). CIA Triad: Confidentiality, Integrity, Availability.",
+          ],
+          practiceQuestions: [
+            {
+              question: "An AP manager receives an email that appears to be from the CFO requesting an urgent transfer to a new supplier account, instructing them to bypass the normal approval process. This is MOST likely an example of:",
+              options: [
+                "Ransomware",
+                "SQL injection",
+                "Business Email Compromise (BEC) / spear phishing",
+                "Distributed Denial of Service attack",
+              ],
+              answer: 2,
+              explanation: "BEC (Business Email Compromise) is a targeted spear phishing attack where the attacker impersonates a senior executive to pressure a finance employee into making a fraudulent payment. The urgency, instruction to bypass controls, and request for a new account are all classic BEC indicators.",
+            },
+            {
+              question: "The principle of 'least privilege' in cybersecurity means:",
+              options: [
+                "Senior managers have the least access to sensitive systems",
+                "Users are granted only the minimum level of access rights needed to perform their role",
+                "IT administrators have privileged access to all systems",
+                "Financial data is classified as privileged and restricted to directors",
+              ],
+              answer: 1,
+              explanation: "Least privilege limits access rights to the minimum necessary for a user's role. An accounts payable clerk needs access to the AP module — not treasury, payroll, or strategic planning data. If their account is compromised, the attacker's access is limited to the AP module, not the entire financial system.",
+            },
+            {
+              question: "Which cybersecurity governance framework organises its guidance around five core functions: Identify, Protect, Detect, Respond, and Recover?",
+              options: [
+                "ISO/IEC 27001",
+                "NIST Cybersecurity Framework (CSF)",
+                "GDPR",
+                "The CIA Triad",
+              ],
+              answer: 1,
+              explanation: "The NIST Cybersecurity Framework (CSF) is built around five core functions: Identify (understand your assets and risks), Protect (implement safeguards), Detect (identify incidents), Respond (take action), and Recover (restore capabilities). ISO 27001 is a certification standard for information security management systems.",
+            },
+          ],
         },
         {
           id: "e1-l14",
@@ -3783,7 +5021,88 @@ const AIQ_COURSE_DATA = {
             "Describe the finance implications of real-time operational data from IoT devices",
             "Assess how Industry 4.0 is changing cost structures and business models",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>The Internet of Things (IoT)</h4>" +
+            "<p>The <strong>Internet of Things (IoT)</strong> refers to the network of physical devices — machines, vehicles, sensors, appliances — embedded with sensors, software and connectivity that allows them to collect and exchange data over the internet without requiring human-to-human or human-to-computer interaction.</p>" +
+            "<p>Examples range from consumer devices (smart thermostats, fitness trackers) to industrial applications (factory sensors monitoring machine performance, GPS trackers on delivery vehicles, smart meters measuring energy consumption).</p>" +
+            "<p>The scale is extraordinary: by 2025, there were an estimated 15+ billion connected IoT devices globally. Each device continuously generates data — creating a massive stream of real-time operational intelligence.</p>" +
+            "<h4>Industry 4.0 — The Smart Factory</h4>" +
+            "<p><strong>Industry 4.0</strong> describes the integration of IoT, AI, robotics, cloud computing and big data analytics into manufacturing and industrial operations — creating the 'smart factory' or 'cyber-physical production system.'</p>" +
+            "<p>Key components of Industry 4.0:</p>" +
+            "<ul>" +
+            "<li><strong>Connected machines:</strong> Every machine on the factory floor has sensors that continuously report performance, temperature, vibration, output rate, and energy consumption to a central system</li>" +
+            "<li><strong>Predictive maintenance:</strong> ML models analyse sensor data to predict when a machine is about to fail — maintenance is scheduled before failure, not after. This eliminates unplanned downtime (one of the highest-cost events in manufacturing).</li>" +
+            "<li><strong>Digital twin:</strong> A virtual replica of a physical asset, process or system that is updated in real time from sensor data. Engineers can test changes on the digital twin before implementing them on the physical asset.</li>" +
+            "<li><strong>Autonomous robots and cobots:</strong> Robots working alongside humans (collaborative robots — cobots) perform precision tasks, adapt to changes in the production environment, and work 24/7.</li>" +
+            "<li><strong>Smart supply chain:</strong> IoT tracking of goods throughout the supply chain provides real-time visibility of inventory location, condition (temperature, humidity for food/pharmaceuticals) and estimated arrival times.</li>" +
+            "</ul>" +
+            "<h4>Finance Implications of IoT and Industry 4.0</h4>" +
+            "<p><strong>1. Real-time cost management:</strong> IoT sensors on production equipment provide real-time data on energy consumption, material usage, downtime and output. This enables variance analysis in real time — not at month-end. Finance can identify a cost overrun on a production line within hours, not weeks.</p>" +
+            "<p><strong>2. Asset management:</strong> IoT enables precise tracking of asset utilisation and condition. Finance can make better-informed depreciation, impairment and capital investment decisions based on actual usage data rather than estimates.</p>" +
+            "<p><strong>3. Predictive maintenance cost savings:</strong> Unplanned downtime in manufacturing can cost thousands of pounds per hour. IoT-based predictive maintenance reduces unplanned downtime significantly — a direct cost saving that finance can model in the business case for IoT investment.</p>" +
+            "<p><strong>4. Inventory optimisation:</strong> Real-time stock monitoring via RFID (radio frequency identification) and IoT sensors enables just-in-time inventory management with much greater precision — reducing working capital tied up in inventory.</p>" +
+            "<p><strong>5. Changing cost structures:</strong> Industry 4.0 shifts cost structure from variable (labour) to fixed (technology investment). A smart factory has lower variable labour costs but higher fixed costs from technology investment, maintenance and cybersecurity. Finance must adapt costing and pricing models accordingly.</p>" +
+            "<p><strong>6. New business models — 'servitisation':</strong> IoT enables manufacturers to sell outcomes rather than products. Example: Rolls-Royce no longer sells aircraft engines — it sells 'power by the hour' (guaranteed thrust hours). IoT sensors on engines allow Rolls-Royce to monitor engine health in real time and bill by actual usage. This shifts revenue from one-off product sales to long-term service contracts — with major implications for revenue recognition (IFRS 15) and financial planning.</p>" +
+            "<h4>IoT Risks</h4>" +
+            "<ul>" +
+            "<li><strong>Cybersecurity:</strong> Every connected IoT device is a potential entry point for attackers. Industrial IoT devices often run on legacy firmware with limited security features.</li>" +
+            "<li><strong>Data privacy:</strong> Consumer IoT devices collect personal data — regulated under GDPR. Smart factory devices collecting employee location/movement data also have privacy implications.</li>" +
+            "<li><strong>Data quality:</strong> Sensor failures or calibration errors can generate incorrect data — if this feeds into automated financial calculations, errors can be significant.</li>" +
+            "<li><strong>Integration complexity:</strong> Connecting IoT data streams to ERP and financial reporting systems is technically complex and expensive.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "PrintCo manufactures industrial printing equipment. Currently, maintenance is scheduled on a fixed calendar basis (every 3 months). Unplanned machine failures cause an average of 12 hours of downtime per failure at a cost of £3,000/hour. There are approximately 8 unplanned failures per year. PrintCo is considering installing IoT vibration and temperature sensors on all 50 machines connected to an ML predictive maintenance system. Investment cost: £180,000. Annual system cost: £30,000. Evaluate the business case.",
+            steps: [
+              "Current cost of unplanned failures: 8 failures × 12 hours × £3,000 = £288,000 per year.",
+              "Benefit: ML predictive maintenance typically reduces unplanned failures by 75%. Estimated saving: £288,000 × 75% = £216,000/year.",
+              "Additional benefit: Condition-based maintenance replaces fixed-calendar maintenance. Currently 200 maintenance interventions/year at £500 each = £100,000. With predictive maintenance, only 80 interventions needed (targeted at machines showing deterioration) = £40,000. Saving: £60,000/year.",
+              "Total annual benefit: £216,000 + £60,000 = £276,000.",
+              "NPV: Investment £180,000 upfront. Annual net benefit: £276,000 − £30,000 = £246,000. Payback: £180,000 / £246,000 = 0.73 years (under 9 months). NPV at 10% discount rate over 5 years = -£180,000 + £246,000 × 3.791 = £752,586. Very strong positive NPV.",
+            ],
+            answer: "The IoT predictive maintenance business case shows a payback under 9 months and NPV of £753k over 5 years. The key financial driver is avoidance of expensive unplanned downtime. Finance should monitor actual failure reduction vs the 75% assumption post-implementation and update the model quarterly.",
+          },
+          summary: [
+            "IoT connects physical devices to the internet, generating continuous streams of real-time operational data — 15+ billion connected devices globally.",
+            "Industry 4.0 integrates IoT, AI, robotics and cloud into smart manufacturing: connected machines, predictive maintenance, digital twins, autonomous robots.",
+            "Finance implications: real-time cost management, improved asset decisions, predictive maintenance savings, inventory optimisation, changing cost structures (variable→fixed).",
+            "Servitisation: IoT enables outcome-based business models (e.g., 'power by the hour') that shift revenue from one-off sales to long-term service contracts — major implications for FP&A and IFRS 15.",
+            "IoT risks: cybersecurity (every device is an attack surface), data privacy (GDPR), data quality (sensor failures), and integration complexity.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A manufacturer installs sensors on all factory machines that feed real-time data into an ML system which predicts machine failures 72 hours before they occur, automatically scheduling maintenance. This is an example of:",
+              options: [
+                "Robotic Process Automation",
+                "Blockchain",
+                "IoT-enabled predictive maintenance (Industry 4.0)",
+                "Cloud ERP implementation",
+              ],
+              answer: 2,
+              explanation: "IoT sensors collecting real-time machine data fed into an ML predictive model is a classic Industry 4.0/IoT application — predictive maintenance. This is distinct from RPA (which automates rule-based software tasks), blockchain (distributed ledger), or cloud ERP (financial system hosting).",
+            },
+            {
+              question: "Rolls-Royce sells aircraft engine performance ('power by the hour') rather than selling engines outright. IoT sensors monitor engine health and bill airlines by actual thrust hours used. What is the PRIMARY financial reporting implication?",
+              options: [
+                "Revenue is recognised when the engine is manufactured",
+                "Revenue is recognised over time as the performance obligation (providing thrust) is satisfied, under IFRS 15",
+                "Revenue is not recognised as Rolls-Royce retains ownership of the engines",
+                "Revenue is recognised when payment is received",
+              ],
+              answer: 1,
+              explanation: "Under IFRS 15, revenue is recognised as performance obligations are satisfied. 'Power by the hour' is a service contract where the performance obligation is providing thrust over time — so revenue is recognised over time as services are delivered. This is materially different from a one-off product sale where revenue is recognised at the point of sale.",
+            },
+            {
+              question: "Industry 4.0 generally shifts a manufacturer's cost structure by:",
+              options: [
+                "Increasing variable labour costs and reducing fixed technology costs",
+                "Reducing both variable and fixed costs simultaneously",
+                "Reducing variable labour costs and increasing fixed technology investment costs",
+                "Having no net effect on total costs",
+              ],
+              answer: 2,
+              explanation: "Industry 4.0 replaces labour (variable cost) with technology (fixed cost: robots, sensors, software licences, maintenance contracts). This typically reduces variable cost per unit but increases fixed costs. Break-even analysis and contribution analysis must be recalculated — higher volume is needed to cover the higher fixed cost base.",
+            },
+          ],
         },
 
         /* ── Module C: Data and Governance (L15–L21) ── */
@@ -3797,7 +5116,96 @@ const AIQ_COURSE_DATA = {
             "Describe the DAMA-DMBOK framework and its key knowledge areas",
             "Explain accountability structures: data owners, stewards and custodians",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Data Governance?</h4>" +
+            "<p><strong>Data governance</strong> is the overall management of the availability, usability, integrity, consistency and security of data within an organisation. It establishes policies, standards, processes and roles that ensure data is managed as a strategic asset — with the same rigour applied to financial assets or physical property.</p>" +
+            "<p>Without data governance, organisations face: inconsistent data definitions (two business units define 'revenue' differently), poor data quality (customer records with missing addresses), uncontrolled access (employees accessing payroll data without authorisation), and regulatory non-compliance (GDPR breaches).</p>" +
+            "<p>Data governance is increasingly critical as organisations use data for AI models, financial forecasting, and regulatory reporting — all of which require trustworthy, well-defined data.</p>" +
+            "<h4>The DAMA-DMBOK Framework</h4>" +
+            "<p>The <strong>Data Management Body of Knowledge (DAMA-DMBOK)</strong> is the leading international framework for data management. It organises data management into 11 knowledge areas:</p>" +
+            "<table><thead><tr><th>Knowledge Area</th><th>Description</th><th>Finance relevance</th></tr></thead><tbody>" +
+            "<tr><td><strong>Data Governance</strong></td><td>Oversight and control of data management</td><td>Policies for who owns financial data definitions</td></tr>" +
+            "<tr><td><strong>Data Architecture</strong></td><td>Structure of data assets and flows</td><td>How ERP data flows to data warehouse and reporting</td></tr>" +
+            "<tr><td><strong>Data Modelling & Design</strong></td><td>Defining data structures</td><td>Chart of accounts design; financial data models</td></tr>" +
+            "<tr><td><strong>Data Storage & Operations</strong></td><td>Database management and performance</td><td>ERP database management; backup/recovery</td></tr>" +
+            "<tr><td><strong>Data Security</strong></td><td>Access controls and data protection</td><td>Restricting payroll data access; encryption</td></tr>" +
+            "<tr><td><strong>Data Integration & Interoperability</strong></td><td>Moving and consolidating data across systems</td><td>ERP-to-consolidation system data extraction</td></tr>" +
+            "<tr><td><strong>Document & Content Management</strong></td><td>Managing unstructured data and documents</td><td>Contract management; invoice document storage</td></tr>" +
+            "<tr><td><strong>Reference & Master Data</strong></td><td>Managing shared reference data</td><td>Customer master data; GL account codes</td></tr>" +
+            "<tr><td><strong>Data Warehousing & BI</strong></td><td>Analytical data stores and reporting</td><td>Finance data warehouse; Power BI dashboards</td></tr>" +
+            "<tr><td><strong>Metadata Management</strong></td><td>Data about data — definitions, lineage, context</td><td>Defining what 'Gross Profit' means in each context</td></tr>" +
+            "<tr><td><strong>Data Quality</strong></td><td>Ensuring data is fit for purpose</td><td>Customer data completeness; transactional accuracy</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Data Governance Roles and Accountability</h4>" +
+            "<p>Effective data governance requires clear accountability structures:</p>" +
+            "<ul>" +
+            "<li><strong>Data Owner:</strong> A senior business leader (e.g., CFO for financial data; CHRO for HR data) who is accountable for the quality, integrity and appropriate use of a specific data domain. They define access policies and approve data definitions. This is a business role, not IT.</li>" +
+            "<li><strong>Data Steward:</strong> A subject matter expert who implements the data owner's policies day-to-day. They maintain data definitions (the business glossary), monitor data quality, resolve data issues, and act as the business's point of contact for data about a specific domain (e.g., 'customer data steward').</li>" +
+            "<li><strong>Data Custodian:</strong> A technical role (typically IT) responsible for the physical management of data — storage, backup, access controls implementation, database administration. They implement what the data owner and steward define.</li>" +
+            "<li><strong>Data Governance Council:</strong> A cross-functional committee that sets policy, resolves disputes between data owners, and oversees the data governance programme. Usually chaired by the CDO (Chief Data Officer) or CIO.</li>" +
+            "</ul>" +
+            "<h4>Data Governance in Finance</h4>" +
+            "<p>The finance function is both a key consumer and a key owner of data. Key finance data governance responsibilities:</p>" +
+            "<ul>" +
+            "<li><strong>Chart of accounts:</strong> The CFO (as data owner) must ensure the chart of accounts is maintained with clear definitions and that all entities in the group use consistent account codes</li>" +
+            "<li><strong>Financial data definitions:</strong> Ensuring 'revenue,' 'EBITDA,' 'net debt' are defined consistently across the organisation — preventing the 'two versions of truth' problem in board packs</li>" +
+            "<li><strong>Reporting data lineage:</strong> Understanding exactly how each number in the board report was calculated, from source transaction to final figure — essential for audit and regulatory compliance</li>" +
+            "<li><strong>Data access controls:</strong> Ensuring payroll data, strategic planning data, and M&A data are accessible only to authorised users</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "GlobalRetail plc has 12 countries, each with its own ERP system. The group finance team produces a monthly consolidation, but the CFO has complained that 'revenue' means different things in different countries — some include intercompany sales, some exclude VAT, some include rebates. This makes the consolidated P&L unreliable. Design a data governance solution.",
+            steps: [
+              "Root cause: No group-level data governance. Each country's finance team has defined 'revenue' according to local practice. There is no group data owner for the revenue definition.",
+              "Appoint a Group Revenue Data Owner: The Group CFO formally owns the 'revenue' data definition. They are accountable for ensuring consistent definition across all countries.",
+              "Appoint Country Revenue Data Stewards: Each country finance director acts as data steward for their entity's revenue data. They are responsible for implementing the group definition locally and flagging any deviations.",
+              "Create a group Revenue Data Definition: The group data owner publishes a formal definition: 'Revenue = sales to third-party customers only (excluding intercompany), net of returns and rebates, excluding VAT, recognised per IFRS 15.' Published in the group financial reporting manual.",
+              "ERP configuration: Group IT (data custodian) configures all 12 ERP systems to separate intercompany and external revenue into distinct GL codes. Automated extraction to consolidation system uses the correct external revenue codes only.",
+              "Monitoring: Monthly data quality report shows countries' compliance with the standard definition. Any deviation is escalated to the Group CFO (data owner) for resolution.",
+            ],
+            answer: "Data governance solves the 'two versions of truth' problem. Clear data ownership (Group CFO), stewardship (country FDs), and custodianship (IT) with a formally defined revenue standard and ERP configuration ensures the consolidated P&L is comparable and reliable.",
+          },
+          summary: [
+            "Data governance manages data as a strategic asset — ensuring availability, usability, integrity, consistency and security across the organisation.",
+            "DAMA-DMBOK organises data management into 11 knowledge areas, from Data Governance and Architecture through to Data Quality and BI.",
+            "Three accountability roles: Data Owner (senior business leader — accountable), Data Steward (business SME — implements policies), Data Custodian (IT — physical management).",
+            "Finance is both a major data consumer and owner: chart of accounts, financial definitions, reporting lineage, and access controls are all finance data governance responsibilities.",
+            "The core problem data governance solves is the 'two versions of truth' — ensuring consistent definitions across business units and systems.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company's finance and marketing teams both report 'customer revenue' in their dashboards, but the numbers are different because finance excludes returns and marketing includes them. Which data governance role is primarily responsible for resolving this inconsistency?",
+              options: [
+                "Data Custodian — the IT team managing the database",
+                "Data Steward — the subject matter expert maintaining data definitions",
+                "Data Owner — the senior business leader accountable for the data domain definition",
+                "External auditor — responsible for verifying financial data",
+              ],
+              answer: 2,
+              explanation: "The Data Owner (typically the CFO for financial data or CMO for customer data) is accountable for the definition and consistency of the data domain. Resolving a conflict between two different definitions of 'revenue' across functions requires a decision at the Data Owner level — they set the policy. The Data Steward implements it; the Custodian enforces it technically.",
+            },
+            {
+              question: "In the DAMA-DMBOK framework, 'metadata management' refers to:",
+              options: [
+                "Managing large volumes of data efficiently",
+                "Managing data about data — definitions, lineage, context and meaning",
+                "Managing metadata files in a document management system",
+                "Managing the security of data",
+              ],
+              answer: 1,
+              explanation: "Metadata is 'data about data' — the definitions, lineage (where did this number come from?), context, and business meaning of data elements. Metadata management ensures that users understand what each data field means and can trace numbers back to their source. This is critical for financial reporting credibility.",
+            },
+            {
+              question: "Which of the following is the MOST important reason for data governance in a finance function that is implementing AI forecasting models?",
+              options: [
+                "AI models work better with more data, regardless of quality",
+                "Data governance ensures the data used to train AI models is accurate, consistent and well-defined — preventing 'garbage in, garbage out'",
+                "Data governance is only required for personal data under GDPR",
+                "AI models do not require data governance as they can detect and correct data errors automatically",
+              ],
+              answer: 1,
+              explanation: "AI and ML models are only as good as their training data. If the financial data fed into forecasting models has inconsistent definitions, missing values or errors, the model will learn incorrect patterns and produce unreliable forecasts. Data governance — ensuring data quality, consistency and integrity — is a prerequisite for reliable AI in finance.",
+            },
+          ],
         },
         {
           id: "e1-l16",
@@ -3809,7 +5217,108 @@ const AIQ_COURSE_DATA = {
             "Explain data quality assessment and cleansing processes",
             "Describe the financial and reputational consequences of poor data quality",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why Data Quality Matters</h4>" +
+            "<p><strong>Data quality</strong> is the degree to which data is fit for the intended purpose — accurate, complete, consistent, timely, valid and unique. Poor data quality costs organisations significant money: IBM estimated that poor data quality costs the US economy $3.1 trillion per year. In finance specifically, poor data quality leads to incorrect financial statements, failed audits, regulatory fines, and poor management decisions.</p>" +
+            "<h4>The Six Dimensions of Data Quality</h4>" +
+            "<table><thead><tr><th>Dimension</th><th>Definition</th><th>Finance example of failure</th></tr></thead><tbody>" +
+            "<tr><td><strong>Accuracy</strong></td><td>Data correctly represents the real-world value it is intended to describe</td><td>Customer invoice showing £10,000 when the actual transaction was £1,000 (transposition error)</td></tr>" +
+            "<tr><td><strong>Completeness</strong></td><td>All required data is present; no missing values</td><td>Supplier master record missing bank account details — payment cannot be processed</td></tr>" +
+            "<tr><td><strong>Consistency</strong></td><td>Data is the same across all systems and contexts where it appears</td><td>Customer shown as 'active' in CRM but 'inactive' in the ERP billing system</td></tr>" +
+            "<tr><td><strong>Timeliness</strong></td><td>Data is available when needed and reflects current reality</td><td>Foreign exchange rates in the ERP system are 3 days old — currency translation in management accounts is incorrect</td></tr>" +
+            "<tr><td><strong>Validity</strong></td><td>Data conforms to the required format, range and rules</td><td>A date field in a transaction contains '32/01/2025' — an invalid date that breaks automated processing</td></tr>" +
+            "<tr><td><strong>Uniqueness</strong></td><td>Each entity appears only once; no duplicates</td><td>Supplier 'Acme Ltd' appears three times in the supplier master with different codes — duplicate payments processed to all three</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Data Quality Assessment</h4>" +
+            "<p>Assessing data quality involves profiling the data — systematically examining it to understand its structure, content and quality characteristics:</p>" +
+            "<ul>" +
+            "<li><strong>Column profiling:</strong> Analysing each data field — what are the distinct values? What percentage are null? Are there outliers?</li>" +
+            "<li><strong>Cross-column analysis:</strong> Are related fields consistent (e.g., does the invoice date always precede the payment date)?</li>" +
+            "<li><strong>Referential integrity:</strong> Do all foreign keys have matching records (e.g., does every invoice link to a valid customer record)?</li>" +
+            "<li><strong>Business rule validation:</strong> Do values conform to business rules (e.g., does gross profit = revenue − cost of sales in every record)?</li>" +
+            "</ul>" +
+            "<h4>Data Cleansing</h4>" +
+            "<p>Data cleansing (or data scrubbing) is the process of correcting or removing inaccurate, incomplete, incorrectly formatted or duplicate records:</p>" +
+            "<ol>" +
+            "<li><strong>Standardisation:</strong> Applying consistent formats (date format: DD/MM/YYYY; country code: ISO 3166)</li>" +
+            "<li><strong>Deduplication:</strong> Identifying and merging or removing duplicate records (fuzzy matching — 'Acme Ltd,' 'Acme Limited,' 'ACME Ltd' are all the same entity)</li>" +
+            "<li><strong>Enrichment:</strong> Filling missing values from authoritative external sources (postcodes from Royal Mail; company numbers from Companies House)</li>" +
+            "<li><strong>Validation:</strong> Checking values against reference data or business rules and flagging or correcting errors</li>" +
+            "</ol>" +
+            "<h4>Consequences of Poor Data Quality</h4>" +
+            "<p><strong>Financial consequences:</strong></p>" +
+            "<ul>" +
+            "<li>Duplicate supplier payments (poor uniqueness in supplier master) — direct cash loss</li>" +
+            "<li>Incorrect financial statements — audit qualifications, regulatory investigations, restatements</li>" +
+            "<li>Poor management decisions based on incorrect data — investment in the wrong products/markets</li>" +
+            "<li>Failed system implementations — ERP go-lives fail when data migration quality is poor</li>" +
+            "</ul>" +
+            "<p><strong>Regulatory consequences:</strong></p>" +
+            "<ul>" +
+            "<li>GDPR: Inaccurate personal data = breach of accuracy principle → ICO investigation and fines</li>" +
+            "<li>MiFID II (financial services): Inaccurate transaction reporting = regulatory fine</li>" +
+            "<li>HMRC: Incorrect VAT data → penalties and interest</li>" +
+            "</ul>" +
+            "<p><strong>Operational consequences:</strong></p>" +
+            "<ul>" +
+            "<li>Manual rework — finance teams spend significant time fixing data rather than analysing it</li>" +
+            "<li>System failures — invalid data causes automated processes to fail</li>" +
+            "<li>Customer experience — incorrect billing, incorrect addresses on documents</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "As part of a new ERP implementation, MedDevCo's finance team is migrating 15 years of supplier master data (12,000 records) from the old system. The project manager estimates 30% of records have data quality issues. What data quality dimensions are likely to be affected and how should the migration be managed?",
+            steps: [
+              "Data profiling: Run automated profiling on all 12,000 supplier records. Key findings: 1,450 duplicate records (same supplier, multiple entries — uniqueness); 890 records missing bank account details (completeness); 2,100 records with non-standard country codes (validity); 340 records with inconsistent payment terms vs contract data (consistency).",
+              "Prioritisation: Focus first on duplicates (risk of duplicate payments in new system) and missing bank accounts (payment processing failure). Inconsistent payment terms can be corrected post-migration with less urgency.",
+              "Deduplication: Apply fuzzy matching algorithm to identify duplicates. Finance team reviews flagged pairs — 1,200 confirmed duplicates merged into 600 master records. 250 near-matches verified as genuinely separate entities.",
+              "Bank account enrichment: Write to 890 suppliers requesting bank detail confirmation. 650 respond. Remaining 240 are marked 'payment blocked' in new system until confirmed — prevents incorrect payments.",
+              "Country code standardisation: Script converts all non-standard codes to ISO 3166 standard. Validated against authoritative reference data.",
+              "Post-migration quality check: First month after go-live, run daily duplicate payment reports and missing bank account alerts. Data steward monitors and resolves exceptions.",
+            ],
+            answer: "ERP data migrations fail primarily due to data quality issues. Systematic profiling, prioritisation, deduplication, enrichment and standardisation — before go-live — prevents operational disruption and financial errors. The cost of data cleansing pre-migration is far lower than the cost of fixing data quality problems in a live system.",
+          },
+          summary: [
+            "Six data quality dimensions: Accuracy (correct), Completeness (nothing missing), Consistency (same across systems), Timeliness (current), Validity (correct format/range), Uniqueness (no duplicates).",
+            "Data quality assessment uses profiling: column analysis, cross-column checks, referential integrity, and business rule validation.",
+            "Data cleansing: standardisation, deduplication (fuzzy matching), enrichment (filling gaps from external sources), and validation against rules.",
+            "Poor data quality consequences: duplicate payments (financial loss), incorrect financial statements (audit/regulatory risk), poor decisions, and ERP implementation failures.",
+            "GDPR requires data to be accurate — inaccurate personal data is a regulatory breach, not just an operational inconvenience.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A finance team discovers that supplier 'Global Parts Ltd' appears four times in the supplier master data with four different supplier codes, resulting in four separate payment records. Which data quality dimension is failing?",
+              options: [
+                "Accuracy",
+                "Completeness",
+                "Validity",
+                "Uniqueness",
+              ],
+              answer: 3,
+              explanation: "Uniqueness means each real-world entity (in this case, one supplier) appears only once in the dataset. Having four records for the same supplier is a uniqueness failure — and creates the risk of duplicate payments to all four records.",
+            },
+            {
+              question: "A management accounts report uses foreign exchange rates that were loaded into the ERP 3 days ago and have not been updated. The actual current rates differ by 8%. Which data quality dimension is failing?",
+              options: [
+                "Accuracy",
+                "Timeliness",
+                "Validity",
+                "Completeness",
+              ],
+              answer: 1,
+              explanation: "Timeliness means data is current and available when needed. FX rates that are 3 days old do not reflect current reality — they are not timely. Even if they were accurate when loaded, they are now outdated. Note: the resulting currency translation errors are also an accuracy problem, but the root cause of the data quality failure is timeliness.",
+            },
+            {
+              question: "What is the PRIMARY purpose of 'data profiling' as a data quality technique?",
+              options: [
+                "Creating profiles of data users to manage their access rights",
+                "Systematically examining data to understand its structure, content and quality characteristics — identifying errors, inconsistencies and missing values",
+                "Encrypting data profiles for security purposes",
+                "Building customer profiles for marketing purposes",
+              ],
+              answer: 1,
+              explanation: "Data profiling is the analytical process of examining data to understand what it contains and where it has quality issues. It is the first step in any data quality improvement programme — you cannot fix what you cannot measure. Profiling reveals: null percentages, value distributions, format inconsistencies, outliers, and referential integrity failures.",
+            },
+          ],
         },
         {
           id: "e1-l17",
@@ -3821,7 +5330,100 @@ const AIQ_COURSE_DATA = {
             "Describe how ERP integrates finance with operations, HR and supply chain",
             "Evaluate the benefits, costs and implementation risks of ERP adoption",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is an ERP System?</h4>" +
+            "<p>An <strong>Enterprise Resource Planning (ERP) system</strong> is an integrated software platform that manages and integrates all core business processes — finance, operations, HR, supply chain, procurement, manufacturing, sales — within a single database. Instead of separate systems for each function (a finance system, a separate HR system, a separate inventory system), an ERP provides one unified platform where all transactions flow through the same data model.</p>" +
+            "<p>Major ERP vendors: SAP (market leader, ~25% share), Oracle, Microsoft Dynamics 365, Workday (HCM/Finance), NetSuite (cloud, mid-market). The global ERP market is worth over $50bn and growing.</p>" +
+            "<h4>ERP Components / Modules</h4>" +
+            "<table><thead><tr><th>Module</th><th>Key functions</th></tr></thead><tbody>" +
+            "<tr><td><strong>Financial Accounting (FI)</strong></td><td>General ledger, accounts payable, accounts receivable, asset accounting, statutory reporting</td></tr>" +
+            "<tr><td><strong>Controlling (CO) / Management Accounting</strong></td><td>Cost centre accounting, profit centre accounting, product costing, internal orders, profitability analysis</td></tr>" +
+            "<tr><td><strong>Materials Management (MM)</strong></td><td>Purchasing, inventory management, warehouse management, supplier evaluation</td></tr>" +
+            "<tr><td><strong>Sales and Distribution (SD)</strong></td><td>Order management, pricing, billing, delivery, customer management</td></tr>" +
+            "<tr><td><strong>Production Planning (PP)</strong></td><td>Bills of materials, production orders, capacity planning, MRP (materials requirements planning)</td></tr>" +
+            "<tr><td><strong>Human Resources (HR)</strong></td><td>Payroll, time management, recruitment, performance management, employee data</td></tr>" +
+            "<tr><td><strong>Project Systems (PS)</strong></td><td>Project costing, resource planning, project billing</td></tr>" +
+            "</tbody></table>" +
+            "<h4>How ERP Integrates Finance with Operations</h4>" +
+            "<p>The power of ERP is integration — a transaction in one module automatically flows through to finance without manual re-entry:</p>" +
+            "<ul>" +
+            "<li><strong>Purchase order raised (MM) → goods received (MM) → invoice received (FI) → payment (FI):</strong> The entire procure-to-pay cycle flows automatically. When goods are received, inventory increases (MM) and a GR/IR (goods received/invoice received) account is debited (FI) — automatically. No manual journal required.</li>" +
+            "<li><strong>Sales order (SD) → shipment (SD/MM) → invoice (SD) → revenue recognition (FI):</strong> Revenue posting is automatic when the billing document is created, driven by the delivery confirmation.</li>" +
+            "<li><strong>Production order (PP) → material consumption → cost assignment (CO) → cost of goods manufactured (FI):</strong> Every component consumed in production is automatically costed to the product and to the manufacturing cost centre.</li>" +
+            "</ul>" +
+            "<p>This integration means finance has access to operational data in real time — production costs, sales pipeline, inventory levels — without waiting for other departments to send spreadsheets.</p>" +
+            "<h4>Benefits of ERP</h4>" +
+            "<ul>" +
+            "<li><strong>Single source of truth:</strong> One database eliminates reconciliation between systems</li>" +
+            "<li><strong>Real-time visibility:</strong> Finance sees operational performance as it happens</li>" +
+            "<li><strong>Process standardisation:</strong> Forces adoption of best-practice processes across the organisation</li>" +
+            "<li><strong>Compliance:</strong> Built-in controls, segregation of duties, and audit trails support internal control frameworks</li>" +
+            "<li><strong>Efficiency:</strong> Eliminates manual data re-entry between systems; reduces period-end close time</li>" +
+            "<li><strong>Scalability:</strong> Cloud ERP scales with the business without hardware investment</li>" +
+            "</ul>" +
+            "<h4>Costs and Implementation Risks</h4>" +
+            "<p>ERP implementations are notoriously challenging — many famous failures have occurred (Hershey, Nike, Lidl's cancelled SAP implementation). Key cost and risk factors:</p>" +
+            "<ul>" +
+            "<li><strong>Licence and implementation cost:</strong> A large ERP implementation can cost £10m–£100m+ including licences, consultants, internal staff, data migration, and testing</li>" +
+            "<li><strong>Implementation risk:</strong> 'Big bang' go-lives (switching everything at once) carry high risk — phased implementations reduce risk but take longer</li>" +
+            "<li><strong>Customisation risk:</strong> Heavily customising ERP to match existing processes (rather than adopting ERP standard processes) increases cost and makes future upgrades difficult</li>" +
+            "<li><strong>Change management:</strong> ERP fundamentally changes how people work — resistance is high without effective training and change management</li>" +
+            "<li><strong>Data migration:</strong> Moving historical data from old systems is complex and error-prone — data quality issues from the old system are inherited</li>" +
+            "<li><strong>Business disruption:</strong> Companies frequently experience operational disruption in the weeks around ERP go-live</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "ManufactureCo currently uses three separate systems: a finance system, a warehouse management system, and a payroll system. These are not integrated — data must be manually re-entered between systems. The CFO estimates 200 person-hours per month are spent on manual data re-entry and reconciliations. Evaluate the business case for implementing an integrated ERP.",
+            steps: [
+              "Current cost of manual integration: 200 hours/month × £40/hour average cost × 12 months = £96,000/year in direct labour cost. Plus: reconciliation errors causing delayed financial close (cost: extra audit hours, management time); inventory discrepancies due to data mismatch.",
+              "ERP business case benefits: Eliminate 180 of 200 manual hours (90% reduction through integration) = £86,400/year. Faster month-end close (from day 15 to day 5) = improved decision-making. Real-time inventory = 15% reduction in safety stock = £180,000 inventory release (one-time cash benefit). Reduced audit fees (better controls = fewer audit exceptions) = £25,000/year.",
+              "Implementation cost: Mid-market ERP (Microsoft Dynamics 365) implementation: software licence £40k/year; implementation consultancy £120k; internal project cost £60k; training £20k. Total Year 1: £240k. Ongoing: £40k/year.",
+              "Payback: Year 1 net cost: £240k − £86k − £25k = £129k. Year 2+ net benefit: £111k/year + ongoing inventory benefit. Payback approximately 2 years. 5-year NPV (at 10%) = positive £220k.",
+              "Recommendation: Proceed with ERP implementation. Phase 1: finance and procurement integration. Phase 2: warehouse management. Phased approach reduces implementation risk.",
+            ],
+            answer: "The ERP business case is positive, driven primarily by eliminating manual integration costs, faster close, inventory optimisation and reduced audit exposure. The key risks are implementation complexity and change management — addressed by phased rollout and dedicated project management.",
+          },
+          summary: [
+            "ERP is an integrated software platform managing all core business processes — finance, HR, supply chain, manufacturing, sales — in a single database.",
+            "Integration means transactions flow automatically across modules: procure-to-pay, order-to-cash, and record-to-report without manual re-entry.",
+            "Benefits: single source of truth, real-time visibility, process standardisation, compliance controls, efficiency, scalability.",
+            "Key risks: high implementation cost, change management, customisation trap (increasing technical debt), data migration quality, and business disruption at go-live.",
+            "Cloud ERP (SAP S/4HANA Cloud, Workday, Microsoft Dynamics 365) is replacing on-premise systems — reducing IT infrastructure cost and enabling continuous automatic updates.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In an integrated ERP system, when goods are physically received from a supplier, what happens to the financial accounts automatically?",
+              options: [
+                "Nothing — the finance team must manually post a journal entry when the invoice arrives",
+                "Inventory increases and a GR/IR (Goods Receipt/Invoice Receipt) clearing account is debited automatically",
+                "Accounts payable is immediately credited and cash decreases",
+                "Revenue is recognised when goods are received",
+              ],
+              answer: 1,
+              explanation: "ERP integration means that the goods receipt (MM module) automatically generates a financial posting (FI module). Inventory (asset) increases on the balance sheet, and a GR/IR clearing account (a liability) is credited. This eliminates the need for manual journal entries and ensures the balance sheet reflects physical reality in real time.",
+            },
+            {
+              question: "A company implementing ERP decides to heavily customise the system to exactly match its existing processes rather than adopting the ERP's standard processes. What is the PRIMARY risk of this approach?",
+              options: [
+                "The ERP will not work correctly if customised",
+                "Customisation increases cost, makes future upgrades more difficult and complex, and undermines the efficiency benefits of adopting ERP best-practice processes",
+                "The ERP vendor will void the software licence",
+                "Users will find the customised system harder to use",
+              ],
+              answer: 1,
+              explanation: "Customising ERP is sometimes called the 'customisation trap.' Each customisation: adds implementation cost, creates technical debt (future upgrades must rebuild all customisations), undermines process standardisation (one of ERP's key benefits), and makes the system harder to maintain. The recommended approach is 'vanilla first' — adopt standard processes and only customise where there is a clear competitive advantage.",
+            },
+            {
+              question: "Which of the following BEST describes the 'single source of truth' benefit of ERP?",
+              options: [
+                "There is only one copy of all data, making it easier to delete",
+                "All business functions access the same integrated database, eliminating discrepancies caused by maintaining separate systems with different data",
+                "The ERP system automatically validates that all financial data is accurate",
+                "Finance is the sole owner of all data in the organisation",
+              ],
+              answer: 1,
+              explanation: "Single source of truth means all functions (finance, HR, supply chain, sales) work from the same database. There is no need to reconcile finance's inventory figure against the warehouse management system's figure — they are the same system. This eliminates a major source of inefficiency and error in organisations running multiple disconnected systems.",
+            },
+          ],
         },
         {
           id: "e1-l18",
@@ -3833,7 +5435,111 @@ const AIQ_COURSE_DATA = {
             "Describe the key requirements of UK GDPR relevant to finance teams",
             "Identify the compliance obligations and penalties for data protection breaches",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Data Ethics — Why it Matters</h4>" +
+            "<p><strong>Data ethics</strong> is the branch of ethics that evaluates data practices — collection, storage, analysis, sharing and use — with respect to people and society. The question is not just 'is this legal?' but 'is this right?'</p>" +
+            "<p>Finance functions handle large amounts of personal data: employee salaries and bank details, customer payment histories, credit card data, tax records, and financial performance data that could affect share prices. Ethical data use is both a moral obligation and a business imperative — data misuse destroys trust.</p>" +
+            "<p>Key ethical principles for data use:</p>" +
+            "<ul>" +
+            "<li><strong>Fairness:</strong> Data should not be used in ways that unfairly disadvantage or discriminate against individuals</li>" +
+            "<li><strong>Transparency:</strong> People should know how their data is collected and used</li>" +
+            "<li><strong>Accountability:</strong> Organisations should be responsible for how they handle data</li>" +
+            "<li><strong>Minimisation:</strong> Only collect and process data that is genuinely necessary</li>" +
+            "<li><strong>Beneficence / non-maleficence:</strong> Data use should benefit, or at least not harm, individuals</li>" +
+            "</ul>" +
+            "<h4>UK GDPR — Overview</h4>" +
+            "<p>The <strong>UK General Data Protection Regulation (UK GDPR)</strong> is the primary data protection legislation in the UK, retained from EU GDPR after Brexit and supplemented by the Data Protection Act 2018. It applies to any organisation that processes personal data of individuals in the UK.</p>" +
+            "<p><strong>Personal data</strong> = any information relating to an identified or identifiable natural person. In finance: names, addresses, NI numbers, bank account details, salary data, payment histories — all are personal data.</p>" +
+            "<h4>The Six Data Protection Principles (UK GDPR Article 5)</h4>" +
+            "<table><thead><tr><th>#</th><th>Principle</th><th>Finance application</th></tr></thead><tbody>" +
+            "<tr><td>1</td><td><strong>Lawfulness, fairness and transparency:</strong> Must have a legal basis; individuals must be informed</td><td>Employee payroll data processed on 'contractual necessity' basis; employees informed via privacy notice</td></tr>" +
+            "<tr><td>2</td><td><strong>Purpose limitation:</strong> Data collected for specified, explicit purposes; not used beyond those purposes</td><td>Customer payment data collected for billing cannot be used for marketing without separate consent</td></tr>" +
+            "<tr><td>3</td><td><strong>Data minimisation:</strong> Only collect what is necessary</td><td>AP team does not need to collect supplier employees' personal social media profiles</td></tr>" +
+            "<tr><td>4</td><td><strong>Accuracy:</strong> Data must be accurate and kept up to date</td><td>Employee bank account details must be current — inaccurate data = incorrect salary payment</td></tr>" +
+            "<tr><td>5</td><td><strong>Storage limitation:</strong> Not kept longer than necessary</td><td>Former employee salary data: retain for 6 years (legal/tax requirement) then securely delete</td></tr>" +
+            "<tr><td>6</td><td><strong>Integrity and confidentiality:</strong> Appropriate security to protect data</td><td>Payroll data encrypted at rest and in transit; access limited to payroll team only</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Accountability:</strong> UK GDPR adds a seventh requirement — organisations must be able to demonstrate compliance (not just be compliant). This means documented policies, DPIAs (Data Protection Impact Assessments), and records of processing activities.</p>" +
+            "<h4>Lawful Bases for Processing (Article 6)</h4>" +
+            "<p>Processing personal data requires a lawful basis. The six bases relevant to finance:</p>" +
+            "<ol>" +
+            "<li><strong>Consent:</strong> Individual gives clear, specific, informed, freely-given consent</li>" +
+            "<li><strong>Contract:</strong> Processing is necessary to perform a contract with the individual (e.g., processing payroll for an employee)</li>" +
+            "<li><strong>Legal obligation:</strong> Processing is required by law (e.g., HMRC tax data reporting)</li>" +
+            "<li><strong>Vital interests:</strong> Protecting life — rarely relevant to finance</li>" +
+            "<li><strong>Public task:</strong> Relevant to public authorities</li>" +
+            "<li><strong>Legitimate interests:</strong> Necessary for the organisation's legitimate interests, not overridden by individual rights (e.g., fraud detection)</li>" +
+            "</ol>" +
+            "<h4>Individual Rights</h4>" +
+            "<p>UK GDPR grants individuals rights that finance teams must be able to respond to:</p>" +
+            "<ul>" +
+            "<li><strong>Right of access (SAR):</strong> Request to see all personal data held about them — must respond within one month</li>" +
+            "<li><strong>Right to rectification:</strong> Correct inaccurate data</li>" +
+            "<li><strong>Right to erasure ('right to be forgotten'):</strong> Delete data — but this is not absolute; legal/financial retention obligations override it</li>" +
+            "<li><strong>Right to data portability:</strong> Receive data in machine-readable format</li>" +
+            "<li><strong>Right to restrict processing</strong> and <strong>right to object</strong></li>" +
+            "</ul>" +
+            "<h4>Penalties for Breach</h4>" +
+            "<p>The ICO (Information Commissioner's Office) can impose fines of up to:</p>" +
+            "<ul>" +
+            "<li><strong>£17.5 million or 4% of global annual turnover</strong> (whichever is higher) for the most serious breaches (e.g., breaching core principles)</li>" +
+            "<li><strong>£8.7 million or 2% of global annual turnover</strong> for less serious breaches (e.g., administrative failures)</li>" +
+            "</ul>" +
+            "<p>Data breaches (personal data accessed without authorisation or accidentally disclosed) must be reported to the ICO within <strong>72 hours</strong> if they pose a risk to individuals. High-risk breaches must also be communicated to affected individuals.</p>",
+          workedExample: {
+            setup: "HRTech Ltd processes payroll for 5,000 employees. A member of the finance team emails a spreadsheet containing all 5,000 employees' names, NI numbers, salary details and bank account numbers to an external payroll auditor. The email is sent to the wrong email address — an external recipient who has no connection to the company. Assess the UK GDPR implications.",
+            steps: [
+              "Personal data involved: Names, NI numbers, salaries and bank account numbers are all personal data (and in the case of bank account + NI number, are sensitive financial personal data). A breach of this data creates serious risk of identity fraud and financial loss for affected individuals.",
+              "Was this a data breach? Yes — personal data has been 'accidentally disclosed' to an unauthorised recipient. This meets the UK GDPR definition of a personal data breach.",
+              "ICO notification: Must notify the ICO within 72 hours of becoming aware of the breach, if the breach 'is likely to result in a risk to the rights and freedoms of individuals.' In this case, given the sensitivity of financial data and scale (5,000 individuals), notification is almost certainly required.",
+              "Individual notification: Must assess whether the breach is 'high risk' to individuals. Given bank account and NI numbers are exposed, individuals should be notified so they can take protective action (e.g., contact their bank, monitor for fraud).",
+              "Root cause and remediation: Human error (wrong email address). Immediate action: contact external recipient and request deletion; technical solution: email DLP tools flag emails with large data attachments to external addresses; process: require encrypted file transfer for payroll data, not unencrypted email.",
+              "Principle failures: Integrity and confidentiality (inadequate technical controls to prevent accidental disclosure); potentially purpose limitation (was the auditor's access appropriate?). ICO will investigate and may impose a fine if controls were inadequate.",
+            ],
+            answer: "This is a notifiable personal data breach requiring ICO notification within 72 hours and likely individual notification. The immediate response, root cause remediation (DLP tools, encrypted transfer), and process improvement are all required. The potential fine is up to £17.5m, though the ICO considers remediation steps taken when determining penalties.",
+          },
+          summary: [
+            "Data ethics principles: fairness, transparency, accountability, minimisation, and non-maleficence — going beyond mere legal compliance to 'is this right?'",
+            "UK GDPR's six data protection principles: lawfulness/fairness/transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity and confidentiality.",
+            "Six lawful bases for processing: consent, contract, legal obligation, vital interests, public task, legitimate interests — finance commonly uses contract and legal obligation.",
+            "Individual rights include: access (SAR — respond within 1 month), rectification, erasure, portability, restriction and objection.",
+            "ICO penalties: up to £17.5m/4% of global turnover for serious breaches. Data breaches must be reported to ICO within 72 hours if they risk individual rights.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company processes employee payroll data. Which lawful basis under UK GDPR Article 6 is MOST applicable?",
+              options: [
+                "Consent — employees consent to having their salary paid",
+                "Legitimate interests — the company has a legitimate interest in paying employees",
+                "Contract — processing is necessary to perform the employment contract",
+                "Public task — payroll processing is a public function",
+              ],
+              answer: 2,
+              explanation: "Processing payroll data is necessary to perform the employment contract — this is the 'contract' basis under Article 6(1)(b). Consent is not appropriate for payroll as consent must be freely given, but refusing consent would mean not being paid — so consent is not free. Legal obligation also applies for some elements (HMRC reporting), but contract is the primary basis.",
+            },
+            {
+              question: "An employee leaves the company and asks the HR/finance team to delete all records relating to their employment including their salary history and tax records. The company must comply because GDPR includes a 'right to erasure.' Is this correct?",
+              options: [
+                "True — the right to erasure is absolute and the company must delete all records immediately",
+                "False — the right to erasure is not absolute; legal, tax and accounting retention obligations (typically 6 years for financial records) override the erasure request",
+                "True — but only if the employee pays an administrative fee",
+                "False — the right to erasure only applies to marketing data",
+              ],
+              answer: 1,
+              explanation: "The right to erasure ('right to be forgotten') is not absolute. GDPR explicitly allows retention where there is a legal obligation (e.g., HMRC requirements to retain payroll records for 6 years, Companies Act requirements to retain accounting records for 6 years). The company can refuse the erasure request for these records — but must explain why and delete what it is not legally required to retain.",
+            },
+            {
+              question: "A personal data breach occurs on a Tuesday morning where customer payment card data is exposed. By when must the company notify the ICO (assuming the breach poses a risk to individuals)?",
+              options: [
+                "Within 24 hours",
+                "Within 72 hours — by Friday morning",
+                "Within 1 month",
+                "Notification is not required for payment card data",
+              ],
+              answer: 1,
+              explanation: "UK GDPR requires notification to the ICO within 72 hours of becoming aware of a breach that is likely to result in risk to individuals' rights and freedoms. Payment card data exposure clearly meets this threshold. 72 hours from Tuesday morning = Friday morning. Note: 'aware' means when the organisation (not necessarily the individual who discovered it) is made aware.",
+            },
+          ],
         },
         {
           id: "e1-l19",
@@ -3845,7 +5551,95 @@ const AIQ_COURSE_DATA = {
             "Describe data warehouse architecture: OLTP vs OLAP systems",
             "Explain the role of data lakes and data marts in finance analytics",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Master Data Management (MDM)</h4>" +
+            "<p><strong>Master data</strong> is the core reference data that an organisation depends on to run its business — customers, suppliers, employees, products, chart of accounts, cost centres, legal entities. Unlike transactional data (which changes constantly), master data changes infrequently but is used in every transaction.</p>" +
+            "<p>Poor master data = poor financial data. If the chart of accounts has duplicate GL codes, if a customer exists in three different formats across three systems, or if a cost centre code is different in the HR system and the ERP, then every transaction using that data is potentially incorrect or incomparable.</p>" +
+            "<p><strong>Master Data Management (MDM)</strong> is the discipline of creating and maintaining a single, authoritative, consistent definition of key business data across the enterprise.</p>" +
+            "<p>Key master data domains in finance:</p>" +
+            "<ul>" +
+            "<li><strong>Customer master:</strong> Name, address, credit terms, VAT number, payment terms, contact details — used in sales, billing, credit management, AR</li>" +
+            "<li><strong>Supplier/vendor master:</strong> Name, address, bank account, payment terms, VAT number, commodity code — used in procurement, AP, treasury</li>" +
+            "<li><strong>Chart of accounts:</strong> GL account codes, descriptions, account type — the backbone of all financial reporting</li>" +
+            "<li><strong>Cost centres/profit centres:</strong> The organisational hierarchy used for management accounting; must match the statutory entity structure</li>" +
+            "<li><strong>Product/material master:</strong> Product descriptions, units of measure, costing data — used in manufacturing, inventory, revenue recognition</li>" +
+            "</ul>" +
+            "<h4>OLTP vs OLAP Systems</h4>" +
+            "<p>Understanding the difference between transactional and analytical systems is fundamental to finance data architecture:</p>" +
+            "<table><thead><tr><th>Feature</th><th>OLTP (Online Transaction Processing)</th><th>OLAP (Online Analytical Processing)</th></tr></thead><tbody>" +
+            "<tr><td><strong>Purpose</strong></td><td>Recording transactions (running the business)</td><td>Analysing historical data (understanding the business)</td></tr>" +
+            "<tr><td><strong>Examples</strong></td><td>ERP (SAP, Oracle), CRM (Salesforce), POS systems</td><td>Data warehouse, Power BI, Tableau, SSAS cube</td></tr>" +
+            "<tr><td><strong>Operations</strong></td><td>INSERT, UPDATE — many small writes</td><td>SELECT — large read queries across millions of records</td></tr>" +
+            "<tr><td><strong>Data</strong></td><td>Current, detailed, normalised (no duplication)</td><td>Historical, summarised, denormalised (optimised for queries)</td></tr>" +
+            "<tr><td><strong>Users</strong></td><td>AP clerks, sales reps, warehouse staff — operational</td><td>Finance analysts, business partners, executives — analytical</td></tr>" +
+            "<tr><td><strong>Speed of queries</strong></td><td>Fast for individual transactions; slow for large aggregations</td><td>Optimised for large aggregation queries (sum, group by)</td></tr>" +
+            "</tbody></table>" +
+            "<p>Finance should <em>never</em> run complex analytical queries directly on the ERP (OLTP) — this degrades performance for all users. Data is extracted to a data warehouse (OLAP) for analysis.</p>" +
+            "<h4>Data Warehouse Architecture</h4>" +
+            "<p>A <strong>data warehouse</strong> is a subject-oriented, integrated, time-variant, non-volatile collection of data designed for management decision-making. Data from multiple OLTP systems (ERP, CRM, HR) is extracted, transformed and loaded (ETL) into the warehouse where it is structured for analysis.</p>" +
+            "<p>Key components:</p>" +
+            "<ul>" +
+            "<li><strong>ETL (Extract, Transform, Load):</strong> The process of extracting data from source systems, transforming it (cleansing, standardising, joining) and loading it into the warehouse</li>" +
+            "<li><strong>Staging area:</strong> Temporary storage for raw extracted data before transformation</li>" +
+            "<li><strong>Core data warehouse:</strong> Clean, integrated, historical data organised into fact tables (measures: revenue, cost) and dimension tables (context: time, customer, product)</li>" +
+            "<li><strong>Data marts:</strong> Subject-specific subsets of the data warehouse optimised for a particular team — Finance data mart, HR data mart, Marketing data mart</li>" +
+            "</ul>" +
+            "<h4>Data Lakes</h4>" +
+            "<p>A <strong>data lake</strong> stores data in its raw, native format (structured, semi-structured and unstructured) in a scalable, low-cost storage environment (typically cloud object storage). Unlike a data warehouse (structured, clean, curated), a data lake stores everything — as-is — and applies structure on read ('schema on read' vs data warehouse's 'schema on write').</p>" +
+            "<p>Finance uses data lakes for: storing large volumes of IoT sensor data, social media feeds, unstructured documents — which are then selectively processed and moved to the data warehouse for structured analysis.</p>",
+          workedExample: {
+            setup: "A multinational retailer extracts financial performance data from three sources: ERP (sales and cost data), CRM (customer data), and HR (payroll data). Finance analysts currently query each source system directly using spreadsheet exports. Design the data architecture to support efficient finance analytics.",
+            steps: [
+              "Problem: Direct ERP queries slow the transaction system; data from three sources must be manually joined in spreadsheets; no single history is maintained; analysts spend 60% of time on data assembly, 40% on analysis.",
+              "Data warehouse: Build a cloud data warehouse (e.g., Snowflake, Azure Synapse, BigQuery). Extract data from ERP, CRM and HR via ETL processes running nightly. Transform: standardise currencies, harmonise product codes, cleanse customer names. Load into fact tables (daily sales transactions, cost postings, headcount) and dimension tables (product, customer, date, cost centre).",
+              "Finance data mart: Create a Finance-specific data mart as a subset of the warehouse, optimised for P&L, balance sheet and cash flow reporting. Grant finance team read access to the data mart via Power BI.",
+              "Data lake: Store raw ERP extracts in the data lake for compliance and audit — original data retained without transformation. Store social media feeds and customer review data in the lake for potential future analytics.",
+              "Result: Finance analysts query clean, integrated data via Power BI — no manual spreadsheet assembly. Query time for monthly P&L falls from 4 hours to 30 seconds. Analysts spend 80% on analysis, 20% on data — reversed from prior state.",
+            ],
+            answer: "The data warehouse/mart architecture separates analytical workloads from transactional systems (protecting ERP performance), provides a single clean version of truth for finance, and enables self-service analytics. The data lake provides a raw archive for compliance and future analytics use cases.",
+          },
+          summary: [
+            "Master data is core reference data (customers, suppliers, chart of accounts, cost centres) — the foundation of all financial transactions and reporting.",
+            "MDM creates a single authoritative version of master data across the enterprise, preventing the 'two versions of truth' problem.",
+            "OLTP systems (ERP) record transactions; OLAP systems (data warehouse) analyse historical data. Never run complex analytical queries on OLTP — extract to a data warehouse.",
+            "Data warehouse architecture: ETL extracts from source systems → staging → core warehouse (fact/dimension tables) → data marts (finance, HR, marketing subsets).",
+            "Data lakes store raw, unstructured data at scale; data warehouses store clean, structured analytical data — both serve finance but for different purposes.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A finance analyst runs a large monthly P&L analysis query directly on the company's ERP system. What is the PRIMARY risk of this approach?",
+              options: [
+                "The analyst may see data they are not supposed to access",
+                "Running large analytical queries on an OLTP system degrades its performance, slowing down all other users who are processing live transactions",
+                "The ERP data will be incorrect if used for analysis",
+                "GDPR prevents direct access to ERP data",
+              ],
+              answer: 1,
+              explanation: "OLTP systems (ERP) are optimised for many small, fast transaction writes. Large analytical queries that scan millions of records simultaneously compete for database resources with live transaction processing. This degrades performance for all users — AP clerks cannot process invoices, warehouse staff cannot confirm shipments. Analytical queries should be run on a data warehouse copy, not directly on the ERP.",
+            },
+            {
+              question: "What is the PRIMARY purpose of a 'data mart'?",
+              options: [
+                "A marketplace for buying and selling data",
+                "A subject-specific subset of the data warehouse, optimised for the analytical needs of a particular team or function",
+                "A temporary storage area for data before it is loaded into the data warehouse",
+                "A data lake for storing unstructured data",
+              ],
+              answer: 1,
+              explanation: "A data mart is a subject-specific portion of the data warehouse — a Finance data mart contains the data and metrics the finance team needs (P&L, balance sheet, cash flow, cost centre reporting) without exposing unrelated HR or sales data. Data marts improve query performance and simplify access for specialist teams.",
+            },
+            {
+              question: "The term 'schema on read' describes which data storage concept?",
+              options: [
+                "Data warehouse — structure is defined before data is loaded",
+                "Data lake — raw data is stored without pre-defined structure; structure is applied when the data is queried",
+                "Master data management — schema defines master data formats",
+                "OLTP — transactions follow a defined schema",
+              ],
+              answer: 1,
+              explanation: "A data lake uses 'schema on read' — data is stored in its raw format without transformation or predefined structure. When a user queries the data, they apply a schema at that point. This contrasts with a data warehouse ('schema on write') where data is cleaned, transformed and structured before loading. Data lakes are more flexible but require more processing at query time.",
+            },
+          ],
         },
         {
           id: "e1-l20",
@@ -3857,7 +5651,104 @@ const AIQ_COURSE_DATA = {
             "Explain information risk management and its relationship to operational risk",
             "Describe control frameworks for managing information risk (COBIT, COSO)",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Regulatory Environment for Data Management in Finance</h4>" +
+            "<p>Finance functions operate within an extensive regulatory framework governing how financial and personal data must be managed, stored, reported and protected. Key regulations by category:</p>" +
+            "<table><thead><tr><th>Regulation</th><th>Scope</th><th>Key data management requirements</th></tr></thead><tbody>" +
+            "<tr><td><strong>UK GDPR / Data Protection Act 2018</strong></td><td>Personal data of UK individuals</td><td>Lawful basis; data minimisation; security; 72-hour breach notification; individual rights</td></tr>" +
+            "<tr><td><strong>Companies Act 2006</strong></td><td>UK companies</td><td>Financial records retained for 6 years; must provide accurate financial statements</td></tr>" +
+            "<tr><td><strong>HMRC requirements</strong></td><td>UK taxpayers</td><td>VAT records: 6 years; payroll records: 6 years; corporate tax: 6 years</td></tr>" +
+            "<tr><td><strong>FCA regulations (financial services)</strong></td><td>FCA-authorised firms</td><td>MiFID II: transaction records for 5 years; CASS: client asset records; SM&CR: individual conduct records</td></tr>" +
+            "<tr><td><strong>Sarbanes-Oxley (SOX)</strong></td><td>US-listed companies (including UK subsidiaries)</td><td>Internal control over financial reporting (ICFR); CEO/CFO certification; auditor access to all records</td></tr>" +
+            "<tr><td><strong>Payment Card Industry DSS (PCI-DSS)</strong></td><td>Any organisation accepting card payments</td><td>Cardholder data encryption; access controls; quarterly vulnerability scans; annual penetration testing</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Information Risk Management</h4>" +
+            "<p><strong>Information risk</strong> is the risk that an organisation's information assets are compromised — through loss, theft, corruption, unauthorised access or regulatory breach — resulting in financial, operational or reputational harm.</p>" +
+            "<p>Information risk is a component of <strong>operational risk</strong> (the risk of loss from failed processes, people, systems or external events). Under Basel III (banking) and Solvency II (insurance), firms must maintain capital against operational risk — and data/systems failures are a significant operational risk category.</p>" +
+            "<p>Information risk management involves:</p>" +
+            "<ol>" +
+            "<li><strong>Asset inventory:</strong> Identify all information assets (data stores, systems, processes) and their owners</li>" +
+            "<li><strong>Risk assessment:</strong> Assess the likelihood and impact of threats to each asset (confidentiality, integrity, availability)</li>" +
+            "<li><strong>Control design:</strong> Design controls to reduce risks to acceptable levels (technical, organisational and physical controls)</li>" +
+            "<li><strong>Residual risk acceptance:</strong> For risks that cannot be fully mitigated, formally accept residual risk at an appropriate authority level</li>" +
+            "<li><strong>Monitoring and review:</strong> Continuously monitor controls and reassess risks as the threat landscape evolves</li>" +
+            "</ol>" +
+            "<h4>COBIT — Control Framework for IT Governance</h4>" +
+            "<p><strong>COBIT</strong> (Control Objectives for Information and Related Technologies), published by ISACA, is the leading governance and management framework for enterprise IT. It provides a comprehensive set of governance practices and management objectives for IT processes.</p>" +
+            "<p>COBIT 2019 organises governance and management of IT around six principles:</p>" +
+            "<ol>" +
+            "<li>Meeting stakeholder needs</li>" +
+            "<li>End-to-end governance system</li>" +
+            "<li>Single integrated framework</li>" +
+            "<li>Holistic approach</li>" +
+            "<li>Dynamically separated governance from management</li>" +
+            "<li>Tailored to enterprise needs</li>" +
+            "</ol>" +
+            "<p>Finance relevance: COBIT provides the framework for assessing IT controls over financial reporting — relevant for SOX compliance, internal audit of IT systems, and ERP governance.</p>" +
+            "<h4>COSO — Internal Control Framework</h4>" +
+            "<p><strong>COSO</strong> (Committee of Sponsoring Organisations of the Treadway Commission) provides the most widely used internal control framework, used for Sarbanes-Oxley compliance and general internal control assessment.</p>" +
+            "<p>COSO's five components of internal control:</p>" +
+            "<ol>" +
+            "<li><strong>Control environment:</strong> Tone at the top; ethical values; board and management oversight; organisational structure</li>" +
+            "<li><strong>Risk assessment:</strong> Identifying and analysing risks to achieving objectives (including information risks)</li>" +
+            "<li><strong>Control activities:</strong> Policies and procedures that address risks — authorisation, verification, reconciliation, segregation of duties, access controls</li>" +
+            "<li><strong>Information and communication:</strong> Systems that provide relevant, quality information and communicate responsibilities</li>" +
+            "<li><strong>Monitoring activities:</strong> Ongoing and separate evaluations of whether controls are working</li>" +
+            "</ol>",
+          workedExample: {
+            setup: "A UK-listed financial services firm is preparing for its annual internal audit of IT controls over financial reporting (aligned to COSO and COBIT). Finance uses SAP for financial reporting. Outline the key areas the internal audit will assess.",
+            steps: [
+              "Control environment: Review IT governance structure — is there a clearly defined IT governance framework? Board-level oversight of IT risk? IT strategy aligned to business strategy? Code of conduct for IT staff?",
+              "Access controls (COSO Control Activities): Who has access to SAP financial modules? Are access rights reviewed regularly and aligned to current roles? Are there users with excessive 'superuser' access? Is there proper segregation of duties (the person who creates a supplier cannot also approve payments)?",
+              "Change management controls (COBIT): Are all changes to SAP (configuration changes, patches, new developments) subject to formal change control? Are changes tested in a non-production environment before go-live?",
+              "Data integrity controls: Are there automated controls in SAP that prevent invalid data entry? Are there reconciliation controls that detect data discrepancies between SAP modules? Are period-end controls (hard close of prior periods) operating effectively?",
+              "Backup and recovery: Are financial data backups performed and tested regularly? What is the recovery time objective (RTO) if SAP is unavailable — does it meet business requirements?",
+              "Monitoring: Are exception reports and system logs reviewed regularly? Is there monitoring for unusual access patterns or data modifications?",
+            ],
+            answer: "The IT controls audit addresses the COSO five components in the context of SAP. Any significant control weaknesses could constitute a material weakness under SOX, requiring disclosure in the annual report. The CFO and CEO would need to certify that they have been remediated before signing the SOX Section 302/404 attestation.",
+          },
+          summary: [
+            "Finance operates under multiple data regulations: GDPR (personal data), Companies Act (6-year records), HMRC (6-year tax records), FCA/MiFID II (transaction records), SOX (ICFR), PCI-DSS (card data).",
+            "Information risk = risk of financial/operational/reputational harm from data loss, corruption, unauthorised access or regulatory breach — a key component of operational risk.",
+            "Information risk management: asset inventory → risk assessment → control design → residual risk acceptance → monitoring.",
+            "COBIT: IT governance framework (ISACA) for managing enterprise IT aligned to business objectives. Relevant for IT audit and SOX compliance.",
+            "COSO: Internal control framework — five components: Control environment, Risk assessment, Control activities, Information & communication, Monitoring.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Under COSO's internal control framework, 'segregation of duties' falls under which component?",
+              options: [
+                "Control environment",
+                "Risk assessment",
+                "Control activities",
+                "Monitoring activities",
+              ],
+              answer: 2,
+              explanation: "Control activities are the specific policies and procedures that address identified risks — including authorisation controls, verification, reconciliation, and segregation of duties (ensuring no single person controls an entire process end-to-end). Segregation of duties is a classic control activity.",
+            },
+            {
+              question: "A UK-listed bank's treasury system contains records of all customer FX transactions. Under MiFID II, for how many years must these transaction records be retained?",
+              options: [
+                "3 years",
+                "5 years",
+                "6 years",
+                "10 years",
+              ],
+              answer: 1,
+              explanation: "MiFID II (Markets in Financial Instruments Directive) requires investment firms to retain records of all transactions for at least 5 years. Note: different regulations have different retention periods — Companies Act (6 years), HMRC/VAT (6 years), MiFID II (5 years). Finance must maintain a records retention schedule that satisfies all applicable requirements.",
+            },
+            {
+              question: "COBIT is best described as:",
+              options: [
+                "A data protection regulation for financial services firms",
+                "A governance and management framework for enterprise IT, providing control objectives for IT processes",
+                "A cybersecurity standard for protecting payment card data",
+                "An accounting standard for capitalising IT development costs",
+              ],
+              answer: 1,
+              explanation: "COBIT (Control Objectives for Information and Related Technologies), published by ISACA, is a framework for IT governance and management. It provides a set of governance practices and management objectives for IT — used for SOX IT controls assessment, IT audit, and aligning IT governance to business objectives.",
+            },
+          ],
         },
         {
           id: "e1-l21",
@@ -3869,7 +5760,101 @@ const AIQ_COURSE_DATA = {
             "Describe the components of an information security management system (ISMS)",
             "Identify physical, technical and administrative controls for information security",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>ISO/IEC 27001 — International ISMS Standard</h4>" +
+            "<p><strong>ISO/IEC 27001</strong> is the internationally recognised standard for establishing, implementing, maintaining and continually improving an <strong>Information Security Management System (ISMS)</strong>. It provides a systematic, risk-based approach to protecting information assets — covering people, processes and technology.</p>" +
+            "<p>ISO 27001 is a certification standard. Organisations can be independently audited and certified as compliant — demonstrating to clients, regulators and partners that information security is managed rigorously. Certification is particularly important in financial services, healthcare, and government contracting.</p>" +
+            "<p>ISO 27001 is based on the <strong>Plan-Do-Check-Act (PDCA) cycle</strong> — ensuring the ISMS is continuously improved rather than a one-time exercise:</p>" +
+            "<ul>" +
+            "<li><strong>Plan:</strong> Establish the ISMS scope; conduct risk assessment; define security objectives and controls</li>" +
+            "<li><strong>Do:</strong> Implement and operate the ISMS controls</li>" +
+            "<li><strong>Check:</strong> Monitor, measure and audit ISMS performance against policy and objectives</li>" +
+            "<li><strong>Act:</strong> Take corrective actions; continually improve the ISMS</li>" +
+            "</ul>" +
+            "<h4>Components of an ISMS</h4>" +
+            "<p>An ISMS under ISO 27001 comprises:</p>" +
+            "<ol>" +
+            "<li><strong>Scope definition:</strong> What information assets, business processes and systems are within the ISMS boundary?</li>" +
+            "<li><strong>Information security policy:</strong> Senior management's commitment to information security, establishing the framework for objectives</li>" +
+            "<li><strong>Risk assessment and treatment:</strong> Systematic identification and evaluation of information security risks; selection of controls to treat risks to acceptable levels</li>" +
+            "<li><strong>Statement of Applicability (SoA):</strong> Documents which of ISO 27001 Annex A controls are applicable and implemented, and justifies any exclusions</li>" +
+            "<li><strong>Control implementation:</strong> The 93 controls in ISO 27001:2022 Annex A, organised into four themes (Organisational, People, Physical, Technological)</li>" +
+            "<li><strong>Competence and awareness:</strong> Staff training on information security responsibilities</li>" +
+            "<li><strong>Internal audit:</strong> Regular assessment of ISMS effectiveness</li>" +
+            "<li><strong>Management review:</strong> Periodic senior management review of ISMS performance</li>" +
+            "<li><strong>Corrective actions:</strong> Process for identifying, investigating and correcting nonconformities</li>" +
+            "</ol>" +
+            "<h4>Three Categories of Information Security Controls</h4>" +
+            "<table><thead><tr><th>Category</th><th>Description</th><th>Finance examples</th></tr></thead><tbody>" +
+            "<tr><td><strong>Technical (logical) controls</strong></td><td>Technology-based controls implemented in IT systems</td><td>Multi-factor authentication; encryption of financial data at rest and in transit; firewall and IDS; role-based access controls (RBAC); automated backup; DLP tools; audit logging</td></tr>" +
+            "<tr><td><strong>Administrative (organisational) controls</strong></td><td>Policies, procedures and governance activities</td><td>Information security policy; staff security awareness training; acceptable use policy; third-party risk assessments; incident response plan; security risk register; clear desk policy; GDPR compliance programme</td></tr>" +
+            "<tr><td><strong>Physical controls</strong></td><td>Physical measures to protect information assets and infrastructure</td><td>Secure server room access (badge, biometric); CCTV in server rooms; locked filing cabinets for paper records; visitor management; clean desk/clear screen policy; shredding of confidential documents; physical security for portable devices (laptop locks)</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Defence in Depth</h4>" +
+            "<p><strong>Defence in depth</strong> is the security principle that multiple layers of controls are more effective than relying on any single control. Even if one control fails (a firewall is breached), other controls (encryption, MFA, access controls) limit the impact.</p>" +
+            "<p>For finance, this means combining: perimeter security (firewall), network security (segmentation), endpoint security (device encryption, antivirus), application security (access controls, input validation), data security (encryption, DLP), and human controls (training, clear desk policy).</p>" +
+            "<h4>Business Continuity and Disaster Recovery</h4>" +
+            "<p>ISO 27001 includes requirements for business continuity planning. Finance-specific considerations:</p>" +
+            "<ul>" +
+            "<li><strong>RTO (Recovery Time Objective):</strong> Maximum acceptable time to restore a system after a failure. For the main ERP/financial system: typically 4–24 hours.</li>" +
+            "<li><strong>RPO (Recovery Point Objective):</strong> Maximum acceptable amount of data loss. For financial systems: typically zero to 1 hour (any loss of financial transactions is unacceptable).</li>" +
+            "<li>Tested backups, failover systems, and documented recovery procedures are all required to meet RTO/RPO objectives.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "PaymentProcessing Ltd is applying for ISO 27001 certification. The company processes £2bn of payment transactions annually and holds financial data for 500,000 customers. Outline the key steps to achieve ISO 27001 certification.",
+            steps: [
+              "Step 1 — Scope: Define the ISMS scope: all systems and processes handling payment data and customer financial records. Physical boundary: London HQ and Dublin data centre.",
+              "Step 2 — Risk assessment: Systematically identify information assets (payment database, customer records, encryption keys, API connections to banks). Assess threats (cybercriminals targeting payment data, insider fraud, system failure) and vulnerabilities. Calculate risk = likelihood × impact. 47 risks identified, 8 rated 'High.'",
+              "Step 3 — Risk treatment: For each High risk, select controls from ISO 27001 Annex A. E.g., for 'unauthorised access to payment database': implement database encryption (technical), RBAC limiting access to 3 authorised DBAs (technical), quarterly access reviews (administrative), and server room physical access controls (physical).",
+              "Step 4 — Statement of Applicability: Document all 93 Annex A controls. 87 applicable (with evidence of implementation). 6 excluded with justification (e.g., 'mobile device management policy' — company has no mobile payment processing).",
+              "Step 5 — Implementation: Implement all selected controls over 6 months. Train all staff. Establish incident response procedures.",
+              "Step 6 — Internal audit: Independent internal audit of ISMS — test controls, review documentation, identify gaps. Corrective actions completed.",
+              "Step 7 — Certification audit: External ISO 27001 accredited auditor conducts Stage 1 (documentation review) and Stage 2 (on-site evidence review). 2 minor nonconformities found and closed. Certificate awarded.",
+            ],
+            answer: "ISO 27001 certification provides PaymentProcessing Ltd with independent validation of its security controls, demonstrating to banks, regulators (FCA) and customers that payment data is protected to an internationally recognised standard. Certification also provides a structured framework for continuously improving security rather than relying on ad-hoc measures.",
+          },
+          summary: [
+            "ISO 27001 is the international standard for Information Security Management Systems (ISMS) — a risk-based, PDCA cycle-driven approach to protecting information assets.",
+            "ISMS components: scope, policy, risk assessment, Statement of Applicability, control implementation, staff training, internal audit, management review, corrective actions.",
+            "Three control categories: Technical (MFA, encryption, firewalls, RBAC), Administrative (policies, training, incident response), Physical (server room access, CCTV, clean desk).",
+            "Defence in depth: multiple overlapping layers of control so no single failure compromises information security.",
+            "RTO (Recovery Time Objective) and RPO (Recovery Point Objective) define acceptable system downtime and data loss — financial systems typically require very low RTO/RPO.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A company locks its server rooms with badge access and biometric scanners, stores physical financial records in locked cabinets, and has a clear desk policy requiring staff to lock away all documents when leaving their desks. These are examples of which category of information security control?",
+              options: [
+                "Technical controls",
+                "Administrative controls",
+                "Physical controls",
+                "Detective controls",
+              ],
+              answer: 2,
+              explanation: "Physical controls protect information assets through physical measures — server room access controls, CCTV, locked cabinets, and clean desk/clear screen policies are all physical controls. Technical controls use technology (encryption, firewalls). Administrative controls are policies and procedures (security training, incident response plans).",
+            },
+            {
+              question: "What is the purpose of a 'Statement of Applicability' (SoA) in an ISO 27001 ISMS?",
+              options: [
+                "A statement that the organisation is applying for ISO 27001 certification",
+                "A document that lists all ISO 27001 Annex A controls, states which are applicable and implemented, and justifies any exclusions",
+                "A legal statement confirming the organisation complies with GDPR",
+                "A senior management statement committing to information security",
+              ],
+              answer: 1,
+              explanation: "The Statement of Applicability (SoA) is a required document under ISO 27001 that inventories all 93 Annex A controls, documents which are applicable to the organisation, confirms they are implemented (with reference to evidence), and justifies any controls that are excluded. It is a key certification document reviewed by the certification auditor.",
+            },
+            {
+              question: "Defence in depth means:",
+              options: [
+                "Investing heavily in one highly effective security control",
+                "Implementing multiple layers of security controls so that if one control fails, others compensate",
+                "Having a defence attorney who specialises in cybersecurity incidents",
+                "Conducting deep penetration testing of all systems",
+              ],
+              answer: 1,
+              explanation: "Defence in depth applies the military principle of multiple layers of defence to information security. No single control is sufficient — firewalls can be breached, passwords can be stolen, patches can be delayed. Multiple overlapping controls (perimeter, network, endpoint, application, data, human) ensure that a failure in one layer does not compromise the entire system.",
+            },
+          ],
         },
 
         /* ── Module D: Business Models, Strategy and Transformation (L22–L28) ── */
@@ -3883,7 +5868,98 @@ const AIQ_COURSE_DATA = {
             "Describe value creation, value delivery and value capture mechanisms",
             "Compare traditional and platform-based business models",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is a Business Model?</h4>" +
+            "<p>A <strong>business model</strong> describes how an organisation creates, delivers and captures value. It answers three fundamental questions:</p>" +
+            "<ul>" +
+            "<li><strong>Value creation:</strong> What problem do we solve for customers? What benefit do we provide? (The 'value proposition')</li>" +
+            "<li><strong>Value delivery:</strong> How do we reach customers and deliver the value to them? (Channels, relationships)</li>" +
+            "<li><strong>Value capture:</strong> How do we generate revenue from the value we create? (Revenue streams, cost structure)</li>" +
+            "</ul>" +
+            "<h4>The Business Model Canvas (Osterwalder and Pigneur)</h4>" +
+            "<p>The <strong>Business Model Canvas (BMC)</strong> is a strategic management tool that visualises a business model on a single page using nine building blocks:</p>" +
+            "<table><thead><tr><th>Block</th><th>Question answered</th><th>Airbnb example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Customer Segments</strong></td><td>Who are our customers?</td><td>Guests (travellers) and Hosts (property owners)</td></tr>" +
+            "<tr><td><strong>Value Propositions</strong></td><td>What value do we deliver?</td><td>Unique local accommodation for guests; income from spare space for hosts</td></tr>" +
+            "<tr><td><strong>Channels</strong></td><td>How do we reach customers?</td><td>Mobile app, website, email marketing</td></tr>" +
+            "<tr><td><strong>Customer Relationships</strong></td><td>How do we interact with customers?</td><td>Self-service platform; automated communication; community/reviews</td></tr>" +
+            "<tr><td><strong>Revenue Streams</strong></td><td>How do we make money?</td><td>Service fee from guests (14%); host fee (3%)</td></tr>" +
+            "<tr><td><strong>Key Resources</strong></td><td>What assets do we need?</td><td>Technology platform; brand; community of users; data</td></tr>" +
+            "<tr><td><strong>Key Activities</strong></td><td>What do we do?</td><td>Platform development; community management; trust/safety; marketing</td></tr>" +
+            "<tr><td><strong>Key Partnerships</strong></td><td>Who do we work with?</td><td>Payment processors; insurance partners; professional photographers</td></tr>" +
+            "<tr><td><strong>Cost Structure</strong></td><td>What are our costs?</td><td>Technology; staff; marketing; customer support; payment processing fees</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Platform Business Models vs Traditional (Pipeline) Models</h4>" +
+            "<p>Traditional businesses use a <strong>pipeline model</strong>: a linear chain where the firm creates value and delivers it to customers (manufacturer → distributor → retailer → customer). Value flows in one direction.</p>" +
+            "<p><strong>Platform businesses</strong> are multi-sided — they create a marketplace that connects two or more distinct user groups who create value for each other. The platform facilitates and monetises the interactions.</p>" +
+            "<table><thead><tr><th>Dimension</th><th>Pipeline (Traditional)</th><th>Platform</th></tr></thead><tbody>" +
+            "<tr><td><strong>Value creation</strong></td><td>Firm creates value internally</td><td>Users create value for each other; platform enables it</td></tr>" +
+            "<tr><td><strong>Asset ownership</strong></td><td>Owns production assets (factories, inventory)</td><td>Owns minimal assets; the network/data is the asset</td></tr>" +
+            "<tr><td><strong>Scaling</strong></td><td>Adding capacity requires proportional investment</td><td>Can scale to millions of users at near-zero marginal cost</td></tr>" +
+            "<tr><td><strong>Revenue model</strong></td><td>Product/service sales; margin on cost</td><td>Transaction fees; subscription; advertising; data monetisation</td></tr>" +
+            "<tr><td><strong>Examples</strong></td><td>Rolls-Royce, Tesco, Marks &amp; Spencer</td><td>Uber, Airbnb, Amazon Marketplace, Apple App Store, Visa</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Finance Implications of Different Business Models</h4>" +
+            "<p>The business model has profound implications for financial analysis and FP&A:</p>" +
+            "<ul>" +
+            "<li><strong>Revenue recognition:</strong> Platform transaction fees vs subscription vs product sales — each has different IFRS 15 treatment</li>" +
+            "<li><strong>Cost structure:</strong> Platform businesses have high fixed costs (technology) but near-zero variable costs — high operating leverage</li>" +
+            "<li><strong>KPIs:</strong> Traditional businesses track revenue, margin, return on assets. Platform businesses track: GMV (gross merchandise value), take rate (fee/GMV), MAUs (monthly active users), CAC (customer acquisition cost), LTV (lifetime value), churn rate</li>" +
+            "<li><strong>Valuation:</strong> Platform businesses are typically valued on revenue multiples or user metrics rather than traditional P/E ratios</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "A traditional taxi company (UrbanCabs plc) employs 200 drivers and owns 150 vehicles. It is being disrupted by a ride-hailing platform (RideApp). Use the Business Model Canvas to compare the two business models and identify the financial implications.",
+            steps: [
+              "UrbanCabs (pipeline model): Customer Segments: commuters, airport travellers. Value Proposition: reliable local taxi service. Key Resources: 150 vehicles (£3m asset), 200 employed drivers, dispatch system. Revenue: metered fares. Costs: driver wages (£8m/year), vehicle depreciation/maintenance (£900k/year), insurance, premises. Margin: ~10%. Balance sheet: heavy assets.",
+              "RideApp (platform model): Customer Segments: riders AND drivers. Value Proposition: convenient on-demand rides for riders; flexible income for driver-partners. Key Resources: technology platform (app), data, brand. Revenue: 20% commission on every ride. Costs: technology (£5m/year), marketing, customer support. No driver wages, no vehicles owned. Margin: ~25% gross. Balance sheet: minimal assets.",
+              "Financial implications: UrbanCabs has high fixed costs (wages and depreciation) that persist whether cars are working or idle — high operational gearing but limited scalability. RideApp's costs are largely fixed (technology platform) with near-zero variable cost per additional ride — economics improve dramatically with scale.",
+              "KPI differences: UrbanCabs tracks: revenue per driver, utilisation rate, cost per mile. RideApp tracks: GMV, take rate (20%), driver supply vs rider demand (marketplace balance), CAC vs LTV.",
+              "Disruption implication: RideApp can enter a new city in weeks (recruit drivers, launch app — no capital investment in vehicles). UrbanCabs would need to purchase vehicles and hire drivers — months and millions of pounds. Platform model disrupts pipeline model by eliminating the asset ownership constraint.",
+            ],
+            answer: "The platform model fundamentally changes the financial economics: lower asset intensity, near-zero marginal cost at scale, but dependent on network effects to win. Finance must adapt KPIs, valuation methods, and investment appraisal frameworks when analysing platform businesses vs traditional pipeline businesses.",
+          },
+          summary: [
+            "A business model describes how an organisation creates, delivers and captures value — the Business Model Canvas maps this in nine building blocks.",
+            "Three core questions: Value creation (what problem solved?), Value delivery (how reached?), Value capture (how revenue earned?).",
+            "Platform businesses connect multiple user groups who create value for each other; pipeline businesses create and deliver value linearly.",
+            "Platform economics: near-zero marginal cost at scale, network effects, asset-light — creating very different financial profiles vs traditional businesses.",
+            "Finance must adapt: platform KPIs (GMV, take rate, MAU, CAC, LTV), revenue recognition (IFRS 15 — agent vs principal), and valuation methods differ from traditional businesses.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following is a PLATFORM business model rather than a traditional pipeline model?",
+              options: [
+                "A supermarket that buys products from suppliers and sells them to consumers",
+                "A car manufacturer that designs, builds and sells vehicles",
+                "A marketplace app that connects buyers and sellers and charges a transaction fee without owning any inventory",
+                "A professional services firm that sells consulting services to clients",
+              ],
+              answer: 2,
+              explanation: "A marketplace app connecting buyers and sellers without owning inventory is a classic platform model. The platform facilitates interactions between two distinct user groups (buyers and sellers) and monetises those interactions. A supermarket, car manufacturer and consulting firm are all pipeline models — they create value internally and sell it to customers.",
+            },
+            {
+              question: "A finance director is building a dashboard for a newly-acquired ride-hailing platform subsidiary. Which KPI is MOST relevant to the platform's business model performance?",
+              options: [
+                "Return on Capital Employed (ROCE)",
+                "Gross Merchandise Value (GMV) and take rate",
+                "Earnings per share (EPS)",
+                "Asset turnover ratio",
+              ],
+              answer: 1,
+              explanation: "GMV (total transaction value flowing through the platform) and take rate (the platform's commission percentage) are the core metrics for a platform business. Traditional financial KPIs like ROCE and asset turnover are designed for asset-heavy pipeline businesses — they are less relevant to an asset-light platform where value is in the network, not the balance sheet.",
+            },
+            {
+              question: "In the Business Model Canvas, 'Key Resources' for an e-commerce platform like Amazon would MOST likely include:",
+              options: [
+                "Physical retail stores",
+                "Manufacturing equipment and factories",
+                "Technology platform, data, brand, and logistics network",
+                "Raw materials and inventory",
+              ],
+              answer: 2,
+              explanation: "Key Resources are the most important assets required to make a business model work. For a platform/e-commerce business, these are primarily: the technology platform (enables transactions), data (personalisation, pricing, logistics optimisation), brand (trust, recognition), and logistics network (delivery capability). Physical retail stores and manufacturing are pipeline model resources.",
+            },
+          ],
         },
         {
           id: "e1-l23",
@@ -3895,7 +5971,100 @@ const AIQ_COURSE_DATA = {
             "Explain network effects and the economics of platform businesses",
             "Describe strategic responses to digital disruption: adapt, partner, or acquire",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Digital Disruption?</h4>" +
+            "<p><strong>Digital disruption</strong> occurs when a digital technology fundamentally changes the competitive dynamics of an industry — typically by creating a new business model that is dramatically lower-cost, faster, more convenient, or better-targeted than existing offerings. Disruption often starts at the bottom of the market (lower-quality, lower-price segments ignored by incumbents) before moving upmarket.</p>" +
+            "<p>Clayton Christensen's concept of <strong>disruptive innovation</strong> describes this pattern: a new entrant (often digital/technology-enabled) enters a market serving non-consumers or low-end customers whom incumbents have overlooked. The entrant's technology improves rapidly until it displaces the incumbent.</p>" +
+            "<p>Classic examples: Uber disrupted taxis, Netflix disrupted video rental and broadcast TV, Spotify disrupted music retail, Airbnb disrupted hotels, Amazon disrupted bookselling and then retail broadly, fintech companies disrupting banks.</p>" +
+            "<h4>Industries at Risk of Digital Disruption</h4>" +
+            "<p>Industries with high disruption risk share common characteristics:</p>" +
+            "<ul>" +
+            "<li>Information asymmetry (customer knows less than supplier) — digital platforms remove this asymmetry</li>" +
+            "<li>High intermediary costs (agents, brokers, distributors) — platforms bypass intermediaries</li>" +
+            "<li>Low switching costs for customers once alternatives emerge</li>" +
+            "<li>Products/services that can be delivered digitally (media, software, financial services, education, professional advice)</li>" +
+            "<li>Fragmented supply (e.g., many small taxi companies, many individual landlords) — platforms aggregate it</li>" +
+            "</ul>" +
+            "<p>High-risk industries include: financial services (banking, insurance, asset management), media and entertainment, retail, professional services (legal, accounting, consulting), healthcare, real estate and transport.</p>" +
+            "<h4>Network Effects — The Competitive Moat of Platforms</h4>" +
+            "<p><strong>Network effects</strong> occur when a product or service becomes more valuable as more people use it. For platform businesses, network effects create a powerful competitive advantage that is very difficult for new entrants to overcome.</p>" +
+            "<ul>" +
+            "<li><strong>Direct (same-side) network effects:</strong> More users on the same side make the platform more valuable for existing users. Example: WhatsApp — every additional user makes WhatsApp more valuable to all existing users, because there are more people to contact.</li>" +
+            "<li><strong>Indirect (cross-side) network effects:</strong> More users on one side make the platform more valuable for users on the other side. Example: Uber — more drivers reduce waiting times for riders (good for riders), and more riders mean more income for drivers (good for drivers). This creates a self-reinforcing positive feedback loop.</li>" +
+            "</ul>" +
+            "<p>Network effects create <strong>winner-takes-all</strong> or <strong>winner-takes-most</strong> dynamics in many platform markets. Once a platform achieves critical mass, challengers face an almost impossible task — to compete they must simultaneously attract both sides of the market.</p>" +
+            "<h4>Platform Economics — Unit Economics</h4>" +
+            "<p>Platform businesses have distinctive economics:</p>" +
+            "<ul>" +
+            "<li><strong>Near-zero marginal cost:</strong> Adding one more user costs almost nothing once the platform is built — software scales without proportional cost increase</li>" +
+            "<li><strong>High fixed costs, low variable costs:</strong> Technology investment is fixed; processing one more transaction has near-zero cost</li>" +
+            "<li><strong>Customer Acquisition Cost (CAC):</strong> Often high in early stages as platforms need to subsidise growth on both sides (Uber initially subsidised both rider prices and driver pay)</li>" +
+            "<li><strong>Lifetime Value (LTV):</strong> If LTV &gt; CAC, the business model is sustainable. LTV:CAC ratio &gt; 3:1 is generally considered healthy.</li>" +
+            "<li><strong>Take rate:</strong> The percentage of each transaction that the platform keeps as revenue (Airbnb: ~17%, Uber: ~20%, App Store: 30%)</li>" +
+            "</ul>" +
+            "<h4>Strategic Responses to Digital Disruption</h4>" +
+            "<p>Incumbents facing digital disruption have several strategic options:</p>" +
+            "<table><thead><tr><th>Response</th><th>Description</th><th>Example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Adapt (transform)</strong></td><td>Transform the existing business model using digital technology</td><td>Traditional banks launching digital banking apps; Tesco launching Tesco Bank</td></tr>" +
+            "<tr><td><strong>Partner</strong></td><td>Collaborate with digital disruptors rather than compete</td><td>Traditional publishers partnering with Amazon; airline alliances with OTAs (Online Travel Agencies)</td></tr>" +
+            "<tr><td><strong>Acquire</strong></td><td>Acquire digital startups to acquire capability, customer base, or technology</td><td>JP Morgan acquiring fintech startups; Walmart acquiring Jet.com</td></tr>" +
+            "<tr><td><strong>Create a separate unit</strong></td><td>Launch a separate digital business with its own culture, P&amp;L and mandate — avoiding organisational immune system rejection</td><td>BBC launching BBC iPlayer as a separate unit; John Lewis launching JohnLewis.com</td></tr>" +
+            "<tr><td><strong>Defend and milk</strong></td><td>Accept digital displacement in some segments; defend core profitable segments; milk cash flow from declining traditional business</td><td>Physical media companies extracting value from shrinking DVD/CD markets</td></tr>" +
+            "</tbody></table>",
+          workedExample: {
+            setup: "TraditionalBank plc has 300 branches, 8 million customers, and a 15% share of the UK current account market. Three fintech competitors have launched in the past 3 years, attracting 5 million customers combined with zero branches, mobile-only propositions, and dramatically lower cost structures. The board asks the CEO for a strategic response. Outline the options.",
+            steps: [
+              "Threat assessment: Fintech unit economics are superior — no branch costs, no legacy IT maintenance, processing cost per transaction ~40% lower than TraditionalBank. Network effects building as customer numbers grow. Young customers disproportionately adopting fintech — threatening the long-term customer base.",
+              "Option 1 — Adapt: Launch a mobile-first digital product under the TraditionalBank brand. Challenges: legacy IT makes rapid development difficult; brand associates TraditionalBank with the 'old' banking model that customers are leaving. Estimated investment: £200m over 3 years.",
+              "Option 2 — Create separate unit: Launch 'FlowBank' as a separate standalone digital bank with separate technology, culture, and pricing. Avoids brand conflict and can attract different talent. Higher cost but faster speed to market. Used by Goldman Sachs (Marcus), BBVA (Atom Bank investment), and ING (Yolt).",
+              "Option 3 — Acquire: Acquire one of the three fintech competitors. Fastest route to digital capability and customer base. Risk: fintech culture clash with TraditionalBank; regulators may scrutinise consolidation. Price: fintechs currently valued at 5-8x revenue despite losses.",
+              "Option 4 — Partner: White-label fintech technology for TraditionalBank's app (partner with technology provider rather than building). Lower risk; faster; but TraditionalBank remains dependent on partner and does not build internal capability.",
+              "Recommended strategy: Hybrid — launch FlowBank as separate digital entity (Option 2) for new customer acquisition, while partnering with fintech for specific product features (Option 4) to improve existing customer experience. Reserve acquisition option for Year 3 review when FlowBank results are known.",
+            ],
+            answer: "No single response is clearly optimal — different approaches balance speed, cost, risk and strategic fit differently. The key insight for finance is that digital disruption requires strategic investment decisions with significant uncertainty — scenario analysis, real options thinking, and phased investment approaches are more appropriate than traditional DCF analysis alone.",
+          },
+          summary: [
+            "Digital disruption fundamentally changes industry competitive dynamics — starting at the bottom of markets and moving upmarket (Christensen's disruptive innovation).",
+            "High-risk industries: financial services, media, retail, professional services — characterised by information asymmetry, intermediary costs, and digitisable products.",
+            "Network effects (direct and indirect) create winner-takes-all dynamics for platforms — more users → more value → more users.",
+            "Platform unit economics: near-zero marginal cost, high fixed costs, CAC vs LTV ratio (target >3:1), take rate as primary revenue driver.",
+            "Strategic responses to disruption: adapt, partner, acquire, separate unit creation, or defend-and-milk — often hybrid approaches work best.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Uber's ride-hailing platform becomes more valuable to riders as more drivers join (reducing wait times), and more valuable to drivers as more riders use it (increasing income). This is an example of:",
+              options: [
+                "Direct (same-side) network effects",
+                "Indirect (cross-side) network effects",
+                "Economies of scale",
+                "First-mover advantage",
+              ],
+              answer: 1,
+              explanation: "Indirect (cross-side) network effects occur when more users on one side of a platform create value for users on the other side. More drivers benefit riders (faster pick-up); more riders benefit drivers (more income). This cross-side effect creates the positive feedback loop that makes platform businesses so powerful.",
+            },
+            {
+              question: "A traditional bookshop chain faces disruption from online book retailers and e-readers. Which strategic response involves launching a separate digital book platform with its own brand, technology and P&L?",
+              options: [
+                "Adapt — transform the existing business model",
+                "Partner — collaborate with Amazon",
+                "Create a separate digital unit with its own brand and mandate",
+                "Defend and milk — extract value from declining physical sales",
+              ],
+              answer: 2,
+              explanation: "Creating a separate digital unit allows the incumbent to launch a digital competitor to the disruptors without the constraints of the existing business culture, technology and brand associations. The separate unit can move faster, take more risk and attract different talent — while the existing business continues without disruption.",
+            },
+            {
+              question: "A ride-hailing platform has a Customer Acquisition Cost (CAC) of £30 per customer and an estimated Lifetime Value (LTV) of £120 per customer. Is this business model economically sustainable?",
+              options: [
+                "No — the LTV of £120 is too low to generate profit",
+                "Yes — LTV:CAC ratio of 4:1 exceeds the generally accepted threshold of 3:1",
+                "No — the CAC of £30 is too high for a platform business",
+                "It depends on the take rate",
+              ],
+              answer: 1,
+              explanation: "LTV:CAC = £120/£30 = 4:1. A ratio above 3:1 is generally considered a healthy indicator of sustainable unit economics — the platform earns four times its customer acquisition cost over the customer lifetime. Below 1:1 is clearly unsustainable (acquiring customers costs more than they ever generate).",
+            },
+          ],
         },
         {
           id: "e1-l24",
@@ -3907,7 +6076,95 @@ const AIQ_COURSE_DATA = {
             "Use SWOT analysis to evaluate a digital transformation strategy",
             "Explain dynamic capabilities and their role in sustaining competitive advantage",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>PESTEL Analysis in a Digital Context</h4>" +
+            "<p>PESTEL analysis maps the macro-environment. In a digital context, each factor has specific digital dimensions:</p>" +
+            "<table><thead><tr><th>Factor</th><th>Digital-specific considerations</th></tr></thead><tbody>" +
+            "<tr><td><strong>Political</strong></td><td>Government digital strategies; data localisation laws; regulation of platform businesses (EU Digital Markets Act); geopolitical tech tensions (US-China tech decoupling)</td></tr>" +
+            "<tr><td><strong>Economic</strong></td><td>Investment in digital infrastructure; venture capital availability for startups; customer digital purchasing power; economic cycles affecting tech investment budgets</td></tr>" +
+            "<tr><td><strong>Social</strong></td><td>Digital literacy of target customers; social media influence; trust in digital services; remote working norms; generational differences in technology adoption</td></tr>" +
+            "<tr><td><strong>Technological</strong></td><td>Speed of AI/ML development; cloud capability; 5G rollout; quantum computing; API economy enabling new integrations; cybersecurity threat landscape</td></tr>" +
+            "<tr><td><strong>Environmental</strong></td><td>Carbon footprint of data centres; sustainable technology; green cloud commitments; ESG data requirements driving technology investment</td></tr>" +
+            "<tr><td><strong>Legal</strong></td><td>GDPR; AI regulation (EU AI Act); competition law for platform dominance; IP law; consumer digital protection; open banking regulation (PSD2)</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Porter's Five Forces in Digital Markets</h4>" +
+            "<p>Digital transformation changes the intensity of each force:</p>" +
+            "<ul>" +
+            "<li><strong>Threat of new entrants:</strong> Digital businesses have lower barriers to entry (no physical stores, no manufacturing) but strong network effects create barriers to challenger platforms. Cloud technology means even startups can access enterprise-grade computing — INCREASED threat in early stages, DECREASED once platform reaches scale.</li>" +
+            "<li><strong>Bargaining power of buyers:</strong> Digital markets increase buyer information (price comparison sites, reviews) and switching ease (low transaction costs) — INCREASED buyer power. However, strong network effects and data lock-in reduce switching — DECREASED for entrenched platforms.</li>" +
+            "<li><strong>Bargaining power of suppliers:</strong> Digital platforms often fragment and atomise supply (many small suppliers/creators competing on a marketplace) — DECREASED supplier power. But key technology suppliers (AWS, Microsoft) have significant power over companies dependent on their platforms.</li>" +
+            "<li><strong>Threat of substitutes:</strong> Digital businesses create powerful substitutes for traditional offerings (streaming vs physical DVD, digital banking vs branch banking). INCREASED threat to traditional businesses.</li>" +
+            "<li><strong>Competitive rivalry:</strong> Global competition (digital businesses face global rivals, not just local ones); winner-takes-all dynamics in platform markets; rapid innovation cycles — INCREASED intensity.</li>" +
+            "</ul>" +
+            "<h4>SWOT Analysis for Digital Transformation</h4>" +
+            "<p>When evaluating a digital transformation strategy, SWOT should include digital-specific factors:</p>" +
+            "<ul>" +
+            "<li><strong>Strengths:</strong> Existing customer data and relationships; brand trust; regulatory expertise; balance sheet strength to fund transformation; established distribution</li>" +
+            "<li><strong>Weaknesses:</strong> Legacy IT architecture (expensive to change); cultural resistance to change; skills gaps in digital/data; slow decision-making processes; risk aversion in regulated environments</li>" +
+            "<li><strong>Opportunities:</strong> Growing customer demand for digital services; regulatory changes opening new markets (Open Banking); cost reduction from automation; new revenue from data monetisation; partnership ecosystem</li>" +
+            "<li><strong>Threats:</strong> Tech giants entering traditional markets (Apple Pay, Google Pay in banking); fintech/startup disruption; regulatory uncertainty (data localisation, AI regulation); cybersecurity threats increasing with digital footprint</li>" +
+            "</ul>" +
+            "<h4>Dynamic Capabilities</h4>" +
+            "<p><strong>Dynamic capabilities</strong> (Teece, Pisano and Shuen, 1997) are the organisation's ability to integrate, build and reconfigure internal and external competencies to address rapidly changing environments. In the digital age, sustainable competitive advantage comes not from static resources (which can be copied) but from the ability to sense, seize and reconfigure in response to change.</p>" +
+            "<p>Three dynamic capabilities:</p>" +
+            "<ol>" +
+            "<li><strong>Sensing:</strong> Identifying and interpreting opportunities and threats in the environment — monitoring technology trends, customer needs, competitor moves</li>" +
+            "<li><strong>Seizing:</strong> Mobilising resources to capture opportunities — making investment decisions, building capabilities, acquiring talent</li>" +
+            "<li><strong>Reconfiguring:</strong> Transforming and restructuring assets and organisational structures as the environment changes — no legacy lock-in</li>" +
+            "</ol>" +
+            "<p>Finance's role in dynamic capabilities: providing real-time performance data (sensing), rapid investment appraisal for opportunities (seizing), and portfolio management — knowing when to exit declining activities and redeploy capital (reconfiguring).</p>",
+          workedExample: {
+            setup: "A traditional UK retail bank (TradBank) is preparing its digital transformation strategy. Use Porter's Five Forces and SWOT to inform the strategic choices.",
+            steps: [
+              "Porter's Five Forces: New entrants: HIGH threat — fintech startups face low barriers (cloud, open APIs, FCA sandbox). Buyer power: INCREASING — Open Banking (PSD2) makes switching easier; price comparison sites. Supplier power: INCREASING for tech (AWS dependency); LOW for traditional suppliers. Substitutes: HIGH — digital-only banks, cryptocurrency, Buy Now Pay Later. Rivalry: INTENSIFYING — global tech giants entering financial services.",
+              "SWOT: Strengths: 10m existing customers; trusted brand; regulatory capital and expertise; physical branch network for complex products. Weaknesses: 20-year-old core banking system (£500m to replace); compliance culture slowing digital delivery; digital skills gap. Opportunities: Open Banking data partnerships; SME digital lending gap; green/sustainable finance growth. Threats: Apple, Google and Amazon entering payments; BNPL disrupting lending; crypto potential to disrupt savings.",
+              "Strategic implication: TradBank must address the Weaknesses (legacy system, skills gap) to exploit Opportunities before the Threats materialise. Legacy system is the critical bottleneck — without modernising it, digital products cannot be built quickly enough.",
+              "Dynamic capability: TradBank needs to build Sensing capability (dedicated team monitoring fintech landscape), Seizing capability (agile investment process for digital acquisitions and partnerships), and Reconfiguring capability (willingness to close underperforming branches and redeploy capital to digital).",
+            ],
+            answer: "Strategic analysis reveals TradBank is in a high-risk competitive position — facing multiple threats while encumbered by legacy weaknesses. The strategic priority is core banking modernisation (2-3 year programme), parallel launch of digital products via partnership (faster to market), and targeted acquisition of fintech capabilities. Finance must support rapid investment decisions and monitor strategic KPIs alongside financial performance.",
+          },
+          summary: [
+            "PESTEL in digital context: Political (regulation of platforms, AI Act), Social (digital literacy, trust), Technological (AI, cloud, 5G), Legal (GDPR, open banking) are particularly important.",
+            "Porter's Five Forces: digital increases buyer power (information, switching ease), substitution threats (digital products), and new entrant threats (low barriers) — while network effects and data lock-in reduce these for scaled platforms.",
+            "SWOT for digital transformation: include legacy IT, skills gaps (weaknesses) and open banking/data monetisation opportunities alongside traditional factors.",
+            "Dynamic capabilities: sensing (monitoring opportunities/threats), seizing (mobilising resources), reconfiguring (restructuring assets) — the organisational DNA for sustained competitive advantage in a changing environment.",
+            "Finance supports dynamic capabilities through: real-time performance data (sensing), rapid investment appraisal (seizing), and portfolio/capital reallocation decisions (reconfiguring).",
+          ],
+          practiceQuestions: [
+            {
+              question: "Open Banking regulations (PSD2) require banks to share customer financial data with authorised third parties via APIs (with customer consent). In Porter's Five Forces analysis, this PRIMARILY affects which force?",
+              options: [
+                "Threat of new entrants — making it easier for new competitors to build financial products using bank data",
+                "Bargaining power of suppliers — banks are required to share data with suppliers",
+                "Threat of substitutes — Open Banking creates substitute products",
+                "Competitive rivalry — all existing banks are equally affected",
+              ],
+              answer: 0,
+              explanation: "Open Banking (PSD2) significantly increases the threat of new entrants by giving fintech startups access to bank customer data via standardised APIs. Previously, a bank's customer data was a barrier to entry that prevented competitors. Now, authorised fintechs can access that data and build competing products — dramatically lowering entry barriers.",
+            },
+            {
+              question: "Which of Teece's three dynamic capabilities involves monitoring technology trends, competitor moves and customer needs to identify opportunities and threats before they fully materialise?",
+              options: [
+                "Seizing",
+                "Reconfiguring",
+                "Sensing",
+                "Sustaining",
+              ],
+              answer: 2,
+              explanation: "Sensing is the dynamic capability of identifying and interpreting opportunities and threats in the environment — it is the forward-looking intelligence function. Seizing mobilises resources to capture identified opportunities. Reconfiguring transforms assets and structures in response to changes. 'Sustaining' is not one of Teece's three dynamic capabilities.",
+            },
+            {
+              question: "A company's SWOT analysis identifies 'legacy IT architecture that cannot support real-time data delivery' as a key internal factor. This is classified as:",
+              options: [
+                "A threat — because it is driven by technological change",
+                "A weakness — because it is an internal factor that limits the organisation's ability to achieve its strategy",
+                "An opportunity — because it represents an investment opportunity",
+                "A strength — because the legacy system is fully depreciated and has no carrying cost",
+              ],
+              answer: 1,
+              explanation: "SWOT categorises factors as Strengths/Weaknesses (internal factors within the organisation's control) vs Opportunities/Threats (external environmental factors). Legacy IT architecture is an internal factor — a weakness that limits the ability to execute a digital strategy. The fact that it creates an investment opportunity is a secondary observation — the primary SWOT classification is Weakness.",
+            },
+          ],
         },
         {
           id: "e1-l25",
@@ -3919,7 +6176,107 @@ const AIQ_COURSE_DATA = {
             "Compare Agile (Scrum, Kanban) and traditional waterfall project management",
             "Describe how finance functions can adopt Agile approaches in planning and reporting",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is Agile?</h4>" +
+            "<p><strong>Agile</strong> is an iterative approach to project management and product development that delivers work in small, incremental steps rather than attempting to plan and deliver everything at once. Originating in software development, Agile has spread to finance, marketing, HR and strategy functions.</p>" +
+            "<p>The <strong>Agile Manifesto</strong> (2001) established four core values:</p>" +
+            "<ol>" +
+            "<li><strong>Individuals and interactions</strong> over processes and tools</li>" +
+            "<li><strong>Working software</strong> (working deliverables) over comprehensive documentation</li>" +
+            "<li><strong>Customer collaboration</strong> over contract negotiation</li>" +
+            "<li><strong>Responding to change</strong> over following a plan</li>" +
+            "</ol>" +
+            "<p>The manifesto notes: 'While there is value in the items on the right, we value the items on the left more.'</p>" +
+            "<h4>The 12 Agile Principles</h4>" +
+            "<p>Key principles most relevant to finance include:</p>" +
+            "<ul>" +
+            "<li>Deliver working value early and continuously</li>" +
+            "<li>Welcome changing requirements, even late in development</li>" +
+            "<li>Business people and developers work together daily</li>" +
+            "<li>The best results emerge from self-organising teams</li>" +
+            "<li>Regularly reflect and adjust behaviour to improve</li>" +
+            "</ul>" +
+            "<h4>Agile Frameworks — Scrum and Kanban</h4>" +
+            "<p><strong>Scrum</strong> is the most widely used Agile framework. Work is organised into <strong>Sprints</strong> — short, time-boxed iterations (typically 1-4 weeks) with defined goals:</p>" +
+            "<ul>" +
+            "<li><strong>Product Backlog:</strong> Prioritised list of all features/tasks to be done</li>" +
+            "<li><strong>Sprint Planning:</strong> Team selects items from the backlog for the next sprint</li>" +
+            "<li><strong>Daily Scrum (standup):</strong> 15-minute daily meeting — what did you do yesterday? What will you do today? Any blockers?</li>" +
+            "<li><strong>Sprint Review:</strong> Demonstrate completed work to stakeholders at sprint end</li>" +
+            "<li><strong>Sprint Retrospective:</strong> Team reviews their own process — what went well? What to improve?</li>" +
+            "<li><strong>Key roles:</strong> Product Owner (prioritises backlog), Scrum Master (facilitates process), Development Team (does the work)</li>" +
+            "</ul>" +
+            "<p><strong>Kanban</strong> visualises work on a board with columns (To Do / In Progress / Done). Work items flow through stages; there are limits on work-in-progress (WIP limits) to prevent overloading. Less structured than Scrum — continuous flow rather than time-boxed sprints. Used for operational work (e.g., finance query management, audit issue tracking) rather than project delivery.</p>" +
+            "<h4>Agile vs Waterfall Project Management</h4>" +
+            "<table><thead><tr><th>Dimension</th><th>Waterfall (Traditional)</th><th>Agile</th></tr></thead><tbody>" +
+            "<tr><td><strong>Planning</strong></td><td>All requirements defined upfront; detailed project plan</td><td>High-level requirements upfront; detailed planning done sprint by sprint</td></tr>" +
+            "<tr><td><strong>Delivery</strong></td><td>One big delivery at the end (often after 12-24 months)</td><td>Continuous incremental delivery every 1-4 weeks</td></tr>" +
+            "<tr><td><strong>Change</strong></td><td>Change requests are costly and disruptive</td><td>Changes welcomed; reprioritised in backlog</td></tr>" +
+            "<tr><td><strong>Risk</strong></td><td>High risk — problems discovered late when expensive to fix</td><td>Lower risk — early delivery means early feedback and course correction</td></tr>" +
+            "<tr><td><strong>Documentation</strong></td><td>Extensive upfront documentation required</td><td>Just enough documentation; working outputs are the primary measure</td></tr>" +
+            "<tr><td><strong>Best for</strong></td><td>Well-defined requirements, low complexity, physical projects (construction)</td><td>Evolving requirements, high complexity, digital/software projects</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Agile in Finance — Practical Applications</h4>" +
+            "<p>Finance functions are adopting Agile approaches:</p>" +
+            "<ul>" +
+            "<li><strong>Agile FP&amp;A:</strong> Rolling forecasts updated in short planning cycles rather than annual budgets. Finance business partners work in sprints with the commercial team to develop quarterly plans, with continuous updates as new data arrives.</li>" +
+            "<li><strong>Finance transformation projects:</strong> ERP implementations and analytics projects run on Agile/hybrid methods — delivering working reports and dashboards iteratively rather than a single big-bang go-live.</li>" +
+            "<li><strong>Continuous close:</strong> Agile accounting processes — automating reconciliations and standard journals as soon as transactions occur throughout the month, rather than batch-processing at period end.</li>" +
+            "<li><strong>Kanban for finance queries:</strong> Finance support teams use Kanban boards to manage incoming queries, audit requests and system issues — providing visibility of workload and preventing backlogs.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "A finance transformation team is tasked with building a new management reporting suite (20 dashboards) in Power BI. The traditional approach would be to spend 3 months on requirements, 3 months building, then 2 months testing — delivering all 20 dashboards in month 8. The CFO wants a faster, lower-risk approach. Design an Agile delivery approach.",
+            steps: [
+              "Create a product backlog: List all 20 dashboards as backlog items. CFO and finance business partners prioritise them: 1=P&L dashboard; 2=Cash flow; 3=Cost centre variance; 4-20 in descending priority order.",
+              "Sprint 1 (2 weeks): Build and deliver Dashboard 1 (P&L). Daily standups keep team aligned. At end of sprint 1, CFO reviews working dashboard, gives feedback. Changes incorporated into backlog for sprint 3.",
+              "Sprint 2 (2 weeks): Build Dashboard 2 (Cash flow). Sprint 1 feedback informs design decisions. Finance team is using the P&L dashboard in live reporting by end of week 2.",
+              "Velocity tracking: After 4 sprints, team has delivered 6 dashboards (some took longer). Velocity = 1.5 dashboards/sprint. Revised delivery date for all 20: week 26 (vs week 32 in original plan).",
+              "Benefit of Agile: 6 high-priority dashboards are live and delivering value in the first 8 weeks — compared to zero dashboards at 8 weeks under waterfall. Early user feedback is incorporated. The team avoids building lower-priority dashboards that users later discover they don't actually need.",
+            ],
+            answer: "Agile delivery reduces risk (early feedback prevents building wrong things), accelerates value delivery (highest-priority dashboards live early), and provides better cost control (if budget runs out, the highest-value items are already delivered). The CFO can see real working outputs within 2 weeks — not 8 months.",
+          },
+          summary: [
+            "Agile values: individuals and interactions, working deliverables, customer collaboration, responding to change — over processes, documentation, contracts, and rigid plans.",
+            "Scrum: work in time-boxed sprints (1-4 weeks); roles: Product Owner, Scrum Master, Development Team; ceremonies: planning, daily standup, review, retrospective.",
+            "Kanban: visual board tracking flow from To Do → In Progress → Done; WIP limits prevent overloading; suited for continuous operational work.",
+            "Agile vs Waterfall: Agile delivers value iteratively with continuous feedback; Waterfall delivers everything at the end — Agile is lower risk for complex, evolving requirements.",
+            "Finance Agile applications: rolling forecasts, iterative ERP/analytics projects, continuous close, Kanban for query management.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which Agile Manifesto value states that the team should respond to changing requirements rather than rigidly following an initial plan?",
+              options: [
+                "Individuals and interactions over processes and tools",
+                "Working software over comprehensive documentation",
+                "Customer collaboration over contract negotiation",
+                "Responding to change over following a plan",
+              ],
+              answer: 3,
+              explanation: "The fourth Agile Manifesto value is 'Responding to change over following a plan.' This captures the core distinction between Agile and traditional waterfall — Agile teams welcome and accommodate change throughout the project, rather than treating change as a costly deviation from a fixed plan.",
+            },
+            {
+              question: "In a Scrum project, the 'Product Backlog' is best described as:",
+              options: [
+                "A list of bugs and defects found during testing",
+                "A prioritised list of all features, tasks and improvements to be delivered",
+                "The documentation produced during sprint planning",
+                "The physical whiteboard used for the daily standup",
+              ],
+              answer: 1,
+              explanation: "The Product Backlog is the single prioritised list of everything that needs to be done — features, bug fixes, improvements, technical debt. The Product Owner is responsible for maintaining and prioritising the backlog. During each Sprint Planning, the team selects the highest-priority items from the backlog for the next sprint.",
+            },
+            {
+              question: "A traditional finance function produces an annual budget in a 4-month process every year. An Agile finance function is more likely to:",
+              options: [
+                "Spend 6 months on the annual budget for greater accuracy",
+                "Eliminate all financial planning entirely",
+                "Produce a rolling 12-month forecast updated monthly or quarterly, with rapid cycles",
+                "Delegate all financial planning to operational managers",
+              ],
+              answer: 2,
+              explanation: "Agile finance replaces the rigid annual budget cycle with rolling forecasts — shorter planning cycles that continuously incorporate new information. A rolling 12-month forecast updated monthly represents Agile thinking in finance: faster feedback loops, responsiveness to change, and regular reprioritisation rather than committing to a single plan for 12 months.",
+            },
+          ],
         },
         {
           id: "e1-l26",
@@ -3931,7 +6288,99 @@ const AIQ_COURSE_DATA = {
             "Explain common barriers to change and strategies to overcome resistance",
             "Describe the role of communication and stakeholder engagement in change programmes",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Why Change Management is Critical for Digital Transformation</h4>" +
+            "<p>Research consistently shows that 70% of change programmes fail to achieve their objectives. The most common reason is not poor technology or strategy — it is the <em>human</em> dimension: resistance, lack of engagement, unclear communication, and insufficient leadership commitment. Digital transformation in finance involves significant behavioural change: new systems, new processes, new skills, new ways of working. Without effective change management, even the best technology implementation will fail.</p>" +
+            "<h4>Lewin's Change Model</h4>" +
+            "<p>Kurt Lewin's three-stage model (1951) is the foundational change management framework:</p>" +
+            "<ol>" +
+            "<li><strong>Unfreeze:</strong> Destabilise the current state — create a compelling reason to change. Overcome complacency and resistance by establishing the case for change (burning platform). In digital finance: demonstrate the financial cost of staying with legacy processes; share competitor examples of digital transformation benefits.</li>" +
+            "<li><strong>Change (Move):</strong> Implement the change — introduce new behaviours, systems, processes. Provide support, training and coaching during the transition. Recognise and celebrate early wins.</li>" +
+            "<li><strong>Refreeze:</strong> Embed the new way of working — make it the new normal. Update policies, procedures, job descriptions and KPIs to reflect the new environment. Remove the ability to 'fall back' to old ways.</li>" +
+            "</ol>" +
+            "<h4>Kotter's 8-Step Model for Leading Change</h4>" +
+            "<p>John Kotter's model (1996, updated 2014) provides a more detailed roadmap for large-scale organisational change:</p>" +
+            "<table><thead><tr><th>Step</th><th>Description</th><th>Digital finance application</th></tr></thead><tbody>" +
+            "<tr><td>1. Create urgency</td><td>Make the case that change is necessary NOW — not optional</td><td>CFO presents: 'Our close cycle is 18 days; best-in-class is 3 days. Our competitors make decisions on data we are still assembling.'</td></tr>" +
+            "<tr><td>2. Build a guiding coalition</td><td>Assemble a group of influential leaders committed to the change</td><td>Appoint a digital finance steering committee: CFO, CIO, business unit FDs, key business partners</td></tr>" +
+            "<tr><td>3. Form a strategic vision</td><td>Create a clear, inspiring vision of the destination</td><td>'By 2027, our finance function will close in 3 days, forecast in real time, and every business unit will have a dedicated analytics partner.'</td></tr>" +
+            "<tr><td>4. Enlist a volunteer army</td><td>Engage a large group of change agents at all levels</td><td>Identify enthusiastic early adopters ('digital champions') in each finance team who become peer advocates</td></tr>" +
+            "<tr><td>5. Enable action by removing barriers</td><td>Remove obstacles — structural, procedural, attitudinal</td><td>Eliminate manual report requests that consume finance team time; provide technology access; simplify approval processes</td></tr>" +
+            "<tr><td>6. Generate short-term wins</td><td>Create and celebrate visible early successes</td><td>Automate the first bank reconciliation; cut close from day 18 to day 10 in month 3 — publicise the achievement</td></tr>" +
+            "<tr><td>7. Sustain acceleration</td><td>Keep pressing forward; use early wins to drive further change</td><td>After close improvement, tackle FP&amp;A transformation; reinvest savings into further automation</td></tr>" +
+            "<tr><td>8. Institute change</td><td>Anchor change in culture; connect it to organisational identity</td><td>'Digital excellence' becomes a stated finance team value; digital skills included in all job descriptions and appraisal criteria</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Barriers to Change and Overcoming Resistance</h4>" +
+            "<p>Common barriers in finance digital transformation:</p>" +
+            "<ul>" +
+            "<li><strong>Fear of job loss:</strong> Staff resist automation because they fear it will eliminate their roles. Mitigation: reskilling commitments, transparent communication about redeployment plans</li>" +
+            "<li><strong>Comfort with existing processes:</strong> 'We've always done it this way.' Mitigation: demonstrate the pain of existing processes (error rates, overtime, late reporting)</li>" +
+            "<li><strong>Lack of digital skills:</strong> Staff cannot use new tools. Mitigation: investment in training before go-live; peer coaching; accessible learning resources</li>" +
+            "<li><strong>Management scepticism:</strong> Middle managers may resist changes that reduce their team size or perceived importance. Mitigation: engage managers in designing the new model; show them the value they gain from more strategic work</li>" +
+            "<li><strong>Legacy mindset:</strong> Finance cultures can be risk-averse and detail-oriented — qualities that are assets for controls but barriers to transformation. Mitigation: create psychological safety; celebrate experimentation</li>" +
+            "</ul>" +
+            "<h4>Communication and Stakeholder Engagement</h4>" +
+            "<p>Effective communication for change requires:</p>" +
+            "<ul>" +
+            "<li><strong>Why, then what, then how:</strong> Start with the compelling reason for change; then describe the destination; then explain the plan</li>" +
+            "<li><strong>Multi-channel:</strong> Town halls, team meetings, intranet, video messages, one-to-ones — different people absorb change information through different channels</li>" +
+            "<li><strong>Frequency:</strong> In times of change, silence creates anxiety. Communicate early and often — even if the message is 'we don't have all the answers yet'</li>" +
+            "<li><strong>Two-way dialogue:</strong> Channels for staff to ask questions and raise concerns — otherwise rumour fills the vacuum</li>" +
+            "<li><strong>Targeted by stakeholder:</strong> Board (strategic benefits), finance team (impact on their roles, training support), business units (impact on their service levels)</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "FinancialServices Co is replacing its legacy accounts payable system with a modern cloud-based AP automation platform. 8 AP clerks will have their core tasks automated. The implementation is in 6 months. Resistance has already emerged — two senior AP clerks have complained to HR. Apply Kotter's model and Lewin's model to the change programme.",
+            steps: [
+              "Unfreeze (Lewin Step 1 / Kotter Steps 1-3): CFO presents the case for change at an all-finance meeting: current AP process costs £18/invoice, industry benchmark is £4, 8% error rate, 14-day payment cycle causing supplier relationship issues. Shares vision: 'In 6 months, we will have an industry-leading AP function where our team focuses on supplier relationships and process innovation — not data entry.' Creates urgency and destination without yet threatening jobs.",
+              "Address resistance early: Meet individually with the two resistant senior clerks. Acknowledge their concerns. Explain reskilling programme — both will be offered training in accounts payable analytics and supplier relationship management. One will be offered an AP Specialist role in the new model. The other's role will be reviewed (honest that some positions will change). Provide clarity — resistance often comes from uncertainty.",
+              "Build guiding coalition: AP Manager, IT Project Manager, Finance Director, and an enthusiastic AP analyst (early adopter) form the project steering group. The analyst acts as a 'digital champion' — peer advocate among the AP team.",
+              "Short-term wins: In month 2, demonstrate a pilot: the first 500 invoices processed through the new system with 92% straight-through processing. CFO celebrates with the team. Month 4: first bank reconciliation automated — saving 6 person-hours per week.",
+              "Refreeze (Lewin): After go-live, update job descriptions — 'AP Specialist' replaces 'AP Clerk'; new skills (system monitoring, exception handling, supplier analytics) are in the person spec. Old manual processes are formally retired. KPIs updated to reflect new metrics (STP rate, exception rate, invoice cycle time).",
+            ],
+            answer: "Combining Lewin (unfreeze-change-refreeze structure) with Kotter (detailed implementation steps) provides a comprehensive change management approach. The key success factors are: early honest communication, targeted individual engagement with resistors, and visible early wins that build confidence.",
+          },
+          summary: [
+            "70% of change programmes fail — the human dimension (resistance, communication, engagement) is the primary cause, not technology.",
+            "Lewin's three stages: Unfreeze (create compelling reason to change), Change (implement new ways), Refreeze (embed as new normal).",
+            "Kotter's 8 steps: urgency → coalition → vision → army → barriers removed → short wins → sustain → institutionalise.",
+            "Key barriers: job loss fear, comfort with current processes, skills gaps, management scepticism, risk-averse finance culture.",
+            "Effective change communication: why-then-what-then-how; multi-channel; frequent; two-way dialogue; targeted by stakeholder.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In Lewin's change model, 'refreezing' is the stage where:",
+              options: [
+                "The existing state is destabilised and the case for change is established",
+                "New processes and behaviours are implemented for the first time",
+                "The new way of working is embedded and made permanent — the new normal",
+                "Resistance is identified and addressed",
+              ],
+              answer: 2,
+              explanation: "Refreezing is the third stage of Lewin's model — embedding the new state so it becomes the new normal. This involves updating policies, procedures, performance criteria and cultural norms to reflect the changed environment, and removing the ability to fall back to old ways. Without refreezing, organisations often revert after initial change efforts.",
+            },
+            {
+              question: "A CFO presents evidence to the board that the finance function's manual processes cost twice the industry benchmark, that competitors close their books in 5 days while this company takes 18, and that these inefficiencies are constraining the business. In Kotter's 8-step model, this is:",
+              options: [
+                "Step 3 — Form a strategic vision",
+                "Step 1 — Create a sense of urgency",
+                "Step 6 — Generate short-term wins",
+                "Step 8 — Institute change",
+              ],
+              answer: 1,
+              explanation: "Creating urgency (Step 1) involves making a compelling case that change is needed now — not optional, not gradual. Using benchmarking data to show competitive disadvantage and operational inefficiency is a classic urgency-creation tool. Without a genuine sense of urgency, the guiding coalition cannot build momentum for change.",
+            },
+            {
+              question: "Staff in the accounts payable team are resisting a new automation system because they fear it will eliminate their jobs. Which change management response is MOST appropriate?",
+              options: [
+                "Override their resistance by mandating use of the new system",
+                "Delay the implementation until all resistance is removed",
+                "Provide transparent communication about reskilling plans and redeployment opportunities, and engage resistant staff in designing the new model",
+                "Replace resistant staff with new employees who are more accepting of technology",
+              ],
+              answer: 2,
+              explanation: "Fear of job loss is the most common and legitimate source of resistance to automation. The appropriate response is honest, transparent communication (what will change, what will not), credible commitment to reskilling, and involving resistant staff in designing the new model (giving them ownership). Mandating, delaying indefinitely, or replacing staff are all ineffective or ethically problematic responses.",
+            },
+          ],
         },
         {
           id: "e1-l27",
@@ -3943,7 +6392,95 @@ const AIQ_COURSE_DATA = {
             "Apply Maslow, Herzberg and McClelland motivation theories to finance professionals",
             "Explain virtual and cross-functional team management challenges",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>Situational Leadership</h4>" +
+            "<p>The <strong>Situational Leadership</strong> model (Hersey and Blanchard) proposes that there is no single 'best' leadership style — effective leaders adapt their style to match the needs of the individual or team in each specific situation. The appropriate style depends on the follower's <strong>development level</strong> — their combination of competence (skills, knowledge) and commitment (motivation, confidence).</p>" +
+            "<table><thead><tr><th>Development Level</th><th>Characteristics</th><th>Appropriate Leadership Style</th></tr></thead><tbody>" +
+            "<tr><td><strong>D1 — Enthusiastic Beginner</strong></td><td>Low competence, high commitment (excited but inexperienced)</td><td><strong>Directing</strong>: High task, low relationship — tell them exactly what to do; provide clear structure and instructions</td></tr>" +
+            "<tr><td><strong>D2 — Disillusioned Learner</strong></td><td>Some competence, lower commitment (has tried, found it harder than expected)</td><td><strong>Coaching</strong>: High task, high relationship — explain the why; develop skills while rebuilding confidence</td></tr>" +
+            "<tr><td><strong>D3 — Capable but Cautious</strong></td><td>High competence, variable commitment (can do it, but unsure)</td><td><strong>Supporting</strong>: Low task, high relationship — encourage; draw out their expertise; provide reassurance</td></tr>" +
+            "<tr><td><strong>D4 — Self-Reliant Achiever</strong></td><td>High competence, high commitment</td><td><strong>Delegating</strong>: Low task, low relationship — assign the task; trust them to deliver; check in occasionally</td></tr>" +
+            "</tbody></table>" +
+            "<p>Application in digital finance: A finance manager rolling out a new analytics tool must adapt their style: Directing for junior analysts who are new to Power BI (D1); Coaching for analysts who have tried and struggled (D2); Supporting for experienced analysts who lack confidence using the new tool (D3); Delegating to the senior FP&amp;A analyst who already has strong data skills (D4).</p>" +
+            "<h4>Motivation Theories for Finance Professionals</h4>" +
+            "<p><strong>Maslow's Hierarchy of Needs</strong> proposes that human needs are arranged in a hierarchy from basic (physiological) to transcendent (self-actualisation). Finance professionals typically have their lower-level needs satisfied — motivation works at the higher levels:</p>" +
+            "<ul>" +
+            "<li><strong>Social needs:</strong> Belonging to a respected team; collaborative culture; team success</li>" +
+            "<li><strong>Esteem needs:</strong> Recognition for analytical insight; promotion; being asked for strategic input; professional qualifications (CIMA)</li>" +
+            "<li><strong>Self-actualisation:</strong> Doing meaningful, challenging work that uses full capabilities; contributing to organisational strategy; personal growth through digital skills development</li>" +
+            "</ul>" +
+            "<p><strong>Herzberg's Two-Factor Theory</strong> distinguishes between <em>hygiene factors</em> (prevent dissatisfaction but don't motivate) and <em>motivators</em> (actually drive positive motivation and performance):</p>" +
+            "<ul>" +
+            "<li><strong>Hygiene factors:</strong> Salary, working conditions, company policy, supervision, job security. If inadequate → dissatisfaction. If adequate → neutral (not satisfied, not dissatisfied). Finance organisations must get these right to avoid turnover.</li>" +
+            "<li><strong>Motivators:</strong> Achievement, recognition, responsibility, advancement, growth, the work itself. These are what genuinely motivate finance professionals to excel. Digital transformation can be a powerful motivator if framed as a growth opportunity.</li>" +
+            "</ul>" +
+            "<p><strong>McClelland's Achievement Motivation Theory</strong> identifies three learned needs that vary in strength between individuals:</p>" +
+            "<ul>" +
+            "<li><strong>Need for Achievement (nAch):</strong> Desire to succeed and excel; sets challenging but achievable goals. Many CIMA-qualified finance professionals have high nAch — they are attracted to difficult analyses and problem-solving.</li>" +
+            "<li><strong>Need for Affiliation (nAff):</strong> Desire for friendly, collaborative relationships. High nAff individuals excel in finance business partnering roles — relationship-building is natural to them.</li>" +
+            "<li><strong>Need for Power (nPow):</strong> Desire to influence and lead others. Healthy nPow (socialised power) drives CFO and finance leadership roles; unhealthy nPow (personal power) can lead to control-seeking behaviour that resists automation.</li>" +
+            "</ul>" +
+            "<h4>Virtual and Cross-Functional Team Challenges</h4>" +
+            "<p>Digital organisations increasingly use <strong>virtual teams</strong> (geographically dispersed, working remotely) and <strong>cross-functional teams</strong> (members from finance, IT, operations, sales working together). These create specific management challenges:</p>" +
+            "<ul>" +
+            "<li><strong>Communication:</strong> Loss of informal communication (corridor conversations); risk of misunderstanding in text-based communication; need for explicit, frequent structured communication</li>" +
+            "<li><strong>Trust:</strong> Trust must be built virtually — harder without physical interaction. Regular video calls, clear expectations, and reliable follow-through are essential.</li>" +
+            "<li><strong>Time zones:</strong> Global teams face coordination challenges — rotating meeting times; asynchronous working; over-reliance on email.</li>" +
+            "<li><strong>Cross-functional tension:</strong> Finance and IT teams have different cultures, terminology, and priorities. Finance values accuracy and control; IT values speed and iteration. Shared objectives and regular joint meetings help bridge this.</li>" +
+            "<li><strong>Accountability:</strong> In cross-functional teams, it can be unclear who is accountable for what. RACI matrices (Responsible, Accountable, Consulted, Informed) help clarify roles.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "A finance transformation team of 8 includes: 2 experienced FP&A analysts (high competence, high motivation about the project), 3 management accountants who are sceptical about RPA (medium competence, low motivation), and 3 junior finance graduates (low competence, high enthusiasm). The team lead must manage all three groups simultaneously. Apply situational leadership.",
+            steps: [
+              "FP&A analysts (D4 — Self-Reliant Achievers): Delegating style. Assign them to lead specific workstreams (e.g., data model design, Power BI dashboard development). Check in weekly but do not micromanage. Provide stretch assignments to sustain their motivation (Maslow self-actualisation; McClelland nAch).",
+              "Sceptical management accountants (D2 — Disillusioned Learners): Coaching style. These are experienced people who are capable but disengaged. First: understand their concerns (fear of redundancy? past failed projects?). Then: provide one-to-one coaching, involve them in process design (giving nPow some outlet in a healthy way), and show quick wins that demonstrate the automation works. Address their Herzberg hygiene concerns (what happens to their jobs) before trying to motivate them.",
+              "Junior graduates (D1 — Enthusiastic Beginners): Directing style. Give clear task instructions, daily check-ins, specific deliverables. Channel their enthusiasm productively. Pair each with one of the FP&A analysts as a mentor.",
+              "Cross-functional challenges: The team also includes 2 IT analysts who use Agile/Scrum vocabulary that finance colleagues don't understand, and whose priority is clean code rather than deadline compliance. Create a shared team charter with joint objectives. Establish a weekly cross-functional standup. Use a RACI matrix to clarify who is accountable for each deliverable.",
+            ],
+            answer: "Situational leadership requires the team lead to adopt different styles simultaneously for different members — not one approach for the whole team. The key insight is that leadership style must match development level, not personal preference. Combining this with motivation theory (Maslow, Herzberg, McClelland) enables targeted motivation strategies for each group.",
+          },
+          summary: [
+            "Situational leadership (Hersey & Blanchard): adapt style to follower's development level — Directing (D1), Coaching (D2), Supporting (D3), Delegating (D4).",
+            "Maslow: finance professionals typically need esteem and self-actualisation met — recognition, challenge, strategic influence, professional development.",
+            "Herzberg: hygiene factors (salary, conditions) prevent dissatisfaction; motivators (achievement, recognition, growth) drive positive performance.",
+            "McClelland: three needs — Achievement (nAch), Affiliation (nAff), Power (nPow) — understanding team members' dominant need enables targeted motivation.",
+            "Virtual/cross-functional team challenges: communication, trust-building, time zones, cultural differences, and accountability clarity (RACI).",
+          ],
+          practiceQuestions: [
+            {
+              question: "A finance analyst is new to the team and highly enthusiastic about learning Power BI, but has no experience with the tool. Which situational leadership style is MOST appropriate?",
+              options: [
+                "Delegating — trust them to figure it out",
+                "Supporting — provide encouragement but minimal task direction",
+                "Directing — give clear step-by-step instructions and close supervision",
+                "Coaching — explain the reasons behind each step while building their skills",
+              ],
+              answer: 2,
+              explanation: "D1 (Enthusiastic Beginner): high commitment, low competence. The Directing style provides the structure they need — clear task instructions, specific deliverables, close supervision. Their enthusiasm is an asset; Directing harnesses it productively without overwhelming them with autonomy they don't yet have the skills to use.",
+            },
+            {
+              question: "According to Herzberg's Two-Factor Theory, which of the following is a 'motivator' (not a hygiene factor) that genuinely drives positive performance?",
+              options: [
+                "Adequate salary",
+                "Safe working conditions",
+                "Company car benefit",
+                "Recognition for a well-executed financial analysis",
+              ],
+              answer: 3,
+              explanation: "Herzberg's motivators include: achievement, recognition, responsibility, advancement, growth and interesting work. Recognition for excellent work is a motivator — it drives genuine engagement and performance. Salary, working conditions and company car are hygiene factors — inadequate = dissatisfaction; adequate = neutral, not motivated.",
+            },
+            {
+              question: "A global finance team uses a RACI matrix to manage a shared project. What does 'A' stand for in RACI?",
+              options: [
+                "Advised — should be kept informed of progress",
+                "Approver — must approve key deliverables",
+                "Accountable — ultimately answerable for the outcome; the decision-maker",
+                "Assigned — has been assigned the task",
+              ],
+              answer: 2,
+              explanation: "RACI: Responsible (does the work), Accountable (ultimately answerable — there can only be one 'A' per task), Consulted (provides input before decisions), Informed (kept updated). Accountable is distinct from Responsible — the Accountable person owns the outcome even if others do the work.",
+            },
+          ],
         },
         {
           id: "e1-l28",
@@ -3955,7 +6492,98 @@ const AIQ_COURSE_DATA = {
             "Describe the GRI Standards, TCFD framework and IFRS Sustainability Disclosure Standards",
             "Explain the role of the management accountant in sustainability reporting and the SDGs",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h4>What is ESG?</h4>" +
+            "<p><strong>ESG</strong> stands for Environmental, Social and Governance — the three pillars of non-financial performance that are increasingly central to investment decisions, regulatory requirements and stakeholder expectations.</p>" +
+            "<table><thead><tr><th>Pillar</th><th>What it covers</th><th>Examples</th></tr></thead><tbody>" +
+            "<tr><td><strong>Environmental</strong></td><td>An organisation's impact on the natural environment</td><td>Carbon emissions (Scope 1, 2, 3); energy consumption; water use; waste; deforestation; biodiversity; net zero strategy</td></tr>" +
+            "<tr><td><strong>Social</strong></td><td>Relationships with people — employees, communities, customers, supply chain</td><td>Employee health and safety; diversity and inclusion; human rights in supply chain; community investment; customer data privacy; modern slavery</td></tr>" +
+            "<tr><td><strong>Governance</strong></td><td>How the organisation is led, controlled and held accountable</td><td>Board composition and independence; executive pay; anti-bribery and corruption; tax transparency; shareholder rights; audit quality</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Why ESG Matters</h4>" +
+            "<p><strong>Investors:</strong> ESG factors have become central to investment analysis because they signal long-term risk. A company with high carbon exposure faces regulatory risk (carbon taxes, stranded assets). Poor governance signals fraud risk. Poor social practices signal reputational and legal risk. Major asset managers (BlackRock, Legal &amp; General, Vanguard) now require ESG disclosure from investee companies.</p>" +
+            "<p><strong>Regulators:</strong> The EU Taxonomy, EU Corporate Sustainability Reporting Directive (CSRD), UK Sustainability Disclosure Requirements (SDR), and TCFD mandatory reporting (for UK listed companies) represent a rapid regulatory tightening around ESG disclosure.</p>" +
+            "<p><strong>Society:</strong> Consumers, employees and communities increasingly evaluate organisations on ESG criteria. Employer brand and talent attraction are significantly affected by ESG reputation. Younger workforce entrants (Gen Z) report ESG performance as a major factor in employer choice.</p>" +
+            "<h4>Sustainability Reporting Frameworks</h4>" +
+            "<p><strong>GRI Standards (Global Reporting Initiative):</strong> The most widely used sustainability reporting framework globally. Provides standards for reporting on economic, environmental and social topics. GRI uses a stakeholder-inclusive approach — reporting on what matters to all stakeholders, not just investors. GRI standards include universal standards (applicable to all) and topic standards (specific environmental, social and economic topics).</p>" +
+            "<p><strong>TCFD (Task Force on Climate-related Financial Disclosures):</strong> Developed by the Financial Stability Board (FSB), TCFD provides recommendations for disclosing climate-related financial risks and opportunities. Structured around four pillars: <strong>Governance</strong> (board oversight of climate risk), <strong>Strategy</strong> (climate risk impacts on strategy), <strong>Risk Management</strong> (processes for identifying climate risks), and <strong>Metrics &amp; Targets</strong> (KPIs including Scope 1/2/3 emissions, net zero target). TCFD is mandatory for UK premium-listed companies and large private companies.</p>" +
+            "<p><strong>ISSB/IFRS Sustainability Disclosure Standards:</strong> The International Sustainability Standards Board (ISSB), established by the IFRS Foundation in 2021, issued its first standards in 2023:</p>" +
+            "<ul>" +
+            "<li><strong>IFRS S1:</strong> General Requirements for Disclosure of Sustainability-related Financial Information</li>" +
+            "<li><strong>IFRS S2:</strong> Climate-related Disclosures (closely aligned to TCFD)</li>" +
+            "</ul>" +
+            "<p>ISSB represents the move toward a single global baseline for sustainability reporting — analogous to IFRS for financial reporting. Many jurisdictions are adopting ISSB standards.</p>" +
+            "<h4>Scope 1, 2 and 3 Emissions</h4>" +
+            "<p>Carbon emissions reporting is structured around three scopes (GHG Protocol):</p>" +
+            "<ul>" +
+            "<li><strong>Scope 1 — Direct emissions:</strong> From sources owned or controlled by the organisation (company vehicles, on-site combustion, manufacturing processes)</li>" +
+            "<li><strong>Scope 2 — Indirect energy emissions:</strong> From purchased electricity, heat or steam consumed by the organisation</li>" +
+            "<li><strong>Scope 3 — Value chain emissions:</strong> All other indirect emissions — both upstream (suppliers, business travel, purchased goods) and downstream (product use by customers, end-of-life disposal). Typically the largest category (often 70-90% of total footprint) and the most difficult to measure.</li>" +
+            "</ul>" +
+            "<h4>The SDGs and the Finance Function</h4>" +
+            "<p>The UN's <strong>17 Sustainable Development Goals (SDGs)</strong> provide a global framework for sustainability — covering poverty, health, education, gender equality, climate action, and more. Organisations increasingly link their ESG strategy to specific SDGs to demonstrate alignment to global priorities.</p>" +
+            "<p>The management accountant's role in sustainability reporting:</p>" +
+            "<ul>" +
+            "<li>Designing ESG KPI measurement systems with the same rigour as financial KPIs</li>" +
+            "<li>Building sustainability data into management reporting and the balanced scorecard</li>" +
+            "<li>Investment appraisal for sustainability projects (solar panels, supply chain decarbonisation) — net present value, payback, carbon cost-benefit analysis</li>" +
+            "<li>Integrated reporting — connecting ESG performance to financial value creation story</li>" +
+            "<li>Assurance — ensuring ESG data quality for external reporting meets audit standards</li>" +
+            "<li>Transfer pricing and tax transparency — governance pillar</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "FoodManufacturer plc produces packaged food sold across Europe. Its CFO is preparing the company's first ESG report aligned to GRI and TCFD. Outline the key elements required and the finance team's role.",
+            steps: [
+              "Environmental (GRI / TCFD): Scope 1 emissions: direct from manufacturing sites (gas combustion, refrigerants) — measured from energy bills and equipment specifications. Scope 2: purchased electricity — measured from electricity invoices, converted using DEFRA emission factors. Scope 3: agricultural supply chain (largest component — estimated 70% of total footprint), customer product use (cooking), packaging end-of-life. TCFD: disclose how climate risk (extreme weather disrupting agricultural supply, carbon pricing) affects the business strategy and financials.",
+              "Social (GRI): Employee safety: Lost Time Injury Frequency Rate (LTIFR); Gender pay gap; Supply chain audit: Modern Slavery Act statement; Living wage certification; Community investment (% of profit).",
+              "Governance (GRI / TCFD): Board climate governance structure; Executive pay linked to ESG KPIs (report metrics); Anti-bribery and corruption policy; Tax country-by-country report; ESG risk register.",
+              "Finance team's role: Design measurement systems for each KPI (same data governance rigour as financial KPIs). Build Scope 3 supply chain emissions model (data from 200 agricultural suppliers — requires supplier engagement programme). Integrate ESG KPIs into monthly board pack alongside financial performance. Prepare investment analysis for solar panel installation on all 3 factories (£1.2m investment — payback 7 years at current energy prices, Scope 2 reduction of 35%).",
+              "External assurance: Engage auditors to provide limited assurance on Scope 1 and 2 emissions data (required for TCFD mandatory disclosure). Develop roadmap to reasonable assurance over 3 years.",
+            ],
+            answer: "ESG reporting requires the same discipline as financial reporting — governance structures, measurement systems, data quality controls and external assurance. The finance function is central to building this capability, translating sustainability commitments into measurable, reportable performance data.",
+          },
+          summary: [
+            "ESG: Environmental (carbon, water, biodiversity), Social (people, communities, supply chain), Governance (board, controls, transparency) — increasingly central to investment and regulation.",
+            "Scope 1 (direct), Scope 2 (purchased energy), Scope 3 (value chain) emissions — Scope 3 is typically 70-90% of total footprint and hardest to measure.",
+            "GRI: stakeholder-inclusive sustainability reporting framework; TCFD: climate financial risk disclosure (Governance, Strategy, Risk Management, Metrics); ISSB/IFRS S1/S2: global baseline for sustainability disclosure.",
+            "SDGs: 17 UN Sustainable Development Goals providing the global framework organisations align their ESG strategies to.",
+            "Finance function's role: ESG KPI design, measurement systems, integrated reporting, investment appraisal for sustainability projects, data assurance.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A food manufacturer calculates the carbon emissions from the farms that supply its ingredients. This falls under which emissions scope?",
+              options: [
+                "Scope 1 — Direct emissions from company-owned sources",
+                "Scope 2 — Indirect emissions from purchased energy",
+                "Scope 3 — Indirect value chain emissions (upstream suppliers)",
+                "This is not covered by the GHG Protocol",
+              ],
+              answer: 2,
+              explanation: "Scope 3 covers all indirect emissions throughout the value chain — both upstream (suppliers, purchased goods, business travel) and downstream (product use, end-of-life). Agricultural supply chain emissions are upstream Scope 3. For a food manufacturer, Scope 3 is typically 70-90% of total carbon footprint — which is why supply chain decarbonisation is a major strategic and finance challenge.",
+            },
+            {
+              question: "The TCFD framework for climate-related financial disclosures is structured around four pillars. Which of the following is NOT one of the four TCFD pillars?",
+              options: [
+                "Governance — Board oversight of climate-related risks and opportunities",
+                "Social — Employee and community climate impacts",
+                "Strategy — Actual and potential impacts of climate risks on business strategy",
+                "Metrics and Targets — KPIs including Scope 1, 2 and 3 emissions",
+              ],
+              answer: 1,
+              explanation: "The four TCFD pillars are: Governance, Strategy, Risk Management, and Metrics & Targets. 'Social' is not one of them — TCFD is specifically focused on climate-related financial risks and opportunities, not the full ESG agenda. TCFD reports how climate change affects the organisation's financial position and strategy.",
+            },
+            {
+              question: "What is the PRIMARY role of the management accountant in an organisation's sustainability reporting programme?",
+              options: [
+                "To lobby regulators on sustainability reporting requirements",
+                "To design and operate ESG KPI measurement systems with financial rigour, integrate ESG data into management reporting, and support investment appraisal for sustainability initiatives",
+                "To prepare the legal disclosures required under the Companies Act",
+                "To manage the company's carbon credit trading portfolio",
+              ],
+              answer: 1,
+              explanation: "CIMA emphasises that management accountants bring financial rigour to sustainability reporting — designing measurement systems, ensuring data quality, building ESG into management information, and appraising sustainability investments. This is the same discipline applied to financial reporting, now applied to non-financial sustainability metrics.",
+            },
+          ],
         },
       ],
     },
