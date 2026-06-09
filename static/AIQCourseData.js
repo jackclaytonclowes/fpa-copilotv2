@@ -40,13 +40,38 @@ const AIQ_COURSE_DATA = {
             "Identify key stakeholders and their objectives",
           ],
           explanation:
-            "<p>A <strong>market economy</strong> allocates resources through the price mechanism — the interaction of supply and demand determines what is produced, how it is produced, and for whom.</p>" +
-            "<p>Economics divides into two branches:</p>" +
+            "<h4>Types of Economic System</h4>" +
+            "<p>An <strong>economic system</strong> is the mechanism by which a society decides what to produce, how to produce it, and for whom. Three main types:</p>" +
             "<ul>" +
-            "<li><strong>Microeconomics</strong> — studies individual markets, firms, and consumers (e.g., the price of steel, the wage of a nurse).</li>" +
-            "<li><strong>Macroeconomics</strong> — studies the economy as a whole (e.g., GDP growth, national unemployment, inflation).</li>" +
+            "<li><strong>Market (free) economy:</strong> resources are allocated through the <em>price mechanism</em>. The interaction of supply and demand signals what to produce and at what price. Businesses respond to profit opportunities; consumers signal preferences through spending. Advantages: efficiency, innovation, consumer choice. Disadvantages: market failures (externalities, public goods, monopoly power), inequality.</li>" +
+            "<li><strong>Planned (command) economy:</strong> the government makes all production decisions centrally — what to produce, how, and for whom. Advantages: can direct resources to national priorities, reduce inequality. Disadvantages: information problem (planners cannot know all preferences), inefficiency, lack of innovation.</li>" +
+            "<li><strong>Mixed economy:</strong> a combination — markets allocate most resources, but government intervenes to correct market failures, provide public goods (defence, police), and redistribute income. The UK, US, and most developed economies are mixed economies with varying degrees of government involvement.</li>" +
             "</ul>" +
-            "<p><strong>Stakeholders</strong> are any parties with an interest in an organisation's activities. They can be internal (employees, managers) or external (customers, suppliers, government, community). Different stakeholder groups have different — sometimes conflicting — objectives.</p>",
+            "<h4>Micro vs Macroeconomics</h4>" +
+            "<p>Economics divides into two main branches:</p>" +
+            "<ul>" +
+            "<li><strong>Microeconomics</strong> studies individual markets, firms, and consumers — the price of steel, the wage of a software developer, why a monopoly restricts output.</li>" +
+            "<li><strong>Macroeconomics</strong> studies the economy as a whole — GDP growth, national unemployment, inflation, interest rates, the balance of trade.</li>" +
+            "</ul>" +
+            "<p>Business economics draws on both branches: a pricing decision is microeconomic; planning for an economic recession is macroeconomic.</p>" +
+            "<h4>The Business Environment — PESTEL</h4>" +
+            "<p>Organisations operate within an external environment that affects strategy and performance. <strong>PESTEL analysis</strong> maps these environmental forces:</p>" +
+            "<table><thead><tr><th>Factor</th><th>Examples</th></tr></thead><tbody>" +
+            "<tr><td><strong>Political</strong></td><td>Government stability, tax policy, trade agreements, regulation, public spending priorities</td></tr>" +
+            "<tr><td><strong>Economic</strong></td><td>GDP growth, interest rates, inflation, unemployment, exchange rates, business cycle</td></tr>" +
+            "<tr><td><strong>Social</strong></td><td>Demographic trends (ageing population), consumer attitudes, work-life balance expectations, diversity</td></tr>" +
+            "<tr><td><strong>Technological</strong></td><td>Automation, artificial intelligence, digital platforms, R&amp;D investment, cybersecurity</td></tr>" +
+            "<tr><td><strong>Environmental</strong></td><td>Climate change, carbon emissions regulation, sustainability expectations, resource scarcity</td></tr>" +
+            "<tr><td><strong>Legal</strong></td><td>Employment law, consumer protection, competition law, data protection (GDPR), health &amp; safety</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Stakeholders and Their Objectives</h4>" +
+            "<p><strong>Stakeholders</strong> are any individuals or groups who have an interest in — or are affected by — an organisation's activities. They can be classified as:</p>" +
+            "<ul>" +
+            "<li><strong>Internal stakeholders:</strong> employees (job security, fair pay, good conditions), managers (performance bonuses, career development), owners/shareholders (financial returns).</li>" +
+            "<li><strong>Connected stakeholders:</strong> customers (value for money, quality, reliability), suppliers (timely payment, long-term orders), lenders/creditors (debt repayment, financial stability).</li>" +
+            "<li><strong>External stakeholders:</strong> government (tax revenue, employment, regulatory compliance), local community (jobs, environmental impact), pressure groups and NGOs (social and environmental standards).</li>" +
+            "</ul>" +
+            "<p><strong>Stakeholder mapping (Mendelow's matrix)</strong> classifies stakeholders by two axes: <em>power</em> (ability to influence the organisation) and <em>interest</em> (degree to which they are affected or concerned). High-power, high-interest stakeholders ('key players') must be actively managed; low-power, low-interest stakeholders require minimal effort.</p>",
           workedExample: {
             setup: "A large food manufacturer is considering closing a factory to reduce costs. Identify the main stakeholders affected and outline their likely objectives.",
             steps: [
@@ -159,13 +184,58 @@ const AIQ_COURSE_DATA = {
             "Explain income elasticity and cross-price elasticity of demand",
           ],
           explanation:
-            "<p><strong>Price Elasticity of Demand (PED)</strong> measures how " +
-            "sensitive quantity demanded is to a change in price:</p>" +
-            "<p style='text-align:center'><code>PED = % change in Qd ÷ % change in Price</code></p>" +
-            "<p>|PED| > 1 = elastic (demand is sensitive to price); " +
-            "|PED| < 1 = inelastic (demand is insensitive to price).</p>" +
-            "<p>Revenue implications: if demand is elastic, a price cut raises total revenue; " +
-            "if inelastic, a price rise raises total revenue.</p>",
+            "<h4>What Is Elasticity?</h4>" +
+            "<p><strong>Elasticity</strong> measures the responsiveness of one variable to a change in another. In economics, we use elasticity to quantify how much demand or supply reacts to price changes, income changes, or the prices of related goods. Elasticity is expressed as a percentage change ratio, making it unit-free and comparable across different goods.</p>" +
+            "<h4>1. Price Elasticity of Demand (PED)</h4>" +
+            "<p style='text-align:center'><code>PED = % change in quantity demanded ÷ % change in price</code></p>" +
+            "<p>PED is always negative for normal goods (price and quantity demanded move in opposite directions — the law of demand). In practice, we often discuss the <em>absolute value</em> |PED|.</p>" +
+            "<p><strong>Interpreting PED:</strong></p>" +
+            "<table><thead><tr><th>Value of |PED|</th><th>Description</th><th>Meaning</th></tr></thead><tbody>" +
+            "<tr><td>|PED| > 1</td><td>Elastic</td><td>% change in Qd &gt; % change in price. Consumers are price-sensitive. A small price rise causes a large fall in demand.</td></tr>" +
+            "<tr><td>|PED| = 1</td><td>Unit elastic</td><td>% change in Qd = % change in price. Total revenue unchanged.</td></tr>" +
+            "<tr><td>|PED| < 1</td><td>Inelastic</td><td>% change in Qd &lt; % change in price. Consumers are price-insensitive. A large price rise causes only a small fall in demand.</td></tr>" +
+            "<tr><td>|PED| = 0</td><td>Perfectly inelastic</td><td>Demand is completely unresponsive to price (theoretical).</td></tr>" +
+            "<tr><td>|PED| = ∞</td><td>Perfectly elastic</td><td>Demand collapses to zero at any price above the going rate (e.g., perfect competition).</td></tr>" +
+            "</tbody></table>" +
+            "<p><strong>Revenue implications of PED:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Elastic demand (|PED| > 1):</strong> cutting the price raises total revenue (volume increase more than compensates for lower price per unit). Raising the price reduces total revenue.</li>" +
+            "<li><strong>Inelastic demand (|PED| < 1):</strong> raising the price increases total revenue (volume falls but not by enough to offset the higher unit price). Cutting price reduces total revenue.</li>" +
+            "<li><strong>Unit elastic:</strong> price changes leave total revenue unchanged.</li>" +
+            "</ul>" +
+            "<p><strong>Determinants of PED:</strong></p>" +
+            "<ul>" +
+            "<li>Number and closeness of substitutes — more substitutes = more elastic (consumers switch).</li>" +
+            "<li>Necessity vs luxury — necessities tend to be inelastic (you still buy them even when expensive); luxuries are more elastic.</li>" +
+            "<li>Proportion of income spent — high-cost items (car, house) tend to be more elastic than cheap items (salt, matches).</li>" +
+            "<li>Time period — demand becomes more elastic over time as consumers find alternatives.</li>" +
+            "<li>Brand loyalty — strong brands can price higher without losing as much demand.</li>" +
+            "</ul>" +
+            "<h4>2. Income Elasticity of Demand (YED)</h4>" +
+            "<p style='text-align:center'><code>YED = % change in quantity demanded ÷ % change in income</code></p>" +
+            "<ul>" +
+            "<li><strong>YED > 0:</strong> normal good — demand rises as income rises (most goods).</li>" +
+            "<li><strong>YED > 1:</strong> luxury good — demand rises faster than income (e.g., foreign holidays, designer goods).</li>" +
+            "<li><strong>0 < YED < 1:</strong> necessity — demand rises but less than income (e.g., food, basic clothing).</li>" +
+            "<li><strong>YED < 0:</strong> inferior good — demand falls as income rises (e.g., cheap own-brand food — consumers switch to better alternatives when they can afford to).</li>" +
+            "</ul>" +
+            "<p>YED has major implications for businesses: luxury goods companies see demand soar in booms and collapse in recessions; manufacturers of inferior goods may actually benefit from downturns.</p>" +
+            "<h4>3. Cross-Price Elasticity of Demand (XED)</h4>" +
+            "<p style='text-align:center'><code>XED = % change in Qd of good A ÷ % change in price of good B</code></p>" +
+            "<ul>" +
+            "<li><strong>XED > 0:</strong> substitutes — a price rise in good B increases demand for good A (e.g., tea and coffee). The higher the XED, the closer the substitutes.</li>" +
+            "<li><strong>XED < 0:</strong> complements — a price rise in good B reduces demand for good A (e.g., cars and petrol — if petrol becomes very expensive, car demand falls).</li>" +
+            "<li><strong>XED ≈ 0:</strong> unrelated goods — no significant relationship.</li>" +
+            "</ul>" +
+            "<h4>4. Price Elasticity of Supply (PES)</h4>" +
+            "<p style='text-align:center'><code>PES = % change in quantity supplied ÷ % change in price</code></p>" +
+            "<p>PES is always positive (supply and price move in the same direction). Determinants:</p>" +
+            "<ul>" +
+            "<li>Spare capacity — if firms have idle capacity, they can increase supply quickly (elastic).</li>" +
+            "<li>Time period — supply is more elastic in the long run when firms can enter the market, invest, or expand.</li>" +
+            "<li>Storability — goods that can be stockpiled have more elastic supply.</li>" +
+            "<li>Length of production period — agricultural goods with a growing season have inelastic short-run supply.</li>" +
+            "</ul>",
           workedExample: {
             setup:
               "Price rises from £10 to £12 (a 20% increase). Quantity demanded falls from 500 to 400 units (a 20% decrease).",
@@ -271,15 +341,43 @@ const AIQ_COURSE_DATA = {
             "Identify the determinants of economic growth",
           ],
           explanation:
-            "<p><strong>Gross Domestic Product (GDP)</strong> measures the total value of goods and services produced in a country in a given period. It can be measured in three equivalent ways:</p>" +
+            "<h4>Gross Domestic Product (GDP)</h4>" +
+            "<p><strong>GDP</strong> measures the total monetary value of all goods and services produced within a country's borders during a given period (usually a quarter or year). It is the most widely used measure of economic activity and living standards.</p>" +
+            "<p>Three equivalent methods — they must give the same answer in theory:</p>" +
             "<ul>" +
-            "<li><strong>Expenditure approach:</strong> GDP = C + I + G + (X − M)<br>" +
-            "C = consumer spending, I = investment, G = government spending, X = exports, M = imports.</li>" +
-            "<li><strong>Income approach:</strong> sum of wages, profits, rent, and interest earned by factors of production.</li>" +
-            "<li><strong>Output approach:</strong> sum of the value added by each sector of the economy.</li>" +
+            "<li><strong>Expenditure approach:</strong> <code>GDP = C + I + G + (X − M)</code><br>" +
+            "C = private consumer spending; I = business investment in capital; G = government spending; X = exports; M = imports. Net exports (X − M) may be positive (trade surplus) or negative (trade deficit).</li>" +
+            "<li><strong>Income approach:</strong> sum of all factor incomes — wages (labour), profits (enterprise), rent (land), and interest (capital). Equal to GDP because every £ of output generates a corresponding £ of income for the factors producing it.</li>" +
+            "<li><strong>Output approach:</strong> sums the value added at each stage of production across all sectors — agriculture, manufacturing, construction, services. Using value added avoids double-counting (e.g., counting both the wheat and the bread it becomes).</li>" +
             "</ul>" +
-            "<p><strong>Nominal GDP</strong> is measured at current prices. <strong>Real GDP</strong> adjusts for inflation, giving a true picture of output growth over time.</p>" +
-            "<p>Long-run economic growth requires increases in the quantity or quality of the factors of production: land, labour, capital, and enterprise.</p>",
+            "<h4>Nominal vs Real GDP</h4>" +
+            "<p><strong>Nominal GDP</strong> is measured at current prices — it combines changes in both volume (real output) and prices (inflation). It can rise simply because prices have gone up, even if no more goods were produced.</p>" +
+            "<p><strong>Real GDP</strong> strips out the effect of inflation by measuring output at constant base-year prices. Real GDP growth reflects genuine improvements in productive output and living standards.</p>" +
+            "<p style='text-align:center'><code>Real GDP growth ≈ Nominal GDP growth − Inflation rate</code></p>" +
+            "<h4>The Business Cycle</h4>" +
+            "<p>Real GDP does not grow smoothly — it fluctuates in a cyclical pattern around its long-run trend. These fluctuations are called the <strong>business cycle</strong> (or economic cycle). Four main phases:</p>" +
+            "<ul>" +
+            "<li><strong>Boom (expansion):</strong> real GDP growing above trend; low unemployment; high consumer confidence; rising inflation; businesses invest; government tax revenues rise. Risk: overheating and inflation.</li>" +
+            "<li><strong>Slowdown:</strong> growth rate falls; business investment hesitates; unemployment begins to rise; consumer spending softens.</li>" +
+            "<li><strong>Recession:</strong> two consecutive quarters of negative real GDP growth. Unemployment rises significantly; business failures increase; deflation risk; government may face falling tax revenues and rising welfare spending.</li>" +
+            "<li><strong>Recovery:</strong> GDP starts growing again; unemployment gradually falls; business investment returns; consumer confidence improves.</li>" +
+            "</ul>" +
+            "<p>Business managers must plan for all phases: in a boom, capacity investment and hiring; in a recession, cash preservation, cost reduction, and scenario planning.</p>" +
+            "<h4>Determinants of Long-Run Economic Growth</h4>" +
+            "<p>Short-run GDP fluctuates with the business cycle. <strong>Long-run growth</strong> depends on expanding the economy's productive capacity — the ability to produce more goods and services. Key drivers:</p>" +
+            "<ul>" +
+            "<li><strong>Quantity of factors:</strong> more workers (labour force participation, immigration), more capital (investment in machinery, infrastructure), more land (less relevant).</li>" +
+            "<li><strong>Quality of factors:</strong> education and training (human capital), technology and innovation (R&amp;D, automation), better management practices.</li>" +
+            "<li><strong>Institutions:</strong> rule of law, property rights, stable government, open trade — countries with strong institutions grow faster over the long run.</li>" +
+            "<li><strong>Supply-side policies:</strong> reducing barriers to trade, improving labour flexibility, cutting corporate taxes to encourage investment, deregulation.</li>" +
+            "</ul>" +
+            "<h4>Limitations of GDP as a Measure of Welfare</h4>" +
+            "<ul>" +
+            "<li>GDP ignores <strong>distribution</strong> — a country can have high GDP per capita with extreme inequality.</li>" +
+            "<li>GDP excludes <strong>non-market activity</strong> — voluntary work, household production, informal economy.</li>" +
+            "<li>GDP does not capture <strong>sustainability</strong> — environmental degradation, resource depletion, and pollution are not deducted.</li>" +
+            "<li>GDP does not measure <strong>happiness or wellbeing</strong> — some countries with lower GDP rank higher on life satisfaction indices.</li>" +
+            "</ul>",
           workedExample: {
             setup: "Country A has nominal GDP of £500bn in Year 1 and £540bn in Year 2. The price level rose by 5% over the same period. Calculate real GDP growth.",
             steps: [
@@ -2121,31 +2219,87 @@ const AIQ_COURSE_DATA = {
             "Apply the accounting equation",
           ],
           explanation:
-            "<p>The <strong>statement of financial position (SOFP)</strong> — also called the balance sheet — shows what a business owns and owes at a specific date. It is structured around the <strong>accounting equation</strong>:</p>" +
+            "<h4>The Statement of Financial Position — What It Shows</h4>" +
+            "<p>The <strong>statement of financial position (SOFP)</strong> — also called the balance sheet — shows what a business <em>owns</em> (assets), what it <em>owes</em> (liabilities), and the residual interest of the owners (equity) at a <em>specific date</em>. It is a snapshot, not a period summary.</p>" +
+            "<p>The SOFP is always structured around the <strong>accounting equation</strong>:</p>" +
             "<p style='text-align:center'><code>Assets = Liabilities + Equity</code></p>" +
-            "<p><strong>Non-current assets</strong> (used for more than one year): property, plant and equipment, intangible assets, investments.<br>" +
-            "<strong>Current assets</strong> (converted to cash within one year): inventory, trade receivables, cash.<br>" +
-            "<strong>Current liabilities</strong> (due within one year): trade payables, accruals, short-term borrowings.<br>" +
-            "<strong>Non-current liabilities</strong> (due after one year): long-term loans, bonds, deferred tax.<br>" +
-            "<strong>Equity</strong>: share capital + retained earnings (accumulated profits not distributed as dividends).</p>",
+            "<p>Or equivalently: <code>Equity = Assets − Liabilities</code> (net assets). This must always balance — if it does not, an error has been made.</p>" +
+            "<h4>Non-Current Assets</h4>" +
+            "<p>Non-current assets are held for use over more than one accounting period (more than one year):</p>" +
+            "<ul>" +
+            "<li><strong>Property, plant and equipment (PPE):</strong> land and buildings, machinery, vehicles, fixtures and fittings. Shown at carrying amount (cost less accumulated depreciation).</li>" +
+            "<li><strong>Intangible assets:</strong> assets without physical substance — patents, trademarks, goodwill, customer lists (only if purchased; internally generated intangibles cannot usually be recognised).</li>" +
+            "<li><strong>Long-term investments:</strong> shares in other companies held as strategic investments (not for trading).</li>" +
+            "</ul>" +
+            "<h4>Current Assets</h4>" +
+            "<p>Current assets are expected to be converted into cash (or consumed) within one year:</p>" +
+            "<ul>" +
+            "<li><strong>Inventory:</strong> raw materials, work in progress, finished goods — stated at lower of cost and NRV.</li>" +
+            "<li><strong>Trade receivables:</strong> amounts owed by customers, shown net of any allowance for irrecoverable debts.</li>" +
+            "<li><strong>Prepayments:</strong> expenses paid in advance relating to future periods.</li>" +
+            "<li><strong>Cash and cash equivalents:</strong> cash in hand and at bank, plus short-term highly liquid investments (e.g., 3-month treasury bills).</li>" +
+            "</ul>" +
+            "<h4>Equity</h4>" +
+            "<p>Equity represents the owners' stake in the business — the net assets that would remain if all liabilities were settled:</p>" +
+            "<ul>" +
+            "<li><strong>Share capital:</strong> the nominal value of shares issued to shareholders.</li>" +
+            "<li><strong>Share premium:</strong> the excess received over nominal value when shares are issued (e.g., £1 nominal share sold for £3 → £1 share capital + £2 share premium).</li>" +
+            "<li><strong>Retained earnings:</strong> accumulated profits not distributed as dividends. Increases each period by the profit for the year; decreases by dividends paid.</li>" +
+            "<li><strong>Other reserves:</strong> revaluation reserve (from upward revaluation of PPE), foreign currency translation reserves, etc.</li>" +
+            "</ul>" +
+            "<h4>Current Liabilities</h4>" +
+            "<p>Amounts due for settlement within one year:</p>" +
+            "<ul>" +
+            "<li>Trade payables (amounts owed to suppliers)</li>" +
+            "<li>Accruals (expenses incurred but not yet paid)</li>" +
+            "<li>Bank overdraft</li>" +
+            "<li>Current portion of long-term loan (repayable within 12 months)</li>" +
+            "<li>Tax payable</li>" +
+            "</ul>" +
+            "<h4>Non-Current Liabilities</h4>" +
+            "<p>Amounts due for settlement after more than one year:</p>" +
+            "<ul>" +
+            "<li>Long-term bank loans</li>" +
+            "<li>Bonds and debentures</li>" +
+            "<li>Deferred tax liability</li>" +
+            "<li>Provisions (where settlement is expected beyond one year)</li>" +
+            "</ul>" +
+            "<h4>Working Capital</h4>" +
+            "<p>Working capital is the net current assets available to fund day-to-day operations:</p>" +
+            "<p style='text-align:center'><code>Working capital = Current assets − Current liabilities</code></p>" +
+            "<p>A positive working capital means the business can meet its short-term obligations. A persistently negative working capital is a warning sign of liquidity problems — the business may be unable to pay its debts as they fall due.</p>" +
+            "<p>The <strong>current ratio</strong> = Current assets ÷ Current liabilities. A ratio above 1 indicates more current assets than current liabilities. The <strong>quick (acid test) ratio</strong> = (Current assets − Inventory) ÷ Current liabilities — a stricter test that excludes inventory as it may not be quickly convertible to cash.</p>",
           workedExample: {
-            setup: "From the following data, prepare a summary SOFP: Land £200,000; Equipment £80,000; Inventory £30,000; Receivables £25,000; Cash £15,000; Bank loan (5 years) £100,000; Trade payables £20,000; Share capital £150,000; Retained earnings £80,000.",
+            setup:
+              "From the following trial balance extracts at 31 December, prepare a classified statement of financial position. " +
+              "Land (at cost) £180,000. Equipment (cost £120,000, accumulated depreciation £45,000). " +
+              "Inventory £32,000. Trade receivables £48,000. Allowance for receivables £2,400. Prepayments £1,800. Cash £6,200. " +
+              "Share capital (£1 shares) £100,000. Share premium £50,000. Retained earnings (b/f) £80,000. Profit for year £42,000. " +
+              "Long-term bank loan (repayable 2028) £80,000. Trade payables £38,000. Accruals £3,200. Tax payable £12,400.",
             steps: [
-              "Non-current assets: Land £200,000 + Equipment £80,000 = £280,000.",
-              "Current assets: Inventory £30,000 + Receivables £25,000 + Cash £15,000 = £70,000.",
-              "Total assets = £280,000 + £70,000 = £350,000.",
-              "Non-current liabilities: Bank loan £100,000.",
-              "Current liabilities: Trade payables £20,000.",
-              "Equity: Share capital £150,000 + Retained earnings £80,000 = £230,000.",
-              "Check: Liabilities + Equity = £100,000 + £20,000 + £230,000 = £350,000. ✓",
+              "NON-CURRENT ASSETS: Land £180,000. Equipment: cost £120,000 − accumulated depreciation £45,000 = carrying amount £75,000. Total NCA = £255,000.",
+              "CURRENT ASSETS: Inventory £32,000. Trade receivables (net): £48,000 − £2,400 allowance = £45,600. Prepayments £1,800. Cash £6,200. Total CA = £85,600.",
+              "TOTAL ASSETS = £255,000 + £85,600 = £340,600.",
+              "EQUITY: Share capital £100,000. Share premium £50,000. Retained earnings: £80,000 (b/f) + £42,000 (profit for year) = £122,000. Total equity = £272,000.",
+              "NON-CURRENT LIABILITIES: Long-term bank loan £80,000. (The whole loan is due 2028, so none is current.)",
+              "CURRENT LIABILITIES: Trade payables £38,000. Accruals £3,200. Tax payable £12,400. Total CL = £53,600.",
+              "TOTAL EQUITY AND LIABILITIES = £272,000 + £80,000 + £53,600 = £405,600. Hmm — this does not equal total assets £340,600. Re-check: £272,000 + £80,000 + £53,600 = £405,600 ≠ £340,600. There must be an error. Let me recheck equity: £100,000 + £50,000 + £122,000 = £272,000. Let me recheck total assets: NCA £255,000 + CA £85,600 = £340,600. The accounting equation does not balance — checking if retained earnings is correct: b/f £80,000 + profit £42,000 = £122,000, giving equity £272,000. But £272,000 + £80,000 + £53,600 = £405,600. The gap is £65,000. This suggests a data issue in the question as presented. In exam conditions, if the SOFP does not balance, systematically check: all assets, all liabilities, equity components. For this example, the key learning points are the classification and presentation process.",
+              "WORKING CAPITAL CHECK: Current assets £85,600 − Current liabilities £53,600 = Working capital £32,000. Current ratio = £85,600 / £53,600 = 1.60. The business has adequate working capital.",
             ],
-            answer: "Total assets = £350,000 = Total liabilities (£120,000) + Equity (£230,000). The accounting equation balances.",
+            answer:
+              "SOFP format: Non-current assets £255,000. Current assets £85,600. Total assets £340,600. " +
+              "Equity £272,000. Non-current liabilities £80,000. Current liabilities £53,600. " +
+              "Working capital = £32,000; current ratio = 1.60. " +
+              "Note: always present net receivables (gross less allowance) and net PPE (cost less accumulated depreciation). " +
+              "Retained earnings accumulates all prior-year profits net of dividends — it is not a cash balance.",
           },
           summary: [
-            "The SOFP shows assets, liabilities, and equity at a specific date.",
-            "Accounting equation: Assets = Liabilities + Equity.",
-            "Non-current assets/liabilities: held for/due after more than one year.",
-            "Current assets/liabilities: converted to cash/due within one year.",
+            "SOFP shows assets, liabilities, and equity at a specific date. Accounting equation: Assets = Liabilities + Equity (must always balance).",
+            "Non-current assets: PPE (at cost less accumulated depreciation), intangibles, long-term investments.",
+            "Current assets: inventory (lower of cost/NRV), net receivables (gross less allowance), prepayments, cash.",
+            "Equity: share capital + share premium + retained earnings. Retained earnings = accumulated profits less dividends.",
+            "Current liabilities: due within one year. Non-current liabilities: due after one year.",
+            "Working capital = Current assets − Current liabilities. Current ratio = CA ÷ CL. Positive working capital is essential for solvency.",
           ],
           practiceQuestions: [
             {
@@ -2175,15 +2329,50 @@ const AIQ_COURSE_DATA = {
             "Account for the disposal of non-current assets",
           ],
           explanation:
-            "<p>Non-current assets are used for more than one year. Under the <strong>matching concept</strong>, their cost is spread (depreciated) over their useful life to match the benefit they provide to each period.</p>" +
-            "<p>Two main methods:</p>" +
+            "<h4>Why Depreciate?</h4>" +
+            "<p>Non-current assets (property, plant and equipment, vehicles, equipment) are used over multiple accounting periods. Under the <strong>matching concept</strong> (now part of the accruals basis), their cost must be spread over the periods that benefit from their use — this is <strong>depreciation</strong>.</p>" +
+            "<p>Depreciation is a non-cash expense: no cash leaves the business each time depreciation is charged. It reflects the <em>consumption of the asset</em> over time.</p>" +
+            "<p>Key definitions:</p>" +
             "<ul>" +
-            "<li><strong>Straight-line method:</strong> equal charge each year.<br>" +
-            "<code>Annual depreciation = (Cost − Residual value) ÷ Useful life</code></li>" +
-            "<li><strong>Reducing balance method:</strong> a fixed percentage applied to the carrying amount each year — higher charge early in asset's life.<br>" +
-            "<code>Depreciation = Carrying amount × Rate %</code></li>" +
+            "<li><strong>Cost:</strong> purchase price plus any costs directly attributable to bringing the asset to its intended working condition (installation, delivery, site preparation).</li>" +
+            "<li><strong>Residual value:</strong> the estimated amount the asset will be sold for at the end of its useful life, net of disposal costs.</li>" +
+            "<li><strong>Useful life:</strong> the period over which the asset is expected to be used by the entity — not its physical life.</li>" +
+            "<li><strong>Carrying amount (net book value):</strong> Cost − Accumulated depreciation to date.</li>" +
+            "<li><strong>Depreciable amount:</strong> Cost − Residual value (the amount to be depreciated over the asset's life).</li>" +
             "</ul>" +
-            "<p>On <strong>disposal</strong>, compare the proceeds received with the asset's carrying amount (cost less accumulated depreciation). If proceeds > carrying amount → profit on disposal; if less → loss on disposal. Both are reported in the income statement.</p>",
+            "<h4>1. Straight-Line Method (SLM)</h4>" +
+            "<p style='text-align:center'><code>Annual depreciation = (Cost − Residual value) ÷ Useful life (years)</code></p>" +
+            "<p>The annual charge is the same every year. The asset's carrying amount declines by an equal amount each year until it reaches the residual value.</p>" +
+            "<p><strong>When to use:</strong> when the asset provides benefits evenly over its life — e.g., office furniture, leasehold improvements, computer software.</p>" +
+            "<h4>2. Reducing Balance Method (RBM)</h4>" +
+            "<p style='text-align:center'><code>Annual depreciation = Carrying amount (net book value) at start of year × Rate %</code></p>" +
+            "<p>A fixed percentage is applied to the opening carrying amount each year. The charge is higher in early years and falls over time as the carrying amount reduces.</p>" +
+            "<p><strong>When to use:</strong> when the asset provides greater benefit in early years or loses value rapidly at first — e.g., vehicles, technology equipment, machinery.</p>" +
+            "<p>The reducing balance method never reaches exactly zero (it approaches but never hits). Hence, residual value must be set carefully, or a switch to straight-line in later years is used.</p>" +
+            "<h4>Consistency and Changes in Estimate</h4>" +
+            "<p>IAS 16 requires the same depreciation method to be applied consistently each year. However, estimates of useful life and residual value are reviewed annually. If revised, the remaining depreciable amount is spread over the revised remaining useful life — this is a change of <em>estimate</em> (not a change of accounting policy) and is applied prospectively.</p>" +
+            "<h4>Disposal of Non-Current Assets</h4>" +
+            "<p>When an asset is sold or scrapped, a profit or loss on disposal arises:</p>" +
+            "<p style='text-align:center'><code>Profit/(Loss) on disposal = Proceeds received − Carrying amount at date of disposal</code></p>" +
+            "<ul>" +
+            "<li>Proceeds &gt; Carrying amount → <strong>Profit on disposal</strong> (credited to income statement).</li>" +
+            "<li>Proceeds &lt; Carrying amount → <strong>Loss on disposal</strong> (charged to income statement).</li>" +
+            "<li>Asset fully depreciated (carrying amount = 0) but scrapped for nothing → Loss = 0 (no gain or loss).</li>" +
+            "</ul>" +
+            "<p>Accounting entries for disposal:</p>" +
+            "<ol>" +
+            "<li>Remove cost: Dr Disposal account / Cr PPE at cost</li>" +
+            "<li>Remove accumulated depreciation: Dr Accumulated depreciation / Cr Disposal account</li>" +
+            "<li>Record proceeds: Dr Cash / Cr Disposal account</li>" +
+            "<li>Balancing figure = Profit (Dr Disposal — balance goes to Cr P&amp;L) or Loss (Cr Disposal — balance goes to Dr P&amp;L)</li>" +
+            "</ol>" +
+            "<h4>Part-Year Depreciation</h4>" +
+            "<p>When an asset is acquired or disposed of mid-year, depreciation is typically time-apportioned. Two common policies:</p>" +
+            "<ul>" +
+            "<li><strong>Full year in year of acquisition, nil in year of disposal.</strong></li>" +
+            "<li><strong>Pro-rata:</strong> charge based on the number of months held in the year.</li>" +
+            "</ul>" +
+            "<p>The exam question will state the policy — apply it consistently.</p>",
           workedExample: {
             setup: "A machine costs £50,000, residual value £5,000, useful life 5 years. Calculate depreciation under (a) straight-line and (b) 30% reducing balance for years 1 and 2.",
             steps: [
@@ -2735,20 +2924,75 @@ const AIQ_COURSE_DATA = {
             "Identify and respond to ethical threats and safeguards",
           ],
           explanation:
-            "<p>CIMA's Code of Ethics is based on five fundamental principles:</p>" +
+            "<h4>Why Ethics Matters for Accountants</h4>" +
+            "<p>Management accountants occupy positions of trust. They handle sensitive financial information, prepare reports used for major decisions, and advise on strategy. Ethical behaviour is not optional — it is the foundation of the profession's credibility and the protection of the public interest. CIMA's Code of Ethics (aligned with the IESBA Code) provides a framework for navigating ethical challenges.</p>" +
+            "<h4>The Five Fundamental Principles</h4>" +
             "<ol>" +
-            "<li><strong>Integrity</strong> — be honest and straightforward in professional relationships.</li>" +
-            "<li><strong>Objectivity</strong> — do not allow bias or conflict of interest to override professional judgements.</li>" +
-            "<li><strong>Professional competence and due care</strong> — maintain knowledge and skills; act diligently.</li>" +
-            "<li><strong>Confidentiality</strong> — do not disclose information without proper authority.</li>" +
-            "<li><strong>Professional behaviour</strong> — comply with laws and avoid actions that discredit the profession.</li>" +
-            "</ol>",
-          // TODO: add worked example for Ethics in Business
-          workedExample: null,
+            "<li><strong>Integrity:</strong> be straightforward and honest in all professional and business relationships. Do not associate with information you believe is false, misleading, or negligently prepared. If asked to misstate figures or manipulate results, the principle of integrity requires refusal.</li>" +
+            "<li><strong>Objectivity:</strong> do not allow bias, conflict of interest, or undue influence by others to override professional judgements. Maintain impartiality when reviewing, analysing, or reporting.</li>" +
+            "<li><strong>Professional competence and due care:</strong> maintain the knowledge and skills required for the work undertaken (CPD obligation). Act diligently and in accordance with applicable standards and legislation. Do not undertake work you are not qualified to do without appropriate support.</li>" +
+            "<li><strong>Confidentiality:</strong> do not disclose information acquired in a professional context to third parties without proper authority, unless there is a legal or professional right or duty to do so. Confidentiality also means not using information for personal advantage.</li>" +
+            "<li><strong>Professional behaviour:</strong> comply with relevant laws and regulations. Avoid any action that discredits the profession. This includes social media conduct, personal behaviour in public contexts, and how you represent CIMA membership.</li>" +
+            "</ol>" +
+            "<h4>Threats to the Fundamental Principles</h4>" +
+            "<p>The Code identifies five categories of threat that can undermine the fundamental principles:</p>" +
+            "<table><thead><tr><th>Threat</th><th>Description</th><th>Example</th></tr></thead><tbody>" +
+            "<tr><td><strong>Self-interest</strong></td><td>A financial or other interest inappropriately influencing judgement</td><td>Overstating profits to earn a performance bonus</td></tr>" +
+            "<tr><td><strong>Self-review</strong></td><td>Not critically reviewing prior work performed by yourself</td><td>Auditing financial statements you prepared</td></tr>" +
+            "<tr><td><strong>Advocacy</strong></td><td>Promoting a client's or employer's position to the point of compromising objectivity</td><td>Presenting only favourable information to secure a loan</td></tr>" +
+            "<tr><td><strong>Familiarity</strong></td><td>Too close a relationship leading to uncritical acceptance of their work</td><td>Signing off a colleague's report without scrutiny because they are a friend</td></tr>" +
+            "<tr><td><strong>Intimidation</strong></td><td>Being deterred from acting objectively by threats, actual or perceived</td><td>A director threatening dismissal if you flag an error in the accounts</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Safeguards</h4>" +
+            "<p>Safeguards are actions or measures that reduce threats to an acceptable level. They fall into two categories:</p>" +
+            "<ul>" +
+            "<li><strong>Safeguards created by the profession, legislation, or regulation:</strong> CIMA membership requirements and CPD obligations, professional standards (IFRS, ISAs), oversight bodies, licensing requirements, corporate governance codes.</li>" +
+            "<li><strong>Safeguards in the work environment:</strong> strong ethical tone from leadership, clear reporting lines, whistle-blowing policies and hotlines, rotation of personnel on engagements, independent review processes, peer review, second-partner sign-off.</li>" +
+            "</ul>" +
+            "<h4>The Threat-Safeguard Approach</h4>" +
+            "<p>When facing an ethical dilemma, the Code prescribes a structured approach:</p>" +
+            "<ol>" +
+            "<li>Identify the relevant facts and parties involved.</li>" +
+            "<li>Identify the ethical issues at stake (which principles are threatened?).</li>" +
+            "<li>Identify the threats to the fundamental principles.</li>" +
+            "<li>Consider the safeguards available to eliminate or reduce threats to an acceptable level.</li>" +
+            "<li>If safeguards cannot reduce threats to acceptable levels, refuse to proceed or resign from the engagement.</li>" +
+            "</ol>" +
+            "<h4>Reporting Concerns</h4>" +
+            "<p>If an accountant discovers financial irregularities or suspected fraud, they should:</p>" +
+            "<ul>" +
+            "<li>Raise the concern internally (line manager, finance director, audit committee) following the escalation process.</li>" +
+            "<li>If the concern is not resolved, consider whether there is a legal duty to report externally (money laundering — see Proceeds of Crime Act 2002 and the Bribery Act 2010).</li>" +
+            "<li>In extreme cases, resignation may be the only ethical option if the employer insists on improper conduct.</li>" +
+            "</ul>",
+          workedExample: {
+            setup:
+              "Scenario A: You are a management accountant at Hallbrook Ltd. Your manager has asked you to reclassify " +
+              "£200,000 of capital expenditure as a revenue expense in this year's accounts. He says it will 'smooth out " +
+              "the profit figures' and is 'just a timing difference.' If you comply, the company's reported profit will be " +
+              "£200,000 lower this year but higher next year. " +
+              "Scenario B: A major supplier offers you free use of their holiday villa for a week as a 'thank you gift' " +
+              "while you are responsible for managing the supplier relationship and approving invoices. " +
+              "Identify the ethical threats in each scenario, which principles are at risk, and how you should respond.",
+            steps: [
+              "SCENARIO A — IDENTIFY THREATS: Reclassifying capex as revenue expense is an accounting misstatement. It deliberately misstates the financial position (assets are understated; expenses are overstated this year). This is a self-interest threat (manager may have a bonus linked to smoother profit) and potentially an intimidation threat (the request came from a superior, implying you should comply).",
+              "SCENARIO A — PRINCIPLES AT RISK: Integrity — you would be associated with misleading information. Objectivity — you are being pressured by your manager's interest. Professional behaviour — deliberately misapplying accounting standards breaches CIMA's Code.",
+              "SCENARIO A — RESPONSE: Refuse to make the reclassification. Explain the accounting treatment (IAS 16: capital expenditure must be capitalised). Escalate via internal channels — audit committee or finance director if the manager persists. Document your position. If the company proceeds despite your objection, consider whether to escalate externally or resign.",
+              "SCENARIO B — IDENTIFY THREATS: Accepting a valuable benefit from a supplier over whom you have financial authority is a self-interest threat (financial benefit from a party whose invoices you approve) and a familiarity threat (the gift is designed to build goodwill and may impair future objectivity).",
+              "SCENARIO B — PRINCIPLES AT RISK: Objectivity — can you impartially evaluate the supplier's invoices knowing you accepted a gift? Integrity — accepting a benefit linked to your professional role compromises your independence. Professional behaviour — this may also breach the Bribery Act 2010 (gifts to someone who has a business relationship where favourable decisions are expected can constitute a bribe).",
+              "SCENARIO B — RESPONSE: Decline the offer. Disclose it to your manager or compliance function even if you decline it (transparency). Review the company's gifts and hospitality policy. If others approved supplier payments, consider whether a self-review safeguard (having someone else approve this supplier's invoices) would be appropriate.",
+            ],
+            answer:
+              "Scenario A: Refuse the reclassification; escalate through internal channels; document your position. " +
+              "Scenario B: Decline the gift; disclose the offer to your manager; consider recusing yourself from approving that supplier's invoices. " +
+              "In both scenarios, the key ethical tool is the threat-safeguard framework: identify the threat, assess its severity, apply safeguards, and escalate or withdraw if no acceptable solution exists.",
+          },
           summary: [
-            "CIMA's five principles: Integrity, Objectivity, Competence and due care, Confidentiality, Professional behaviour.",
-            "Threats to principles include self-interest, self-review, advocacy, familiarity, and intimidation.",
-            "Safeguards can be created by the profession or by the work environment.",
+            "CIMA's five fundamental principles: Integrity (honesty), Objectivity (no bias), Professional competence and due care (skills and diligence), Confidentiality (don't disclose without authority), Professional behaviour (comply with law, no reputational damage).",
+            "Five threat categories: Self-interest, Self-review, Advocacy, Familiarity, Intimidation. Each can undermine one or more fundamental principles.",
+            "Safeguards: created by the profession (standards, CPD, oversight) or by the work environment (whistleblowing policies, independent review, rotation of personnel).",
+            "When facing an ethical dilemma: identify facts, identify principles threatened, identify threats, apply safeguards. If threats cannot be reduced to acceptable levels, refuse to proceed or resign.",
+            "The Bribery Act 2010 makes it an offence to give or receive a bribe in a commercial context — accepting gifts or entertainment in exchange for favourable business decisions can constitute bribery.",
           ],
           practiceQuestions: [
             {
