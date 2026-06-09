@@ -1,0 +1,218 @@
+/* AccountIQ — Skills Lab
+ *
+ * Practical tool tracks for finance professionals:
+ *   1. Advanced Excel for Finance  (10 modules)
+ *   2. SQL for Finance              (10 modules)
+ *   3. Power BI for Finance         (6 modules)
+ *   4. AI for Finance               (6 modules)
+ *
+ * Track overview → module list (internal state) → lesson viewer (AIQLessons)
+ * Progress sourced from aiqStore.paperProgress using track IDs as keys.
+ * TODO: replace with real API progress from /api/user/skills-progress
+ */
+const { useState: useSlbState } = React;
+
+/* ── Track accent colours ────────────────────────────────────────────────── */
+const TRACK_PALETTE = {
+  excel:   { bg: "#E8F5EE", border: "#B2D8BF", icon: "#217346" },
+  sql:     { bg: "#EEF3FF", border: "#BDD0FF", icon: "#2563eb" },
+  powerbi: { bg: "#FFFBE8", border: "#F5E49A", icon: "#c29000" },
+  ai:      { bg: "#F5F0FF", border: "#D4C5FF", icon: "#7c3aed" },
+};
+function trackPalette(id) {
+  return TRACK_PALETTE[id] || { bg: "var(--surface-2)", border: "var(--border)", icon: "var(--fg-2)" };
+}
+
+/* ── Track overview card ─────────────────────────────────────────────────── */
+function SlbTrackCard({ track, progress, onClick }) {
+  const { Icon } = window;
+  const { CrsProgressBar } = window;
+  const pal = trackPalette(track.id);
+  const pct = Math.round((progress || 0) * 100);
+  const total = (track.lessons || []).length;
+  const done  = Math.round((progress || 0) * total);
+
+  return (
+    <div
+      className="slb-track-card card"
+      onClick={onClick}
+      style={{ borderColor: pal.border, cursor: "pointer" }}
+    >
+      <div className="slb-track-top">
+        <div className="slb-track-icon" style={{ background: pal.bg }}>
+          <Icon name={track.icon} size={22} color={pal.icon} />
+        </div>
+        <div className="slb-track-meta">
+          <span className="slb-track-modules">{total} modules</span>
+          <span className="slb-track-hours">{track.estimatedHours}h est.</span>
+        </div>
+      </div>
+      <div className="slb-track-body">
+        <div className="slb-track-title">{track.title}</div>
+        <div className="slb-track-desc">{track.description}</div>
+      </div>
+      <div className="slb-track-footer">
+        <div className="slb-track-progress-row">
+          <CrsProgressBar value={progress || 0} height={5} />
+          <span className="slb-track-pct">{pct}%</span>
+        </div>
+        {done > 0 && (
+          <div className="slb-track-status">{done} of {total} complete</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── Module list row ─────────────────────────────────────────────────────── */
+function SlbModuleRow({ module, index, trackId, onNavigate }) {
+  const { Icon, Button } = window;
+  const pal = trackPalette(trackId);
+  return (
+    <div className="slb-module-row">
+      <div className="slb-module-num" style={{ color: pal.icon }}>{index + 1}</div>
+      <div className="slb-module-info">
+        <div className="slb-module-title">{module.title}</div>
+        <div className="slb-module-topic">{module.topic}</div>
+      </div>
+      {module.estimatedMinutes && (
+        <div className="slb-module-time">
+          <Icon name="clock" size={12} color="var(--fg-3)" />
+          {module.estimatedMinutes}m
+        </div>
+      )}
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={() => onNavigate && onNavigate("lessons", { paperId: trackId, lessonId: module.id })}
+      >
+        Start
+      </Button>
+    </div>
+  );
+}
+
+/* ── Track detail view ───────────────────────────────────────────────────── */
+function SlbTrackDetail({ track, onBack, onNavigate }) {
+  const { Icon, Button } = window;
+  const pal = trackPalette(track.id);
+  const modules = track.lessons || [];
+
+  return (
+    <div className="content">
+      <div className="crs-page">
+        <div>
+          <button className="lsn-back" onClick={onBack}>
+            <Icon name="arrow-left" size={14} />
+            Skills Lab
+          </button>
+        </div>
+
+        <div className="slb-detail-header card" style={{ borderColor: pal.border }}>
+          <div className="slb-detail-header-body">
+            <div className="slb-detail-icon" style={{ background: pal.bg }}>
+              <Icon name={track.icon} size={26} color={pal.icon} />
+            </div>
+            <div>
+              <div className="slb-detail-eyebrow">Skills Lab</div>
+              <h1 className="slb-detail-title">{track.title}</h1>
+              <div className="slb-detail-desc">{track.description}</div>
+              <div className="slb-detail-meta">
+                <span><Icon name="layers" size={13} color="var(--fg-3)" />{modules.length} modules</span>
+                <span><Icon name="clock" size={13} color="var(--fg-3)" />~{track.estimatedHours}h total</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="card">
+          <div className="card-h">
+            <div>
+              <h3>Modules</h3>
+              <div className="sub">Click any module to open the lesson</div>
+            </div>
+            {modules.length > 0 && (
+              <Button
+                variant="primary"
+                size="sm"
+                icon="play"
+                onClick={() => onNavigate && onNavigate("lessons", { paperId: track.id, lessonId: modules[0].id })}
+              >
+                Start from beginning
+              </Button>
+            )}
+          </div>
+          <div className="card-b">
+            <div className="slb-module-list">
+              {modules.map((mod, i) => (
+                <SlbModuleRow
+                  key={mod.id}
+                  module={mod}
+                  index={i}
+                  trackId={track.id}
+                  onNavigate={onNavigate}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Skills Lab component ───────────────────────────────────────────── */
+function AIQSkillsLab({ onNavigate }) {
+  const { Icon } = window;
+  const [selectedTrack, setSelectedTrack] = useSlbState(null);
+
+  const catalogue = window.AIQ_COURSE_DATA || {};
+  const tracks    = (catalogue.skillsLab || {}).tracks || [];
+
+  // TODO: replace with real API data from /api/user/skills-progress
+  const store         = window.aiqStore ? window.aiqStore.get() : {};
+  const paperProgress = store.paperProgress || {};
+
+  if (selectedTrack) {
+    return (
+      <SlbTrackDetail
+        track={selectedTrack}
+        onBack={() => setSelectedTrack(null)}
+        onNavigate={onNavigate}
+      />
+    );
+  }
+
+  return (
+    <div className="content">
+      <div className="crs-page">
+
+        <div className="slb-page-header">
+          <div className="slb-page-icon">
+            <Icon name="flask-conical" size={22} color="var(--primary)" />
+          </div>
+          <div>
+            <h2 className="slb-page-title">Skills Lab</h2>
+            <div className="slb-page-sub">
+              Practical tools employers expect finance professionals to know
+            </div>
+          </div>
+        </div>
+
+        <div className="slb-tracks-grid">
+          {tracks.map((track) => (
+            <SlbTrackCard
+              key={track.id}
+              track={track}
+              progress={paperProgress[track.id] || 0}
+              onClick={() => setSelectedTrack(track)}
+            />
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, { AIQSkillsLab });

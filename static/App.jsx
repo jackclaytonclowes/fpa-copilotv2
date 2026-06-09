@@ -82,6 +82,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     data:      "Data sources",
     settings:  "Settings",
     courses:   "Courses",
+    skillslab: "Skills Lab",
     lessons:   "Lesson",
     quiz:      "Quiz",
     tutor:     "Study Tutor",
@@ -202,7 +203,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses, AIQOnboarding } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses, AIQOnboarding, AIQSkillsLab } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -285,7 +286,7 @@ function App() {
 
   // AccountIQ onboarding gate — checked each time Courses section is entered
   const [showOnboarding, setShowOnboarding] = useStateApp(false);
-  const AIQ_VIEWS = ["courses", "tutor", "profile", "lessons", "quiz"];
+  const AIQ_VIEWS = ["courses", "skillslab", "tutor", "profile", "lessons", "quiz"];
   const handleNavToLearn = (targetView) => {
     const store = window.aiqStore && window.aiqStore.get();
     if (store && !store.onboardingComplete) {
@@ -313,6 +314,8 @@ function App() {
   let body;
   if (restoring) {
     body = null;
+  } else if (view === "skillslab") {
+    body = <AIQSkillsLab onNavigate={navigateToAiq} />;
   } else if (view === "courses") {
     body = <Courses onNavigate={navigateToAiq} />;
   } else if (view === "lessons") {

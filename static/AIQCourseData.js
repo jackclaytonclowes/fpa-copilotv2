@@ -1426,6 +1426,538 @@ const AIQ_COURSE_DATA = {
   ],
 
   /* ══════════════════════════════════════════════════════════════════════════
+     SKILLS LAB — practical tool tracks for finance professionals
+     Covers: Advanced Excel, SQL, Power BI, and AI for Finance.
+     Lessons use the same structure as CIMA papers for compatibility with the
+     existing lesson viewer (AIQLessons.jsx).
+     TODO: populate explanation, workedExample, summary, practiceQuestions.
+     ══════════════════════════════════════════════════════════════════════════ */
+  skillsLab: {
+    tracks: [
+      {
+        id: "excel",
+        title: "Advanced Excel for Finance",
+        icon: "table-2",
+        accent: "#217346",
+        description: "Master the spreadsheet tools every finance professional needs",
+        estimatedHours: 12,
+        lessons: [
+          {
+            id: "excel-xlookup",
+            title: "XLOOKUP",
+            topic: "Lookup Functions",
+            estimatedMinutes: 25,
+            objectives: [
+              "Use XLOOKUP to retrieve data from a table by matching a lookup value",
+              "Handle errors and missing matches using the if_not_found argument",
+              "Perform horizontal and vertical lookups with a single formula",
+            ],
+            explanation: null, // TODO: add explanation for XLOOKUP
+            workedExample: null, // TODO: add worked example for XLOOKUP
+            summary: null, // TODO: add summary for XLOOKUP
+            practiceQuestions: null, // TODO: add practice questions for XLOOKUP
+          },
+          {
+            id: "excel-index-match",
+            title: "INDEX MATCH",
+            topic: "Lookup Functions",
+            estimatedMinutes: 30,
+            objectives: [
+              "Understand why INDEX MATCH is preferred over VLOOKUP for large datasets",
+              "Construct a two-way lookup using nested INDEX and MATCH",
+              "Apply INDEX MATCH to retrieve values from dynamic column headers",
+            ],
+            explanation: null, // TODO: add explanation for INDEX MATCH
+            workedExample: null, // TODO: add worked example for INDEX MATCH
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-pivot-tables",
+            title: "Pivot Tables",
+            topic: "Data Analysis",
+            estimatedMinutes: 35,
+            objectives: [
+              "Create a pivot table from transactional data to summarise by category",
+              "Group dates by month, quarter, and year in a pivot table",
+              "Use calculated fields to derive gross margin and other KPIs within a pivot",
+            ],
+            explanation: null, // TODO: add explanation for Pivot Tables
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-pivot-charts",
+            title: "Pivot Charts",
+            topic: "Data Visualisation",
+            estimatedMinutes: 25,
+            objectives: [
+              "Create a pivot chart linked to an existing pivot table",
+              "Choose appropriate chart types for financial variance data",
+              "Format pivot charts for use in management reports",
+            ],
+            explanation: null, // TODO: add explanation for Pivot Charts
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-power-query",
+            title: "Power Query",
+            topic: "Data Transformation",
+            estimatedMinutes: 40,
+            objectives: [
+              "Connect Power Query to multiple data sources (Excel, CSV, SharePoint)",
+              "Apply transformations: split columns, change data types, filter rows",
+              "Merge and append queries to combine P&L and budget data",
+            ],
+            explanation: null, // TODO: add explanation for Power Query
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-financial-modelling",
+            title: "Financial Modelling",
+            topic: "Modelling",
+            estimatedMinutes: 45,
+            objectives: [
+              "Structure a three-statement financial model (P&L, balance sheet, cash flow)",
+              "Build dynamic assumptions tables with named ranges",
+              "Trace and audit model logic using Excel auditing tools",
+            ],
+            explanation: null, // TODO: add explanation for Financial Modelling
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-variance-templates",
+            title: "Variance Analysis Templates",
+            topic: "Reporting",
+            estimatedMinutes: 35,
+            objectives: [
+              "Build a reusable budget vs actual variance template in Excel",
+              "Use conditional formatting to highlight favourable and adverse variances",
+              "Automate period commentary using formula-driven cells",
+            ],
+            explanation: null, // TODO: add explanation for Variance Analysis Templates
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-forecast-models",
+            title: "Forecast Models",
+            topic: "Forecasting",
+            estimatedMinutes: 40,
+            objectives: [
+              "Build a rolling forecast model using a driver-based approach",
+              "Apply seasonal indices to adjust monthly revenue forecasts",
+              "Version-control forecast assumptions for audit purposes",
+            ],
+            explanation: null, // TODO: add explanation for Forecast Models
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-reporting-packs",
+            title: "Reporting Packs",
+            topic: "Reporting",
+            estimatedMinutes: 35,
+            objectives: [
+              "Structure a month-end reporting pack for management review",
+              "Link summary charts and tables to source data using dynamic ranges",
+              "Add a cover page and executive summary using Excel shapes and text boxes",
+            ],
+            explanation: null, // TODO: add explanation for Reporting Packs
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "excel-dashboards",
+            title: "Dashboard Building",
+            topic: "Data Visualisation",
+            estimatedMinutes: 45,
+            objectives: [
+              "Design a one-page finance dashboard using charts, KPI tiles, and slicers",
+              "Use slicers to filter dashboard data by entity, cost centre, or period",
+              "Format dashboards to match corporate brand guidelines",
+            ],
+            explanation: null, // TODO: add explanation for Dashboard Building
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+        ],
+      },
+      {
+        id: "sql",
+        title: "SQL for Finance",
+        icon: "database",
+        accent: "#2563eb",
+        description: "Query financial databases with confidence using SQL",
+        estimatedHours: 10,
+        lessons: [
+          {
+            id: "sql-select",
+            title: "SELECT",
+            topic: "Fundamentals",
+            estimatedMinutes: 20,
+            objectives: [
+              "Write a basic SELECT statement to retrieve columns from a table",
+              "Use SELECT DISTINCT to return unique values",
+              "Alias columns using AS to produce readable query output",
+            ],
+            explanation: null, // TODO: add explanation for SELECT
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-where",
+            title: "WHERE",
+            topic: "Filtering",
+            estimatedMinutes: 20,
+            objectives: [
+              "Filter rows using WHERE with comparison operators (=, >, <, BETWEEN, IN)",
+              "Combine filter conditions using AND, OR, and NOT",
+              "Handle NULL values using IS NULL and IS NOT NULL",
+            ],
+            explanation: null, // TODO: add explanation for WHERE
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-order-by",
+            title: "ORDER BY",
+            topic: "Sorting",
+            estimatedMinutes: 15,
+            objectives: [
+              "Sort query results in ascending and descending order",
+              "Order by multiple columns to produce ranked financial reports",
+              "Understand how ORDER BY interacts with LIMIT and TOP",
+            ],
+            explanation: null, // TODO: add explanation for ORDER BY
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-group-by",
+            title: "GROUP BY",
+            topic: "Grouping",
+            estimatedMinutes: 25,
+            objectives: [
+              "Use GROUP BY to aggregate data by account, department, or period",
+              "Understand which columns must appear in GROUP BY vs aggregation functions",
+              "Filter grouped results using HAVING",
+            ],
+            explanation: null, // TODO: add explanation for GROUP BY
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-aggregations",
+            title: "Aggregations",
+            topic: "Calculations",
+            estimatedMinutes: 25,
+            objectives: [
+              "Apply SUM, COUNT, AVG, MIN, MAX to financial data",
+              "Distinguish COUNT(*) from COUNT(column) when NULLs are present",
+              "Compute running totals using window functions (SUM OVER)",
+            ],
+            explanation: null, // TODO: add explanation for Aggregations
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-case-when",
+            title: "CASE WHEN",
+            topic: "Conditional Logic",
+            estimatedMinutes: 25,
+            objectives: [
+              "Use CASE WHEN to classify transactions (e.g. income vs expense)",
+              "Create a calculated column that maps account codes to P&L line items",
+              "Combine CASE WHEN with aggregation to build a pivot-style SQL report",
+            ],
+            explanation: null, // TODO: add explanation for CASE WHEN
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-joins",
+            title: "JOINs",
+            topic: "Combining Data",
+            estimatedMinutes: 30,
+            objectives: [
+              "Explain INNER JOIN, LEFT JOIN, and FULL OUTER JOIN with finance use cases",
+              "Join a transactions table to a chart of accounts using account code",
+              "Identify and handle duplicate rows caused by one-to-many joins",
+            ],
+            explanation: null, // TODO: add explanation for JOINs
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-date-logic",
+            title: "Date Logic",
+            topic: "Date Functions",
+            estimatedMinutes: 25,
+            objectives: [
+              "Extract year, month, and quarter from a date column",
+              "Filter transactions within a specific accounting period",
+              "Calculate days outstanding for debtor ageing reports",
+            ],
+            explanation: null, // TODO: add explanation for Date Logic
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-reporting-queries",
+            title: "Reporting Queries",
+            topic: "Applied SQL",
+            estimatedMinutes: 35,
+            objectives: [
+              "Write a SQL query that replicates a standard management P&L format",
+              "Use CTEs (WITH clause) to structure multi-step reporting logic",
+              "Export query results in a format compatible with Excel Power Query",
+            ],
+            explanation: null, // TODO: add explanation for Reporting Queries
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "sql-finance-analysis",
+            title: "Finance Data Analysis",
+            topic: "Applied SQL",
+            estimatedMinutes: 35,
+            objectives: [
+              "Write a variance analysis query comparing actual vs budget by cost centre",
+              "Identify top spend lines using ORDER BY and LIMIT",
+              "Flag anomalies using CASE WHEN and statistical thresholds",
+            ],
+            explanation: null, // TODO: add explanation for Finance Data Analysis
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+        ],
+      },
+      {
+        id: "powerbi",
+        title: "Power BI for Finance",
+        icon: "bar-chart-2",
+        accent: "#c29000",
+        description: "Build interactive financial dashboards and reports in Power BI",
+        estimatedHours: 8,
+        lessons: [
+          {
+            id: "pbi-data-modelling",
+            title: "Data Modelling",
+            topic: "Foundations",
+            estimatedMinutes: 35,
+            objectives: [
+              "Create relationships between fact and dimension tables in Power BI",
+              "Choose between star schema and snowflake schema for finance data",
+              "Set correct cardinality and cross-filter direction for P&L models",
+            ],
+            explanation: null, // TODO: add explanation for Data Modelling
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "pbi-dax-basics",
+            title: "DAX Basics",
+            topic: "Calculations",
+            estimatedMinutes: 40,
+            objectives: [
+              "Write calculated columns and measures using basic DAX",
+              "Use CALCULATE to apply filters to a measure",
+              "Implement time intelligence with SAMEPERIODLASTYEAR and DATESYTD",
+            ],
+            explanation: null, // TODO: add explanation for DAX Basics
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "pbi-kpis",
+            title: "KPIs",
+            topic: "Metrics",
+            estimatedMinutes: 25,
+            objectives: [
+              "Create KPI visuals showing actuals vs target with status indicators",
+              "Define KPI thresholds for favourable, warning, and adverse zones",
+              "Use card and gauge visuals to highlight key financial metrics",
+            ],
+            explanation: null, // TODO: add explanation for KPIs
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "pbi-finance-dashboards",
+            title: "Finance Dashboards",
+            topic: "Reporting",
+            estimatedMinutes: 40,
+            objectives: [
+              "Design a financial dashboard with P&L summary, trend chart, and KPI tiles",
+              "Use bookmarks to create drill-through views from summary to detail",
+              "Apply row-level security to restrict dashboard access by cost centre",
+            ],
+            explanation: null, // TODO: add explanation for Finance Dashboards
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "pbi-variance-reporting",
+            title: "Variance Reporting",
+            topic: "FP&A",
+            estimatedMinutes: 35,
+            objectives: [
+              "Build a budget vs actual waterfall chart in Power BI",
+              "Create a dynamic variance table with conditional formatting",
+              "Use slicers for entity, period, and department filtering",
+            ],
+            explanation: null, // TODO: add explanation for Variance Reporting
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "pbi-executive-reporting",
+            title: "Executive Reporting",
+            topic: "Reporting",
+            estimatedMinutes: 30,
+            objectives: [
+              "Design a single-page executive summary report in Power BI",
+              "Optimise visuals for print and PDF export",
+              "Add narrative commentary using Smart Narrative or text box visuals",
+            ],
+            explanation: null, // TODO: add explanation for Executive Reporting
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+        ],
+      },
+      {
+        id: "ai",
+        title: "AI for Finance",
+        icon: "sparkles",
+        accent: "#7c3aed",
+        description: "Use AI tools to work faster and smarter in FP&A",
+        estimatedHours: 6,
+        lessons: [
+          {
+            id: "ai-prompt-engineering",
+            title: "Prompt Engineering",
+            topic: "Foundations",
+            estimatedMinutes: 25,
+            objectives: [
+              "Write effective prompts to extract financial insights from AI tools",
+              "Apply the role-context-task-format prompt structure",
+              "Iterate prompts to improve the quality and specificity of AI outputs",
+            ],
+            explanation: null, // TODO: add explanation for Prompt Engineering
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "ai-assisted-analysis",
+            title: "AI-Assisted Analysis",
+            topic: "Analysis",
+            estimatedMinutes: 30,
+            objectives: [
+              "Use AI to summarise variance drivers from a management report",
+              "Generate ratio analysis commentary from financial statement data",
+              "Critically evaluate AI-generated analysis before presenting to stakeholders",
+            ],
+            explanation: null, // TODO: add explanation for AI-Assisted Analysis
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "ai-financial-commentary",
+            title: "Financial Commentary",
+            topic: "Reporting",
+            estimatedMinutes: 25,
+            objectives: [
+              "Draft board-ready financial commentary using AI assistance",
+              "Use AI to convert data tables into narrative explanations",
+              "Edit and validate AI-generated commentary for accuracy and tone",
+            ],
+            explanation: null, // TODO: add explanation for Financial Commentary
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "ai-forecasting-support",
+            title: "Forecasting Support",
+            topic: "Planning",
+            estimatedMinutes: 25,
+            objectives: [
+              "Use AI to identify trends and seasonality in historical financial data",
+              "Generate scenario narrative for budget presentations with AI",
+              "Understand the limitations of AI in forward-looking financial analysis",
+            ],
+            explanation: null, // TODO: add explanation for Forecasting Support
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "ai-report-automation",
+            title: "Report Automation",
+            topic: "Automation",
+            estimatedMinutes: 30,
+            objectives: [
+              "Automate recurring report commentary using AI prompts",
+              "Build a prompt library for common FP&A tasks",
+              "Integrate AI outputs into Excel and Power BI workflows",
+            ],
+            explanation: null, // TODO: add explanation for Report Automation
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+          {
+            id: "ai-workflow-optimisation",
+            title: "Workflow Optimisation",
+            topic: "Productivity",
+            estimatedMinutes: 25,
+            objectives: [
+              "Map current FP&A processes to identify AI automation opportunities",
+              "Apply AI tools to reduce manual data reconciliation time",
+              "Evaluate risk and compliance considerations of AI in finance",
+            ],
+            explanation: null, // TODO: add explanation for Workflow Optimisation
+            workedExample: null,
+            summary: null,
+            practiceQuestions: null,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════════════════════════════════
      CAREER PATHWAY — maps CIMA levels to career roles and next steps
      Used by the Profile dashboard and any "Where does this take me?" surfaces.
      TODO: extend with salary data, employer case studies, and real job links.
