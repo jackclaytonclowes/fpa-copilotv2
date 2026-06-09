@@ -65,17 +65,19 @@ function SlbTrackCard({ track, progress, onClick }) {
 }
 
 /* ── Module list row ─────────────────────────────────────────────────────── */
-function SlbModuleRow({ module, index, trackId, onNavigate }) {
+function SlbModuleRow({ module, index, trackId, onNavigate, isComplete }) {
   const { Icon, Button } = window;
   const pal = trackPalette(trackId);
   return (
-    <div className="slb-module-row">
-      <div className="slb-module-num" style={{ color: pal.icon }}>{index + 1}</div>
+    <div className={`slb-module-row${isComplete ? " slb-module-row--done" : ""}`}>
+      <div className="slb-module-num" style={{ color: isComplete ? "var(--favourable)" : pal.icon }}>
+        {isComplete ? <Icon name="check-circle" size={16} /> : index + 1}
+      </div>
       <div className="slb-module-info">
         <div className="slb-module-title">{module.title}</div>
         <div className="slb-module-topic">{module.topic}</div>
       </div>
-      {module.estimatedMinutes && (
+      {!isComplete && module.estimatedMinutes && (
         <div className="slb-module-time">
           <Icon name="clock" size={12} color="var(--fg-3)" />
           {module.estimatedMinutes}m
@@ -86,7 +88,7 @@ function SlbModuleRow({ module, index, trackId, onNavigate }) {
         size="sm"
         onClick={() => onNavigate && onNavigate("lessons", { paperId: trackId, lessonId: module.id })}
       >
-        Start
+        {isComplete ? "Review" : "Start"}
       </Button>
     </div>
   );
@@ -94,9 +96,15 @@ function SlbModuleRow({ module, index, trackId, onNavigate }) {
 
 /* ── Track detail view ───────────────────────────────────────────────────── */
 function SlbTrackDetail({ track, onBack, onNavigate }) {
-  const { Icon, Button } = window;
+  const { Icon, Button, CrsProgressBar } = window;
   const pal = trackPalette(track.id);
   const modules = track.lessons || [];
+
+  const store       = window.aiqStore ? window.aiqStore.get() : {};
+  const completedSet = (store.completedLessons || {})[track.id] || [];
+  const progress    = (store.paperProgress || {})[track.id] || 0;
+  const doneCnt     = completedSet.length;
+  const pct         = Math.round(progress * 100);
 
   return (
     <div className="content">
@@ -121,6 +129,12 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
                 <span><Icon name="layers" size={13} color="var(--fg-3)" />{modules.length} modules</span>
                 <span><Icon name="clock" size={13} color="var(--fg-3)" />~{track.estimatedHours}h total</span>
               </div>
+              {doneCnt > 0 && (
+                <div className="slb-detail-progress">
+                  <CrsProgressBar value={progress} height={5} color={pal.icon} />
+                  <span className="slb-track-pct">{pct}% · {doneCnt} of {modules.length} complete</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -131,16 +145,20 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
               <h3>Modules</h3>
               <div className="sub">Click any module to open the lesson</div>
             </div>
-            {modules.length > 0 && (
-              <Button
-                variant="primary"
-                size="sm"
-                icon="play"
-                onClick={() => onNavigate && onNavigate("lessons", { paperId: track.id, lessonId: modules[0].id })}
-              >
-                Start from beginning
-              </Button>
-            )}
+            {modules.length > 0 && (() => {
+              const nextMod = modules.find((m) => !completedSet.includes(m.id)) || modules[0];
+              const allDone = doneCnt >= modules.length;
+              return (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  icon={allDone ? "rotate-ccw" : "play"}
+                  onClick={() => onNavigate && onNavigate("lessons", { paperId: track.id, lessonId: nextMod.id })}
+                >
+                  {allDone ? "Review track" : doneCnt > 0 ? "Continue" : "Start from beginning"}
+                </Button>
+              );
+            })()}
           </div>
           <div className="card-b">
             <div className="slb-module-list">
@@ -151,6 +169,7 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
                   index={i}
                   trackId={track.id}
                   onNavigate={onNavigate}
+                  isComplete={completedSet.includes(mod.id)}
                 />
               ))}
             </div>
