@@ -10,7 +10,7 @@
  * lesson viewer's inline practice, re-used here as the formal quiz).
  * TODO: add a separate quizQuestions[] field per lesson for unique questions.
  */
-const { useState: useQeState } = React;
+const { useState: useQeState, useEffect: useQeEffect } = React;
 
 function AIQQuizEngine({ paperId, lessonId, onNavigate }) {
   const { Icon, Button } = window;
@@ -32,6 +32,15 @@ function AIQQuizEngine({ paperId, lessonId, onNavigate }) {
   const questions = (lesson && lesson.practiceQuestions) || [];
 
   const goBack = () => onNavigate && onNavigate("lessons", { paperId, lessonId });
+
+  // Track active quiz time; record on unmount regardless of completion path
+  useQeEffect(() => {
+    const startedAt = Date.now();
+    return () => {
+      const minutes = Math.round((Date.now() - startedAt) / 60000);
+      if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
+    };
+  }, []);
 
   // ── No questions available ──────────────────────────────────────────────
   if (!lesson || questions.length === 0) {
