@@ -17404,10 +17404,65 @@ const AIQ_COURSE_DATA = {
               "Handle errors and missing matches using the if_not_found argument",
               "Perform horizontal and vertical lookups with a single formula",
             ],
-            explanation: null, // TODO: step-by-step explanation with finance examples
-            workedExample: null, // TODO: GL code lookup from chart of accounts
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>XLOOKUP</h3>"+ "<p><strong>XLOOKUP</strong> is Excel's modern replacement for VLOOKUP. It searches a range for a match and returns a value from another range. It can search both vertically and horizontally, and handles missing matches gracefully.</p>"+ "<h4>Syntax</h4>"+ "<p><code>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])</code></p>"+ "<p><strong>lookup_value:</strong> What you are searching for (e.g., a GL code). <strong>lookup_array:</strong> The column to search in. <strong>return_array:</strong> The column to return from. <strong>if_not_found:</strong> What to return if no match (e.g., &quot;Not found&quot; — avoids ugly #N/A errors). <strong>match_mode:</strong> 0 = exact match (default). <strong>search_mode:</strong> 1 = first to last (default).</p>"+ "<h4>Finance Use Cases</h4>"+ "<p><strong>Cost centre lookup:</strong> Pull a department name from a cost centre code. <strong>Chart of accounts:</strong> Retrieve account names from GL codes. <strong>Rate cards:</strong> Look up a billing rate by employee grade. <strong>Budget retrieval:</strong> Pull budget figures by account code from a separate budget table.</p>"+ "<h4>Advantages Over VLOOKUP</h4>"+ "<p>XLOOKUP does not require the lookup column to be the first column in the range. It returns an entire row or column. It handles missing values without IFERROR wrappers. It is more readable and easier to audit.</p>",
+            workedExample: {
+              setup: "You have a GL transactions table with column A = GL Code and column B = Amount. A separate reference table on Sheet2 has GL codes in column A and account names in column B. Write a formula in column C of the transactions table to retrieve the account name for each GL code.",
+              steps: [
+                "Formula in C2 (transactions table): =XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, "Code not found")",
+                "Breakdown: lookup_value = A2 (the GL code from the transaction row); lookup_array = Sheet2!A:A (the full list of GL codes in the reference table); return_array = Sheet2!B:B (the account names to retrieve); if_not_found = "Code not found" (friendly error instead of #N/A).",
+                "Copy the formula down column C for all transaction rows.",
+                "Advantage over VLOOKUP: if the reference table columns are reordered, XLOOKUP still works because return_array is specified explicitly — not by column number.",
+                "Enhancement: add a match_mode of -1 (exact match or next smallest) if you need approximate matching for rate bands.",
+              ],
+              answer: "=XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, "Code not found") — retrieves the account name matching each GL code, with a clean fallback if the code is missing from the reference table.",
+            },
+            summary: [
+              "XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+              "Replaces VLOOKUP — lookup column does not need to be first; no column index number required",
+              "if_not_found argument avoids #N/A errors — use a friendly message instead",
+              "Finance uses: GL code lookups, cost centre names, rate cards, budget retrieval by account",
+              "Can return multiple columns at once by selecting a multi-column return_array",
+              "Works horizontally too — replaces HLOOKUP for row-based reference tables",
+            ],
+            practiceQuestions: [
+              {
+                question: "You want to look up a supplier name from a supplier code in column D, using a reference table where codes are in column G and names are in column H. Which formula is correct?",
+                options: [
+                    "=VLOOKUP(D2, G:H, 2, FALSE)",
+                    "=XLOOKUP(D2, G:G, H:H, "Unknown")",
+                    "=XLOOKUP(D2, H:H, G:G, "Unknown")",
+                    "=INDEX(H:H, MATCH(D2, G:G, 0))",
+                ],
+                correct: 1,
+                explanation: "=XLOOKUP(D2, G:G, H:H, "Unknown") — search for D2 in column G (codes), return the corresponding value from column H (names), with "Unknown" if not found.",
+                topic: "XLOOKUP syntax",
+              },
+              {
+                question: "What is the main advantage of the if_not_found argument in XLOOKUP?",
+                options: [
+                    "It makes the formula run faster",
+                    "It prevents #N/A errors by returning a specified value when no match is found",
+                    "It allows approximate matching",
+                    "It enables horizontal lookups",
+                ],
+                correct: 1,
+                explanation: "The if_not_found argument returns a custom value (e.g., "Not found") instead of the default #N/A error when no match exists, keeping reports clean.",
+                topic: "Error handling",
+              },
+              {
+                question: "XLOOKUP requires the lookup column to be the first column in the selected range. Is this true?",
+                options: [
+                    "True — same as VLOOKUP",
+                    "False — lookup_array and return_array are specified separately so any column order works",
+                    "True — but only for vertical lookups",
+                    "False — but only when using approximate matching",
+                ],
+                correct: 1,
+                explanation: "XLOOKUP specifies lookup_array and return_array independently — they can be in any column order, unlike VLOOKUP which requires the lookup column to be first.",
+                topic: "XLOOKUP vs VLOOKUP",
+              },
+            ],
           },
           {
             id: "excel-index-match",
@@ -17419,10 +17474,65 @@ const AIQ_COURSE_DATA = {
               "Construct a two-way lookup using nested INDEX and MATCH",
               "Apply INDEX MATCH to retrieve values from dynamic column headers",
             ],
-            explanation: null, // TODO: explain array logic and finance use cases
-            workedExample: null, // TODO: budget retrieval by cost centre and month
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>INDEX MATCH</h3>"+ "<p><strong>INDEX MATCH</strong> is a powerful two-function combination that works in all Excel versions and is preferred by many finance professionals for its flexibility and auditability.</p>"+ "<h4>How It Works</h4>"+ "<p><strong>MATCH(lookup_value, lookup_array, match_type)</strong> returns the row (or column) number where a value is found. <strong>INDEX(array, row_num, [col_num])</strong> returns the value at a specific row and column position in a range.</p>"+ "<p>Combined: <code>=INDEX(return_range, MATCH(lookup_value, lookup_array, 0))</code></p>"+ "<p><strong>match_type 0</strong> = exact match (almost always what you want in finance).</p>"+ "<h4>Advantages Over VLOOKUP</h4>"+ "<p>Can look left — return a column to the LEFT of the lookup column. Not broken by inserting or deleting columns in the data range. Easier to understand the audit trail. Can be combined with two MATCHes for a two-way (matrix) lookup.</p>"+ "<h4>Two-Way Lookup</h4>"+ "<p><code>=INDEX(data_table, MATCH(row_lookup, row_headers, 0), MATCH(col_lookup, col_headers, 0))</code> — retrieves a value from a matrix by matching both row and column headers. Ideal for budget rate matrices (e.g., find the rate for grade G5 in department Finance).</p>"+ "<h4>Finance Use Cases</h4>"+ "<p>Pulling prior-year comparatives from a different sheet layout. Two-way matrix lookups for headcount or rate tables. Returning values from tables where column order changes frequently (common in large finance models).</p>",
+            workedExample: {
+              setup: "A headcount rate table has job grades in row 1 (B1:F1: G3, G4, G5, G6, G7) and departments in column A (A2:A6: Finance, HR, IT, Ops, Sales). Daily rates fill the B2:F6 matrix. Write a formula to find the rate for grade G5 in the IT department.",
+              steps: [
+                "MATCH for row (department): MATCH("IT", A2:A6, 0) returns 3 — IT is the 3rd item in A2:A6.",
+                "MATCH for column (grade): MATCH("G5", B1:F1, 0) returns 3 — G5 is the 3rd item in B1:F1.",
+                "INDEX to retrieve the value: INDEX(B2:F6, 3, 3) returns the value in row 3, column 3 of the matrix — the IT/G5 rate.",
+                "Full formula: =INDEX(B2:F6, MATCH("IT", A2:A6, 0), MATCH("G5", B1:F1, 0))",
+                "Make it dynamic by referencing cells instead of hardcoded text: =INDEX(B2:F6, MATCH(H2, A2:A6, 0), MATCH(H3, B1:F1, 0)) where H2 = department and H3 = grade.",
+              ],
+              answer: "=INDEX(B2:F6, MATCH("IT", A2:A6, 0), MATCH("G5", B1:F1, 0)) — two-way matrix lookup combining both row and column MATCH to pinpoint the IT/G5 rate.",
+            },
+            summary: [
+              "INDEX(array, row_num, col_num) returns a value at a specified position in a range",
+              "MATCH(lookup_value, lookup_array, 0) returns the position of an exact match",
+              "Combined: =INDEX(return_range, MATCH(lookup_value, lookup_array, 0))",
+              "Can look LEFT of the lookup column — unlike VLOOKUP",
+              "Not broken by inserting/deleting columns — more robust for large finance models",
+              "Two-way lookup: INDEX with two MATCH functions retrieves from a row-and-column matrix",
+            ],
+            practiceQuestions: [
+              {
+                question: "You need to retrieve a cost centre name from column B, but the lookup code is in column D (to the right). Which formula works?",
+                options: [
+                    "=VLOOKUP(A2, B:D, -2, FALSE)",
+                    "=INDEX(B:B, MATCH(A2, D:D, 0))",
+                    "=VLOOKUP(A2, D:B, 2, FALSE)",
+                    "=HLOOKUP(A2, B:D, 1, FALSE)",
+                ],
+                correct: 1,
+                explanation: "INDEX MATCH can look left — INDEX returns from column B, MATCH finds the row position by searching column D for A2.",
+                topic: "INDEX MATCH left lookup",
+              },
+              {
+                question: "In =INDEX(B2:F6, MATCH("Finance", A2:A6, 0), MATCH("G4", B1:F1, 0)), what does the first MATCH return?",
+                options: [
+                    "The column number of G4",
+                    "The value in the Finance/G4 cell",
+                    "The row number of Finance within A2:A6",
+                    "The number of columns in B2:F6",
+                ],
+                correct: 2,
+                explanation: "MATCH("Finance", A2:A6, 0) searches A2:A6 for Finance and returns its position (row number) — used by INDEX to identify which row to look in.",
+                topic: "Two-way lookup",
+              },
+              {
+                question: "Which match_type argument gives an exact match in MATCH?",
+                options: [
+                    "1",
+                    "-1",
+                    "0",
+                    "2",
+                ],
+                correct: 2,
+                explanation: "match_type = 0 requires an exact match. Use 0 for all finance lookups where precision is critical.",
+                topic: "MATCH function",
+              },
+            ],
           },
           {
             id: "excel-pivot-tables",
@@ -17434,10 +17544,66 @@ const AIQ_COURSE_DATA = {
               "Group dates by month, quarter, and year in a pivot table",
               "Use calculated fields to derive gross margin and other KPIs within a pivot",
             ],
-            explanation: null, // TODO: cover field list, value settings, grouping
-            workedExample: null, // TODO: summarise spend by department and period
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>PivotTables</h3>"+ "<p>A <strong>PivotTable</strong> is Excel's most powerful data summarisation tool. It lets you instantly group, filter, and aggregate large datasets — essential for analysing GL transactions, payroll data, and budget reports.</p>"+ "<h4>Creating a PivotTable</h4>"+ "<p>Click anywhere in your data → Insert → PivotTable. Excel detects the data range automatically. Place the PivotTable on a new or existing worksheet. Use the Field List to build your report: <strong>Rows</strong> (e.g., Cost Centre), <strong>Columns</strong> (e.g., Month), <strong>Values</strong> (e.g., Sum of Amount), <strong>Filters</strong> (e.g., Year).</p>"+ "<h4>Key Features for Finance</h4>"+ "<p><strong>Value Field Settings:</strong> Change Sum to Count, Average, % of Total, Running Total. <strong>Group by date:</strong> Right-click a date field → Group → select Month, Quarter, Year. <strong>Show Values As:</strong> % of column total, % of row total, difference from prior period. <strong>Calculated Fields:</strong> Insert → Fields, Items & Sets → Calculated Field (e.g., Variance = Budget − Actual).</p>"+ "<h4>Slicers and Timelines</h4>"+ "<p>Insert slicers to filter the PivotTable visually (click buttons instead of dropdown filters). Timelines provide a visual date-range filter. Both are ideal for interactive management reports.</p>"+ "<h4>Refresh</h4>"+ "<p>PivotTables do NOT update automatically when source data changes. Right-click → Refresh, or use Data → Refresh All. Always refresh before distributing a report.</p>",
+            workedExample: {
+              setup: "You have 10,000 rows of GL transactions with columns: Date, Cost Centre, Account Code, Account Name, Debit, Credit, Net Amount. Build a PivotTable showing total Net Amount by Cost Centre (rows) and Month (columns) for the current year.",
+              steps: [
+                "Click any cell in the data → Insert → PivotTable → New Worksheet.",
+                "In the Field List: drag Cost Centre to Rows area. Drag Date to Columns area — Excel will group it; right-click the date field in the PivotTable → Group → select Months and Years.",
+                "Drag Net Amount to Values area — it will default to Sum of Net Amount.",
+                "Add a Filter: drag Year to the Filters area. Select the current year from the dropdown at the top of the PivotTable.",
+                "Format: click on any value → Value Field Settings → Number Format → Accounting with 0 decimal places.",
+                "Add a slicer for Cost Centre: PivotTable Analyze → Insert Slicer → Cost Centre — allows users to filter to specific departments interactively.",
+              ],
+              answer: "PivotTable shows Net Amount by Cost Centre (rows) × Month (columns), filtered to current year. Slicers allow interactive department filtering. Refresh before each distribution.",
+            },
+            summary: [
+              "PivotTable: insert via Insert → PivotTable; build using Rows, Columns, Values, Filters",
+              "Group dates: right-click date field → Group → Month/Quarter/Year",
+              "Value Field Settings: change aggregation (Sum, Count, Avg) and number format",
+              "Show Values As: % of total, difference from, running total — for variance analysis",
+              "Slicers and timelines: visual interactive filters for management reports",
+              "Always Refresh PivotTable before distributing — source data changes are not automatic",
+            ],
+            practiceQuestions: [
+              {
+                question: "You add new rows to the source data of a PivotTable. The PivotTable still shows the old totals. What do you need to do?",
+                options: [
+                    "Delete and recreate the PivotTable",
+                    "Right-click the PivotTable and select Refresh",
+                    "Save and reopen the file",
+                    "Press F9 to recalculate",
+                ],
+                correct: 1,
+                explanation: "PivotTables do not update automatically. Right-click → Refresh (or Data → Refresh All) to pull in new source data.",
+                topic: "PivotTable refresh",
+              },
+              {
+                question: "To show each cost centre's spend as a percentage of the total spend, use which setting?",
+                options: [
+                    "Value Field Settings → Sum",
+                    "Show Values As → % of Grand Total",
+                    "Insert Calculated Field → divide by TOTAL()",
+                    "Group Field → Percentage",
+                ],
+                correct: 1,
+                explanation: "Right-click a value → Show Values As → % of Grand Total converts absolute amounts to percentages of the overall total.",
+                topic: "Show Values As",
+              },
+              {
+                question: "Which PivotTable feature lets you filter data by clicking visual buttons rather than using dropdown menus?",
+                options: [
+                    "Timeline",
+                    "Group Field",
+                    "Slicer",
+                    "Calculated Field",
+                ],
+                correct: 2,
+                explanation: "Slicers display clickable filter buttons for selected fields, making PivotTable reports more interactive and user-friendly for management dashboards.",
+                topic: "Slicers",
+              },
+            ],
           },
           {
             id: "excel-pivot-charts",
@@ -17449,10 +17615,66 @@ const AIQ_COURSE_DATA = {
               "Choose appropriate chart types for financial variance data",
               "Format pivot charts for use in management reports",
             ],
-            explanation: null, // TODO: waterfall and bar chart examples for variance
-            workedExample: null, // TODO: build revenue vs prior year chart from pivot
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>PivotCharts</h3>"+ "<p>A <strong>PivotChart</strong> is a dynamic chart linked to a PivotTable. As filters, slicers, or the underlying data change, the chart updates automatically — ideal for visual management reporting.</p>"+ "<h4>Creating a PivotChart</h4>"+ "<p>From a PivotTable: PivotTable Analyze → PivotChart. Or from data: Insert → PivotChart (creates both PivotTable and PivotChart together).</p>"+ "<h4>Best Chart Types for Finance</h4>"+ "<p><strong>Clustered bar/column:</strong> Budget vs Actual by department. <strong>Stacked column:</strong> Revenue breakdown by product line over time. <strong>Line chart:</strong> Monthly trend analysis (cash flow, headcount). <strong>Waterfall chart:</strong> Bridge analysis showing how you moved from one total to another (e.g., budget to actual variance explanation). <strong>Combo chart:</strong> Revenue (bars) + Margin % (line) on the same chart.</p>"+ "<h4>Formatting for Professional Reports</h4>"+ "<p>Remove gridlines and chart borders. Use company colour palette. Add data labels only where they add value. Use a clear, descriptive title. Remove chart legend if self-explanatory. Format axes: use £k or £m abbreviations on value axes.</p>"+ "<h4>Slicers Connected to PivotCharts</h4>"+ "<p>Slicers connected to the underlying PivotTable will also filter the chart. You can connect one slicer to multiple PivotTables and PivotCharts — right-click slicer → Report Connections — for dashboard-style layouts.</p>",
+            workedExample: {
+              setup: "You have a PivotTable showing monthly actual spend by department. Create a professional PivotChart for the monthly management pack showing actuals vs budget as a clustered column chart, with a line for cumulative actual.",
+              steps: [
+                "From your actuals PivotTable: PivotTable Analyze → PivotChart → Clustered Column → OK.",
+                "To add budget: if budget is in the same PivotTable as a separate field, it will appear automatically. If not, add a Calculated Field: Insert → Calculated Field → name it Variance; formula = Actual − Budget.",
+                "Change chart type for cumulative line: right-click the Cumulative series → Change Series Chart Type → Line. This creates a Combo chart.",
+                "Format: right-click chart area → Format Chart Area → remove border. Click gridlines → Delete. Set chart title to Month/Year + ' Spend vs Budget'.",
+                "Add data labels to the Variance series only: right-click the variance bars → Add Data Labels → position Outside End.",
+                "Connect a Department slicer: Insert Slicer from the PivotTable, then right-click slicer → Report Connections → link to all related PivotTables and this PivotChart.",
+              ],
+              answer: "Clustered column PivotChart with Actual and Budget bars + cumulative actual line. Connected slicer filters all PivotTables and the chart simultaneously. Professional formatting: no borders, company colours, descriptive title.",
+            },
+            summary: [
+              "PivotCharts are linked to PivotTables — they update automatically when filters or data change",
+              "Create from PivotTable: PivotTable Analyze → PivotChart",
+              "Key chart types for finance: clustered column (comparisons), line (trends), waterfall (bridges), combo",
+              "Waterfall charts are ideal for budget-to-actual bridge analysis",
+              "Connect slicers to multiple PivotCharts via right-click → Report Connections for dashboards",
+              "Format for management: clean design, company colours, clear title, no unnecessary gridlines",
+            ],
+            practiceQuestions: [
+              {
+                question: "You want to show how actuals moved from the budget to the final outturn, step by step. Which chart type is most appropriate?",
+                options: [
+                    "Clustered column",
+                    "Pie chart",
+                    "Waterfall chart",
+                    "Scatter chart",
+                ],
+                correct: 2,
+                explanation: "A waterfall chart shows how individual positive and negative variances combine to explain the movement from one total to another — standard for budget-to-actual bridge analysis in finance.",
+                topic: "Chart types",
+              },
+              {
+                question: "How do you connect one slicer to multiple PivotCharts and PivotTables on the same dashboard?",
+                options: [
+                    "Copy and paste the slicer onto each chart",
+                    "Right-click the slicer → Report Connections → select all PivotTables to connect",
+                    "Each PivotChart must have its own separate slicer",
+                    "Use a macro to synchronise slicers",
+                ],
+                correct: 1,
+                explanation: "Right-click slicer → Report Connections allows you to link one slicer to multiple PivotTables (and their associated PivotCharts) for coordinated dashboard filtering.",
+                topic: "Slicer connections",
+              },
+              {
+                question: "A PivotChart shows Actuals as bars and you want to add a Margin % line on the same chart. What feature enables this?",
+                options: [
+                    "Insert → Sparkline",
+                    "Change Series Chart Type to create a Combo chart",
+                    "Format Data Series → Secondary Axis only",
+                    "This is not possible in a PivotChart",
+                ],
+                correct: 1,
+                explanation: "Right-click the Margin series → Change Series Chart Type → Line, and tick Secondary Axis. This creates a Combo chart with bars for Actuals and a line for Margin %.",
+                topic: "Combo charts",
+              },
+            ],
           },
           {
             id: "excel-power-query",
@@ -17464,10 +17686,66 @@ const AIQ_COURSE_DATA = {
               "Apply transformations: split columns, change data types, filter rows",
               "Merge and append queries to combine P&L and budget data",
             ],
-            explanation: null, // TODO: cover M language basics, refresh mechanics
-            workedExample: null, // TODO: combine monthly actuals from separate CSV files
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Power Query Basics</h3>"+ "<p><strong>Power Query</strong> (Get & Transform) is Excel's ETL (Extract, Transform, Load) tool. It automates the process of importing, cleaning, and reshaping data from multiple sources — eliminating repetitive manual data preparation.</p>"+ "<h4>Getting Started</h4>"+ "<p>Data → Get Data → From File (CSV, Excel, PDF), From Database, From Web, or From Other Sources. Power Query opens the <strong>Query Editor</strong> — a separate window where you apply transformation steps. Every step is recorded and can be replayed automatically each time you refresh.</p>"+ "<h4>Key Transformations for Finance</h4>"+ "<p><strong>Remove columns:</strong> Select column → right-click → Remove. <strong>Filter rows:</strong> Click column dropdown → filter to relevant periods/accounts. <strong>Change data type:</strong> Crucial — ensure amounts are Decimal Number, dates are Date type. <strong>Split columns:</strong> e.g., split a combined 'Cost Centre — Department' field. <strong>Unpivot:</strong> Transform columns into rows — convert a 12-column monthly table into a single Month/Value column pair (essential for PivotTable analysis).</p>"+ "<h4>Combining Data Sources</h4>"+ "<p><strong>Append Queries:</strong> Stack tables vertically (e.g., 12 monthly CSV exports combined into one annual dataset). <strong>Merge Queries:</strong> Join two tables on a common key — like an SQL JOIN (e.g., join GL transactions to a chart of accounts reference table).</p>"+ "<h4>Refresh and Load</h4>"+ "<p>Once built, click Close & Load to load to a worksheet or PivotTable. Next month: update the source file and click Data → Refresh All — Power Query repeats every step automatically.</p>",
+            workedExample: {
+              setup: "Each month you receive a CSV export of GL transactions. The file has 20 columns but you only need: Date, Account Code, Description, Net Amount. The Date column imports as text. Build a Power Query to clean this automatically each month.",
+              steps: [
+                "Data → Get Data → From File → From Text/CSV → select this month's file. Power Query Editor opens.",
+                "Remove unwanted columns: hold Ctrl, click the 20 columns you don't need, right-click → Remove Columns. Keep: Date, Account Code, Description, Net Amount.",
+                "Fix the Date type: click the Date column header → Data Type (in Transform tab) → select Date. If the format is DD/MM/YYYY, use Locale settings.",
+                "Filter out journal entries you don't need: click the Description dropdown → filter out 'Intercompany' or other exclusions.",
+                "Rename columns for clarity: double-click column headers — rename 'Net Amount' to 'Amount (£)'.",
+                "Close & Load to worksheet. Next month: replace the source CSV with the new file (same name/path) → Data → Refresh All → all steps replay automatically in seconds.",
+              ],
+              answer: "A 5-step Power Query transforms a raw 20-column CSV to a clean 4-column dataset automatically on refresh — replacing 30 minutes of manual cleaning each month.",
+            },
+            summary: [
+              "Power Query automates data import, cleaning and transformation — eliminating repetitive manual work",
+              "Access via Data → Get Data → choose source (CSV, Excel, Database, Web)",
+              "Key steps: remove columns, filter rows, change data types, split/merge columns, unpivot",
+              "Unpivot: converts wide monthly columns into a tidy row-per-month format for PivotTables",
+              "Append: stack tables vertically (12 monthly files → 1 annual dataset)",
+              "Merge: join tables on a common key (like SQL JOIN) — e.g., GL codes to chart of accounts",
+            ],
+            practiceQuestions: [
+              {
+                question: "You receive 12 monthly CSV files in the same format. Which Power Query operation stacks them into one annual dataset?",
+                options: [
+                    "Merge Queries",
+                    "Unpivot Columns",
+                    "Append Queries",
+                    "Split Column",
+                ],
+                correct: 2,
+                explanation: "Append Queries stacks tables vertically — ideal for combining multiple period files of the same structure into one dataset.",
+                topic: "Append vs Merge",
+              },
+              {
+                question: "A budget table has months as column headers (Jan, Feb, Mar...). To analyse it in a PivotTable, you need to convert it to rows. Which transformation achieves this?",
+                options: [
+                    "Merge Queries",
+                    "Split Column",
+                    "Unpivot Other Columns",
+                    "Transpose",
+                ],
+                correct: 2,
+                explanation: "Unpivot Other Columns converts month-header columns into rows with Month and Value columns — the tidy format required for PivotTable analysis.",
+                topic: "Unpivot",
+              },
+              {
+                question: "An Amount column imported from a CSV shows as text (left-aligned). Why does this matter, and how do you fix it?",
+                options: [
+                    "It doesn't matter — Excel sums text numbers automatically",
+                    "Text numbers cannot be summed; fix by selecting the column and changing Data Type to Decimal Number",
+                    "Fix by formatting the cell as Currency after loading",
+                    "Power Query converts text to numbers automatically on refresh",
+                ],
+                correct: 1,
+                explanation: "Text-formatted numbers return 0 when summed. Change Data Type to Decimal Number in Power Query so amounts are numeric before loading to Excel.",
+                topic: "Data types",
+              },
+            ],
           },
           {
             id: "excel-financial-modelling",
@@ -17479,10 +17757,66 @@ const AIQ_COURSE_DATA = {
               "Build dynamic assumptions tables with named ranges",
               "Trace and audit model logic using Excel auditing tools",
             ],
-            explanation: null, // TODO: cover model layout, colour conventions, version control
-            workedExample: null, // TODO: build a simple revenue forecast model from assumptions
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Financial Modelling Structure</h3>"+ "<p>A well-structured <strong>financial model</strong> is clear, auditable, and easy to update. In finance teams, models are built, maintained, and reviewed by multiple people — good structure is essential.</p>"+ "<h4>The Golden Rules</h4>"+ "<p><strong>1. Separate inputs, calculations, and outputs.</strong> Use distinct sheets: Inputs (assumptions, drivers), Calculations (workings), Outputs (P&L, cash flow, KPI summary). <strong>2. Hard-code only in the Inputs sheet.</strong> Never embed numbers in formulas — use named cells or input cells referenced by formulas. <strong>3. One formula style per row.</strong> If a formula changes across columns, break it into a separate section. <strong>4. Avoid circular references</strong> unless deliberately modelling with iterative calculation.</p>"+ "<h4>Labelling and Navigation</h4>"+ "<p">Use consistent colour coding: blue = input cell, black = formula, green = linked from another sheet. Name your sheets clearly. Use a cover/contents page with hyperlinks for large models.</p>"+ "<h4>Error Checking</h4>"+ "<p>Add a Checks sheet: balance sheet balances (Assets = Liabilities + Equity), cash flow ties to balance sheet movement, IS profit ties to equity movement. Use <code>=IF(check=0, "OK", "ERROR")</code> and conditional formatting to flag any breaks.</p>"+ "<h4>Sensitivity Analysis</h4>"+ "<p>Use Data → What-If Analysis → Data Table for one-way and two-way sensitivity tables. Show how profit changes as key drivers (price, volume, cost) vary — standard for business case modelling and board presentations.</p>",
+            workedExample: {
+              setup: "You are building a 3-year P&L model for a new product launch. Key assumptions: Year 1 units sold 10,000, growing 20% pa; selling price £50, growing 5% pa; variable cost £30 per unit; fixed costs £80,000 pa. Structure the model correctly.",
+              steps: [
+                "Inputs sheet: enter all assumptions in a dedicated table — label each: Units Y1 = 10,000; Growth rate = 20%; Price Y1 = £50; Price growth = 5%; Variable cost/unit = £30; Fixed costs = £80,000.",
+                "Calculations sheet — Year 1: Units = Inputs!Units_Y1 (reference, never hardcode). Revenue = Units × Price. Variable costs = Units × VC/unit. Contribution = Revenue − Variable costs. Net profit = Contribution − Fixed costs.",
+                "Calculations — Year 2: Units = Year1_Units × (1 + Inputs!Growth). Price = Year1_Price × (1 + Inputs!Price_growth). Same formula structure as Year 1.",
+                "Outputs sheet: pull final P&L lines from Calculations. Add a sensitivity table: Data → What-If Analysis → Data Table. Row input = Price growth %, Column input = Volume growth %. Show how Year 3 profit varies.",
+                "Checks sheet: verify Revenue = Units × Price for each year using =IF(Revenue=Units*Price, "OK", "ERROR").",
+                "Colour code: blue fill for all Inputs cells; black text for formula cells; green for cells linked from another sheet.",
+              ],
+              answer: "Structured model: Inputs → Calculations → Outputs → Checks. All assumptions on one sheet; no hardcoded numbers in formulas. Sensitivity table shows profit range across price/volume combinations.",
+            },
+            summary: [
+              "Separate inputs, calculations, and outputs onto distinct sheets",
+              "Hard-code numbers only in the Inputs sheet — reference them in all formulas",
+              "Colour coding: blue = input, black = formula, green = link from another sheet",
+              "One formula style per row — consistency enables easy auditing",
+              "Checks sheet: verify model integrity (balance sheet balances, IS ties to equity)",
+              "Sensitivity tables (What-If Analysis → Data Table) show how outcomes change with key drivers",
+            ],
+            practiceQuestions: [
+              {
+                question: "In a well-structured financial model, where should hard-coded assumption values be entered?",
+                options: [
+                    "Directly inside formulas throughout the model",
+                    "On a dedicated Inputs sheet, referenced by formulas elsewhere",
+                    "On the Outputs sheet for easy visibility",
+                    "Distributed across relevant calculation sheets",
+                ],
+                correct: 1,
+                explanation: "All hard-coded assumptions belong on a dedicated Inputs sheet. Formulas on other sheets reference these cells — changing one input updates the entire model consistently.",
+                topic: "Model structure",
+              },
+              {
+                question: "What colour convention is commonly used to indicate a formula cell (as opposed to an input cell) in a financial model?",
+                options: [
+                    "Blue text or fill",
+                    "Black text on white background",
+                    "Red fill",
+                    "Green text",
+                ],
+                correct: 1,
+                explanation: "The common convention is blue for input cells and black for formula cells. This allows reviewers to immediately identify which cells should be changed vs which are calculated.",
+                topic: "Colour coding",
+              },
+              {
+                question: "Which Excel feature allows you to show how a model output (e.g., profit) varies across a range of two input values simultaneously?",
+                options: [
+                    "Goal Seek",
+                    "Solver",
+                    "Two-way Data Table (What-If Analysis)",
+                    "Scenario Manager (one scenario at a time)",
+                ],
+                correct: 2,
+                explanation: "Data → What-If Analysis → Data Table with both row and column inputs creates a two-way sensitivity table showing how the output changes across combinations of two drivers.",
+                topic: "Sensitivity analysis",
+              },
+            ],
           },
           {
             id: "excel-variance-templates",
@@ -17494,10 +17828,66 @@ const AIQ_COURSE_DATA = {
               "Use conditional formatting to highlight favourable and adverse variances",
               "Automate period commentary using formula-driven cells",
             ],
-            explanation: null, // TODO: absolute and percentage variance, RAG status
-            workedExample: null, // TODO: monthly cost centre variance report template
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Variance Analysis Templates</h3>"+ "<p>Variance analysis compares actual results to a benchmark (budget, prior year, forecast) and explains the differences. A well-designed Excel template makes this fast, consistent, and easy to review.</p>"+ "<h4>Template Structure</h4>"+ "<p>Standard layout: <strong>Row 1:</strong> Description. <strong>Column A:</strong> Line item labels (Revenue, COS, Gross Profit, Opex lines, EBITDA). <strong>Columns B-D:</strong> Actual, Budget, Variance. <strong>Column E:</strong> Variance %. Repeat for prior year columns if needed. Add a Favourable/Adverse flag column.</p>"+ "<h4>Variance Formulae</h4>"+ "<p>Absolute variance: <code>= Actual − Budget</code>. Be careful with sign conventions — for costs, a positive actual vs budget is adverse (spent more than budgeted). <strong>Best practice:</strong> define variance as (Budget − Actual) for cost lines so positive = favourable, and (Actual − Budget) for income lines so positive = favourable.</p>"+ "<p>Variance %: <code>= Variance / ABS(Budget)</code> — use ABS() to avoid sign errors when budget is negative.</p>"+ "<h4>Favourable/Adverse Flag</h4>"+ "<p><code>=IF(variance_cell>0, "F", IF(variance_cell<0, "A", "-"))</code>. Apply conditional formatting: green fill for F, red fill for A. This gives an instant RAG (Red, Amber, Green) view.</p>"+ "<h4>Automating from Source Data</h4>"+ "<p>Link actual columns to a PivotTable or Power Query output rather than manually copying figures. Budget figures come from a named budget table. When actuals are refreshed, variances update automatically.</p>",
+            workedExample: {
+              setup: "Build a variance template for a P&L with: Revenue (Budget £500k, Actual £480k), Cost of Sales (Budget £300k, Actual £290k), Gross Profit, Operating Costs (Budget £120k, Actual £130k), EBITDA. Show absolute variance, % variance, and F/A flag.",
+              steps: [
+                "Layout: A = Description, B = Budget, C = Actual, D = Variance, E = Var%, F = F/A flag.",
+                "Revenue row: B2=500,000; C2=480,000; D2=C2-B2 = -20,000 (adverse — actual below budget); E2=D2/ABS(B2) = -4.0%; F2=IF(D2>0,"F",IF(D2<0,"A","-")) = "A".",
+                "COS row (cost line — reverse convention): B3=300,000; C3=290,000; D3=B3-C3 = 10,000 (favourable — spent less than budget); E3=D3/ABS(B3) = 3.3%; F3="F".",
+                "Gross Profit row: D4=D2+D3 = -20,000+10,000 = -10,000. Or: C4-B4. Flag = A.",
+                "Operating Costs (cost line): B5=120,000; C5=130,000; D5=B5-C5 = -10,000 (adverse — overspend); Flag = A.",
+                "EBITDA: D6=D4-D5 = -10,000-(-10,000)... wait: EBITDA variance = Gross profit variance + Opex variance = -10,000 + (-10,000) = -20,000 adverse. Apply conditional formatting: select F column → Home → Conditional Formatting → Highlight Cells → Text that Contains 'A' → Red fill.",
+              ],
+              answer: "Revenue: -£20k (4.0% A). COS: +£10k (3.3% F). Gross Profit: -£10k (A). Opex: -£10k (A). EBITDA: -£20k (A). Red/green conditional formatting flags instantly show problem areas.",
+            },
+            summary: [
+              "Standard layout: Description | Budget | Actual | Variance | Var% | F/A flag",
+              "Income variances: Actual − Budget (positive = favourable). Cost variances: Budget − Actual (positive = favourable)",
+              "Variance %: =Variance / ABS(Budget) — use ABS() to avoid sign errors",
+              "F/A flag: =IF(var>0,"F",IF(var<0,"A","-")) with red/green conditional formatting",
+              "Link actuals to PivotTable/Power Query output for automatic refresh",
+              "RAG status: Red (Adverse), Green (Favourable) gives instant executive-level readability",
+            ],
+            practiceQuestions: [
+              {
+                question: "For a cost line (e.g., operating expenses), how is a favourable variance defined?",
+                options: [
+                    "Actual greater than Budget — spent more than planned",
+                    "Actual less than Budget — spent less than planned (Budget − Actual is positive)",
+                    "Actual equals Budget",
+                    "Budget greater than zero",
+                ],
+                correct: 1,
+                explanation: "For costs, favourable means spending less than budgeted. Variance = Budget − Actual; positive result = favourable (underspend).",
+                topic: "Variance conventions",
+              },
+              {
+                question: "Why use ABS(Budget) in the variance percentage formula?",
+                options: [
+                    "To convert the result to a percentage automatically",
+                    "To avoid division by zero errors",
+                    "To prevent sign errors when the budget value is negative",
+                    "To round the result to 2 decimal places",
+                ],
+                correct: 2,
+                explanation: "If Budget is negative (e.g., a credit balance account), dividing by it without ABS() flips the sign of the variance %, giving a misleading result.",
+                topic: "Variance % formula",
+              },
+              {
+                question: "You want cells in the F/A flag column to automatically turn red when 'A' (Adverse). Which feature achieves this?",
+                options: [
+                    "Data Validation",
+                    "Named Ranges",
+                    "Conditional Formatting",
+                    "Flash Fill",
+                ],
+                correct: 2,
+                explanation: "Conditional Formatting → Highlight Cells Rules → Text that Contains 'A' → Red fill automatically colours adverse variance cells red.",
+                topic: "Conditional formatting",
+              },
+            ],
           },
           {
             id: "excel-budget-vs-actual",
@@ -17509,10 +17899,65 @@ const AIQ_COURSE_DATA = {
               "Calculate variance to budget at P&L line item level with drill-through logic",
               "Use SUMIFS and dynamic period selectors to make the report self-updating",
             ],
-            explanation: null, // TODO: cover period selectors, cumulative vs period, narrative cells
-            workedExample: null, // TODO: build a BvA P&L from trial balance data
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Budget vs Actual Analysis</h3>"+ "<p>Budget vs Actual (BvA) analysis is the core monthly management accounting task. Excel is used to automate the comparison, highlight variances, and prepare the commentary for management review.</p>"+ "<h4>Setting Up the BvA Model</h4>"+ "<p>The model needs four data inputs: <strong>Full-year budget</strong> (phased monthly), <strong>Actuals to date</strong> (from the GL or a PivotTable), <strong>Forecast for remaining months</strong> (from the finance team), <strong>Prior year actuals</strong> (for trend context). Use Power Query or direct links to source these automatically.</p>"+ "<h4>Key Views</h4>"+ "<p><strong>Month:</strong> Current month Actual vs Budget — spot in-month issues. <strong>YTD (Year to Date):</strong> Cumulative Actual vs Cumulative Budget — overall performance to date. <strong>Full Year Forecast:</strong> YTD Actual + Remaining Forecast — tracks against annual budget. <strong>Full Year vs Budget:</strong> How the full-year forecast compares to the original annual budget.</p>"+ "<h4>SUMIF for Account-Level BvA</h4>"+ "<p><code>=SUMIF(account_range, account_code, amount_range)</code> — sum all transactions for a specific account code. Use this to pull amounts by GL code from a raw transactions dump into a BvA template row by row.</p>"+ "<h4>Commentary Flags</h4>"+ "<p>Add a &gt;5% or &gt;£x threshold flag: <code>=IF(ABS(variance_pct)>threshold, "Flag", "")</code>. Finance teams often investigate and comment on any line with variance &gt;5% and &gt;£10,000. Use conditional formatting to highlight flagged lines automatically.</p>",
+            workedExample: {
+              setup: "It is Month 6. YTD budget for IT costs is £120,000. YTD actuals (from PivotTable linked to GL) show £108,000. Full-year budget is £240,000. The team forecasts £220,000 for the full year. Build the BvA view and calculate the forecast vs budget variance.",
+              steps: [
+                "Month 6 YTD: Actual £108,000 vs Budget £120,000. YTD Variance = £108,000 − £120,000 = −£12,000. Cost line so: Budget − Actual = £12,000 favourable (4.2% F on a £6,000/month phasing? check: £120k/6 = £20k/month budget; actual £18k/month on average — underspend).",
+                "Full-year Budget: £240,000. Full-year Forecast: £220,000. Forecast vs Budget variance = £240,000 − £220,000 = £20,000 favourable (8.3% F).",
+                "Set up SUMIF to auto-pull actuals: =SUMIF(GL_Data[Account], "IT Costs", GL_Data[Net Amount]) — returns the YTD actual automatically from the GL transactions table.",
+                "Commentary flag: ABS(8.3%) > 5% threshold → flag for commentary. Finance would note: 'IT costs favourable by £12k YTD (8.3% F) due to delayed server upgrade now forecast Q4. Full-year forecast revised to £220k, £20k below budget.'",
+                "Full Year Forecast = YTD Actual + Remaining Months Forecast: =H5+I5 where H5=YTD Actual and I5=Remaining forecast entered by the team.",
+              ],
+              answer: "YTD: +£12k F (10% F). Full-year: +£20k F (8.3% F). SUMIF automates actual pull. Flag raised for commentary — IT delay explains underspend. Full-year forecast £220k.",
+            },
+            summary: [
+              "Four BvA views: Month, YTD, Full-Year Forecast, Full-Year vs Budget",
+              "SUMIF(account_range, code, amount_range) pulls account-level actuals from GL transactions",
+              "Full-Year Forecast = YTD Actual + Remaining Months Forecast",
+              "Threshold flags: =IF(ABS(var%)>5%, "Flag", "") to identify lines needing commentary",
+              "Link actuals to PivotTable or Power Query for automatic monthly refresh",
+              "Commentary should explain the cause of significant variances, not just restate the numbers",
+            ],
+            practiceQuestions: [
+              {
+                question: "YTD actual spend is £85,000. YTD budget is £100,000. This is a cost line. The YTD variance is:",
+                options: [
+                    "£15,000 adverse",
+                    "£15,000 favourable",
+                    "−£15,000 favourable",
+                    "£0 — no variance until year end",
+                ],
+                correct: 1,
+                explanation: "For a cost line, spending less than budget is favourable. Budget − Actual = £100,000 − £85,000 = £15,000 favourable.",
+                topic: "BvA variance",
+              },
+              {
+                question: "Which Excel formula sums all amounts in column C where column A matches the text 'Marketing'?",
+                options: [
+                    "=IF(A:A="Marketing", SUM(C:C))",
+                    "=SUMIF(A:A, "Marketing", C:C)",
+                    "=SUMIFS(C:C, A:A, "Marketing")",
+                    "Both B and C are correct",
+                ],
+                correct: 3,
+                explanation: "Both SUMIF(A:A, "Marketing", C:C) and SUMIFS(C:C, A:A, "Marketing") return the same result for one criterion. SUMIFS is preferred when multiple criteria are needed.",
+                topic: "SUMIF",
+              },
+              {
+                question: "Full-Year Budget is £500,000. YTD Actuals (Month 8) are £340,000. Remaining forecast is £145,000. What is the Full-Year Forecast vs Budget variance?",
+                options: [
+                    "£15,000 favourable",
+                    "£15,000 adverse",
+                    "£160,000 favourable",
+                    "£500,000",
+                ],
+                correct: 0,
+                explanation: "Full-Year Forecast = £340,000 + £145,000 = £485,000. Variance = £500,000 − £485,000 = £15,000 favourable (underspend vs budget).",
+                topic: "Full-year forecast",
+              },
+            ],
           },
           {
             id: "excel-forecast-scenario",
@@ -17524,10 +17969,66 @@ const AIQ_COURSE_DATA = {
               "Create a scenario manager with base, upside, and downside cases",
               "Use data tables to run sensitivity analysis on key assumptions",
             ],
-            explanation: null, // TODO: cover Excel Scenario Manager, data tables, Goal Seek
-            workedExample: null, // TODO: three-scenario revenue forecast with switching logic
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Forecasting and Scenario Analysis</h3>"+ "<p>Finance teams produce rolling forecasts to project future performance. Excel provides tools for building driver-based forecasts and stress-testing assumptions with scenario analysis.</p>"+ "<h4>Driver-Based Forecasting</h4>"+ "<p>Instead of forecasting each line independently, link every income statement line to a small number of key business drivers (e.g., headcount, revenue per head, sales volume, price). When a driver changes, the entire forecast updates automatically. This makes the model transparent, auditable, and easy to flex.</p>"+ "<h4>FORECAST.ETS (Exponential Smoothing)</h4>"+ "<p><code>=FORECAST.ETS(target_date, values, timeline)</code> — projects future values based on a historical time series, automatically detecting seasonality. Useful for forecasting revenue or cost lines with seasonal patterns.</p>"+ "<h4>Scenario Manager</h4>"+ "<p>Data → What-If Analysis → Scenario Manager. Define scenarios (Base, Upside, Downside) by setting different values for key input cells. The Scenario Summary report shows all scenarios side-by-side. Use for board presentations — illustrate a range of outcomes.</p>"+ "<h4>Data Tables for Sensitivity</h4>"+ "<p>One-way: show how one output varies as one input changes (e.g., profit at 5 different price points). Two-way: show how one output varies across two inputs (e.g., profit at combinations of price and volume). Data → What-If Analysis → Data Table.</p>"+ "<h4>Goal Seek</h4>"+ "<p>Data → What-If Analysis → Goal Seek. Set a target output (e.g., profit = £50,000) and ask Excel to find what input value (e.g., price) achieves it. Useful for breakeven and target-setting analysis.</p>",
+            workedExample: {
+              setup: "You need to present three forecast scenarios (Base, Upside, Downside) to the board. Key driver: Revenue growth rate. Base = 5%, Upside = 10%, Downside = 0%. Revenue Year 1 = £1,000,000. Variable costs = 60% of revenue. Fixed costs = £250,000. Use Scenario Manager to build and summarise.",
+              steps: [
+                "Set up the model: cell B1 = Revenue growth rate (input). B2 = Revenue = 1,000,000 * (1 + B1). B3 = Variable costs = 60% * B2. B4 = Fixed costs = 250,000. B5 = Profit = B2 − B3 − B4.",
+                "Data → What-If Analysis → Scenario Manager → Add. Name: Base Case. Changing cells: B1. Value: 5%. Click OK.",
+                "Add → Upside. Value: 10%. Add → Downside. Value: 0%.",
+                "Click Summary → Result cells: B2 (Revenue), B5 (Profit) → OK. Excel generates a Scenario Summary sheet showing all three scenarios side-by-side.",
+                "Base: Revenue £1,050,000, Profit £170,000. Upside: Revenue £1,100,000, Profit £190,000. Downside: Revenue £1,000,000, Profit £150,000.",
+                "Present to board: the scenario summary clearly shows the range of outcomes. Combine with a simple bar chart showing Profit across the three scenarios.",
+              ],
+              answer: "Scenario Summary: Downside £150k profit / Base £170k / Upside £190k. The £40k range illustrates the sensitivity to revenue growth assumptions — board can make an informed decision on risk appetite.",
+            },
+            summary: [
+              "Driver-based forecasting: link all P&L lines to a small number of key business drivers for transparency",
+              "FORECAST.ETS: projects future values from a time series, detecting seasonality automatically",
+              "Scenario Manager: define Base/Upside/Downside scenarios and generate a side-by-side summary",
+              "Data Table: sensitivity analysis showing how an output changes across a range of one or two inputs",
+              "Goal Seek: find the input value needed to achieve a target output (e.g., breakeven price)",
+              "Always present a range of scenarios to the board — avoid single-point forecasts",
+            ],
+            practiceQuestions: [
+              {
+                question: "What does Goal Seek allow you to do?",
+                options: [
+                    "Forecast future values based on historical trends",
+                    "Find what input value is required to achieve a specific target output",
+                    "Define multiple scenarios and compare them side-by-side",
+                    "Create a one-way sensitivity table automatically",
+                ],
+                correct: 1,
+                explanation: "Goal Seek (Data → What-If Analysis → Goal Seek) works backwards — you set a target output value and it calculates the input value needed to achieve it.",
+                topic: "Goal Seek",
+              },
+              {
+                question: "A driver-based forecast links revenue to 'price × volume'. If the price driver cell is updated, what happens?",
+                options: [
+                    "Only the revenue cell updates — other P&L lines are unaffected",
+                    "The entire forecast updates automatically as all lines are linked to the driver",
+                    "You must manually recalculate each line after changing a driver",
+                    "The driver update triggers a Scenario Manager comparison",
+                ],
+                correct: 1,
+                explanation: "In a driver-based model, all P&L lines flow from key drivers. Changing a driver cell automatically updates revenue, costs, and profit throughout the model.",
+                topic: "Driver-based forecasting",
+              },
+              {
+                question: "You want to show the board how profit changes at 5 different price points. Which tool is most efficient?",
+                options: [
+                    "Scenario Manager",
+                    "Goal Seek",
+                    "One-way Data Table",
+                    "FORECAST.ETS",
+                ],
+                correct: 2,
+                explanation: "A one-way Data Table efficiently shows how one output (profit) changes across a range of input values (5 price points) in a single step.",
+                topic: "Data Table",
+              },
+            ],
           },
           {
             id: "excel-reporting-packs",
@@ -17539,10 +18040,66 @@ const AIQ_COURSE_DATA = {
               "Link summary charts and tables to source data using dynamic ranges",
               "Add a cover page and executive summary using Excel shapes and text boxes",
             ],
-            explanation: null, // TODO: pack structure, print areas, hyperlinked index
-            workedExample: null, // TODO: assemble a five-page monthly reporting pack
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Management Reporting Packs</h3>"+ "<p>A <strong>management reporting pack</strong> is the monthly summary of financial performance presented to the board, CFO, or budget holders. Excel is commonly used to build, maintain, and distribute these packs.</p>"+ "<h4>Structure of a Reporting Pack</h4>"+ "<p>Typical sections: <strong>Executive Summary</strong> (1 page — key KPIs, traffic light status), <strong>P&L Summary</strong> (month and YTD BvA), <strong>Departmental Detail</strong> (cost centre BvA), <strong>Headcount</strong> (actual vs budget by department), <strong>Cash Flow</strong> (actuals + rolling forecast), <strong>Balance Sheet Highlights</strong>, <strong>Forward Look</strong> (forecast to year-end).</p>"+ "<h4>Building an Automated Pack</h4>"+ "<p>Use a single source-of-truth data sheet (linked to Power Query or a PivotTable). All summary pages pull from this data using formulas — no manual copy/paste. When the data is refreshed, the entire pack updates.</p>"+ "<h4>Consistent Formatting</h4>"+ "<p>Use Excel Styles (Home → Cell Styles) to apply consistent heading, number, and highlight formats. Create a standard template with locked headers and footers. Use Print Area and Page Setup for PDF export. Protect sheets to prevent accidental editing of formulas.</p>"+ "<h4>Distribution</h4>"+ "<p>Export to PDF: File → Export → Create PDF/XPS, or print to PDF. Automate email distribution using VBA or Power Automate. Always include a date/version number and mark confidential where appropriate.</p>",
+            workedExample: {
+              setup: "Design the Executive Summary page of a monthly reporting pack. It should show: 5 KPIs with RAG status, month and YTD P&L summary, and a 3-month trend sparkline for revenue.",
+              steps: [
+                "KPI section: set up a table with columns — KPI Name, Actual, Target, Variance, RAG. Pull Actual from the data sheet using XLOOKUP or direct cell references. Calculate Variance = Actual − Target.",
+                "RAG formula: =IF(variance_cell>=0, "G", IF(variance_cell>=-threshold, "A", "R")). Apply conditional formatting: G = green fill, A = amber fill, R = red fill.",
+                "P&L Summary: pull Revenue, Gross Profit, EBITDA for Month and YTD columns from the BvA data sheet. Add Variance and Var% columns.",
+                "Sparkline: select the Revenue cell → Insert → Sparklines → Line → set data range to last 3 months of revenue data. Place the sparkline in the adjacent cell. Sparklines auto-update when the data refreshes.",
+                "Lock the page: Review → Protect Sheet (allow users to select cells only) to prevent accidental formula changes.",
+                "PDF output: File → Export → Create PDF/XPS. Set print area to A1:H30 (the summary page). Include month/year in the header via Page Setup.",
+              ],
+              answer: "Executive summary: 5 RAG KPIs (auto-coloured), month + YTD P&L (linked to data sheet), 3-month sparklines (auto-updating), protected sheet, PDF export ready.",
+            },
+            summary: [
+              "Management pack: executive summary, P&L BvA, departmental detail, headcount, cash flow, balance sheet, forward look",
+              "Build from a single data source — all pages pull from one sheet; no manual copy/paste",
+              "Use Excel Styles for consistent formatting; protect sheets to prevent accidental edits",
+              "Sparklines (Insert → Sparklines) show mini trend charts within a cell — ideal for executive summaries",
+              "RAG status: conditional formatting on variance columns with green/amber/red thresholds",
+              "Export to PDF with print areas and headers; version/date stamp every pack",
+            ],
+            practiceQuestions: [
+              {
+                question: "Why should management pack summary pages pull data from a central data sheet rather than containing manually entered figures?",
+                options: [
+                    "Manual entry is more accurate than formulas",
+                    "Linked formulas ensure the pack updates automatically when the data is refreshed — eliminating manual errors",
+                    "It is a regulatory requirement for management accounts",
+                    "Formulas load faster than manually entered numbers",
+                ],
+                correct: 1,
+                explanation: "Linking summary pages to a central data source means refreshing the data automatically updates the entire pack — eliminating copy-paste errors and saving significant time each month.",
+                topic: "Pack automation",
+              },
+              {
+                question: "Which Excel feature inserts a miniature trend chart within a single cell?",
+                options: [
+                    "PivotChart",
+                    "Sparkline",
+                    "Mini Chart",
+                    "Data Bar (Conditional Formatting)",
+                ],
+                correct: 1,
+                explanation: "Sparklines (Insert → Sparklines) are tiny charts that fit within a single cell — ideal for showing trends on executive summary pages without taking up much space.",
+                topic: "Sparklines",
+              },
+              {
+                question: "To prevent recipients from accidentally editing formulas in a distributed Excel pack, you should:",
+                options: [
+                    "Save as a PDF only",
+                    "Use Review → Protect Sheet to lock formula cells",
+                    "Hide all formula cells",
+                    "Use Data Validation to restrict input",
+                ],
+                correct: 1,
+                explanation: "Review → Protect Sheet locks the worksheet, preventing edits to cells that have not been explicitly unlocked (e.g., input cells). This protects formulas while allowing intended inputs.",
+                topic: "Sheet protection",
+              },
+            ],
           },
           {
             id: "excel-dashboards",
@@ -17554,10 +18111,66 @@ const AIQ_COURSE_DATA = {
               "Use form controls (slicers, drop-downs) to make dashboards interactive",
               "Apply consistent colour coding and layout principles for readability",
             ],
-            explanation: null, // TODO: cover slicer connections, camera tool, named ranges
-            workedExample: null, // TODO: build a KPI dashboard for a management team
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Dashboard Building</h3>"+ "<p>An Excel <strong>dashboard</strong> presents key metrics visually on a single screen, allowing decision-makers to assess performance at a glance without reading detailed reports.</p>"+ "<h4>Dashboard Design Principles</h4>"+ "<p><strong>One page:</strong> All key metrics visible without scrolling. <strong>Hierarchy:</strong> Most important KPIs at the top. <strong>Minimal text:</strong> Numbers and charts speak; labels are brief. <strong>Consistent colours:</strong> Use a limited palette — company colours + RAG. <strong>White space:</strong> Do not cram every pixel; breathing room improves readability. <strong>Interactivity:</strong> Slicers or dropdowns to filter by period, department, region.</p>"+ "<h4>Key Dashboard Components</h4>"+ "<p><strong>KPI cards:</strong> Large number in a box with label and trend arrow (use REPT function or Unicode arrows: ▲▼). <strong>Trend charts:</strong> Line charts for revenue, cash flow — linked to PivotTables or dynamic ranges. <strong>Comparison charts:</strong> Clustered bars for BvA. <strong>Gauge/bullet charts:</strong> Show performance against target (requires workaround — donut chart as gauge). <strong>Data bars:</strong> Conditional formatting → Data Bars for quick visual ranking within a table.</p>"+ "<h4>Dynamic Ranges with OFFSET or Tables</h4>"+ "<p>Convert data to an Excel Table (Ctrl+T). Charts linked to Table columns automatically expand when new rows are added — no need to manually update chart source ranges. Use structured references: =Table1[Revenue].</p>"+ "<h4>Removing Chart Clutter</h4>"+ "<p>Delete gridlines, chart borders, unnecessary axis lines. Use thin, light grey axis lines. Remove chart legend if colours are self-explanatory with direct labels. Every element must earn its place — if it does not aid understanding, remove it.</p>",
+            workedExample: {
+              setup: "Build an executive finance dashboard showing: Revenue YTD vs Budget (KPI card + trend line), Cost of Sales YTD (KPI card), EBITDA margin % (KPI card), and a BvA chart for the top 5 cost centres. Add a period slicer.",
+              steps: [
+                "Set up a Data sheet: link Revenue, COS, EBITDA, and department cost data to Power Query or PivotTable sources.",
+                "KPI cards: in cells B3:D5, create a box. B3 = label 'Revenue YTD'. B4 = large font formula pulling the actual (e.g., =DataSheet!B2). B5 = variance formula and conditional colour (green if favourable).",
+                "Trend chart: select monthly revenue data → Insert → Line chart. Remove gridlines, axis borders, legend. Add direct data label on the last point only. Title: 'Revenue — Monthly Actuals'.",
+                "BvA chart: create a PivotTable from department cost data with Actual and Budget columns. Insert PivotChart → Clustered Bar. Sort by variance size (largest adverse at top). Remove chart border and gridlines.",
+                "Slicer: Insert → Slicer → Period. Right-click → Report Connections → connect to all PivotTables on the dashboard. Style the slicer to match company colours.",
+                "Finalise layout: arrange KPI cards top-left, trend chart top-right, BvA chart bottom. Freeze the sheet, protect formula cells, hide row/column headers (View → uncheck Headings) for a clean look.",
+              ],
+              answer: "Dashboard: 3 KPI cards (Revenue, COS, EBITDA margin) + revenue trend line + department BvA chart, all connected to a period slicer. Clean design with no gridlines, borders or unnecessary labels.",
+            },
+            summary: [
+              "Dashboard: all key metrics on one screen — no scrolling required",
+              "Design principles: hierarchy, minimal text, consistent colours, white space, interactivity",
+              "KPI cards: large number + label + trend indicator (arrow or sparkline)",
+              "Convert data to Excel Tables (Ctrl+T) — charts auto-expand when data grows",
+              "Slicers: interactive filters connected to multiple PivotTables and charts simultaneously",
+              "Remove all chart clutter: gridlines, borders, unnecessary legends — every element must add value",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which Excel feature automatically expands a chart's data range when new rows are added to the source data?",
+                options: [
+                    "Named Ranges with OFFSET",
+                    "Linking the chart to an Excel Table (Ctrl+T)",
+                    "Manually updating the chart source range each month",
+                    "Power Query refresh",
+                ],
+                correct: 1,
+                explanation: "Charts linked to Excel Tables automatically expand to include new rows — no need to manually update the chart source range each period.",
+                topic: "Dynamic chart ranges",
+              },
+              {
+                question: "On an executive dashboard, where should the most important KPIs be positioned?",
+                options: [
+                    "Bottom of the page, after the supporting charts",
+                    "Top of the page — most important information first (F-pattern reading)",
+                    "Alphabetical order regardless of importance",
+                    "In a separate tab, linked from the main dashboard",
+                ],
+                correct: 1,
+                explanation: "Dashboard hierarchy principle: the most important KPIs appear at the top-left, following the natural F-pattern reading direction — viewers see the most critical information first.",
+                topic: "Dashboard design",
+              },
+              {
+                question: "To add interactive period filtering to a dashboard connected to multiple PivotTables, you should:",
+                options: [
+                    "Add a dropdown list on each PivotTable separately",
+                    "Insert a Slicer and connect it to all PivotTables via Report Connections",
+                    "Use a macro to filter each PivotTable when a cell changes",
+                    "Apply a manual filter to each PivotTable monthly",
+                ],
+                correct: 1,
+                explanation: "Insert → Slicer, then right-click → Report Connections to link one slicer to multiple PivotTables — a single click filters the entire dashboard simultaneously.",
+                topic: "Dashboard interactivity",
+              },
+            ],
           },
           {
             id: "excel-data-validation",
@@ -17569,10 +18182,66 @@ const AIQ_COURSE_DATA = {
               "Use IFERROR, IFNA, and ISERROR to handle formula errors gracefully",
               "Build a model integrity check sheet that flags balance errors and broken links",
             ],
-            explanation: null, // TODO: cover drop-down lists, custom validation formulas, check sums
-            workedExample: null, // TODO: add a validation layer to a financial model
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Data Validation and Error Checks</h3>"+ "<p><strong>Data Validation</strong> controls what can be entered into a cell, preventing errors at the point of input. <strong>Error checks</strong> detect problems in completed models. Together they maintain data integrity in financial models and reporting templates.</p>"+ "<h4>Data Validation</h4>"+ "<p>Select cell(s) → Data → Data Validation. Key settings: <strong>Whole number</strong> (e.g., allow only 1–12 for month inputs). <strong>Decimal</strong> (e.g., growth rate between −50% and +200%). <strong>List</strong> (dropdown from a defined list — e.g., cost centre codes). <strong>Date</strong> (date within a valid range). <strong>Custom formula</strong> (e.g., =A1>=0 to prevent negative prices).</p>"+ "<p>Add an <strong>Input Message</strong> (tooltip on hover) and an <strong>Error Alert</strong> (pop-up on invalid entry) to guide users.</p>"+ "<h4>Dependent Dropdowns</h4>"+ "<p>Use INDIRECT() to create a dropdown whose options depend on another cell. For example: select Region in cell A1, and the Department dropdown in B1 shows only departments in that region. Requires named ranges for each region's department list.</p>"+ "<h4>Error Checks in Financial Models</h4>"+ "<p>Essential checks: <strong>Balance sheet check:</strong> Assets = Liabilities + Equity → <code>=IF(Assets=Liabilities+Equity,"OK","BREAK")</code>. <strong>P&L to equity movement:</strong> Closing equity = Opening equity + Net profit − Dividends. <strong>Variance sum check:</strong> Sum of all variances = Total variance. <strong>Formula consistency:</strong> use Go To Special → Formulas to audit which cells are formulas vs values.</p>"+ "<h4>IFERROR and IFNA</h4>"+ "<p><code>=IFERROR(formula, "Error")</code> traps any error. <code>=IFNA(formula, 0)</code> traps only #N/A errors (e.g., from MATCH when a lookup fails). Use these to make reports clean, but do not use them to hide genuine formula errors — investigate and fix the root cause first.</p>",
+            workedExample: {
+              setup: "Build a data entry template for budget submissions. Cost centre managers enter: Cost Centre (from a list of valid codes), Month (1-12), and Amount (positive numbers only). Add validation and a check that the total submitted equals a pre-agreed total of £500,000.",
+              steps: [
+                "Cost Centre dropdown: Data → Data Validation → Allow: List → Source: =CostCentreList (a named range containing valid CC codes on a reference sheet). Add Input Message: 'Select your cost centre code.'",
+                "Month validation: Data → Data Validation → Allow: Whole Number → Between 1 and 12. Error Alert: 'Please enter a month between 1 and 12.'",
+                "Amount validation: Data → Data Validation → Allow: Decimal → Greater than or equal to 0. Custom error: 'Amount cannot be negative.'",
+                "Total check: in a check cell, =IF(SUM(AmountRange)=500000, "Total OK", "ERROR: Total should be £500,000 — currently £"&TEXT(SUM(AmountRange),"#,##0")). Apply red conditional formatting when the cell does not show 'Total OK'.",
+                "Protect the template: lock all cells except the input columns (Cost Centre, Month, Amount). Review → Protect Sheet — users can only edit the unlocked input cells.",
+                "Audit: use Go To Special (F5 → Special) → Constants to find any hardcoded values that should be formulas; → Formulas to confirm formula cells are intact.",
+              ],
+              answer: "Template with three validated input columns (dropdown, whole number, non-negative decimal), a running total check flagging any deviation from £500,000, and sheet protection preventing accidental formula edits.",
+            },
+            summary: [
+              "Data Validation (Data → Data Validation): restrict cell input to lists, numbers, dates, or custom formulas",
+              "Add Input Messages (guidance) and Error Alerts (block invalid entry) for user-friendly templates",
+              "Dependent dropdowns: use INDIRECT() to filter a dropdown list based on another cell value",
+              "Model checks: balance sheet (Assets = L + E), P&L to equity, variance sums — use =IF(check, "OK", "BREAK")",
+              "IFERROR/IFNA: suppress error display in reports — but always investigate and fix the root cause",
+              "Protect sheets (Review → Protect Sheet) to lock formula cells while allowing input cell editing",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which Data Validation type creates a dropdown list of options in a cell?",
+                options: [
+                    "Whole Number",
+                    "List",
+                    "Custom",
+                    "Text Length",
+                ],
+                correct: 1,
+                explanation: "Data Validation → Allow: List creates a dropdown in the cell. The source can be a comma-separated list typed in or a reference to a range of cells.",
+                topic: "Data Validation types",
+              },
+              {
+                question: "A balance sheet check formula should flag a break when:",
+                options: [
+                    "Total assets are greater than zero",
+                    "Total assets do not equal total liabilities plus equity",
+                    "The sheet is unprotected",
+                    "Any cell contains an error value",
+                ],
+                correct: 1,
+                explanation: "The fundamental accounting equation: Assets = Liabilities + Equity. Any deviation means a modelling error — the check formula flags this immediately.",
+                topic: "Model error checks",
+              },
+              {
+                question: "=IFERROR(VLOOKUP(A2, Table, 2, FALSE), "Not found") returns 'Not found' when:",
+                options: [
+                    "The VLOOKUP returns zero",
+                    "The VLOOKUP returns any error (e.g., #N/A, #REF!)",
+                    "Cell A2 is empty",
+                    "The table is not sorted",
+                ],
+                correct: 1,
+                explanation: "IFERROR catches any error value (#N/A, #REF!, #DIV/0! etc.) returned by the inner formula and replaces it with the specified alternative ('Not found').",
+                topic: "IFERROR",
+              },
+            ],
           },
         ],
       },
@@ -17598,10 +18267,66 @@ const AIQ_COURSE_DATA = {
               "Filter rows using WHERE with comparison operators, BETWEEN, IN, and LIKE",
               "Sort query results by multiple columns to produce ranked financial output",
             ],
-            explanation: null, // TODO: cover SELECT *, aliasing, AND/OR/NOT, IS NULL
-            workedExample: null, // TODO: retrieve all invoices over £10k in the current period
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>SELECT, WHERE and ORDER BY</h3>"+ "<p>SQL (Structured Query Language) is the standard language for querying databases. As a finance professional, you will use SQL to pull GL data, payroll records, and operational data directly from databases — without waiting for IT.</p>"+ "<h4>SELECT — Choosing Columns</h4>"+ "<p><code>SELECT column1, column2 FROM table_name;</code> — specifies which columns to return. Use <code>SELECT *</code> to return all columns (convenient for exploration, but avoid in production queries — specify columns explicitly).</p>"+ "<h4>WHERE — Filtering Rows</h4>"+ "<p><code>WHERE condition</code> filters which rows are returned. Common operators: = (equal), <> or != (not equal), >, <, >=, <=, BETWEEN, IN (list), LIKE (pattern). Multiple conditions: AND, OR, NOT.</p>"+ "<p>Examples in finance: <code>WHERE account_code = '6100'</code> (single account). <code>WHERE amount > 10000</code> (large transactions). <code>WHERE department IN ('Finance', 'HR')</code>. <code>WHERE transaction_date BETWEEN '2025-01-01' AND '2025-03-31'</code>.</p>"+ "<h4>ORDER BY — Sorting Results</h4>"+ "<p><code>ORDER BY column ASC</code> (ascending, default) or <code>ORDER BY column DESC</code> (descending). Sort by multiple columns: <code>ORDER BY department ASC, amount DESC</code>.</p>"+ "<h4>LIMIT / TOP</h4>"+ "<p>Restrict the number of rows returned: <code>LIMIT 100</code> (PostgreSQL/MySQL) or <code>TOP 100</code> (SQL Server). Always add a LIMIT when exploring a large table.</p>",
+            workedExample: {
+              setup: "Table: gl_transactions (transaction_id, transaction_date, account_code, account_name, department, debit, credit, net_amount, description). Write a query to return all transactions for the Finance department in Q1 2025 where the net amount exceeds £5,000, sorted by amount descending.",
+              steps: [
+                "SELECT columns needed: transaction_id, transaction_date, account_code, account_name, net_amount, description.",
+                "FROM: gl_transactions.",
+                "WHERE: department = 'Finance' AND transaction_date BETWEEN '2025-01-01' AND '2025-03-31' AND net_amount > 5000.",
+                "ORDER BY: net_amount DESC (largest transactions first).",
+                "Full query: SELECT transaction_id, transaction_date, account_code, account_name, net_amount, description FROM gl_transactions WHERE department = 'Finance' AND transaction_date BETWEEN '2025-01-01' AND '2025-03-31' AND net_amount > 5000 ORDER BY net_amount DESC;",
+                "Add LIMIT 500 if the table is large and you are exploring: LIMIT 500; (PostgreSQL) or wrap in SELECT TOP 500 (SQL Server).",
+              ],
+              answer: "SELECT transaction_id, transaction_date, account_code, account_name, net_amount, description FROM gl_transactions WHERE department = 'Finance' AND transaction_date BETWEEN '2025-01-01' AND '2025-03-31' AND net_amount > 5000 ORDER BY net_amount DESC;",
+            },
+            summary: [
+              "SELECT column1, column2 FROM table — specify only the columns you need",
+              "WHERE filters rows: =, <>, >, <, BETWEEN, IN, LIKE, AND, OR, NOT",
+              "ORDER BY col ASC/DESC — sort results; use multiple columns for multi-level sort",
+              "LIMIT (PostgreSQL) or TOP (SQL Server) restricts rows returned — always use when exploring",
+              "Finance use: filter by account code, department, date range, amount threshold",
+              "Avoid SELECT * in production queries — specify columns explicitly for clarity and performance",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which clause filters which ROWS are returned by a SELECT query?",
+                options: [
+                    "SELECT",
+                    "FROM",
+                    "WHERE",
+                    "ORDER BY",
+                ],
+                correct: 2,
+                explanation: "The WHERE clause specifies conditions that each row must meet to be included in the results — it filters rows.",
+                topic: "SQL clauses",
+              },
+              {
+                question: "Write the correct SQL to retrieve all rows from the 'invoices' table where the amount is between £1,000 and £5,000.",
+                options: [
+                    "SELECT * FROM invoices WHERE amount > 1000 AND amount < 5000;",
+                    "SELECT * FROM invoices WHERE amount BETWEEN 1000 AND 5000;",
+                    "SELECT * FROM invoices WHERE 1000 < amount < 5000;",
+                    "SELECT * FROM invoices FILTER amount BETWEEN 1000 AND 5000;",
+                ],
+                correct: 1,
+                explanation: "BETWEEN is inclusive of both boundary values. BETWEEN 1000 AND 5000 returns rows where amount >= 1000 AND amount <= 5000.",
+                topic: "WHERE BETWEEN",
+              },
+              {
+                question: "You want to return the 10 largest transactions from a table. Which ORDER BY and LIMIT combination achieves this?",
+                options: [
+                    "ORDER BY amount ASC LIMIT 10",
+                    "ORDER BY amount DESC LIMIT 10",
+                    "ORDER BY amount ASC TOP 10",
+                    "LIMIT 10 ORDER BY amount DESC",
+                ],
+                correct: 1,
+                explanation: "ORDER BY amount DESC sorts largest first; LIMIT 10 returns only the first 10 rows — giving you the 10 largest transactions.",
+                topic: "ORDER BY and LIMIT",
+              },
+            ],
           },
           {
             id: "sql-group-aggregate",
@@ -17613,10 +18338,67 @@ const AIQ_COURSE_DATA = {
               "Apply SUM, COUNT, AVG, MIN, MAX and filter groups using HAVING",
               "Compute running totals and rank rows using window functions (SUM OVER, ROW_NUMBER)",
             ],
-            explanation: null, // TODO: explain aggregation rules, NULL handling, window function syntax
-            workedExample: null, // TODO: total spend by cost centre for the current month
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>GROUP BY and Aggregation</h3>"+ "<p><strong>Aggregation functions</strong> summarise data across multiple rows. Combined with <strong>GROUP BY</strong>, they produce totals by category — the SQL equivalent of a PivotTable.</p>"+ "<h4>Key Aggregation Functions</h4>"+ "<p><code>SUM(column)</code> — total. <code>COUNT(*)</code> — number of rows. <code>COUNT(column)</code> — count of non-null values. <code>AVG(column)</code> — average. <code>MAX(column)</code> — maximum. <code>MIN(column)</code> — minimum.</p>"+ "<h4>GROUP BY</h4>"+ "<p><code>GROUP BY column</code> groups rows with the same value and applies the aggregate function to each group. Every column in SELECT that is not an aggregate must appear in GROUP BY.</p>"+ "<p>Example: <code>SELECT department, SUM(net_amount) AS total_spend FROM gl_transactions GROUP BY department;</code></p>"+ "<h4>HAVING — Filtering Aggregated Results</h4>"+ "<p>HAVING filters the results AFTER aggregation (WHERE filters before). Use HAVING to filter groups: <code>HAVING SUM(net_amount) > 100000</code> — only show departments spending over £100k.</p>"+ "<h4>HAVING vs WHERE</h4>"+ "<p>WHERE: filters individual rows before grouping. HAVING: filters groups after aggregation. You can use both in the same query.</p>"+ "<h4>Finance Use Cases</h4>"+ "<p>Total spend by cost centre. Transaction count by account code. Average invoice value by supplier. Maximum single transaction by department. Monthly totals by account.</p>",
+            workedExample: {
+              setup: "Table: gl_transactions (account_code, department, net_amount, transaction_date). Write a query to show total net amount by department for Q1 2025, only including departments with total spend above £50,000, sorted by spend descending.",
+              steps: [
+                "SELECT: department, SUM(net_amount) AS total_spend.",
+                "FROM: gl_transactions.",
+                "WHERE: filter to Q1 2025 before aggregating — WHERE transaction_date BETWEEN '2025-01-01' AND '2025-03-31'.",
+                "GROUP BY: department — one row per unique department.",
+                "HAVING: SUM(net_amount) > 50000 — filter out departments below the threshold after aggregation.",
+                "ORDER BY: total_spend DESC.",
+                "Full query: SELECT department, SUM(net_amount) AS total_spend FROM gl_transactions WHERE transaction_date BETWEEN '2025-01-01' AND '2025-03-31' GROUP BY department HAVING SUM(net_amount) > 50000 ORDER BY total_spend DESC;",
+              ],
+              answer: "SELECT department, SUM(net_amount) AS total_spend FROM gl_transactions WHERE transaction_date BETWEEN '2025-01-01' AND '2025-03-31' GROUP BY department HAVING SUM(net_amount) > 50000 ORDER BY total_spend DESC;",
+            },
+            summary: [
+              "Aggregation functions: SUM, COUNT, AVG, MAX, MIN — applied to groups of rows",
+              "GROUP BY: groups rows by a column, applying aggregates to each group",
+              "Every non-aggregate SELECT column must appear in GROUP BY",
+              "WHERE: filters rows BEFORE grouping. HAVING: filters groups AFTER aggregation",
+              "Use HAVING SUM(col) > threshold to find high-spend cost centres or suppliers",
+              "Finance uses: spend by department, transaction count by account, monthly totals",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which clause filters groups AFTER aggregation in a GROUP BY query?",
+                options: [
+                    "WHERE",
+                    "FILTER",
+                    "HAVING",
+                    "GROUP FILTER",
+                ],
+                correct: 2,
+                explanation: "HAVING filters the aggregated results (groups), whereas WHERE filters individual rows before grouping. Both can be used in the same query.",
+                topic: "HAVING vs WHERE",
+              },
+              {
+                question: "Which query correctly returns the number of invoices per supplier?",
+                options: [
+                    "SELECT supplier, COUNT(*) AS invoice_count FROM invoices;",
+                    "SELECT supplier, COUNT(*) AS invoice_count FROM invoices GROUP BY supplier;",
+                    "SELECT supplier, SUM(*) FROM invoices GROUP BY supplier;",
+                    "SELECT COUNT(supplier) FROM invoices WHERE supplier GROUP BY supplier;",
+                ],
+                correct: 1,
+                explanation: "GROUP BY supplier groups rows by supplier; COUNT(*) counts the rows in each group — giving the number of invoices per supplier.",
+                topic: "GROUP BY",
+              },
+              {
+                question: "You want to find the total spend per account code, but only show accounts where total spend exceeds £10,000. Which clauses do you use?",
+                options: [
+                    "WHERE SUM(amount) > 10000",
+                    "GROUP BY account_code, HAVING SUM(amount) > 10000",
+                    "GROUP BY account_code, WHERE amount > 10000",
+                    "FILTER BY SUM(amount) > 10000",
+                ],
+                correct: 1,
+                explanation: "GROUP BY account_code produces totals per account; HAVING SUM(amount) > 10000 then filters to only accounts exceeding the threshold.",
+                topic: "GROUP BY and HAVING",
+              },
+            ],
           },
           {
             id: "sql-joins",
@@ -17628,10 +18410,66 @@ const AIQ_COURSE_DATA = {
               "Join a transactions table to a chart of accounts using account code",
               "Identify and handle duplicate rows caused by one-to-many joins",
             ],
-            explanation: null, // TODO: cover join types, ON conditions, self joins for hierarchy
-            workedExample: null, // TODO: enrich GL transactions with account descriptions and cost centre names
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>JOINs</h3>"+ "<p>JOINs combine rows from two or more tables based on a related column. In finance, you will regularly join GL transactions to a chart of accounts, employee records to payroll data, or invoices to a supplier master.</p>"+ "<h4>INNER JOIN</h4>"+ "<p>Returns rows where there is a match in BOTH tables. If a row in the left table has no match in the right table, it is excluded. Most common type in finance queries.</p>"+ "<p><code>SELECT t.transaction_id, t.net_amount, a.account_name FROM gl_transactions t INNER JOIN chart_of_accounts a ON t.account_code = a.account_code;</code></p>"+ "<h4>LEFT JOIN (LEFT OUTER JOIN)</h4>"+ "<p>Returns ALL rows from the left table, plus matching rows from the right table. Where there is no match, right-table columns return NULL. Use to find unmatched records — e.g., transactions with account codes not in the chart of accounts.</p>"+ "<h4>RIGHT JOIN</h4>"+ "<p>Returns ALL rows from the right table. Less commonly used — can usually be rewritten as a LEFT JOIN by swapping table order.</p>"+ "<h4>Table Aliases</h4>"+ "<p>Use short aliases (t, a, p) after table names to shorten queries: <code>FROM gl_transactions t</code> then refer to <code>t.column_name</code>. Essential when joining multiple tables.</p>"+ "<h4>Common Finance JOINs</h4>"+ "<p>GL transactions JOIN chart of accounts (add account names). GL transactions JOIN cost_centres (add department names). Invoices JOIN supplier_master (add supplier details). Payroll JOIN employees (add grade, department). Budget JOIN actuals on account_code and period (BvA).</p>",
+            workedExample: {
+              setup: "Tables: gl_transactions (transaction_id, account_code, net_amount, transaction_date) and chart_of_accounts (account_code, account_name, account_type). Write a query showing transaction_id, transaction_date, account_name, account_type, and net_amount for all transactions in January 2025.",
+              steps: [
+                "SELECT: t.transaction_id, t.transaction_date, a.account_name, a.account_type, t.net_amount.",
+                "FROM gl_transactions t — alias the main table as 't'.",
+                "INNER JOIN chart_of_accounts a ON t.account_code = a.account_code — join on the common key; alias chart_of_accounts as 'a'.",
+                "WHERE: t.transaction_date BETWEEN '2025-01-01' AND '2025-01-31'.",
+                "Full query: SELECT t.transaction_id, t.transaction_date, a.account_name, a.account_type, t.net_amount FROM gl_transactions t INNER JOIN chart_of_accounts a ON t.account_code = a.account_code WHERE t.transaction_date BETWEEN '2025-01-01' AND '2025-01-31';",
+                "To find transactions with MISSING account codes: change INNER JOIN to LEFT JOIN and add WHERE a.account_code IS NULL — these rows have no match in the chart of accounts.",
+              ],
+              answer: "INNER JOIN returns transactions with matching account names. LEFT JOIN + WHERE a.account_code IS NULL identifies transactions with unrecognised account codes — a useful data quality check.",
+            },
+            summary: [
+              "INNER JOIN: returns rows with a match in BOTH tables — excludes unmatched rows",
+              "LEFT JOIN: returns ALL left-table rows + matching right-table rows; NULLs where no match",
+              "LEFT JOIN + WHERE right.key IS NULL: finds unmatched records — data quality check",
+              "Always specify table aliases (FROM gl_transactions t) to avoid ambiguous column references",
+              "ON clause: specifies the join key (t.account_code = a.account_code)",
+              "Finance JOINs: GL to chart of accounts, invoices to supplier master, payroll to employees",
+            ],
+            practiceQuestions: [
+              {
+                question: "You want to find all transactions where the account code does NOT exist in the chart of accounts. Which JOIN and WHERE combination achieves this?",
+                options: [
+                    "INNER JOIN chart_of_accounts ON ... WHERE account_code IS NULL",
+                    "LEFT JOIN chart_of_accounts ON ... WHERE chart_of_accounts.account_code IS NULL",
+                    "RIGHT JOIN chart_of_accounts ON ... WHERE gl_transactions.account_code IS NULL",
+                    "FULL OUTER JOIN chart_of_accounts ON ... WHERE account_name IS NULL",
+                ],
+                correct: 1,
+                explanation: "LEFT JOIN returns all GL transaction rows; WHERE chart_of_accounts.account_code IS NULL filters to only those with no matching account — i.e., missing from the chart of accounts.",
+                topic: "LEFT JOIN for unmatched records",
+              },
+              {
+                question: "In a JOIN query with two tables, why should you prefix column names with the table alias (e.g., t.amount)?",
+                options: [
+                    "It makes the query run faster",
+                    "To avoid ambiguous column reference errors when both tables have a column with the same name",
+                    "It is required by all databases",
+                    "To allow GROUP BY to work correctly",
+                ],
+                correct: 1,
+                explanation: "When two tables share a column name (e.g., both have 'account_code'), SQL needs to know which table's column you mean — table aliases (t.account_code vs a.account_code) resolve the ambiguity.",
+                topic: "Table aliases",
+              },
+              {
+                question: "INNER JOIN vs LEFT JOIN: a LEFT JOIN returns rows that INNER JOIN does NOT. What are these additional rows?",
+                options: [
+                    "Rows from the right table with no matching left-table row",
+                    "Rows from the left table with no matching right-table row — with NULLs for right-table columns",
+                    "Duplicate rows from both tables",
+                    "Rows where the join key is NULL in both tables",
+                ],
+                correct: 1,
+                explanation: "A LEFT JOIN includes all rows from the left table. Where there is no matching row in the right table, the right-table columns return NULL — these are the rows that INNER JOIN excludes.",
+                topic: "INNER vs LEFT JOIN",
+              },
+            ],
           },
           {
             id: "sql-case-when",
@@ -17643,10 +18481,65 @@ const AIQ_COURSE_DATA = {
               "Create a calculated column that maps account codes to P&L line items",
               "Combine CASE WHEN with aggregation to build a pivot-style SQL report",
             ],
-            explanation: null, // TODO: simple vs searched CASE, use in SELECT and WHERE
-            workedExample: null, // TODO: remap trial balance accounts into management P&L headings
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>CASE WHEN Logic</h3>"+ "<p><strong>CASE WHEN</strong> is SQL's conditional expression — equivalent to an IF statement in Excel. It evaluates conditions and returns different values based on which condition is met.</p>"+ "<h4>Syntax</h4>"+ "<p><code>CASE WHEN condition1 THEN result1 WHEN condition2 THEN result2 ELSE default_result END</code></p>"+ "<p>The ELSE clause is optional — if omitted and no condition matches, NULL is returned. Always include ELSE for safety.</p>"+ "<h4>Finance Use Cases</h4>"+ "<p><strong>Classify transactions:</strong> Label debits as 'Cost' and credits as 'Income'. <strong>Ageing buckets:</strong> Classify overdue invoices into 0-30, 31-60, 61-90, 90+ day buckets. <strong>RAG flags:</strong> Label variances as Favourable or Adverse. <strong>Account grouping:</strong> Map detailed account codes into summary P&L categories (e.g., accounts 6000-6999 → 'Personnel Costs'). <strong>Department mapping:</strong> Translate legacy codes into reporting names.</p>"+ "<h4>CASE WHEN in GROUP BY and Aggregation</h4>"+ "<p>Wrap CASE WHEN in a SUM to create conditional totals: <code>SUM(CASE WHEN department = 'Finance' THEN net_amount ELSE 0 END) AS finance_spend</code>. This is equivalent to SUMIF in Excel — pivot a grouped query to show multiple departments as columns.</p>"+ "<h4>Simple CASE (Value-based)</h4>"+ "<p>Alternative form for equality checks: <code>CASE account_type WHEN 'Revenue' THEN 'Income' WHEN 'Expense' THEN 'Cost' ELSE 'Other' END</code></p>",
+            workedExample: {
+              setup: "Table: receivables (invoice_id, invoice_date, due_date, amount, customer). Today is 2025-03-31. Write a query to classify each invoice into ageing buckets (Current, 1-30 days overdue, 31-60 days, 60+ days) and show the total amount in each bucket.",
+              steps: [
+                "Calculate days overdue for each invoice: CURRENT_DATE - due_date (or DATEDIFF in SQL Server).",
+                "CASE WHEN to classify: CASE WHEN due_date >= CURRENT_DATE THEN 'Current' WHEN CURRENT_DATE - due_date <= 30 THEN '1-30 days' WHEN CURRENT_DATE - due_date <= 60 THEN '31-60 days' ELSE '60+ days' END AS ageing_bucket.",
+                "Wrap in aggregation: SUM(amount) grouped by the ageing bucket.",
+                "Full query: SELECT CASE WHEN due_date >= CURRENT_DATE THEN 'Current' WHEN CURRENT_DATE - due_date <= 30 THEN '1-30 days' WHEN CURRENT_DATE - due_date <= 60 THEN '31-60 days' ELSE '60+ days' END AS ageing_bucket, SUM(amount) AS total_amount, COUNT(*) AS invoice_count FROM receivables GROUP BY ageing_bucket ORDER BY ageing_bucket;",
+                "This produces the standard aged debtors report directly from the database — no Excel manipulation required.",
+              ],
+              answer: "CASE WHEN classifies each invoice into an ageing bucket; GROUP BY bucket + SUM(amount) produces the aged debtors summary table — Current, 1-30, 31-60, 60+ days with totals.",
+            },
+            summary: [
+              "CASE WHEN condition THEN result ... ELSE default END — SQL conditional expression",
+              "Always include ELSE to handle unmatched rows — omitting it returns NULL",
+              "Finance uses: transaction classification, ageing buckets, RAG flags, account grouping, period labels",
+              "SUM(CASE WHEN dept='Finance' THEN amount ELSE 0 END) — conditional aggregation (SQL equivalent of SUMIF)",
+              "CASE WHEN in GROUP BY: group by the CASE WHEN expression to aggregate by category",
+              "Simple CASE: CASE column WHEN 'X' THEN 'Y' ... END for value-equality checks",
+            ],
+            practiceQuestions: [
+              {
+                question: "You want to label transactions as 'Income' (net_amount > 0) or 'Cost' (net_amount < 0). Which CASE WHEN is correct?",
+                options: [
+                    "CASE WHEN net_amount > 0 THEN 'Income' WHEN net_amount < 0 THEN 'Cost' ELSE 'Zero' END",
+                    "IF(net_amount > 0, 'Income', 'Cost')",
+                    "CASE net_amount WHEN > 0 THEN 'Income' END",
+                    "WHERE net_amount > 0 THEN 'Income' ELSE 'Cost'",
+                ],
+                correct: 0,
+                explanation: "CASE WHEN net_amount > 0 THEN 'Income' WHEN net_amount < 0 THEN 'Cost' ELSE 'Zero' END correctly classifies by sign, with an ELSE for zero-value rows.",
+                topic: "CASE WHEN syntax",
+              },
+              {
+                question: "To total the amount for Finance department only within a grouped query, which expression works?",
+                options: [
+                    "WHERE department = 'Finance' THEN SUM(amount)",
+                    "SUM(CASE WHEN department = 'Finance' THEN amount ELSE 0 END)",
+                    "SUMIF(department, 'Finance', amount)",
+                    "SUM(amount) FILTER (WHERE department = 'Finance')",
+                ],
+                correct: 1,
+                explanation: "SUM(CASE WHEN department = 'Finance' THEN amount ELSE 0 END) is SQL's equivalent of SUMIF — it totals only the rows where department is Finance.",
+                topic: "Conditional aggregation",
+              },
+              {
+                question: "If no ELSE clause is included in a CASE WHEN and no condition matches, what does the expression return?",
+                options: [
+                    "0",
+                    "An error",
+                    "NULL",
+                    "An empty string",
+                ],
+                correct: 2,
+                explanation: "Without an ELSE clause, CASE WHEN returns NULL when no condition is satisfied. Always include ELSE to ensure every row returns a meaningful value.",
+                topic: "ELSE clause",
+              },
+            ],
           },
           {
             id: "sql-date-filtering",
@@ -17658,10 +18551,65 @@ const AIQ_COURSE_DATA = {
               "Filter transactions within a specific accounting period using BETWEEN and DATEPART",
               "Calculate days outstanding for debtor ageing reports",
             ],
-            explanation: null, // TODO: cover DATEPART, DATEDIFF, EOMONTH, financial year logic
-            workedExample: null, // TODO: filter all invoices posted in the current financial year
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Date Filtering</h3>"+ "<p>Finance data is almost always time-series data. Accurate date filtering is critical for producing correct period reports, YTD figures, and prior-year comparatives.</p>"+ "<h4>Date Literals</h4>"+ "<p>Always use ISO 8601 format for date literals: <code>'YYYY-MM-DD'</code> (e.g., '2025-03-31'). This is unambiguous across all database systems. Avoid local formats like '31/03/2025' which may be misinterpreted.</p>"+ "<h4>BETWEEN for Periods</h4>"+ "<p><code>WHERE transaction_date BETWEEN '2025-01-01' AND '2025-03-31'</code> — inclusive of both dates. Be careful with datetime columns — '2025-03-31' may exclude the last day if stored as '2025-03-31 14:30:00'. Safer: <code>WHERE transaction_date >= '2025-01-01' AND transaction_date < '2025-04-01'</code>.</p>"+ "<h4>Date Functions</h4>"+ "<p><strong>YEAR(date)</strong> — extracts year. <strong>MONTH(date)</strong> — extracts month number. <strong>DATE_TRUNC('month', date)</strong> (PostgreSQL) — truncates to the first day of the month (useful for GROUP BY month). <strong>DATEPART(month, date)</strong> (SQL Server). <strong>CURRENT_DATE / GETDATE()</strong> — today's date.</p>"+ "<h4>YTD and Prior Year Filters</h4>"+ "<p>YTD (year to date): <code>WHERE YEAR(transaction_date) = YEAR(CURRENT_DATE) AND transaction_date <= CURRENT_DATE</code>. Prior year same period: <code>WHERE YEAR(transaction_date) = YEAR(CURRENT_DATE) - 1 AND MONTH(transaction_date) <= MONTH(CURRENT_DATE)</code>.</p>"+ "<h4>Last N Days</h4>"+ "<p><code>WHERE transaction_date >= CURRENT_DATE - INTERVAL '30 days'</code> (PostgreSQL) or <code>WHERE transaction_date >= DATEADD(day, -30, GETDATE())</code> (SQL Server).</p>",
+            workedExample: {
+              setup: "Table: gl_transactions (transaction_date, account_code, net_amount). Write queries to return: (1) All transactions for Q2 2025 (April–June). (2) YTD 2025 transactions (Jan to current date). (3) Monthly totals for the full year 2024.",
+              steps: [
+                "Query 1 — Q2 2025: SELECT * FROM gl_transactions WHERE transaction_date >= '2025-04-01' AND transaction_date < '2025-07-01'; (Using < start of Q3 is safer than BETWEEN for datetime columns.)",
+                "Query 2 — YTD 2025: SELECT * FROM gl_transactions WHERE transaction_date >= '2025-01-01' AND transaction_date <= CURRENT_DATE;",
+                "Query 3 — Monthly totals for 2024: SELECT MONTH(transaction_date) AS month_num, SUM(net_amount) AS total FROM gl_transactions WHERE YEAR(transaction_date) = 2024 GROUP BY MONTH(transaction_date) ORDER BY month_num; (Use DATE_TRUNC in PostgreSQL: SELECT DATE_TRUNC('month', transaction_date) AS month, SUM(net_amount) AS total ... GROUP BY DATE_TRUNC('month', transaction_date) ORDER BY month;)",
+                "PostgreSQL monthly: DATE_TRUNC('month', transaction_date) groups all dates in the same month together and returns the first day of each month — easier to format and sort.",
+                "SQL Server monthly: DATEPART(month, transaction_date) works similarly to MONTH().",
+              ],
+              answer: "Q2 2025: date >= '2025-04-01' AND date < '2025-07-01'. YTD: date >= '2025-01-01' AND date <= CURRENT_DATE. Monthly 2024: GROUP BY MONTH(date) with YEAR=2024 filter.",
+            },
+            summary: [
+              "Always use ISO format 'YYYY-MM-DD' for date literals — unambiguous across all databases",
+              "BETWEEN is inclusive; use >= start AND < next_period_start for datetime safety",
+              "YEAR(date) / MONTH(date) extract date parts — use in WHERE and GROUP BY",
+              "DATE_TRUNC('month', date) (PostgreSQL) groups by month — returns first day of each month",
+              "YTD: YEAR(date) = YEAR(CURRENT_DATE) AND date <= CURRENT_DATE",
+              "Prior year same period: YEAR = current year - 1 AND MONTH <= current month",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which date format should you use in SQL WHERE clauses to avoid ambiguity?",
+                options: [
+                    "'31/03/2025' — standard UK format",
+                    "'03-31-2025' — US format",
+                    "'2025-03-31' — ISO 8601 format",
+                    "31032025 — numeric format",
+                ],
+                correct: 2,
+                explanation: "ISO 8601 format 'YYYY-MM-DD' is unambiguous and universally supported across database systems. Local date formats can be misinterpreted differently by different databases.",
+                topic: "Date formats",
+              },
+              {
+                question: "Why might BETWEEN '2025-01-01' AND '2025-01-31' miss the last day's transactions in a datetime column?",
+                options: [
+                    "BETWEEN is exclusive of the upper bound",
+                    "'2025-01-31' is treated as '2025-01-31 00:00:00', excluding records with times later that day",
+                    "SQL does not support BETWEEN for date columns",
+                    "January has 31 days so BETWEEN counts incorrectly",
+                ],
+                correct: 1,
+                explanation: "When transaction_date is a DATETIME, '2025-01-31' compares as midnight (00:00:00), excluding records from later in that day. Use transaction_date < '2025-02-01' instead.",
+                topic: "Datetime precision",
+              },
+              {
+                question: "To group monthly totals by month number in a GROUP BY query, which function extracts the month?",
+                options: [
+                    "DAY(date)",
+                    "MONTH(date) or DATEPART(month, date)",
+                    "DATE_FORMAT(date, 'MM')",
+                    "EXTRACT_MONTH(date)",
+                ],
+                correct: 1,
+                explanation: "MONTH(date) (MySQL/SQL Server) or DATEPART(month, date) (SQL Server) extract the month number (1-12). In PostgreSQL, use EXTRACT(MONTH FROM date) or DATE_TRUNC.",
+                topic: "Date functions",
+              },
+            ],
           },
           {
             id: "sql-month-end",
@@ -17673,10 +18621,65 @@ const AIQ_COURSE_DATA = {
               "Automate period selection so the query always returns the latest closed period",
               "Export query results in a format compatible with Excel Power Query",
             ],
-            explanation: null, // TODO: cover WITH clause (CTEs), parameterised period logic, output formatting
-            workedExample: null, // TODO: full month-end P&L query with prior year comparison
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Month-End Reporting Queries</h3>"+ "<p>Month-end close involves producing standard reports from the GL — trial balances, P&L summaries, balance sheet extracts, and accruals schedules. SQL makes this fast and repeatable.</p>"+ "<h4>Monthly Trial Balance</h4>"+ "<p>Sum debits and credits by account code for the month, joining to the chart of accounts for account names and types. Include both the monthly movement and the cumulative YTD position.</p>"+ "<h4>YTD Cumulative Totals with Window Functions</h4>"+ "<p><strong>Window functions</strong> compute running totals without collapsing rows. <code>SUM(net_amount) OVER (PARTITION BY account_code ORDER BY month)</code> — running YTD total for each account, ordered by month. Does not require GROUP BY — all detail rows are preserved.</p>"+ "<h4>Month-on-Month Change</h4>"+ "<p><code>LAG(value, 1) OVER (PARTITION BY account_code ORDER BY month)</code> — retrieves the prior month's value. <code>net_amount - LAG(net_amount, 1) OVER (...)</code> gives the month-on-month movement.</p>"+ "<h4>Accruals Validation Query</h4>"+ "<p>At month-end, check that all accruals have been posted: query the GL for accruals account codes (e.g., 2100-2199) to confirm expected entries exist. Compare to the prior month accruals list to identify missing reversals.</p>"+ "<h4>Materiality Checks</h4>"+ "<p>Flag large or unusual transactions: filter for amounts above a threshold, or use standard deviation to identify statistical outliers — useful for review before sign-off.</p>",
+            workedExample: {
+              setup: "Table: gl_transactions (account_code, account_name, account_type, period_month, net_amount). Build a monthly P&L summary query showing account_code, account_name, current month amount, YTD amount, and prior month amount for Income and Expense accounts in period 6 (June 2025).",
+              steps: [
+                "Base aggregation: SELECT account_code, account_name, account_type, period_month, SUM(net_amount) AS month_amount FROM gl_transactions WHERE account_type IN ('Income', 'Expense') AND YEAR(period_month) = 2025 GROUP BY account_code, account_name, account_type, period_month.",
+                "Add YTD using window function: SUM(SUM(net_amount)) OVER (PARTITION BY account_code ORDER BY period_month ROWS UNBOUNDED PRECEDING) AS ytd_amount.",
+                "Add prior month using LAG: LAG(SUM(net_amount), 1) OVER (PARTITION BY account_code ORDER BY period_month) AS prior_month_amount.",
+                "Filter to period 6 in the outer query: WHERE period_month = '2025-06-01' (using DATE_TRUNC output).",
+                "Full approach uses a CTE (Common Table Expression): WITH monthly AS (SELECT account_code, account_name, period_month, SUM(net_amount) AS month_amount FROM gl_transactions WHERE ... GROUP BY ...) SELECT *, SUM(month_amount) OVER (PARTITION BY account_code ORDER BY period_month) AS ytd_amount, LAG(month_amount,1) OVER (PARTITION BY account_code ORDER BY period_month) AS prior_month FROM monthly WHERE period_month = '2025-06-01'.",
+              ],
+              answer: "CTE-based query: aggregate monthly totals, then apply window functions for YTD (SUM OVER) and prior month (LAG). Filter outer query to Period 6 for the final output.",
+            },
+            summary: [
+              "Monthly trial balance: SUM by account code for the period, JOIN to chart of accounts",
+              "Window functions (OVER): compute running totals and comparisons without collapsing rows",
+              "SUM(amount) OVER (PARTITION BY account ORDER BY month) = YTD running total",
+              "LAG(amount, 1) OVER (PARTITION BY account ORDER BY month) = prior month value",
+              "CTE (WITH clause): create intermediate result sets to simplify complex month-end queries",
+              "Month-end checks: verify accruals posted, flag large/unusual transactions before sign-off",
+            ],
+            practiceQuestions: [
+              {
+                question: "Which window function retrieves the previous month's value for a running comparison?",
+                options: [
+                    "LEAD(amount, 1) OVER (ORDER BY month)",
+                    "LAG(amount, 1) OVER (PARTITION BY account ORDER BY month)",
+                    "FIRST_VALUE(amount) OVER (ORDER BY month)",
+                    "ROW_NUMBER() OVER (ORDER BY month)",
+                ],
+                correct: 1,
+                explanation: "LAG(amount, 1) OVER (PARTITION BY account ORDER BY month) retrieves the value from 1 row back (the prior month) within each account's partition.",
+                topic: "LAG function",
+              },
+              {
+                question: "What does PARTITION BY account_code do in a window function?",
+                options: [
+                    "Filters the query to one account code",
+                    "Resets the window calculation for each unique account code — like applying the calculation separately per account",
+                    "Groups account codes for aggregation like GROUP BY",
+                    "Sorts the result by account code",
+                ],
+                correct: 1,
+                explanation: "PARTITION BY divides the result set into partitions (like groups) and applies the window function independently within each partition — so the YTD total resets for each account code.",
+                topic: "Window function PARTITION BY",
+              },
+              {
+                question: "A CTE (Common Table Expression) using WITH is useful in month-end queries because:",
+                options: [
+                    "CTEs run faster than subqueries in all databases",
+                    "They allow intermediate results to be named and reused, making complex queries more readable",
+                    "They eliminate the need for JOINs",
+                    "They are required when using window functions",
+                ],
+                correct: 1,
+                explanation: "CTEs (WITH clause) name intermediate result sets, making multi-step queries — like month-end aggregations with window functions — much more readable and maintainable.",
+                topic: "CTEs",
+              },
+            ],
           },
           {
             id: "sql-budget-vs-actual",
@@ -17688,10 +18691,66 @@ const AIQ_COURSE_DATA = {
               "Calculate absolute and percentage variance at P&L line level",
               "Flag adverse variances using CASE WHEN for exception-based reporting",
             ],
-            explanation: null, // TODO: cover common schema patterns, COALESCE for missing budget rows
-            workedExample: null, // TODO: query that produces a full BvA table for the current month
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Budget vs Actual in SQL</h3>"+ "<p>A BvA report compares actual GL transactions to budget data stored in a database. SQL is ideal for building this automatically from source systems, eliminating manual Excel data entry and copy-paste errors.</p>"+ "<h4>Data Structure</h4>"+ "<p>Typically: an <strong>actuals table</strong> (GL transactions, aggregated by account and period) and a <strong>budget table</strong> (budget amounts by account and period, loaded by the finance team). Both share account_code and period as join keys.</p>"+ "<h4>The BvA JOIN</h4>"+ "<p>LEFT JOIN actuals to budget (or vice versa) on account_code and period. Use LEFT JOIN to retain accounts that exist in budget but have no actuals (underspent) or actuals with no budget (unbudgeted spend).</p>"+ "<h4>Calculating Variances</h4>"+ "<p>Absolute variance: <code>COALESCE(b.budget_amount, 0) - COALESCE(a.actual_amount, 0)</code>. Use COALESCE() to replace NULL with 0 where one side has no data. Variance %: divide by NULLIF(budget, 0) to avoid divide-by-zero: <code>(variance / NULLIF(budget, 0)) * 100</code>.</p>"+ "<h4>NULLIF</h4>"+ "<p><code>NULLIF(value, 0)</code> returns NULL if value = 0, otherwise returns value. Dividing by NULL returns NULL (not an error) — cleaner than a CASE WHEN divisor = 0 workaround.</p>"+ "<h4>Multi-level BvA</h4>"+ "<p>Join to chart_of_accounts to add account groups, then use GROUP BY ROLLUP (or GROUPING SETS) to produce sub-totals and grand totals in a single query.</p>",
+            workedExample: {
+              setup: "Tables: actuals (account_code, period, actual_amount) and budget (account_code, period, budget_amount). Write a query showing account_code, budget, actual, variance (Budget − Actual), variance %, for period '2025-06' only.",
+              steps: [
+                "Join strategy: LEFT JOIN budget to actuals (or use FULL OUTER JOIN to catch accounts in either table only).",
+                "SELECT b.account_code, COALESCE(b.budget_amount, 0) AS budget, COALESCE(a.actual_amount, 0) AS actual.",
+                "Variance: COALESCE(b.budget_amount, 0) - COALESCE(a.actual_amount, 0) AS variance.",
+                "Variance %: (variance / NULLIF(COALESCE(b.budget_amount, 0), 0)) * 100 AS variance_pct.",
+                "Full query: SELECT b.account_code, COALESCE(b.budget_amount, 0) AS budget, COALESCE(a.actual_amount, 0) AS actual, COALESCE(b.budget_amount, 0) - COALESCE(a.actual_amount, 0) AS variance, ROUND((COALESCE(b.budget_amount,0) - COALESCE(a.actual_amount,0)) / NULLIF(COALESCE(b.budget_amount,0),0) * 100, 1) AS variance_pct FROM budget b LEFT JOIN actuals a ON b.account_code = a.account_code AND b.period = a.period WHERE b.period = '2025-06' ORDER BY ABS(variance) DESC;",
+                "Sort by ABS(variance) DESC to show the largest variances first — most useful for finance review.",
+              ],
+              answer: "BvA query: LEFT JOIN budget to actuals on account and period. COALESCE replaces NULLs with 0. NULLIF prevents divide-by-zero in variance %. Sort by absolute variance for management review.",
+            },
+            summary: [
+              "BvA SQL: LEFT JOIN actuals to budget on account_code and period",
+              "COALESCE(value, 0): replace NULL with 0 where one table has no matching row",
+              "NULLIF(budget, 0): return NULL instead of 0 as a divisor — prevents divide-by-zero error",
+              "Variance: COALESCE(budget,0) − COALESCE(actual,0) for cost lines (positive = favourable)",
+              "Sort by ABS(variance) DESC to prioritise largest variances for management review",
+              "FULL OUTER JOIN: use when either side may have rows the other lacks",
+            ],
+            practiceQuestions: [
+              {
+                question: "Why use COALESCE(actual_amount, 0) in a BvA query?",
+                options: [
+                    "To format the number with no decimal places",
+                    "To replace NULL (no matching actual) with 0 so variance arithmetic works correctly",
+                    "To convert text amounts to numbers",
+                    "To round the amount to the nearest pound",
+                ],
+                correct: 1,
+                explanation: "When an account has a budget but no actuals, the LEFT JOIN returns NULL for actual_amount. COALESCE replaces NULL with 0 so the variance calculation (Budget − Actual) works correctly.",
+                topic: "COALESCE",
+              },
+              {
+                question: "What does NULLIF(budget_amount, 0) return when budget_amount is 0?",
+                options: [
+                    "0",
+                    "NULL",
+                    "An error",
+                    "1",
+                ],
+                correct: 1,
+                explanation: "NULLIF(x, 0) returns NULL when x = 0, and x otherwise. Dividing by NULL returns NULL (not an error), safely handling zero-budget accounts in the variance % calculation.",
+                topic: "NULLIF",
+              },
+              {
+                question: "An account has a budget of £10,000 but no actual transactions. What values does the BvA query return for this account using a LEFT JOIN from budget to actuals?",
+                options: [
+                    "Budget = NULL, Actual = NULL, Variance = NULL",
+                    "Budget = £10,000, Actual = £0, Variance = £10,000 (favourable)",
+                    "The account is excluded from results",
+                    "Budget = £10,000, Actual = NULL, Variance = NULL (without COALESCE)",
+                ],
+                correct: 3,
+                explanation: "Without COALESCE, the LEFT JOIN returns NULL for actual_amount when no match exists. Budget − NULL = NULL. Adding COALESCE(actual_amount, 0) fixes this, giving Actual = £0 and Variance = £10,000.",
+                topic: "LEFT JOIN NULLs",
+              },
+            ],
           },
           {
             id: "sql-profitability",
@@ -17703,10 +18762,64 @@ const AIQ_COURSE_DATA = {
               "Calculate gross margin and contribution at entity level using aggregation",
               "Rank entities by profitability using ROW_NUMBER and ORDER BY",
             ],
-            explanation: null, // TODO: cover multi-level aggregation, derived tables, margin calculations
-            workedExample: null, // TODO: profitability report by client broken down by service line
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Profitability Analysis Queries</h3>"+ "<p>SQL enables finance teams to analyse profitability by product, customer, region, or any other dimension — directly from transaction data, without manual spreadsheet manipulation.</p>"+ "<h4>Building a P&L in SQL</h4>"+ "<p>Use CASE WHEN to classify account codes into P&L lines (Revenue, Cost of Sales, Gross Profit, Opex, EBITDA). Aggregate by dimension (product, customer, region) and period. The result is a multi-dimensional P&L that can be filtered and sliced in any direction.</p>"+ "<h4>Contribution Margin Analysis</h4>"+ "<p>Contribution margin = Revenue − Variable Costs. Query: join sales transactions to cost transactions by product; calculate revenue and variable cost per product; compute contribution and margin %.</p>"+ "<h4>Customer Profitability</h4>"+ "<p>Join sales to customer master. Aggregate revenue by customer. Join to cost allocation table (e.g., cost-to-serve) to calculate profit per customer. Rank customers by profit using ROW_NUMBER() or RANK() window functions.</p>"+ "<h4>Subqueries and CTEs</h4>"+ "<p>Break complex profitability queries into steps using CTEs: first calculate revenue by product, then costs by product, then JOIN them to compute margin. Each CTE is a named, readable step.</p>"+ "<h4>Ranking with Window Functions</h4>"+ "<p><code>RANK() OVER (ORDER BY profit DESC)</code> — rank products or customers by profitability. <code>NTILE(4) OVER (ORDER BY profit DESC)</code> — divide into quartiles. <code>ROW_NUMBER()</code> — sequential rank with no ties.</p>",
+            workedExample: {
+              setup: "Tables: sales (product_id, customer_id, revenue, period), costs (product_id, variable_cost, fixed_cost_allocation, period). Write a query showing contribution margin and margin % by product for Q1 2025, ranked by contribution descending.",
+              steps: [
+                "CTE 1 — Revenue: WITH revenue AS (SELECT product_id, SUM(revenue) AS total_revenue FROM sales WHERE period BETWEEN '2025-01-01' AND '2025-03-31' GROUP BY product_id),",
+                "CTE 2 — Costs: costs_agg AS (SELECT product_id, SUM(variable_cost) AS total_variable_cost FROM costs WHERE period BETWEEN '2025-01-01' AND '2025-03-31' GROUP BY product_id)",
+                "Main query: SELECT r.product_id, r.total_revenue, COALESCE(c.total_variable_cost, 0) AS variable_cost, r.total_revenue - COALESCE(c.total_variable_cost, 0) AS contribution, ROUND((r.total_revenue - COALESCE(c.total_variable_cost, 0)) / NULLIF(r.total_revenue, 0) * 100, 1) AS margin_pct, RANK() OVER (ORDER BY r.total_revenue - COALESCE(c.total_variable_cost, 0) DESC) AS profit_rank FROM revenue r LEFT JOIN costs_agg c ON r.product_id = c.product_id ORDER BY contribution DESC;",
+                "Result: product-level contribution margin table, ranked by profitability — immediately usable for a product profitability review.",
+              ],
+              answer: "Two CTEs (revenue and costs) joined on product_id; contribution = revenue − variable cost; margin % using NULLIF for safety; RANK() window function ranks by contribution descending.",
+            },
+            summary: [
+              "Use CASE WHEN to classify account codes into P&L lines (Revenue, COS, Opex)",
+              "CTEs: break profitability analysis into readable steps (revenue CTE, cost CTE, then JOIN)",
+              "Contribution margin = Revenue − Variable Costs; margin % = contribution / NULLIF(revenue, 0) × 100",
+              "RANK() OVER (ORDER BY profit DESC): rank customers or products by profitability",
+              "NTILE(4) OVER (ORDER BY profit DESC): divide into quartiles for customer segmentation",
+              "COALESCE and NULLIF essential: handle missing data and prevent divide-by-zero in margin calculations",
+            ],
+            practiceQuestions: [
+              {
+                question: "You want to rank customers by total revenue, highest first, with tied customers receiving the same rank. Which window function is correct?",
+                options: [
+                    "ROW_NUMBER() OVER (ORDER BY total_revenue DESC)",
+                    "RANK() OVER (ORDER BY total_revenue DESC)",
+                    "NTILE(10) OVER (ORDER BY total_revenue DESC)",
+                    "DENSE_RANK() OVER (PARTITION BY total_revenue ORDER BY customer_id)",
+                ],
+                correct: 1,
+                explanation: "RANK() assigns the same rank to tied values and skips ranks after ties (e.g., 1, 2, 2, 4). ROW_NUMBER() never ties. For customer ranking by revenue with ties possible, RANK() is appropriate.",
+                topic: "RANK window function",
+              },
+              {
+                question: "A CTE (WITH clause) is useful for profitability analysis because:",
+                options: [
+                    "CTEs automatically optimise query performance",
+                    "They allow complex multi-step calculations to be broken into named, readable intermediate steps",
+                    "They replace the need for JOINs",
+                    "CTEs persist the results permanently in the database",
+                ],
+                correct: 1,
+                explanation: "CTEs name intermediate result sets within a query — making revenue, cost, and margin calculations readable and maintainable. They are temporary (query-duration only) and do not persist.",
+                topic: "CTEs",
+              },
+              {
+                question: "Contribution margin % formula in SQL, safely handling zero revenue, is:",
+                options: [
+                    "(revenue - variable_cost) / revenue * 100",
+                    "(revenue - variable_cost) / NULLIF(revenue, 0) * 100",
+                    "CASE WHEN revenue = 0 THEN NULL ELSE (revenue - variable_cost) / revenue END * 100",
+                    "Both B and C are correct",
+                ],
+                correct: 3,
+                explanation: "Both NULLIF(revenue, 0) and a CASE WHEN revenue = 0 check safely handle zero-revenue rows. NULLIF is more concise; CASE WHEN is more explicit — both are acceptable SQL approaches.",
+                topic: "Margin calculation",
+              },
+            ],
           },
           {
             id: "sql-reporting-datasets",
@@ -17718,10 +18831,65 @@ const AIQ_COURSE_DATA = {
               "Use CTEs and subqueries to layer business logic into a reusable view",
               "Document and version-control SQL reporting queries for team use",
             ],
-            explanation: null, // TODO: cover star schema concepts, view creation, query documentation
-            workedExample: null, // TODO: build a fact table for a management reporting layer
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Building Finance Reporting Datasets</h3>"+ "<p>A <strong>reporting dataset</strong> is a clean, pre-aggregated table designed to feed management reports, dashboards, or finance models. Building it in SQL means the source of truth is always the database — not a manually maintained spreadsheet.</p>"+ "<h4>Design Principles</h4>"+ "<p><strong>One row per dimension combination:</strong> e.g., one row per account × department × month. <strong>All necessary fields pre-joined:</strong> account names, department names, category labels — so the consumer (Excel/BI tool) does not need to look up anything. <strong>No further transformation needed:</strong> the dataset should be report-ready. <strong>Consistent naming:</strong> column names that match the finance team's vocabulary.</p>"+ "<h4>Using Views</h4>"+ "<p>Save a complex reporting query as a <strong>VIEW</strong>: <code>CREATE VIEW v_monthly_pnl AS SELECT ...;</code>. The view looks and behaves like a table — users can query <code>SELECT * FROM v_monthly_pnl</code> without seeing the underlying complexity. Views always return up-to-date data.</p>"+ "<h4>UNION ALL for Multi-Source Data</h4>"+ "<p><code>UNION ALL</code> stacks result sets vertically. Use to combine data from multiple source tables with the same structure (e.g., transactions from two GL systems, or actuals + budget in one dataset). <code>UNION</code> (without ALL) removes duplicates — usually slower and rarely needed in finance contexts.</p>"+ "<h4>Final Touches</h4>"+ "<p>Add a <strong>data_type</strong> column ('Actual' or 'Budget') when combining actuals and budget in one dataset. Add <strong>report_period</strong> as a date column for timeline filtering. Round amounts to 0 or 2 decimal places. Use consistent NULL handling (COALESCE).</p>",
+            workedExample: {
+              setup: "Build a reporting dataset that combines actuals (from gl_transactions) and budget (from budget_table) into a single table with columns: data_type, period, account_code, account_name, account_type, department, amount. Create it as a database view.",
+              steps: [
+                "Actuals query: SELECT 'Actual' AS data_type, DATE_TRUNC('month', transaction_date) AS period, t.account_code, a.account_name, a.account_type, t.department, SUM(t.net_amount) AS amount FROM gl_transactions t LEFT JOIN chart_of_accounts a ON t.account_code = a.account_code GROUP BY DATE_TRUNC('month', transaction_date), t.account_code, a.account_name, a.account_type, t.department",
+                "Budget query: SELECT 'Budget' AS data_type, b.period, b.account_code, a.account_name, a.account_type, b.department, b.budget_amount AS amount FROM budget_table b LEFT JOIN chart_of_accounts a ON b.account_code = a.account_code",
+                "UNION ALL to combine: (actuals query) UNION ALL (budget query) — one dataset with both actuals and budget rows.",
+                "Wrap in a VIEW: CREATE VIEW v_finance_reporting AS (actuals query) UNION ALL (budget query);",
+                "Now the finance team or BI tool can query: SELECT * FROM v_finance_reporting WHERE period = '2025-06-01' AND data_type = 'Actual' — or filter to both and pivot for BvA.",
+              ],
+              answer: "VIEW v_finance_reporting: UNION ALL of actuals (aggregated monthly, joined to chart of accounts) and budget, both tagged with a data_type column. Query the view for any period/data_type combination.",
+            },
+            summary: [
+              "Reporting dataset: pre-joined, pre-aggregated, report-ready — one row per dimension combination",
+              "CREATE VIEW: saves a complex query as a reusable, always-current virtual table",
+              "UNION ALL: stacks result sets vertically — combine actuals and budget in one dataset",
+              "Tag rows with data_type ('Actual' / 'Budget') to enable BvA filtering in the consuming tool",
+              "All lookups pre-joined: account names, department names, categories — no consumer-side lookups",
+              "UNION (without ALL) removes duplicates — slower; use UNION ALL unless deduplication is needed",
+            ],
+            practiceQuestions: [
+              {
+                question: "What is the main advantage of storing a reporting query as a database VIEW?",
+                options: [
+                    "Views store a physical copy of the data for faster access",
+                    "Users can query the view like a table without seeing the underlying complexity, and results are always current",
+                    "Views prevent any changes to the underlying tables",
+                    "Views are faster than tables for aggregation queries",
+                ],
+                correct: 1,
+                explanation: "A VIEW is a saved query — querying it always runs against current data. Users see a simple table interface without needing to understand the JOIN and aggregation logic behind it.",
+                topic: "Database views",
+              },
+              {
+                question: "UNION ALL versus UNION (without ALL): when is UNION ALL preferred in finance contexts?",
+                options: [
+                    "When you need to remove duplicate rows",
+                    "UNION ALL is almost always preferred — it is faster and finance datasets rarely contain exact duplicate rows to remove",
+                    "UNION ALL is only used with three or more queries",
+                    "UNION is preferred for combining actuals and budget",
+                ],
+                correct: 1,
+                explanation: "UNION removes duplicates (requiring a sort/hash operation) — slower. In finance, actuals and budget rows are distinct by design (different data_type tag), so UNION ALL is correct and faster.",
+                topic: "UNION ALL",
+              },
+              {
+                question: "A finance reporting dataset has both Actual and Budget rows. How should you distinguish them so the consuming tool can filter correctly?",
+                options: [
+                    "Store them in separate views",
+                    "Add a data_type column with values 'Actual' or 'Budget'",
+                    "Use different account code prefixes",
+                    "The consumer must figure this out from the amounts",
+                ],
+                correct: 1,
+                explanation: "Adding a data_type column ('Actual' or 'Budget') makes the dataset self-describing — the consuming tool (Excel, Power BI) can filter, compare, or pivot by this column for BvA analysis.",
+                topic: "Dataset design",
+              },
+            ],
           },
           {
             id: "sql-common-mistakes",
@@ -17733,10 +18901,66 @@ const AIQ_COURSE_DATA = {
               "Avoid double-counting from unintended Cartesian products and fan-out joins",
               "Validate query output against known control totals before using in reports",
             ],
-            explanation: null, // TODO: cover NULL pitfalls, implicit type conversion, filter placement
-            workedExample: null, // TODO: diagnose a broken BvA query and fix three common errors
-            summary: null,
-            practiceQuestions: [], // TODO: add 3–5 MCQs
+            explanation:
+              "<h3>Common SQL Mistakes in Finance Data</h3>"+ "<p>Finance data has specific characteristics that cause SQL queries to produce misleading results if not handled carefully. Understanding these pitfalls prevents errors in reports and analysis.</p>"+ "<h4>1. NULL ≠ Zero</h4>"+ "<p>Any arithmetic involving NULL returns NULL (not zero). SUM() ignores NULLs — so SUM of (100, NULL, 200) = 300, not NULL. But 100 + NULL = NULL. Always use COALESCE(column, 0) when NULLs should be treated as zero in calculations.</p>"+ "<h4>2. Duplicate Rows from JOINs</h4>"+ "<p>If the right-side table has multiple matches for a left-side row, the JOIN produces multiple output rows — inflating sums. Always COUNT(*) after a JOIN to check for unexpected row multiplication. Use DISTINCT or aggregate correctly to de-duplicate.</p>"+ "<h4>3. Wrong Date Comparisons</h4>"+ "<p>BETWEEN on datetime columns can miss end-of-day records. String date comparisons depend on format. Always use ISO 'YYYY-MM-DD' and prefer >= / < over BETWEEN for datetime safety.</p>"+ "<h4>4. Divide by Zero</h4>"+ "<p>Division by zero causes a query error. Use NULLIF(divisor, 0) so division by zero returns NULL instead of an error. Wrap in COALESCE if you want 0 instead: COALESCE(numerator / NULLIF(divisor, 0), 0).</p>"+ "<h4>5. Incorrect Aggregation Level</h4>"+ "<p>Aggregating at the wrong level produces incorrect totals. Always check: what is one row in my result? Does that match what I expect? Use a simple COUNT(*) check against a known total.</p>"+ "<h4>6. Sign Conventions in GL Data</h4>"+ "<p>GL transactions may store debits as positive and credits as negative (or vice versa), depending on the accounting system. Always check the sign convention of your source system before building variance or P&L queries — add a dummy check: does SUM(net_amount) for a known revenue account give a positive or negative number?</p>",
+            workedExample: {
+              setup: "A finance analyst queries total spend by department: SELECT department, SUM(amount) FROM transactions JOIN departments ON transactions.dept_id = departments.id GROUP BY department. The totals are exactly double the expected figures. Diagnose the cause and fix it.",
+              steps: [
+                "Diagnosis: Totals doubled suggests each transaction row is appearing twice in the JOIN output — a classic fan-out (row multiplication) problem.",
+                "Investigate: SELECT COUNT(*) FROM transactions (= 10,000). SELECT COUNT(*) FROM transactions JOIN departments ON transactions.dept_id = departments.id (= 20,000). The JOIN doubled the rows.",
+                "Root cause: the departments table has two rows per department_id (e.g., both current and historical versions). A one-to-many relationship in the wrong direction is multiplying transactions.",
+                "Fix option 1: filter the departments table to current records only before joining: JOIN (SELECT id, department FROM departments WHERE is_current = 1) d ON transactions.dept_id = d.id.",
+                "Fix option 2: use a subquery or CTE to aggregate transactions first, THEN join to departments for labels: WITH agg AS (SELECT dept_id, SUM(amount) AS total FROM transactions GROUP BY dept_id) SELECT d.department, a.total FROM agg a JOIN departments d ON a.dept_id = d.id WHERE d.is_current = 1.",
+                "Always validate: after fixing, re-run COUNT(*) to confirm row count is back to 10,000 before checking totals.",
+              ],
+              answer: "Cause: many-to-one JOIN inflated rows (fan-out). Fix: filter lookup table to one row per key (WHERE is_current = 1) or aggregate before joining. Always validate row counts after a JOIN.",
+            },
+            summary: [
+              "NULL arithmetic: anything + NULL = NULL; use COALESCE(col, 0) to treat NULLs as zero",
+              "JOIN fan-out: duplicate rows from many-to-one JOINs inflate sums — always COUNT(*) after joining",
+              "Date safety: use >= '2025-01-01' AND < '2025-02-01' for datetime columns; avoid BETWEEN",
+              "Divide by zero: use NULLIF(divisor, 0) to return NULL instead of an error",
+              "Check aggregation level: verify what one result row represents before trusting totals",
+              "GL sign conventions vary by system: check whether debits are positive or negative in your source",
+            ],
+            practiceQuestions: [
+              {
+                question: "A query produces totals that are exactly 3× the expected value after adding a JOIN. What is the most likely cause?",
+                options: [
+                    "A WHERE clause error is including 3× as many transactions",
+                    "The JOIN right-side table has 3 rows per key value, multiplying each left-side row 3 times",
+                    "SUM() is counting NULL values as 3",
+                    "The GROUP BY is missing one column",
+                ],
+                correct: 1,
+                explanation: "When a JOIN right-side table has multiple rows per key, each left-side row joins to all matching rows — multiplying the result set and inflating any SUM aggregation.",
+                topic: "JOIN fan-out",
+              },
+              {
+                question: "100 + NULL in SQL equals:",
+                options: [
+                    "100",
+                    "NULL",
+                    "0",
+                    "An error",
+                ],
+                correct: 1,
+                explanation: "Any arithmetic involving NULL propagates NULL — the result is unknown. Use COALESCE(column, 0) to replace NULL with zero before arithmetic.",
+                topic: "NULL arithmetic",
+              },
+              {
+                question: "You are querying GL revenue accounts and the SUM(net_amount) returns a large negative number when you expect a positive revenue total. What should you check first?",
+                options: [
+                    "Whether the WHERE clause has a syntax error",
+                    "The sign convention of the source GL system — revenue may be stored as credit (negative)",
+                    "Whether the database server has a rounding error",
+                    "Whether COALESCE is needed on the net_amount column",
+                ],
+                correct: 1,
+                explanation: "GL systems vary — some store credits as negative values, others as positive. A negative revenue total often means the system records credits (income) as negative. Multiply by -1 or adjust the sign convention in your query.",
+                topic: "GL sign conventions",
+              },
+            ],
           },
         ],
       },
