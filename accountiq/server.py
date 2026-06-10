@@ -1,5 +1,13 @@
-"""AccountIQ — serves static files, AI Tutor, and user-state persistence."""
+"""AccountIQ — serves static files, AI Tutor, and user-state persistence.
+
+Supabase schema notes:
+  - Existing tables (users, user_xp, user_streaks, user_progress, mock_exams,
+    ai_tutor_conversations) are from the original AccountIQ MVP — left untouched.
+  - New table: user_state (JSON blob for onboarding prefs + lesson progress).
+    Run accountiq/supabase/schema.sql to create it.
+"""
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 from functools import lru_cache
 
@@ -9,6 +17,7 @@ from pydantic import BaseModel
 
 BASE_DIR = Path(__file__).parent
 app = FastAPI(title="AccountIQ")
+
 
 # ── Supabase client (service role — server-side only) ─────────────────────────
 
@@ -20,6 +29,10 @@ def _supabase():
         return None
     from supabase import create_client
     return create_client(url, key)
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 async def get_current_user(authorization: str = Header(default=None)):
@@ -45,12 +58,15 @@ async def get_current_user(authorization: str = Header(default=None)):
 @app.get("/api/config")
 async def get_config():
     return {
-        "supabaseUrl":      os.environ.get("SUPABASE_URL", ""),
-        "supabaseAnonKey":  os.environ.get("SUPABASE_ANON_KEY", ""),
+        "supabaseUrl":     os.environ.get("SUPABASE_URL", ""),
+        "supabaseAnonKey": os.environ.get("SUPABASE_ANON_KEY", ""),
     }
 
 
 # ── User state persistence ────────────────────────────────────────────────────
+# Stores the AccountIQStore JSON blob in user_state, and also reads
+# XP + streak from the existing user_xp / user_streaks tables so that
+# any progress from the original app carries over.
 
 class StateBody(BaseModel):
     state: dict
@@ -59,15 +75,50 @@ class StateBody(BaseModel):
 @app.get("/api/aiq/state")
 async def load_state(user=Depends(get_current_user)):
     sb = _supabase()
+    uid = str(user.id)
     try:
-        res = (
+        # Load our JSON state blob
+        blob_res = (
             sb.table("user_state")
             .select("state")
-            .eq("user_id", str(user.id))
+            .eq("user_id", uid)
             .maybe_single()
             .execute()
         )
-        return {"state": res.data["state"] if res.data else {}}
+        state = blob_res.data["state"] if blob_res.data else {}
+
+        # Enrich with XP from existing user_xp table (if it exists)
+        try:
+            xp_res = (
+                sb.table("user_xp")
+                .select("amount")
+                .eq("user_id", uid)
+                .execute()
+            )
+            if xp_res.data:
+                legacy_xp = sum(r["amount"] for r in xp_res.data if r.get("amount"))
+                state["xp"] = max(state.get("xp", 0), legacy_xp)
+        except Exception:
+            pass  # table may not exist or have different schema
+
+        # Enrich with streak from existing user_streaks table (if it exists)
+        try:
+            streak_res = (
+                sb.table("user_streaks")
+                .select("current_streak, last_activity_date")
+                .eq("user_id", uid)
+                .maybe_single()
+                .execute()
+            )
+            if streak_res.data:
+                legacy_streak = streak_res.data.get("current_streak", 0) or 0
+                state["streak"] = max(state.get("streak", 0), legacy_streak)
+                if streak_res.data.get("last_activity_date"):
+                    state.setdefault("streakLastDate", streak_res.data["last_activity_date"])
+        except Exception:
+            pass
+
+        return {"state": state}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -75,12 +126,13 @@ async def load_state(user=Depends(get_current_user)):
 @app.put("/api/aiq/state")
 async def save_state(body: StateBody, user=Depends(get_current_user)):
     sb = _supabase()
+    uid = str(user.id)
     try:
         sb.table("user_state").upsert(
             {
-                "user_id":    str(user.id),
+                "user_id":    uid,
                 "state":      body.state,
-                "updated_at": "now()",
+                "updated_at": _now_iso(),
             },
             on_conflict="user_id",
         ).execute()
@@ -110,8 +162,6 @@ class TutorRequest(BaseModel):
     question: str
     history:  list[dict] = []
     context:  dict = {}
-    # Optional — passed when user is logged in
-    save_conversation: bool = False
 
 
 def _build_system(context: dict) -> str:
@@ -120,8 +170,11 @@ def _build_system(context: dict) -> str:
         note += f" The student is currently studying {context['targetPaper'].upper()}."
     mastery = context.get("topicMastery", {})
     if mastery:
-        weak = [t for t, s in mastery.items() if isinstance(s, dict) and s.get("total", 0) > 0
-                and s.get("correct", 0) / s["total"] < 0.5]
+        weak = [
+            t for t, s in mastery.items()
+            if isinstance(s, dict) and s.get("total", 0) > 0
+            and s.get("correct", 0) / s["total"] < 0.5
+        ]
         if weak:
             note += f" Their weakest topics are: {', '.join(weak[:3])}."
     return SYSTEM_PROMPT + note
@@ -194,7 +247,7 @@ async def aiq_tutor(
             return {"answer": "<b>⚠️ AI authentication failed.</b> Check your API key in Render."}
         return {"answer": "I'm not certain — please check your official CIMA study materials."}
 
-    # Persist conversation if user is logged in
+    # Log conversation to ai_tutor_conversations (existing table) when authed
     if authorization and authorization.startswith("Bearer "):
         token = authorization.removeprefix("Bearer ").strip()
         sb = _supabase()
@@ -202,18 +255,22 @@ async def aiq_tutor(
             try:
                 user_resp = sb.auth.get_user(token)
                 if user_resp.user:
-                    user_id = str(user_resp.user.id)
+                    uid = str(user_resp.user.id)
                     full_messages = [
-                        *messages[:-1],  # history
+                        *[m for m in messages[:-1]],
                         {"role": "user",      "content": body.question},
                         {"role": "assistant", "content": answer},
                     ]
-                    sb.table("tutor_conversations").insert({
-                        "user_id":  user_id,
-                        "messages": full_messages,
+                    now = _now_iso()
+                    sb.table("ai_tutor_conversations").insert({
+                        "user_id":    uid,
+                        "lesson_id":  None,
+                        "messages":   full_messages,
+                        "created_at": now,
+                        "updated_at": now,
                     }).execute()
             except Exception:
-                pass  # conversation logging is non-critical
+                pass  # non-critical
 
     return {"answer": answer}
 
