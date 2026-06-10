@@ -17409,13 +17409,13 @@ const AIQ_COURSE_DATA = {
             workedExample: {
               setup: "You have a GL transactions table with column A = GL Code and column B = Amount. A separate reference table on Sheet2 has GL codes in column A and account names in column B. Write a formula in column C of the transactions table to retrieve the account name for each GL code.",
               steps: [
-                "Formula in C2 (transactions table): =XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, "Code not found")",
-                "Breakdown: lookup_value = A2 (the GL code from the transaction row); lookup_array = Sheet2!A:A (the full list of GL codes in the reference table); return_array = Sheet2!B:B (the account names to retrieve); if_not_found = "Code not found" (friendly error instead of #N/A).",
+                "Formula in C2 (transactions table): =XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, \"Code not found\")",
+                "Breakdown: lookup_value = A2 (the GL code from the transaction row); lookup_array = Sheet2!A:A (the full list of GL codes in the reference table); return_array = Sheet2!B:B (the account names to retrieve); if_not_found = \"Code not found\" (friendly error instead of #N/A).",
                 "Copy the formula down column C for all transaction rows.",
                 "Advantage over VLOOKUP: if the reference table columns are reordered, XLOOKUP still works because return_array is specified explicitly — not by column number.",
                 "Enhancement: add a match_mode of -1 (exact match or next smallest) if you need approximate matching for rate bands.",
               ],
-              answer: "=XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, "Code not found") — retrieves the account name matching each GL code, with a clean fallback if the code is missing from the reference table.",
+              answer: "=XLOOKUP(A2, Sheet2!A:A, Sheet2!B:B, \"Code not found\") — retrieves the account name matching each GL code, with a clean fallback if the code is missing from the reference table.",
             },
             summary: [
               "XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
@@ -17430,12 +17430,12 @@ const AIQ_COURSE_DATA = {
                 question: "You want to look up a supplier name from a supplier code in column D, using a reference table where codes are in column G and names are in column H. Which formula is correct?",
                 options: [
                     "=VLOOKUP(D2, G:H, 2, FALSE)",
-                    "=XLOOKUP(D2, G:G, H:H, "Unknown")",
-                    "=XLOOKUP(D2, H:H, G:G, "Unknown")",
+                    "=XLOOKUP(D2, G:G, H:H, \"Unknown\")",
+                    "=XLOOKUP(D2, H:H, G:G, \"Unknown\")",
                     "=INDEX(H:H, MATCH(D2, G:G, 0))",
                 ],
                 correct: 1,
-                explanation: "=XLOOKUP(D2, G:G, H:H, "Unknown") — search for D2 in column G (codes), return the corresponding value from column H (names), with "Unknown" if not found.",
+                explanation: "=XLOOKUP(D2, G:G, H:H, \"Unknown\") — search for D2 in column G (codes), return the corresponding value from column H (names), with \"Unknown\" if not found.",
                 topic: "XLOOKUP syntax",
               },
               {
@@ -17447,7 +17447,7 @@ const AIQ_COURSE_DATA = {
                     "It enables horizontal lookups",
                 ],
                 correct: 1,
-                explanation: "The if_not_found argument returns a custom value (e.g., "Not found") instead of the default #N/A error when no match exists, keeping reports clean.",
+                explanation: "The if_not_found argument returns a custom value (e.g., \"Not found\") instead of the default #N/A error when no match exists, keeping reports clean.",
                 topic: "Error handling",
               },
               {
@@ -17479,13 +17479,13 @@ const AIQ_COURSE_DATA = {
             workedExample: {
               setup: "A headcount rate table has job grades in row 1 (B1:F1: G3, G4, G5, G6, G7) and departments in column A (A2:A6: Finance, HR, IT, Ops, Sales). Daily rates fill the B2:F6 matrix. Write a formula to find the rate for grade G5 in the IT department.",
               steps: [
-                "MATCH for row (department): MATCH("IT", A2:A6, 0) returns 3 — IT is the 3rd item in A2:A6.",
-                "MATCH for column (grade): MATCH("G5", B1:F1, 0) returns 3 — G5 is the 3rd item in B1:F1.",
+                "MATCH for row (department): MATCH(\"IT\", A2:A6, 0) returns 3 — IT is the 3rd item in A2:A6.",
+                "MATCH for column (grade): MATCH(\"G5\", B1:F1, 0) returns 3 — G5 is the 3rd item in B1:F1.",
                 "INDEX to retrieve the value: INDEX(B2:F6, 3, 3) returns the value in row 3, column 3 of the matrix — the IT/G5 rate.",
-                "Full formula: =INDEX(B2:F6, MATCH("IT", A2:A6, 0), MATCH("G5", B1:F1, 0))",
+                "Full formula: =INDEX(B2:F6, MATCH(\"IT\", A2:A6, 0), MATCH(\"G5\", B1:F1, 0))",
                 "Make it dynamic by referencing cells instead of hardcoded text: =INDEX(B2:F6, MATCH(H2, A2:A6, 0), MATCH(H3, B1:F1, 0)) where H2 = department and H3 = grade.",
               ],
-              answer: "=INDEX(B2:F6, MATCH("IT", A2:A6, 0), MATCH("G5", B1:F1, 0)) — two-way matrix lookup combining both row and column MATCH to pinpoint the IT/G5 rate.",
+              answer: "=INDEX(B2:F6, MATCH(\"IT\", A2:A6, 0), MATCH(\"G5\", B1:F1, 0)) — two-way matrix lookup combining both row and column MATCH to pinpoint the IT/G5 rate.",
             },
             summary: [
               "INDEX(array, row_num, col_num) returns a value at a specified position in a range",
@@ -17509,7 +17509,7 @@ const AIQ_COURSE_DATA = {
                 topic: "INDEX MATCH left lookup",
               },
               {
-                question: "In =INDEX(B2:F6, MATCH("Finance", A2:A6, 0), MATCH("G4", B1:F1, 0)), what does the first MATCH return?",
+                question: "In =INDEX(B2:F6, MATCH(\"Finance\", A2:A6, 0), MATCH(\"G4\", B1:F1, 0)), what does the first MATCH return?",
                 options: [
                     "The column number of G4",
                     "The value in the Finance/G4 cell",
@@ -17517,7 +17517,7 @@ const AIQ_COURSE_DATA = {
                     "The number of columns in B2:F6",
                 ],
                 correct: 2,
-                explanation: "MATCH("Finance", A2:A6, 0) searches A2:A6 for Finance and returns its position (row number) — used by INDEX to identify which row to look in.",
+                explanation: "MATCH(\"Finance\", A2:A6, 0) searches A2:A6 for Finance and returns its position (row number) — used by INDEX to identify which row to look in.",
                 topic: "Two-way lookup",
               },
               {
@@ -17758,7 +17758,7 @@ const AIQ_COURSE_DATA = {
               "Trace and audit model logic using Excel auditing tools",
             ],
             explanation:
-              "<h3>Financial Modelling Structure</h3>"+ "<p>A well-structured <strong>financial model</strong> is clear, auditable, and easy to update. In finance teams, models are built, maintained, and reviewed by multiple people — good structure is essential.</p>"+ "<h4>The Golden Rules</h4>"+ "<p><strong>1. Separate inputs, calculations, and outputs.</strong> Use distinct sheets: Inputs (assumptions, drivers), Calculations (workings), Outputs (P&L, cash flow, KPI summary). <strong>2. Hard-code only in the Inputs sheet.</strong> Never embed numbers in formulas — use named cells or input cells referenced by formulas. <strong>3. One formula style per row.</strong> If a formula changes across columns, break it into a separate section. <strong>4. Avoid circular references</strong> unless deliberately modelling with iterative calculation.</p>"+ "<h4>Labelling and Navigation</h4>"+ "<p">Use consistent colour coding: blue = input cell, black = formula, green = linked from another sheet. Name your sheets clearly. Use a cover/contents page with hyperlinks for large models.</p>"+ "<h4>Error Checking</h4>"+ "<p>Add a Checks sheet: balance sheet balances (Assets = Liabilities + Equity), cash flow ties to balance sheet movement, IS profit ties to equity movement. Use <code>=IF(check=0, "OK", "ERROR")</code> and conditional formatting to flag any breaks.</p>"+ "<h4>Sensitivity Analysis</h4>"+ "<p>Use Data → What-If Analysis → Data Table for one-way and two-way sensitivity tables. Show how profit changes as key drivers (price, volume, cost) vary — standard for business case modelling and board presentations.</p>",
+              "<h3>Financial Modelling Structure</h3>"+ "<p>A well-structured <strong>financial model</strong> is clear, auditable, and easy to update. In finance teams, models are built, maintained, and reviewed by multiple people — good structure is essential.</p>"+ "<h4>The Golden Rules</h4>"+ "<p><strong>1. Separate inputs, calculations, and outputs.</strong> Use distinct sheets: Inputs (assumptions, drivers), Calculations (workings), Outputs (P&L, cash flow, KPI summary). <strong>2. Hard-code only in the Inputs sheet.</strong> Never embed numbers in formulas — use named cells or input cells referenced by formulas. <strong>3. One formula style per row.</strong> If a formula changes across columns, break it into a separate section. <strong>4. Avoid circular references</strong> unless deliberately modelling with iterative calculation.</p>"+ "<h4>Labelling and Navigation</h4>"+ "<p>Use consistent colour coding: blue = input cell, black = formula, green = linked from another sheet. Name your sheets clearly. Use a cover/contents page with hyperlinks for large models.</p>"+ "<h4>Error Checking</h4>"+ "<p>Add a Checks sheet: balance sheet balances (Assets = Liabilities + Equity), cash flow ties to balance sheet movement, IS profit ties to equity movement. Use <code>=IF(check=0, \"OK\", \"ERROR\")</code> and conditional formatting to flag any breaks.</p>"+ "<h4>Sensitivity Analysis</h4>"+ "<p>Use Data → What-If Analysis → Data Table for one-way and two-way sensitivity tables. Show how profit changes as key drivers (price, volume, cost) vary — standard for business case modelling and board presentations.</p>",
             workedExample: {
               setup: "You are building a 3-year P&L model for a new product launch. Key assumptions: Year 1 units sold 10,000, growing 20% pa; selling price £50, growing 5% pa; variable cost £30 per unit; fixed costs £80,000 pa. Structure the model correctly.",
               steps: [
@@ -17766,7 +17766,7 @@ const AIQ_COURSE_DATA = {
                 "Calculations sheet — Year 1: Units = Inputs!Units_Y1 (reference, never hardcode). Revenue = Units × Price. Variable costs = Units × VC/unit. Contribution = Revenue − Variable costs. Net profit = Contribution − Fixed costs.",
                 "Calculations — Year 2: Units = Year1_Units × (1 + Inputs!Growth). Price = Year1_Price × (1 + Inputs!Price_growth). Same formula structure as Year 1.",
                 "Outputs sheet: pull final P&L lines from Calculations. Add a sensitivity table: Data → What-If Analysis → Data Table. Row input = Price growth %, Column input = Volume growth %. Show how Year 3 profit varies.",
-                "Checks sheet: verify Revenue = Units × Price for each year using =IF(Revenue=Units*Price, "OK", "ERROR").",
+                "Checks sheet: verify Revenue = Units × Price for each year using =IF(Revenue=Units*Price, \"OK\", \"ERROR\").",
                 "Colour code: blue fill for all Inputs cells; black text for formula cells; green for cells linked from another sheet.",
               ],
               answer: "Structured model: Inputs → Calculations → Outputs → Checks. All assumptions on one sheet; no hardcoded numbers in formulas. Sensitivity table shows profit range across price/volume combinations.",
@@ -17829,13 +17829,13 @@ const AIQ_COURSE_DATA = {
               "Automate period commentary using formula-driven cells",
             ],
             explanation:
-              "<h3>Variance Analysis Templates</h3>"+ "<p>Variance analysis compares actual results to a benchmark (budget, prior year, forecast) and explains the differences. A well-designed Excel template makes this fast, consistent, and easy to review.</p>"+ "<h4>Template Structure</h4>"+ "<p>Standard layout: <strong>Row 1:</strong> Description. <strong>Column A:</strong> Line item labels (Revenue, COS, Gross Profit, Opex lines, EBITDA). <strong>Columns B-D:</strong> Actual, Budget, Variance. <strong>Column E:</strong> Variance %. Repeat for prior year columns if needed. Add a Favourable/Adverse flag column.</p>"+ "<h4>Variance Formulae</h4>"+ "<p>Absolute variance: <code>= Actual − Budget</code>. Be careful with sign conventions — for costs, a positive actual vs budget is adverse (spent more than budgeted). <strong>Best practice:</strong> define variance as (Budget − Actual) for cost lines so positive = favourable, and (Actual − Budget) for income lines so positive = favourable.</p>"+ "<p>Variance %: <code>= Variance / ABS(Budget)</code> — use ABS() to avoid sign errors when budget is negative.</p>"+ "<h4>Favourable/Adverse Flag</h4>"+ "<p><code>=IF(variance_cell>0, "F", IF(variance_cell<0, "A", "-"))</code>. Apply conditional formatting: green fill for F, red fill for A. This gives an instant RAG (Red, Amber, Green) view.</p>"+ "<h4>Automating from Source Data</h4>"+ "<p>Link actual columns to a PivotTable or Power Query output rather than manually copying figures. Budget figures come from a named budget table. When actuals are refreshed, variances update automatically.</p>",
+              "<h3>Variance Analysis Templates</h3>"+ "<p>Variance analysis compares actual results to a benchmark (budget, prior year, forecast) and explains the differences. A well-designed Excel template makes this fast, consistent, and easy to review.</p>"+ "<h4>Template Structure</h4>"+ "<p>Standard layout: <strong>Row 1:</strong> Description. <strong>Column A:</strong> Line item labels (Revenue, COS, Gross Profit, Opex lines, EBITDA). <strong>Columns B-D:</strong> Actual, Budget, Variance. <strong>Column E:</strong> Variance %. Repeat for prior year columns if needed. Add a Favourable/Adverse flag column.</p>"+ "<h4>Variance Formulae</h4>"+ "<p>Absolute variance: <code>= Actual − Budget</code>. Be careful with sign conventions — for costs, a positive actual vs budget is adverse (spent more than budgeted). <strong>Best practice:</strong> define variance as (Budget − Actual) for cost lines so positive = favourable, and (Actual − Budget) for income lines so positive = favourable.</p>"+ "<p>Variance %: <code>= Variance / ABS(Budget)</code> — use ABS() to avoid sign errors when budget is negative.</p>"+ "<h4>Favourable/Adverse Flag</h4>"+ "<p><code>=IF(variance_cell>0, \"F\", IF(variance_cell<0, \"A\", \"-\"))</code>. Apply conditional formatting: green fill for F, red fill for A. This gives an instant RAG (Red, Amber, Green) view.</p>"+ "<h4>Automating from Source Data</h4>"+ "<p>Link actual columns to a PivotTable or Power Query output rather than manually copying figures. Budget figures come from a named budget table. When actuals are refreshed, variances update automatically.</p>",
             workedExample: {
               setup: "Build a variance template for a P&L with: Revenue (Budget £500k, Actual £480k), Cost of Sales (Budget £300k, Actual £290k), Gross Profit, Operating Costs (Budget £120k, Actual £130k), EBITDA. Show absolute variance, % variance, and F/A flag.",
               steps: [
                 "Layout: A = Description, B = Budget, C = Actual, D = Variance, E = Var%, F = F/A flag.",
-                "Revenue row: B2=500,000; C2=480,000; D2=C2-B2 = -20,000 (adverse — actual below budget); E2=D2/ABS(B2) = -4.0%; F2=IF(D2>0,"F",IF(D2<0,"A","-")) = "A".",
-                "COS row (cost line — reverse convention): B3=300,000; C3=290,000; D3=B3-C3 = 10,000 (favourable — spent less than budget); E3=D3/ABS(B3) = 3.3%; F3="F".",
+                "Revenue row: B2=500,000; C2=480,000; D2=C2-B2 = -20,000 (adverse — actual below budget); E2=D2/ABS(B2) = -4.0%; F2=IF(D2>0,\"F\",IF(D2<0,\"A\",\"-\")) = \"A\".",
+                "COS row (cost line — reverse convention): B3=300,000; C3=290,000; D3=B3-C3 = 10,000 (favourable — spent less than budget); E3=D3/ABS(B3) = 3.3%; F3=\"F\".",
                 "Gross Profit row: D4=D2+D3 = -20,000+10,000 = -10,000. Or: C4-B4. Flag = A.",
                 "Operating Costs (cost line): B5=120,000; C5=130,000; D5=B5-C5 = -10,000 (adverse — overspend); Flag = A.",
                 "EBITDA: D6=D4-D5 = -10,000-(-10,000)... wait: EBITDA variance = Gross profit variance + Opex variance = -10,000 + (-10,000) = -20,000 adverse. Apply conditional formatting: select F column → Home → Conditional Formatting → Highlight Cells → Text that Contains 'A' → Red fill.",
@@ -17846,7 +17846,7 @@ const AIQ_COURSE_DATA = {
               "Standard layout: Description | Budget | Actual | Variance | Var% | F/A flag",
               "Income variances: Actual − Budget (positive = favourable). Cost variances: Budget − Actual (positive = favourable)",
               "Variance %: =Variance / ABS(Budget) — use ABS() to avoid sign errors",
-              "F/A flag: =IF(var>0,"F",IF(var<0,"A","-")) with red/green conditional formatting",
+              "F/A flag: =IF(var>0,\"F\",IF(var<0,\"A\",\"-\")) with red/green conditional formatting",
               "Link actuals to PivotTable/Power Query output for automatic refresh",
               "RAG status: Red (Adverse), Green (Favourable) gives instant executive-level readability",
             ],
@@ -17900,13 +17900,13 @@ const AIQ_COURSE_DATA = {
               "Use SUMIFS and dynamic period selectors to make the report self-updating",
             ],
             explanation:
-              "<h3>Budget vs Actual Analysis</h3>"+ "<p>Budget vs Actual (BvA) analysis is the core monthly management accounting task. Excel is used to automate the comparison, highlight variances, and prepare the commentary for management review.</p>"+ "<h4>Setting Up the BvA Model</h4>"+ "<p>The model needs four data inputs: <strong>Full-year budget</strong> (phased monthly), <strong>Actuals to date</strong> (from the GL or a PivotTable), <strong>Forecast for remaining months</strong> (from the finance team), <strong>Prior year actuals</strong> (for trend context). Use Power Query or direct links to source these automatically.</p>"+ "<h4>Key Views</h4>"+ "<p><strong>Month:</strong> Current month Actual vs Budget — spot in-month issues. <strong>YTD (Year to Date):</strong> Cumulative Actual vs Cumulative Budget — overall performance to date. <strong>Full Year Forecast:</strong> YTD Actual + Remaining Forecast — tracks against annual budget. <strong>Full Year vs Budget:</strong> How the full-year forecast compares to the original annual budget.</p>"+ "<h4>SUMIF for Account-Level BvA</h4>"+ "<p><code>=SUMIF(account_range, account_code, amount_range)</code> — sum all transactions for a specific account code. Use this to pull amounts by GL code from a raw transactions dump into a BvA template row by row.</p>"+ "<h4>Commentary Flags</h4>"+ "<p>Add a &gt;5% or &gt;£x threshold flag: <code>=IF(ABS(variance_pct)>threshold, "Flag", "")</code>. Finance teams often investigate and comment on any line with variance &gt;5% and &gt;£10,000. Use conditional formatting to highlight flagged lines automatically.</p>",
+              "<h3>Budget vs Actual Analysis</h3>"+ "<p>Budget vs Actual (BvA) analysis is the core monthly management accounting task. Excel is used to automate the comparison, highlight variances, and prepare the commentary for management review.</p>"+ "<h4>Setting Up the BvA Model</h4>"+ "<p>The model needs four data inputs: <strong>Full-year budget</strong> (phased monthly), <strong>Actuals to date</strong> (from the GL or a PivotTable), <strong>Forecast for remaining months</strong> (from the finance team), <strong>Prior year actuals</strong> (for trend context). Use Power Query or direct links to source these automatically.</p>"+ "<h4>Key Views</h4>"+ "<p><strong>Month:</strong> Current month Actual vs Budget — spot in-month issues. <strong>YTD (Year to Date):</strong> Cumulative Actual vs Cumulative Budget — overall performance to date. <strong>Full Year Forecast:</strong> YTD Actual + Remaining Forecast — tracks against annual budget. <strong>Full Year vs Budget:</strong> How the full-year forecast compares to the original annual budget.</p>"+ "<h4>SUMIF for Account-Level BvA</h4>"+ "<p><code>=SUMIF(account_range, account_code, amount_range)</code> — sum all transactions for a specific account code. Use this to pull amounts by GL code from a raw transactions dump into a BvA template row by row.</p>"+ "<h4>Commentary Flags</h4>"+ "<p>Add a &gt;5% or &gt;£x threshold flag: <code>=IF(ABS(variance_pct)>threshold, \"Flag\", \"\")</code>. Finance teams often investigate and comment on any line with variance &gt;5% and &gt;£10,000. Use conditional formatting to highlight flagged lines automatically.</p>",
             workedExample: {
               setup: "It is Month 6. YTD budget for IT costs is £120,000. YTD actuals (from PivotTable linked to GL) show £108,000. Full-year budget is £240,000. The team forecasts £220,000 for the full year. Build the BvA view and calculate the forecast vs budget variance.",
               steps: [
                 "Month 6 YTD: Actual £108,000 vs Budget £120,000. YTD Variance = £108,000 − £120,000 = −£12,000. Cost line so: Budget − Actual = £12,000 favourable (4.2% F on a £6,000/month phasing? check: £120k/6 = £20k/month budget; actual £18k/month on average — underspend).",
                 "Full-year Budget: £240,000. Full-year Forecast: £220,000. Forecast vs Budget variance = £240,000 − £220,000 = £20,000 favourable (8.3% F).",
-                "Set up SUMIF to auto-pull actuals: =SUMIF(GL_Data[Account], "IT Costs", GL_Data[Net Amount]) — returns the YTD actual automatically from the GL transactions table.",
+                "Set up SUMIF to auto-pull actuals: =SUMIF(GL_Data[Account], \"IT Costs\", GL_Data[Net Amount]) — returns the YTD actual automatically from the GL transactions table.",
                 "Commentary flag: ABS(8.3%) > 5% threshold → flag for commentary. Finance would note: 'IT costs favourable by £12k YTD (8.3% F) due to delayed server upgrade now forecast Q4. Full-year forecast revised to £220k, £20k below budget.'",
                 "Full Year Forecast = YTD Actual + Remaining Months Forecast: =H5+I5 where H5=YTD Actual and I5=Remaining forecast entered by the team.",
               ],
@@ -17916,7 +17916,7 @@ const AIQ_COURSE_DATA = {
               "Four BvA views: Month, YTD, Full-Year Forecast, Full-Year vs Budget",
               "SUMIF(account_range, code, amount_range) pulls account-level actuals from GL transactions",
               "Full-Year Forecast = YTD Actual + Remaining Months Forecast",
-              "Threshold flags: =IF(ABS(var%)>5%, "Flag", "") to identify lines needing commentary",
+              "Threshold flags: =IF(ABS(var%)>5%, \"Flag\", \"\") to identify lines needing commentary",
               "Link actuals to PivotTable or Power Query for automatic monthly refresh",
               "Commentary should explain the cause of significant variances, not just restate the numbers",
             ],
@@ -17936,13 +17936,13 @@ const AIQ_COURSE_DATA = {
               {
                 question: "Which Excel formula sums all amounts in column C where column A matches the text 'Marketing'?",
                 options: [
-                    "=IF(A:A="Marketing", SUM(C:C))",
-                    "=SUMIF(A:A, "Marketing", C:C)",
-                    "=SUMIFS(C:C, A:A, "Marketing")",
+                    "=IF(A:A=\"Marketing\", SUM(C:C))",
+                    "=SUMIF(A:A, \"Marketing\", C:C)",
+                    "=SUMIFS(C:C, A:A, \"Marketing\")",
                     "Both B and C are correct",
                 ],
                 correct: 3,
-                explanation: "Both SUMIF(A:A, "Marketing", C:C) and SUMIFS(C:C, A:A, "Marketing") return the same result for one criterion. SUMIFS is preferred when multiple criteria are needed.",
+                explanation: "Both SUMIF(A:A, \"Marketing\", C:C) and SUMIFS(C:C, A:A, \"Marketing\") return the same result for one criterion. SUMIFS is preferred when multiple criteria are needed.",
                 topic: "SUMIF",
               },
               {
@@ -18046,7 +18046,7 @@ const AIQ_COURSE_DATA = {
               setup: "Design the Executive Summary page of a monthly reporting pack. It should show: 5 KPIs with RAG status, month and YTD P&L summary, and a 3-month trend sparkline for revenue.",
               steps: [
                 "KPI section: set up a table with columns — KPI Name, Actual, Target, Variance, RAG. Pull Actual from the data sheet using XLOOKUP or direct cell references. Calculate Variance = Actual − Target.",
-                "RAG formula: =IF(variance_cell>=0, "G", IF(variance_cell>=-threshold, "A", "R")). Apply conditional formatting: G = green fill, A = amber fill, R = red fill.",
+                "RAG formula: =IF(variance_cell>=0, \"G\", IF(variance_cell>=-threshold, \"A\", \"R\")). Apply conditional formatting: G = green fill, A = amber fill, R = red fill.",
                 "P&L Summary: pull Revenue, Gross Profit, EBITDA for Month and YTD columns from the BvA data sheet. Add Variance and Var% columns.",
                 "Sparkline: select the Revenue cell → Insert → Sparklines → Line → set data range to last 3 months of revenue data. Place the sparkline in the adjacent cell. Sparklines auto-update when the data refreshes.",
                 "Lock the page: Review → Protect Sheet (allow users to select cells only) to prevent accidental formula changes.",
@@ -18183,14 +18183,14 @@ const AIQ_COURSE_DATA = {
               "Build a model integrity check sheet that flags balance errors and broken links",
             ],
             explanation:
-              "<h3>Data Validation and Error Checks</h3>"+ "<p><strong>Data Validation</strong> controls what can be entered into a cell, preventing errors at the point of input. <strong>Error checks</strong> detect problems in completed models. Together they maintain data integrity in financial models and reporting templates.</p>"+ "<h4>Data Validation</h4>"+ "<p>Select cell(s) → Data → Data Validation. Key settings: <strong>Whole number</strong> (e.g., allow only 1–12 for month inputs). <strong>Decimal</strong> (e.g., growth rate between −50% and +200%). <strong>List</strong> (dropdown from a defined list — e.g., cost centre codes). <strong>Date</strong> (date within a valid range). <strong>Custom formula</strong> (e.g., =A1>=0 to prevent negative prices).</p>"+ "<p>Add an <strong>Input Message</strong> (tooltip on hover) and an <strong>Error Alert</strong> (pop-up on invalid entry) to guide users.</p>"+ "<h4>Dependent Dropdowns</h4>"+ "<p>Use INDIRECT() to create a dropdown whose options depend on another cell. For example: select Region in cell A1, and the Department dropdown in B1 shows only departments in that region. Requires named ranges for each region's department list.</p>"+ "<h4>Error Checks in Financial Models</h4>"+ "<p>Essential checks: <strong>Balance sheet check:</strong> Assets = Liabilities + Equity → <code>=IF(Assets=Liabilities+Equity,"OK","BREAK")</code>. <strong>P&L to equity movement:</strong> Closing equity = Opening equity + Net profit − Dividends. <strong>Variance sum check:</strong> Sum of all variances = Total variance. <strong>Formula consistency:</strong> use Go To Special → Formulas to audit which cells are formulas vs values.</p>"+ "<h4>IFERROR and IFNA</h4>"+ "<p><code>=IFERROR(formula, "Error")</code> traps any error. <code>=IFNA(formula, 0)</code> traps only #N/A errors (e.g., from MATCH when a lookup fails). Use these to make reports clean, but do not use them to hide genuine formula errors — investigate and fix the root cause first.</p>",
+              "<h3>Data Validation and Error Checks</h3>"+ "<p><strong>Data Validation</strong> controls what can be entered into a cell, preventing errors at the point of input. <strong>Error checks</strong> detect problems in completed models. Together they maintain data integrity in financial models and reporting templates.</p>"+ "<h4>Data Validation</h4>"+ "<p>Select cell(s) → Data → Data Validation. Key settings: <strong>Whole number</strong> (e.g., allow only 1–12 for month inputs). <strong>Decimal</strong> (e.g., growth rate between −50% and +200%). <strong>List</strong> (dropdown from a defined list — e.g., cost centre codes). <strong>Date</strong> (date within a valid range). <strong>Custom formula</strong> (e.g., =A1>=0 to prevent negative prices).</p>"+ "<p>Add an <strong>Input Message</strong> (tooltip on hover) and an <strong>Error Alert</strong> (pop-up on invalid entry) to guide users.</p>"+ "<h4>Dependent Dropdowns</h4>"+ "<p>Use INDIRECT() to create a dropdown whose options depend on another cell. For example: select Region in cell A1, and the Department dropdown in B1 shows only departments in that region. Requires named ranges for each region's department list.</p>"+ "<h4>Error Checks in Financial Models</h4>"+ "<p>Essential checks: <strong>Balance sheet check:</strong> Assets = Liabilities + Equity → <code>=IF(Assets=Liabilities+Equity,\"OK\",\"BREAK\")</code>. <strong>P&L to equity movement:</strong> Closing equity = Opening equity + Net profit − Dividends. <strong>Variance sum check:</strong> Sum of all variances = Total variance. <strong>Formula consistency:</strong> use Go To Special → Formulas to audit which cells are formulas vs values.</p>"+ "<h4>IFERROR and IFNA</h4>"+ "<p><code>=IFERROR(formula, \"Error\")</code> traps any error. <code>=IFNA(formula, 0)</code> traps only #N/A errors (e.g., from MATCH when a lookup fails). Use these to make reports clean, but do not use them to hide genuine formula errors — investigate and fix the root cause first.</p>",
             workedExample: {
               setup: "Build a data entry template for budget submissions. Cost centre managers enter: Cost Centre (from a list of valid codes), Month (1-12), and Amount (positive numbers only). Add validation and a check that the total submitted equals a pre-agreed total of £500,000.",
               steps: [
                 "Cost Centre dropdown: Data → Data Validation → Allow: List → Source: =CostCentreList (a named range containing valid CC codes on a reference sheet). Add Input Message: 'Select your cost centre code.'",
                 "Month validation: Data → Data Validation → Allow: Whole Number → Between 1 and 12. Error Alert: 'Please enter a month between 1 and 12.'",
                 "Amount validation: Data → Data Validation → Allow: Decimal → Greater than or equal to 0. Custom error: 'Amount cannot be negative.'",
-                "Total check: in a check cell, =IF(SUM(AmountRange)=500000, "Total OK", "ERROR: Total should be £500,000 — currently £"&TEXT(SUM(AmountRange),"#,##0")). Apply red conditional formatting when the cell does not show 'Total OK'.",
+                "Total check: in a check cell, =IF(SUM(AmountRange)=500000, \"Total OK\", \"ERROR: Total should be £500,000 — currently £\"&TEXT(SUM(AmountRange),\"#,##0\")). Apply red conditional formatting when the cell does not show 'Total OK'.",
                 "Protect the template: lock all cells except the input columns (Cost Centre, Month, Amount). Review → Protect Sheet — users can only edit the unlocked input cells.",
                 "Audit: use Go To Special (F5 → Special) → Constants to find any hardcoded values that should be formulas; → Formulas to confirm formula cells are intact.",
               ],
@@ -18200,7 +18200,7 @@ const AIQ_COURSE_DATA = {
               "Data Validation (Data → Data Validation): restrict cell input to lists, numbers, dates, or custom formulas",
               "Add Input Messages (guidance) and Error Alerts (block invalid entry) for user-friendly templates",
               "Dependent dropdowns: use INDIRECT() to filter a dropdown list based on another cell value",
-              "Model checks: balance sheet (Assets = L + E), P&L to equity, variance sums — use =IF(check, "OK", "BREAK")",
+              "Model checks: balance sheet (Assets = L + E), P&L to equity, variance sums — use =IF(check, \"OK\", \"BREAK\")",
               "IFERROR/IFNA: suppress error display in reports — but always investigate and fix the root cause",
               "Protect sheets (Review → Protect Sheet) to lock formula cells while allowing input cell editing",
             ],
@@ -18230,7 +18230,7 @@ const AIQ_COURSE_DATA = {
                 topic: "Model error checks",
               },
               {
-                question: "=IFERROR(VLOOKUP(A2, Table, 2, FALSE), "Not found") returns 'Not found' when:",
+                question: "=IFERROR(VLOOKUP(A2, Table, 2, FALSE), \"Not found\") returns 'Not found' when:",
                 options: [
                     "The VLOOKUP returns zero",
                     "The VLOOKUP returns any error (e.g., #N/A, #REF!)",
