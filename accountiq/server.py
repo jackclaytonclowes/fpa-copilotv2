@@ -1,12 +1,95 @@
-"""AccountIQ — serves static files and the AI Tutor endpoint."""
+"""AccountIQ — serves static files, AI Tutor, and user-state persistence."""
 import os
 from pathlib import Path
-from fastapi import FastAPI, Request
+from functools import lru_cache
+
+from fastapi import FastAPI, Header, HTTPException, Depends
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
 BASE_DIR = Path(__file__).parent
 app = FastAPI(title="AccountIQ")
+
+# ── Supabase client (service role — server-side only) ─────────────────────────
+
+@lru_cache(maxsize=1)
+def _supabase():
+    url = os.environ.get("SUPABASE_URL", "")
+    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    if not url or not key:
+        return None
+    from supabase import create_client
+    return create_client(url, key)
+
+
+async def get_current_user(authorization: str = Header(default=None)):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    token = authorization.removeprefix("Bearer ").strip()
+    sb = _supabase()
+    if not sb:
+        raise HTTPException(status_code=503, detail="Supabase not configured")
+    try:
+        resp = sb.auth.get_user(token)
+        if not resp.user:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return resp.user
+    except HTTPException:
+        raise
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+
+# ── Config endpoint (returns public Supabase keys to the browser) ─────────────
+
+@app.get("/api/config")
+async def get_config():
+    return {
+        "supabaseUrl":      os.environ.get("SUPABASE_URL", ""),
+        "supabaseAnonKey":  os.environ.get("SUPABASE_ANON_KEY", ""),
+    }
+
+
+# ── User state persistence ────────────────────────────────────────────────────
+
+class StateBody(BaseModel):
+    state: dict
+
+
+@app.get("/api/aiq/state")
+async def load_state(user=Depends(get_current_user)):
+    sb = _supabase()
+    try:
+        res = (
+            sb.table("user_state")
+            .select("state")
+            .eq("user_id", str(user.id))
+            .maybe_single()
+            .execute()
+        )
+        return {"state": res.data["state"] if res.data else {}}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.put("/api/aiq/state")
+async def save_state(body: StateBody, user=Depends(get_current_user)):
+    sb = _supabase()
+    try:
+        sb.table("user_state").upsert(
+            {
+                "user_id":    str(user.id),
+                "state":      body.state,
+                "updated_at": "now()",
+            },
+            on_conflict="user_id",
+        ).execute()
+        return {"ok": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── AI Tutor ──────────────────────────────────────────────────────────────────
 
 SYSTEM_PROMPT = (
     "You are AccountIQ Tutor, an expert CIMA Certificate in Business Accounting teacher. "
@@ -25,8 +108,10 @@ SYSTEM_PROMPT = (
 
 class TutorRequest(BaseModel):
     question: str
-    history: list[dict] = []
-    context: dict = {}
+    history:  list[dict] = []
+    context:  dict = {}
+    # Optional — passed when user is logged in
+    save_conversation: bool = False
 
 
 def _build_system(context: dict) -> str:
@@ -35,17 +120,18 @@ def _build_system(context: dict) -> str:
         note += f" The student is currently studying {context['targetPaper'].upper()}."
     mastery = context.get("topicMastery", {})
     if mastery:
-        weak = [t for t, s in mastery.items() if isinstance(s, (int, float)) and s < 50]
+        weak = [t for t, s in mastery.items() if isinstance(s, dict) and s.get("total", 0) > 0
+                and s.get("correct", 0) / s["total"] < 0.5]
         if weak:
             note += f" Their weakest topics are: {', '.join(weak[:3])}."
     return SYSTEM_PROMPT + note
 
 
-def _call_openai(system: str, messages: list[dict]) -> str:
-    from openai import OpenAI
+def _call_openai(system: str, messages: list[dict]) -> str | None:
     api_key = os.environ.get("OPENAI_API_KEY", "")
     if not api_key:
-        return None  # caller handles missing key
+        return None
+    from openai import OpenAI
     model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
     client = OpenAI(api_key=api_key)
     resp = client.chat.completions.create(
@@ -57,11 +143,11 @@ def _call_openai(system: str, messages: list[dict]) -> str:
     return resp.choices[0].message.content or ""
 
 
-def _call_anthropic(system: str, messages: list[dict]) -> str:
-    import anthropic
+def _call_anthropic(system: str, messages: list[dict]) -> str | None:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         return None
+    import anthropic
     model = os.environ.get("AI_MODEL", "claude-sonnet-4-6")
     client = anthropic.Anthropic(api_key=api_key)
     resp = client.messages.create(
@@ -74,7 +160,10 @@ def _call_anthropic(system: str, messages: list[dict]) -> str:
 
 
 @app.post("/api/aiq/tutor")
-async def aiq_tutor(body: TutorRequest):
+async def aiq_tutor(
+    body: TutorRequest,
+    authorization: str = Header(default=None),
+):
     system = _build_system(body.context)
     messages = [
         {"role": m["role"], "content": m["content"]}
@@ -84,39 +173,58 @@ async def aiq_tutor(body: TutorRequest):
     messages.append({"role": "user", "content": body.question})
 
     provider = os.environ.get("AI_PROVIDER", "openai").lower()
+    answer = None
 
     try:
-        answer = None
         if provider == "anthropic":
             answer = _call_anthropic(system, messages)
-        if answer is None:  # anthropic not configured, try openai
+        if answer is None:
             answer = _call_openai(system, messages)
         if answer is None:
-            return JSONResponse(
-                {"answer": (
+            return {
+                "answer": (
                     "<b>⚠️ AI Tutor not configured.</b><br>"
                     "Set <code>OPENAI_API_KEY</code> (or <code>ANTHROPIC_API_KEY</code> "
                     "with <code>AI_PROVIDER=anthropic</code>) in Render environment variables."
-                )},
-                status_code=200,
-            )
-        return {"answer": answer}
+                )
+            }
     except Exception as e:
         err = str(e)
         if "401" in err or "authentication" in err.lower() or "api_key" in err.lower():
             return {"answer": "<b>⚠️ AI authentication failed.</b> Check your API key in Render."}
         return {"answer": "I'm not certain — please check your official CIMA study materials."}
 
+    # Persist conversation if user is logged in
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.removeprefix("Bearer ").strip()
+        sb = _supabase()
+        if sb:
+            try:
+                user_resp = sb.auth.get_user(token)
+                if user_resp.user:
+                    user_id = str(user_resp.user.id)
+                    full_messages = [
+                        *messages[:-1],  # history
+                        {"role": "user",      "content": body.question},
+                        {"role": "assistant", "content": answer},
+                    ]
+                    sb.table("tutor_conversations").insert({
+                        "user_id":  user_id,
+                        "messages": full_messages,
+                    }).execute()
+            except Exception:
+                pass  # conversation logging is non-critical
+
+    return {"answer": answer}
+
 
 # ── Static file serving ───────────────────────────────────────────────────────
 
 @app.get("/{full_path:path}")
 async def serve_static(full_path: str):
-    # Serve index.html for root
-    if not full_path or full_path == "/":
+    if not full_path:
         return FileResponse(BASE_DIR / "index.html")
     target = BASE_DIR / full_path
     if target.is_file():
         return FileResponse(target)
-    # SPA fallback
     return FileResponse(BASE_DIR / "index.html")

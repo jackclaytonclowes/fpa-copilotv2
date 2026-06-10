@@ -1,86 +1,56 @@
-/* AccountIQ — localStorage-backed state store
+/* AccountIQ — localStorage-backed state store with server-side sync
  *
- * Single key: "aiq_state"
- * Shape documented below in DEFAULT_STATE.
+ * Single key: "aiq_state" in localStorage (fast reads, offline-capable).
+ * When a Supabase session is active, every write is also pushed to
+ * PUT /api/aiq/state (debounced 1 s) so progress persists across devices.
  *
- * All writes are fire-and-forget; quota failures are silently swallowed.
  * Consumers call aiqStore.get() / aiqStore.set(patch) / aiqStore.reset().
- * TODO: replace localStorage persistence with real API writes when backend
- *       user-progress endpoints are available.
+ * Call aiqStore.loadFromServer(token) after login to pull server state.
  */
 
 const AIQ_KEY = "aiq_state";
 
 const DEFAULT_STATE = {
   /* Onboarding ---------------------------------------------------------------- */
-  onboardingComplete: false,  // true once the study-plan flow is finished
-  targetPaper: null,          // e.g. "ba2" — the paper the user is actively targeting
-  targetExamDate: null,       // ISO date string "YYYY-MM-DD"
-  targetSitting: null,        // e.g. "November 2026"
-  weeklyHours: null,          // number — hours per week user committed to
-  confidenceLevel: null,      // "beginner" | "some" | "solid"
+  onboardingComplete: false,
+  targetPaper:        null,
+  targetExamDate:     null,
+  targetSitting:      null,
+  weeklyHours:        null,
+  confidenceLevel:    null,
 
-  /* Derived goal (written by onboarding, readable by dashboard) --------------- */
-  dailyGoalMinutes: null,     // derived — see deriveDailyGoal() below
+  /* Derived goal -------------------------------------------------------------- */
+  dailyGoalMinutes: null,
 
   /* Progress per paper -------------------------------------------------------- */
-  // Shape: { ba1: 0.78, ba2: 0.42, ba3: 0, ba4: 0, e1: 0, p1: 0, f1: 0 }
-  // TODO: replace with real API data from /api/user/progress
   paperProgress: {},
 
   /* Per-topic mastery --------------------------------------------------------- */
   // Shape: { "ba2-cost-behaviour": { correct: 7, total: 10, lastSeen: "ISO" } }
-  // TODO: replace with real API data from /api/user/mastery
   topicMastery: {},
 
   /* Quiz history -------------------------------------------------------------- */
-  // Array of { quizId, paperId, score, total, pct, topicBreakdown, date }
-  // TODO: replace with real API data from /api/user/quiz-history
   quizHistory: [],
 
   /* Streak & XP --------------------------------------------------------------- */
-  streak: 0,           // days
-  streakLastDate: null, // ISO date — last day study activity was recorded
-  xp: 0,               // total XP earned
-  todayMinutes: 0,     // minutes studied today (resets at midnight)
-  todayDate: null,      // ISO date — which day todayMinutes belongs to
+  streak:          0,
+  streakLastDate:  null,
+  xp:              0,
+  todayMinutes:    0,
+  todayDate:       null,
 
   /* Completed lessons --------------------------------------------------------- */
-  // Shape: { ba2: ["ba2-l1", "ba2-l2"], excel: ["excel-l1", ...] }
-  // Drives paperProgress — written by markLessonComplete()
   completedLessons: {},
 
   /* Mocks --------------------------------------------------------------------- */
-  // TODO: replace with real API data
-  mocksTaken: 0,
+  mocksTaken:        0,
   questionsAnswered: 0,
-
-  /* Mock exam history --------------------------------------------------------- */
-  // Array of { id, paperId, date, score, total, pct, topicBreakdown, durationSeconds, passed }
-  mockExamHistory: [],
+  mockExamHistory:   [],
 };
 
-/* ── deriveDailyGoal ---------------------------------------------------------
- * Given onboarding inputs, derive a recommended daily study goal in minutes.
- *
- * Logic:
- *   1. Convert weeklyHours → weekly minutes.
- *   2. Distribute over 5 study days (assume weekends optional).
- *   3. Apply a confidence multiplier:
- *        solid     → 1.0  (no adjustment — student is efficient)
- *        some      → 1.15 (15% buffer for review time)
- *        beginner  → 1.3  (30% buffer for slower initial progress)
- *   4. Clamp to [15, 120] minutes — below 15 min is too short to be effective;
- *      above 120 min risks burnout for self-study alongside work.
- *   5. Round to nearest 5 minutes for a clean display value.
- * --------------------------------------------------------------------------- */
 function deriveDailyGoal({ weeklyHours, confidenceLevel }) {
   const STUDY_DAYS_PER_WEEK = 5;
-  const CONFIDENCE_MULTIPLIER = {
-    solid:    1.0,
-    some:     1.15,
-    beginner: 1.3,
-  };
+  const CONFIDENCE_MULTIPLIER = { solid: 1.0, some: 1.15, beginner: 1.3 };
   const weeklyMinutes = (weeklyHours || 1) * 60;
   const rawDaily = weeklyMinutes / STUDY_DAYS_PER_WEEK;
   const multiplier = CONFIDENCE_MULTIPLIER[confidenceLevel] || 1.0;
@@ -89,9 +59,6 @@ function deriveDailyGoal({ weeklyHours, confidenceLevel }) {
   return Math.round(clamped / 5) * 5;
 }
 
-/* ── resetTodayIfNeeded ------------------------------------------------------
- * Resets todayMinutes to 0 when the stored todayDate is before today.
- * --------------------------------------------------------------------------- */
 function resetTodayIfNeeded(state) {
   const today = new Date().toISOString().slice(0, 10);
   if (state.todayDate !== today) {
@@ -100,12 +67,35 @@ function resetTodayIfNeeded(state) {
   return state;
 }
 
+/* ── Server sync (debounced) ─────────────────────────────────────────────── */
+let _syncTimer = null;
+
+function _scheduleSync(state) {
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => _pushToServer(state), 1000);
+}
+
+async function _pushToServer(state) {
+  const token = window._aiqToken; // set by App.jsx after login
+  if (!token) return;
+  try {
+    await fetch("/api/aiq/state", {
+      method:  "PUT",
+      headers: {
+        "Content-Type":  "application/json",
+        "Authorization": "Bearer " + token,
+      },
+      body: JSON.stringify({ state }),
+    });
+  } catch (_) { /* non-critical — localStorage is always the source of truth */ }
+}
+
 /* ── Store API --------------------------------------------------------------- */
 const aiqStore = {
   get() {
     try {
-      const raw = localStorage.getItem(AIQ_KEY);
-      const saved = raw ? JSON.parse(raw) : {};
+      const raw    = localStorage.getItem(AIQ_KEY);
+      const saved  = raw ? JSON.parse(raw) : {};
       const merged = { ...DEFAULT_STATE, ...saved };
       return resetTodayIfNeeded(merged);
     } catch {
@@ -116,13 +106,12 @@ const aiqStore = {
   set(patch) {
     try {
       const current = this.get();
-      const next = { ...current, ...patch };
+      const next    = { ...current, ...patch };
       localStorage.setItem(AIQ_KEY, JSON.stringify(next));
-      // Notify any subscriber (e.g. App.jsx TopBar) that state changed
+      _scheduleSync(next);
       window.dispatchEvent(new CustomEvent("aiq-store-update", { detail: next }));
       return next;
     } catch {
-      /* localStorage quota — non-critical */
       return this.get();
     }
   },
@@ -131,40 +120,62 @@ const aiqStore = {
     try { localStorage.removeItem(AIQ_KEY); } catch { /* noop */ }
   },
 
-  /* Convenience: add XP and record study minutes; handles streak logic */
+  /* Pull server state and merge (deeper fields win server-side) */
+  async loadFromServer(token) {
+    window._aiqToken = token;
+    try {
+      const res = await fetch("/api/aiq/state", {
+        headers: { "Authorization": "Bearer " + token },
+      });
+      if (!res.ok) return;
+      const { state: serverState } = await res.json();
+      if (!serverState || typeof serverState !== "object") return;
+
+      const local  = this.get();
+      // Server wins on arrays and objects; local wins on scalars when server is default
+      const merged = {
+        ...local,
+        ...serverState,
+        // Deep-merge collections — combine rather than overwrite
+        completedLessons: _mergeLessons(local.completedLessons, serverState.completedLessons),
+        quizHistory:      _mergeHistory(local.quizHistory,  serverState.quizHistory),
+        mockExamHistory:  _mergeHistory(local.mockExamHistory, serverState.mockExamHistory),
+        topicMastery:     _mergeMastery(local.topicMastery, serverState.topicMastery),
+        // Take the higher XP / streak from either side
+        xp:     Math.max(local.xp || 0,     serverState.xp || 0),
+        streak: Math.max(local.streak || 0, serverState.streak || 0),
+      };
+
+      localStorage.setItem(AIQ_KEY, JSON.stringify(merged));
+      window.dispatchEvent(new CustomEvent("aiq-store-update", { detail: merged }));
+    } catch (_) { /* offline or not configured — localStorage remains authoritative */ }
+  },
+
   recordActivity({ minutes = 0, xpDelta = 0 }) {
-    const state = this.get();
-    const today = new Date().toISOString().slice(0, 10);
+    const state     = this.get();
+    const today     = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-
-    let newStreak = state.streak;
-    if (state.streakLastDate === today) {
-      // already counted today — no streak change
-    } else if (state.streakLastDate === yesterday) {
-      newStreak = state.streak + 1;
-    } else {
-      newStreak = 1; // streak broken — restart
-    }
-
+    let newStreak   = state.streak;
+    if      (state.streakLastDate === today)      { /* already counted */ }
+    else if (state.streakLastDate === yesterday)  { newStreak = state.streak + 1; }
+    else                                          { newStreak = 1; }
     return this.set({
-      streak: newStreak,
-      streakLastDate: today,
+      streak: newStreak, streakLastDate: today,
       xp: state.xp + xpDelta,
       todayMinutes: state.todayMinutes + minutes,
       todayDate: today,
     });
   },
 
-  /* Convenience: update per-topic mastery after a quiz */
   recordTopicResult(topicKey, correct, total) {
     const state = this.get();
-    const prev = state.topicMastery[topicKey] || { correct: 0, total: 0 };
+    const prev  = state.topicMastery[topicKey] || { correct: 0, total: 0 };
     return this.set({
       topicMastery: {
         ...state.topicMastery,
         [topicKey]: {
-          correct: prev.correct + correct,
-          total:   prev.total  + total,
+          correct:  prev.correct + correct,
+          total:    prev.total   + total,
           lastSeen: new Date().toISOString().slice(0, 10),
         },
       },
@@ -172,11 +183,10 @@ const aiqStore = {
     });
   },
 
-  /* Convenience: mark a lesson as complete; recalculates paperProgress */
   markLessonComplete(paperId, lessonId, totalLessons) {
     const state = this.get();
-    const prev = state.completedLessons[paperId] || [];
-    if (prev.includes(lessonId)) return state; // idempotent
+    const prev  = state.completedLessons[paperId] || [];
+    if (prev.includes(lessonId)) return state;
     const updated  = [...prev, lessonId];
     const progress = totalLessons > 0 ? Math.min(1, updated.length / totalLessons) : 0;
     return this.set({
@@ -185,7 +195,6 @@ const aiqStore = {
     });
   },
 
-  /* Convenience: save a completed quiz result */
   recordQuizResult(result) {
     const state = this.get();
     return this.set({
@@ -193,7 +202,6 @@ const aiqStore = {
     });
   },
 
-  /* Convenience: save a completed mock exam result */
   recordMockExam(result) {
     const state = this.get();
     return this.set({
@@ -206,6 +214,38 @@ const aiqStore = {
   },
 };
 
-/* Expose deriveDailyGoal for use by the onboarding component */
-window.aiqStore = aiqStore;
+/* ── Merge helpers ─────────────────────────────────────────────────────────── */
+
+function _mergeLessons(local = {}, server = {}) {
+  const out = { ...local };
+  for (const [paper, ids] of Object.entries(server)) {
+    const combined = new Set([...(out[paper] || []), ...(Array.isArray(ids) ? ids : [])]);
+    out[paper] = [...combined];
+  }
+  return out;
+}
+
+function _mergeHistory(local = [], server = []) {
+  // Deduplicate by date + score + total (close enough for v1)
+  const seen = new Set(local.map((r) => `${r.date}-${r.score}-${r.total}`));
+  const extras = (Array.isArray(server) ? server : []).filter(
+    (r) => !seen.has(`${r.date}-${r.score}-${r.total}`)
+  );
+  return [...local, ...extras];
+}
+
+function _mergeMastery(local = {}, server = {}) {
+  const out = { ...local };
+  for (const [topic, s] of Object.entries(server)) {
+    const l = out[topic] || { correct: 0, total: 0 };
+    out[topic] = {
+      correct:  Math.max(l.correct || 0, s.correct || 0),
+      total:    Math.max(l.total   || 0, s.total   || 0),
+      lastSeen: s.lastSeen || l.lastSeen,
+    };
+  }
+  return out;
+}
+
+window.aiqStore        = aiqStore;
 window.deriveDailyGoal = deriveDailyGoal;

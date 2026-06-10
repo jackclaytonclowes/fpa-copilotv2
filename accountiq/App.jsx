@@ -1,8 +1,8 @@
-/* AccountIQ — standalone app shell */
+/* AccountIQ — standalone app shell with Supabase auth */
 const { useState: useStateApp, useEffect: useEffectApp } = React;
 
 /* ── Sidebar ──────────────────────────────────────────────── */
-function Sidebar({ active, onNav }) {
+function Sidebar({ active, onNav, onSignOut }) {
   const { Icon, Logo } = window;
   const items = [
     { id: "courses",   icon: "graduation-cap", label: "Courses" },
@@ -24,11 +24,11 @@ function Sidebar({ active, onNav }) {
         </div>
       ))}
       <div className="sb-foot">
-        <div className="sb-user">
+        <div className="sb-user" style={{ cursor: "pointer" }} onClick={onSignOut} title="Sign out">
           <div className="av">AQ</div>
           <div>
-            <div className="nm">Finance Team</div>
-            <div className="rl">AccountIQ</div>
+            <div className="nm">My Account</div>
+            <div className="rl" style={{ color: "var(--fg-3)", fontSize: 11 }}>Sign out</div>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ function TopBar({ view, aiqStats }) {
 /* ── App ────────────────────────────────────────────────── */
 function App() {
   const {
-    Courses, AIQOnboarding, AIQSkillsLab, AIQQuizEngine, AIQMockExam,
+    AIQAuth, Courses, AIQOnboarding, AIQSkillsLab, AIQQuizEngine, AIQMockExam,
     AIQLessons, AIQQuiz, AIQTutor, AIQProfile,
   } = window;
 
@@ -91,6 +91,58 @@ function App() {
   const [showOnboarding, setShowOnboarding] = useStateApp(false);
   const [aiqStats, setAiqStats]             = useStateApp({ xp: 0, streak: 0 });
 
+  // Auth state
+  const [authReady, setAuthReady]   = useStateApp(false);  // Supabase client initialised
+  const [session, setSession]       = useStateApp(null);   // null = not logged in
+
+  // Initialise Supabase on mount
+  useEffectApp(() => {
+    (async () => {
+      try {
+        const cfg = await fetch("/api/config").then((r) => r.json());
+        if (cfg.supabaseUrl && cfg.supabaseAnonKey) {
+          const sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+          window.supabaseClient = sb;
+
+          // Restore existing session
+          const { data } = await sb.auth.getSession();
+          if (data.session) {
+            await _onSignIn(data.session);
+          }
+
+          // Listen for auth changes (sign-in / sign-out)
+          sb.auth.onAuthStateChange(async (_event, sess) => {
+            if (sess) {
+              await _onSignIn(sess);
+            } else {
+              window._aiqToken = null;
+              setSession(null);
+            }
+          });
+        }
+      } catch (_) { /* Supabase not configured — app works without auth */ }
+      setAuthReady(true);
+    })();
+  }, []);
+
+  async function _onSignIn(sess) {
+    window._aiqToken = sess.access_token;
+    setSession(sess);
+    // Merge server state into localStorage store
+    await window.aiqStore.loadFromServer(sess.access_token);
+    // Refresh stats display
+    const s = window.aiqStore.get();
+    setAiqStats({ xp: s.xp || 0, streak: s.streak || 0 });
+  }
+
+  const handleSignOut = async () => {
+    const sb = window.supabaseClient;
+    if (sb) await sb.auth.signOut();
+    window._aiqToken = null;
+    setSession(null);
+  };
+
+  // Keep TopBar stats in sync with store
   useEffectApp(() => {
     const refresh = (e) => {
       const s = e ? e.detail : (window.aiqStore ? window.aiqStore.get() : {});
@@ -113,6 +165,24 @@ function App() {
     }
     setView(v);
   };
+
+  // Splash while initialising
+  if (!authReady) {
+    return (
+      <div style={{
+        minHeight: "100vh", display: "flex", alignItems: "center",
+        justifyContent: "center", background: "var(--bg)",
+      }}>
+        <div style={{ color: "var(--fg-2)", fontSize: 14 }}>Loading…</div>
+      </div>
+    );
+  }
+
+  // Auth gate — show login/signup if Supabase is configured but no session
+  const supabaseConfigured = !!window.supabaseClient;
+  if (supabaseConfigured && !session) {
+    return <AIQAuth onAuth={_onSignIn} />;
+  }
 
   let body;
   if (view === "skillslab") {
@@ -149,7 +219,7 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar active={view} onNav={handleNav} />
+      <Sidebar active={view} onNav={handleNav} onSignOut={handleSignOut} />
       <div className="main">
         <TopBar view={view} aiqStats={aiqStats} />
         {body}
