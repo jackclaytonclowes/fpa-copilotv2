@@ -68,11 +68,13 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 
   const momLabel = periodMode === "monthly" ? "MoM" : "QoQ";
 
-  const subtitle = hasData && period
-    ? (analysisType === "budget_vs_actual"
-        ? "Actual vs Budget"
-        : "Month-on-Month Variance")
-    : "Upload a P&L to begin";
+  const subtitle = view === "courses"
+    ? "CIMA Certificate & Operational Level"
+    : hasData && period
+      ? (analysisType === "budget_vs_actual"
+          ? "Actual vs Budget"
+          : "Month-on-Month Variance")
+      : "Upload a P&L to begin";
 
   const titles = {
     dashboard: "Variance dashboard",
@@ -81,6 +83,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     reports:   "Reports",
     data:      "Data sources",
     settings:  "Settings",
+    courses:   "Courses",
   };
 
   return (
@@ -197,7 +200,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -288,6 +291,8 @@ function App() {
   let body;
   if (restoring) {
     body = null;
+  } else if (view === "courses") {
+    body = <Courses />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {

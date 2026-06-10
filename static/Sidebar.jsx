@@ -6,16 +6,18 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "copilot",   icon: "sparkles",          label: "Q&A Copilot" },
     { id: "movements", icon: "list-tree",          label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
+    { id: "courses",   icon: "graduation-cap",     label: "Courses" },
   ];
   const tools = [
     { id: "data",     icon: "database", label: "Data sources" },
     { id: "settings", icon: "settings", label: "Settings" },
   ];
+  const freeIds = ["data", "settings", "courses"];
   const Item = ({ it }) => (
     <div
-      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !["data","settings"].includes(it.id) ? " disabled" : ""}`}
-      onClick={() => (hasData || ["data","settings"].includes(it.id)) && onNav(it.id)}
-      style={!hasData && !["data","settings"].includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
+      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !freeIds.includes(it.id) ? " disabled" : ""}`}
+      onClick={() => (hasData || freeIds.includes(it.id)) && onNav(it.id)}
+      style={!hasData && !freeIds.includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
     >
       <span className="ic"><Icon name={it.icon} size={18} /></span>{it.label}
     </div>

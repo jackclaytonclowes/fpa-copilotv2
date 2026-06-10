@@ -186,3 +186,94 @@ table.var tbody tr:hover{background:var(--surface-2);}
   .grid-kpi{grid-template-columns:1fr;}
   .sidebar{display:none;}
 }
+
+/* ── Courses learning dashboard ───────────────────────────────────────────── */
+.crs-page{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px;padding-bottom:16px;}
+
+/* Section layout */
+.crs-section{display:flex;flex-direction:column;gap:14px;}
+.crs-section-head{display:flex;align-items:center;gap:8px;font:var(--text-body-strong);font-size:13px;color:var(--ink);}
+.crs-section-head .ic{display:inline-flex;}
+.crs-level-badge{font:var(--text-label);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:var(--radius-pill);background:var(--primary-soft);color:var(--primary-press);border:1px solid var(--primary-soft-2);}
+.crs-level-badge--locked{background:var(--surface-2);color:var(--fg-3);border-color:var(--border);}
+.crs-section-progress{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.crs-section-pct{font:var(--text-caption);color:var(--fg-3);white-space:nowrap;}
+.crs-locked-hint{font:var(--text-body);font-size:13px;color:var(--fg-3);margin:0;padding:10px 14px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);}
+
+/* Continue Learning hero */
+.crs-hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.crs-hero-left{display:flex;align-items:flex-start;gap:16px;min-width:0;}
+.crs-hero-text{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.crs-hero-eyebrow{display:flex;align-items:center;gap:10px;}
+.crs-hero-last{font:var(--text-caption);color:var(--fg-3);}
+.crs-hero-title{font:var(--text-h2);color:var(--ink);line-height:1.3;}
+.crs-hero-next{display:flex;align-items:center;gap:6px;font:var(--text-body);font-size:13px;color:var(--fg-2);}
+.crs-hero-next strong{color:var(--ink);font-weight:600;}
+.crs-hero-right{display:flex;align-items:center;gap:20px;flex-shrink:0;}
+.crs-hero-ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+.crs-hero-ring-label{position:absolute;font:var(--text-data);font-size:12px;font-weight:600;}
+
+/* Stats grid */
+.crs-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.crs-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:16px 18px;display:flex;align-items:center;gap:14px;}
+.crs-stat-card--goal{gap:16px;}
+.crs-stat-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.crs-stat-body{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.crs-stat-value{font:var(--text-data);font-size:20px;font-weight:700;color:var(--ink);line-height:1.1;}
+.crs-stat-label{font:var(--text-label);text-transform:uppercase;letter-spacing:.05em;color:var(--fg-3);font-size:11px;}
+.crs-stat-sub{font:var(--text-caption);font-size:11.5px;color:var(--fg-3);}
+.crs-ring-center{position:absolute;font:var(--text-data);font-size:11px;font-weight:700;line-height:1;}
+
+/* Course card grid */
+.crs-courses-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+
+/* Individual course card */
+.crs-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:20px;display:flex;flex-direction:column;gap:14px;position:relative;transition:box-shadow .15s,border-color .15s;}
+.crs-card:not(.crs-card-locked):hover{box-shadow:var(--shadow-md);border-color:var(--border-strong);}
+.crs-card-top{display:flex;align-items:flex-start;gap:13px;}
+.crs-card-title-wrap{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.crs-code-badge{display:inline-flex;align-items:center;font:var(--text-label);font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:var(--radius-xs);align-self:flex-start;}
+.crs-card-title{font:var(--text-body-strong);font-size:14px;color:var(--ink);line-height:1.4;}
+.crs-card-desc{font:var(--text-caption);color:var(--fg-3);line-height:1.45;margin-top:2px;}
+
+/* Progress bar */
+.crs-progress-row{display:flex;align-items:center;gap:10px;}
+.crs-progress-track{flex:1;height:6px;background:var(--surface-3);border-radius:var(--radius-pill);overflow:hidden;}
+.crs-progress-track--sm{width:100px;height:4px;}
+.crs-progress-fill{height:100%;border-radius:var(--radius-pill);transition:width .4s ease;}
+.crs-progress-pct{font:var(--text-data);font-size:12px;font-weight:700;flex-shrink:0;}
+
+/* Metadata pills row */
+.crs-meta-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.crs-meta-pill{display:inline-flex;align-items:center;gap:4px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:3px 8px;font:var(--text-caption);font-size:11.5px;}
+.crs-meta-value{font-weight:600;color:var(--ink);}
+.crs-meta-label{color:var(--fg-3);}
+
+/* Card footer */
+.crs-card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:2px;border-top:1px solid var(--border);}
+.crs-time-chip{display:inline-flex;align-items:center;gap:5px;font:var(--text-caption);font-size:12px;color:var(--fg-3);}
+
+/* Locked card */
+.crs-card-locked{opacity:.72;pointer-events:none;border-style:dashed;}
+.crs-locked-overlay{position:absolute;top:14px;right:14px;}
+.crs-lock-badge{width:28px;height:28px;border-radius:var(--radius-sm);background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;}
+.crs-locked-icon-wrap{display:flex;flex-direction:column;gap:4px;}
+.crs-locked-req{display:flex;align-items:center;gap:6px;font:var(--text-caption);font-size:12px;color:var(--fg-3);padding-top:2px;}
+
+/* Responsive — tablet */
+@media (max-width:1080px){
+  .crs-stats-grid{grid-template-columns:repeat(2,1fr);}
+}
+
+/* Responsive — mobile */
+@media (max-width:680px){
+  .crs-courses-grid{grid-template-columns:1fr;}
+  .crs-hero{flex-direction:column;align-items:flex-start;}
+  .crs-hero-right{width:100%;justify-content:space-between;}
+  .crs-stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+}
+
+@media (max-width:420px){
+  .crs-stats-grid{grid-template-columns:1fr;}
+  .crs-stat-card{padding:13px 14px;}
+}
