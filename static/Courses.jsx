@@ -1,7 +1,7 @@
-/* AccountIQ — Courses learning dashboard (Duolingo-style) */
-const { useState: useStateCourses } = React;
+/* AccountIQ — Courses learning dashboard */
+const { useState: useStateCourses, useEffect: useEffectCourses } = React;
 
-// ── Static course data ───────────────────────────────────────────────────────
+// ── Seed course metadata (icons, colours, static metadata) ──────────────────
 const CERT_COURSES = [
   {
     id: "ba1",
@@ -9,18 +9,9 @@ const CERT_COURSES = [
     title: "Fundamentals of Business Economics",
     color: "#5C7FC0",
     colorSoft: "#EEF2FA",
-    progress: 68,
-    modules: 8,
-    modulesCompleted: 5,
-    questions: 320,
-    questionsCompleted: 218,
     mockExams: 3,
-    mocksDone: 1,
-    xp: 1840,
-    xpTotal: 2700,
-    hoursLeft: 14,
+    hoursTotal: 44,
     lastStudied: "Today",
-    nextTopic: "Market Structures",
   },
   {
     id: "ba2",
@@ -28,18 +19,9 @@ const CERT_COURSES = [
     title: "Fundamentals of Management Accounting",
     color: "#4F9EA3",
     colorSoft: "#EAF7F8",
-    progress: 41,
-    modules: 10,
-    modulesCompleted: 4,
-    questions: 280,
-    questionsCompleted: 115,
     mockExams: 3,
-    mocksDone: 0,
-    xp: 1100,
-    xpTotal: 2400,
-    hoursLeft: 28,
+    hoursTotal: 48,
     lastStudied: "Yesterday",
-    nextTopic: "Cost Behaviour & CVP Analysis",
   },
   {
     id: "ba3",
@@ -47,18 +29,9 @@ const CERT_COURSES = [
     title: "Fundamentals of Financial Accounting",
     color: "#8E84C2",
     colorSoft: "#F0EEF9",
-    progress: 22,
-    modules: 11,
-    modulesCompleted: 2,
-    questions: 350,
-    questionsCompleted: 77,
     mockExams: 3,
-    mocksDone: 0,
-    xp: 640,
-    xpTotal: 2800,
-    hoursLeft: 42,
+    hoursTotal: 54,
     lastStudied: "3 days ago",
-    nextTopic: "Double Entry Bookkeeping",
   },
   {
     id: "ba4",
@@ -66,43 +39,49 @@ const CERT_COURSES = [
     title: "Fundamentals of Ethics, Corporate Governance and Business Law",
     color: "#5FA083",
     colorSoft: "#EAF4EF",
-    progress: 5,
-    modules: 9,
-    modulesCompleted: 0,
-    questions: 260,
-    questionsCompleted: 13,
     mockExams: 3,
-    mocksDone: 0,
-    xp: 190,
-    xpTotal: 2200,
-    hoursLeft: 51,
+    hoursTotal: 54,
     lastStudied: "Not started",
-    nextTopic: "Fundamental Principles of Ethics",
   },
 ];
 
 const OP_COURSES = [
-  {
-    id: "e1",
-    code: "E1",
-    title: "Managing Finance in a Digital World",
-    desc: "Digital technologies, data analytics and their role in modern finance.",
-  },
-  {
-    id: "p1",
-    code: "P1",
-    title: "Management Accounting",
-    desc: "Planning, decision-making and operational control for managers.",
-  },
-  {
-    id: "f1",
-    code: "F1",
-    title: "Financial Reporting",
-    desc: "Preparation, analysis and interpretation of financial statements.",
-  },
+  { id: "e1", code: "E1", title: "Managing Finance in a Digital World",      desc: "Digital technologies, data analytics and their role in modern finance." },
+  { id: "p1", code: "P1", title: "Management Accounting",                     desc: "Planning, decision-making and operational control for managers." },
+  { id: "f1", code: "F1", title: "Financial Reporting",                       desc: "Preparation, analysis and interpretation of financial statements." },
 ];
 
-// ── Unique SVG icons for each BA paper ──────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function getLessonStatus(lessons, idx, completedLessons) {
+  if (completedLessons.includes(lessons[idx].id)) return "done";
+  if (idx === 0 || completedLessons.includes(lessons[idx - 1].id)) return "active";
+  return "locked";
+}
+
+function getNextLesson(lessons, completedLessons) {
+  return lessons.find((l) => !completedLessons.includes(l.id)) || null;
+}
+
+function enrichCourse(course, progress, content) {
+  if (!content || !window.computeLiveStats) return {
+    ...course, progress: 0, xp: 0, completedLessons: 0, totalLessons: 4,
+    hoursLeft: course.hoursTotal, nextTopic: "Start learning",
+  };
+  const live = window.computeLiveStats(course.id, progress, content);
+  const lessons = content.lessons || [];
+  const next    = getNextLesson(lessons, progress.completedLessons);
+  return {
+    ...course,
+    progress:         live.progressPct,
+    xp:               live.xpEarned,
+    completedLessons: live.completedCount,
+    totalLessons:     live.totalLessons,
+    hoursLeft:        Math.round(course.hoursTotal * (1 - live.progressPct / 100)),
+    nextTopic:        next ? next.title : "All lessons complete",
+  };
+}
+
+// ── Paper icons (unique SVG per paper) ───────────────────────────────────────
 function PaperIcon({ id, color, size = 44 }) {
   const bg = color + "28";
   if (id === "ba1") return (
@@ -158,40 +137,29 @@ function PaperIcon({ id, color, size = 44 }) {
   return null;
 }
 
-// ── Circular progress ring ───────────────────────────────────────────────────
+// ── Circular ring ────────────────────────────────────────────────────────────
 function Ring({ pct, size = 54, stroke = 5, color = "var(--primary)" }) {
-  const r = (size - stroke) / 2;
+  const r    = (size - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const dash = (Math.min(pct, 100) / 100) * circ;
   return (
-    <svg width={size} height={size} style={{ transform: "rotate(-90deg)", flexShrink: 0 }}
-      aria-hidden="true">
-      <circle cx={size / 2} cy={size / 2} r={r}
-        fill="none" stroke="var(--surface-3)" strokeWidth={stroke} />
-      <circle cx={size / 2} cy={size / 2} r={r}
-        fill="none" stroke={color} strokeWidth={stroke}
+    <svg width={size} height={size} style={{ transform: "rotate(-90deg)", flexShrink: 0 }} aria-hidden="true">
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--surface-3)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
         strokeDasharray={`${dash} ${circ}`} strokeLinecap="round" />
     </svg>
   );
 }
 
 // ── Stat card ────────────────────────────────────────────────────────────────
-function StatCard({ icon, label, value, sub, accent, children }) {
+function StatCard({ icon, accent, children }) {
   const { Icon } = window;
   return (
     <div className="crs-stat-card">
       <div className="crs-stat-icon" style={{ background: accent + "20", color: accent }}>
         <Icon name={icon} size={18} />
       </div>
-      <div className="crs-stat-body">
-        {children || (
-          <>
-            <div className="crs-stat-value">{value}</div>
-            <div className="crs-stat-label">{label}</div>
-            {sub && <div className="crs-stat-sub">{sub}</div>}
-          </>
-        )}
-      </div>
+      <div className="crs-stat-body">{children}</div>
     </div>
   );
 }
@@ -208,15 +176,12 @@ function MetaPill({ icon, value, label, color }) {
   );
 }
 
-// ── Individual course card ───────────────────────────────────────────────────
-function CourseCard({ course, onContinue }) {
-  const { Icon, Button } = window;
-  const isStarted = course.progress > 0;
-  const btnLabel = isStarted ? "Continue" : "Start";
-  const btnIcon  = isStarted ? "play"     : "rocket";
-
+// ── Course card (dashboard grid) ─────────────────────────────────────────────
+function CourseCard({ course, enriched, onOpen }) {
+  const { Icon } = window;
+  const isStarted = enriched.progress > 0;
   return (
-    <div className="crs-card reveal">
+    <div className="crs-card reveal" onClick={() => onOpen(course)} style={{ cursor: "pointer" }}>
       <div className="crs-card-top">
         <PaperIcon id={course.id} color={course.color} size={44} />
         <div className="crs-card-title-wrap">
@@ -227,58 +192,45 @@ function CourseCard({ course, onContinue }) {
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="crs-progress-row">
         <div className="crs-progress-track">
-          <div className="crs-progress-fill"
-            style={{ width: course.progress + "%", background: course.color }} />
+          <div className="crs-progress-fill" style={{ width: enriched.progress + "%", background: course.color }} />
         </div>
-        <span className="crs-progress-pct" style={{ color: course.color }}>
-          {course.progress}%
-        </span>
+        <span className="crs-progress-pct" style={{ color: course.color }}>{enriched.progress}%</span>
       </div>
 
-      {/* Metadata */}
       <div className="crs-meta-row">
-        <MetaPill icon="layers"      value={course.modulesCompleted + "/" + course.modules}  label="modules"  color={course.color} />
-        <MetaPill icon="help-circle" value={course.questionsCompleted + "/" + course.questions} label="Qs"  color={course.color} />
-        <MetaPill icon="clipboard-list" value={course.mocksDone + "/" + course.mockExams}    label="mocks"    color={course.color} />
+        <MetaPill icon="layers"         value={enriched.completedLessons + "/" + enriched.totalLessons} label="lessons"  color={course.color} />
+        <MetaPill icon="clipboard-list" value={"0/" + course.mockExams}                                 label="mocks"    color={course.color} />
+        <MetaPill icon="zap"            value={enriched.xp.toLocaleString()}                            label="XP"       color={course.color} />
       </div>
 
       <div className="crs-card-footer">
         <span className="crs-time-chip">
           <Icon name="clock" size={12} color="var(--fg-3)" />
-          {course.hoursLeft}h remaining
+          {enriched.hoursLeft}h remaining
         </span>
-        <Button variant="ghost" size="sm" icon={btnIcon} onClick={() => onContinue && onContinue(course)}>
-          {btnLabel}
-        </Button>
+        <span style={{ display:"inline-flex",alignItems:"center",gap:5,font:"var(--text-body-strong)",fontSize:13,color:course.color }}>
+          {isStarted ? "Continue" : "Start"}
+          <Icon name="arrow-right" size={14} color={course.color} />
+        </span>
       </div>
     </div>
   );
 }
 
-// ── Locked operational-level card ────────────────────────────────────────────
+// ── Locked operational card ──────────────────────────────────────────────────
 function LockedCard({ course }) {
   const { Icon } = window;
-  const codes = ["E1", "P1", "F1"];
-  const colors = ["#C7A24E", "#D29478", "#C0788C"];
-  const idx = codes.indexOf(course.code);
-  const color = colors[idx] || "#8895A4";
-
   return (
     <div className="crs-card crs-card-locked">
       <div className="crs-locked-overlay">
-        <div className="crs-lock-badge">
-          <Icon name="lock" size={16} color="var(--fg-3)" />
-        </div>
+        <div className="crs-lock-badge"><Icon name="lock" size={16} color="var(--fg-3)" /></div>
       </div>
       <div className="crs-card-top">
-        <div className="crs-locked-icon-wrap">
-          <span className="crs-code-badge" style={{ background: "var(--surface-2)", color: "var(--fg-3)" }}>
-            {course.code}
-          </span>
-        </div>
+        <span className="crs-code-badge" style={{ background: "var(--surface-2)", color: "var(--fg-3)" }}>
+          {course.code}
+        </span>
         <div className="crs-card-title-wrap">
           <div className="crs-card-title" style={{ color: "var(--fg-3)" }}>{course.title}</div>
           <div className="crs-card-desc">{course.desc}</div>
@@ -292,11 +244,9 @@ function LockedCard({ course }) {
   );
 }
 
-// ── Continue Learning hero ───────────────────────────────────────────────────
-function ContinueHero({ course, onContinue }) {
+// ── Continue Learning hero ────────────────────────────────────────────────────
+function ContinueHero({ course, enriched, onOpen }) {
   const { Icon, Button } = window;
-  const pctDone = course.progress;
-
   return (
     <div className="crs-hero reveal">
       <div className="crs-hero-left">
@@ -311,19 +261,16 @@ function ContinueHero({ course, onContinue }) {
           <div className="crs-hero-title">{course.title}</div>
           <div className="crs-hero-next">
             <Icon name="arrow-right" size={13} color="var(--fg-3)" />
-            Next up: <strong>{course.nextTopic}</strong>
+            Next up: <strong>{enriched.nextTopic}</strong>
           </div>
         </div>
       </div>
-
       <div className="crs-hero-right">
         <div className="crs-hero-ring-wrap">
-          <Ring pct={pctDone} size={64} stroke={6} color={course.color} />
-          <span className="crs-hero-ring-label" style={{ color: course.color }}>
-            {pctDone}%
-          </span>
+          <Ring pct={enriched.progress} size={64} stroke={6} color={course.color} />
+          <span className="crs-hero-ring-label" style={{ color: course.color }}>{enriched.progress}%</span>
         </div>
-        <Button variant="primary" icon="play" onClick={() => onContinue && onContinue(course)}
+        <Button variant="primary" icon="play" onClick={() => onOpen(course)}
           style={{ background: course.color, borderColor: "transparent" }}>
           Resume
         </Button>
@@ -332,53 +279,229 @@ function ContinueHero({ course, onContinue }) {
   );
 }
 
-// ── Main Courses page ────────────────────────────────────────────────────────
+// ── Course Detail — lesson list ───────────────────────────────────────────────
+function CourseDetail({ course, progress, onOpenLesson, onBack }) {
+  const { Icon } = window;
+  const content  = (window.COURSE_CONTENT && window.COURSE_CONTENT[course.id]) || { lessons: [] };
+  const lessons  = content.lessons || [];
+  const done     = lessons.filter((l) => progress.completedLessons.includes(l.id)).length;
+  const pct      = lessons.length ? Math.round((done / lessons.length) * 100) : 0;
+
+  return (
+    <div className="content">
+      <div className="cd-page">
+        <button className="cd-back-btn" onClick={onBack}>
+          <Icon name="arrow-left" size={15} />
+          All Courses
+        </button>
+
+        {/* Course header */}
+        <div className="cd-header">
+          <PaperIcon id={course.id} color={course.color} size={52} />
+          <div className="cd-header-text">
+            <div style={{ marginBottom: 8 }}>
+              <span className="crs-code-badge" style={{ background: course.colorSoft, color: course.color }}>
+                {course.code}
+              </span>
+            </div>
+            <h2 className="cd-header-title">{course.title}</h2>
+            <div className="cd-header-meta">
+              <span className="cd-header-stat">
+                <Icon name="layers" size={13} color="var(--fg-3)" />
+                {lessons.length} lessons
+              </span>
+              <span className="cd-header-stat">
+                <Icon name="clock" size={13} color="var(--fg-3)" />
+                ~{lessons.reduce((s, l) => s + (l.estimatedMinutes || 0), 0)} min total
+              </span>
+              <span className="cd-header-stat">
+                <Icon name="help-circle" size={13} color="var(--fg-3)" />
+                {lessons.length * 4} quiz questions
+              </span>
+            </div>
+            <div className="cd-prog-row">
+              <span className="cd-prog-label">Progress</span>
+              <div className="cd-prog-track">
+                <div className="cd-prog-fill" style={{ width: pct + "%", background: course.color }} />
+              </div>
+              <span className="cd-prog-pct" style={{ color: course.color }}>{pct}%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Lesson list */}
+        <div className="cd-lesson-list">
+          {lessons.length === 0 && (
+            <div style={{ padding: "32px", textAlign: "center", color: "var(--fg-3)", font: "var(--text-body)" }}>
+              Content loading…
+            </div>
+          )}
+          {lessons.map((lesson, idx) => {
+            const status = getLessonStatus(lessons, idx, progress.completedLessons);
+            const score  = progress.quizScores[lesson.id];
+            const isDone = status === "done";
+            const isLocked = status === "locked";
+            return (
+              <div
+                key={lesson.id}
+                className={`cd-lesson${isDone ? " cd-lesson--done" : isLocked ? " cd-lesson--locked" : ""}`}
+                onClick={() => !isLocked && onOpenLesson(lesson, idx)}
+              >
+                {/* Number badge */}
+                <div className={`cd-lesson-num ${isDone ? "cd-lesson-num--done" : isLocked ? "cd-lesson-num--locked" : "cd-lesson-num--active"}`}
+                  style={!isDone && !isLocked ? { background: course.color } : {}}>
+                  {isDone
+                    ? <Icon name="check" size={14} color="#fff" />
+                    : isLocked
+                      ? <Icon name="lock" size={13} color="var(--fg-3)" />
+                      : idx + 1}
+                </div>
+
+                <div className="cd-lesson-body">
+                  <div className="cd-lesson-title">{lesson.title}</div>
+                  <div className="cd-lesson-summary">{lesson.summary}</div>
+                </div>
+
+                <div className="cd-lesson-right">
+                  {isDone && score && (
+                    <span className="cd-lesson-score">
+                      <Icon name="zap" size={12} color="var(--favourable)" />
+                      {score.score * 50} XP
+                    </span>
+                  )}
+                  <span className="cd-lesson-time">
+                    <Icon name="clock" size={12} color="var(--fg-3)" />
+                    {lesson.estimatedMinutes} min
+                  </span>
+                  {!isLocked && (
+                    <Icon name={isDone ? "rotate-ccw" : "arrow-right"} size={15} color={isDone ? "var(--fg-3)" : course.color} />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Main Courses component ────────────────────────────────────────────────────
 function Courses() {
   const { Icon } = window;
+
+  const [screen,       setScreen]       = useStateCourses("dashboard");
   const [activeCourse, setActiveCourse] = useStateCourses(null);
+  const [activeLesson, setActiveLesson] = useStateCourses(null);
+  const [lessonIdx,    setLessonIdx]    = useStateCourses(0);
+  const [progress,     setProgress]     = useStateCourses(() => {
+    if (window.loadProgress) return window.loadProgress();
+    return { completedLessons: [], quizScores: {} };
+  });
 
-  // Derive "continue learning" course — highest progress that's not 100%
-  const continueCourse = [...CERT_COURSES]
-    .filter((c) => c.progress < 100)
+  // Reload progress from localStorage whenever we return to dashboard/detail
+  useEffectCourses(() => {
+    if (window.loadProgress) setProgress(window.loadProgress());
+  }, [screen]);
+
+  const handleCompleteLesson = (lessonId, quizScore) => {
+    const p = window.loadProgress ? window.loadProgress() : progress;
+    const updated = {
+      completedLessons: p.completedLessons.includes(lessonId)
+        ? p.completedLessons
+        : [...p.completedLessons, lessonId],
+      quizScores: { ...p.quizScores, [lessonId]: quizScore },
+    };
+    if (window.saveProgress) window.saveProgress(updated);
+    setProgress(updated);
+    setScreen("detail");
+  };
+
+  const openCourse = (course) => {
+    setActiveCourse(course);
+    setScreen("detail");
+  };
+
+  const openLesson = (lesson, idx) => {
+    setActiveLesson(lesson);
+    setLessonIdx(idx);
+    setScreen("lesson");
+  };
+
+  // ── LessonView screen ──
+  if (screen === "lesson" && activeCourse && activeLesson) {
+    const content     = (window.COURSE_CONTENT && window.COURSE_CONTENT[activeCourse.id]) || { lessons: [] };
+    const totalLessons = content.lessons ? content.lessons.length : 4;
+    return (
+      <LessonView
+        lesson={activeLesson}
+        course={activeCourse}
+        lessonIndex={lessonIdx}
+        totalLessons={totalLessons}
+        progress={progress}
+        onComplete={handleCompleteLesson}
+        onBack={() => setScreen("detail")}
+      />
+    );
+  }
+
+  // ── CourseDetail screen ──
+  if (screen === "detail" && activeCourse) {
+    return (
+      <CourseDetail
+        course={activeCourse}
+        progress={progress}
+        onOpenLesson={openLesson}
+        onBack={() => setScreen("dashboard")}
+      />
+    );
+  }
+
+  // ── Dashboard screen ──
+  const content = window.COURSE_CONTENT || {};
+  const enriched = CERT_COURSES.map((c) => enrichCourse(c, progress, content[c.id]));
+
+  const continueCourse = enriched
+    .filter((e) => e.progress < 100)
     .sort((a, b) => b.progress - a.progress)[0];
+  const continueSeed = continueCourse
+    ? CERT_COURSES.find((c) => c.id === continueCourse.id)
+    : null;
 
-  // Aggregate stats
-  const totalXp          = CERT_COURSES.reduce((s, c) => s + c.xp, 0);
-  const totalHoursLeft   = CERT_COURSES.reduce((s, c) => s + c.hoursLeft, 0);
-  const streak           = 7;
-  const dailyGoalMin     = 30;
-  const dailyDoneMin     = 20;
-  const dailyPct         = Math.round((dailyDoneMin / dailyGoalMin) * 100);
-  const certPct          = Math.round(
-    CERT_COURSES.reduce((s, c) => s + c.progress, 0) / CERT_COURSES.length
-  );
+  const totalXp        = enriched.reduce((s, e) => s + e.xp, 0);
+  const totalHoursLeft = enriched.reduce((s, e) => s + e.hoursLeft, 0);
+  const streak         = 7;
+  const dailyGoalMin   = 30;
+  const dailyDoneMin   = 20;
+  const dailyPct       = Math.round((dailyDoneMin / dailyGoalMin) * 100);
+  const certPct        = Math.round(enriched.reduce((s, e) => s + e.progress, 0) / enriched.length);
 
   return (
     <div className="content">
       <div className="crs-page">
 
-        {/* ── Continue Learning hero ── */}
-        {continueCourse && (
+        {/* Continue Learning hero */}
+        {continueSeed && (
           <section className="crs-section">
             <div className="crs-section-head">
               <Icon name="play-circle" size={16} color="var(--primary)" />
               <span>Continue Learning</span>
             </div>
-            <ContinueHero course={continueCourse} onContinue={setActiveCourse} />
+            <ContinueHero
+              course={continueSeed}
+              enriched={continueCourse}
+              onOpen={openCourse}
+            />
           </section>
         )}
 
-        {/* ── Stats row ── */}
+        {/* Stats row */}
         <section className="crs-section">
           <div className="crs-stats-grid">
-
-            {/* Daily goal */}
             <div className="crs-stat-card crs-stat-card--goal">
               <div style={{ position: "relative", flexShrink: 0 }}>
                 <Ring pct={dailyPct} size={54} stroke={5} color="var(--primary)" />
-                <span className="crs-ring-center" style={{ color: "var(--primary)" }}>
-                  {dailyPct}%
-                </span>
+                <span className="crs-ring-center" style={{ color: "var(--primary)" }}>{dailyPct}%</span>
               </div>
               <div className="crs-stat-body">
                 <div className="crs-stat-value">{dailyDoneMin} min</div>
@@ -387,40 +510,29 @@ function Courses() {
               </div>
             </div>
 
-            {/* Streak */}
-            <StatCard icon="flame" label="Day streak" value={streak} sub="Keep it up!"
-              accent="#C77D11">
+            <StatCard icon="flame" accent="#C77D11">
               <div className="crs-stat-value" style={{ color: "#C77D11" }}>
-                {streak}
-                <span style={{ fontSize: 13, fontWeight: 400, color: "var(--fg-3)", marginLeft: 4 }}>
-                  days
-                </span>
+                {streak}<span style={{ fontSize: 13, fontWeight: 400, color: "var(--fg-3)", marginLeft: 4 }}>days</span>
               </div>
               <div className="crs-stat-label">Current streak</div>
               <div className="crs-stat-sub">🔥 Keep it up!</div>
             </StatCard>
 
-            {/* XP */}
-            <StatCard icon="zap" label="Total XP" value={totalXp.toLocaleString()} accent="var(--primary)">
-              <div className="crs-stat-value" style={{ color: "var(--primary)" }}>
-                {totalXp.toLocaleString()}
-              </div>
+            <StatCard icon="zap" accent="var(--primary)">
+              <div className="crs-stat-value" style={{ color: "var(--primary)" }}>{totalXp.toLocaleString()}</div>
               <div className="crs-stat-label">XP earned</div>
               <div className="crs-stat-sub">Across all papers</div>
             </StatCard>
 
-            {/* Study time */}
-            <StatCard icon="clock" label="Study time left" accent="var(--favourable)">
-              <div className="crs-stat-value" style={{ color: "var(--favourable)" }}>
-                {totalHoursLeft}h
-              </div>
+            <StatCard icon="clock" accent="var(--favourable)">
+              <div className="crs-stat-value" style={{ color: "var(--favourable)" }}>{totalHoursLeft}h</div>
               <div className="crs-stat-label">Est. remaining</div>
               <div className="crs-stat-sub">Certificate level</div>
             </StatCard>
           </div>
         </section>
 
-        {/* ── Certificate level ── */}
+        {/* Certificate level */}
         <section className="crs-section">
           <div className="crs-section-head">
             <Icon name="award" size={16} color="var(--primary)" />
@@ -428,21 +540,19 @@ function Courses() {
             <span className="crs-level-badge">CIMA</span>
             <div className="crs-section-progress">
               <div className="crs-progress-track crs-progress-track--sm">
-                <div className="crs-progress-fill"
-                  style={{ width: certPct + "%", background: "var(--primary)" }} />
+                <div className="crs-progress-fill" style={{ width: certPct + "%", background: "var(--primary)" }} />
               </div>
               <span className="crs-section-pct">{certPct}% complete</span>
             </div>
           </div>
-
           <div className="crs-courses-grid">
-            {CERT_COURSES.map((c) => (
-              <CourseCard key={c.id} course={c} onContinue={setActiveCourse} />
+            {CERT_COURSES.map((c, i) => (
+              <CourseCard key={c.id} course={c} enriched={enriched[i]} onOpen={openCourse} />
             ))}
           </div>
         </section>
 
-        {/* ── Operational level (locked) ── */}
+        {/* Operational level */}
         <section className="crs-section">
           <div className="crs-section-head">
             <Icon name="lock" size={16} color="var(--fg-3)" />
@@ -452,11 +562,8 @@ function Courses() {
           <p className="crs-locked-hint">
             Complete all four Certificate papers to unlock the Operational Level pathway.
           </p>
-
           <div className="crs-courses-grid">
-            {OP_COURSES.map((c) => (
-              <LockedCard key={c.id} course={c} />
-            ))}
+            {OP_COURSES.map((c) => <LockedCard key={c.id} course={c} />)}
           </div>
         </section>
 
