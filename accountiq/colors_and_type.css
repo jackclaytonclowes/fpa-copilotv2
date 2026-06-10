@@ -1,0 +1,105 @@
+/* ============================================================================
+   FP&A Copilot — Colors & Type Foundations
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --font-display: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-sans:    'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Neutrals */
+  --ink:        #0F1B2D;
+  --fg-1:       #0F1B2D;
+  --fg-2:       #4B5A6B;
+  --fg-3:       #8794A2;
+  --fg-on-dark: #EAF0F6;
+  --fg-on-dark-2:#9DB0C4;
+
+  --canvas:    #F5F7FA;
+  --surface:   #FFFFFF;
+  --surface-2: #EFF3F7;
+  --surface-3: #E5EBF1;
+
+  --border:        #E2E8F0;
+  --border-strong: #CBD5E1;
+
+  /* Navy */
+  --navy-900: #0C1726;
+  --navy-800: #122036;
+  --navy-700: #1B2F49;
+  --navy-600: #26405E;
+
+  /* Brand — Copilot Blue */
+  --primary:        #2F62E8;
+  --primary-hover:  #2654CC;
+  --primary-press:  #1E45A8;
+  --primary-soft:   #EAF1FE;
+  --primary-soft-2: #D7E4FD;
+  --primary-ring:   rgba(47, 98, 232, 0.35);
+
+  /* Semantic */
+  --favourable:        #0E8A57;
+  --favourable-text:   #0A6F46;
+  --favourable-soft:   #E3F4EC;
+  --favourable-border: #B7E2CC;
+
+  --adverse:        #D02B45;
+  --adverse-text:   #B11E38;
+  --adverse-soft:   #FCE8EC;
+  --adverse-border: #F4C2CC;
+
+  --caution:        #C77D11;
+  --caution-text:   #9A5F09;
+  --caution-soft:   #FBF0DC;
+  --caution-border: #F0D9A8;
+
+  /* Chart palette — muted categorical */
+  --c-1: #5C7FC0;
+  --c-2: #4F9EA3;
+  --c-3: #8E84C2;
+  --c-4: #C7A24E;
+  --c-5: #5FA083;
+  --c-6: #D29478;
+  --c-7: #C0788C;
+  --c-8: #8895A4;
+
+  /* Radii */
+  --radius-xs:   6px;
+  --radius-sm:   8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(15,27,45,0.06);
+  --shadow-sm: 0 1px 3px rgba(15,27,45,0.08), 0 1px 2px rgba(15,27,45,0.04);
+  --shadow-md: 0 4px 12px rgba(15,27,45,0.09);
+  --shadow-lg: 0 12px 32px rgba(15,27,45,0.12);
+  --shadow-focus: 0 0 0 3px var(--primary-ring);
+
+  /* Spacing */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
+  --space-12:48px; --space-16:64px;
+
+  /* Type scale */
+  --text-display:      700 34px/1.12 var(--font-display);
+  --text-h1:           700 26px/1.18 var(--font-display);
+  --text-h2:           600 20px/1.25 var(--font-display);
+  --text-h3:           600 16px/1.35 var(--font-display);
+  --text-body:         400 14px/1.55 var(--font-sans);
+  --text-body-strong:  600 14px/1.55 var(--font-sans);
+  --text-label:        600 12px/1.3  var(--font-sans);
+  --text-caption:      400 12.5px/1.4 var(--font-sans);
+  --text-metric:       600 32px/1.05 var(--font-mono);
+  --text-data:         500 13.5px/1.4 var(--font-mono);
+}
+
+.fpa-scope, body.fpa {
+  background: var(--canvas);
+  color: var(--ink);
+  font: var(--text-body);
+  -webkit-font-smoothing: antialiased;
+}

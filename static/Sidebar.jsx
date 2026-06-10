@@ -1,4 +1,4 @@
-/* FP&A Copilot — left navigation sidebar */
+/* MonthEndIQ — left navigation sidebar */
 function Sidebar({ active, onNav, hasData }) {
   const { Icon, Logo } = window;
   const nav = [
@@ -7,18 +7,11 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "movements", icon: "list-tree",          label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
   ];
-  const learn = [
-    { id: "courses",   icon: "graduation-cap", label: "Courses" },
-    { id: "skillslab", icon: "flask-conical",  label: "Skills Lab" },
-    { id: "tutor",     icon: "message-circle", label: "Study Tutor" },
-    { id: "profile",   icon: "user",           label: "My Progress" },
-  ];
   const tools = [
     { id: "data",     icon: "database", label: "Data sources" },
     { id: "settings", icon: "settings", label: "Settings" },
   ];
-  // IDs that are always accessible regardless of whether data is loaded
-  const alwaysOn = ["data", "settings", "courses", "skillslab", "tutor", "profile"];
+  const alwaysOn = ["data", "settings"];
   const Item = ({ it }) => (
     <div
       className={`sb-item${active === it.id ? " on" : ""}${!hasData && !alwaysOn.includes(it.id) ? " disabled" : ""}`}
@@ -33,8 +26,6 @@ function Sidebar({ active, onNav, hasData }) {
       <Logo />
       <div className="sb-sec">Analyse</div>
       {nav.map((it) => <Item key={it.id} it={it} />)}
-      <div className="sb-sec">Learn</div>
-      {learn.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-sec">Workspace</div>
       {tools.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-foot">
