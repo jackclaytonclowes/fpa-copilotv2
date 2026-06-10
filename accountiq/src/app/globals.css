@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F7F3ED;
+    --foreground: #0C0E1A;
+    --card: #FFFFFF;
+    --border: #E8E0D4;
+    --ink: #0C0E1A;
+    --citron: #D4F04A;
+    --mint: #7EEBC7;
+    --teal: #0D7D74;
+    --cream: #F7F3ED;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display), Georgia, serif;
+  }
+}
+
+@layer components {
+  /* Editorial typography */
+  .heading-display {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .heading-editorial {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  /* Ink hero card */
+  .ink-card {
+    background: linear-gradient(145deg, #0C0E1A 0%, #1B1E3F 100%);
+    color: #FFFFFF;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ink-card::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 60%;
+    height: 160%;
+    background: radial-gradient(ellipse, rgba(212, 240, 74, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Premium card */
+  .premium-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E0D4;
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(12, 14, 26, 0.06), 0 4px 12px rgba(12, 14, 26, 0.04);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+
+  .premium-card:hover {
+    box-shadow: 0 4px 16px rgba(12, 14, 26, 0.1), 0 1px 4px rgba(12, 14, 26, 0.06);
+  }
+
+  .premium-card:active {
+    transform: scale(0.99);
+  }
+
+  /* Citron accent pill */
+  .citron-badge {
+    background: #D4F04A;
+    color: #0C0E1A;
+    font-weight: 700;
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+  }
+
+  /* Mint success badge */
+  .mint-badge {
+    background: rgba(126, 235, 199, 0.2);
+    color: #0D7D74;
+    border: 1px solid rgba(126, 235, 199, 0.5);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  /* Premium number display */
+  .premium-numeral {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Citron pulse ring (for current lesson node) */
+  .citron-pulse {
+    animation: citron-pulse 2s ease-in-out infinite;
+  }
+
+  /* Teal pulse ring (legacy compat) */
+  .animate-pulse-ring {
+    animation: citron-pulse 2s ease-in-out infinite;
+  }
+}
+
+@keyframes citron-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 240, 74, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(212, 240, 74, 0);
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(13, 148, 136, 0);
+  }
+}
