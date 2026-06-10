@@ -1,10 +1,15 @@
 /* AccountIQ — Skills Lab
  *
- * Practical tool tracks for finance professionals:
- *   1. Advanced Excel for Finance  (10 modules)
- *   2. SQL for Finance              (10 modules)
- *   3. Power BI for Finance         (6 modules)
- *   4. AI for Finance               (6 modules)
+ * Finance Skills Track  (category: "finance-skills")
+ *   1. Advanced Excel for Finance  (12 modules)
+ *   2. SQL for Finance             (10 modules)
+ *
+ * Productivity Tools              (category: "tools")
+ *   3. Power BI for Finance        (6 modules)
+ *   4. AI for Finance              (6 modules)
+ *
+ * IMPORTANT: Finance Skills content is practical, employer-focused training.
+ * It is NOT part of the official CIMA syllabus.
  *
  * Track overview → module list (internal state) → lesson viewer (AIQLessons)
  * Progress sourced from aiqStore.paperProgress using track IDs as keys.
@@ -23,12 +28,23 @@ function trackPalette(id) {
   return TRACK_PALETTE[id] || { bg: "var(--surface-2)", border: "var(--border)", icon: "var(--fg-2)" };
 }
 
+/* ── "Not CIMA syllabus" disclaimer badge ────────────────────────────────── */
+function SlbNotCimaBadge() {
+  const { Icon } = window;
+  return (
+    <span className="slb-not-cima-badge">
+      <Icon name="info" size={11} />
+      Practical skills — not CIMA syllabus
+    </span>
+  );
+}
+
 /* ── Track overview card ─────────────────────────────────────────────────── */
 function SlbTrackCard({ track, progress, onClick }) {
   const { Icon } = window;
   const { CrsProgressBar } = window;
-  const pal = trackPalette(track.id);
-  const pct = Math.round((progress || 0) * 100);
+  const pal  = trackPalette(track.id);
+  const pct  = Math.round((progress || 0) * 100);
   const total = (track.lessons || []).length;
   const done  = Math.round((progress || 0) * total);
 
@@ -97,14 +113,15 @@ function SlbModuleRow({ module, index, trackId, onNavigate, isComplete }) {
 /* ── Track detail view ───────────────────────────────────────────────────── */
 function SlbTrackDetail({ track, onBack, onNavigate }) {
   const { Icon, Button, CrsProgressBar } = window;
-  const pal = trackPalette(track.id);
-  const modules = track.lessons || [];
+  const pal        = trackPalette(track.id);
+  const modules    = track.lessons || [];
+  const isFinance  = track.category === "finance-skills";
 
-  const store       = window.aiqStore ? window.aiqStore.get() : {};
+  const store        = window.aiqStore ? window.aiqStore.get() : {};
   const completedSet = (store.completedLessons || {})[track.id] || [];
-  const progress    = (store.paperProgress || {})[track.id] || 0;
-  const doneCnt     = completedSet.length;
-  const pct         = Math.round(progress * 100);
+  const progress     = (store.paperProgress || {})[track.id] || 0;
+  const doneCnt      = completedSet.length;
+  const pct          = Math.round(progress * 100);
 
   return (
     <div className="content">
@@ -112,7 +129,7 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
         <div>
           <button className="lsn-back" onClick={onBack}>
             <Icon name="arrow-left" size={14} />
-            Skills Lab
+            {isFinance ? "Finance Skills" : "Skills Lab"}
           </button>
         </div>
 
@@ -122,7 +139,12 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
               <Icon name={track.icon} size={26} color={pal.icon} />
             </div>
             <div>
-              <div className="slb-detail-eyebrow">Skills Lab</div>
+              <div className="slb-detail-eyebrow-row">
+                <div className="slb-detail-eyebrow">
+                  {isFinance ? "Finance Skills Track" : "Productivity Tools"}
+                </div>
+                {isFinance && <SlbNotCimaBadge />}
+              </div>
               <h1 className="slb-detail-title">{track.title}</h1>
               <div className="slb-detail-desc">{track.description}</div>
               <div className="slb-detail-meta">
@@ -180,6 +202,40 @@ function SlbTrackDetail({ track, onBack, onNavigate }) {
   );
 }
 
+/* ── Section group header ────────────────────────────────────────────────── */
+function SlbSectionHeader({ title, badge, description }) {
+  return (
+    <div className="slb-section-header">
+      <div className="slb-section-header-left">
+        <h3 className="slb-section-title">{title}</h3>
+        {badge && badge}
+      </div>
+      {description && <p className="slb-section-desc">{description}</p>}
+    </div>
+  );
+}
+
+/* ── Finance Skills info banner ──────────────────────────────────────────── */
+function SlbFinanceSkillsBanner() {
+  const { Icon } = window;
+  return (
+    <div className="slb-finance-banner">
+      <div className="slb-finance-banner-icon">
+        <Icon name="graduation-cap" size={18} color="#217346" />
+      </div>
+      <div className="slb-finance-banner-body">
+        <div className="slb-finance-banner-title">Finance Skills Track</div>
+        <div className="slb-finance-banner-text">
+          Practical, employer-focused training in Excel and SQL for finance.
+          This content is <strong>separate from the CIMA qualification syllabus</strong> and does not
+          contribute to CIMA exam preparation. Use it to build the day-to-day tools your
+          role demands.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main Skills Lab component ───────────────────────────────────────────── */
 function AIQSkillsLab({ onNavigate }) {
   const { Icon } = window;
@@ -188,9 +244,11 @@ function AIQSkillsLab({ onNavigate }) {
   const catalogue = window.AIQ_COURSE_DATA || {};
   const tracks    = (catalogue.skillsLab || {}).tracks || [];
 
-  // TODO: replace with real API data from /api/user/skills-progress
   const store         = window.aiqStore ? window.aiqStore.get() : {};
   const paperProgress = store.paperProgress || {};
+
+  const financeSkillsTracks = tracks.filter((t) => t.category === "finance-skills");
+  const toolsTracks         = tracks.filter((t) => t.category === "tools");
 
   if (selectedTrack) {
     return (
@@ -218,16 +276,62 @@ function AIQSkillsLab({ onNavigate }) {
           </div>
         </div>
 
-        <div className="slb-tracks-grid">
-          {tracks.map((track) => (
-            <SlbTrackCard
-              key={track.id}
-              track={track}
-              progress={paperProgress[track.id] || 0}
-              onClick={() => setSelectedTrack(track)}
+        {/* Finance Skills Track ─────────────────────────────────────────── */}
+        {financeSkillsTracks.length > 0 && (
+          <div className="slb-section-group">
+            <SlbSectionHeader
+              title="Finance Skills Track"
+              badge={<SlbNotCimaBadge />}
+              description={null}
             />
-          ))}
-        </div>
+            <SlbFinanceSkillsBanner />
+            <div className="slb-tracks-grid">
+              {financeSkillsTracks.map((track) => (
+                <SlbTrackCard
+                  key={track.id}
+                  track={track}
+                  progress={paperProgress[track.id] || 0}
+                  onClick={() => setSelectedTrack(track)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Productivity Tools ──────────────────────────────────────────── */}
+        {toolsTracks.length > 0 && (
+          <div className="slb-section-group">
+            <SlbSectionHeader
+              title="Productivity Tools"
+              badge={<SlbNotCimaBadge />}
+              description={null}
+            />
+            <div className="slb-tracks-grid">
+              {toolsTracks.map((track) => (
+                <SlbTrackCard
+                  key={track.id}
+                  track={track}
+                  progress={paperProgress[track.id] || 0}
+                  onClick={() => setSelectedTrack(track)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Fallback: render all tracks ungrouped if categories not set */}
+        {financeSkillsTracks.length === 0 && toolsTracks.length === 0 && (
+          <div className="slb-tracks-grid">
+            {tracks.map((track) => (
+              <SlbTrackCard
+                key={track.id}
+                track={track}
+                progress={paperProgress[track.id] || 0}
+                onClick={() => setSelectedTrack(track)}
+              />
+            ))}
+          </div>
+        )}
 
       </div>
     </div>

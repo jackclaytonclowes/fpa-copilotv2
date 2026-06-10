@@ -1801,6 +1801,100 @@
   .slb-detail-header-body { flex-direction: column; gap: 14px; }
 }
 
+/* ── Finance Skills Track — section grouping ────────────────────────────────── */
+.slb-section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.slb-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.slb-section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.slb-section-title {
+  font: var(--text-h3);
+  color: var(--ink);
+  margin: 0;
+}
+.slb-section-desc {
+  font: var(--text-caption);
+  color: var(--fg-2);
+  margin: 0;
+}
+
+/* "Practical skills — not CIMA syllabus" badge */
+.slb-not-cima-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: var(--text-label);
+  font-size: 11px;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Finance Skills info banner */
+.slb-finance-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+}
+.slb-finance-banner-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.slb-finance-banner-body {
+  flex: 1;
+  min-width: 0;
+}
+.slb-finance-banner-title {
+  font: var(--text-body-strong);
+  color: #166534;
+  margin-bottom: 4px;
+}
+.slb-finance-banner-text {
+  font: var(--text-caption);
+  color: #15803d;
+  line-height: 1.55;
+}
+.slb-finance-banner-text strong {
+  color: #166534;
+}
+
+/* Detail eyebrow row (eyebrow + badge side by side) */
+.slb-detail-eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.slb-detail-eyebrow-row .slb-detail-eyebrow {
+  margin-bottom: 0;
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 639px) {
   .crs-stats-row {
