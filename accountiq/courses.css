@@ -22,25 +22,31 @@
 .crs-progress-fill {
   height: 100%;
   border-radius: var(--radius-pill);
-  background: var(--primary);
+  background: #D4F04A;
   transition: width 0.35s ease;
 }
 
 /* ── Continue Learning Hero ────────────────────────────────────────────────── */
 .crs-hero {
-  /* .card gives background, border, radius, shadow */
-  border-color: var(--primary-soft-2);
-  background: linear-gradient(
-    105deg,
-    var(--primary-soft) 0%,
-    var(--surface) 60%
-  );
+  background: linear-gradient(145deg, #0C0E1A 0%, #1B1E3F 100%);
+  border-color: transparent !important;
+  position: relative;
+  overflow: hidden;
+}
+.crs-hero::before {
+  content: "";
+  position: absolute;
+  top: -40%; right: -15%;
+  width: 55%; height: 160%;
+  background: radial-gradient(ellipse, rgba(212,240,74,.07) 0%, transparent 70%);
+  pointer-events: none;
 }
 .crs-hero-body {
   display: flex;
   align-items: center;
   gap: 28px;
-  padding: 24px 28px;
+  padding: 28px 32px;
+  position: relative;
 }
 .crs-hero-left {
   flex: 1;
@@ -51,12 +57,14 @@
   align-items: center;
   gap: 6px;
   font: var(--text-label);
-  color: var(--primary);
+  color: rgba(212, 240, 74, 0.85);
   margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: .07em;
 }
 .crs-hero-title {
   font: var(--text-h2);
-  color: var(--ink);
+  color: #ffffff;
   margin: 0 0 8px;
   display: flex;
   align-items: center;
@@ -68,7 +76,7 @@
   align-items: center;
   gap: 6px;
   font: var(--text-caption);
-  color: var(--fg-2);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 16px;
 }
 .crs-hero-progress {
@@ -79,7 +87,24 @@
 }
 .crs-hero-pct {
   font: var(--text-caption);
-  color: var(--fg-2);
+  color: rgba(255, 255, 255, 0.5);
+}
+/* Progress bar inside dark hero */
+.crs-hero .crs-progress-track {
+  background: rgba(255, 255, 255, 0.15);
+}
+.crs-hero .crs-progress-fill {
+  background: #D4F04A !important;
+}
+/* CTA button in hero: citron */
+.crs-hero .btn.primary {
+  background: #D4F04A;
+  color: #0C0E1A;
+  border-color: transparent;
+  font-weight: 700;
+}
+.crs-hero .btn.primary:hover {
+  background: #C5E229;
 }
 .crs-hero-actions {
   display: flex;
@@ -93,7 +118,7 @@
   align-items: center;
   gap: 5px;
   font: var(--text-caption);
-  color: var(--fg-2);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* ── Course badge ──────────────────────────────────────────────────────────── */
@@ -101,9 +126,13 @@
   display: inline-block;
   padding: 2px 9px;
   border-radius: var(--radius-pill);
-  background: var(--primary-soft);
-  color: var(--primary-press);
+  background: #D4F04A;
+  color: #0C0E1A;
   font: var(--text-label);
+  font-weight: 800;
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 .crs-course-badge--muted {
@@ -417,6 +446,83 @@
   color: var(--fg-3);
 }
 
+/* ── Profile hero (ink card) ───────────────────────────────────────────────── */
+.prf-hero {
+  padding: 28px 28px 24px;
+  background: linear-gradient(145deg, #0C0E1A 0%, #1B1E3F 100%);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.prf-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 50%; height: 200%;
+  background: radial-gradient(ellipse, rgba(212,240,74,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.prf-hero-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  position: relative;
+}
+.prf-hero-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #D4F04A;
+  color: #0C0E1A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.prf-hero-name {
+  font: var(--text-h2);
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.prf-hero-qual {
+  font: var(--text-caption);
+  color: rgba(255, 255, 255, 0.5);
+}
+.prf-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 18px;
+  position: relative;
+}
+.prf-hero-stat {
+  text-align: center;
+  padding: 0 8px;
+}
+.prf-hero-stat + .prf-hero-stat {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+.prf-hero-stat-val {
+  font: var(--text-metric);
+  font-size: 28px;
+  color: #ffffff;
+  margin-bottom: 5px;
+  display: block;
+}
+.prf-hero-stat--citron .prf-hero-stat-val {
+  color: #D4F04A;
+}
+.prf-hero-stat-label {
+  font: var(--text-caption);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 /* ── Profile dashboard ─────────────────────────────────────────────────────── */
 .prf-page {
   max-width: 1100px;
@@ -428,7 +534,7 @@
 }
 .prf-summary-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 .prf-papers-grid {
@@ -554,7 +660,8 @@
   .prf-topic-row { grid-template-columns: 130px 1fr 40px; }
 }
 @media (max-width: 600px) {
-  .prf-summary-row { grid-template-columns: repeat(2, 1fr); }
+  .prf-summary-row { grid-template-columns: 1fr; }
+  .prf-hero-stats { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ── Tutor ─────────────────────────────────────────────────────────────────── */

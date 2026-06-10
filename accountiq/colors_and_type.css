@@ -17,13 +17,28 @@
   --fg-on-dark: #EAF0F6;
   --fg-on-dark-2:#9DB0C4;
 
-  --canvas:    #F5F7FA;
+  --canvas:    #F7F3ED;
   --surface:   #FFFFFF;
-  --surface-2: #EFF3F7;
-  --surface-3: #E5EBF1;
+  --surface-2: #F0EBE3;
+  --surface-3: #E8E0D4;
 
-  --border:        #E2E8F0;
-  --border-strong: #CBD5E1;
+  --border:        #E8E0D4;
+  --border-strong: #D0C8BC;
+
+  /* AccountIQ brand */
+  --citron:        #D4F04A;
+  --citron-soft:   #F4FDD5;
+  --citron-soft-2: #EAFAAA;
+  --citron-border: #CBED6E;
+  --citron-text:   #3A5200;
+
+  --mint:        #7EEBC7;
+  --mint-soft:   #E8FAF4;
+  --mint-border: #A8F2E0;
+  --mint-text:   #0D7D74;
+
+  --sand-400: #AFA090;
+  --sand-500: #9A8A78;
 
   /* Navy */
   --navy-900: #0C1726;

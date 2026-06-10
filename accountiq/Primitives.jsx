@@ -64,13 +64,12 @@ function Logo() {
   return (
     <div className="sb-brand">
       <div className="mark">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-          <path d="M20 7l-2-2-2 2" /><circle cx="20" cy="5" r="1" fill="#fff" stroke="none"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C0E1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
         </svg>
       </div>
-      <div className="wm">MonthEnd<span>IQ</span></div>
+      <div className="wm">Account<span>IQ</span></div>
     </div>
   );
 }
