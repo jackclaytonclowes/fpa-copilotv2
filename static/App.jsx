@@ -308,7 +308,7 @@ function App() {
     setView("copilot");
   };
 
-  const { AIQLessons, AIQQuiz, AIQTutor } = window;
+  const { AIQLessons, AIQQuiz, AIQTutor, AIQProfile } = window;
 
   let body;
   if (restoring) {
@@ -325,6 +325,8 @@ function App() {
     body = <AIQQuiz quizResult={aiqContext.quizResult} onNavigate={navigateToAiq} />;
   } else if (view === "tutor") {
     body = <AIQTutor onNavigate={navigateToAiq} />;
+  } else if (view === "profile") {
+    body = <AIQProfile onNavigate={navigateToAiq} />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {

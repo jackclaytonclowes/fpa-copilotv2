@@ -417,6 +417,146 @@
   color: var(--fg-3);
 }
 
+/* ── Profile dashboard ─────────────────────────────────────────────────────── */
+.prf-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 48px;
+}
+.prf-summary-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+.prf-papers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.prf-paper-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+}
+.prf-paper-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.prf-paper-body { flex: 1; min-width: 0; }
+.prf-paper-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.prf-paper-name {
+  font: var(--text-body-strong);
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.prf-paper-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prf-paper-pct {
+  font: var(--text-label);
+  color: var(--fg-2);
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: right;
+}
+/* Topic mastery */
+.prf-topic-list { display: flex; flex-direction: column; gap: 8px; }
+.prf-topic-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.prf-topic-name {
+  font: var(--text-body);
+  font-size: 13px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prf-topic-score {
+  font: var(--text-data);
+  font-size: 12px;
+  text-align: right;
+}
+/* Career pathway */
+.prf-career-list { display: flex; flex-direction: column; gap: 0; }
+.prf-career-stage {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  margin-bottom: 4px;
+}
+.prf-career-stage.current {
+  background: var(--primary-soft);
+  border-color: var(--primary-soft-2);
+}
+.prf-career-stage.unlocked {
+  background: var(--favourable-soft);
+  border-color: var(--favourable-border);
+}
+.prf-career-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.prf-career-stage.current .prf-career-icon { background: var(--primary-soft-2); }
+.prf-career-stage.unlocked .prf-career-icon { background: var(--favourable-soft); }
+.prf-career-body { flex: 1; }
+.prf-career-stage-name { font: var(--text-body-strong); font-size: 13.5px; color: var(--ink); }
+.prf-career-qual { font: var(--text-caption); color: var(--fg-2); margin-top: 2px; }
+.prf-career-roles { font: var(--text-caption); color: var(--primary-press); margin-top: 4px; }
+/* Empty state */
+.prf-empty {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font: var(--text-body);
+  color: var(--fg-2);
+}
+/* Responsive */
+@media (max-width: 900px) {
+  .prf-summary-row { grid-template-columns: repeat(3, 1fr); }
+  .prf-papers-grid { grid-template-columns: 1fr; }
+  .prf-topic-row { grid-template-columns: 130px 1fr 40px; }
+}
+@media (max-width: 600px) {
+  .prf-summary-row { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* ── Tutor ─────────────────────────────────────────────────────────────────── */
 .ttr-scope-note {
   display: flex;
