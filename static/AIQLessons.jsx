@@ -90,8 +90,12 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
   const { Icon, Button } = window;
   const catalogue = window.AIQ_COURSE_DATA || {};
   const papers    = catalogue.papers || [];
+  const tracks    = (catalogue.skillsLab || {}).tracks || [];
 
-  const paper  = papers.find((p) => p.id === paperId) || papers[0];
+  const isTrack = tracks.some((t) => t.id === paperId);
+  const paper   = papers.find((p) => p.id === paperId)
+               || tracks.find((t) => t.id === paperId)
+               || papers[0];
   const lessons = (paper && paper.lessons) ? paper.lessons : [];
   const lesson  = lessonId
     ? lessons.find((l) => l.id === lessonId) || lessons[0]
@@ -126,7 +130,7 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
 
         {/* Breadcrumb */}
         <div className="lsn-breadcrumb">
-          <button className="lsn-back" onClick={() => onNavigate && onNavigate("courses")}>
+          <button className="lsn-back" onClick={() => onNavigate && onNavigate(isTrack ? "skillslab" : "courses")}>
             <Icon name="arrow-left" size={14} />
             {paper.title}
           </button>

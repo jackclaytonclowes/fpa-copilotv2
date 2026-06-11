@@ -8,16 +8,17 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
   ];
   const learn = [
-    { id: "courses", icon: "graduation-cap",  label: "Courses" },
-    { id: "tutor",   icon: "message-circle",  label: "Study Tutor" },
-    { id: "profile", icon: "user",            label: "My Progress" },
+    { id: "courses",   icon: "graduation-cap", label: "Courses" },
+    { id: "skillslab", icon: "flask-conical",  label: "Skills Lab" },
+    { id: "tutor",     icon: "message-circle", label: "Study Tutor" },
+    { id: "profile",   icon: "user",           label: "My Progress" },
   ];
   const tools = [
     { id: "data",     icon: "database", label: "Data sources" },
     { id: "settings", icon: "settings", label: "Settings" },
   ];
   // IDs that are always accessible regardless of whether data is loaded
-  const alwaysOn = ["data", "settings", "courses", "tutor", "profile"];
+  const alwaysOn = ["data", "settings", "courses", "skillslab", "tutor", "profile"];
   const Item = ({ it }) => (
     <div
       className={`sb-item${active === it.id ? " on" : ""}${!hasData && !alwaysOn.includes(it.id) ? " disabled" : ""}`}

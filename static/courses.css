@@ -1249,6 +1249,200 @@
 }
 .onb-edit-link:hover { color: var(--primary); }
 
+/* ── Skills Lab ────────────────────────────────────────────────────────────── */
+.slb-page-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.slb-page-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.slb-page-title {
+  font: var(--text-h2);
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+.slb-page-sub {
+  font: var(--text-caption);
+  color: var(--fg-2);
+}
+.slb-tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.slb-track-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.slb-track-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+.slb-track-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px 12px;
+}
+.slb-track-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.slb-track-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.slb-track-modules,
+.slb-track-hours {
+  font: var(--text-label);
+  color: var(--fg-3);
+}
+.slb-track-body {
+  padding: 0 18px 14px;
+  flex: 1;
+}
+.slb-track-title {
+  font: var(--text-body-strong);
+  font-size: 14.5px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.slb-track-desc {
+  font: var(--text-caption);
+  color: var(--fg-2);
+  line-height: 1.55;
+}
+.slb-track-footer {
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--border);
+}
+.slb-track-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.slb-track-pct {
+  font: var(--text-label);
+  color: var(--fg-3);
+  white-space: nowrap;
+  min-width: 28px;
+  text-align: right;
+}
+.slb-track-status {
+  font: var(--text-caption);
+  color: var(--favourable-text);
+  margin-top: 5px;
+}
+/* Track detail header */
+.slb-detail-header-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 24px;
+}
+.slb-detail-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.slb-detail-eyebrow {
+  font: var(--text-label);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+}
+.slb-detail-title {
+  font: var(--text-h1);
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.slb-detail-desc {
+  font: var(--text-body);
+  color: var(--fg-2);
+  margin: 0 0 12px;
+}
+.slb-detail-meta {
+  display: flex;
+  gap: 16px;
+}
+.slb-detail-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: var(--text-caption);
+  color: var(--fg-2);
+}
+/* Module list */
+.slb-module-list {
+  display: flex;
+  flex-direction: column;
+}
+.slb-module-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border);
+  min-height: 56px;
+}
+.slb-module-row:last-child { border-bottom: none; }
+.slb-module-num {
+  font: var(--text-data);
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.slb-module-info { flex: 1; min-width: 0; }
+.slb-module-title {
+  font: var(--text-body-strong);
+  font-size: 13.5px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.slb-module-topic {
+  font: var(--text-caption);
+  color: var(--fg-3);
+}
+.slb-module-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: var(--text-caption);
+  color: var(--fg-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+@media (max-width: 639px) {
+  .slb-tracks-grid { grid-template-columns: 1fr; }
+  .slb-detail-header-body { flex-direction: column; gap: 14px; }
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 639px) {
   .crs-stats-row {
