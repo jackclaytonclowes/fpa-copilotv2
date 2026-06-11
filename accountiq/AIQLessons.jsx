@@ -1,10 +1,11 @@
 /* AccountIQ — Lesson viewer
  *
- * Renders a single lesson using the structured format:
- *   objectives → explanation → worked example → summary → practice questions
+ * Renders a single lesson. Supports two modes:
+ *   mode="deep"     — full lesson (objectives → explanation → worked example → summary → quiz)
+ *   mode="revision" — compact revision lesson from AIQ_REVISION_DATA (key points, formulas, exam traps)
  *
- * Receives { paperId, lessonId } via props (passed from App aiqContext).
- * All lesson content lives in the LESSONS catalogue in AIQCourseData.js.
+ * Deep learning content lives in AIQCourseData.js (never modified here).
+ * Revision content lives in AIQRevisionData.js.
  */
 const { useState: useLsnState, useEffect: useLsnEffect, useRef: useLsnRef } = React;
 
@@ -85,6 +86,286 @@ function LsnPracticeQ({ q, index, onAnswer }) {
   );
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   REVISION MODE renderer — reads from AIQ_REVISION_DATA, never from AIQCourseData
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Quick check question (revision mode) */
+function RevQuickCheck({ q, index }) {
+  const { Icon } = window;
+  const [chosen, setChosen] = useLsnState(null);
+  const pick = (i) => { if (chosen !== null) return; setChosen(i); };
+  return (
+    <div className="lsn-pq">
+      <div className="lsn-pq-num">Q{index + 1}</div>
+      <div className="lsn-pq-body">
+        <p className="lsn-pq-text">{q.question}</p>
+        <div className="lsn-pq-options">
+          {q.options.map((opt, i) => {
+            let cls = "lsn-pq-opt";
+            if (chosen !== null) {
+              if (i === q.correct) cls += " correct";
+              else if (i === chosen) cls += " wrong";
+            }
+            return (
+              <button key={i} className={cls} onClick={() => pick(i)} disabled={chosen !== null}>
+                <span className="lsn-pq-opt-letter">{String.fromCharCode(65 + i)}</span>
+                {opt}
+                {chosen !== null && i === q.correct && <Icon name="check-circle" size={14} color="var(--favourable)" style={{ marginLeft: "auto" }} />}
+                {chosen !== null && i === chosen && i !== q.correct && <Icon name="x-circle" size={14} color="var(--adverse)" style={{ marginLeft: "auto" }} />}
+              </button>
+            );
+          })}
+        </div>
+        {chosen !== null && (
+          <div className={`lsn-pq-explain${chosen === q.correct ? " correct" : " wrong"}`}>
+            <Icon name={chosen === q.correct ? "check-circle" : "alert-circle"} size={14}
+              color={chosen === q.correct ? "var(--favourable)" : "var(--adverse)"} />
+            {q.explanation}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* Main revision lesson renderer */
+function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
+  const { Icon, Button } = window;
+  const revData = (window.AIQ_REVISION_DATA || {})[lesson.id];
+
+  const store    = window.aiqStore ? window.aiqStore.get() : {};
+  const revDone  = ((store.revisionLessons || {})[paperId] || []).includes(lesson.id);
+
+  const lessonIndex = lessons.findIndex((l) => l.id === lesson.id);
+  const prevLesson  = lessonIndex > 0 ? lessons[lessonIndex - 1] : null;
+  const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
+  const totalLessons = lessons.length;
+
+  const [marked, setMarked] = useLsnState(revDone);
+
+  const handleComplete = () => {
+    if (window.aiqStore) window.aiqStore.markRevisionComplete(paperId, lesson.id, totalLessons);
+    setMarked(true);
+  };
+
+  const openedAt = useLsnRef(Date.now());
+  useLsnEffect(() => {
+    openedAt.current = Date.now();
+    return () => {
+      const minutes = Math.round((Date.now() - openedAt.current) / 60000);
+      if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
+    };
+  }, [lesson.id]);
+
+  /* No revision data for this lesson */
+  if (!revData) {
+    return (
+      <div className="content">
+        <div className="lsn-page">
+          <div className="lsn-breadcrumb">
+            <button className="lsn-back" onClick={() => onNavigate && onNavigate("coursedetail", { paperId, mode: "revision" })}>
+              <Icon name="arrow-left" size={14} />
+              {paper.title}
+            </button>
+            <span className="lsn-breadcrumb-sep">/</span>
+            <span className="lsn-breadcrumb-current">{lesson.title}</span>
+          </div>
+          <div className="rev-coming-soon card">
+            <Icon name="zap" size={28} color="var(--caution)" />
+            <h3>Revision lesson coming soon</h3>
+            <p>Full revision content for <strong>{lesson.title}</strong> is being prepared.</p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+              <Button variant="secondary" icon="arrow-left" onClick={() => onNavigate && onNavigate("coursedetail", { paperId, mode: "revision" })}>
+                Back to course
+              </Button>
+              <Button variant="primary" icon="book-open" onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: lesson.id, mode: "deep" })}>
+                Switch to Deep Learning
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="content">
+      <div className="lsn-page">
+
+        {/* Breadcrumb */}
+        <div className="lsn-breadcrumb">
+          <button className="lsn-back" onClick={() => onNavigate && onNavigate("coursedetail", { paperId, mode: "revision" })}>
+            <Icon name="arrow-left" size={14} />
+            {paper.title}
+          </button>
+          <span className="lsn-breadcrumb-sep">/</span>
+          <span className="lsn-breadcrumb-current">{lesson.title}</span>
+        </div>
+
+        {/* Header */}
+        <div className="rev-header card">
+          <div className="rev-header-top">
+            <span className="crs-course-badge">{paper.title}</span>
+            <span className="rev-mode-badge">⚡ Revision Mode</span>
+            {marked && <span className="chip fav"><Icon name="check-circle" size={11} />Complete</span>}
+          </div>
+          <h1 className="lsn-header-title" style={{ marginTop: 10 }}>{lesson.title}</h1>
+          <div className="lsn-header-time">
+            <Icon name="clock" size={13} color="var(--fg-3)" />
+            ~{revData.estimatedMinutes} min
+            <span style={{ margin: "0 8px", color: "var(--border)" }}>·</span>
+            <button
+              className="rev-switch-link"
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: lesson.id, mode: "deep" })}
+            >
+              <Icon name="book-open" size={12} />
+              Switch to Deep Learning
+            </button>
+          </div>
+        </div>
+
+        {/* Key Points */}
+        {revData.keyPoints && revData.keyPoints.length > 0 && (
+          <div className="lsn-section" style={{ background: "var(--primary-soft)", borderColor: "var(--primary-soft-2)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--primary)" }}><Icon name="list-checks" size={16} /></div>
+              <h3 className="lsn-section-title">Key Points</h3>
+            </div>
+            <div className="lsn-section-body">
+              <ul className="lsn-list">
+                {revData.keyPoints.map((pt, i) => (
+                  <li key={i}><Icon name="check" size={12} color="var(--primary)" />{pt}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Formula Sheet */}
+        {revData.formulaSheet && revData.formulaSheet.length > 0 && (
+          <div className="lsn-section" style={{ background: "var(--caution-soft)", borderColor: "var(--caution-border)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--caution)" }}><Icon name="function-square" size={16} /></div>
+              <h3 className="lsn-section-title">Formula Sheet</h3>
+            </div>
+            <div className="lsn-section-body">
+              <div className="rev-formula-grid">
+                {revData.formulaSheet.map((f, i) => (
+                  <div key={i} className="rev-formula-card">
+                    <div className="rev-formula-name">{f.name}</div>
+                    <div className="rev-formula-expr">{f.formula}</div>
+                    {f.example && <div className="rev-formula-example">{f.example}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Exam Traps */}
+        {revData.examTraps && revData.examTraps.length > 0 && (
+          <div className="lsn-section" style={{ background: "var(--adverse-soft)", borderColor: "var(--adverse-border)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--adverse)" }}><Icon name="alert-triangle" size={16} /></div>
+              <h3 className="lsn-section-title">Exam Traps</h3>
+            </div>
+            <div className="lsn-section-body">
+              <ul className="lsn-list">
+                {revData.examTraps.map((trap, i) => (
+                  <li key={i}><Icon name="alert-circle" size={12} color="var(--adverse)" />{trap}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Memory Aids */}
+        {revData.memoryAids && revData.memoryAids.length > 0 && (
+          <div className="lsn-section" style={{ background: "var(--favourable-soft)", borderColor: "var(--favourable-border)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--favourable)" }}><Icon name="lightbulb" size={16} /></div>
+              <h3 className="lsn-section-title">Memory Aids</h3>
+            </div>
+            <div className="lsn-section-body">
+              <ul className="lsn-list">
+                {revData.memoryAids.map((aid, i) => (
+                  <li key={i}><Icon name="zap" size={12} color="var(--favourable)" />{aid}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Example */}
+        {revData.quickExample && (
+          <div className="lsn-section" style={{ background: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--fg-3)" }}><Icon name="pencil-ruler" size={16} /></div>
+              <h3 className="lsn-section-title">Quick Example</h3>
+            </div>
+            <div className="lsn-section-body">
+              <div className="lsn-example">
+                <div className="lsn-example-setup">{revData.quickExample.setup}</div>
+                <div className="lsn-example-answer">
+                  <Icon name="check-circle" size={14} color="var(--favourable)" />
+                  <strong>Answer:</strong> {revData.quickExample.answer}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Checks */}
+        {revData.quickChecks && revData.quickChecks.length > 0 && (
+          <div className="lsn-section" style={{ background: "var(--primary-soft)", borderColor: "var(--primary-soft-2)" }}>
+            <div className="lsn-section-header">
+              <div className="lsn-section-icon" style={{ color: "var(--primary)" }}><Icon name="help-circle" size={16} /></div>
+              <h3 className="lsn-section-title">Quick Checks</h3>
+            </div>
+            <div className="lsn-section-body">
+              <div className="lsn-pq-list">
+                {revData.quickChecks.map((q, i) => (
+                  <RevQuickCheck key={i} q={q} index={i} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Complete / navigation row */}
+        <div className="lsn-nav-row">
+          {prevLesson ? (
+            <Button variant="secondary" icon="arrow-left"
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "revision" })}>
+              {prevLesson.title}
+            </Button>
+          ) : <div />}
+
+          {marked ? (
+            nextLesson ? (
+              <Button variant="primary" iconRight="arrow-right"
+                onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "revision" })}>
+                Next: {nextLesson.title}
+              </Button>
+            ) : (
+              <Button variant="primary" icon="graduation-cap"
+                onClick={() => onNavigate && onNavigate("coursedetail", { paperId, mode: "revision" })}>
+                Back to course
+              </Button>
+            )
+          ) : (
+            <Button variant="primary" icon="check-circle" onClick={handleComplete}>
+              Mark as complete · +25 XP
+            </Button>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 /* ── Section definitions ─────────────────────────────────────────────────── */
 const LSN_SECTIONS = [
   { id: "intro",       label: "Intro",       icon: "target" },
@@ -95,7 +376,7 @@ const LSN_SECTIONS = [
 ];
 
 /* ── Main Lesson component ───────────────────────────────────────────────── */
-function AIQLessons({ paperId, lessonId, onNavigate }) {
+function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const { Icon, Button } = window;
   const catalogue = window.AIQ_COURSE_DATA || {};
   const papers    = catalogue.papers || [];
@@ -128,6 +409,19 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
           </div>
         </div>
       </div>
+    );
+  }
+
+  /* ── Revision mode: delegate to separate renderer ── */
+  if (mode === "revision") {
+    return (
+      <RevisionLesson
+        paperId={paperId}
+        lesson={lesson}
+        paper={paper}
+        lessons={lessons}
+        onNavigate={onNavigate}
+      />
     );
   }
 
@@ -170,9 +464,9 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
     if (!isLastSection) {
       setSectionIdx(safeSectionIdx + 1);
     } else if (nextLesson) {
-      onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id });
+      onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "deep" });
     } else {
-      onNavigate && onNavigate(isTrack ? "skillslab" : "courses");
+      onNavigate && onNavigate(isTrack ? "skillslab" : "coursedetail", isTrack ? undefined : { paperId, mode: "deep" });
     }
   };
 
@@ -182,7 +476,7 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
 
         {/* Breadcrumb */}
         <div className="lsn-breadcrumb">
-          <button className="lsn-back" onClick={() => onNavigate && onNavigate(isTrack ? "skillslab" : "courses")}>
+          <button className="lsn-back" onClick={() => onNavigate && onNavigate(isTrack ? "skillslab" : "coursedetail", isTrack ? undefined : { paperId, mode: "deep" })}>
             <Icon name="arrow-left" size={14} />
             {paper.title}
           </button>
@@ -361,7 +655,7 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
             </Button>
           ) : prevLesson ? (
             <Button variant="secondary" icon="arrow-left"
-              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id })}>
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "deep" })}>
               {prevLesson.title}
             </Button>
           ) : <div />}

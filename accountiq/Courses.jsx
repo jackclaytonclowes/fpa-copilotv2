@@ -259,7 +259,7 @@ function CrsHero({ courses, onNavigate }) {
             variant="primary"
             icon={isStarted ? "play" : "arrow-right"}
             style={{ minHeight: 44, paddingLeft: 22, paddingRight: 22 }}
-            onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id, lessonId: resumeLesson ? resumeLesson.id : undefined })}
+            onClick={() => onNavigate && onNavigate("coursedetail", { paperId: course.id, mode: "deep" })}
           >
             {isStarted ? "Resume" : "Start"}
           </Button>
@@ -412,15 +412,14 @@ function CrsStatCard({ icon, tone, label, value, children }) {
 /* ── Certificate Course Card ─────────────────────────────────────────────── */
 function CrsCourseCard({ course, onNavigate, availableQuestions }) {
   const { Icon, Button } = window;
-  const pct = Math.round(course.progress * 100);
-  const started = course.progress > 0;
-  const done = pct >= 100;
-  // TODO: replace with real remaining time from backend
-  const timeLabel = done
-    ? "Complete"
-    : course.progress === 0
-    ? `${course.studyHoursTotal}h est.`
-    : `~${Math.ceil(course.studyHoursTotal * (1 - course.progress))}h remaining`;
+  const store = window.aiqStore ? window.aiqStore.get() : {};
+  const deepPct = Math.round(course.progress * 100);
+  const revProgress = (store.revisionProgress || {})[course.id] || 0;
+  const revPct = Math.round(revProgress * 100);
+  const started = course.progress > 0 || revProgress > 0;
+  const done = deepPct >= 100;
+
+  const openCourse = (mode) => onNavigate && onNavigate("coursedetail", { paperId: course.id, mode });
 
   return (
     <div className={`crs-course-card card${started ? " crs-course-card--active" : ""}`}>
@@ -441,36 +440,28 @@ function CrsCourseCard({ course, onNavigate, availableQuestions }) {
       <div className="crs-course-card-body">
         <h3 className="crs-course-title">{course.fullTitle}</h3>
         <p className="crs-course-desc">{course.description}</p>
-        <div className="crs-course-meta">
-          <span>
-            <Icon name="layers" size={12} color="var(--fg-3)" />
-            {course.modules} modules
-          </span>
-          <span>
-            <Icon name="help-circle" size={12} color="var(--fg-3)" />
-            {course.questions} questions
-          </span>
-          <span>
-            <Icon name="clipboard-list" size={12} color="var(--fg-3)" />
-            {course.mockExams} mock exams
-          </span>
-        </div>
-        <div className="crs-course-time">
-          <Icon name="clock" size={12} color="var(--fg-3)" />
-          {timeLabel}
-        </div>
-        <div className="crs-course-progress-row">
-          <CrsProgressBar value={course.progress} height={5} />
-          <span className="crs-course-pct">{pct}%</span>
+
+        {/* Dual progress display */}
+        <div className="crs-dual-progress">
+          <div className="crs-dual-row">
+            <span className="crs-dual-label">📚 Deep Learning</span>
+            <span className="crs-dual-pct">{deepPct}%</span>
+          </div>
+          <CrsProgressBar value={course.progress} height={4} />
+          <div className="crs-dual-row" style={{ marginTop: 8 }}>
+            <span className="crs-dual-label">⚡ Revision</span>
+            <span className="crs-dual-pct">{revPct}%</span>
+          </div>
+          <CrsProgressBar value={revProgress} height={4} color="var(--caution)" />
         </div>
       </div>
       <div className="crs-course-card-footer">
         <Button
-          variant={started ? "primary" : "secondary"}
-          icon={started ? "play" : "arrow-right"}
-          onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id })}
+          variant="primary"
+          icon="arrow-right"
+          onClick={() => openCourse("deep")}
         >
-          {started ? "Continue" : "Start"}
+          {course.progress > 0 ? "Continue" : "Open"}
         </Button>
         {availableQuestions > 0 && (
           <button
@@ -478,7 +469,7 @@ function CrsCourseCard({ course, onNavigate, availableQuestions }) {
             onClick={() => onNavigate && onNavigate("mockexam", { paperId: course.id })}
           >
             <Icon name="clipboard-list" size={13} />
-            Mock exam · {availableQuestions}Q
+            Mock · {availableQuestions}Q
           </button>
         )}
       </div>

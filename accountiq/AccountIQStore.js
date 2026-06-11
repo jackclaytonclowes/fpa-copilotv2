@@ -42,6 +42,13 @@ const DEFAULT_STATE = {
   /* Completed lessons --------------------------------------------------------- */
   completedLessons: {},
 
+  /* Study path ---------------------------------------------------------------- */
+  studyPath: null,   // "foundation" (deep-first) | "accelerated" (revision-first)
+
+  /* Revision progress --------------------------------------------------------- */
+  revisionLessons:  {},  // { [paperId]: lessonId[] }
+  revisionProgress: {},  // { [paperId]: 0–1 }
+
   /* Mocks --------------------------------------------------------------------- */
   mocksTaken:        0,
   questionsAnswered: 0,
@@ -138,6 +145,7 @@ const aiqStore = {
         ...serverState,
         // Deep-merge collections — combine rather than overwrite
         completedLessons: _mergeLessons(local.completedLessons, serverState.completedLessons),
+        revisionLessons:  _mergeLessons(local.revisionLessons,  serverState.revisionLessons),
         quizHistory:      _mergeHistory(local.quizHistory,  serverState.quizHistory),
         mockExamHistory:  _mergeHistory(local.mockExamHistory, serverState.mockExamHistory),
         topicMastery:     _mergeMastery(local.topicMastery, serverState.topicMastery),
@@ -189,9 +197,23 @@ const aiqStore = {
     if (prev.includes(lessonId)) return state;
     const updated  = [...prev, lessonId];
     const progress = totalLessons > 0 ? Math.min(1, updated.length / totalLessons) : 0;
+    this.recordActivity({ xpDelta: 100 });
     return this.set({
       completedLessons: { ...state.completedLessons, [paperId]: updated },
       paperProgress:    { ...state.paperProgress,    [paperId]: progress },
+    });
+  },
+
+  markRevisionComplete(paperId, lessonId, totalLessons) {
+    const state = this.get();
+    const prev  = state.revisionLessons[paperId] || [];
+    if (prev.includes(lessonId)) return state;
+    const updated  = [...prev, lessonId];
+    const progress = totalLessons > 0 ? Math.min(1, updated.length / totalLessons) : 0;
+    this.recordActivity({ xpDelta: 25 });
+    return this.set({
+      revisionLessons:  { ...state.revisionLessons,  [paperId]: updated },
+      revisionProgress: { ...state.revisionProgress, [paperId]: progress },
     });
   },
 

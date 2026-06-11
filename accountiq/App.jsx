@@ -39,14 +39,15 @@ function Sidebar({ active, onNav, onSignOut }) {
 /* ── TopBar ──────────────────────────────────────────────── */
 function TopBar({ view, aiqStats }) {
   const titles = {
-    courses:    "Courses",
-    skillslab:  "Skills Lab",
-    lessons:    "Lesson",
-    quizengine: "Quiz",
-    quiz:       "Quiz",
-    mockexam:   "Mock Exam",
-    tutor:      "Study Tutor",
-    profile:    "My Progress",
+    courses:      "Courses",
+    coursedetail: "Course",
+    skillslab:    "Skills Lab",
+    lessons:      "Lesson",
+    quizengine:   "Quiz",
+    quiz:         "Quiz",
+    mockexam:     "Mock Exam",
+    tutor:        "Study Tutor",
+    profile:      "My Progress",
   };
   const showStats = aiqStats && (aiqStats.xp > 0 || aiqStats.streak > 0);
   return (
@@ -89,7 +90,7 @@ function BottomNav({ active, onNav }) {
     { id: "tutor",     icon: "message-circle", label: "Tutor" },
     { id: "profile",   icon: "user",          label: "Profile" },
   ];
-  const courseViews = ["courses","lessons","quizengine","quiz","mockexam"];
+  const courseViews = ["courses","coursedetail","lessons","quizengine","quiz","mockexam"];
   return (
     <nav className="aiq-bnav">
       <div className="aiq-bnav-inner">
@@ -128,7 +129,7 @@ function BottomNav({ active, onNav }) {
 function App() {
   const {
     AIQAuth, Courses, AIQOnboarding, AIQSkillsLab, AIQQuizEngine, AIQMockExam,
-    AIQLessons, AIQQuiz, AIQTutor, AIQProfile,
+    AIQLessons, AIQQuiz, AIQTutor, AIQProfile, AIQCourseDetail,
   } = window;
 
   const [view, setView]                     = useStateApp("courses");
@@ -232,11 +233,19 @@ function App() {
   let body;
   if (view === "skillslab") {
     body = <AIQSkillsLab onNavigate={navigateToAiq} />;
+  } else if (view === "coursedetail") {
+    body = <AIQCourseDetail
+        key={aiqContext.paperId}
+        paperId={aiqContext.paperId}
+        mode={aiqContext.mode || "deep"}
+        onNavigate={navigateToAiq}
+      />;
   } else if (view === "lessons") {
     body = <AIQLessons
-        key={`${aiqContext.paperId}-${aiqContext.lessonId}`}
+        key={`${aiqContext.paperId}-${aiqContext.lessonId}-${aiqContext.mode}`}
         paperId={aiqContext.paperId}
         lessonId={aiqContext.lessonId}
+        mode={aiqContext.mode || "deep"}
         onNavigate={navigateToAiq}
       />;
   } else if (view === "quizengine") {

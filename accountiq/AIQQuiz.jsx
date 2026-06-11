@@ -204,7 +204,7 @@ function AIQQuiz({ quizResult, onNavigate }) {
             </div>
           </div>
           <div className="qz-header-actions">
-            <Button variant="secondary" icon="rotate-ccw" onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId })}>
+            <Button variant="secondary" icon="rotate-ccw" onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId, mode: "deep" })}>
               Back to lesson
             </Button>
             <Button variant="primary" icon="eye" onClick={() => setShowReview(true)}>
