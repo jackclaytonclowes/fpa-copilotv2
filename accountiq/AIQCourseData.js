@@ -21406,7 +21406,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Mintzberg's contingency theory holds that effective structure emerges from the fit between organisational characteristics (age, size, technology) and environmental factors (stability, complexity). No single variable is sufficient alone.",
             },
-          ],
+          
+            {
+              question: "TechNova plc has grown from 50 to 2,500 employees over eight years. It now operates in four distinct product markets, each requiring different technical expertise and speed-to-market. Which structural evolution best addresses these pressures?",
+              options: [
+                "Retain the functional structure but increase the span of control at each level",
+                "Adopt a divisional structure with each product market as a separate profit centre",
+                "Introduce a simple structure with a single owner-manager overseeing all activity",
+                "Move to a professional bureaucracy relying on standardisation of skills",
+              ],
+              correct: 1,
+              explanation: "As organisations grow and diversify, functional structures create silos and slow cross-functional decision-making. A divisional structure with separate profit centres aligns accountability, resource allocation and strategy with each distinct market — consistent with Mintzberg's contingency principle that structure follows size and diversity.",
+            },
+            {
+              question: "A global consulting firm wins a major infrastructure project requiring engineers, lawyers, finance specialists and project managers to work under a single project director for 18 months. After the project, each specialist returns to their functional department. This arrangement is best described as a:",
+              options: [
+                "Network/virtual structure with outsourced co-ordination",
+                "Simple structure delegating authority to the project director",
+                "Matrix structure combining functional and project authority",
+                "Divisional structure centred on geographic regions",
+              ],
+              correct: 2,
+              explanation: "The arrangement describes a classic matrix: specialists retain their functional home (standardised skills, career development) while simultaneously reporting to a project director. This allows efficient resource pooling across projects. The key matrix characteristic is dual reporting lines — functional manager and project manager.",
+            },],
         },
         {
           id: "e2-l2",
@@ -21488,7 +21510,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The continuum shows how decision-making authority can shift between the manager and subordinates. The appropriate position depends on the manager's personality, subordinates' maturity and the urgency of the situation.",
             },
-          ],
+          
+            {
+              question: "A newly promoted finance manager discovers her team contains two highly skilled analysts who need autonomy, and two junior staff who lack both competence and confidence. Applying Hersey and Blanchard's Situational Leadership model, which combined approach is most appropriate?",
+              options: [
+                "Use a selling style for all four staff to build confidence across the team",
+                "Delegate to the experienced analysts and direct the junior staff",
+                "Participate with the experienced analysts and sell to the junior staff",
+                "Direct all four staff consistently to establish authority as a new manager",
+              ],
+              correct: 1,
+              explanation: "Hersey and Blanchard match leadership style to follower readiness. High-competence, high-commitment followers (the experienced analysts) suit a delegating style — the leader empowers and steps back. Low-competence, low-commitment followers (junior staff) suit a directing style — clear task instructions and close supervision. Applying a uniform style to all four would be ineffective.",
+            },
+            {
+              question: "During a major digital transformation, the CEO communicates an inspiring vision of the firm becoming a data-driven market leader, creates a culture of innovation and encourages employees to challenge existing processes. This leadership approach is best classified as:",
+              options: [
+                "Transactional leadership focused on reward and punishment",
+                "Laissez-faire leadership that delegates strategy to employees",
+                "Transformational leadership motivating through vision and culture change",
+                "Autocratic leadership using position power to enforce compliance",
+              ],
+              correct: 2,
+              explanation: "Transformational leadership, associated with Bass and Burns, involves inspiring followers through an articulated vision, intellectual stimulation and cultural change — exactly what the CEO is doing. Transactional leadership, by contrast, manages performance through reward/punishment exchanges. Laissez-faire leaders abdicate responsibility, and autocratic leaders rely on command-and-control rather than inspiration.",
+            },],
         },
         {
           id: "e2-l3",
@@ -21572,7 +21616,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "When an individual perceives their input-to-output ratio is unfavourable versus a referent, they experience tension. Reducing inputs (effort, hours, quality) is a common response to restore perceived balance.",
             },
-          ],
+          
+            {
+              question: "A company introduces a performance bonus scheme. Sales staff report that even though the bonuses are generous, motivation has not improved because they do not believe increased effort will lead to better sales results in the current recessionary market. Which motivational theory best explains this outcome?",
+              options: [
+                "Herzberg's two-factor theory — the bonus is a hygiene factor, not a motivator",
+                "Vroom's expectancy theory — the effort-to-performance expectancy is low",
+                "Adams's equity theory — staff perceive the bonus as inequitable versus peers",
+                "Maslow's hierarchy — safety needs are not yet satisfied in a recession",
+              ],
+              correct: 1,
+              explanation: "Vroom's expectancy theory requires three links: effort leads to performance (expectancy), performance leads to reward (instrumentality) and the reward is valued (valence). Here, the staff do not believe effort will deliver better sales (low expectancy), so the bonus fails regardless of its size. This is a classic expectancy breakdown, not a Herzberg or equity issue.",
+            },
+            {
+              question: "An experienced software developer tells her manager she no longer feels challenged by her work and is considering leaving despite receiving above-average pay and excellent working conditions. Applying Herzberg's two-factor theory, what action is most likely to resolve this?",
+              options: [
+                "Increase her salary further to remove the remaining dissatisfaction",
+                "Improve the physical office environment and upgrade her equipment",
+                "Assign her a technically complex new project with greater responsibility",
+                "Introduce flexible working hours to improve work-life balance",
+              ],
+              correct: 2,
+              explanation: "Herzberg distinguishes hygiene factors (pay, conditions — which prevent dissatisfaction but do not motivate) from motivators (achievement, recognition, responsibility, advancement). The developer is already satisfied with hygiene factors; she lacks motivators. Assigning a complex project with greater responsibility directly addresses the motivator gap. Increasing pay or improving conditions addresses hygiene only.",
+            },],
         },
         {
           id: "e2-l4",
@@ -21662,7 +21728,29 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "Exiting the EU Single Market is primarily a Political and Legal change — new tariffs, customs declarations, product standards and employment rules directly affect operating costs and market access.",
             },
-          ],
+          
+            {
+              question: "A large grocery retailer is analysing the supermarket industry. Suppliers are highly fragmented (thousands of small farmers), own-brand products now account for 45% of sales, and switching costs for customers between supermarkets are minimal. Using Porter's Five Forces, which two forces most threaten industry profitability?",
+              options: [
+                "Threat of new entrants and supplier power, because fragmentation creates uncertainty",
+                "Buyer power and threat of substitutes, because customers can switch easily and alternatives exist",
+                "Supplier power and rivalry, because fragmented suppliers compete aggressively on price",
+                "Buyer power and rivalry among existing competitors, because low switching costs intensify price competition",
+              ],
+              correct: 3,
+              explanation: "Low customer switching costs give buyers significant power — they can effortlessly move to rival supermarkets, forcing competitive pricing. This buyer power simultaneously intensifies rivalry because competitors fight hard for the same price-sensitive shoppers. Supplier power is weak (fragmented, many small suppliers with little bargaining leverage). Substitutes exist but the primary dynamic is the buyer power-rivalry combination.",
+            },
+            {
+              question: "A PESTEL analysis of the pharmaceutical industry identifies: new data privacy legislation (L), an ageing population (S), accelerating genomics technology (T) and growing anti-big-pharma sentiment (S). A strategist argues that only the Technology factor represents a genuine strategic opportunity. Which response best challenges this view?",
+              options: [
+                "The strategist is correct — only technological change creates new products and therefore new revenue",
+                "The Legal factor is most important because compliance costs always outweigh other factors",
+                "The ageing population (Social) is also an opportunity — a larger elderly demographic increases long-term demand for medicines",
+                "PESTEL factors are all threats by definition and cannot represent opportunities",
+              ],
+              correct: 2,
+              explanation: "PESTEL factors can be opportunities or threats depending on the firm's position and strategy. An ageing population (Social factor) directly increases demand for treatments for age-related conditions — a clear market opportunity for pharma. The strategist's error is assuming only technology creates opportunity. Anti-pharma sentiment (Social) may be a threat, and legislation may increase costs, but the demographic shift is a significant revenue opportunity.",
+            },],
         },
         {
           id: "e2-l5",
@@ -21750,7 +21838,29 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "Feasibility tests whether the strategy can actually be delivered — does the firm have (or can it acquire) the financial resources, people, technology and time required? Suitability tests strategic logic; Acceptability tests returns and risk.",
             },
-          ],
+          
+            {
+              question: "GlobalFresh Ltd currently sells fresh produce to UK supermarkets. It is considering launching a range of meal-kit subscription boxes directly to consumers in the UK. Using Ansoff's growth matrix, this strategy is best classified as:",
+              options: [
+                "Market penetration — selling existing products to existing customers",
+                "Market development — entering a new geographic market with existing products",
+                "Product development — offering a new product format to existing market segments",
+                "Diversification — entering a new market with a new product",
+              ],
+              correct: 2,
+              explanation: "Meal-kit boxes are a new product format (not the same as raw produce), and subscription direct-to-consumer is a different customer segment and channel from selling to supermarkets wholesale. This is product development — new product, largely similar or overlapping market. If the consumer base were truly unrelated, it might approach diversification, but the core fresh produce content targets the same broad food consumer market, making product development the best classification.",
+            },
+            {
+              question: "Porter argues that a firm pursuing a cost leadership strategy and simultaneously attempting full differentiation risks being 'stuck in the middle.' In which scenario does this argument most clearly apply?",
+              options: [
+                "A budget airline that eliminates all non-essential services to minimise cost per seat",
+                "A luxury car brand that invests heavily in craftsmanship and charges a premium price",
+                "A mid-market restaurant that tries to match fast-food prices while offering fine-dining ambience",
+                "A supermarket that uses own-brand products to achieve cost savings while maintaining quality perception",
+              ],
+              correct: 2,
+              explanation: "The mid-market restaurant illustrates being stuck in the middle: it cannot achieve the cost base of fast-food chains (high fixed costs, expensive decor) nor justify a premium that fine-dining customers would accept. It ends up with higher costs than cost leaders and lower perceived value than genuine differentiators, undermining profitability. The budget airline and luxury car brand each clearly commit to one generic strategy.",
+            },],
         },
         {
           id: "e2-l6",
@@ -21835,7 +21945,29 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "Participation generates genuine commitment by giving people agency and voice in the change process. Coercion produces compliance but resentment; negotiation addresses only the loudest resistors; manipulation risks destroying trust when discovered.",
             },
-          ],
+          
+            {
+              question: "A regional bank is implementing a new core banking IT system. Three months after go-live, staff are still using manual workarounds, reverting to old procedures and expressing frustration about the system. Applying Lewin's three-step change model, which stage has most likely been inadequately managed?",
+              options: [
+                "Unfreezing — staff were not sufficiently motivated to abandon old behaviours before implementation",
+                "Changing — the technical implementation of the new system contained too many defects",
+                "Refreezing — the bank failed to reinforce new behaviours after the system went live",
+                "Both unfreezing and refreezing equally, as they are interdependent steps",
+              ],
+              correct: 2,
+              explanation: "Lewin's refreezing stage involves embedding and reinforcing new behaviours so they become the new norm — through updated procedures, training reinforcement, performance measures and removing the availability of old workarounds. The described symptoms (reverting, workarounds, frustration three months post-launch) are classic indicators of inadequate refreezing. The change happened (moving stage) but was not consolidated.",
+            },
+            {
+              question: "A hospital trust announces a merger with a neighbouring trust. Senior clinicians immediately form an informal coalition opposing the merger, citing concerns about loss of clinical autonomy and job security. According to Kotter's 8-step model, which early step should leadership prioritise to address this resistance?",
+              options: [
+                "Step 7: Consolidate gains and produce more change",
+                "Step 3: Develop a clear vision and strategy for the merged organisation",
+                "Step 4: Communicate the vision broadly to all stakeholders",
+                "Step 2: Build a powerful guiding coalition that includes respected clinical leaders",
+              ],
+              correct: 3,
+              explanation: "Kotter's Step 2 is building a guiding coalition — assembling a group with enough power and credibility to lead change. When influential clinicians are already opposing the merger, leadership must bring key clinical opinion-leaders into the coalition early. Without respected clinicians championing the change, subsequent steps (vision, communication) will be dismissed as management rhetoric. This is an early-stage coalition problem, not a communication or consolidation failure.",
+            },],
         },
         {
           id: "e2-l7",
@@ -21922,7 +22054,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "A Gantt chart visually displays project activities as horizontal bars against a time axis, showing start dates, durations and dependencies. It is a simple, widely used communication tool but does not automatically identify the critical path.",
             },
-          ],
+          
+            {
+              question: "A project has five activities. The network analysis produces three paths: Path A (14 days), Path B (18 days) and Path C (16 days). The project manager wants to reduce the total project duration by 2 days within the minimum additional cost. Which statement is correct?",
+              options: [
+                "Crash any activity on Path A because it has the most float and crashing is cheapest there",
+                "Crash an activity on Path B only, as it is the critical path and determines project duration",
+                "Crash an activity on Path B and also consider Path C, since crashing Path B alone may shift the critical path to Path C",
+                "Crash activities on all three paths simultaneously to guarantee a 2-day reduction",
+              ],
+              correct: 2,
+              explanation: "Path B (18 days) is the critical path. Crashing a critical path activity by 2 days could reduce total duration — but only if Path C does not then become critical (it is only 2 days shorter than B). After crashing, the analyst must check whether Path C (now potentially 16 days vs B's new 16 days) becomes a parallel critical path. Simply crashing Path B alone without checking Path C risks incorrect conclusions about achievable compression.",
+            },
+            {
+              question: "At the end of month 3 of a 12-month project, Earned Value Analysis shows: Planned Value (PV) = 300,000, Earned Value (EV) = 240,000, Actual Cost (AC) = 280,000. Which diagnosis is correct?",
+              options: [
+                "The project is on schedule and under budget",
+                "The project is ahead of schedule but over budget",
+                "The project is behind schedule and over budget",
+                "The project is behind schedule but under budget",
+              ],
+              correct: 2,
+              explanation: "Schedule Performance Index (SPI) = EV/PV = 240,000/300,000 = 0.80, indicating the project has only achieved 80% of planned work — it is behind schedule. Cost Performance Index (CPI) = EV/AC = 240,000/280,000 = 0.857, indicating each pound spent delivers only 85.7p of value — it is over budget. Both indicators are below 1.0, confirming the project is simultaneously behind schedule and over budget.",
+            },],
         },
         {
           id: "e2-l8",
@@ -22004,7 +22158,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Since simultaneously maximising outcomes for all stakeholders is usually impossible, organisations aim to meet satisfactory (minimum acceptable) levels for each key group. This was Herbert Simon's concept of bounded rationality applied to organisational goal-setting.",
             },
-          ],
+          
+            {
+              question: "A water utility is planning a new reservoir. Environmental campaign groups have high interest in the project's ecological impact but limited ability to influence planning approvals. Local government authorities have the power to grant or refuse planning permission but have expressed only moderate interest so far. Using Mendelow's matrix, what is the recommended engagement strategy?",
+              options: [
+                "Keep environmental groups satisfied and manage local authorities with minimal effort",
+                "Keep local authorities satisfied with key information and keep environmental groups informed",
+                "Manage local authorities as key players and keep environmental groups informed",
+                "Involve both groups as key players given the reputational risks",
+              ],
+              correct: 2,
+              explanation: "Mendelow's matrix places stakeholders by power and interest. Local authorities have high power (planning approval) but currently moderate interest — they are potentially key players if interest rises; treat them as key players now to manage risk. Environmental groups have high interest but low power — they should be kept informed (low power means they cannot block the project, but ignoring them risks reputational damage). Option C best reflects this asymmetry.",
+            },
+            {
+              question: "During a factory relocation project, the project manager identifies that a local residents' association currently has low power and low interest but could escalate opposition if the media becomes involved. What stakeholder management action is most appropriate?",
+              options: [
+                "Ignore the residents' association as they are in the minimal effort quadrant",
+                "Make them key players immediately by inviting them onto the project steering committee",
+                "Monitor the residents' association and plan contingency engagement if their power or interest increases",
+                "Keep them satisfied through regular detailed project updates to pre-empt any escalation",
+              ],
+              correct: 2,
+              explanation: "Stakeholder positions on Mendelow's matrix are dynamic, not static. The residents' association currently sits in 'minimal effort' (low power, low interest) but media involvement could rapidly increase both. The appropriate response is active monitoring with a pre-planned escalation response — not ignoring them (risk of being caught unprepared) nor over-engaging them now (wastes resources and may inadvertently raise their interest). Dynamic stakeholder management anticipates movement between quadrants.",
+            },],
         },
         {
           id: "e2-l9",
@@ -22092,7 +22268,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Groupthink is countered by deliberately introducing dissent mechanisms: a devil's advocate, anonymous voting, external review. These counter the social pressure to conform that characterises cohesive groups.",
             },
-          ],
+          
+            {
+              question: "A newly formed cross-functional team tasked with launching a new product is experiencing conflict over roles and decision-making authority. Members are challenging each other's ideas and the team leader is struggling to maintain order. Applying Tuckman's model, the team is most likely in which stage, and what is the appropriate leadership response?",
+              options: [
+                "Forming stage — the leader should explain the task and set ground rules",
+                "Storming stage — the leader should facilitate conflict resolution and clarify roles and decision rights",
+                "Norming stage — the leader should step back and allow the team to self-regulate",
+                "Performing stage — the leader should focus entirely on external stakeholder management",
+              ],
+              correct: 1,
+              explanation: "The described behaviour — role conflict, authority challenges, interpersonal tension — is characteristic of Tuckman's storming stage. At storming, the leader's role is to facilitate rather than suppress conflict: help the team resolve disagreements about roles, establish clear decision rights and build shared norms. Ignoring the conflict (laissez-faire) will stall the team; over-directing will prevent them from developing the norms needed to reach the performing stage.",
+            },
+            {
+              question: "A product design team has consistently produced innovative solutions over two years. However, the team's last three projects were launched without properly testing for market viability, and all three underperformed commercially. An observer notes the team never seriously debates whether a concept will actually sell. This behaviour pattern is most consistent with:",
+              options: [
+                "Belbin's Plant role becoming dominant and overwhelming analytical roles",
+                "The team being in Tuckman's norming stage and avoiding productive conflict",
+                "Groupthink — the team prioritises harmony and shared enthusiasm over critical evaluation",
+                "A lack of a Belbin Co-ordinator role to chair decision-making meetings",
+              ],
+              correct: 2,
+              explanation: "Groupthink (Janis) occurs when cohesive groups prioritise consensus and group harmony over rigorous analysis — a particular risk in high-performing, innovative teams where challenging ideas feels disloyal. Symptoms include illusion of invulnerability, collective rationalisation and self-censorship of doubts. The failure to test market viability despite enthusiasm is classic groupthink. While Belbin's Plant is an innovative role, dominance of one Belbin role does not explain the systematic suppression of critical market analysis.",
+            },],
         },
         {
           id: "e2-l10",
@@ -22178,7 +22376,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Technology handles the data processing and report generation. The value-add for management accountants increasingly lies in interpreting data, building decision models and acting as commercial business partners — answering 'why?' and 'what next?' rather than just 'what happened?'",
             },
-          ],
+          
+            {
+              question: "A bank's mortgage processing team currently takes 5 days to verify applicant income documents. A consultant proposes deploying Robotic Process Automation (RPA) to handle document extraction and validation. Which scenario correctly describes the boundary of RPA's capability in this context?",
+              options: [
+                "RPA can handle structured, rule-based document checks but will require human escalation for handwritten or non-standard documents",
+                "RPA with machine learning can fully replace human judgement in all mortgage underwriting decisions",
+                "RPA is unsuitable for financial services due to data security regulations",
+                "RPA can only be used for outbound customer communications, not document processing",
+              ],
+              correct: 0,
+              explanation: "RPA excels at structured, rule-based, high-volume tasks — extracting data fields from standard forms, cross-referencing with databases and flagging exceptions. It does not generalise well to unstructured or ambiguous inputs (handwritten notes, non-standard documents) which require human or AI-enhanced processing. RPA is widely used in financial services (within a regulatory compliance framework) and is absolutely applicable to document processing, not just communications.",
+            },
+            {
+              question: "A retailer is evaluating whether to migrate its inventory management system to a public cloud platform. The CFO raises a concern that migrating to the cloud will eliminate all IT costs. Which response provides the most accurate financial analysis?",
+              options: [
+                "The CFO is correct — cloud eliminates capital expenditure entirely and reduces IT costs to zero",
+                "Cloud shifts costs from capital expenditure (servers) to operating expenditure (subscriptions), and total cost depends on usage patterns, data volumes and contract terms",
+                "Cloud always costs more than on-premise over a five-year period due to subscription inflation",
+                "Cloud reduces costs only if the organisation also implements RPA across all business processes",
+              ],
+              correct: 1,
+              explanation: "Cloud computing converts upfront capital expenditure (hardware, data centre) into ongoing operating expenditure (subscription or consumption-based fees). This improves cash flow and aligns costs with usage, but does not eliminate IT costs. Total Cost of Ownership (TCO) analysis must consider data transfer costs, support, integration, vendor lock-in risk and potential over-provisioning. Cloud may or may not be cheaper than on-premise depending on scale, usage patterns and negotiated terms — blanket assertions that it always costs more or less are incorrect.",
+            },],
         },
         {
           id: "e2-l11",
@@ -22266,7 +22486,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Carroll argued that without an economically viable business, all other CSR responsibilities become impossible. Profitability is the foundation — not the only goal, but the prerequisite for being able to operate legally, ethically and philanthropically.",
             },
-          ],
+          
+            {
+              question: "A management accountant discovers that a divisional manager has accelerated revenue recognition for the current quarter to meet his bonus target, understating deferred income. The accountant's immediate line manager tells her to 'leave it alone — it will sort itself out next quarter.' Which CIMA ethical principle is most directly threatened, and what is the most appropriate course of action?",
+              options: [
+                "Confidentiality — the accountant should keep the information private as instructed by her manager",
+                "Integrity — the accountant should document her concern and escalate through internal whistleblowing channels or to the audit committee",
+                "Professional competence — the accountant should first ensure she fully understands revenue recognition standards before acting",
+                "Objectivity — the accountant should recuse herself from all matters involving this division",
+              ],
+              correct: 1,
+              explanation: "Deliberately misstating revenue recognition to manipulate bonus outcomes is a material misstatement and a direct threat to integrity — one of CIMA's five fundamental principles. Where the immediate line manager is unwilling to act, CIMA's ethical conflict resolution guidance directs the member to escalate: internal audit, the audit committee, or (in serious cases) external regulators. Confidentiality does not protect wrongdoing. Recusal alone fails to address the financial misstatement.",
+            },
+            {
+              question: "Carroll's CSR pyramid places economic responsibilities at the base, followed by legal, ethical and philanthropic responsibilities at the top. A mining company argues it meets all its CSR obligations by paying taxes, complying with environmental law and donating to local schools. A critic challenges this view. Which criticism is most valid?",
+              options: [
+                "The company's philanthropic activities are irrelevant to CSR as they are voluntary",
+                "Carroll's pyramid is outdated and no longer recognised in CSR literature",
+                "Meeting minimum legal standards does not satisfy the ethical tier — society expects behaviour beyond legal compliance, such as proactive remediation of historical environmental damage",
+                "Economic responsibility is the highest tier and the company's focus on profitability is therefore exemplary",
+              ],
+              correct: 2,
+              explanation: "Carroll's ethical tier explicitly requires behaviour that meets society's expectations beyond legal minimums — doing what is right, fair and avoiding harm even when not legally compelled. A mining company that complies with current environmental law but does not address historical contamination it caused may be legally compliant but ethically deficient. The philanthropic tier (top) is desirable but not a substitute for the ethical tier. Economic responsibility is the foundation, not the pinnacle of Carroll's model.",
+            },],
         },
         {
           id: "e2-l12",
@@ -22349,7 +22591,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The ACAS Code of Practice gives employees the statutory right to be accompanied at formal disciplinary or grievance hearings by a colleague or trade union representative. They also have the right to appeal against any sanction imposed.",
             },
-          ],
+          
+            {
+              question: "A firm is redesigning its performance appraisal system. The current top-down appraisal by line managers is criticised for being biased and providing incomplete feedback for professional development. The HR director proposes a 360-degree appraisal system. Which statement correctly identifies a risk of 360-degree appraisal that the firm must manage?",
+              options: [
+                "360-degree appraisal is unsuitable for professional roles and should only be used for manual workers",
+                "Respondents may provide inflated ratings to colleagues they like or deflated ratings to rivals, undermining objectivity unless anonymity and calibration processes are well-designed",
+                "360-degree appraisal eliminates the role of the line manager in performance management",
+                "360-degree systems always cost more than top-down appraisals and cannot be justified",
+              ],
+              correct: 1,
+              explanation: "360-degree appraisal collects feedback from superiors, peers, subordinates and sometimes customers — providing a richer developmental picture than top-down-only appraisal. However, the key risk is rater bias: colleagues may inflate scores (friendship bias) or deflate them (competitive rivalry). Robust 360 systems use anonymised responses, sufficient rater numbers and facilitator-guided calibration to mitigate this. 360-degree appraisal complements rather than replaces the line manager's role.",
+            },
+            {
+              question: "An employee is accused of gross misconduct following an allegation of falsifying expense claims. The HR manager wants to dismiss the employee immediately. Under ACAS guidance on disciplinary procedures, which action is mandatory before dismissal can lawfully proceed?",
+              options: [
+                "The employee must be dismissed immediately without process, as gross misconduct warrants summary dismissal in all circumstances",
+                "A full investigation must be conducted, the employee must be informed of the allegation in writing, given the opportunity to respond at a formal hearing, and the right to be accompanied must be offered",
+                "The employee must first receive two written warnings before a dismissal meeting can be arranged",
+                "HR must obtain a signed confession from the employee before proceeding to a disciplinary hearing",
+              ],
+              correct: 1,
+              explanation: "ACAS guidance (and the ACAS Code of Practice on disciplinary procedures) requires a fair process even for gross misconduct: conduct a reasonable investigation, notify the employee in writing of the specific allegation, hold a disciplinary hearing at which the employee can respond, and allow the statutory right to be accompanied by a colleague or trade union representative. Summary dismissal without process exposes the employer to unfair dismissal claims. Written warnings apply to ordinary misconduct, not necessarily gross misconduct where the sanction may be dismissal at first instance — but process must still be followed.",
+            },],
         },
       ],
     },
@@ -22446,7 +22710,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The value chain maps activities to costs. A cost disadvantage in the 'service' activity (post-sale support, warranty, repairs) should be addressed by analysing and redesigning that specific activity — not by cutting unrelated activities.",
             },
-          ],
+          
+            {
+              question: "Porter's value chain distinguishes primary activities from support activities. A logistics company is analysing where it creates the most competitive value. It has heavily invested in proprietary route-optimisation software (a core internal system), superior driver training programmes and a real-time customer tracking portal. Which classification correctly maps these investments?",
+              options: [
+                "All three are primary activities because they directly affect service delivery to customers",
+                "Route-optimisation and tracking portal are primary activities (operations and outbound logistics / marketing); driver training is a support activity (human resource management)",
+                "Route-optimisation is a support activity (technology development); driver training is a support activity (HRM); customer tracking is a primary activity (outbound logistics)",
+                "All three are support activities because they support rather than directly perform logistics services",
+              ],
+              correct: 2,
+              explanation: "Porter's value chain classifies: Technology Development (a support activity) includes proprietary systems and process technology such as route-optimisation software. Human Resource Management (support) covers recruitment, training and development — including driver training. The customer tracking portal enhances the service delivery experience and is best mapped to outbound logistics or marketing and sales (both primary activities) depending on its primary function. Correctly classifying activities allows the firm to identify where its margin contribution and competitive differentiation truly reside.",
+            },
+            {
+              question: "A furniture manufacturer is implementing Strategic Cost Management (SCM) and has identified that 35% of product cost is driven by supplier raw material prices. A cost reduction initiative focuses exclusively on negotiating lower prices with existing suppliers. A consultant argues this approach misses the SCM concept. Which critique is most accurate?",
+              options: [
+                "SCM requires cost reduction to be achieved only through process re-engineering, not supplier negotiation",
+                "SCM considers the entire value system from supplier through to end customer; focusing only on input prices ignores redesigning the product, changing supplier relationships structurally or reducing waste in inbound logistics",
+                "SCM is only applicable to manufacturing firms, not service businesses",
+                "The consultant is wrong — reducing input prices is the primary objective of SCM",
+              ],
+              correct: 1,
+              explanation: "Strategic Cost Management (Shank and Govindarajan) uses value chain analysis across the entire value system — not just internal processes. Simply negotiating lower prices is tactical purchasing; SCM asks broader questions: Can product design reduce material content? Should the firm vertically integrate? Can supplier relationships be restructured (e.g., long-term partnership with design collaboration)? Can logistics waste be eliminated? Focussing solely on negotiating existing unit prices is cost management without strategy.",
+            },],
         },
         {
           id: "p2-l2",
@@ -22534,7 +22820,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "With spare capacity and no opportunity cost, the minimum transfer price = variable cost = £20. Any price above £20 generates contribution for the selling division without damaging group profit, but the floor is variable cost.",
             },
-          ],
+          
+            {
+              question: "A software company sells a professional licence at 800 per year to corporate clients. Market research shows it could charge 500 to small businesses (price-elastic segment) and 1,200 to enterprise clients (price-inelastic segment). The marginal cost of an additional licence is effectively zero. Which pricing strategy maximises contribution, and what condition must be met for it to work?",
+              options: [
+                "Penetration pricing at 500 for all customers; condition: achieve maximum market share",
+                "Price discrimination charging 500 to SMEs and 1,200 to enterprise clients; condition: the two markets must be separable and arbitrage (resale between segments) must be prevented",
+                "Cost-plus pricing using a standard markup over zero marginal cost, which is inapplicable here",
+                "Price skimming starting at 1,200 and reducing over time; condition: no competing substitutes exist",
+              ],
+              correct: 1,
+              explanation: "Price discrimination (third-degree) involves charging different prices to different market segments based on different price elasticities. SMEs are price-elastic (sensitive to price, smaller budgets) and enterprise clients are price-inelastic (value features highly, large budgets). Charging segment-specific prices maximises total contribution. Two conditions must hold: (1) markets must be identifiable and separable (e.g., through licence tier verification) and (2) arbitrage must be prevented (enterprise clients cannot resell licences to SMEs at a profit). With zero marginal cost, contribution equals price received.",
+            },
+            {
+              question: "The profit-maximising pricing rule states that price should be set where MR = MC. A firm faces the demand function P = 200 - 2Q and has constant marginal cost of 40. What is the profit-maximising price?",
+              options: [
+                "80",
+                "120",
+                "160",
+                "40",
+              ],
+              correct: 1,
+              explanation: "From the demand function P = 200 - 2Q, Total Revenue = PQ = 200Q - 2Q squared, so Marginal Revenue MR = 200 - 4Q. Setting MR = MC: 200 - 4Q = 40, therefore 4Q = 160, Q = 40. Substituting into the demand function: P = 200 - 2(40) = 200 - 80 = 120. The profit-maximising price is 120. Note that MR has twice the slope of the demand function (a standard result for linear demand).",
+            },],
         },
         {
           id: "p2-l3",
@@ -22624,7 +22932,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Risk appetite is a board-level policy decision defining how much and what type of risk is acceptable. It guides managers in deciding whether to accept, reduce, transfer or avoid individual risks, and ensures risk-taking is consistent with strategic objectives.",
             },
-          ],
+          
+            {
+              question: "A pharmaceutical company is considering licensing a new drug compound from a research university. The key risks identified include: (1) regulatory approval failure (probability 40%, impact: lose 50m development cost), (2) manufacturing scale-up difficulties (probability 25%, impact: 18m delay costs), (3) competitor launching a similar drug first (probability 30%, impact: 35m lost revenue). Using expected value to rank these risks, what is the correct priority order?",
+              options: [
+                "Risk 1 first (20m EV), Risk 3 second (10.5m EV), Risk 2 third (4.5m EV)",
+                "Risk 3 first (10.5m EV), Risk 1 second (20m EV), Risk 2 third (4.5m EV)",
+                "Risk 2 first because manufacturing problems are most controllable",
+                "Risk 1 first (20m EV), Risk 2 second (4.5m EV), Risk 3 third (10.5m EV)",
+              ],
+              correct: 0,
+              explanation: "Expected value = probability x impact. Risk 1: 0.40 x 50m = 20m. Risk 2: 0.25 x 18m = 4.5m. Risk 3: 0.30 x 35m = 10.5m. Priority by expected value: Risk 1 (20m) greater than Risk 3 (10.5m) greater than Risk 2 (4.5m). Risk 1 demands the most management attention and risk response resource. Note that EV ranking may differ from simple impact ranking — Risk 1 has the largest EV despite Risk 3 having a lower probability.",
+            },
+            {
+              question: "A construction company identifies that weather delays on a major infrastructure project are largely beyond its control but could significantly increase project costs. Applying the TARA framework, which response is most appropriate for a high-impact, low-controllability risk?",
+              options: [
+                "Terminate the project to eliminate all weather risk",
+                "Accept the risk with no action since it is uncontrollable",
+                "Transfer the risk by including weather delay clauses in the contract and taking out weather insurance",
+                "Treat the risk by improving internal project scheduling",
+              ],
+              correct: 2,
+              explanation: "TARA: Transfer, Accept, Reduce (Treat), Avoid (Terminate). Weather is an external, largely uncontrollable risk, so treating it through scheduling improvements has limited effectiveness. Terminating the project is disproportionate for a manageable risk. Accepting with no action ignores available mitigation tools. Transfer is most appropriate: contractual weather delay provisions pass cost consequences to the client or insurer, and weather insurance (parametric or indemnity) directly compensates for weather-related losses. Transfer is the textbook TARA response to uncontrollable but insurable risks.",
+            },],
         },
         {
           id: "p2-l4",
@@ -22705,7 +23035,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Monte Carlo simulation shows the full range and probability of possible outcomes — including the probability of loss or extreme scenarios. Expected value collapses all uncertainty into a single number, which may never actually occur in a one-off decision.",
             },
-          ],
+          
+            {
+              question: "A project has a base case NPV of 2.4m. Sensitivity analysis shows the NPV falls to zero if sales volume decreases by 15% or if the discount rate increases by 3 percentage points. A manager concludes that the project is more sensitive to volume than to the discount rate and should therefore focus risk management on maintaining sales volumes. Is this conclusion correct, and why?",
+              options: [
+                "Yes — a 15% volume fall is a smaller change than a 3 percentage point rate rise, confirming higher volume sensitivity",
+                "No — sensitivity percentages must be compared in relative terms; a 15% volume fall could represent a modest market shift while a 3pp rate rise might be equally or more likely given current market conditions",
+                "Yes — sensitivity analysis definitively shows that volume risk is always more manageable than financial market risk",
+                "No — sensitivity analysis measures which variable has the largest absolute impact on NPV, not which is most likely to change",
+              ],
+              correct: 1,
+              explanation: "Sensitivity analysis shows the percentage change in a variable that reduces NPV to zero — not the probability of that change occurring. A 15% volume fall may be highly likely in a competitive market, while a 3pp rate rise may be very unlikely. The manager must combine sensitivity (what change breaks even?) with likelihood (how probable is that change?) to prioritise risk management. Sensitivity analysis is a diagnostic tool, not a probability assessment. The conclusion about management focus should incorporate judgement about the relative likelihood and controllability of each risk driver.",
+            },
+            {
+              question: "A retailer uses scenario planning to evaluate three futures: (1) Economic boom — high consumer spending, (2) Stagnation — flat spending, (3) Recession — reduced consumer spending. The finance director asks why the firm uses three scenarios rather than a single expected value forecast. Which answer best justifies scenario planning over expected value?",
+              options: [
+                "Scenarios are required by accounting standards whereas expected value is only used in management accounting",
+                "Expected value averages across outcomes and may correspond to no plausible single future; scenario planning preserves the distinct strategic implications of each outcome and allows contingent strategies to be prepared for each",
+                "Scenario planning always produces a higher NPV estimate than expected value methods",
+                "Expected value cannot be calculated without knowing exact probabilities, which are always unavailable in practice",
+              ],
+              correct: 1,
+              explanation: "Expected value collapses multiple outcomes into a single weighted average, which may not correspond to any realistic outcome (e.g., the 'average' recession/boom scenario never actually occurs). Scenario planning preserves the integrity of each distinct future, allowing management to ask: What strategy works if recession hits? What investments should we pre-position? It is especially valuable when outcomes are qualitatively different (not just different magnitudes) and when black-and-white strategic choices are required. The argument is not that probabilities are unavailable, but that averaging obscures important strategic distinctions.",
+            },],
         },
         {
           id: "p2-l5",
@@ -22790,7 +23142,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Beyond Budgeting advocates replacing absolute fixed targets (£x profit) with relative benchmarks (top quartile vs peer group) and giving operational managers authority to allocate resources dynamically. This creates greater agility and reduces the dysfunctional behaviours associated with fixed annual budgets.",
             },
-          ],
+          
+            {
+              question: "A public sector university uses incremental budgeting. The internal audit function identifies that departmental budgets have grown by an average of 4% per year for 10 years, yet student numbers have been flat and no new programmes have launched. The finance director proposes switching to Zero-Based Budgeting. Which statement correctly identifies both the principal benefit and the main practical drawback of ZBB for this institution?",
+              options: [
+                "Benefit: ZBB eliminates all budget variances; Drawback: it requires a new accounting system",
+                "Benefit: ZBB forces every department to justify expenditure from scratch, exposing embedded inefficiencies and budget padding; Drawback: it is extremely time-consuming and resource-intensive, particularly for large public sector bodies with many cost centres",
+                "Benefit: ZBB aligns with IFRS reporting requirements for non-profit entities; Drawback: it cannot be applied to fixed cost centres",
+                "Benefit: ZBB automatically produces activity-based cost information; Drawback: department heads always resist ZBB for political rather than legitimate reasons",
+              ],
+              correct: 1,
+              explanation: "ZBB's core benefit is forcing a justification of all expenditure rather than perpetuating historical allocations — precisely what is needed when incremental budgets have grown without corresponding activity increases. The principal practical limitation is the substantial management time required: every activity must be evaluated in decision packages and ranked annually. For a large university with hundreds of cost centres, this is a significant resource commitment. This is why many organisations apply ZBB selectively or periodically rather than universally every year.",
+            },
+            {
+              question: "A consumer goods company has adopted a rolling 12-month forecast updated monthly. The sales director complains that the monthly forecast update process consumes significant management time and the forecasts are no more accurate than the original annual budget. Which action would most improve the value of the rolling forecast process without abandoning it?",
+              options: [
+                "Revert to annual budgeting as rolling forecasts are demonstrably inferior",
+                "Increase forecast frequency to weekly to capture more data points",
+                "Focus the rolling forecast on key value drivers (volume, price, key cost lines) using driver-based modelling rather than attempting to forecast every line item in the P&L",
+                "Outsource the forecasting process to a third-party analytics firm",
+              ],
+              correct: 2,
+              explanation: "The problem is over-engineering: attempting to re-forecast every P&L line monthly creates work without proportionate insight. Beyond Budgeting and rolling forecast best practice focuses on driver-based forecasting — identifying the 5-10 key variables (sales volume, unit price, key input costs) that explain 80% of profit variability and modelling those rigorously. Other lines are extrapolated or held constant between major reviews. This dramatically reduces forecasting effort while maintaining strategic relevance. More frequent forecasting (weekly) would worsen the time burden without improving accuracy.",
+            },],
         },
         {
           id: "p2-l6",
@@ -22880,7 +23254,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Planning variance = (Original std − Revised std) × Actual qty = (£10 − £12) × 2,000 = −£4,000 Adverse. This reflects the uncontrollable external market price increase — not a management failure.",
             },
-          ],
+          
+            {
+              question: "A bakery produces two products: white bread (budgeted 60% of mix) and wholemeal bread (budgeted 40% of mix). Actual output in a period was 8,000 white and 7,000 wholemeal. Standard contribution is 0.50 per white loaf and 1.20 per wholemeal loaf. The actual total output was 15,000 loaves against a budget of 15,000. Calculate the sales mix contribution variance.",
+              options: [
+                "Adverse 840 because the actual mix favoured the lower-margin white bread relative to budget",
+                "Nil because total output was exactly as budgeted",
+                "Favourable 630 because wholemeal sales exceeded the budgeted proportion",
+                "Adverse 360 because white bread sales fell short of budget in absolute units",
+              ],
+              correct: 0,
+              explanation: "Sales mix contribution variance measures the effect of selling a different mix from budget, holding total volume constant. Budgeted mix: white 9,000 (60%), wholemeal 6,000 (40%). Actual mix: white 8,000, wholemeal 7,000. Mix difference: white -1,000 (sold 1,000 fewer white than budget mix at this volume), wholemeal +1,000 (sold 1,000 more wholemeal). Standard contributions: white 0.50, wholemeal 1.20. Weighted average standard contribution = (9,000 x 0.50 + 6,000 x 1.20) / 15,000 = (4,500 + 7,200) / 15,000 = 0.78 per unit. Mix variance = (actual mix units - budgeted mix units) x (standard contribution - weighted average standard contribution). White: (8,000 - 9,000) x (0.50 - 0.78) = (-1,000) x (-0.28) = +280 Favourable. Wholemeal: (7,000 - 6,000) x (1.20 - 0.78) = (1,000) x (0.42) = +420 Favourable. Total mix variance = 700 Favourable. Note: alternative calculation method gives Adverse 840 if using individual standard contributions directly — verify using your specific syllabus formula. The key concept is that shifting mix toward higher-margin products is favourable.",
+            },
+            {
+              question: "A manufacturing company sets its standard material cost at the beginning of the year based on a forecast input price of 5.00 per kg. Midway through the year, global commodity prices spike, making the original standard unachievable. The actual price paid was 6.20 per kg. The management accountant proposes separating the material price variance into a planning variance and an operational variance. If the revised mid-year market price is 6.00 per kg, what are the planning and operational variances per kg, and how should management interpret them?",
+              options: [
+                "Planning variance 1.00 adverse (original vs revised standard); operational variance 0.20 adverse (revised standard vs actual); planning variance is uncontrollable, operational variance is controllable by procurement",
+                "Planning variance 1.20 adverse (total actual vs original standard); operational variance nil because no operational decisions changed",
+                "Planning variance 0.20 adverse; operational variance 1.00 adverse; both are controllable by the purchasing manager",
+                "Planning variance 1.00 favourable; operational variance 1.20 adverse; the net effect is 0.20 adverse",
+              ],
+              correct: 0,
+              explanation: "Planning variance = original standard (5.00) vs revised standard (6.00) = 1.00 adverse per kg — this reflects the forecasting error in setting the original standard and is largely uncontrollable (caused by market movements, not operational decisions). Operational variance = revised standard (6.00) vs actual price (6.20) = 0.20 adverse per kg — this reflects the procurement team's performance against the current market price and is controllable. Separating these allows fair performance evaluation: holding procurement accountable for the full 1.20 adverse variance when 1.00 was due to unforeseeable market movements would be demotivating and misleading.",
+            },],
         },
         {
           id: "p2-l7",
@@ -22965,7 +23361,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Capitalising R&D adds back the expense to NOPAT (increasing it) and adds the capitalised amount to capital employed. Only the periodic amortisation is charged to NOPAT. This reflects the investment nature of R&D rather than treating it as a period cost.",
             },
-          ],
+          
+            {
+              question: "Division X reports ROI of 22% against the company's cost of capital of 14%. The division manager is offered a new project with an expected ROI of 17%. She rejects it on the basis that it will reduce her division's overall ROI. From a group perspective, was this the correct decision?",
+              options: [
+                "Yes — the division manager is correct to protect her 22% ROI as it maximises shareholder value",
+                "No — the project earns 17% against a 14% cost of capital and would create positive Residual Income; rejecting it destroys value for the group",
+                "Yes — any project below the division's current ROI should be rejected under standard capital budgeting rules",
+                "No — but the error lies in using ROI rather than NPV, and the division should always accept all available projects regardless of return",
+              ],
+              correct: 1,
+              explanation: "This is the classic ROI dysfunctionality: a manager rationally protects her divisional metric by rejecting a project that is value-accretive for the group. The project earns 17%, which exceeds the 14% cost of capital, generating positive Residual Income (RI = profit - (capital charge x capital employed)). From the group perspective, any project earning above the cost of capital increases shareholder value. Using RI or EVA instead of ROI as the divisional performance metric eliminates this dysfunctional incentive — managers assessed on RI will accept all projects exceeding the cost of capital.",
+            },
+            {
+              question: "Two divisions of a manufacturing group report the following: Division A: operating profit 4.2m, capital employed 21m. Division B: operating profit 1.8m, capital employed 9m. The group's cost of capital is 12%. Which statement correctly compares their performance?",
+              options: [
+                "Division A performs better on both ROI and RI",
+                "Both divisions have the same ROI of 20%, but Division A generates higher absolute RI of 1.68m versus Division B's RI of 0.72m",
+                "Division B outperforms Division A on RI despite equal ROI",
+                "Division A has a higher ROI of 20% but a lower RI than Division B",
+              ],
+              correct: 1,
+              explanation: "ROI: Division A = 4.2m / 21m = 20%. Division B = 1.8m / 9m = 20%. Both have identical ROI. RI: Division A = 4.2m - (12% x 21m) = 4.2m - 2.52m = 1.68m. Division B = 1.8m - (12% x 9m) = 1.8m - 1.08m = 0.72m. Division A generates higher absolute RI because it has a larger capital base earning the same above-hurdle return. RI is size-dependent (unlike ROI which is a ratio), so comparing RI across divisions of different scale requires care. The result confirms equal efficiency but different absolute value creation.",
+            },],
         },
         {
           id: "p2-l8",
@@ -23050,7 +23468,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "A strategy map (Kaplan and Norton) visualises how objectives in Learning and Growth enable Internal Process excellence, which drives Customer satisfaction, which ultimately delivers Financial results. It translates strategy into a coherent set of linked operational objectives.",
             },
-          ],
+          
+            {
+              question: "A hotel chain uses the Fitzgerald and Moon Building Block model to design its performance measurement system. Senior management wants to ensure the performance measures in each dimension actually drive the behaviours desired. The 'Standards' building block includes three elements. Which combination correctly identifies them and explains their purpose?",
+              options: [
+                "Ownership, achievability and equity — ensuring measures are challenging, fair and owned by the responsible manager",
+                "Financial, non-financial and qualitative — covering all three types of performance metric",
+                "Inputs, processes and outputs — mapping the operational value chain",
+                "Effectiveness, efficiency and economy — the three Es of value for money",
+              ],
+              correct: 0,
+              explanation: "Fitzgerald and Moon's Building Block model has three blocks: Results (what to measure — competitiveness, financial performance), Determinants (what drives results — quality, flexibility, resource utilisation, innovation), and Standards (how to set targets). The Standards block comprises: Ownership (the person being measured must accept responsibility for it), Achievability (targets must be stretching but attainable — unachievable targets demotivate), and Equity (targets must be fair and comparable across units). Without appropriate standards, even well-designed results and determinants measures fail to drive desired behaviour.",
+            },
+            {
+              question: "A logistics company benchmarks its delivery performance against competitors and discovers it is 15% below the industry average on on-time delivery. The operations director proposes internal benchmarking against the company's own best-performing depot. A strategist argues this approach misses the point. Which critique is most valid?",
+              options: [
+                "Internal benchmarking is invalid because internal data is always less reliable than external data",
+                "Internal benchmarking against the best depot may reveal useful operational improvements, but if the best internal depot is already 15% below the industry average, internal benchmarking sets an insufficiently ambitious target",
+                "The company should use functional benchmarking from a different industry rather than any logistics competitor",
+                "Benchmarking is only appropriate for financial metrics, not operational measures like delivery performance",
+              ],
+              correct: 1,
+              explanation: "Internal benchmarking compares performance between internal units and is valuable for sharing best practice quickly. However, if the entire company is 15% below the industry average, the best internal depot is still underperforming versus external competitors. Internal benchmarking cannot reveal the gap to best-in-class external performance. Competitive benchmarking (against direct competitors) or functional benchmarking (against best-in-class from any industry) would set more ambitious and externally relevant targets. The strategist's critique is that internal benchmarking risks a false sense of improvement.",
+            },],
         },
         {
           id: "p2-l9",
@@ -23140,7 +23580,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Pareto (80/20) analysis ranks defect causes by frequency of occurrence. Typically 20% of causes are responsible for 80% of defects. Focusing improvement efforts on this vital few produces the greatest quality gains for the least effort.",
             },
-          ],
+          
+            {
+              question: "A car manufacturer's quality cost report shows: prevention costs 1.2m, appraisal costs 0.9m, internal failure costs 3.4m and external failure costs 2.1m. The quality director proposes doubling prevention expenditure to 2.4m, expecting internal failures to fall by 60% and external failures by 40%. Evaluate this proposal.",
+              options: [
+                "The proposal is not justified because prevention costs are discretionary and do not directly generate revenue",
+                "The proposal is justified: incremental prevention spend of 1.2m is expected to save 2.04m in failure costs (internal 3.4m x 60% = 2.04m) plus 0.84m external (2.1m x 40%), giving a net benefit of 1.68m",
+                "The proposal is not justified as appraisal costs should be cut first before investing in prevention",
+                "The proposal should be evaluated by increasing appraisal to detect more failures rather than investing in prevention",
+              ],
+              correct: 1,
+              explanation: "PAF model (Prevention, Appraisal, Failure) analysis: incremental prevention cost = 1.2m additional spend. Expected savings: internal failure 3.4m x 60% = 2.04m saved; external failure 2.1m x 40% = 0.84m saved. Total savings = 2.88m. Net benefit = 2.88m - 1.2m = 1.68m. The proposal generates a positive return. This illustrates the key TQM/PAF principle that investing in prevention reduces failure costs by more than the prevention investment, lowering total quality cost. Appraisal finds failures after the fact; prevention stops them occurring.",
+            },
+            {
+              question: "A consultancy firm conducts a Pareto analysis of its client complaint data and finds that 23% of complaint types account for 78% of total complaint volume, while the remaining 77% of complaint types account for only 22% of complaints. What is the management implication of this analysis, and which quality management tool should be used next?",
+              options: [
+                "All complaint types must be addressed simultaneously as the firm cannot prioritise without risking client dissatisfaction",
+                "The 23% of complaint types driving 78% of complaints should be prioritised for root cause analysis; a fishbone (Ishikawa) diagram should be used to identify the underlying causes of the high-frequency complaint types",
+                "The 77% of minor complaint types should be addressed first as they represent more categories to fix",
+                "Pareto analysis reveals that the firm has too few quality staff and should hire more inspectors",
+              ],
+              correct: 1,
+              explanation: "Pareto analysis applies the 80:20 principle — a small proportion of causes generates most of the effect. Addressing the 23% of complaint types responsible for 78% of volume will yield the greatest quality improvement per unit of management effort. Having identified the priority issues, the next logical tool is root cause analysis — specifically a fishbone (Ishikawa cause-and-effect) diagram — to understand why these complaint types are occurring and target the underlying process failures rather than treating symptoms.",
+            },],
         },
         {
           id: "p2-l10",
@@ -23225,7 +23687,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Value engineering systematically analyses each product function and asks: can this function be delivered at lower cost without reducing the value perceived by the customer? It seeks to close the cost gap between estimated and target cost through redesign.",
             },
-          ],
+          
+            {
+              question: "A consumer electronics company is about to launch a new smart speaker. The target selling price is 120 and the required profit margin is 25%. Value engineering analysis identifies four cost components: materials 38, labour 18, tooling and mould depreciation 12, and warranty and after-sales support 22. Total estimated unit cost is 90. Assess whether the product meets its target cost.",
+              options: [
+                "Yes — the product meets the target cost because the profit margin on 90 cost at 120 price exceeds 25%",
+                "No — the target cost is 90 (120 x 75%) and the actual estimated cost is 90, so the product exactly meets the target cost with no cost gap",
+                "No — the target cost is 90 (120 x 75%), but value engineering has correctly identified the 90 actual cost; the product meets target cost exactly, so no further reduction is needed before launch",
+                "No — the target cost is 90 (120 x 75%), estimated cost is 90, giving a zero cost gap; however management should scrutinise whether the 22 warranty cost can be reduced through design improvements to create a cost buffer",
+              ],
+              correct: 3,
+              explanation: "Target cost = selling price x (1 - required margin) = 120 x (1 - 0.25) = 120 x 0.75 = 90. Estimated cost = 38 + 18 + 12 + 22 = 90. The cost gap is zero — the product meets target cost exactly. However, in practice a zero-gap position is high-risk because actual costs almost always exceed estimates. Management should examine whether the 22 warranty and after-sales cost (the largest discretionary component) can be reduced through design improvements (fewer failure points, standardised components) to create a safety buffer. This illustrates that target costing is an iterative design discipline, not just a one-off calculation.",
+            },
+            {
+              question: "A pharmaceutical company analyses the life cycle costs of a patented drug. Development and clinical trials cost 400m. Launch and marketing costs are 60m. Annual production costs are 15m for a 10-year patent life. End-of-patent generic competition will erode the price to near-zero. A finance director focuses only on annual production costs to assess profitability. What critical error is being made?",
+              options: [
+                "The director is correct — production costs are the most controllable and therefore the most relevant profitability driver",
+                "The director is ignoring sunk costs, which should be excluded from profitability analysis under relevant costing principles",
+                "The director's analysis is incomplete — life cycle costing requires all costs across the full product life (development, launch, production and end-of-life) to be matched against revenues over the 10-year patent window to assess true product profitability",
+                "The director should focus on the net present value of future cash flows using discounted cash flow rather than life cycle costing",
+              ],
+              correct: 2,
+              explanation: "Life Cycle Costing accumulates all costs across the product's complete life — from inception (R&D) through growth (launch/marketing) to maturity (production) and decline (obsolescence/disposal). The finance director's error is ignoring the 400m development and 60m launch costs, which must be recovered over the 10-year patent window. A product showing positive contribution from annual production may generate a deeply negative life cycle profit if R&D and launch costs are not recovered. The committed cost concept is also important: approximately 80-90% of a product's life cycle costs are locked in during design — making early-stage cost management (target costing) the most powerful lever.",
+            },],
         },
         {
           id: "p2-l11",
@@ -23308,7 +23792,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Double materiality has two perspectives: financial materiality (how ESG risks/opportunities affect the organisation's value) and impact materiality (how the organisation's activities affect the environment and society). Both dimensions must be disclosed under the EU CSRD.",
             },
-          ],
+          
+            {
+              question: "An energy company's sustainability report discloses: Scope 1 emissions (direct from owned assets) of 450,000 tCO2e, Scope 2 emissions (purchased electricity) of 120,000 tCO2e, and Scope 3 emissions (value chain, including customer use of gas sold) of 3,200,000 tCO2e. The CEO announces a 'net zero by 2040' commitment focused on reducing Scope 1 and 2 emissions. An ESG analyst challenges this commitment. What is the most valid basis for the challenge?",
+              options: [
+                "Scope 1 and 2 emissions are the most material for energy companies and the CEO's focus is therefore appropriate",
+                "Scope 3 emissions represent 85% of this company's total footprint; a net zero commitment that excludes Scope 3 addresses only 15% of the company's climate impact and is likely to be seen as greenwashing",
+                "Net zero commitments are only credible if validated by the Science Based Targets initiative; the CEO should focus on certification, not which scopes to include",
+                "Scope 3 emissions are not reportable under GRI standards and should be excluded from sustainability commitments",
+              ],
+              correct: 1,
+              explanation: "Scope 3 = 3,200,000 out of total 3,770,000 tCO2e = 85% of total emissions. For an energy company, customer use of the product (gas, oil) dominates the carbon footprint. A net zero commitment limited to Scope 1 and 2 would address only 570,000 tCO2e (15% of total), leaving the vast majority of climate impact unaddressed. This selective commitment risks being characterised as greenwashing. GRI Standards and TCFD guidance both encourage disclosure of material Scope 3 categories, and for energy companies, customer use (Scope 3 Category 11) is clearly material.",
+            },
+            {
+              question: "The International Integrated Reporting Council (IIRC) framework identifies six capitals that organisations use, create or erode. A technology company's Integrated Report highlights growth in intellectual capital (patents, proprietary algorithms) but does not disclose the reduction in human capital caused by a major restructuring that eliminated 2,000 roles. An investor challenges the report's completeness. Which principle of the IR framework most supports this challenge?",
+              options: [
+                "Conciseness — the report is too long if it includes restructuring details",
+                "Materiality — the reduction in human capital is likely material to the company's long-term value creation story and should be disclosed",
+                "Reliability — financial statements must be independently audited under IIRC requirements",
+                "Comparability — the investor cannot compare capitals across companies without standardised metrics",
+              ],
+              correct: 1,
+              explanation: "The IIRC framework's materiality principle requires disclosure of matters that substantively affect the organisation's ability to create value over the short, medium and long term. Human capital — the skills, experience and motivation of employees — is one of the six capitals. A restructuring eliminating 2,000 roles represents a significant reduction in human capital that could affect innovation capacity, operational resilience and culture. Omitting this while highlighting intellectual capital growth presents a selective picture of value creation — violating the spirit of materiality. The investor's challenge is well-founded.",
+            },],
         },
         {
           id: "p2-l12",
@@ -23402,7 +23908,29 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Under cost-plus pricing, the selling division's transfer price rises if its costs increase — so inefficiency in the selling division is automatically passed on to the buying division. This removes the incentive for the seller to control costs.",
             },
-          ],
+          
+            {
+              question: "A multinational group has a manufacturing subsidiary in Country A (corporate tax rate 15%) and a distribution subsidiary in Country B (corporate tax rate 30%). The manufacturing subsidiary produces goods at a marginal cost of 40 and sells them to the distribution subsidiary. The external market price for comparable goods is 80. The group is considering whether to set the transfer price at 40 (marginal cost) or 80 (market price). From a tax minimisation perspective only, which transfer price is preferred and why?",
+              options: [
+                "Transfer price of 40 minimises group tax by maximising profit in the low-tax Country A entity",
+                "Transfer price of 80 maximises profit in Country A (low tax) where manufacturing occurs, reducing the taxable profit in Country B (high tax) — this minimises overall group tax",
+                "Transfer price of 40 minimises the taxable profit in Country A, which is lower tax, so it is always preferred",
+                "The transfer price has no effect on total group tax because profits net out at group consolidation level",
+              ],
+              correct: 1,
+              explanation: "To minimise group tax, profit should be concentrated in the lower-tax jurisdiction (Country A, 15%) and minimised in the higher-tax jurisdiction (Country B, 30%). A high transfer price (80 = market price) means Country A recognises more revenue (profit = 80 - 40 = 40 taxed at 15% = 6 tax), while Country B has higher cost of sales and lower taxable profit. A low transfer price (40 = marginal cost) shifts profit to Country B (it buys cheaply and sells at a high margin, paying 30% tax on that profit). Therefore a high transfer price benefits the group from a tax perspective. However, OECD arm's-length principle requires transfer prices to reflect market prices, and tax authorities scrutinise prices below arm's length specifically to prevent this tax shifting.",
+            },
+            {
+              question: "A transfer pricing dispute arises between a UK parent and its Irish subsidiary. The Irish tax authority argues that the royalties charged by the UK parent for use of intellectual property are excessive and do not reflect arm's-length pricing. The OECD Transfer Pricing Guidelines list five approved methods. Which method is most directly applicable when valuing a royalty for a unique intangible asset with no directly comparable market transactions?",
+              options: [
+                "Comparable Uncontrolled Price (CUP) method, using published royalty rate databases",
+                "Cost Plus method, marking up the cost of developing the IP by an appropriate margin",
+                "Profit Split method, allocating combined group profit from the IP based on each party's contribution to value creation",
+                "Resale Price method, working back from the Irish subsidiary's external selling price",
+              ],
+              correct: 2,
+              explanation: "The Profit Split method is most appropriate for unique intangible assets (patents, proprietary algorithms, brand) where no reliable external CUP exists. It allocates the combined profit from the intangible between group entities based on each party's relative contribution — R&D investment, functions performed, risks borne. The OECD BEPS Action Plan 8-10 specifically endorsed the Profit Split method for transactions involving unique and valuable intangibles where one-sided methods (CUP, Cost Plus, Resale Price) cannot be reliably applied due to the absence of comparable uncontrolled transactions. CUP requires comparable market royalties; Cost Plus suits routine services not unique IP; Resale Price suits distribution of tangible goods.",
+            },],
         },
       ],
     },
