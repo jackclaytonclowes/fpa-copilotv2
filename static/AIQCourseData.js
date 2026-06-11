@@ -533,26 +533,69 @@ const AIQ_COURSE_DATA = {
             "Identify the qualities of useful management accounting information",
           ],
           explanation:
-            "<p><strong>Management accounting</strong> provides internal information to help " +
-            "managers plan, control, and make decisions. Unlike financial accounting, it is not " +
-            "governed by external regulations.</p>" +
-            "<p>Key qualities of useful information: <strong>relevant</strong>, <strong>timely</strong>, " +
-            "<strong>accurate</strong>, complete, understandable, and cost-effective to produce.</p>",
+            "<h4>Management Accounting vs Financial Accounting</h4>" +
+            "<p><strong>Management accounting</strong> provides financial and non-financial information to help internal managers plan, control, and make decisions. It differs from financial accounting in several fundamental ways:</p>" +
+            "<table><thead><tr><th>Feature</th><th>Management accounting</th><th>Financial accounting</th></tr></thead><tbody>" +
+            "<tr><td>Primary users</td><td>Internal managers at all levels</td><td>External stakeholders: shareholders, lenders, HMRC</td></tr>" +
+            "<tr><td>Legal requirement</td><td>Not legally required</td><td>Required by law (Companies Act)</td></tr>" +
+            "<tr><td>Format</td><td>Any format useful to management</td><td>Prescribed formats (IAS/IFRS)</td></tr>" +
+            "<tr><td>Time horizon</td><td>Future-oriented (budgets, forecasts)</td><td>Primarily historical (last year's results)</td></tr>" +
+            "<tr><td>Frequency</td><td>Daily, weekly, monthly — as needed</td><td>Annually (sometimes quarterly)</td></tr>" +
+            "<tr><td>Level of detail</td><td>Product, department, cost centre</td><td>Whole entity level</td></tr>" +
+            "<tr><td>Audit requirement</td><td>Not audited</td><td>Audited (listed companies)</td></tr>" +
+            "</tbody></table>" +
+            "<h4>The Purpose of Management Accounting</h4>" +
+            "<p>Management accounting serves three core purposes:</p>" +
+            "<ul>" +
+            "<li><strong>Planning:</strong> setting budgets, forecasts, and targets. A production budget tells managers how many units to make; a cash flow forecast shows when the business might run short of funds.</li>" +
+            "<li><strong>Control:</strong> comparing actual results to the plan and investigating significant differences (variances). This is the feedback loop that keeps performance on track.</li>" +
+            "<li><strong>Decision-making:</strong> providing relevant cost and revenue information to support choices — whether to launch a product, discontinue a division, accept a special order, or make vs buy a component.</li>" +
+            "</ul>" +
+            "<h4>Qualities of Useful Management Information</h4>" +
+            "<p>Management accounting information is only valuable if it is actually useful. The key qualities (sometimes remembered as the <strong>ACCURATE</strong> mnemonic) are:</p>" +
+            "<ul>" +
+            "<li><strong>Accurate:</strong> free from material error — wrong data leads to wrong decisions.</li>" +
+            "<li><strong>Complete:</strong> includes all relevant information without significant omissions.</li>" +
+            "<li><strong>Cost-effective:</strong> the cost of producing the information should not exceed its value.</li>" +
+            "<li><strong>Understandable:</strong> presented in a format that the intended user can interpret.</li>" +
+            "<li><strong>Relevant:</strong> addresses the specific decision or problem at hand.</li>" +
+            "<li><strong>Authoritative:</strong> from a reliable source; consistent calculation methods.</li>" +
+            "<li><strong>Timely:</strong> available when the decision needs to be made — late information has reduced value.</li>" +
+            "<li><strong>Easy to use:</strong> accessible and presented clearly.</li>" +
+            "</ul>" +
+            "<h4>Management Accounting in Practice</h4>" +
+            "<p>In a typical manufacturing business, management accounting provides:</p>" +
+            "<ul>" +
+            "<li><strong>Cost cards:</strong> the standard cost breakdown (materials, labour, overhead) for each product.</li>" +
+            "<li><strong>Monthly management accounts:</strong> profit and loss by product, department, or region compared to budget.</li>" +
+            "<li><strong>Variance reports:</strong> highlights where actual costs or revenues deviated from plan and by how much.</li>" +
+            "<li><strong>Cash flow forecasts:</strong> 13-week rolling forecasts to manage liquidity.</li>" +
+            "<li><strong>Capital investment appraisals:</strong> NPV/IRR analysis to evaluate major spending decisions.</li>" +
+            "</ul>",
           workedExample: {
-            setup: "A divisional manager needs to decide whether to continue producing a product line. Describe what management accounting information would be most useful.",
+            setup:
+              "A retailer has three product categories: electronics, clothing, and homewares. " +
+              "The finance director is reviewing whether to close the homewares department, which reported a loss last year. " +
+              "Identify (a) what management accounting information would be needed, and (b) what financial accounting alone could not provide.",
             steps: [
-              "Revenue data: actual sales vs budget for this product, trend over recent periods.",
-              "Cost data: variable cost per unit (materials, labour) and fixed costs attributable to the line.",
-              "Contribution: revenue minus variable costs — shows whether the product covers its own variable costs.",
-              "Break-even analysis: at what sales volume does the product start contributing to fixed costs and profit?",
-              "Competitor benchmarks and market trends: is demand growing or declining?",
+              "Revenue and volume: actual sales per product category, trend over 3 years, seasonal patterns — management accounts can show this by product; statutory accounts show only total revenue.",
+              "Direct costs: cost of goods sold for homewares specifically — margins by product line. Statutory accounts aggregate all COGS.",
+              "Contribution: revenue minus variable costs for homewares. Even if the department makes a loss after fixed cost allocation, it may still contribute to covering fixed costs that would remain even if the department closed.",
+              "Avoidable vs unavoidable fixed costs: which fixed costs (staff, floor space, buying team) would actually disappear if homewares closed? Statutory accounts do not split costs by avoidability.",
+              "Knock-on effects: would closing homewares reduce footfall and hurt electronics and clothing sales? Management accounting models this scenario; statutory accounts cannot.",
+              "Competitor and market data: is homewares a growing category that requires a longer-term investment view? Statutory accounts are purely internal and historical.",
             ],
-            answer: "Management accounting provides internal, forward-looking information — costs, contributions, and forecasts — to support this operational decision. Financial accounts alone (historical, external) would be insufficient.",
+            answer:
+              "Management accounting provides the granular, forward-looking, and scenario-specific information needed: contribution by department, avoidable cost analysis, and knock-on revenue effects. " +
+              "Statutory financial accounts (income statement, balance sheet) show historical performance at entity level only — wholly insufficient for this operational decision. " +
+              "The finance team's recommendation might reverse the simplistic 'loss = close' conclusion once contribution and avoidable costs are properly analysed.",
           },
           summary: [
-            "Management accounting serves internal users; financial accounting serves external users.",
-            "Management accounts are not legally required but are vital for good decisions.",
-            "Information must be relevant, timely, and accurate to be useful.",
+            "Management accounting: internal users, no legal requirement, forward-looking, flexible format, any frequency.",
+            "Financial accounting: external users, legally required, primarily historical, prescribed format, annual.",
+            "Three purposes: planning (budgets and forecasts), control (variance analysis), and decision-making (relevant costs).",
+            "Qualities of useful information: accurate, complete, cost-effective, understandable, relevant, timely — the information must be worth more than it costs to produce.",
+            "Management accounts give granular detail (by product, department, cost centre) that statutory accounts cannot provide.",
           ],
           practiceQuestions: [
             {
@@ -564,15 +607,34 @@ const AIQ_COURSE_DATA = {
                 "Management accounting is audited; financial accounting is not",
               ],
               correct: 1,
-              explanation: "Management accounting provides internal information (costs, budgets, variances) to help managers plan and decide. Financial accounting produces statutory reports for shareholders, lenders, and regulators.",
+              explanation:
+                "Management accounting provides internal information (costs, budgets, variances) to help managers plan and decide. " +
+                "Financial accounting produces statutory reports for shareholders, lenders, and regulators. " +
+                "The other options are the reverse of the truth.",
               topic: "Management vs financial accounting",
             },
             {
-              question: "Which of the following is a quality of useful management accounting information?",
-              options: ["Legally audited", "Available only annually", "Timely and relevant to the decision", "Prepared under IFRS"],
-              correct: 2,
-              explanation: "Useful management information is timely (available when needed), relevant (addresses the decision), accurate, complete, and cost-effective to produce. IFRS and audit requirements apply to financial accounting, not management accounting.",
+              question: "A management accountant produces a weekly cost report for the production manager but it arrives three weeks after the month end. Which quality of useful information is most clearly lacking?",
+              options: ["Accuracy", "Timeliness", "Completeness", "Relevance"],
+              correct: 1,
+              explanation:
+                "Timeliness: information must be available when decisions need to be made. A production cost report arriving three weeks late cannot support timely corrective action. " +
+                "Even if the data is accurate, its decision-making value has been significantly reduced by the delay.",
               topic: "Information quality",
+            },
+            {
+              question: "Which of the following is a purpose of management accounting?",
+              options: [
+                "Preparing statutory financial statements for shareholders",
+                "Filing annual tax returns with HMRC",
+                "Providing budgets and variance reports to support managerial control",
+                "Auditing the company's financial records",
+              ],
+              correct: 2,
+              explanation:
+                "Management accounting supports internal planning, control, and decision-making. " +
+                "Statutory reports, tax returns, and audit are the domain of financial accounting and external reporting — not management accounting.",
+              topic: "Purpose of management accounting",
             },
           ],
         },
@@ -587,54 +649,139 @@ const AIQ_COURSE_DATA = {
             "Explain fixed, variable and semi-variable costs",
           ],
           explanation:
-            "<p>Costs can be classified in several ways:</p>" +
+            "<h4>Why Classify Costs?</h4>" +
+            "<p>Cost classification is the foundation of management accounting. How you classify a cost determines how you treat it in budgets, in product costing, and in decisions. The same cost (e.g., a supervisor's wage) can be classified differently depending on the purpose of the analysis.</p>" +
+            "<h4>1. Classification by Nature</h4>" +
+            "<p>This is the most fundamental classification — what the cost <em>is</em>:</p>" +
             "<ul>" +
-            "<li><strong>By nature:</strong> materials, labour, overheads</li>" +
-            "<li><strong>By function:</strong> production, selling, administration</li>" +
-            "<li><strong>By behaviour:</strong> fixed, variable, semi-variable</li>" +
+            "<li><strong>Materials:</strong> raw materials, components, consumables used in production or service delivery.</li>" +
+            "<li><strong>Labour:</strong> wages, salaries, employer NIC, pension contributions of employees.</li>" +
+            "<li><strong>Overheads (expenses):</strong> all other costs — rent, rates, power, depreciation, insurance, professional fees.</li>" +
             "</ul>" +
-            "<p>A <strong>fixed cost</strong> stays constant regardless of output level (e.g., rent). " +
-            "A <strong>variable cost</strong> changes in proportion to output (e.g., direct materials). " +
-            "A <strong>semi-variable cost</strong> has both a fixed element and a variable element " +
-            "(e.g., a phone bill with a line rental plus per-minute charges).</p>",
+            "<h4>2. Classification by Function</h4>" +
+            "<p>Costs grouped by the department or activity they relate to:</p>" +
+            "<ul>" +
+            "<li><strong>Production costs:</strong> all costs incurred in making the product — direct materials, direct labour, factory overheads.</li>" +
+            "<li><strong>Selling and distribution costs:</strong> advertising, sales commissions, delivery, warehousing of finished goods.</li>" +
+            "<li><strong>Administration costs:</strong> head office, IT, HR, finance team.</li>" +
+            "<li><strong>Finance costs:</strong> interest on loans, bank charges.</li>" +
+            "</ul>" +
+            "<h4>3. Direct vs Indirect Costs</h4>" +
+            "<p>This classification is critical for product costing:</p>" +
+            "<ul>" +
+            "<li><strong>Direct costs</strong> can be traced specifically and economically to a <em>cost unit</em> (a product, job, or service). Examples: timber in a chair, hours a painter spends on a specific contract, royalty per book printed. Direct costs are always variable in relation to output.</li>" +
+            "<li><strong>Indirect costs (overheads)</strong> cannot be traced directly to a single cost unit. They must be <em>allocated or absorbed</em> using some basis. Examples: factory manager's salary, rent, machine depreciation.</li>" +
+            "</ul>" +
+            "<p><strong>Prime cost</strong> = all direct costs (direct materials + direct labour + direct expenses)</p>" +
+            "<p><strong>Full production cost</strong> = Prime cost + Production overheads</p>" +
+            "<h4>4. Classification by Behaviour (Fixed, Variable, Semi-Variable)</h4>" +
+            "<p>Cost behaviour describes how a cost responds to changes in the level of activity (output or volume). This is essential for budgeting, break-even analysis, and marginal costing.</p>" +
+            "<p><strong>Fixed costs</strong> remain constant in total over a relevant range of output:</p>" +
+            "<ul>" +
+            "<li>Examples: factory rent, business rates, annual insurance premium, management salaries.</li>" +
+            "<li>As output increases, fixed cost <em>per unit</em> falls (the cost is spread over more units).</li>" +
+            "<li>Graphs: horizontal line when plotted against activity; downward-sloping curve for cost per unit.</li>" +
+            "<li><strong>Stepped fixed costs:</strong> remain constant up to a threshold, then jump to a new higher level (e.g., a second factory is needed above 10,000 units). The step is a one-time increase, not a continuous variable cost.</li>" +
+            "</ul>" +
+            "<p><strong>Variable costs</strong> change in direct proportion to output:</p>" +
+            "<ul>" +
+            "<li>Examples: direct materials (more units = more materials), direct labour paid by the piece, sales commission as % of revenue.</li>" +
+            "<li>Variable cost per unit remains constant; total variable cost increases linearly with output.</li>" +
+            "<li>Graph: straight line through the origin when plotted against activity.</li>" +
+            "</ul>" +
+            "<p><strong>Semi-variable (semi-fixed) costs</strong> have both a fixed element and a variable element:</p>" +
+            "<ul>" +
+            "<li>Examples: telephone — fixed line rental + variable per-minute charges; electricity — standing charge + units consumed; a salesperson — fixed base salary + variable commission.</li>" +
+            "<li>Total semi-variable cost = Fixed element + (Variable rate × Activity level)</li>" +
+            "<li>Separating the two elements: use the <strong>high-low method</strong> (covered in the next lesson).</li>" +
+            "</ul>" +
+            "<h4>Product Costs vs Period Costs</h4>" +
+            "<p><strong>Product costs</strong> attach to the unit of inventory — they flow through the SOFP as inventory until the goods are sold, then hit the income statement as cost of goods sold. Under absorption costing, production overheads are included in product cost.</p>" +
+            "<p><strong>Period costs</strong> are written off to the income statement in the period they are incurred, regardless of whether goods are sold. Selling, distribution, and administration overheads are period costs under both marginal and absorption costing.</p>",
           workedExample: {
             setup:
-              "A company pays £2,000 per month in factory rent and £5 per unit in direct materials. " +
-              "Classify each and calculate total cost at 800 units output.",
+              "A furniture manufacturer's costs for a month: " +
+              "Timber (per chair): £8/unit. " +
+              "Factory rent: £3,000/month. " +
+              "Assembly workers (paid per chair): £6/unit. " +
+              "Factory supervisor salary: £2,500/month. " +
+              "Machine depreciation: £800/month. " +
+              "Electricity: £500 fixed standing charge + £0.50 per unit produced. " +
+              "Sales commission: 5% of selling price (£40/chair). " +
+              "Output = 600 chairs. " +
+              "Classify each cost and calculate total production cost at 600 units.",
             steps: [
-              "Factory rent: fixed cost — £2,000 regardless of output.",
-              "Direct materials: variable cost — £5 × 800 = £4,000.",
-              "Total cost = £2,000 + £4,000 = £6,000.",
+              "Timber: direct material (traceable to each chair), variable. 600 × £8 = £4,800.",
+              "Factory rent: indirect, fixed production overhead. £3,000 (unchanged at any output within the relevant range).",
+              "Assembly workers: direct labour, variable. 600 × £6 = £3,600.",
+              "Factory supervisor: indirect, fixed production overhead. £2,500.",
+              "Machine depreciation: indirect, fixed production overhead. £800.",
+              "Electricity: semi-variable. Fixed element £500 + variable element £0.50 × 600 = £300. Total £800.",
+              "Sales commission: direct selling cost, variable. 600 × (5% × £40) = 600 × £2 = £1,200. Note: this is a selling cost, not a production cost.",
+              "Prime cost = Direct materials + Direct labour = £4,800 + £3,600 = £8,400.",
+              "Total production overhead = Rent £3,000 + Supervisor £2,500 + Depreciation £800 + Electricity £800 = £7,100.",
+              "Full production cost = Prime cost + Production overhead = £8,400 + £7,100 = £15,500.",
+              "Cost per unit (production only) = £15,500 / 600 = £25.83. Plus selling commission £2/unit = £27.83 total unit cost.",
             ],
-            answer: "Total cost at 800 units = £6,000 (£2,000 fixed + £4,000 variable).",
+            answer:
+              "Total production cost at 600 units = £15,500 (£25.83 per unit). " +
+              "Sales commission (£1,200) is a period cost charged to the income statement — not included in inventory valuation. " +
+              "Understanding the classification of each cost is essential before attempting budgeting or contribution analysis.",
           },
           summary: [
-            "Fixed costs are constant per period; variable costs change with output.",
-            "Direct costs are traceable to a cost unit; indirect costs (overheads) cannot be.",
-            "Understanding cost behaviour is essential for budgeting and decision-making.",
+            "Three bases of classification: by nature (materials/labour/overheads), by function (production/selling/admin), by behaviour (fixed/variable/semi-variable).",
+            "Direct costs: traceable to a specific cost unit — they form the prime cost. Indirect costs (overheads) must be absorbed.",
+            "Fixed costs: constant in total, falling per unit as output rises. Variable costs: constant per unit, rising in total.",
+            "Semi-variable costs have a fixed element (incurred even at zero output) and a variable element (proportional to activity).",
+            "Product costs follow inventory through to COGS when goods are sold. Period costs are expensed immediately in the income statement.",
           ],
           practiceQuestions: [
             {
               question: "Which of the following is most likely to be a fixed cost for a manufacturing company?",
               options: [
-                "Direct materials",
-                "Factory rent",
-                "Sales commission",
-                "Electricity used in production",
+                "Direct materials cost per unit",
+                "Annual factory rent",
+                "Sales commission paid per unit sold",
+                "Electricity consumed in running production machinery",
               ],
               correct: 1,
               explanation:
-                "Factory rent is a period cost that does not change with output volume — it is a fixed cost. The others are variable or semi-variable.",
+                "Annual factory rent is a period cost that does not change with the level of output — it is a fixed cost. " +
+                "Direct materials and sales commission are variable (they rise and fall with output/sales). " +
+                "Electricity is typically semi-variable (standing charge plus units consumed).",
               topic: "Cost classification",
             },
             {
               question:
-                "A semi-variable cost of £1,200 at 200 units becomes £1,600 at 400 units. What is the variable cost per unit?",
-              options: ["£2", "£4", "£6", "£8"],
+                "A semi-variable cost is £1,200 at 200 units of output and £1,600 at 400 units. " +
+                "What is the variable cost per unit, and what is the fixed element?",
+              options: [
+                "Variable £2/unit; fixed £800",
+                "Variable £4/unit; fixed £400",
+                "Variable £2/unit; fixed £400",
+                "Variable £8/unit; fixed £0",
+              ],
               correct: 0,
               explanation:
-                "Variable element = (£1,600 − £1,200) / (400 − 200) = £400 / 200 = £2 per unit.",
+                "Variable cost per unit = (£1,600 − £1,200) / (400 − 200) = £400 / 200 = £2 per unit. " +
+                "Fixed element = Total cost − (Variable rate × Units) = £1,200 − (£2 × 200) = £1,200 − £400 = £800. " +
+                "Check at 400 units: £800 + (£2 × 400) = £1,600. ✓",
               topic: "Semi-variable costs",
+            },
+            {
+              question:
+                "Direct labour and direct materials are both examples of:",
+              options: [
+                "Period costs",
+                "Indirect costs",
+                "Fixed costs",
+                "Prime costs",
+              ],
+              correct: 3,
+              explanation:
+                "Prime cost = direct materials + direct labour + direct expenses. These costs are directly traceable to the cost unit. " +
+                "They are product costs (not period costs), direct costs (not indirect), and variable (not fixed).",
+              topic: "Prime cost",
             },
           ],
         },
@@ -644,33 +791,94 @@ const AIQ_COURSE_DATA = {
           topic: "Costing methods",
           estimatedMinutes: 40,
           objectives: [
-            "Explain the principles of absorption costing",
-            "Calculate overhead absorption rates (OAR)",
-            "Calculate the full (absorbed) cost per unit",
+            "Explain the principles of absorption costing and why overheads must be absorbed",
+            "Calculate overhead absorption rates (OAR) using appropriate bases",
+            "Allocate, apportion, and reapportion overheads across production and service cost centres",
+            "Calculate over- and under-absorption and account for it in the income statement",
           ],
           explanation:
-            "<p><strong>Absorption costing</strong> charges all production costs — both direct and " +
-            "indirect — to cost units. Overheads are absorbed using a pre-determined " +
-            "<strong>Overhead Absorption Rate (OAR)</strong>.</p>" +
-            "<p>OAR is usually based on a single activity measure:</p>" +
-            "<p style='text-align:center'><code>OAR = Budgeted overhead ÷ Budgeted activity level</code></p>" +
-            "<p>Common bases: direct labour hours, machine hours, or units of output.</p>",
+            "<h4>Why Absorb Overheads?</h4>" +
+            "<p><strong>Absorption costing</strong> charges all production costs — direct costs and production overheads — to cost units. It is the standard method for external financial reporting (required by IAS 2 for inventory valuation) and for setting selling prices that cover the full cost of production.</p>" +
+            "<p>The process involves three stages:</p>" +
+            "<ol>" +
+            "<li><strong>Allocation:</strong> overheads that belong entirely to one cost centre are allocated directly to it.</li>" +
+            "<li><strong>Apportionment:</strong> overheads shared between cost centres are split using a suitable basis (e.g., floor area for rent, headcount for canteen costs, asset values for depreciation).</li>" +
+            "<li><strong>Absorption:</strong> the total overhead of each production cost centre is charged to cost units using the OAR.</li>" +
+            "</ol>" +
+            "<h4>Step 1 – Allocation and Apportionment</h4>" +
+            "<p>A factory typically has multiple <strong>cost centres</strong>: some are <em>production cost centres</em> (machining, assembly, finishing) and some are <em>service cost centres</em> (maintenance, canteen, stores) that support production but do not directly work on products.</p>" +
+            "<p>Common apportionment bases:</p>" +
+            "<table><thead><tr><th>Overhead</th><th>Typical apportionment basis</th></tr></thead><tbody>" +
+            "<tr><td>Factory rent and rates</td><td>Floor area (m²)</td></tr>" +
+            "<tr><td>Building insurance</td><td>Floor area (m²)</td></tr>" +
+            "<tr><td>Depreciation of machinery</td><td>Asset value (NBV or cost) of machinery</td></tr>" +
+            "<tr><td>Canteen / welfare</td><td>Number of employees (headcount)</td></tr>" +
+            "<tr><td>Heating and lighting</td><td>Floor area or volume (m³)</td></tr>" +
+            "<tr><td>Supervision</td><td>Number of employees or labour hours</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Step 2 – Service Cost Centre Reapportionment</h4>" +
+            "<p>After primary apportionment, service cost centres have accumulated overhead. Since products only pass through production cost centres, service overhead must be <strong>reapportioned</strong> to production cost centres before OARs can be calculated.</p>" +
+            "<p>Three methods:</p>" +
+            "<ul>" +
+            "<li><strong>Direct method:</strong> service centre costs are apportioned directly to production centres, ignoring services rendered between service centres. Simple but less accurate.</li>" +
+            "<li><strong>Step-down method:</strong> one service centre is reapportioned first (including to other service centres); then the next service centre is reapportioned. Order matters.</li>" +
+            "<li><strong>Reciprocal method (repeated distribution or algebraic):</strong> fully accounts for services rendered between service centres. Most accurate; required when service centres serve each other significantly.</li>" +
+            "</ul>" +
+            "<h4>Step 3 – Calculating the OAR</h4>" +
+            "<p>Once all overhead is in production cost centres, the OAR is calculated:</p>" +
+            "<p style='text-align:center'><code>OAR = Budgeted overhead for cost centre ÷ Budgeted activity level for that cost centre</code></p>" +
+            "<p>Common activity bases:</p>" +
+            "<ul>" +
+            "<li><strong>Direct labour hours (DLH):</strong> most common in labour-intensive environments. Choose when labour is the main driver of overhead.</li>" +
+            "<li><strong>Machine hours:</strong> appropriate in capital-intensive, automated departments where machines drive overhead (power, maintenance, depreciation).</li>" +
+            "<li><strong>Units of output:</strong> only suitable when a single product is made and all products consume overheads at the same rate — rarely appropriate.</li>" +
+            "<li><strong>Percentage of direct labour cost:</strong> OAR expressed as % of direct labour £. Less precise; rarely recommended in modern costing.</li>" +
+            "</ul>" +
+            "<p>The OAR is pre-determined (set at the start of the period using budgeted figures) to allow cost cards and selling prices to be set before the year ends.</p>" +
+            "<h4>Full (Absorbed) Cost per Unit</h4>" +
+            "<p style='text-align:center'><code>Full cost per unit = Direct materials + Direct labour + Direct expenses + Absorbed overhead</code></p>" +
+            "<p style='text-align:center'><code>Absorbed overhead per unit = Hours per unit × OAR</code></p>" +
+            "<h4>Over- and Under-Absorption</h4>" +
+            "<p>Since the OAR is pre-determined, actual overhead incurred will almost always differ from overhead absorbed:</p>" +
+            "<p style='text-align:center'><code>Overhead absorbed = Actual hours worked × OAR</code></p>" +
+            "<p style='text-align:center'><code>Over/under absorption = Overhead absorbed − Actual overhead incurred</code></p>" +
+            "<ul>" +
+            "<li><strong>Over-absorption</strong> (absorbed &gt; actual): we charged more to products than was actually spent. This is a <em>credit</em> to the income statement (increases profit). Usually caused by higher actual activity than budgeted, or lower actual spend than budgeted.</li>" +
+            "<li><strong>Under-absorption</strong> (absorbed &lt; actual): we charged less to products than was actually spent. This is a <em>debit</em> to the income statement (reduces profit). Usually caused by lower actual activity or higher actual spend than budgeted.</li>" +
+            "</ul>",
           workedExample: {
             setup:
-              "Budgeted overhead = £120,000. Budgeted direct labour hours = 40,000. " +
-              "A product requires 3 direct labour hours per unit and direct costs of £25.",
+              "A factory has two production departments (Machining and Assembly) and one service department (Maintenance). " +
+              "Overhead data for the year: Factory rent £60,000; Depreciation £30,000; Supervision £20,000; Maintenance costs £15,000. " +
+              "Department information: Machining — floor area 400m², asset value £80,000, 10 employees, budgeted 8,000 machine hours. " +
+              "Assembly — floor area 300m², asset value £40,000, 15 employees, budgeted 6,000 direct labour hours. " +
+              "Maintenance — floor area 100m², asset value £5,000, 5 employees. " +
+              "Maintenance time is split: 60% Machining, 40% Assembly. " +
+              "Product X: uses 2 machine hours in Machining and 3 DLH in Assembly; direct costs £18.",
             steps: [
-              "OAR = £120,000 / 40,000 = £3.00 per direct labour hour.",
-              "Overhead absorbed per unit = 3 hours × £3.00 = £9.00.",
-              "Full cost per unit = direct costs + absorbed overhead = £25 + £9 = £34.",
+              "PRIMARY APPORTIONMENT. Total floor area = 400 + 300 + 100 = 800m². Total employees = 10 + 15 + 5 = 30. Total asset value = £125,000.",
+              "Rent (floor area): Machining £60,000 × 400/800 = £30,000. Assembly £60,000 × 300/800 = £22,500. Maintenance £60,000 × 100/800 = £7,500.",
+              "Depreciation (asset value): Machining £30,000 × 80/125 = £19,200. Assembly £30,000 × 40/125 = £9,600. Maintenance £30,000 × 5/125 = £1,200.",
+              "Supervision (employees): Machining £20,000 × 10/30 = £6,667. Assembly £20,000 × 15/30 = £10,000. Maintenance £20,000 × 5/30 = £3,333.",
+              "Maintenance costs allocated to Maintenance dept: £15,000.",
+              "Sub-totals after primary apportionment: Machining £55,867. Assembly £42,100. Maintenance £27,033.",
+              "REAPPORTIONMENT (direct method): Maintenance £27,033 → 60% to Machining = £16,220; 40% to Assembly = £10,813.",
+              "Final overhead per production dept: Machining = £55,867 + £16,220 = £72,087. Assembly = £42,100 + £10,813 = £52,913.",
+              "OAR CALCULATION: Machining OAR = £72,087 / 8,000 machine hours = £9.01 per machine hour. Assembly OAR = £52,913 / 6,000 DLH = £8.82 per DLH.",
+              "FULL COST OF PRODUCT X: Direct costs £18.00. Machining overhead: 2 hrs × £9.01 = £18.02. Assembly overhead: 3 hrs × £8.82 = £26.46. Full cost = £18.00 + £18.02 + £26.46 = £62.48.",
             ],
-            answer: "Full (absorbed) cost per unit = £34.",
+            answer:
+              "Full absorbed cost of Product X = £62.48. " +
+              "Note how the two-stage process (primary apportionment, then reapportionment of service dept, then OAR) " +
+              "systematically routes all production overhead through to cost units. " +
+              "A selling price must exceed £62.48 to generate any contribution to period costs and profit.",
           },
           summary: [
-            "OAR = budgeted overhead ÷ budgeted activity level.",
-            "Absorbed cost = direct costs + (actual hours × OAR).",
-            "Over-absorption = actual overhead < absorbed overhead (favourable).",
-            "Under-absorption = actual overhead > absorbed overhead (adverse).",
+            "Absorption costing: all production costs (direct + overhead) charged to cost units — required by IAS 2 for inventory valuation.",
+            "Three stages: (1) Allocate/apportion overheads to cost centres. (2) Reapportion service centre costs to production centres. (3) Calculate OAR and absorb into products.",
+            "OAR = Budgeted overhead ÷ Budgeted activity. Pre-determined to allow cost cards and prices to be set in advance.",
+            "Choose activity base to match the cost driver: machine hours for capital-intensive depts; direct labour hours for labour-intensive depts.",
+            "Over-absorption (absorbed > actual) = credit to P&L (profit increases). Under-absorption (absorbed < actual) = debit to P&L (profit reduces).",
           ],
           practiceQuestions: [
             {
@@ -725,40 +933,127 @@ const AIQ_COURSE_DATA = {
             "Reconcile the profit difference between the two methods",
           ],
           explanation:
-            "<p>Under <strong>marginal costing</strong>, only variable costs are charged to cost units. " +
-            "Fixed costs are treated as period costs and written off in full in the period they are incurred.</p>" +
-            "<p><strong>Contribution</strong> = Sales revenue − Variable costs.</p>" +
-            "<p>Contribution per unit is constant, making it useful for decision-making.</p>" +
-            "<p>The key difference from absorption costing: inventory is valued at variable cost only, " +
-            "so profit figures differ when inventory levels change.</p>",
+            "<h4>The Marginal Costing Approach</h4>" +
+            "<p>Under <strong>marginal costing</strong>, only <em>variable</em> production costs are charged to cost units. <strong>Fixed costs are treated as period costs</strong> — they are written off in full to the income statement in the period they are incurred, regardless of the level of production or inventory.</p>" +
+            "<p>This contrasts with absorption costing, where fixed production overheads are included in the unit cost and carried forward in closing inventory until the goods are sold.</p>" +
+            "<h4>Contribution</h4>" +
+            "<p><strong>Contribution</strong> is the starting point for all marginal costing analysis:</p>" +
+            "<p style='text-align:center'><code>Contribution per unit = Selling price − Variable cost per unit</code></p>" +
+            "<p style='text-align:center'><code>Total contribution = Contribution per unit × Units sold</code></p>" +
+            "<p>Contribution is called 'contribution' because it <em>contributes first to covering fixed costs</em>, and then, once fixed costs are covered, <em>contributes to profit</em>:</p>" +
+            "<p style='text-align:center'><code>Profit = Total contribution − Fixed costs</code></p>" +
+            "<p>Contribution per unit is <em>constant</em> (it does not depend on volume, because variable cost per unit is constant). This makes contribution the right tool for decision-making when fixed costs will not change.</p>" +
+            "<h4>The Contribution/Sales Ratio (C/S Ratio)</h4>" +
+            "<p style='text-align:center'><code>C/S ratio = Contribution per unit ÷ Selling price per unit (expressed as a % or decimal)</code></p>" +
+            "<p>The C/S ratio tells you how many pence of every £1 of revenue becomes contribution. It is especially useful when comparing products or calculating break-even revenue.</p>" +
+            "<h4>Marginal Cost Income Statement Format</h4>" +
+            "<table><thead><tr><th></th><th>£</th></tr></thead><tbody>" +
+            "<tr><td>Revenue (units sold × selling price)</td><td>X</td></tr>" +
+            "<tr><td>Less: Variable cost of sales</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Contribution</strong></td><td><strong>X</strong></td></tr>" +
+            "<tr><td>Less: Fixed costs (all fixed costs in the period)</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Profit</strong></td><td><strong>X</strong></td></tr>" +
+            "</tbody></table>" +
+            "<h4>Why Marginal ≠ Absorption Profit (When Inventory Changes)</h4>" +
+            "<p>When production volume equals sales volume (i.e., no change in inventory), the two methods give <em>identical</em> profit. When inventory levels change, they diverge.</p>" +
+            "<p><strong>Production &gt; Sales (closing inventory increases):</strong></p>" +
+            "<ul>" +
+            "<li>Absorption: some fixed overhead is carried into closing inventory — not all fixed cost hits the income statement this period. Absorption profit &gt; Marginal profit.</li>" +
+            "<li>Marginal: all fixed overhead is charged in full this period regardless of inventory build-up. Marginal profit &lt; Absorption profit.</li>" +
+            "</ul>" +
+            "<p><strong>Production &lt; Sales (closing inventory decreases):</strong></p>" +
+            "<ul>" +
+            "<li>Absorption: opening inventory contains fixed overhead from last period, which now hits cost of sales. Absorption profit &lt; Marginal profit.</li>" +
+            "<li>Marginal: only this period's fixed costs hit the income statement. Marginal profit &gt; Absorption profit.</li>" +
+            "</ul>" +
+            "<h4>Reconciliation Formula</h4>" +
+            "<p style='text-align:center'><code>Absorption profit − Marginal profit = Fixed overhead in closing inventory − Fixed overhead in opening inventory</code></p>" +
+            "<p style='text-align:center'><code>= (Closing inventory units − Opening inventory units) × Fixed overhead per unit</code></p>" +
+            "<p>Where: Fixed overhead per unit (absorption) = Total fixed overhead ÷ Budgeted production volume</p>" +
+            "<h4>Which Method Is Better?</h4>" +
+            "<table><thead><tr><th>Advantage</th><th>Marginal costing</th><th>Absorption costing</th></tr></thead><tbody>" +
+            "<tr><td>Decision-making</td><td>Better — contribution is stable; fixed costs not distorted by inventory</td><td>Less useful — fixed cost per unit changes with volume</td></tr>" +
+            "<tr><td>External reporting / inventory valuation</td><td>Not permitted (IAS 2)</td><td>Required by IAS 2</td></tr>" +
+            "<tr><td>Profit manipulation</td><td>Harder — managers cannot boost profit by producing excess inventory</td><td>Possible — produce more than you sell to defer fixed costs</td></tr>" +
+            "<tr><td>Break-even and contribution analysis</td><td>Direct and intuitive</td><td>More complex</td></tr>" +
+            "</tbody></table>",
           workedExample: {
             setup:
-              "Selling price = £50/unit. Variable cost = £30/unit. Fixed costs = £40,000/period. " +
-              "Production = 5,000 units; Sales = 4,000 units.",
+              "Shield Co makes a single product. Selling price = £60/unit. Direct materials = £12/unit. " +
+              "Direct labour = £8/unit. Variable overhead = £5/unit. Fixed production overhead = £60,000/period. " +
+              "Budgeted production = 3,000 units. " +
+              "Actual: Period 1 — produced 3,000, sold 2,500. Period 2 — produced 2,500, sold 3,000. " +
+              "Prepare income statements under (a) marginal costing and (b) absorption costing for both periods, and reconcile the profit difference.",
             steps: [
-              "Contribution per unit = £50 − £30 = £20.",
-              "Total contribution = 4,000 × £20 = £80,000.",
-              "Marginal costing profit = £80,000 − £40,000 = £40,000.",
-              "Absorption costing: OAR = £40,000/5,000 = £8/unit. Closing inventory = 1,000 × (£30+£8) = £38,000.",
-              "Absorption profit = £40,000 + £8,000 (inventory adjustment) = £48,000.",
+              "Variable cost per unit = £12 + £8 + £5 = £25. Contribution per unit = £60 − £25 = £35.",
+              "Fixed overhead absorption rate = £60,000 / 3,000 = £20 per unit. Full absorption cost = £25 + £20 = £45/unit.",
+              "PERIOD 1 (produced 3,000, sold 2,500; closing inventory = 500 units):",
+              "MARGINAL P1: Revenue 2,500 × £60 = £150,000. Variable COGS 2,500 × £25 = £62,500. Contribution = £87,500. Fixed costs = £60,000. Profit = £27,500.",
+              "ABSORPTION P1: Revenue £150,000. Absorption COGS 2,500 × £45 = £112,500. Gross profit = £37,500. No over/under-absorption (produced = budgeted). Profit = £37,500.",
+              "Reconciliation P1: Absorption profit (£37,500) − Marginal profit (£27,500) = £10,000. Fixed overhead in closing inventory: 500 × £20 = £10,000. ✓",
+              "PERIOD 2 (produced 2,500, sold 3,000; opening inventory 500, closing inventory = 0):",
+              "MARGINAL P2: Revenue 3,000 × £60 = £180,000. Variable COGS 3,000 × £25 = £75,000. Contribution = £105,000. Fixed costs = £60,000. Profit = £45,000.",
+              "ABSORPTION P2: Revenue £180,000. Absorption COGS (500 opening × £45 + 2,500 produced × £45) = 3,000 × £45 = £135,000. Gross profit = £45,000. Under-absorption: produced 2,500 but budgeted 3,000 — under-absorbed (3,000−2,500) × £20 = £10,000. Profit = £45,000 − £10,000 = £35,000.",
+              "Reconciliation P2: Marginal profit (£45,000) > Absorption profit (£35,000) by £10,000 = fixed overhead released from opening inventory 500 × £20 = £10,000. ✓",
             ],
             answer:
-              "Marginal costing profit = £40,000. Absorption costing profit = £48,000. " +
-              "Difference = £8,000 (= fixed overhead in closing inventory under absorption).",
+              "Period 1: Marginal profit £27,500; Absorption profit £37,500. " +
+              "Period 2: Marginal profit £45,000; Absorption profit £35,000. " +
+              "Over both periods combined, marginal and absorption give identical total profit (£72,500 each). " +
+              "The difference is purely timing: absorption defers fixed costs into inventory; marginal charges them immediately. " +
+              "In Period 1, inventory was built up — absorption profit was higher. " +
+              "In Period 2, inventory was run down — marginal profit was higher.",
           },
           summary: [
-            "Contribution = sales − variable costs.",
-            "Fixed costs are period costs under marginal costing.",
-            "When production > sales, absorption profit > marginal profit.",
-            "When production < sales, marginal profit > absorption profit.",
+            "Marginal costing: only variable costs attached to units; fixed costs are period charges in full.",
+            "Contribution = Selling price − Variable cost. Profit = Total contribution − Fixed costs.",
+            "C/S ratio = Contribution per unit ÷ Selling price. Shows the % of each £ of revenue that becomes contribution.",
+            "Production > Sales: Absorption profit > Marginal profit (fixed cost deferred in closing inventory).",
+            "Production < Sales: Marginal profit > Absorption profit (opening inventory's fixed cost released through cost of sales).",
+            "Reconciliation: difference = (closing inventory − opening inventory) × fixed overhead per unit (absorption rate).",
+            "Marginal costing is better for decisions; absorption costing is required by IAS 2 for external reporting.",
           ],
           practiceQuestions: [
             {
-              question: "Selling price £40, variable cost £24. What is the contribution per unit?",
-              options: ["£16", "£24", "£40", "£64"],
+              question: "Selling price £40, variable cost £24. What is the contribution per unit and the C/S ratio?",
+              options: [
+                "Contribution £16; C/S ratio 40%",
+                "Contribution £16; C/S ratio 60%",
+                "Contribution £24; C/S ratio 60%",
+                "Contribution £16; C/S ratio 25%",
+              ],
               correct: 0,
-              explanation: "Contribution = selling price − variable cost = £40 − £24 = £16.",
+              explanation:
+                "Contribution = £40 − £24 = £16. C/S ratio = £16 / £40 = 0.40 = 40%. " +
+                "The C/S ratio means 40p of every £1 of revenue contributes to covering fixed costs and profit.",
               topic: "Contribution",
+            },
+            {
+              question:
+                "A company produces 4,000 units and sells 3,200 units. Fixed overhead = £40,000; budgeted production = 4,000. " +
+                "Under absorption costing, which profit statement is correct compared to marginal costing?",
+              options: [
+                "Absorption profit is lower by £8,000",
+                "Absorption profit is higher by £8,000",
+                "Both methods give identical profit",
+                "Absorption profit is higher by £40,000",
+              ],
+              correct: 1,
+              explanation:
+                "Closing inventory = 4,000 − 3,200 = 800 units. Fixed overhead per unit = £40,000 / 4,000 = £10. " +
+                "Fixed overhead deferred in closing inventory = 800 × £10 = £8,000. " +
+                "Under absorption, this £8,000 is not charged to the income statement this period, so absorption profit is £8,000 higher than marginal profit.",
+              topic: "Absorption vs marginal profit",
+            },
+            {
+              question:
+                "Total contribution = £90,000. Fixed costs = £65,000. What is the profit under marginal costing?",
+              options: ["£155,000", "£90,000", "£25,000", "£65,000"],
+              correct: 2,
+              explanation:
+                "Profit = Total contribution − Fixed costs = £90,000 − £65,000 = £25,000. " +
+                "This is the fundamental marginal costing formula. Contribution covers fixed costs first; what remains is profit.",
+              topic: "Marginal costing profit",
             },
           ],
         },
@@ -773,27 +1068,74 @@ const AIQ_COURSE_DATA = {
             "Interpret and draw a break-even chart",
           ],
           explanation:
-            "<p>The <strong>break-even point</strong> is where total revenue equals total cost — " +
-            "no profit, no loss.</p>" +
-            "<p style='text-align:center'><code>Break-even (units) = Fixed costs ÷ Contribution per unit</code></p>" +
-            "<p>The <strong>margin of safety</strong> shows how far sales can fall before a loss is made:</p>" +
-            "<p style='text-align:center'><code>Margin of safety = Actual sales − Break-even sales</code></p>",
+            "<h4>The Break-Even Concept</h4>" +
+            "<p>The <strong>break-even point (BEP)</strong> is the level of sales at which total revenue exactly equals total costs — no profit, no loss. Every unit sold above the break-even point generates profit equal to the contribution per unit; every unit short of break-even generates a loss of the contribution per unit.</p>" +
+            "<h4>Break-Even in Units</h4>" +
+            "<p style='text-align:center'><code>Break-even point (units) = Fixed costs ÷ Contribution per unit</code></p>" +
+            "<p>At the break-even point: Total contribution = Fixed costs. Therefore, any positive contribution per unit will eventually cover fixed costs.</p>" +
+            "<h4>Break-Even in Revenue (£)</h4>" +
+            "<p>Two equivalent methods:</p>" +
+            "<p style='text-align:center'><code>Break-even revenue = Break-even units × Selling price per unit</code></p>" +
+            "<p style='text-align:center'><code>Break-even revenue = Fixed costs ÷ C/S ratio</code></p>" +
+            "<p>The second formula is especially useful when you know the C/S ratio but not individual unit prices.</p>" +
+            "<h4>Target Profit Sales Level</h4>" +
+            "<p>The break-even formula extends naturally to find the sales volume required to achieve a specific <em>target profit</em>:</p>" +
+            "<p style='text-align:center'><code>Sales volume for target profit = (Fixed costs + Target profit) ÷ Contribution per unit</code></p>" +
+            "<p>Logic: contribution must cover both fixed costs AND the target profit before any profit exists.</p>" +
+            "<h4>Margin of Safety</h4>" +
+            "<p>The <strong>margin of safety</strong> measures how far actual (or budgeted) sales can fall from the break-even point before a loss is made:</p>" +
+            "<p style='text-align:center'><code>Margin of safety (units) = Budgeted sales − Break-even sales</code></p>" +
+            "<p style='text-align:center'><code>Margin of safety (%) = (Budgeted sales − Break-even sales) ÷ Budgeted sales × 100</code></p>" +
+            "<p>A higher margin of safety percentage means the business has more cushion before losses occur — it is less risky. A company with a 5% margin of safety is highly sensitive to any downturn in volume; a company with a 40% margin of safety has substantial room to absorb a volume decline.</p>" +
+            "<h4>The Break-Even Chart</h4>" +
+            "<p>A break-even chart plots costs and revenue against volume and shows the break-even point visually:</p>" +
+            "<ul>" +
+            "<li>The <strong>fixed cost line</strong> is horizontal — it starts at the y-axis at the level of fixed costs.</li>" +
+            "<li>The <strong>total cost line</strong> starts at the fixed cost level (not at zero) and rises with variable costs.</li>" +
+            "<li>The <strong>revenue line</strong> starts at the origin and rises with selling price.</li>" +
+            "<li>The <strong>break-even point</strong> is where the revenue and total cost lines cross.</li>" +
+            "<li><strong>Profit area:</strong> to the right of the BEP, revenue exceeds total cost.</li>" +
+            "<li><strong>Loss area:</strong> to the left of the BEP, total cost exceeds revenue.</li>" +
+            "</ul>" +
+            "<p>A <strong>contribution graph</strong> (alternative format) plots the contribution line starting from the fixed costs level at zero output, rising to show profit once fixed costs are covered.</p>" +
+            "<h4>Limitations of Break-Even Analysis</h4>" +
+            "<ul>" +
+            "<li>Assumes a linear relationship between costs and revenue — in reality, volume discounts, economies of scale, and step costs make this imprecise.</li>" +
+            "<li>Assumes a single product or a constant sales mix — not realistic for most businesses.</li>" +
+            "<li>Treats all costs as either fixed or variable — semi-variable costs add complexity.</li>" +
+            "<li>Static — applies to a specific time period; conditions change.</li>" +
+            "<li>Ignores cash flow — a business can break even on profit but still have cash flow problems.</li>" +
+            "</ul>",
           workedExample: {
             setup:
-              "Fixed costs = £60,000. Selling price = £25/unit. Variable cost = £10/unit.",
+              "NovaBev Ltd makes a single energy drink. Selling price = £2.50/can. " +
+              "Variable cost = £1.00/can. Fixed costs = £75,000 per month. " +
+              "Budgeted production and sales = 60,000 cans per month. " +
+              "Calculate: (a) break-even point in units and revenue; (b) margin of safety; " +
+              "(c) monthly sales required to achieve a target profit of £30,000; (d) profit if sales are 55,000 units.",
             steps: [
-              "Contribution per unit = £25 − £10 = £15.",
-              "Break-even point = £60,000 ÷ £15 = 4,000 units.",
-              "Break-even revenue = 4,000 × £25 = £100,000.",
-              "If actual sales = 5,000 units: margin of safety = 5,000 − 4,000 = 1,000 units (20%).",
+              "(a) Contribution per unit = £2.50 − £1.00 = £1.50. C/S ratio = £1.50 / £2.50 = 60%.",
+              "Break-even (units) = £75,000 / £1.50 = 50,000 cans.",
+              "Break-even (revenue) = 50,000 × £2.50 = £125,000. Check using C/S ratio: £75,000 / 0.60 = £125,000. ✓",
+              "(b) Margin of safety (units) = 60,000 − 50,000 = 10,000 cans. Margin of safety (%) = 10,000 / 60,000 × 100 = 16.7%.",
+              "This means sales can drop by 16.7% before losses begin. This is a relatively thin cushion — management should monitor volume closely.",
+              "(c) Sales volume for £30,000 target profit = (£75,000 + £30,000) / £1.50 = £105,000 / £1.50 = 70,000 cans.",
+              "70,000 cans × £2.50 = £175,000 revenue needed. This is 10,000 units more than budgeted — the budget will not hit the target profit.",
+              "(d) Profit at 55,000 units = (55,000 × £1.50) − £75,000 = £82,500 − £75,000 = £7,500.",
+              "Alternatively: (55,000 − 50,000) × £1.50 = 5,000 × £1.50 = £7,500. Each unit above break-even generates exactly one contribution's worth of profit.",
             ],
-            answer: "Break-even = 4,000 units. Margin of safety at 5,000 units = 1,000 units (20%).",
+            answer:
+              "Break-even = 50,000 cans (£125,000 revenue). Margin of safety = 16.7%. " +
+              "Target profit of £30,000 requires 70,000 cans — above budget. " +
+              "Profit at 55,000 units = £7,500. " +
+              "The C/S ratio of 60% means 60p of every £1 of revenue contributes to profit once fixed costs are covered.",
           },
           summary: [
-            "Break-even = fixed costs ÷ contribution per unit.",
-            "Above break-even, each unit sold earns profit equal to the contribution.",
-            "Margin of safety measures downside risk.",
-            "The C/S ratio (contribution/sales) is useful when comparing multiple products.",
+            "Break-even (units) = Fixed costs ÷ Contribution per unit. Break-even (revenue) = Fixed costs ÷ C/S ratio.",
+            "Target profit sales = (Fixed costs + Target profit) ÷ Contribution per unit.",
+            "Margin of safety = Budgeted sales − Break-even sales; expressed as % of budgeted sales. Higher % = lower risk.",
+            "Every unit above break-even earns profit equal to the contribution per unit. Every unit below loses the contribution per unit.",
+            "Limitations: assumes linearity, single product, constant mix — a simplified model, useful for quick analysis not precision forecasting.",
           ],
           practiceQuestions: [
             {
@@ -801,17 +1143,30 @@ const AIQ_COURSE_DATA = {
                 "Fixed costs = £90,000. Contribution per unit = £18. What is the break-even point in units?",
               options: ["4,000", "5,000", "6,000", "7,500"],
               correct: 1,
-              explanation: "Break-even = £90,000 ÷ £18 = 5,000 units.",
-              topic: "Break-even",
+              explanation:
+                "Break-even = Fixed costs ÷ Contribution per unit = £90,000 ÷ £18 = 5,000 units.",
+              topic: "Break-even calculation",
             },
             {
               question:
-                "Break-even sales = 8,000 units. Budgeted sales = 10,000 units. What is the margin of safety as a percentage?",
+                "Budgeted sales = 10,000 units. Break-even sales = 8,000 units. What is the margin of safety as a percentage?",
               options: ["10%", "20%", "25%", "80%"],
               correct: 1,
               explanation:
-                "Margin of safety = (10,000 − 8,000) / 10,000 × 100 = 20%.",
+                "Margin of safety % = (10,000 − 8,000) / 10,000 × 100 = 2,000 / 10,000 × 100 = 20%. " +
+                "Sales can fall by 20% from budget before a loss is incurred.",
               topic: "Margin of safety",
+            },
+            {
+              question:
+                "Selling price = £50. Variable cost = £30. Fixed costs = £80,000. " +
+                "How many units must be sold to earn a profit of £20,000?",
+              options: ["4,000", "5,000", "6,000", "3,000"],
+              correct: 1,
+              explanation:
+                "Contribution per unit = £50 − £30 = £20. " +
+                "Units for target profit = (£80,000 + £20,000) ÷ £20 = £100,000 ÷ £20 = 5,000 units.",
+              topic: "Target profit",
             },
           ],
         },
@@ -1151,31 +1506,88 @@ const AIQ_COURSE_DATA = {
             "Calculate contribution per unit of limiting factor",
           ],
           explanation:
-            "<p><strong>Relevant costing</strong> considers only costs and revenues that change as a result of a decision. Relevant costs must be: future (not past), incremental (changed by the decision), and cash flows (not non-cash items like depreciation).</p>" +
-            "<p><strong>Sunk costs</strong> (already spent) and <strong>committed costs</strong> are never relevant.</p>" +
-            "<p>Key short-term decisions:</p>" +
+            "<h4>Relevant Costing — The Foundation</h4>" +
+            "<p>Short-term decisions require <strong>relevant costing</strong>: only costs and revenues that <em>change</em> as a direct result of a decision are relevant. To qualify as relevant, a cost must be:</p>" +
             "<ul>" +
-            "<li><strong>Accept/reject a one-off order:</strong> accept if the selling price exceeds the relevant (incremental) cost.</li>" +
-            "<li><strong>Make-or-buy:</strong> compare the relevant cost of making vs the external purchase price. If variable cost of making &lt; buy-in price, make in-house (assuming spare capacity).</li>" +
-            "<li><strong>Limiting factor decisions:</strong> when a scarce resource constrains output, rank products by <strong>contribution per unit of limiting factor</strong> — maximise use of the scarce resource.</li>" +
+            "<li><strong>Future:</strong> yet to be incurred. Past costs are gone forever and cannot be changed.</li>" +
+            "<li><strong>Incremental (differential):</strong> different under one option vs another. If a cost is the same whatever you decide, it has no bearing on the decision.</li>" +
+            "<li><strong>Cash flow:</strong> non-cash charges such as depreciation and absorbed fixed overheads are not relevant — they involve no additional cash outflow.</li>" +
+            "</ul>" +
+            "<p><strong>Sunk costs</strong> (already spent, irreversible) are never relevant — e.g., market research commissioned last year, tooling already paid for, abortive design costs.</p>" +
+            "<p><strong>Committed costs</strong> (contractually obligated regardless of the decision) are not relevant to future options.</p>" +
+            "<p><strong>Opportunity costs</strong> — the benefit forgone from the next best alternative use of a resource — ARE relevant and must be included. Example: if a machine could be rented out for £5,000 but is instead used for a special order, that £5,000 is a relevant cost of the special order.</p>" +
+            "<h4>1. Accept or Reject a Special Order</h4>" +
+            "<p>A special (one-off) order should be accepted if:</p>" +
+            "<p style='text-align:center'><code>Selling price ≥ Relevant cost (variable cost + opportunity cost)</code></p>" +
+            "<p>Key steps:</p>" +
+            "<ol>" +
+            "<li>Identify the <em>incremental</em> variable costs of fulfilling the order (materials, direct labour, variable overhead).</li>" +
+            "<li>Consider whether there is <em>spare capacity</em>. If yes, fixed costs are not incremental (they will be incurred anyway) — accept if price ≥ variable cost. If no spare capacity, you must sacrifice other contribution — that lost contribution is an opportunity cost.</li>" +
+            "<li>Ignore allocated fixed overheads (not incremental), depreciation (non-cash), and sunk costs.</li>" +
+            "</ol>" +
+            "<h4>2. Make-or-Buy Decision</h4>" +
+            "<p>When a component can be made internally or purchased from an external supplier:</p>" +
+            "<table><thead><tr><th>Scenario</th><th>Decision rule</th></tr></thead><tbody>" +
+            "<tr><td>Spare capacity available</td><td>Make if variable cost of making &lt; buy-in price. Fixed costs not incremental.</td></tr>" +
+            "<tr><td>No spare capacity (must give up other production)</td><td>Make if (variable cost + contribution foregone) &lt; buy-in price.</td></tr>" +
+            "</tbody></table>" +
+            "<p>Qualitative factors in make-or-buy: supplier reliability, quality control, dependency risk, confidentiality, flexibility, and strategic know-how.</p>" +
+            "<h4>3. Limiting Factor (Key Factor) Analysis</h4>" +
+            "<p>When a single resource is in short supply (machine hours, labour hours, raw material), it limits the total output possible. The objective is to maximise total contribution from the available limiting factor.</p>" +
+            "<p><strong>Decision rule:</strong> rank products by <em>contribution per unit of the limiting factor</em> — highest first.</p>" +
+            "<p style='text-align:center'><code>Contribution per unit of limiting factor = Contribution per unit ÷ Units of limiting factor per unit of output</code></p>" +
+            "<p>Then: produce as much of the highest-ranked product as demand allows, then move to the next rank, and so on until the limiting factor is exhausted.</p>" +
+            "<p><strong>If there are only two products and one limiting factor</strong>, linear programming (graphical method) gives the optimal solution — but ranking by contribution per unit of limiting factor gives the same answer when demand constraints are simple.</p>" +
+            "<h4>4. Closure / Shutdown Decision</h4>" +
+            "<p>Should a loss-making product, department, or segment be closed?</p>" +
+            "<p>Decision rule: <strong>close only if</strong> the contribution lost exceeds the avoidable fixed costs saved.</p>" +
+            "<ul>" +
+            "<li><strong>Avoidable fixed costs:</strong> costs that would actually disappear if the segment closed (specific staff, dedicated machinery, avoidable marketing spend).</li>" +
+            "<li><strong>Unavoidable fixed costs:</strong> costs that remain even after closure (general overheads reallocated, shared facilities, long-term contracts). These are not savings.</li>" +
+            "</ul>" +
+            "<p>A segment with a <em>positive contribution</em> should usually remain open, even if it reports a net loss after fixed cost allocation — because closing it removes its contribution while some fixed costs stay.</p>" +
+            "<h4>5. Qualitative Factors</h4>" +
+            "<p>Quantitative analysis gives the financial answer. Qualitative factors can override it:</p>" +
+            "<ul>" +
+            "<li><strong>Special order:</strong> does the low-price order undermine regular pricing? Could a regular customer find out? Is this a strategic entry into a new market?</li>" +
+            "<li><strong>Make-or-buy:</strong> does outsourcing create dependency on a sole supplier? Could they increase prices later? Is quality controllable?</li>" +
+            "<li><strong>Closure:</strong> will closing a department harm employee morale elsewhere? Could it damage customer relationships if products are related?</li>" +
             "</ul>",
           workedExample: {
-            setup: "A company makes three products. Machine hours are limited to 2,400 per period. Calculate the optimal production plan.",
+            setup:
+              "Trident Ltd makes three products using a single grade of raw material. " +
+              "Material supply is limited to 12,000 kg per month. Demand is unconstrained. " +
+              "Product A: selling price £40, variable cost £20, material per unit 3 kg. " +
+              "Product B: selling price £50, variable cost £26, material per unit 4 kg. " +
+              "Product C: selling price £30, variable cost £16, material per unit 2 kg. " +
+              "Additionally, a one-off special order for 500 units of Product A has been offered at £22/unit. " +
+              "Trident has 800 kg of spare material this month. Should Trident accept the special order, " +
+              "and what is the optimal regular production plan?",
             steps: [
-              "Product data: X — selling price £50, variable cost £30, machine hours 2; Y — price £60, variable cost £38, machine hours 3; Z — price £45, variable cost £24, machine hours 3.",
-              "Contribution per unit: X = £20, Y = £22, Z = £21.",
-              "Contribution per machine hour: X = £20/2 = £10, Y = £22/3 = £7.33, Z = £21/3 = £7.",
-              "Rank: X (1st, £10/hr), Y (2nd, £7.33/hr), Z (3rd, £7/hr).",
-              "Demand: X = 500 units (uses 1,000 hrs), Y = 400 units (uses 1,200 hrs). Hours left: 2,400 − 1,000 − 1,200 = 200 hrs.",
-              "Produce 200/3 = 66 units of Z with remaining hours.",
+              "SPECIAL ORDER EVALUATION: The special order price (£22) must be compared to the relevant cost. Variable cost of Product A = £20/unit. Spare capacity = 800 kg; Product A uses 3 kg → can make 800/3 = 266 units from spare material without affecting regular production.",
+              "If only 266 units are made from spare capacity (not the full 500 ordered), the relevant cost is £20/unit. At £22, contribution = £2/unit. Accepting 266 units from spare capacity: financially worthwhile (positive contribution).",
+              "For the remaining 500 − 266 = 234 units, material must come from the regular 12,000 kg supply, displacing other production. The opportunity cost = contribution per kg foregone on the best alternative (calculated in next step).",
+              "RANKING FOR OPTIMAL PLAN: Contribution per unit — A: £40−£20=£20; B: £50−£26=£24; C: £30−£16=£14.",
+              "Contribution per kg (limiting factor) — A: £20/3=£6.67/kg; B: £24/4=£6.00/kg; C: £14/2=£7.00/kg.",
+              "Ranking: C (1st, £7.00/kg), A (2nd, £6.67/kg), B (3rd, £6.00/kg).",
+              "The best product per kg of material is C at £7.00. The special order displaces kg that could have been used on C. Opportunity cost of diverting 1 kg to the special order = £7.00 − (it would have gone to C). Relevant cost of special order material = £20 variable cost. No, wait — let me recalculate: Variable cost per unit of A = £20. Material cost is embedded in that. Opportunity cost of the material per kg used in special order vs using on Product C = £7.00/kg (contribution from C) vs £6.67/kg (contribution from regular A). Special order contribution per kg from spare material = (£22−£20)/3 = £0.67/kg. This is positive but below all regular products, so use spare capacity first.",
+              "OPTIMAL REGULAR PLAN with 12,000 kg: Produce Product C first (best use of material at £7/kg). If demand is unlimited, produce all C. Without specific demand caps given, the plan ranks as: First choice C, then A, then B.",
+              "CONCLUSION: Accept 266 units of the special order (using spare material) — yields £2/unit positive contribution. Decline the balance (234 units) because material cost + opportunity cost exceeds the special order price. Regular plan: produce C first, then A, then B with remaining material.",
             ],
-            answer: "Optimal plan: 500 units X, 400 units Y, 66 units Z. Always satisfy full demand for higher-ranked products first, then use residual capacity for lower-ranked ones.",
+            answer:
+              "Ranking by contribution per kg: C (£7.00/kg) first, A (£6.67/kg) second, B (£6.00/kg) last. " +
+              "Special order: accept units producible from spare capacity (up to 266 units at £22/unit — positive contribution of £2/unit). " +
+              "Reject any units requiring displacement of higher-ranked regular production. " +
+              "Key exam skill: always rank by contribution per unit of limiting factor, not contribution per unit of product.",
           },
           summary: [
-            "Relevant costs are future, incremental cash flows — sunk costs and depreciation are never relevant.",
-            "Accept a special order if selling price exceeds the relevant incremental cost.",
-            "Make-or-buy: make if variable cost of production < external purchase price (with spare capacity).",
-            "Limiting factor: rank products by contribution per unit of the scarce resource and produce in that order.",
+            "Relevant costs: future, incremental, cash flows only. Sunk costs, committed costs, and depreciation are never relevant.",
+            "Opportunity cost — the contribution foregone from the next best use — IS a relevant cost and must be included.",
+            "Special order: accept if price ≥ variable cost (spare capacity). If no spare capacity, also include opportunity cost of lost production.",
+            "Make-or-buy: compare buy-in price to (variable cost of making + opportunity cost if capacity is constrained).",
+            "Limiting factor: rank products by contribution per unit of the scarce resource, produce in rank order until resource is exhausted.",
+            "Closure: only shut if contribution lost < avoidable fixed cost savings. A positive-contribution segment usually stays open.",
+            "Always consider qualitative factors alongside the numbers — pricing integrity, supplier risk, quality, staff morale.",
           ],
           practiceQuestions: [
             {
@@ -1288,27 +1700,86 @@ const AIQ_COURSE_DATA = {
             "Extract a trial balance from ledger accounts",
           ],
           explanation:
-            "<p>Every transaction has two equal and opposite effects — a <strong>debit</strong> and a " +
-            "<strong>credit</strong>. This is the foundation of double-entry bookkeeping.</p>" +
-            "<p>Rules: <strong>Assets and Expenses increase with a Debit</strong>; " +
-            "<strong>Liabilities, Equity and Revenue increase with a Credit</strong> " +
-            "(mnemonic: <em>DEAD CLIC</em>).</p>",
+            "<h4>The Fundamental Principle</h4>" +
+            "<p>Every financial transaction has <em>two equal and opposite effects</em> on the accounting records. For every debit entry, there must be an equal credit entry. This is the foundation of double-entry bookkeeping, and it is why the trial balance — a list of all debit and credit balances — must always add up to zero net.</p>" +
+            "<p>The two sides of a ledger account are called <strong>debit (Dr)</strong> — the left side — and <strong>credit (Cr)</strong> — the right side.</p>" +
+            "<h4>The DEAD CLIC Rule</h4>" +
+            "<p>The most important rule in bookkeeping: remember which entries increase each type of account.</p>" +
+            "<table><thead><tr><th>Increases with a DEBIT (Dr)</th><th>Increases with a CREDIT (Cr)</th></tr></thead><tbody>" +
+            "<tr><td><strong>D</strong>rawings (owner's withdrawals)</td><td><strong>C</strong>apital (owner's investment)</td></tr>" +
+            "<tr><td><strong>E</strong>xpenses</td><td><strong>L</strong>iabilities</td></tr>" +
+            "<tr><td><strong>A</strong>ssets</td><td><strong>I</strong>ncome / Revenue</td></tr>" +
+            "<tr><td></td><td><strong>C</strong>apital (again — equity)</td></tr>" +
+            "</tbody></table>" +
+            "<p>Mnemonic: <strong>DEAD CLIC</strong>. Debits: Drawings, Expenses, Assets. Credits: Liabilities, Income, Capital.</p>" +
+            "<p>Decreases are the opposite: to decrease an asset, credit it. To decrease a liability, debit it.</p>" +
+            "<h4>The T-Account</h4>" +
+            "<p>Each account is represented as a T-account with debits on the left and credits on the right. At period end, balances are calculated and carried forward.</p>" +
+            "<p>To find the balance on a T-account:</p>" +
+            "<ol>" +
+            "<li>Total the debit entries.</li>" +
+            "<li>Total the credit entries.</li>" +
+            "<li>The difference is the closing balance, entered on the smaller side as the balancing figure ('balance c/d').</li>" +
+            "<li>Bring the balance forward on the opposite side at the start of the next period ('balance b/d').</li>" +
+            "</ol>" +
+            "<h4>Recording Common Transactions</h4>" +
+            "<table><thead><tr><th>Transaction</th><th>Debit</th><th>Credit</th><th>Reason</th></tr></thead><tbody>" +
+            "<tr><td>Cash sale £500</td><td>Cash £500</td><td>Sales revenue £500</td><td>Asset ↑; Income ↑</td></tr>" +
+            "<tr><td>Credit sale £800</td><td>Trade receivables £800</td><td>Sales revenue £800</td><td>Asset ↑; Income ↑</td></tr>" +
+            "<tr><td>Customer pays £800 cash</td><td>Cash £800</td><td>Trade receivables £800</td><td>One asset ↑; one asset ↓</td></tr>" +
+            "<tr><td>Buy materials on credit £600</td><td>Purchases / Inventory £600</td><td>Trade payables £600</td><td>Asset ↑; Liability ↑</td></tr>" +
+            "<tr><td>Pay supplier £600 cash</td><td>Trade payables £600</td><td>Cash £600</td><td>Liability ↓; Asset ↓</td></tr>" +
+            "<tr><td>Pay wages £2,000</td><td>Wages expense £2,000</td><td>Cash £2,000</td><td>Expense ↑; Asset ↓</td></tr>" +
+            "<tr><td>Buy equipment on loan £10,000</td><td>Equipment £10,000</td><td>Loan £10,000</td><td>Asset ↑; Liability ↑</td></tr>" +
+            "<tr><td>Owner introduces capital £5,000</td><td>Cash £5,000</td><td>Capital / Share capital £5,000</td><td>Asset ↑; Equity ↑</td></tr>" +
+            "<tr><td>Charge depreciation £1,500</td><td>Depreciation expense £1,500</td><td>Accumulated depreciation £1,500</td><td>Expense ↑; Asset ↓ (contra)</td></tr>" +
+            "</tbody></table>" +
+            "<h4>The Trial Balance</h4>" +
+            "<p>At the end of a period, all ledger account balances are listed in a <strong>trial balance</strong>. Debit balances appear in the Dr column; credit balances in the Cr column. The two columns must <em>agree</em> — their totals must be equal.</p>" +
+            "<p>The trial balance checks arithmetic accuracy but does NOT detect all errors:</p>" +
+            "<ul>" +
+            "<li><strong>Errors the trial balance WILL detect:</strong> single-sided entries, transposition errors that create an imbalance, arithmetic mistakes.</li>" +
+            "<li><strong>Errors the trial balance will NOT detect:</strong> errors of omission (transaction left out entirely — both sides missing), errors of commission (wrong account used but correct type), errors of principle (wrong category entirely — e.g., capitalised instead of expensed), compensating errors (two errors that cancel each other out), complete reversal of entries (debited and credited the wrong way round by the same amount).</li>" +
+            "</ul>",
           workedExample: {
-            setup: "A business buys inventory on credit for £5,000.",
+            setup:
+              "Record the following transactions for Sable Trading for the month of October in T-accounts " +
+              "and prepare a trial balance at 31 October. " +
+              "1 Oct: Owner invests £20,000 cash. " +
+              "3 Oct: Buys inventory on credit for £8,000. " +
+              "8 Oct: Sells inventory (cost £5,000) for £9,000 cash. " +
+              "12 Oct: Pays £8,000 to supplier. " +
+              "18 Oct: Sells inventory (cost £3,000) for £6,000 on credit. " +
+              "25 Oct: Receives £4,000 from customer. " +
+              "31 Oct: Pays rent £1,200 cash.",
             steps: [
-              "Inventory (asset) increases → Debit Inventory £5,000.",
-              "Trade payables (liability) increases → Credit Trade Payables £5,000.",
+              "1 Oct: Dr Cash £20,000 / Cr Capital £20,000 (owner introduces funds).",
+              "3 Oct: Dr Purchases (Inventory) £8,000 / Cr Trade Payables £8,000 (buy on credit).",
+              "8 Oct: Dr Cash £9,000 / Cr Sales Revenue £9,000. Also: Dr Cost of Sales £5,000 / Cr Inventory £5,000.",
+              "12 Oct: Dr Trade Payables £8,000 / Cr Cash £8,000 (pay the supplier).",
+              "18 Oct: Dr Trade Receivables £6,000 / Cr Sales Revenue £6,000. Also: Dr Cost of Sales £3,000 / Cr Inventory £3,000.",
+              "25 Oct: Dr Cash £4,000 / Cr Trade Receivables £4,000.",
+              "31 Oct: Dr Rent Expense £1,200 / Cr Cash £1,200.",
+              "CASH T-ACCOUNT: Dr side: 1/10 £20,000; 8/10 £9,000; 25/10 £4,000. Total Dr = £33,000. Cr side: 12/10 £8,000; 31/10 £1,200. Balance c/d = £23,800. Total Cr = £33,000. Opening balance b/d £23,800.",
+              "TRIAL BALANCE EXTRACT: Cash £23,800 Dr. Capital £20,000 Cr. Purchases/Inventory £0 (used in COGS). Trade Payables £0 (paid off). Trade Receivables £2,000 Dr (£6,000 − £4,000). Sales Revenue £15,000 Cr. Cost of Sales £8,000 Dr. Rent Expense £1,200 Dr.",
+              "Dr total = £23,800 + £2,000 + £8,000 + £1,200 = £35,000. Cr total = £20,000 + £15,000 = £35,000. Trial balance balances. ✓",
             ],
-            answer: "Dr Inventory £5,000 / Cr Trade Payables £5,000.",
+            answer:
+              "All seven transactions have been recorded with equal debits and credits. " +
+              "The trial balance totals agree at £35,000 each side. " +
+              "At this point the income statement can be prepared: Sales £15,000 − Cost of Sales £8,000 − Rent £1,200 = Profit £5,800. " +
+              "Balance sheet: Assets (Cash £23,800 + Receivables £2,000) = £25,800; Capital £20,000 + Retained earnings £5,800 = £25,800. ✓",
           },
           summary: [
-            "Every transaction has equal debits and credits.",
-            "DEAD CLIC: Debits increase Expenses, Assets, Drawings; Credits increase Liabilities, Income, Capital.",
-            "A trial balance checks that total debits equal total credits.",
+            "Every transaction has equal and opposite debit and credit entries — the dual aspect concept.",
+            "DEAD CLIC: Debits increase Drawings, Expenses, Assets. Credits increase Liabilities, Income, Capital.",
+            "T-accounts collect all debits on the left and credits on the right; the closing balance is the net difference.",
+            "Trial balance: lists all account balances; Dr total = Cr total confirms arithmetic accuracy but does not detect all types of errors.",
+            "Errors NOT detected by trial balance: omissions, wrong-account entries, principle errors, compensating errors, complete reversals.",
           ],
           practiceQuestions: [
             {
-              question: "A business receives £2,000 cash from a credit customer. Which entry is correct?",
+              question: "A business receives £2,000 cash from a credit customer. Which double entry is correct?",
               options: [
                 "Dr Cash £2,000; Cr Sales £2,000",
                 "Dr Receivables £2,000; Cr Cash £2,000",
@@ -1317,8 +1788,41 @@ const AIQ_COURSE_DATA = {
               ],
               correct: 2,
               explanation:
-                "Cash (asset) increases: Debit Cash £2,000. The receivable (asset) decreases: Credit Receivables £2,000.",
+                "Cash (asset) increases → Debit Cash £2,000. " +
+                "The receivable (asset) that was owed now decreases as the cash is collected → Credit Receivables £2,000. " +
+                "Both are assets — one increases (Dr), one decreases (Cr).",
               topic: "Double entry",
+            },
+            {
+              question:
+                "A business pays £3,500 wages in cash. Which double entry is correct?",
+              options: [
+                "Dr Wages expense £3,500; Cr Cash £3,500",
+                "Dr Cash £3,500; Cr Wages expense £3,500",
+                "Dr Wages expense £3,500; Cr Trade payables £3,500",
+                "Dr Capital £3,500; Cr Cash £3,500",
+              ],
+              correct: 0,
+              explanation:
+                "Wages is an expense — it increases with a Debit (DEAD). Cash is an asset — it decreases with a Credit. " +
+                "Dr Wages expense / Cr Cash. This reduces profit (expense rises) and reduces cash (asset falls).",
+              topic: "Double entry",
+            },
+            {
+              question:
+                "A trial balance shows total debits of £180,000 and total credits of £175,000. Which type of error CANNOT explain this difference?",
+              options: [
+                "A transaction was only recorded on the debit side",
+                "The wrong account was debited (error of commission)",
+                "An amount was transposed — entered as £3,000 instead of £300",
+                "A debit entry was £5,000 higher than it should have been",
+              ],
+              correct: 1,
+              explanation:
+                "An error of commission means debiting the wrong account, but the same amount — the trial balance still balances because both debit and credit sides were equally wrong. " +
+                "The other errors create an arithmetic imbalance in the trial balance totals. " +
+                "A £5,000 excess on one debit side would cause total debits to exceed credits by £5,000, matching the £5,000 difference shown.",
+              topic: "Trial balance errors",
             },
           ],
         },
