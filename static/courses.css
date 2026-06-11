@@ -417,6 +417,142 @@
   color: var(--fg-3);
 }
 
+/* ── Quiz results ──────────────────────────────────────────────────────────── */
+.qz-page {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 32px;
+}
+.qz-header-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px 24px 16px;
+}
+.qz-score-ring { flex-shrink: 0; }
+.qz-header-text { flex: 1; }
+.qz-header-eyebrow {
+  font: var(--text-label);
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 6px;
+}
+.qz-header-title {
+  font: var(--text-h1);
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.qz-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.qz-header-lesson {
+  font: var(--text-caption);
+  color: var(--fg-2);
+}
+.qz-header-verdict {
+  font: var(--text-body);
+  color: var(--fg-2);
+  margin: 0;
+  line-height: 1.55;
+}
+.qz-header-actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 24px 20px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+/* Topic rows */
+.qz-topics { display: flex; flex-direction: column; gap: 10px; }
+.qz-topic-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 48px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+}
+.qz-topic-row.weak { background: var(--caution-soft); }
+.qz-topic-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--text-body-strong);
+  font-size: 13px;
+  color: var(--ink);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qz-topic-score {
+  font: var(--text-data);
+  font-size: 12.5px;
+  text-align: right;
+  white-space: nowrap;
+}
+/* Weak list */
+.qz-weak-list { display: flex; flex-direction: column; gap: 8px; }
+.qz-weak-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--caution-soft);
+  border: 1px solid var(--caution-border);
+  border-radius: var(--radius-sm);
+}
+.qz-weak-name { flex: 1; font: var(--text-body-strong); font-size: 13.5px; color: var(--caution-text); }
+.qz-weak-score { font: var(--text-data); font-size: 12px; color: var(--caution-text); }
+/* Recommend card */
+.qz-recommend { border-color: var(--primary-soft-2); background: linear-gradient(105deg, var(--primary-soft) 0%, var(--surface) 60%); }
+.qz-recommend-icon {
+  width: 44px; height: 44px; border-radius: var(--radius-sm);
+  background: var(--primary-soft-2); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.qz-recommend-label { font: var(--text-label); color: var(--primary); margin-bottom: 4px; }
+.qz-recommend-title { font: var(--text-body-strong); font-size: 14px; color: var(--ink); }
+/* Review items */
+.qz-review-list { display: flex; flex-direction: column; gap: 20px; }
+.qz-review-item {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+.qz-review-item.correct { border-color: var(--favourable-border); background: rgba(14,138,87,.03); }
+.qz-review-item.wrong   { border-color: var(--adverse-border);    background: rgba(208,43,69,.03); }
+.qz-review-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.qz-review-num { font: var(--text-label); color: var(--fg-3); }
+.qz-review-q {
+  font: var(--text-body-strong); font-size: 13.5px; color: var(--ink);
+  margin: 0 0 12px; line-height: 1.5;
+}
+.qz-review-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.qz-review-opt {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+  font: var(--text-body); font-size: 13px; color: var(--fg-2);
+}
+.qz-review-opt.correct { border-color: var(--favourable-border); background: var(--favourable-soft); color: var(--favourable-text); font-weight: 600; }
+.qz-review-opt.chosen-wrong { border-color: var(--adverse-border); background: var(--adverse-soft); color: var(--adverse-text); }
+.qz-review-explain {
+  display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px;
+  background: var(--primary-soft); border-radius: var(--radius-sm);
+  font: var(--text-caption); color: var(--primary-press); line-height: 1.55;
+}
+
 /* ── Lesson viewer ─────────────────────────────────────────────────────────── */
 .lsn-page {
   max-width: 820px;

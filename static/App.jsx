@@ -307,7 +307,7 @@ function App() {
     setView("copilot");
   };
 
-  const { AIQLessons } = window;
+  const { AIQLessons, AIQQuiz } = window;
 
   let body;
   if (restoring) {
@@ -320,6 +320,8 @@ function App() {
         lessonId={aiqContext.lessonId}
         onNavigate={navigateToAiq}
       />;
+  } else if (view === "quiz") {
+    body = <AIQQuiz quizResult={aiqContext.quizResult} onNavigate={navigateToAiq} />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {
