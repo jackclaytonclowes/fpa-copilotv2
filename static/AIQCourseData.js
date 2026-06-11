@@ -3608,124 +3608,354 @@ const AIQ_COURSE_DATA = {
       title: "E1",
       fullTitle: "Managing Finance in a Digital World",
       icon: "monitor",
-      modules: 8,
-      questions: 160,
-      mockExams: 2,
-      studyHoursTotal: 45,
+      modules: 4,
+      questions: 280,
+      mockExams: 3,
+      studyHoursTotal: 80,
       lessons: [
+
+        /* ── Module A: The Finance Function in a Digital World (L1–L6) ── */
         {
           id: "e1-l1",
-          title: "The Digital Finance Function",
-          topic: "Digital transformation",
-          estimatedMinutes: 30,
+          title: "The Evolving Finance Function",
+          topic: "Finance transformation",
+          estimatedMinutes: 35,
           objectives: [
-            "Explain how digital technologies are reshaping the finance function",
-            "Identify automation, AI, and data analytics opportunities in finance",
-            "Describe the role of the finance business partner in a digital organisation",
+            "Explain how digital transformation is changing the finance function",
+            "Describe the historical evolution from scorekeeper to strategic partner",
+            "Identify the key capabilities required of modern finance professionals",
           ],
-          // TODO: add explanation for The Digital Finance Function
-          explanation: null,
-          // TODO: add worked example for The Digital Finance Function
-          workedExample: null,
-          // TODO: add summary for The Digital Finance Function
-          summary: null,
-          // TODO: add practice questions for The Digital Finance Function
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "e1-l2",
-          title: "Data and Information Management",
-          topic: "Data governance",
-          estimatedMinutes: 30,
+          title: "Finance Business Partnering",
+          topic: "Business partnering",
+          estimatedMinutes: 35,
           objectives: [
-            "Distinguish between data, information and knowledge",
-            "Explain data governance and data quality principles",
-            "Describe cloud computing and its implications for finance",
+            "Define the finance business partnering model and its benefits",
+            "Explain the skills and competencies required of a finance business partner",
+            "Describe how finance adds strategic value beyond reporting",
           ],
-          // TODO: add explanation for Data and Information Management
-          explanation: null,
-          // TODO: add worked example for Data and Information Management
-          workedExample: null,
-          // TODO: add summary for Data and Information Management
-          summary: null,
-          // TODO: add practice questions for Data and Information Management
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "e1-l3",
-          title: "Business Models and Value Creation",
-          topic: "Strategy",
-          estimatedMinutes: 35,
+          title: "Shared Service Centres and Outsourcing",
+          topic: "Operating models",
+          estimatedMinutes: 30,
           objectives: [
-            "Explain the components of a business model",
-            "Apply frameworks to analyse value creation (e.g., Porter's Value Chain)",
-            "Assess the impact of digital disruption on business models",
+            "Explain shared service centres and their advantages and limitations",
+            "Compare outsourcing, co-sourcing and in-house finance delivery models",
+            "Assess the factors influencing the make-or-buy decision for finance services",
           ],
-          // TODO: add explanation for Business Models and Value Creation
-          explanation: null,
-          // TODO: add worked example for Business Models and Value Creation
-          workedExample: null,
-          // TODO: add summary for Business Models and Value Creation
-          summary: null,
-          // TODO: add practice questions for Business Models and Value Creation
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "e1-l4",
-          title: "Managing People and Relationships",
-          topic: "Leadership and people",
+          title: "Digital Finance Operating Models",
+          topic: "Operating models",
           estimatedMinutes: 30,
           objectives: [
-            "Explain motivation theories and their application",
-            "Describe leadership styles and when each is appropriate",
-            "Explain the finance business partnering model",
+            "Describe the characteristics of a digital finance operating model",
+            "Explain the role of automation in redesigning finance processes",
+            "Evaluate the impact of digital operating models on finance headcount and skills",
           ],
-          // TODO: add explanation for Managing People and Relationships
-          explanation: null,
-          // TODO: add worked example for Managing People and Relationships
-          workedExample: null,
-          // TODO: add summary for Managing People and Relationships
-          summary: null,
-          // TODO: add practice questions for Managing People and Relationships
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "e1-l5",
-          title: "Risk and Control",
-          topic: "Risk management",
-          estimatedMinutes: 35,
+          title: "The CFO Agenda and Finance Talent",
+          topic: "Leadership",
+          estimatedMinutes: 30,
           objectives: [
-            "Identify categories of risk facing organisations",
-            "Apply risk management frameworks (e.g., COSO, risk register)",
-            "Explain internal controls and their purpose",
+            "Describe the evolving role and priorities of the CFO",
+            "Explain the digital and commercial skills required in the modern finance team",
+            "Identify strategies for talent development in a digital finance environment",
           ],
-          // TODO: add explanation for Risk and Control
-          explanation: null,
-          // TODO: add worked example for Risk and Control
-          workedExample: null,
-          // TODO: add summary for Risk and Control
-          summary: null,
-          // TODO: add practice questions for Risk and Control
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "e1-l6",
-          title: "Sustainability and Corporate Responsibility",
-          topic: "ESG",
+          title: "Finance Performance Management and Reporting",
+          topic: "Finance function",
           estimatedMinutes: 30,
           objectives: [
-            "Explain the concept of sustainability and the triple bottom line",
-            "Describe ESG reporting frameworks (e.g., GRI, TCFD)",
-            "Explain how management accountants support sustainability reporting",
+            "Explain integrated reporting and the six capitals framework",
+            "Describe how management information and reporting have evolved with technology",
+            "Identify the principles of effective financial and non-financial reporting",
           ],
-          // TODO: add explanation for Sustainability and Corporate Responsibility
-          explanation: null,
-          // TODO: add worked example for Sustainability and Corporate Responsibility
-          workedExample: null,
-          // TODO: add summary for Sustainability and Corporate Responsibility
-          summary: null,
-          // TODO: add practice questions for Sustainability and Corporate Responsibility
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module B: Technology in the Digital Age (L7–L14) ── */
+        {
+          id: "e1-l7",
+          title: "Introduction to Digitalisation and the Fourth Industrial Revolution",
+          topic: "Technology",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the concept of digitalisation and its distinction from digitisation",
+            "Describe the key characteristics of the Fourth Industrial Revolution",
+            "Identify the main digital technologies reshaping business and finance",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l8",
+          title: "Cloud Computing in Finance",
+          topic: "Technology",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the three cloud service models: IaaS, PaaS and SaaS",
+            "Describe public, private and hybrid cloud deployment models",
+            "Assess the benefits and risks of cloud adoption for finance functions",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l9",
+          title: "Artificial Intelligence and Machine Learning in Finance",
+          topic: "Technology",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the concepts of artificial intelligence, machine learning and deep learning",
+            "Identify finance applications of AI: forecasting, fraud detection, NLP",
+            "Assess the ethical and governance implications of AI in financial decision-making",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l10",
+          title: "Robotic Process Automation (RPA)",
+          topic: "Technology",
+          estimatedMinutes: 35,
+          objectives: [
+            "Define RPA and explain how it differs from traditional automation",
+            "Identify finance processes most suitable for RPA implementation",
+            "Evaluate the costs, benefits and implementation risks of RPA",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l11",
+          title: "Blockchain and Distributed Ledger Technology",
+          topic: "Technology",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the principles of blockchain and distributed ledger technology (DLT)",
+            "Describe smart contracts and their applications in finance",
+            "Assess the potential and limitations of blockchain for accounting and audit",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l12",
+          title: "Big Data — Characteristics, Sources and Analytics",
+          topic: "Data analytics",
+          estimatedMinutes: 40,
+          objectives: [
+            "Define big data using the five Vs framework (volume, velocity, variety, veracity, value)",
+            "Explain descriptive, diagnostic, predictive and prescriptive analytics",
+            "Identify how finance functions use data analytics for insight and decision support",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l13",
+          title: "Cybersecurity — Threats, Controls and Governance",
+          topic: "Cybersecurity",
+          estimatedMinutes: 40,
+          objectives: [
+            "Identify the main categories of cybersecurity threat (phishing, ransomware, insider threats)",
+            "Explain technical and organisational controls to manage cyber risk",
+            "Describe the role of governance frameworks such as ISO 27001 and NIST in cybersecurity",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l14",
+          title: "The Internet of Things and Industry 4.0",
+          topic: "Technology",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the Internet of Things and its connection to smart manufacturing",
+            "Describe the finance implications of real-time operational data from IoT devices",
+            "Assess how Industry 4.0 is changing cost structures and business models",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module C: Data and Governance (L15–L21) ── */
+        {
+          id: "e1-l15",
+          title: "Data Governance Frameworks",
+          topic: "Data governance",
+          estimatedMinutes: 35,
+          objectives: [
+            "Define data governance and explain why it is critical for organisations",
+            "Describe the DAMA-DMBOK framework and its key knowledge areas",
+            "Explain accountability structures: data owners, stewards and custodians",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l16",
+          title: "Data Quality — Dimensions and Management",
+          topic: "Data management",
+          estimatedMinutes: 30,
+          objectives: [
+            "Define the six dimensions of data quality (accuracy, completeness, consistency, timeliness, validity, uniqueness)",
+            "Explain data quality assessment and cleansing processes",
+            "Describe the financial and reputational consequences of poor data quality",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l17",
+          title: "Enterprise Resource Planning Systems",
+          topic: "Information systems",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the purpose and components of an ERP system",
+            "Describe how ERP integrates finance with operations, HR and supply chain",
+            "Evaluate the benefits, costs and implementation risks of ERP adoption",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l18",
+          title: "Data Ethics and UK GDPR in Finance",
+          topic: "Data ethics",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the ethical principles governing the use of personal data",
+            "Describe the key requirements of UK GDPR relevant to finance teams",
+            "Identify the compliance obligations and penalties for data protection breaches",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l19",
+          title: "Master Data Management and Data Warehousing",
+          topic: "Data management",
+          estimatedMinutes: 30,
+          objectives: [
+            "Define master data management and explain its importance for financial reporting",
+            "Describe data warehouse architecture: OLTP vs OLAP systems",
+            "Explain the role of data lakes and data marts in finance analytics",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l20",
+          title: "Regulatory Compliance and Information Risk",
+          topic: "Compliance",
+          estimatedMinutes: 30,
+          objectives: [
+            "Identify key regulatory requirements for data management in financial services",
+            "Explain information risk management and its relationship to operational risk",
+            "Describe control frameworks for managing information risk (COBIT, COSO)",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l21",
+          title: "Information Security Management",
+          topic: "Security",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the ISO 27001 information security management standard",
+            "Describe the components of an information security management system (ISMS)",
+            "Identify physical, technical and administrative controls for information security",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module D: Business Models, Strategy and Transformation (L22–L28) ── */
+        {
+          id: "e1-l22",
+          title: "Business Models and Value Creation",
+          topic: "Strategy",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the components of a business model using the Business Model Canvas",
+            "Describe value creation, value delivery and value capture mechanisms",
+            "Compare traditional and platform-based business models",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l23",
+          title: "Digital Disruption and Platform Economics",
+          topic: "Strategy",
+          estimatedMinutes: 35,
+          objectives: [
+            "Define digital disruption and identify industries at risk",
+            "Explain network effects and the economics of platform businesses",
+            "Describe strategic responses to digital disruption: adapt, partner, or acquire",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l24",
+          title: "Strategic Analysis for Digital Organisations",
+          topic: "Strategy",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply PESTEL and Porter's Five Forces in a digital business context",
+            "Use SWOT analysis to evaluate a digital transformation strategy",
+            "Explain dynamic capabilities and their role in sustaining competitive advantage",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l25",
+          title: "Agile Working and Project Management",
+          topic: "Agile",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the principles of Agile working and the Agile Manifesto",
+            "Compare Agile (Scrum, Kanban) and traditional waterfall project management",
+            "Describe how finance functions can adopt Agile approaches in planning and reporting",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l26",
+          title: "Managing Organisational Change",
+          topic: "Change management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply Kotter's 8-step model and Lewin's freeze-change-refreeze model to digital transformation",
+            "Explain common barriers to change and strategies to overcome resistance",
+            "Describe the role of communication and stakeholder engagement in change programmes",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l27",
+          title: "Leadership, Motivation and Teams in Digital Organisations",
+          topic: "Leadership",
+          estimatedMinutes: 35,
+          objectives: [
+            "Describe situational leadership and its application to digital teams",
+            "Apply Maslow, Herzberg and McClelland motivation theories to finance professionals",
+            "Explain virtual and cross-functional team management challenges",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "e1-l28",
+          title: "ESG, Sustainability Reporting and the SDGs",
+          topic: "Sustainability",
+          estimatedMinutes: 40,
+          objectives: [
+            "Define ESG and explain its importance to investors, regulators and society",
+            "Describe the GRI Standards, TCFD framework and IFRS Sustainability Disclosure Standards",
+            "Explain the role of the management accountant in sustainability reporting and the SDGs",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
       ],
     },
@@ -3735,143 +3965,378 @@ const AIQ_COURSE_DATA = {
       title: "P1",
       fullTitle: "Management Accounting",
       icon: "trending-up",
-      modules: 9,
-      questions: 180,
-      mockExams: 2,
-      studyHoursTotal: 45,
+      modules: 4,
+      questions: 300,
+      mockExams: 3,
+      studyHoursTotal: 90,
       lessons: [
+
+        /* ── Module A: Costing Systems (L1–L8) ── */
         {
           id: "p1-l1",
-          title: "Cost Accounting Systems",
-          topic: "Costing",
+          title: "Job and Batch Costing",
+          topic: "Costing systems",
           estimatedMinutes: 35,
           objectives: [
-            "Compare job, batch, process and service costing systems",
-            "Prepare process accounts including normal and abnormal losses",
-            "Explain joint products and by-products",
+            "Explain the characteristics of job costing and identify when it is appropriate",
+            "Prepare job cost sheets and calculate profit or loss on individual jobs",
+            "Distinguish between job costing and batch costing and explain when each is used",
           ],
-          // TODO: add explanation for Cost Accounting Systems
-          explanation: null,
-          // TODO: add worked example for Cost Accounting Systems
-          workedExample: null,
-          // TODO: add summary for Cost Accounting Systems
-          summary: null,
-          // TODO: add practice questions for Cost Accounting Systems
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l2",
-          title: "Activity-Based Costing",
-          topic: "Costing",
-          estimatedMinutes: 40,
+          title: "Process Costing — Normal and Abnormal Losses",
+          topic: "Process costing",
+          estimatedMinutes: 45,
           objectives: [
-            "Explain the rationale for and principles of ABC",
-            "Calculate product costs using ABC",
-            "Compare ABC to traditional absorption costing",
+            "Explain the nature of process costing and its suitability for continuous production",
+            "Prepare process accounts with normal loss, abnormal loss and abnormal gain",
+            "Value output and losses using the weighted average and FIFO methods",
           ],
-          // TODO: add explanation for Activity-Based Costing
-          explanation: null,
-          // TODO: add worked example for Activity-Based Costing
-          workedExample: null,
-          // TODO: add summary for Activity-Based Costing
-          summary: null,
-          // TODO: add practice questions for Activity-Based Costing
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l3",
-          title: "Throughput Accounting",
-          topic: "Costing",
-          estimatedMinutes: 30,
+          title: "Process Costing — Joint Products and By-Products",
+          topic: "Process costing",
+          estimatedMinutes: 40,
           objectives: [
-            "Explain the Theory of Constraints",
-            "Calculate throughput accounting ratio (TPAR)",
-            "Use TPAR to prioritise production",
+            "Distinguish between joint products and by-products and explain the split-off point",
+            "Apportion joint costs using sales value and physical quantity methods",
+            "Account for by-product income in process accounts",
           ],
-          // TODO: add explanation for Throughput Accounting
-          explanation: null,
-          // TODO: add worked example for Throughput Accounting
-          workedExample: null,
-          // TODO: add summary for Throughput Accounting
-          summary: null,
-          // TODO: add practice questions for Throughput Accounting
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l4",
-          title: "Advanced Variance Analysis",
-          topic: "Control",
-          estimatedMinutes: 45,
+          title: "Service Costing",
+          topic: "Service costing",
+          estimatedMinutes: 35,
           objectives: [
-            "Calculate mix and yield variances for materials",
-            "Calculate planning and operational variances",
-            "Explain the causes and investigate variances appropriately",
+            "Explain the characteristics of service organisations that affect costing",
+            "Define appropriate cost units for different service industries",
+            "Calculate composite cost units and interpret unit cost data",
           ],
-          // TODO: add explanation for Advanced Variance Analysis
-          explanation: null,
-          // TODO: add worked example for Advanced Variance Analysis
-          workedExample: null,
-          // TODO: add summary for Advanced Variance Analysis
-          summary: null,
-          // TODO: add practice questions for Advanced Variance Analysis
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l5",
-          title: "Performance Measurement",
-          topic: "Performance management",
-          estimatedMinutes: 40,
+          title: "Activity-Based Costing — Principles and Rationale",
+          topic: "ABC",
+          estimatedMinutes: 35,
           objectives: [
-            "Explain the Balanced Scorecard and its four perspectives",
-            "Apply financial and non-financial performance measures",
-            "Assess the performance of responsibility centres",
+            "Explain the limitations of traditional absorption costing that ABC addresses",
+            "Define activities, cost pools and cost drivers in the ABC framework",
+            "Describe when ABC is most likely to improve cost accuracy over traditional methods",
           ],
-          // TODO: add explanation for Performance Measurement
-          explanation: null,
-          // TODO: add worked example for Performance Measurement
-          workedExample: null,
-          // TODO: add summary for Performance Measurement
-          summary: null,
-          // TODO: add practice questions for Performance Measurement
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l6",
-          title: "Pricing Decisions",
-          topic: "Decision-making",
-          estimatedMinutes: 35,
+          title: "Activity-Based Costing — Calculations and Comparison",
+          topic: "ABC",
+          estimatedMinutes: 50,
           objectives: [
-            "Apply cost-plus, target and marginal cost pricing strategies",
-            "Explain price elasticity and its relevance to pricing",
-            "Evaluate transfer pricing methods",
+            "Calculate product costs using a full ABC system with multiple cost pools",
+            "Compare ABC product costs with traditional absorption costing results",
+            "Evaluate the strategic implications of switching to ABC for pricing and product mix",
           ],
-          // TODO: add explanation for Pricing Decisions
-          explanation: null,
-          // TODO: add worked example for Pricing Decisions
-          workedExample: null,
-          // TODO: add summary for Pricing Decisions
-          summary: null,
-          // TODO: add practice questions for Pricing Decisions
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "p1-l7",
-          title: "Investment Appraisal",
-          topic: "Decision-making",
+          title: "Throughput Accounting and the Theory of Constraints",
+          topic: "Throughput",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the Theory of Constraints and the concept of the bottleneck",
+            "Calculate throughput accounting ratio (TPAR) and interpret results",
+            "Use TPAR to prioritise production and identify actions to improve throughput",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l8",
+          title: "Target Costing and Lifecycle Costing",
+          topic: "Strategic costing",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain target costing and calculate the cost gap between target and estimated cost",
+            "Describe value engineering techniques used to close the cost gap",
+            "Apply lifecycle costing to evaluate total costs across a product's life",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module B: Pricing and Decision Making Under Uncertainty (L9–L16) ── */
+        {
+          id: "p1-l9",
+          title: "Pricing Strategies — Overview and Cost-Based Methods",
+          topic: "Pricing",
+          estimatedMinutes: 35,
+          objectives: [
+            "Describe the main pricing strategies: cost-plus, marginal cost, market-based",
+            "Explain market skimming, penetration pricing and their appropriate use",
+            "Calculate cost-plus prices using full cost and marginal cost bases",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l10",
+          title: "Price Elasticity and the Demand Function",
+          topic: "Pricing",
+          estimatedMinutes: 40,
+          objectives: [
+            "Derive the demand function (P = a − bQ) from data points",
+            "Use the demand function to find the profit-maximising price and quantity",
+            "Explain how price elasticity affects the relationship between price and total revenue",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l11",
+          title: "Profit-Maximising Price Using Marginal Revenue",
+          topic: "Pricing",
           estimatedMinutes: 45,
           objectives: [
-            "Apply NPV, IRR, payback, and ARR methods",
-            "Explain the time value of money",
-            "Account for risk in investment decisions",
+            "Derive the marginal revenue function from the demand function",
+            "Apply the profit-maximising rule: set output where MR = MC",
+            "Calculate the optimal price and quantity and verify with the demand equation",
           ],
-          // TODO: add explanation for Investment Appraisal
-          explanation: null,
-          // TODO: add worked example for Investment Appraisal
-          workedExample: null,
-          // TODO: add summary for Investment Appraisal
-          summary: null,
-          // TODO: add practice questions for Investment Appraisal
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l12",
+          title: "Relevant Costing and Short-Term Decision Making",
+          topic: "Decision making",
+          estimatedMinutes: 40,
+          objectives: [
+            "Identify relevant costs and revenues for short-term decisions",
+            "Apply relevant costing to make-or-buy, special order and shutdown decisions",
+            "Explain the treatment of sunk costs, committed costs and opportunity costs",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l13",
+          title: "Decision Making Under Uncertainty — Expected Value",
+          topic: "Uncertainty",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain risk and uncertainty in the context of management decisions",
+            "Calculate expected values (EVs) and use them in decision tables",
+            "Describe the limitations of expected value as a decision criterion",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l14",
+          title: "Decision Trees — Construction and Analysis",
+          topic: "Decision trees",
+          estimatedMinutes: 45,
+          objectives: [
+            "Construct decision trees with decision nodes, chance nodes and outcomes",
+            "Apply backward induction (rollback) to select the optimal strategy",
+            "Evaluate the value of perfect and imperfect information",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l15",
+          title: "Maximin, Maximax and Minimax Regret",
+          topic: "Uncertainty",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply the maximin decision rule and explain its risk-averse logic",
+            "Apply the maximax decision rule and explain its risk-seeking logic",
+            "Construct a regret table and apply the minimax regret criterion",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l16",
+          title: "Linear Programming — Formulation and Graphical Solution",
+          topic: "Linear programming",
+          estimatedMinutes: 50,
+          objectives: [
+            "Formulate a linear programming problem with an objective function and constraints",
+            "Solve a two-variable LP problem using the graphical method",
+            "Interpret the optimal solution and shadow prices for scarce resources",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module C: Budgeting, Planning and Control (L17–L24) ── */
+        {
+          id: "p1-l17",
+          title: "Advanced Budgeting Methods",
+          topic: "Budgeting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain activity-based budgeting and its link to ABC costing",
+            "Describe rolling (continuous) budgets and their advantages over annual budgets",
+            "Apply zero-based budgeting (ZBB) methodology and evaluate when it is appropriate",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l18",
+          title: "Beyond Budgeting and Rolling Forecasts",
+          topic: "Budgeting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the criticisms of traditional budgeting",
+            "Describe the Beyond Budgeting model and its twelve principles",
+            "Evaluate the practical challenges of implementing Beyond Budgeting",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l19",
+          title: "Behavioural Aspects of Budgeting",
+          topic: "Budgeting",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain budget padding (slack) and how it distorts resource allocation",
+            "Describe participative budgeting and its effects on motivation and bias",
+            "Explain gaming behaviour and dysfunctional actions caused by budget targets",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l20",
+          title: "Standard Costing — Recap and Extension",
+          topic: "Standard costing",
+          estimatedMinutes: 35,
+          objectives: [
+            "Distinguish between ideal, attainable and basic standards",
+            "Explain the advantages and criticisms of standard costing in modern environments",
+            "Reconcile budgeted and actual profit using a standard costing framework",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l21",
+          title: "Mix and Yield Variances — Materials",
+          topic: "Advanced variances",
+          estimatedMinutes: 50,
+          objectives: [
+            "Explain why materials mix and yield variances arise in process industries",
+            "Calculate the materials mix variance (actual mix vs standard mix at actual total quantity)",
+            "Calculate the materials yield variance (standard yield vs actual yield at standard mix)",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l22",
+          title: "Sales Mix and Quantity Variances",
+          topic: "Advanced variances",
+          estimatedMinutes: 45,
+          objectives: [
+            "Explain why the sales volume variance is subdivided into mix and quantity",
+            "Calculate the sales mix variance using the contribution approach",
+            "Calculate the sales quantity variance and interpret results",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l23",
+          title: "Planning and Operational Variances",
+          topic: "Advanced variances",
+          estimatedMinutes: 50,
+          objectives: [
+            "Explain why planning variances arise when standards are revised retrospectively",
+            "Calculate planning and operational variances for materials, labour and sales",
+            "Evaluate the use of planning and operational variances in performance appraisal",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l24",
+          title: "Investigating and Interpreting Variances",
+          topic: "Variance investigation",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply statistical control limits (mean ± 2σ) to decide whether to investigate a variance",
+            "Identify qualitative factors affecting the investigation decision",
+            "Explain interdependencies between variances (e.g., favourable price / adverse usage)",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module D: Performance Measurement (L25–L30) ── */
+        {
+          id: "p1-l25",
+          title: "Performance Measurement Frameworks and KPIs",
+          topic: "Performance",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the purpose and limitations of performance measurement systems",
+            "Describe the criteria for effective KPIs (SMART framework)",
+            "Distinguish between financial and non-financial performance measures",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l26",
+          title: "The Balanced Scorecard",
+          topic: "Performance",
+          estimatedMinutes: 40,
+          objectives: [
+            "Describe the four perspectives of the Balanced Scorecard (financial, customer, internal process, learning and growth)",
+            "Develop a strategy map linking objectives across the four perspectives",
+            "Evaluate the Balanced Scorecard's advantages over purely financial measurement",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l27",
+          title: "Divisional Performance — Return on Investment and Residual Income",
+          topic: "Divisional performance",
+          estimatedMinutes: 45,
+          objectives: [
+            "Calculate Return on Investment (ROI) and explain its advantages and limitations",
+            "Calculate Residual Income (RI) and explain how it overcomes ROI's shortcomings",
+            "Assess investment decisions using ROI and RI and identify dysfunctional behaviour",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l28",
+          title: "Economic Value Added (EVA)",
+          topic: "Divisional performance",
+          estimatedMinutes: 40,
+          objectives: [
+            "Define Economic Value Added and explain its relationship to residual income",
+            "Calculate EVA with accounting adjustments (add back R&D, operating lease adjustments)",
+            "Evaluate the advantages of EVA as a performance measure and its practical difficulties",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l29",
+          title: "Transfer Pricing — Principles and Methods",
+          topic: "Transfer pricing",
+          estimatedMinutes: 45,
+          objectives: [
+            "Explain the purposes of transfer pricing in divisionalised organisations",
+            "Calculate transfer prices using market price, cost-based and negotiated methods",
+            "Apply the general transfer pricing rule and evaluate international transfer pricing issues",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "p1-l30",
+          title: "Non-Financial Performance Indicators and Sustainability Metrics",
+          topic: "Performance",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the role of non-financial performance indicators in assessing organisational health",
+            "Describe sustainability and ESG metrics and their integration into performance frameworks",
+            "Evaluate the challenges of measuring and reporting non-financial performance",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
       ],
     },
@@ -3881,143 +4346,440 @@ const AIQ_COURSE_DATA = {
       title: "F1",
       fullTitle: "Financial Reporting and Taxation",
       icon: "file-text",
-      modules: 9,
-      questions: 180,
-      mockExams: 2,
-      studyHoursTotal: 45,
+      modules: 5,
+      questions: 350,
+      mockExams: 3,
+      studyHoursTotal: 100,
       lessons: [
+
+        /* ── Module A: Regulatory Framework (L1–L3) ── */
         {
           id: "f1-l1",
-          title: "The Regulatory Framework",
-          topic: "Financial reporting",
-          estimatedMinutes: 25,
+          title: "The Regulatory Framework — IASB and the Standard-Setting Process",
+          topic: "Regulatory framework",
+          estimatedMinutes: 30,
           objectives: [
-            "Explain the role of the IASB and IFRS Foundation",
-            "Describe the standard-setting process",
-            "Distinguish between principles-based and rules-based frameworks",
+            "Describe the structure and role of the IASB and IFRS Foundation",
+            "Explain the standard-setting due process (discussion paper, exposure draft, standard)",
+            "Distinguish between principles-based (IFRS) and rules-based (US GAAP) frameworks",
           ],
-          // TODO: add explanation for The Regulatory Framework
-          explanation: null,
-          // TODO: add worked example for The Regulatory Framework
-          workedExample: null,
-          // TODO: add summary for The Regulatory Framework
-          summary: null,
-          // TODO: add practice questions for The Regulatory Framework
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "f1-l2",
-          title: "Non-Current Assets (IAS 16, IAS 38, IAS 40)",
-          topic: "Financial reporting",
+          title: "The Conceptual Framework — In Depth",
+          topic: "Regulatory framework",
           estimatedMinutes: 40,
           objectives: [
-            "Apply the recognition and measurement rules for PPE (IAS 16)",
-            "Account for intangible assets (IAS 38)",
-            "Explain investment property accounting (IAS 40)",
+            "Explain the objective of general purpose financial reporting and primary users",
+            "Describe the qualitative characteristics: fundamental (relevance, faithful representation) and enhancing",
+            "Apply the recognition criteria and measurement bases to practical scenarios",
           ],
-          // TODO: add explanation for Non-Current Assets
-          explanation: null,
-          // TODO: add worked example for Non-Current Assets
-          workedExample: null,
-          // TODO: add summary for Non-Current Assets
-          summary: null,
-          // TODO: add practice questions for Non-Current Assets
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "f1-l3",
-          title: "Provisions, Contingencies and Events (IAS 37, IAS 10)",
-          topic: "Financial reporting",
-          estimatedMinutes: 30,
+          title: "IAS 1: Presentation of Financial Statements",
+          topic: "Financial reporting standards",
+          estimatedMinutes: 40,
           objectives: [
-            "Apply the recognition criteria for provisions (IAS 37)",
-            "Distinguish provisions from contingent liabilities and assets",
-            "Adjust financial statements for events after the reporting period (IAS 10)",
+            "Identify the components of a complete set of financial statements under IAS 1",
+            "Apply the classification of current and non-current assets and liabilities",
+            "Explain the requirements for presenting the statement of profit or loss and OCI",
           ],
-          // TODO: add explanation for Provisions, Contingencies and Events
-          explanation: null,
-          // TODO: add worked example for Provisions, Contingencies and Events
-          workedExample: null,
-          // TODO: add summary for Provisions, Contingencies and Events
-          summary: null,
-          // TODO: add practice questions for Provisions, Contingencies and Events
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
+
+        /* ── Module B: Non-Current Assets (L4–L9) ── */
         {
           id: "f1-l4",
-          title: "Revenue Recognition (IFRS 15)",
-          topic: "Financial reporting",
-          estimatedMinutes: 35,
+          title: "IAS 16: PPE — Recognition and Initial Measurement",
+          topic: "Non-current assets",
+          estimatedMinutes: 40,
           objectives: [
-            "Apply the 5-step model for revenue recognition (IFRS 15)",
-            "Account for contract modifications and variable consideration",
-            "Identify performance obligations in contracts",
+            "Apply the recognition criteria for property, plant and equipment under IAS 16",
+            "Calculate the cost of a PPE asset including directly attributable costs and borrowing costs",
+            "Explain the initial measurement of self-constructed assets and assets received in exchange",
           ],
-          // TODO: add explanation for Revenue Recognition
-          explanation: null,
-          // TODO: add worked example for Revenue Recognition
-          workedExample: null,
-          // TODO: add summary for Revenue Recognition
-          summary: null,
-          // TODO: add practice questions for Revenue Recognition
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "f1-l5",
-          title: "Leases (IFRS 16)",
-          topic: "Financial reporting",
-          estimatedMinutes: 35,
+          title: "IAS 16: Depreciation, Revaluation and Disposal",
+          topic: "Non-current assets",
+          estimatedMinutes: 50,
           objectives: [
-            "Identify lease arrangements and apply the IFRS 16 recognition criteria",
-            "Account for right-of-use assets and lease liabilities",
-            "Explain the exemptions for short-term and low-value leases",
+            "Apply straight-line and reducing balance depreciation methods under IAS 16",
+            "Account for revaluation of PPE including the revaluation surplus and deferred tax",
+            "Prepare journal entries for the disposal of PPE and calculate gain or loss on disposal",
           ],
-          // TODO: add explanation for Leases
-          explanation: null,
-          // TODO: add worked example for Leases
-          workedExample: null,
-          // TODO: add summary for Leases
-          summary: null,
-          // TODO: add practice questions for Leases
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "f1-l6",
-          title: "Group Accounts — Introduction",
-          topic: "Group accounting",
-          estimatedMinutes: 40,
+          title: "IAS 36: Impairment of Assets",
+          topic: "Non-current assets",
+          estimatedMinutes: 45,
           objectives: [
-            "Define subsidiaries and explain when consolidation is required (IFRS 10)",
-            "Prepare a consolidated statement of financial position",
-            "Account for goodwill on acquisition",
+            "Identify indicators of impairment and explain the impairment review process",
+            "Calculate recoverable amount as the higher of fair value less costs to sell and value in use",
+            "Account for impairment losses for individual assets and cash-generating units",
           ],
-          // TODO: add explanation for Group Accounts — Introduction
-          explanation: null,
-          // TODO: add worked example for Group Accounts — Introduction
-          workedExample: null,
-          // TODO: add summary for Group Accounts — Introduction
-          summary: null,
-          // TODO: add practice questions for Group Accounts — Introduction
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
         {
           id: "f1-l7",
-          title: "Taxation in Financial Statements",
+          title: "IAS 38: Intangible Assets",
+          topic: "Non-current assets",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain the recognition criteria for intangible assets under IAS 38",
+            "Distinguish between research costs (expensed) and development costs (capitalised if criteria met)",
+            "Apply amortisation and impairment to finite-life and indefinite-life intangible assets",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l8",
+          title: "IAS 40: Investment Property",
+          topic: "Non-current assets",
+          estimatedMinutes: 35,
+          objectives: [
+            "Define investment property and distinguish it from owner-occupied property",
+            "Compare the fair value model and cost model for investment property measurement",
+            "Account for transfers between owner-occupied property and investment property",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l9",
+          title: "IFRS 5: Non-Current Assets Held for Sale and Discontinued Operations",
+          topic: "Non-current assets",
+          estimatedMinutes: 35,
+          objectives: [
+            "Identify the criteria for classifying assets as held for sale under IFRS 5",
+            "Measure assets held for sale at the lower of carrying amount and fair value less costs to sell",
+            "Present discontinued operations separately in the statement of profit or loss",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module C: Liabilities, Revenue and Other Standards (L10–L18) ── */
+        {
+          id: "f1-l10",
+          title: "IAS 37: Provisions, Contingent Assets and Contingent Liabilities",
+          topic: "Liabilities",
+          estimatedMinutes: 45,
+          objectives: [
+            "Apply the three recognition criteria for a provision under IAS 37",
+            "Distinguish between provisions, contingent liabilities and contingent assets",
+            "Measure provisions using best estimate, probability-weighted, and expected value approaches",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l11",
+          title: "IFRS 15: Revenue Recognition — The Five-Step Model",
+          topic: "Revenue",
+          estimatedMinutes: 50,
+          objectives: [
+            "Apply the five-step model: identify contract, identify performance obligations, determine transaction price, allocate, recognise",
+            "Explain the criteria for recognising revenue at a point in time versus over time",
+            "Apply IFRS 15 to common scenarios: licenses, warranties, principal vs agent",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l12",
+          title: "IFRS 15: Variable Consideration and Contract Modifications",
+          topic: "Revenue",
+          estimatedMinutes: 45,
+          objectives: [
+            "Estimate variable consideration using expected value and most likely amount methods",
+            "Apply the constraint on variable consideration recognition",
+            "Account for contract modifications as new contracts or modifications of existing contracts",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l13",
+          title: "IFRS 16: Lessee Accounting — Right-of-Use Asset and Lease Liability",
+          topic: "Leases",
+          estimatedMinutes: 50,
+          objectives: [
+            "Identify lease arrangements and explain the IFRS 16 recognition model",
+            "Calculate the initial measurement of the right-of-use asset and lease liability",
+            "Prepare the journal entries for lease payments and depreciation over the lease term",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l14",
+          title: "IFRS 9: Financial Instruments — Classification and Measurement",
+          topic: "Financial instruments",
+          estimatedMinutes: 45,
+          objectives: [
+            "Classify financial assets into amortised cost, FVOCI and FVTPL categories",
+            "Explain the business model test and contractual cash flow characteristics test",
+            "Apply the effective interest method to amortise financial instruments at amortised cost",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l15",
+          title: "IAS 8: Accounting Policies, Changes in Estimates and Errors",
+          topic: "Financial reporting standards",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain how accounting policies are selected and applied consistently",
+            "Distinguish between changes in accounting policy (retrospective) and changes in estimate (prospective)",
+            "Account for the correction of prior period errors with retrospective restatement",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l16",
+          title: "IAS 10: Events After the Reporting Period",
+          topic: "Financial reporting standards",
+          estimatedMinutes: 30,
+          objectives: [
+            "Define the reporting period and explain the purpose of IAS 10",
+            "Distinguish between adjusting and non-adjusting events after the reporting period",
+            "Apply IAS 10 to determine whether to adjust financial statements or disclose only",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l17",
+          title: "IAS 7: Statement of Cash Flows — Indirect Method in Depth",
+          topic: "Financial reporting standards",
+          estimatedMinutes: 50,
+          objectives: [
+            "Prepare the operating activities section using the indirect method",
+            "Classify investing and financing activities and prepare those sections",
+            "Reconcile the opening and closing cash and cash equivalents balances",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l18",
+          title: "IAS 2: Inventories — Operational Level Depth",
+          topic: "Financial reporting standards",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the lower of cost and net realisable value rule to inventory valuation",
+            "Calculate inventory cost using FIFO and weighted average cost formulas",
+            "Explain the disclosure requirements under IAS 2 and the write-down process",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module D: Consolidated Financial Statements (L19–L28) ── */
+        {
+          id: "f1-l19",
+          title: "Group Structures and the Definition of Control (IFRS 10)",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Define a subsidiary using the IFRS 10 control model (power, exposure, link)",
+            "Explain when consolidation is required and the concept of the group",
+            "Describe the circumstances where a parent is exempt from preparing group accounts",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l20",
+          title: "IFRS 3: Business Combinations — Acquisition Accounting",
+          topic: "Group accounting",
+          estimatedMinutes: 50,
+          objectives: [
+            "Apply the acquisition method: identify the acquirer and acquisition date",
+            "Measure identifiable assets acquired and liabilities assumed at fair value",
+            "Explain the treatment of contingent consideration and acquisition-related costs",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l21",
+          title: "Goodwill — Full Goodwill and Proportionate Methods",
+          topic: "Group accounting",
+          estimatedMinutes: 50,
+          objectives: [
+            "Calculate goodwill using the full goodwill method (NCI at fair value)",
+            "Calculate goodwill using the proportionate method (NCI at share of net assets)",
+            "Account for the subsequent impairment of goodwill",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l22",
+          title: "Consolidated Statement of Financial Position — Framework",
+          topic: "Group accounting",
+          estimatedMinutes: 55,
+          objectives: [
+            "Identify the step-by-step process for preparing a consolidated SoFP",
+            "Calculate the non-controlling interest (NCI) balance at the reporting date",
+            "Eliminate the investment in subsidiary against the parent's share of net assets",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l23",
+          title: "Consolidated SoFP — Worked Examples with NCI",
+          topic: "Group accounting",
+          estimatedMinutes: 55,
+          objectives: [
+            "Prepare a full consolidated SoFP from parent and subsidiary financial statements",
+            "Account for pre-acquisition and post-acquisition reserves",
+            "Allocate retained earnings and net assets between parent and NCI",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l24",
+          title: "Consolidated Income Statement",
+          topic: "Group accounting",
+          estimatedMinutes: 50,
+          objectives: [
+            "Prepare a consolidated statement of profit or loss and other comprehensive income",
+            "Allocate profit for the year between equity holders of the parent and NCI",
+            "Apply the acquisition date rule when a subsidiary is acquired during the year",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l25",
+          title: "Intra-Group Transactions — Unrealised Profits",
+          topic: "Group accounting",
+          estimatedMinutes: 45,
+          objectives: [
+            "Explain why intra-group balances and transactions must be eliminated on consolidation",
+            "Calculate the provision for unrealised profit (PUP) on inventory transfers",
+            "Adjust for unrealised profits on PPE transfers between group companies",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l26",
+          title: "Associates and the Equity Method (IAS 28)",
+          topic: "Group accounting",
+          estimatedMinutes: 45,
+          objectives: [
+            "Define an associate using the significant influence criterion (typically 20–50%)",
+            "Apply the equity method: recognise share of associate's profit and adjust carrying amount",
+            "Distinguish the equity method from full consolidation and simple investment accounting",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l27",
+          title: "Mid-Year Acquisitions",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Explain how the acquisition date affects what is included in consolidated profit",
+            "Time-apportion the subsidiary's revenue and profits from the acquisition date",
+            "Adjust the subsidiary's opening net assets to the acquisition date for goodwill calculation",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l28",
+          title: "Disposal of Subsidiaries",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Calculate the gain or loss on disposal of a subsidiary in the parent's financial statements",
+            "Prepare the consolidated financial statements in the year of disposal",
+            "Explain the difference between full disposal and partial disposal retaining control",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+
+        /* ── Module E: Analysis, Interpretation and Taxation (L29–L35) ── */
+        {
+          id: "f1-l29",
+          title: "Ratio Analysis — Profitability and Returns",
+          topic: "Financial analysis",
+          estimatedMinutes: 40,
+          objectives: [
+            "Calculate and interpret gross margin, operating margin and net margin",
+            "Calculate return on capital employed (ROCE) and return on equity (ROE)",
+            "Apply the DuPont decomposition to diagnose drivers of ROCE performance",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l30",
+          title: "Ratio Analysis — Liquidity, Efficiency and Gearing",
+          topic: "Financial analysis",
+          estimatedMinutes: 40,
+          objectives: [
+            "Calculate and interpret current ratio, quick ratio and cash ratio",
+            "Calculate and interpret receivables days, payables days and inventory days",
+            "Calculate gearing ratios and interest cover and assess financial risk",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l31",
+          title: "IAS 33: Earnings Per Share",
+          topic: "Financial analysis",
+          estimatedMinutes: 40,
+          objectives: [
+            "Calculate basic earnings per share under IAS 33",
+            "Adjust the weighted average number of shares for rights issues and bonus issues",
+            "Calculate diluted EPS for convertible debt, options and warrants",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l32",
+          title: "IFRS 8: Operating Segment Reporting",
+          topic: "Financial analysis",
+          estimatedMinutes: 30,
+          objectives: [
+            "Explain the management approach to identifying reportable segments",
+            "Apply the quantitative thresholds for reportable segments (10% and 75% tests)",
+            "Describe the disclosure requirements for segment revenue, profit and assets",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l33",
+          title: "Corporation Tax — Basic Computation",
+          topic: "Taxation",
+          estimatedMinutes: 45,
+          objectives: [
+            "Adjust accounting profit to taxable profit using capital allowances and disallowable items",
+            "Calculate corporation tax payable at current UK rates",
+            "Explain the payment timing rules for large and small companies",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l34",
+          title: "Deferred Tax — IAS 12 and Temporary Differences",
+          topic: "Taxation",
+          estimatedMinutes: 50,
+          objectives: [
+            "Define temporary differences and explain their origin using the statement of financial position approach",
+            "Calculate deferred tax liabilities and assets arising from timing differences",
+            "Account for changes in deferred tax balances in the income statement and in OCI",
+          ],
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+        },
+        {
+          id: "f1-l35",
+          title: "VAT — Principles, Mechanics and Compliance",
           topic: "Taxation",
           estimatedMinutes: 35,
           objectives: [
-            "Distinguish between current and deferred tax",
-            "Calculate deferred tax using the temporary difference approach (IAS 12)",
-            "Explain the impact of deferred tax on the financial statements",
+            "Explain the principle of VAT as a consumption tax collected at each stage of production",
+            "Calculate output tax, input tax and the net VAT payable to HMRC",
+            "Describe the VAT registration thresholds, returns and compliance obligations",
           ],
-          // TODO: add explanation for Taxation in Financial Statements
-          explanation: null,
-          // TODO: add worked example for Taxation in Financial Statements
-          workedExample: null,
-          // TODO: add summary for Taxation in Financial Statements
-          summary: null,
-          // TODO: add practice questions for Taxation in Financial Statements
-          practiceQuestions: null,
+          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
         },
       ],
     },

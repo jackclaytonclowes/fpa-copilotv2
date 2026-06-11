@@ -67,24 +67,39 @@ const CRS_OPS_PAPERS = [
     title: "E1",
     fullTitle: "Managing Finance in a Digital World",
     description:
-      "The role of finance in the digital economy and business model transformation.",
+      "Digital transformation, finance technology, data governance, business models and ESG reporting.",
     icon: "monitor",
+    modules: 4,
+    questions: 280,
+    mockExams: 3,
+    studyHoursTotal: 80,
+    progress: 0,
   },
   {
     id: "p1",
     title: "P1",
     fullTitle: "Management Accounting",
     description:
-      "Costing, budgeting, performance measurement and decision-support techniques.",
+      "Advanced costing, pricing decisions, decision making under uncertainty, performance measurement.",
     icon: "trending-up",
+    modules: 4,
+    questions: 300,
+    mockExams: 3,
+    studyHoursTotal: 90,
+    progress: 0,
   },
   {
     id: "f1",
     title: "F1",
     fullTitle: "Financial Reporting and Taxation",
     description:
-      "Financial reporting standards, taxation principles and corporate finance basics.",
+      "IFRS standards, consolidated financial statements, ratio analysis, corporation tax and deferred tax.",
     icon: "file-text",
+    modules: 5,
+    questions: 350,
+    mockExams: 3,
+    studyHoursTotal: 100,
+    progress: 0,
   },
 ];
 
@@ -177,12 +192,10 @@ function CrsHero({ courses, onNavigate }) {
 }
 
 /* ── Operational Level Section with unlock checklist ────────────────────── */
-function CrsOperationalSection({ certCourses, certComplete }) {
+function CrsOperationalSection({ certCourses, certComplete, onNavigate }) {
   const { Icon } = window;
 
-  /* Build the four unlock criteria from live course progress.
-     A paper is "complete" when its progress value reaches 1.0.
-     TODO: replace progress with real backend completion flag. */
+  /* Build the four unlock criteria from live course progress. */
   const criteria = certCourses.map((c) => ({
     id:       c.id,
     label:    `${c.title} — ${c.fullTitle}`,
@@ -191,8 +204,16 @@ function CrsOperationalSection({ certCourses, certComplete }) {
   const completedCount = criteria.filter((c) => c.done).length;
   const totalCount     = criteria.length;
 
+  /* Merge live progress into operational papers when unlocked */
+  const store = window.aiqStore.get();
+  const paperProgress = store.paperProgress || {};
+  const opCourses = CRS_OPS_PAPERS.map((p) => ({
+    ...p,
+    progress: paperProgress[p.id] !== undefined ? paperProgress[p.id] : 0,
+  }));
+
   return (
-    <div className="crs-section crs-section--locked">
+    <div className={`crs-section${certComplete ? "" : " crs-section--locked"}`}>
       <div className="crs-section-header">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -212,42 +233,48 @@ function CrsOperationalSection({ certCourses, certComplete }) {
             )}
           </div>
           <div className={`crs-section-sub${certComplete ? "" : " crs-section-sub--muted"}`}>
-            Complete Certificate Level to unlock E1, P1 and F1
+            {certComplete
+              ? "E1, P1 and F1 · Operational Level papers"
+              : "Complete Certificate Level to unlock E1, P1 and F1"}
           </div>
         </div>
 
-        {/* Aggregate progress: "2 of 4 complete" */}
-        <span className={`chip ${completedCount === totalCount ? "fav" : "info"}`}>
-          {completedCount} of {totalCount} complete
-        </span>
+        {/* Aggregate progress: "2 of 4 complete" or ops progress when unlocked */}
+        {certComplete ? (
+          <span className="chip info">
+            {opCourses.filter((p) => p.progress >= 1).length} of {opCourses.length} complete
+          </span>
+        ) : (
+          <span className={`chip ${completedCount === totalCount ? "fav" : "info"}`}>
+            {completedCount} of {totalCount} complete
+          </span>
+        )}
       </div>
 
-      {/* Unlock checklist */}
-      <div className="crs-unlock-checklist">
-        {criteria.map((c) => (
-          <div key={c.id} className={`crs-unlock-check${c.done ? " done" : ""}`}>
-            <div className={`crs-unlock-check-icon${c.done ? " done" : ""}`}>
-              <Icon
-                name={c.done ? "check" : "circle"}
-                size={14}
-                color={c.done ? "#fff" : "var(--fg-3)"}
-              />
-            </div>
-            <span className={`crs-unlock-check-label${c.done ? " done" : ""}`}>
-              {c.label}
-            </span>
-            {c.done && (
-              <span className="chip fav" style={{ marginLeft: "auto", fontSize: 11 }}>
-                Complete
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Locked course cards — always shown regardless of lock state */}
+      {/* When locked: show unlock checklist + greyed-out cards */}
       {!certComplete && (
         <>
+          <div className="crs-unlock-checklist">
+            {criteria.map((c) => (
+              <div key={c.id} className={`crs-unlock-check${c.done ? " done" : ""}`}>
+                <div className={`crs-unlock-check-icon${c.done ? " done" : ""}`}>
+                  <Icon
+                    name={c.done ? "check" : "circle"}
+                    size={14}
+                    color={c.done ? "#fff" : "var(--fg-3)"}
+                  />
+                </div>
+                <span className={`crs-unlock-check-label${c.done ? " done" : ""}`}>
+                  {c.label}
+                </span>
+                {c.done && (
+                  <span className="chip fav" style={{ marginLeft: "auto", fontSize: 11 }}>
+                    Complete
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
           <div className="crs-courses-grid">
             {CRS_OPS_PAPERS.map((paper) => (
               <CrsLockedCard key={paper.id} paper={paper} />
@@ -258,6 +285,27 @@ function CrsOperationalSection({ certCourses, certComplete }) {
             Complete all Certificate Level papers to unlock Operational Level courses
           </div>
         </>
+      )}
+
+      {/* When unlocked: show full interactive course cards */}
+      {certComplete && (
+        <div className="crs-courses-grid">
+          {opCourses.map((course) => {
+            const catalogue = window.AIQ_COURSE_DATA || {};
+            const paper = (catalogue.papers || []).find((p) => p.id === course.id);
+            const qCount = paper
+              ? (paper.lessons || []).reduce((n, l) => n + ((l.practiceQuestions || []).length), 0)
+              : 0;
+            return (
+              <CrsCourseCard
+                key={course.id}
+                course={course}
+                onNavigate={onNavigate}
+                availableQuestions={qCount}
+              />
+            );
+          })}
+        </div>
       )}
     </div>
   );
@@ -467,7 +515,7 @@ function Courses({ onNavigate }) {
         </div>
 
         {/* ── 4. Operational Level ────────────────────────────────────── */}
-        <CrsOperationalSection certCourses={certCourses} certComplete={certComplete} />
+        <CrsOperationalSection certCourses={certCourses} certComplete={certComplete} onNavigate={onNavigate} />
 
       </div>
     </div>
