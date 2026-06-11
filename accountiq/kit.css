@@ -15,9 +15,9 @@ button{font-family:inherit;cursor:pointer;}
 /* Sidebar */
 .sidebar{width:236px;flex:none;background:var(--navy-800);display:flex;flex-direction:column;padding:18px 14px;gap:6px;}
 .sb-brand{display:flex;align-items:center;gap:11px;padding:6px 8px 16px;}
-.sb-brand .mark{width:34px;height:34px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;}
+.sb-brand .mark{width:34px;height:34px;border-radius:10px;background:#D4F04A;display:flex;align-items:center;justify-content:center;}
 .sb-brand .wm{font-family:var(--font-display);font-weight:700;font-size:17px;color:#fff;letter-spacing:-.01em;}
-.sb-brand .wm span{font-weight:500;color:var(--fg-on-dark-2);}
+.sb-brand .wm span{font-weight:800;color:#D4F04A;}
 .sb-sec{font:var(--text-label);text-transform:uppercase;letter-spacing:.07em;color:var(--fg-on-dark-2);opacity:.65;padding:14px 10px 6px;}
 .sb-item{display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:var(--radius-sm);color:var(--fg-on-dark-2);font:var(--text-body-strong);font-size:13.5px;border:1px solid transparent;cursor:pointer;transition:background .12s;}
 .sb-item:hover{background:var(--navy-700);color:var(--fg-on-dark);}
@@ -166,6 +166,61 @@ table.var tbody tr:hover{background:var(--surface-2);}
 .opt.on .rad{border-color:var(--primary);background:radial-gradient(circle,var(--primary) 0 5px,transparent 6px);}
 .modal-f{display:flex;justify-content:flex-end;gap:10px;padding:16px 22px;border-top:1px solid var(--border);background:var(--surface-2);}
 
+/* ── AccountIQ brand components ──────────────────────────────────────────── */
+
+/* Dark ink hero card */
+.ink-card{
+  background:linear-gradient(145deg,#0C0E1A 0%,#1B1E3F 100%);
+  border:none!important;
+  border-radius:var(--radius-lg);
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.ink-card::before{
+  content:"";
+  position:absolute;
+  top:-40%;right:-15%;
+  width:55%;height:160%;
+  background:radial-gradient(ellipse,rgba(212,240,74,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* Citron CIMA paper badge */
+.citron-badge{
+  display:inline-block;
+  background:#D4F04A;color:#0C0E1A;
+  font:var(--text-label);font-weight:800;
+  font-size:10.5px;letter-spacing:.06em;
+  text-transform:uppercase;
+  padding:3px 9px;
+  border-radius:var(--radius-pill);
+  white-space:nowrap;
+}
+
+/* Top bar: mobile brand */
+.tb-mobile-brand{display:none;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink);}
+.tb-mobile-iq{color:#D4F04A;font-weight:800;}
+.tb-page-info{display:block;}
+.tb-stat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--radius-pill);font:var(--text-body-strong);font-size:12px;white-space:nowrap;}
+.tb-stat-pill--flame{background:#FFF3E0;border:1px solid #FFCC80;}
+.tb-stat-pill--xp{background:var(--citron-soft);border:1px solid var(--citron-border);}
+.tb-stat-num{color:var(--ink);font-weight:700;font-size:12.5px;}
+.tb-avatar{width:32px;height:32px;border-radius:50%;background:#D4F04A;color:#0C0E1A;display:flex;align-items:center;justify-content:center;font:var(--text-label);font-weight:800;font-size:13px;flex-shrink:0;}
+
+/* Bottom navigation (mobile only) */
+.aiq-bnav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);
+}
+.aiq-bnav-inner{display:flex;max-width:512px;margin:0 auto;height:60px;padding-bottom:env(safe-area-inset-bottom,0);}
+.aiq-bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;cursor:pointer;border:none;background:transparent;padding:0 4px;-webkit-tap-highlight-color:transparent;}
+.aiq-bnav-indicator{position:absolute;top:0;left:50%;transform:translateX(-50%);width:28px;height:2.5px;border-radius:0 0 3px 3px;background:#D4F04A;}
+.aiq-bnav-label{font:var(--text-label);font-size:10px;}
+
 /* Misc */
 .section-title{font:var(--text-label);text-transform:uppercase;letter-spacing:.06em;color:var(--fg-3);margin:2px 0 12px;}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy-800);color:#fff;font:var(--text-body-strong);font-size:13px;padding:12px 18px;border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;z-index:80;}
@@ -185,4 +240,8 @@ table.var tbody tr:hover{background:var(--surface-2);}
 @media (max-width:560px){
   .grid-kpi{grid-template-columns:1fr;}
   .sidebar{display:none;}
+  .tb-mobile-brand{display:block;}
+  .tb-page-info{display:none;}
+  .aiq-bnav{display:flex;flex-direction:column;}
+  .content{padding:20px 16px 84px;}
 }

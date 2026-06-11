@@ -146,23 +146,40 @@ function AIQProfile({ onNavigate }) {
     <div className="content">
       <div className="prf-page">
 
+        {/* ── 0. Profile hero (ink card) ── */}
+        <div className="prf-hero">
+          <div className="prf-hero-top">
+            <div className="prf-hero-avatar">A</div>
+            <div>
+              <div className="prf-hero-name">My Progress</div>
+              <div className="prf-hero-qual">CIMA Certificate in Business Accounting</div>
+            </div>
+          </div>
+          <div className="prf-hero-stats">
+            <div className="prf-hero-stat">
+              <span className="prf-hero-stat-val">{streak}</span>
+              <span className="prf-hero-stat-label">Day streak 🔥</span>
+            </div>
+            <div className="prf-hero-stat prf-hero-stat--citron">
+              <span className="prf-hero-stat-val">{xp.toLocaleString()}</span>
+              <span className="prf-hero-stat-label">Total XP ⭐</span>
+            </div>
+            <div className="prf-hero-stat">
+              <span className="prf-hero-stat-val">{mocksTaken}</span>
+              <span className="prf-hero-stat-label">Mocks taken 🏆</span>
+            </div>
+          </div>
+        </div>
+
         {/* ── 1. Summary header ── */}
         <div className="prf-summary-row">
-          <CrsStatCard icon="flame" tone="amber" label="Current Streak" value={`${streak} day${streak !== 1 ? "s" : ""}`}>
-            {streak === 0 ? "Start studying to begin your streak" : streak >= 7 ? "Impressive!" : "Keep it going!"}
-          </CrsStatCard>
-          <CrsStatCard icon="zap" tone="blue" label="Total XP" value={xp.toLocaleString()}>
-            5 XP per correct answer
-          </CrsStatCard>
           <CrsStatCard icon="clock" tone="green" label="Today's Goal" value={`${todayMin} / ${goalMin} min`}>
             <CrsProgressBar value={dailyPct} height={4} color="var(--favourable)" />
           </CrsStatCard>
           <CrsStatCard icon="help-circle" tone="blue" label="Questions Answered" value={qAnswered.toLocaleString()}>
-            {/* TODO: replace with real API data */}
             Across all papers
           </CrsStatCard>
           <CrsStatCard icon="clipboard-list" tone="amber" label="Mocks Taken" value={mocksTaken}>
-            {/* TODO: replace with real API data */}
             Full paper mock exams
           </CrsStatCard>
         </div>

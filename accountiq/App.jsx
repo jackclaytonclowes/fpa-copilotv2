@@ -38,7 +38,6 @@ function Sidebar({ active, onNav, onSignOut }) {
 
 /* ── TopBar ──────────────────────────────────────────────── */
 function TopBar({ view, aiqStats }) {
-  const { Icon } = window;
   const titles = {
     courses:    "Courses",
     skillslab:  "Skills Lab",
@@ -52,30 +51,76 @@ function TopBar({ view, aiqStats }) {
   const showStats = aiqStats && (aiqStats.xp > 0 || aiqStats.streak > 0);
   return (
     <div className="topbar">
-      <div style={{ minWidth: 0 }}>
+      {/* Mobile only: AccountIQ brand (sidebar hidden on mobile) */}
+      <div className="tb-mobile-brand">
+        Account<span className="tb-mobile-iq">IQ</span>
+      </div>
+      {/* Desktop only: page title */}
+      <div className="tb-page-info" style={{ minWidth: 0 }}>
         <div className="tb-title">{titles[view] || "Courses"}</div>
         <div className="tb-sub">CIMA Certificate in Business Accounting</div>
       </div>
       <div className="tb-spacer" />
       {showStats && (
-        <div style={{ display: "flex", alignItems: "center", gap: 14, flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           {aiqStats.streak > 0 && (
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 5,
-              font: "var(--text-body-strong)", fontSize: 13, color: "var(--caution)",
-            }}>
-              <Icon name="flame" size={15} />{aiqStats.streak}
+            <div className="tb-stat-pill tb-stat-pill--flame">
+              <span style={{ fontSize: 13, lineHeight: 1 }}>🔥</span>
+              <span className="tb-stat-num">{aiqStats.streak}</span>
             </div>
           )}
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 5,
-            font: "var(--text-body-strong)", fontSize: 13, color: "var(--primary)",
-          }}>
-            <Icon name="zap" size={15} />{aiqStats.xp.toLocaleString()} XP
+          <div className="tb-stat-pill tb-stat-pill--xp">
+            <span style={{ fontSize: 13, lineHeight: 1 }}>⭐</span>
+            <span className="tb-stat-num">{aiqStats.xp.toLocaleString()}</span>
           </div>
         </div>
       )}
+      <div className="tb-avatar">A</div>
     </div>
+  );
+}
+
+/* ── BottomNav (mobile) ──────────────────────────────────── */
+function BottomNav({ active, onNav }) {
+  const { Icon } = window;
+  const items = [
+    { id: "courses",   icon: "book-open",     label: "Courses" },
+    { id: "skillslab", icon: "flask-conical", label: "Skills Lab" },
+    { id: "tutor",     icon: "message-circle", label: "Tutor" },
+    { id: "profile",   icon: "user",          label: "Profile" },
+  ];
+  const courseViews = ["courses","lessons","quizengine","quiz","mockexam"];
+  return (
+    <nav className="aiq-bnav">
+      <div className="aiq-bnav-inner">
+        {items.map((it) => {
+          const isActive = it.id === "courses"
+            ? courseViews.includes(active)
+            : active === it.id;
+          return (
+            <button
+              key={it.id}
+              className="aiq-bnav-item"
+              onClick={() => onNav(it.id)}
+            >
+              {isActive && <span className="aiq-bnav-indicator" />}
+              <Icon
+                name={it.icon}
+                size={21}
+                color={isActive ? "#0C0E1A" : "var(--sand-400)"}
+                stroke={isActive ? 2.25 : 1.75}
+              />
+              <span
+                className="aiq-bnav-label"
+                style={{ color: isActive ? "#0C0E1A" : "var(--sand-400)", fontWeight: isActive ? 700 : 500 }}
+              >
+                {it.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
 
@@ -227,6 +272,7 @@ function App() {
       {showOnboarding && (
         <AIQOnboarding onComplete={() => setShowOnboarding(false)} />
       )}
+      <BottomNav active={view} onNav={handleNav} />
     </div>
   );
 }
