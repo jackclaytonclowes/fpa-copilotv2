@@ -285,6 +285,7 @@ function App() {
 
   // AccountIQ onboarding gate — checked each time Courses section is entered
   const [showOnboarding, setShowOnboarding] = useStateApp(false);
+  const AIQ_VIEWS = ["courses", "tutor", "profile", "lessons", "quiz"];
   const handleNavToLearn = (targetView) => {
     const store = window.aiqStore && window.aiqStore.get();
     if (store && !store.onboardingComplete) {
@@ -307,7 +308,7 @@ function App() {
     setView("copilot");
   };
 
-  const { AIQLessons, AIQQuiz } = window;
+  const { AIQLessons, AIQQuiz, AIQTutor } = window;
 
   let body;
   if (restoring) {
@@ -322,6 +323,8 @@ function App() {
       />;
   } else if (view === "quiz") {
     body = <AIQQuiz quizResult={aiqContext.quizResult} onNavigate={navigateToAiq} />;
+  } else if (view === "tutor") {
+    body = <AIQTutor onNavigate={navigateToAiq} />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {
@@ -378,7 +381,7 @@ function App() {
     <div className="app">
       <Sidebar
         active={view}
-        onNav={(v) => (["courses"].includes(v) ? handleNavToLearn(v) : setView(v))}
+        onNav={(v) => (AIQ_VIEWS.includes(v) ? handleNavToLearn(v) : setView(v))}
         hasData={hasData}
       />
       <div className="main">
