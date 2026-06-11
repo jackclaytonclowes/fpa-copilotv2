@@ -168,34 +168,89 @@ function CrsHero({ courses, onNavigate }) {
   );
 }
 
-/* ── Operational Level Section (placeholder; enhanced in Item 2 commit) ─── */
-function CrsOperationalSection({ certComplete }) {
+/* ── Operational Level Section with unlock checklist ────────────────────── */
+function CrsOperationalSection({ certCourses, certComplete }) {
   const { Icon } = window;
+
+  /* Build the four unlock criteria from live course progress.
+     A paper is "complete" when its progress value reaches 1.0.
+     TODO: replace progress with real backend completion flag. */
+  const criteria = certCourses.map((c) => ({
+    id:       c.id,
+    label:    `${c.title} — ${c.fullTitle}`,
+    done:     c.progress >= 1,
+  }));
+  const completedCount = criteria.filter((c) => c.done).length;
+  const totalCount     = criteria.length;
+
   return (
     <div className="crs-section crs-section--locked">
       <div className="crs-section-header">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <h2 className="crs-section-title crs-section-title--muted">Operational Level</h2>
-            <span className="crs-lock-badge">
-              <Icon name="lock" size={12} />
-              {certComplete ? "Unlocking…" : "Locked"}
-            </span>
+            <h2 className={`crs-section-title${certComplete ? "" : " crs-section-title--muted"}`}>
+              Operational Level
+            </h2>
+            {certComplete ? (
+              <span className="chip fav">
+                <Icon name="unlock" size={11} />
+                Unlocked
+              </span>
+            ) : (
+              <span className="crs-lock-badge">
+                <Icon name="lock" size={12} />
+                Locked
+              </span>
+            )}
           </div>
-          <div className="crs-section-sub crs-section-sub--muted">
+          <div className={`crs-section-sub${certComplete ? "" : " crs-section-sub--muted"}`}>
             Complete Certificate Level to unlock E1, P1 and F1
           </div>
         </div>
+
+        {/* Aggregate progress: "2 of 4 complete" */}
+        <span className={`chip ${completedCount === totalCount ? "fav" : "info"}`}>
+          {completedCount} of {totalCount} complete
+        </span>
       </div>
-      <div className="crs-courses-grid">
-        {CRS_OPS_PAPERS.map((paper) => (
-          <CrsLockedCard key={paper.id} paper={paper} />
+
+      {/* Unlock checklist */}
+      <div className="crs-unlock-checklist">
+        {criteria.map((c) => (
+          <div key={c.id} className={`crs-unlock-check${c.done ? " done" : ""}`}>
+            <div className={`crs-unlock-check-icon${c.done ? " done" : ""}`}>
+              <Icon
+                name={c.done ? "check" : "circle"}
+                size={14}
+                color={c.done ? "#fff" : "var(--fg-3)"}
+              />
+            </div>
+            <span className={`crs-unlock-check-label${c.done ? " done" : ""}`}>
+              {c.label}
+            </span>
+            {c.done && (
+              <span className="chip fav" style={{ marginLeft: "auto", fontSize: 11 }}>
+                Complete
+              </span>
+            )}
+          </div>
         ))}
       </div>
-      <div className="crs-unlock-hint">
-        <Icon name="lock" size={14} color="var(--fg-3)" />
-        Complete all Certificate Level papers to unlock Operational Level courses
-      </div>
+
+      {/* Locked course cards — always shown regardless of lock state */}
+      {!certComplete && (
+        <>
+          <div className="crs-courses-grid">
+            {CRS_OPS_PAPERS.map((paper) => (
+              <CrsLockedCard key={paper.id} paper={paper} />
+            ))}
+          </div>
+          <div className="crs-unlock-hint">
+            <Icon name="lock" size={14} color="var(--fg-3)" />
+            Complete all Certificate Level papers to unlock Operational Level courses
+          </div>
+        </>
+      )}
     </div>
   );
 }
