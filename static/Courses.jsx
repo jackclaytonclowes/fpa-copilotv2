@@ -281,7 +281,7 @@ function CrsStatCard({ icon, tone, label, value, children }) {
 }
 
 /* ── Certificate Course Card ─────────────────────────────────────────────── */
-function CrsCourseCard({ course, onNavigate }) {
+function CrsCourseCard({ course, onNavigate, availableQuestions }) {
   const { Icon, Button } = window;
   const pct = Math.round(course.progress * 100);
   const started = course.progress > 0;
@@ -343,6 +343,15 @@ function CrsCourseCard({ course, onNavigate }) {
         >
           {started ? "Continue" : "Start"}
         </Button>
+        {availableQuestions > 0 && (
+          <button
+            className="mex-course-link"
+            onClick={() => onNavigate && onNavigate("mockexam", { paperId: course.id })}
+          >
+            <Icon name="clipboard-list" size={13} />
+            Mock exam · {availableQuestions}Q
+          </button>
+        )}
       </div>
     </div>
   );
@@ -444,9 +453,16 @@ function Courses({ onNavigate }) {
             )}
           </div>
           <div className="crs-courses-grid">
-            {certCourses.map((course) => (
-              <CrsCourseCard key={course.id} course={course} onNavigate={onNavigate} />
-            ))}
+            {certCourses.map((course) => {
+              const catalogue = window.AIQ_COURSE_DATA || {};
+              const paper = (catalogue.papers || []).find((p) => p.id === course.id);
+              const qCount = paper
+                ? (paper.lessons || []).reduce((n, l) => n + ((l.practiceQuestions || []).length), 0)
+                : 0;
+              return (
+                <CrsCourseCard key={course.id} course={course} onNavigate={onNavigate} availableQuestions={qCount} />
+              );
+            })}
           </div>
         </div>
 
