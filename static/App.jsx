@@ -320,6 +320,7 @@ function App() {
     body = <Courses onNavigate={navigateToAiq} />;
   } else if (view === "lessons") {
     body = <AIQLessons
+        key={`${aiqContext.paperId}-${aiqContext.lessonId}`}
         paperId={aiqContext.paperId}
         lessonId={aiqContext.lessonId}
         onNavigate={navigateToAiq}

@@ -101,7 +101,8 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
     ? lessons.find((l) => l.id === lessonId) || lessons[0]
     : lessons[0];
 
-  const [score, setScore] = useLsnState({ correct: 0, total: 0 });
+  const [score, setScore]             = useLsnState({ correct: 0, total: 0 });
+  const [revealedSteps, setRevealedSteps] = useLsnState(1);
 
   if (!paper || !lesson) {
     return (
@@ -172,6 +173,20 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
           </div>
         )}
 
+        {/* Key terms — shown when the lesson provides a glossary */}
+        {lesson.keyTerms && lesson.keyTerms.length > 0 && (
+          <LsnSection icon="bookmark" title="Key Terms" tone="primary">
+            <div className="lsn-key-terms">
+              {lesson.keyTerms.map((kt, i) => (
+                <div key={i} className="lsn-key-term-card">
+                  <div className="lsn-key-term-name">{kt.term}</div>
+                  <div className="lsn-key-term-def">{kt.definition}</div>
+                </div>
+              ))}
+            </div>
+          </LsnSection>
+        )}
+
         {/* Explanation */}
         {lesson.explanation ? (
           <LsnSection icon="book-open" title="Explanation" tone="neutral">
@@ -187,19 +202,36 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
           </div>
         )}
 
-        {/* Worked example */}
+        {/* Worked example — steps revealed one at a time */}
         {lesson.workedExample ? (
           <LsnSection icon="pencil-ruler" title="Worked Example" tone="amber">
             <div className="lsn-example">
               {lesson.workedExample.setup && (
                 <div className="lsn-example-setup">{lesson.workedExample.setup}</div>
               )}
-              {lesson.workedExample.steps && (
-                <ol className="lsn-example-steps">
-                  {lesson.workedExample.steps.map((s, i) => <li key={i}>{s}</li>)}
-                </ol>
-              )}
-              {lesson.workedExample.answer && (
+              {lesson.workedExample.steps ? (
+                <>
+                  <ol className="lsn-example-steps">
+                    {lesson.workedExample.steps.slice(0, revealedSteps).map((s, i) => (
+                      <li key={i} className="lsn-example-step-item">{s}</li>
+                    ))}
+                  </ol>
+                  {revealedSteps < lesson.workedExample.steps.length ? (
+                    <button
+                      className="lsn-step-reveal-btn"
+                      onClick={() => setRevealedSteps((r) => r + 1)}
+                    >
+                      <Icon name="chevron-down" size={14} />
+                      Step {revealedSteps + 1} of {lesson.workedExample.steps.length}
+                    </button>
+                  ) : lesson.workedExample.answer && (
+                    <div className="lsn-example-answer">
+                      <Icon name="check-circle" size={14} color="var(--favourable)" />
+                      <strong>Answer:</strong> {lesson.workedExample.answer}
+                    </div>
+                  )}
+                </>
+              ) : lesson.workedExample.answer && (
                 <div className="lsn-example-answer">
                   <Icon name="check-circle" size={14} color="var(--favourable)" />
                   <strong>Answer:</strong> {lesson.workedExample.answer}
