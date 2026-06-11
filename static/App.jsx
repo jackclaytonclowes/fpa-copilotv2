@@ -198,7 +198,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, Courses, AIQOnboarding } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -279,6 +279,23 @@ function App() {
   const sessionId    = sessionData?.session_id;
   const analysisType = sessionData?.analysis_type || "month_on_month";
 
+  // AccountIQ onboarding gate — checked each time Courses section is entered
+  const [showOnboarding, setShowOnboarding] = useStateApp(false);
+  const handleNavToLearn = (targetView) => {
+    const store = window.aiqStore && window.aiqStore.get();
+    if (store && !store.onboardingComplete) {
+      setShowOnboarding(true);
+    }
+    setView(targetView);
+  };
+
+  // AccountIQ sub-navigation (lessons, quiz, tutor, profile)
+  const [aiqContext, setAiqContext] = useStateApp({}); // e.g. { paperId: "ba2" }
+  const navigateToAiq = (aiqView, ctx) => {
+    setAiqContext(ctx || {});
+    setView(aiqView);
+  };
+
   // Pre-filled question for copilot (set by Movements "Explain this variance")
   const [copilotQuestion, setCopilotQuestion] = useStateApp(null);
   const navigateToCopilot = (question) => {
@@ -290,7 +307,7 @@ function App() {
   if (restoring) {
     body = null;
   } else if (view === "courses") {
-    body = <Courses />;
+    body = <Courses onNavigate={navigateToAiq} />;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} />;
   } else if (view === "copilot") {
@@ -345,7 +362,11 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar active={view} onNav={setView} hasData={hasData} />
+      <Sidebar
+        active={view}
+        onNav={(v) => (["courses"].includes(v) ? handleNavToLearn(v) : setView(v))}
+        hasData={hasData}
+      />
       <div className="main">
         <TopBar
           view={view}
@@ -374,6 +395,11 @@ function App() {
         />
       )}
       <Toast message={toast} />
+
+      {/* AccountIQ onboarding overlay — shown when entering Courses without a study plan */}
+      {showOnboarding && (
+        <AIQOnboarding onComplete={() => setShowOnboarding(false)} />
+      )}
     </div>
   );
 }
