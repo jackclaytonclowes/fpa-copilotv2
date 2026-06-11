@@ -12931,7 +12931,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The further processing decision: incremental revenue = £10 − £8 = £2/unit additional. Incremental cost = £3/unit additional. Since incremental cost (£3) > incremental revenue (£2), do NOT process further — it would reduce profit by £1/unit. Joint costs are irrelevant (sunk). The correct decision is to sell at split-off for £8/unit.",
             },
-          ],
+          
+          {
+            question: "Joint costs to split-off point are £120,000. Product A: 4,000 kg NRV £8/kg; Product B: 2,000 kg NRV £6/kg. Using the NRV method, what joint cost is apportioned to Product A?",
+            options: [
+              "£80,000",
+              "£87,273",
+              "£60,000",
+              "£96,000",
+            ],
+            correct: 1,
+            explanation: "NRV totals: A = £32,000, B = £12,000, total £44,000. Product A share = 32/44 × £120,000 = £87,273.",
+          },
+          {
+            question: "Under the net-proceeds method, income from a by-product is treated as:",
+            options: [
+              "Other income in the P&L",
+              "A deduction from joint process costs",
+              "An addition to main product revenue",
+              "A sundry credit to the balance sheet",
+            ],
+            correct: 1,
+            explanation: "The net proceeds method credits by-product proceeds against the joint process costs, reducing the cost to be apportioned to main products.",
+          },
+        ],
         },
         {
           id: "p1-l4",
@@ -13036,7 +13059,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "A composite cost unit combines two variables — in this case, tonnes (weight of goods) and kilometres (distance transported). A tonne-kilometre is a standard cost unit in road haulage and logistics because it captures both dimensions of service output. The other options are single-variable cost units.",
             },
-          ],
+          
+          {
+            question: "A hospital's total annual costs are £2,400,000. It treats 8,000 patients generating 30,000 patient-days. What is the cost per patient-day?",
+            options: [
+              "£300",
+              "£80",
+              "£120",
+              "£48",
+            ],
+            correct: 1,
+            explanation: "Cost per patient-day = £2,400,000 / 30,000 = £80. Patient-days are the appropriate composite cost unit for a hospital.",
+          },
+          {
+            question: "Which cost unit is most appropriate for a road haulage company?",
+            options: [
+              "Cost per driver per day",
+              "Cost per tonne-kilometre",
+              "Cost per vehicle",
+              "Cost per delivery",
+            ],
+            correct: 1,
+            explanation: "Tonne-kilometre (weight carried × distance) is a composite cost unit that captures both capacity and distance — the two key drivers of haulage cost.",
+          },
+        ],
         },
         {
           id: "p1-l5",
@@ -13131,7 +13177,30 @@ const AIQ_COURSE_DATA = {
               correct: 0,
               explanation: "Cost driver rate = £120,000 / 600 orders = £200 per purchase order. Product X overhead = £200 × 150 orders = £30,000. This £30,000 is then spread over all units of Product X (divide by volume) to get overhead per unit. ABC correctly attributes the high procurement cost to products that generate many purchase orders.",
             },
-          ],
+          
+          {
+            question: "ABC improves cost accuracy compared with traditional absorption costing primarily by:",
+            options: [
+              "Applying a single blanket overhead rate",
+              "Tracing costs to cost pools and then to products via activity-based cost drivers",
+              "Eliminating fixed overhead from product costs",
+              "Applying marginal costing principles",
+            ],
+            correct: 1,
+            explanation: "ABC identifies activities, groups costs into activity cost pools, and uses cost drivers specific to each activity, giving a more accurate cause-and-effect link between overhead and products.",
+          },
+          {
+            question: "Compared with ABC, traditional volume-based absorption costing tends to:",
+            options: [
+              "Over-cost high-volume simple products and under-cost low-volume complex products",
+              "Under-cost high-volume simple products and over-cost low-volume complex products",
+              "Produce the same unit costs as ABC",
+              "Under-cost all products equally",
+            ],
+            correct: 0,
+            explanation: "Traditional costing spreads overheads by volume (e.g., machine hours). High-volume products absorb more overhead than they actually cause, while low-volume complex products (which consume many support activities) are under-costed.",
+          },
+        ],
         },
         {
           id: "p1-l6",
@@ -13222,7 +13291,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "The primary criticism of ABC is its complexity and cost — identifying activities, mapping costs to pools, selecting appropriate cost drivers, and maintaining the system as the business changes all require significant management time and cost. This is why many companies use simplified ABC or TDABC rather than full multi-pool ABC. Despite being more accurate, if implementation cost exceeds the benefit from better decisions, ABC may not be justified.",
             },
-          ],
+          
+          {
+            question: "A machine set-up cost pool is £180,000. Product X causes 60 set-ups; Product Y causes 40. Product X output = 3,000 units. What is the ABC set-up cost per unit for Product X?",
+            options: [
+              "£60.00",
+              "£36.00",
+              "£45.00",
+              "£18.00",
+            ],
+            correct: 1,
+            explanation: "Cost per set-up = £180,000 / 100 = £1,800. Product X total set-up cost = 60 × £1,800 = £108,000. Per unit = £108,000 / 3,000 = £36.",
+          },
+          {
+            question: "ABC assigns more overhead to low-volume complex products than traditional costing because:",
+            options: [
+              "Low-volume products always use more machine hours",
+              "Low-volume products consume disproportionately more activity cost driver transactions relative to their volume",
+              "Traditional costing deliberately favours low-volume products",
+              "ABC ignores product complexity",
+            ],
+            correct: 1,
+            explanation: "Complex low-volume products trigger many support activities (e.g., set-ups, inspections, design changes) per unit produced. Traditional volume-based rates miss this, so ABC surfaces the true cost.",
+          },
+        ],
         },
         {
           id: "p1-l7",
@@ -13318,7 +13410,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Goldratt's throughput accounting treats labour as a fixed period cost — it cannot be easily varied in the short term (workers cannot be hired and fired daily). Therefore only direct material is deducted from revenue to calculate throughput. This is more conservative than marginal costing, which treats direct labour as variable.",
             },
-          ],
+          
+          {
+            question: "Selling price = £100; material cost = £40; bottleneck output = 500 units/week; total weekly factory costs = £25,000. What is the throughput accounting (TA) ratio?",
+            options: [
+              "0.83",
+              "1.20",
+              "1.50",
+              "2.40",
+            ],
+            correct: 1,
+            explanation: "Throughput per unit = £100 − £40 = £60. Total weekly throughput = 500 × £60 = £30,000. TA ratio = £30,000 / £25,000 = 1.20. A ratio above 1 indicates the product is worthwhile.",
+          },
+          {
+            question: "In throughput accounting, the optimal short-term product mix is determined by ranking on:",
+            options: [
+              "Contribution per unit",
+              "Contribution per machine hour",
+              "Throughput per unit of bottleneck resource",
+              "Net profit margin percentage",
+            ],
+            correct: 2,
+            explanation: "Throughput accounting ranks products by throughput (sales − direct material) per unit of bottleneck time. This maximises throughput generated by the constrained resource.",
+          },
+        ],
         },
         {
           id: "p1-l8",
@@ -13519,7 +13634,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "For a special order using spare capacity, only variable costs are relevant (fixed costs are already committed). At £32 price vs £25 variable cost, the order generates £7/unit contribution — it should be accepted. The fixed overhead of £15 is irrelevant to this decision as it will be incurred regardless. This is the key principle of relevant costing for short-term decisions.",
             },
-          ],
+          
+          {
+            question: "A product costs £80 to manufacture. The company applies a 25% mark-up on cost. What is the selling price?",
+            options: [
+              "£80",
+              "£96",
+              "£100",
+              "£104",
+            ],
+            correct: 2,
+            explanation: "Mark-up on cost: £80 × 1.25 = £100. Note the distinction: a 25% mark-up on cost gives a gross margin of 20% on the selling price.",
+          },
+          {
+            question: "Penetration pricing involves:",
+            options: [
+              "Setting a high initial price to recoup R&D investment quickly",
+              "Setting a low price to gain market share rapidly",
+              "Pricing based solely on competitor prices",
+              "Adding a fixed percentage margin to total cost",
+            ],
+            correct: 1,
+            explanation: "Penetration pricing uses a low launch price to build volume and market share. It is the opposite of price-skimming, which uses a high initial price to maximise revenue from early adopters.",
+          },
+        ],
         },
         {
           id: "p1-l10",
@@ -13602,7 +13740,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "When |PED| > 1 (elastic demand), a 1% price increase leads to more than 1% reduction in quantity demanded. The quantity effect dominates the price effect, so total revenue (P × Q) falls. This is why firms with elastic demand products should be cautious about price increases — they can backfire.",
             },
-          ],
+          
+          {
+            question: "Current price = £50, quantity demanded = 2,000 units. Price elasticity of demand = −2. If price rises to £55, what is the new quantity demanded?",
+            options: [
+              "1,800",
+              "1,600",
+              "2,400",
+              "2,200",
+            ],
+            correct: 1,
+            explanation: "% price change = (55 − 50)/50 = 10%. % quantity change = −2 × 10% = −20%. New quantity = 2,000 × 0.80 = 1,600 units.",
+          },
+          {
+            question: "The demand function is P = 100 − 2Q. At what price is total revenue maximised?",
+            options: [
+              "£100",
+              "£75",
+              "£50",
+              "£25",
+            ],
+            correct: 2,
+            explanation: "TR = P × Q = (100 − 2Q)Q = 100Q − 2Q². dTR/dQ = 100 − 4Q = 0, so Q = 25. P = 100 − 2(25) = £50. TR is maximised where MR = 0, i.e., price elasticity = −1.",
+          },
+        ],
         },
         {
           id: "p1-l11",
@@ -13696,7 +13857,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The MR function for a linear demand P = a − bQ is MR = a − 2bQ. Here a = 200 and b = 5, so MR = 200 − 2(5)Q = 200 − 10Q. The MR function has the same price-axis intercept (200) as the demand function but twice the slope (−10 vs −5).",
             },
-          ],
+          
+          {
+            question: "Demand function: P = 200 − 4Q. Marginal cost = £40. What is the profit-maximising selling price?",
+            options: [
+              "£40",
+              "£80",
+              "£100",
+              "£120",
+            ],
+            correct: 3,
+            explanation: "MR = 200 − 8Q. Set MR = MC: 200 − 8Q = 40, so Q = 20. P = 200 − 4(20) = £120. Profit is maximised where MR = MC.",
+          },
+          {
+            question: "Marginal revenue equals zero when:",
+            options: [
+              "Price elasticity of demand equals −1 (unitary elasticity)",
+              "Fixed costs are zero",
+              "The demand curve is perfectly elastic",
+              "Contribution per unit equals zero",
+            ],
+            correct: 0,
+            explanation: "MR = P(1 + 1/PED). When PED = −1, MR = P(1 − 1) = 0. This is the point of maximum total revenue on the demand curve.",
+          },
+        ],
         },
         {
           id: "p1-l12",
@@ -13783,7 +13967,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Relevant shutdown analysis: Contribution = £200,000 − £130,000 = £70,000. If the line closes, contribution is lost (−£70,000) but only avoidable fixed costs are saved (+£40,000). Net impact of closure: −£70,000 + £40,000 = −£30,000 — closing makes the company £30,000 worse off. The allocated head office overhead of £50,000 is irrelevant — it will be reallocated to other products, not saved.",
             },
-          ],
+          
+          {
+            question: "A machine was purchased for £50,000 and has a book value of £20,000. It can be sold today for £15,000 or used in a special contract. What is the relevant cost of the machine for the contract decision?",
+            options: [
+              "£50,000 — original purchase price",
+              "£20,000 — net book value",
+              "£15,000 — current resale value",
+              "Nil — it is a sunk cost",
+            ],
+            correct: 2,
+            explanation: "The relevant cost is the opportunity cost of not selling: £15,000 foregone. The original cost and book value are both sunk and irrelevant to forward-looking decisions.",
+          },
+          {
+            question: "Material in inventory has an original cost of £8,000. It has no alternative use and could be sold as scrap for £1,200. What is its relevant cost for a contract decision?",
+            options: [
+              "£8,000",
+              "£1,200",
+              "Nil",
+              "£6,800",
+            ],
+            correct: 1,
+            explanation: "The original cost is sunk and irrelevant. The relevant cost is the opportunity cost foregone by using the material rather than selling it as scrap: £1,200.",
+          },
+        ],
         },
         {
           id: "p1-l13",
@@ -13872,7 +14079,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "The most important limitation of EV is that it is a probability-weighted average — it represents what would happen on average over many repetitions of the same decision. For unique, one-off decisions, the actual outcome is one specific result (not an average). Furthermore, EV ignores whether decision-makers are risk-averse or risk-seeking — two decisions with equal EVs but very different variances may be valued quite differently.",
             },
-          ],
+          
+          {
+            question: "Possible outcomes: profit £30,000 (probability 0.3), profit £50,000 (probability 0.5), loss £10,000 (probability 0.2). What is the expected value?",
+            options: [
+              "£28,000",
+              "£32,000",
+              "£36,000",
+              "£70,000",
+            ],
+            correct: 1,
+            explanation: "EV = (0.3 × £30,000) + (0.5 × £50,000) + (0.2 × −£10,000) = £9,000 + £25,000 − £2,000 = £32,000.",
+          },
+          {
+            question: "A key limitation of using expected value as a decision criterion is:",
+            options: [
+              "It always selects the option with the lowest risk",
+              "Probabilities assigned to outcomes are often subjective estimates",
+              "It cannot be used when any outcome is negative",
+              "It always selects the minimum-cost option",
+            ],
+            correct: 1,
+            explanation: "Probabilities are often estimated subjectively, making expected values unreliable. EV is also less meaningful for one-off decisions because the average outcome may never actually occur.",
+          },
+        ],
         },
         {
           id: "p1-l14",
@@ -13955,7 +14185,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "VOPI = EV with perfect information − Best EV without information = £55,000 − £40,000 = £15,000. This represents the maximum amount the company should pay for a perfectly reliable information source. If actual information costs less than £15,000, it is worth acquiring.",
             },
-          ],
+          
+          {
+            question: "A decision tree shows: Launch product (cost £200,000); then 60% chance of success with payoff £600,000, and 40% chance of failure with payoff £50,000. What is the expected net value of launching?",
+            options: [
+              "£150,000",
+              "£180,000",
+              "£200,000",
+              "£380,000",
+            ],
+            correct: 1,
+            explanation: "Expected payoff = 0.6 × £600,000 + 0.4 × £50,000 = £360,000 + £20,000 = £380,000. Net of launch cost: £380,000 − £200,000 = £180,000.",
+          },
+          {
+            question: "In a decision tree, a square node (box) represents:",
+            options: [
+              "A chance event with associated probabilities",
+              "A decision point where a choice must be made",
+              "A terminal payoff value",
+              "A probability branch",
+            ],
+            correct: 1,
+            explanation: "Square nodes are decision points — the decision maker chooses which branch to take. Circle nodes represent chance events where outcomes occur with given probabilities.",
+          },
+        ],
         },
         {
           id: "p1-l15",
@@ -14037,7 +14290,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Regret = Best payoff available in that state − Actual payoff of the chosen decision in that state. It measures the opportunity cost of not having made the best decision. If in State 1 the best payoff is £80,000 and Decision A gives £60,000, the regret for Decision A in State 1 is £80,000 − £60,000 = £20,000.",
             },
-          ],
+          
+          {
+            question: "Payoff table (£000): Strategy A outcomes: 20, 60, 80; Strategy B: 30, 50, 70; Strategy C: 40, 40, 65. A risk-averse manager applies maximin. Which strategy is chosen?",
+            options: [
+              "Strategy A",
+              "Strategy B",
+              "Strategy C",
+              "Strategy A and B are equal",
+            ],
+            correct: 2,
+            explanation: "Maximin selects the strategy with the best worst-case outcome. Minimums: A = 20, B = 30, C = 40. Strategy C has the highest minimum, so it is chosen.",
+          },
+          {
+            question: "Using the same payoff table and the maximax (optimistic) criterion, which strategy is selected?",
+            options: [
+              "Strategy A",
+              "Strategy B",
+              "Strategy C",
+              "Strategy B and C are equal",
+            ],
+            correct: 0,
+            explanation: "Maximax selects the strategy with the highest possible outcome. Maximums: A = 80, B = 70, C = 65. Strategy A has the highest maximum payoff.",
+          },
+        ],
         },
         {
           id: "p1-l16",
@@ -14123,7 +14399,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "The shadow price (dual value) of a binding constraint is the increase in the optimal objective value per unit increase in that constraint's right-hand side. A labour shadow price of £2.50 means that obtaining one additional hour of labour would allow the optimal production plan to be adjusted to generate £2.50 more contribution. The company should pay up to £2.50 above the normal labour cost for any additional hours.",
             },
-          ],
+          
+          {
+            question: "A firm makes Products X and Y. Each X requires 3 kg of material; each Y requires 2 kg. Total material available = 120 kg. Which expression correctly states the material constraint?",
+            options: [
+              "3X + 2Y ≤ 120",
+              "2X + 3Y ≤ 120",
+              "3X + 2Y = 120",
+              "X + Y ≤ 120",
+            ],
+            correct: 0,
+            explanation: "The constraint is 3X + 2Y ≤ 120 because each unit of X uses 3 kg and each Y uses 2 kg, and total usage cannot exceed available supply of 120 kg.",
+          },
+          {
+            question: "The optimal corner point of a linear programme gives X = 20 and Y = 15. Contribution is £5 per X and £8 per Y. What is the optimal total contribution?",
+            options: [
+              "£175",
+              "£200",
+              "£220",
+              "£245",
+            ],
+            correct: 2,
+            explanation: "Total contribution = (20 × £5) + (15 × £8) = £100 + £120 = £220. The optimal solution always lies at a corner (vertex) of the feasible region.",
+          },
+        ],
         },
 
         /* ── Module C: Budgeting, Planning and Control (L17–L24) ── */
@@ -14330,7 +14629,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Beyond Budgeting replaces fixed negotiated targets with relative goals — e.g., 'achieve top-quartile return on equity among peers' or 'grow revenue faster than the market'. This removes the incentive to negotiate easy targets and aligns reward with genuine performance improvement. ZBB decision packages (option A) are a separate technique. Rolling budgets (option C) still carry binding targets. ABB cost driver rates (option D) are an input to budgeting, not a replacement for targets.",
             },
-          ],
+          
+          {
+            question: "The central principle of the 'Beyond Budgeting' movement is:",
+            options: [
+              "Setting tighter annual budget targets to motivate managers",
+              "Replacing fixed annual budgets with adaptive, devolved management processes",
+              "Using zero-based budgeting every year",
+              "Eliminating all financial targets from the organisation",
+            ],
+            correct: 1,
+            explanation: "Beyond Budgeting replaces the rigid annual budget cycle with dynamic, relative targets and decentralised decision-making, allowing the organisation to respond to changing conditions.",
+          },
+          {
+            question: "A key advantage of a rolling 12-month forecast updated quarterly compared with a traditional annual budget is:",
+            options: [
+              "It eliminates the need for variance analysis",
+              "The planning horizon always extends 12 months ahead, keeping forecasts relevant",
+              "It is significantly cheaper and faster to prepare",
+              "It removes individual management accountability",
+            ],
+            correct: 1,
+            explanation: "Rolling forecasts always look the same distance into the future (e.g., 12 months), unlike annual budgets which progressively shorten to the year-end, reducing their relevance as the year progresses.",
+          },
+        ],
         },
         {
           id: "p1-l19",
@@ -14525,7 +14847,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "Fixed overhead volume variance = (Actual production − Budgeted production) × Standard fixed overhead per unit = (550 − 500) × £10 = £500 favourable. Producing more than budgeted means more overhead is absorbed than was budgeted, giving a favourable volume variance. The total fixed overhead absorbed = 550 × £10 = £5,500; budgeted fixed overhead = 500 × £10 = £5,000; difference = £500 F.",
             },
-          ],
+          
+          {
+            question: "Budgeted production 1,000 units; standard labour 3 hrs at £12/hr. Actual: 950 units produced, 2,800 hrs worked, paid £12.50/hr. What is the direct labour efficiency variance?",
+            options: [
+              "£600 Adverse",
+              "£600 Favourable",
+              "£1,400 Adverse",
+              "£1,400 Favourable",
+            ],
+            correct: 1,
+            explanation: "Standard hours for actual output = 950 × 3 = 2,850 hrs. Efficiency variance = (2,850 − 2,800) × £12 = 50 × £12 = £600 Favourable. Fewer hours used than standard is favourable.",
+          },
+          {
+            question: "Using the same data, what is the direct labour rate variance?",
+            options: [
+              "£600 Adverse",
+              "£600 Favourable",
+              "£1,400 Adverse",
+              "£1,400 Favourable",
+            ],
+            correct: 2,
+            explanation: "Rate variance = Actual hrs × (Std rate − Actual rate) = 2,800 × (£12.00 − £12.50) = 2,800 × (−£0.50) = −£1,400 Adverse. Paying more than standard is adverse.",
+          },
+        ],
         },
         {
           id: "p1-l21",
@@ -14618,7 +14963,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The yield variance is adverse when actual output is lower than the standard output that should have been produced from the actual total input. Option A describes an adverse mix variance. Option C would give a favourable usage/yield variance (less input used). Option D is a price variance — completely separate from usage, mix and yield.",
             },
-          ],
+          
+          {
+            question: "Standard mix: 40% Material A at £5/kg, 60% Material B at £3/kg. Actual input: 500 kg A and 400 kg B (900 kg total). Standard mix for 900 kg: 360 kg A, 540 kg B. What is the material mix variance for Material A?",
+            options: [
+              "£420 Favourable",
+              "£700 Adverse",
+              "£700 Favourable",
+              "£280 Adverse",
+            ],
+            correct: 1,
+            explanation: "Mix variance for A = (actual qty in actual mix − actual qty in std mix) × std price = (500 − 360) × £5 = 140 × £5 = £700 Adverse. More of the expensive material used than standard.",
+          },
+          {
+            question: "The material yield variance measures:",
+            options: [
+              "The cost impact of substituting cheaper materials for expensive ones",
+              "The difference between actual output and the standard output expected from actual input",
+              "The difference between budgeted and actual purchase prices",
+              "The variance arising from using a different blend of materials",
+            ],
+            correct: 1,
+            explanation: "The yield variance compares actual output with the standard output expected from actual input quantity. An adverse yield means less output was produced than standard, suggesting process inefficiency or waste.",
+          },
+        ],
         },
         {
           id: "p1-l22",
@@ -14704,7 +15072,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "The sales quantity variance measures the effect of total actual volume versus total budgeted volume, valued at the budgeted average contribution per unit. A favourable quantity variance means total units sold exceeded budget. Option A is the sales price variance. Option B is the sales mix variance. Option D relates to fixed overhead expenditure variance.",
             },
-          ],
+          
+          {
+            question: "Budgeted sales: Product A = 600 units, Product B = 400 units (total 1,000). Standard margins: A = £20, B = £30. Weighted-average standard margin = £24. Actual total sales = 900 units. What is the sales quantity variance?",
+            options: [
+              "£2,400 Adverse",
+              "£2,400 Favourable",
+              "£3,000 Adverse",
+              "£1,000 Favourable",
+            ],
+            correct: 0,
+            explanation: "Sales quantity variance = (Actual total sales − Budgeted total sales) × Weighted-avg std margin = (900 − 1,000) × £24 = −£2,400 Adverse.",
+          },
+          {
+            question: "The sales mix variance arises when:",
+            options: [
+              "Total actual units sold differ from total budgeted units",
+              "The actual proportion of products sold differs from the budgeted mix",
+              "Actual selling prices differ from standard prices",
+              "Variable costs differ from standard",
+            ],
+            correct: 1,
+            explanation: "The mix variance isolates the profit impact of selling a different combination of products from the budgeted mix, holding total volume constant. It occurs when higher- or lower-margin products are sold in different proportions.",
+          },
+        ],
         },
         {
           id: "p1-l23",
@@ -14793,7 +15184,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "An ex-post standard is set after the period using knowledge of the conditions that actually prevailed (e.g., market prices, capacity constraints, external disruptions). It represents what efficient performance looked like given those actual conditions. It is used to split the total variance into planning (original vs ex-post) and operational (ex-post vs actual) components. Option A is an ex-ante (original) standard. Option C is an ideal standard. Option D is a basic standard.",
             },
-          ],
+          
+          {
+            question: "Original standard material price = £10/kg; revised standard (due to market price rise) = £11/kg; actual price paid = £11.50/kg for 5,000 kg. What is the operational price variance?",
+            options: [
+              "£7,500 Adverse",
+              "£2,500 Favourable",
+              "£2,500 Adverse",
+              "£5,000 Adverse",
+            ],
+            correct: 2,
+            explanation: "Operational variance uses the revised standard as the benchmark. Operational price variance = (Revised std − Actual) × Actual qty = (£11 − £11.50) × 5,000 = −£2,500 Adverse. Management is responsible for this portion.",
+          },
+          {
+            question: "Using the same data, what is the planning price variance?",
+            options: [
+              "£5,000 Adverse",
+              "£5,000 Favourable",
+              "£2,500 Adverse",
+              "£7,500 Adverse",
+            ],
+            correct: 0,
+            explanation: "Planning variance = (Original std − Revised std) × Actual qty = (£10 − £11) × 5,000 = −£5,000 Adverse. This reflects an unforeseeable external change in market prices and is typically uncontrollable by management.",
+          },
+        ],
         },
         {
           id: "p1-l24",
@@ -14884,7 +15298,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "This is the classic interdependency: cheap/inferior materials tend to produce more waste, spoilage and rework, increasing material consumption above the standard quantity. The adverse usage variance is a direct consequence of the favourable price variance. Option A is implausible. Option C may also be true (and is a further interdependency) but is not the 'most likely explanation' for the usage variance specifically. Option D is incorrect — variances are frequently interdependent.",
             },
-          ],
+          
+          {
+            question: "A firm investigates variances exceeding 5% of standard cost. Standard material cost = £40,000; actual = £42,200. Should this variance be investigated?",
+            options: [
+              "No — the absolute variance is small",
+              "Yes — the variance exceeds the 5% materiality threshold",
+              "No — only adverse variances are investigated",
+              "Yes — all variances must be investigated regardless",
+            ],
+            correct: 1,
+            explanation: "Variance = £2,200. 5% of £40,000 = £2,000. Since £2,200 > £2,000, the variance exceeds the threshold and should be investigated. The threshold ensures management focus on significant deviations.",
+          },
+          {
+            question: "Which factor is LEAST relevant when deciding whether to investigate a variance?",
+            options: [
+              "The size of the variance relative to standard cost",
+              "Whether the variance is likely to be controllable",
+              "The estimated cost of investigation versus the benefit of correction",
+              "Whether the variance report is printed in colour",
+            ],
+            correct: 3,
+            explanation: "The decision to investigate should be based on significance, controllability, and cost-benefit. The presentation format of the report is irrelevant to whether a variance warrants management attention.",
+          },
+        ],
         },
 
         /* ── Module D: Performance Measurement (L25–L30) ── */
@@ -14985,7 +15422,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "This is classic gaming: the target metric (time in A&E) is technically met by manipulating the definition of 'in A&E', without improving patient care. The measure has become the goal rather than a proxy for the true objective (patient welfare). Gaming occurs when people optimise the measure rather than the underlying performance it was designed to capture.",
             },
-          ],
+          
+          {
+            question: "The '3 Es' of value for money (VFM) in the public sector are:",
+            options: [
+              "Efficiency, Economy, Effectiveness",
+              "Equity, Ethics, Efficiency",
+              "Excellence, Earnings, Environment",
+              "Economy, Earnings, Equity",
+            ],
+            correct: 0,
+            explanation: "VFM comprises Economy (minimising input costs), Efficiency (output per unit of input) and Effectiveness (achieving the stated objectives). These are the three core dimensions of public sector performance.",
+          },
+          {
+            question: "A 'lagging indicator' in performance measurement:",
+            options: [
+              "Predicts and drives future performance",
+              "Measures outcomes after the event has occurred",
+              "Drives future strategic objectives",
+              "Is always expressed as a financial ratio",
+            ],
+            correct: 1,
+            explanation: "Lagging indicators (e.g., annual profit, customer satisfaction survey) measure what has already happened. Leading indicators (e.g., staff training hours, pipeline value) predict future performance.",
+          },
+        ],
         },
         {
           id: "p1-l26",
@@ -15075,7 +15535,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "The BSC's key advantage over purely financial measurement is the inclusion of non-financial leading indicators (customer satisfaction, process quality, employee capability) that predict future financial results. Financial measures alone are backward-looking. The BSC does NOT eliminate financial reporting (Option A) and typically increases, not decreases, the number of measures (Option C). It has no direct connection to bonus structures unless explicitly designed that way (Option D).",
             },
-          ],
+          
+          {
+            question: "Which balanced scorecard perspective focuses on employee skills, culture and information systems?",
+            options: [
+              "Financial",
+              "Customer",
+              "Internal Business Process",
+              "Learning and Growth",
+            ],
+            correct: 3,
+            explanation: "The Learning and Growth (or Innovation and Learning) perspective covers employee capability, information systems and organisational culture — the foundation that enables the other three perspectives.",
+          },
+          {
+            question: "A company tracks 'manufacturing defect rate' as a KPI. Which balanced scorecard perspective does this primarily belong to?",
+            options: [
+              "Financial",
+              "Customer",
+              "Internal Business Process",
+              "Learning and Growth",
+            ],
+            correct: 2,
+            explanation: "Defect rate measures how efficiently internal processes operate. It sits in the Internal Business Process perspective, alongside cycle time, capacity utilisation, and waste metrics.",
+          },
+        ],
         },
         {
           id: "p1-l27",
@@ -15172,7 +15655,30 @@ const AIQ_COURSE_DATA = {
               correct: 0,
               explanation: "RI = Divisional profit − (Cost of capital × Net assets) = £240,000 − (15% × £1,200,000) = £240,000 − £180,000 = £60,000. The division earns £60,000 above the minimum required return on its assets. ROI = £240,000 / £1,200,000 = 20%, which exceeds the 15% hurdle, consistent with positive RI.",
             },
-          ],
+          
+          {
+            question: "Division X: net profit £480,000, capital employed £2,400,000. Division Y: net profit £360,000, capital employed £1,500,000. Which division has the higher ROI?",
+            options: [
+              "Division X at 20%",
+              "Division Y at 24%",
+              "Both are equal at 20%",
+              "Cannot be determined from the data given",
+            ],
+            correct: 1,
+            explanation: "ROI for X = £480,000 / £2,400,000 = 20%. ROI for Y = £360,000 / £1,500,000 = 24%. Division Y achieves higher returns per £1 of capital employed.",
+          },
+          {
+            question: "Using the Division X data above and a cost of capital of 15%, what is Division X's residual income?",
+            options: [
+              "£480,000",
+              "£360,000",
+              "£120,000",
+              "£840,000",
+            ],
+            correct: 2,
+            explanation: "RI = Net profit − (Capital employed × Cost of capital) = £480,000 − (£2,400,000 × 15%) = £480,000 − £360,000 = £120,000.",
+          },
+        ],
         },
         {
           id: "p1-l28",
@@ -15262,7 +15768,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "Expensing R&D immediately reduces current-period profit, which would penalise a manager who invests in future value creation. EVA capitalises R&D to reflect its economic nature as a long-term investment, preventing managers from being discouraged from investing in R&D to avoid a profit hit. Option B is incorrect — IAS 38 requires development costs to be capitalised only when criteria are met, and research costs to be expensed. Option D is wrong — capitalising R&D increases (not reduces) the capital base, increasing the capital charge.",
             },
-          ],
+          
+          {
+            question: "NOPAT = £800,000. Capital employed = £5,000,000. WACC = 12%. What is the Economic Value Added (EVA)?",
+            options: [
+              "£200,000",
+              "£600,000",
+              "£800,000",
+              "£1,400,000",
+            ],
+            correct: 0,
+            explanation: "EVA = NOPAT − (WACC × Capital employed) = £800,000 − (12% × £5,000,000) = £800,000 − £600,000 = £200,000. Positive EVA means the division is creating shareholder value.",
+          },
+          {
+            question: "EVA is preferred over ROI as a divisional performance measure because:",
+            options: [
+              "EVA always produces a larger absolute number than ROI",
+              "EVA discourages managers from rejecting positive-NPV investments that would lower divisional ROI",
+              "EVA ignores the cost of equity capital",
+              "EVA is simpler to calculate",
+            ],
+            correct: 1,
+            explanation: "ROI creates a dysfunctional incentive: a manager may reject a project earning above WACC if it reduces the division's ROI percentage. EVA, being an absolute measure, aligns divisional decisions with overall value creation.",
+          },
+        ],
         },
         {
           id: "p1-l29",
@@ -15355,7 +15884,30 @@ const AIQ_COURSE_DATA = {
               correct: 1,
               explanation: "Tax authorities apply the arm's length principle: transfer prices between related parties should reflect what independent, unrelated parties would agree in an open market. If transfer prices deviate from this (artificially low or high to shift profits), tax authorities can adjust the taxable profit in their jurisdiction. The OECD Transfer Pricing Guidelines provide the internationally accepted framework.",
             },
-          ],
+          
+          {
+            question: "Division A sells externally and has no spare capacity. Variable cost = £30/unit; contribution from external sales = £20/unit. What is the minimum transfer price Division A should accept?",
+            options: [
+              "£30",
+              "£20",
+              "£50",
+              "£10",
+            ],
+            correct: 2,
+            explanation: "Minimum TP = Variable cost + Opportunity cost = £30 + £20 = £50. With no spare capacity, internal transfers displace external sales, so Division A must recover both its variable cost and the contribution foregone.",
+          },
+          {
+            question: "When the selling division has spare capacity, the minimum transfer price it should accept is:",
+            options: [
+              "Full cost plus a mark-up",
+              "The external market price",
+              "Variable cost (no opportunity cost arises)",
+              "Zero, to maximise group profit",
+            ],
+            correct: 2,
+            explanation: "With spare capacity, there is no opportunity cost — the division is not displacing external sales. The minimum transfer price is therefore simply variable cost, ensuring no contribution is lost.",
+          },
+        ],
         },
         {
           id: "p1-l30",
@@ -15457,7 +16009,30 @@ const AIQ_COURSE_DATA = {
               correct: 2,
               explanation: "TCFD is specifically focused on climate-related financial disclosures, structured around four pillars: governance (board oversight of climate), strategy (how climate affects business), risk management (processes for identifying climate risks) and metrics and targets (GHG targets and performance). GRI covers all sustainability dimensions. ISSB produces global baseline standards. The UN SDGs are broader development goals, not a detailed reporting framework.",
             },
-          ],
+          
+          {
+            question: "Which of the following is a non-financial performance indicator (NFPI)?",
+            options: [
+              "Return on capital employed",
+              "Gross profit margin",
+              "Customer satisfaction score",
+              "Earnings per share",
+            ],
+            correct: 2,
+            explanation: "Customer satisfaction score is a non-financial measure. ROCE, gross margin and EPS are all financial metrics. NFPIs capture performance dimensions that financial measures alone fail to reflect.",
+          },
+          {
+            question: "The 'triple bottom line' framework measures organisational performance in terms of:",
+            options: [
+              "Revenue, costs and profit",
+              "People, planet and profit",
+              "Economy, efficiency and effectiveness",
+              "Past, present and future performance",
+            ],
+            correct: 1,
+            explanation: "The triple bottom line (Elkington, 1994) expands reporting beyond financial profit to include social performance (People) and environmental performance (Planet), giving a fuller picture of sustainable value creation.",
+          },
+        ],
         },
       ],
     },
