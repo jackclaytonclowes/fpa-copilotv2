@@ -104,6 +104,10 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
   const [score, setScore]             = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps] = useLsnState(1);
 
+  const store        = window.aiqStore ? window.aiqStore.get() : {};
+  const completedSet = (store.completedLessons || {})[paperId] || [];
+  const isComplete   = lesson ? completedSet.includes(lesson.id) : false;
+
   if (!paper || !lesson) {
     return (
       <div className="content">
@@ -146,7 +150,15 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
               <span className="crs-course-badge">{paper.title}</span>
               <span className="lsn-header-topic">{lesson.topic}</span>
             </div>
-            <h1 className="lsn-header-title">{lesson.title}</h1>
+            <div className="lsn-header-title-row">
+              <h1 className="lsn-header-title">{lesson.title}</h1>
+              {isComplete && (
+                <span className="chip fav" style={{ fontSize: 11, flexShrink: 0 }}>
+                  <Icon name="check-circle" size={11} />
+                  Complete
+                </span>
+              )}
+            </div>
             {lesson.estimatedMinutes && (
               <div className="lsn-header-time">
                 <Icon name="clock" size={13} color="var(--fg-3)" />

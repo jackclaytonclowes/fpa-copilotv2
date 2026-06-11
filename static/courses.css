@@ -790,10 +790,17 @@
   font: var(--text-label);
   color: var(--fg-2);
 }
+.lsn-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
 .lsn-header-title {
   font: var(--text-h1);
   color: var(--ink);
-  margin: 0 0 8px;
+  margin: 0;
 }
 .lsn-header-time {
   display: inline-flex;
@@ -1752,6 +1759,15 @@
   min-height: 56px;
 }
 .slb-module-row:last-child { border-bottom: none; }
+.slb-module-row--done { opacity: 0.85; }
+.slb-module-row--done .slb-module-title { color: var(--fg-2); }
+.slb-detail-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  min-width: 180px;
+}
 .slb-module-num {
   font: var(--text-data);
   font-size: 13px;

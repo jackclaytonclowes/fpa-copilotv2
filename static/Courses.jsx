@@ -123,6 +123,13 @@ function CrsHero({ courses, onNavigate }) {
   const remainingHrs = Math.ceil(course.studyHoursTotal * (1 - course.progress));
   const isStarted = course.progress > 0;
 
+  // Find the first lesson that hasn't been completed yet
+  const completedSet = (store.completedLessons || {})[course.id] || [];
+  const catalogue    = window.AIQ_COURSE_DATA || {};
+  const paper        = (catalogue.papers || []).find((p) => p.id === course.id);
+  const allLessons   = paper ? (paper.lessons || []) : [];
+  const resumeLesson = allLessons.find((l) => !completedSet.includes(l.id)) || allLessons[0];
+
   return (
     <div className="crs-hero card">
       <div className="crs-hero-body">
@@ -135,10 +142,11 @@ function CrsHero({ courses, onNavigate }) {
             <span className="crs-course-badge">{course.title}</span>
             {course.fullTitle}
           </h2>
-          {/* TODO: replace with real last-accessed lesson from API */}
           <div className="crs-hero-next">
             <Icon name="bookmark" size={13} color="var(--fg-3)" />
-            {isStarted ? "Next: pick up from your last lesson" : "Start with lesson 1"}
+            {resumeLesson
+              ? (isStarted ? `Next: ${resumeLesson.title}` : `Start with: ${resumeLesson.title}`)
+              : (isStarted ? "Next: pick up from your last lesson" : "Start with lesson 1")}
           </div>
           <div className="crs-hero-progress">
             <CrsProgressBar value={course.progress} height={10} />
@@ -152,7 +160,7 @@ function CrsHero({ courses, onNavigate }) {
             variant="primary"
             icon={isStarted ? "play" : "arrow-right"}
             style={{ minHeight: 44, paddingLeft: 22, paddingRight: 22 }}
-            onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id })}
+            onClick={() => onNavigate && onNavigate("lessons", { paperId: course.id, lessonId: resumeLesson ? resumeLesson.id : undefined })}
           >
             {isStarted ? "Resume" : "Start"}
           </Button>

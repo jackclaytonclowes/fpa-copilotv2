@@ -45,6 +45,11 @@ const DEFAULT_STATE = {
   todayMinutes: 0,     // minutes studied today (resets at midnight)
   todayDate: null,      // ISO date — which day todayMinutes belongs to
 
+  /* Completed lessons --------------------------------------------------------- */
+  // Shape: { ba2: ["ba2-l1", "ba2-l2"], excel: ["excel-l1", ...] }
+  // Drives paperProgress — written by markLessonComplete()
+  completedLessons: {},
+
   /* Mocks --------------------------------------------------------------------- */
   // TODO: replace with real API data
   mocksTaken: 0,
@@ -160,6 +165,19 @@ const aiqStore = {
         },
       },
       questionsAnswered: state.questionsAnswered + total,
+    });
+  },
+
+  /* Convenience: mark a lesson as complete; recalculates paperProgress */
+  markLessonComplete(paperId, lessonId, totalLessons) {
+    const state = this.get();
+    const prev = state.completedLessons[paperId] || [];
+    if (prev.includes(lessonId)) return state; // idempotent
+    const updated  = [...prev, lessonId];
+    const progress = totalLessons > 0 ? Math.min(1, updated.length / totalLessons) : 0;
+    return this.set({
+      completedLessons: { ...state.completedLessons, [paperId]: updated },
+      paperProgress:    { ...state.paperProgress,    [paperId]: progress },
     });
   },
 

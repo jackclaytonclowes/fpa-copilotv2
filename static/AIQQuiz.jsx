@@ -159,6 +159,14 @@ function AIQQuiz({ quizResult, onNavigate }) {
     // Award XP: 5 per correct answer
     window.aiqStore.recordActivity({ xpDelta: correct * 5 });
     window.aiqStore.recordQuizResult({ paperId, lessonId, score: correct, total, pct });
+    // Mark lesson complete → updates paperProgress for progress bars
+    if (lessonId) {
+      const catalogue = window.AIQ_COURSE_DATA || {};
+      const source = (catalogue.papers || []).find((p) => p.id === paperId)
+                  || ((catalogue.skillsLab || {}).tracks || []).find((t) => t.id === paperId);
+      const totalLessons = source ? (source.lessons || []).length : 0;
+      if (totalLessons > 0) window.aiqStore.markLessonComplete(paperId, lessonId, totalLessons);
+    }
   }, []);
 
   return (
