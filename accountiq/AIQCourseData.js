@@ -21314,6 +21314,3426 @@ const AIQ_COURSE_DATA = {
 
       ],
     },
+    /* ══════════════════════════════════════════════════════════════════════
+       E2 — Managing Performance
+       ══════════════════════════════════════════════════════════════════════ */
+    {
+      id: "e2",
+      title: "E2",
+      fullTitle: "Managing Performance",
+      icon: "users",
+      modules: 12,
+      questions: 48,
+      mockExams: 1,
+      studyHoursTotal: 90,
+      lessons: [
+        {
+          id: "e2-l1",
+          title: "Organisational Structure and Design",
+          topic: "Organisations",
+          estimatedMinutes: 40,
+          objectives: [
+            "Distinguish between functional, divisional, matrix and network structures",
+            "Explain Mintzberg's contingency factors that determine structure",
+            "Evaluate the advantages and disadvantages of each structural form",
+          ],
+          keyTerms: [
+            { term: "Functional Structure", definition: "Groups employees by specialist function. Efficient for stable single-product firms but can create silos between departments." },
+            { term: "Divisional Structure", definition: "Groups by product, geography or customer. Each division has its own P&L and functions, promoting responsiveness but duplicating resources." },
+            { term: "Matrix Structure", definition: "Employees report to both a functional manager and a project/product manager. Encourages cross-functional collaboration but creates dual authority tensions." },
+            { term: "Span of Control", definition: "The number of direct reports a manager supervises. Wide spans create flat structures; narrow spans create tall hierarchies." },
+            { term: "Mintzberg's Configurations", definition: "Five organisational types (simple, machine bureaucracy, professional bureaucracy, divisionalised, adhocracy) each suited to different environments and technologies." },
+          ],
+          explanation:
+            "<h3>Why Structure Matters</h3>" +
+            "<p>Structure defines how work is divided, co-ordinated and supervised. The right structure enables strategy; the wrong one creates friction and poor performance.</p>" +
+            "<h3>Main Structural Forms</h3>" +
+            "<ul>" +
+            "<li><strong>Functional:</strong> Finance, HR, Operations, Marketing each form departments. Suits stable, single-product firms.</li>" +
+            "<li><strong>Divisional:</strong> Self-contained units by product/region, each with its own P&L. Better for diverse, large organisations.</li>" +
+            "<li><strong>Matrix:</strong> Dual reporting lines — functional expertise plus project accountability. Common in consultancies and multinationals.</li>" +
+            "<li><strong>Network/Virtual:</strong> Core firm outsources most activities. Very flexible but harder to control quality.</li>" +
+            "</ul>" +
+            "<h3>Contingency Factors (Mintzberg)</h3>" +
+            "<p>No single 'best' structure exists. Structure depends on: <strong>size</strong> (larger = more formalisation), <strong>technology</strong> (routine vs innovative), <strong>environment</strong> (stable vs dynamic) and <strong>strategy</strong> (cost leadership vs differentiation).</p>",
+          workedExample: {
+            setup: "Apex Group operates 12 hotels in 5 countries with 3,000 employees and is launching a budget brand alongside its existing luxury brand. It currently uses a single functional structure headquartered in London. Advise on whether restructuring is needed.",
+            steps: [
+              "Problem diagnosis: a single functional HQ creates slow decision-making across 12 properties in 5 countries with different regulatory and cultural contexts.",
+              "Two-brand strategy: luxury and budget brands have distinct customer segments, cost structures and service models — a divisional split aligns accountability with strategy.",
+              "Recommendation: divisional structure by brand (Luxury Division / Budget Division), each with regional management. Central HR and Finance remain functional to gain economies of scale.",
+            ],
+            answer: "A divisional structure by brand is recommended. This aligns management accountability with the distinct strategies, enables faster local decisions and allows separate performance measurement for each brand.",
+          },
+          summary: [
+            "Structure follows strategy — the chosen structure must enable the organisation's strategic objectives.",
+            "Functional structures suit stable single-product businesses; divisional structures suit diverse or multi-geography firms.",
+            "Matrix structures balance functional expertise with project agility but create dual authority tensions.",
+            "Mintzberg's contingency approach: structure is shaped by size, technology, environment and strategy.",
+            "No universally optimal structure exists — the best match depends on the organisation's unique context.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A large manufacturer with stable, routine production processes and a single product line is most likely to use which structure?",
+              options: [
+                "Matrix structure",
+                "Network/virtual structure",
+                "Functional (machine bureaucracy) structure",
+                "Adhocracy",
+              ],
+              correct: 2,
+              explanation: "Routine, stable production suits a functional structure with high formalisation — what Mintzberg calls a machine bureaucracy. Matrix and adhocracy better suit complex, innovative or project-based environments.",
+            },
+            {
+              question: "A key disadvantage of a matrix structure is:",
+              options: [
+                "It prevents specialist knowledge from developing",
+                "Employees face conflicting instructions from two managers",
+                "It is unsuitable for multinational organisations",
+                "It always increases costs by duplicating every function",
+              ],
+              correct: 1,
+              explanation: "In a matrix structure employees report to both a functional manager and a project/product manager. When these managers disagree, employees face conflicting priorities — a well-documented source of stress and inefficiency.",
+            },
+            {
+              question: "According to Mintzberg, which factor most directly influences an organisation's structure?",
+              options: [
+                "The chief executive's personal leadership style",
+                "The organisation's age, size, technology and environment",
+                "The number of products in the portfolio",
+                "The level of government regulation in the industry",
+              ],
+              correct: 1,
+              explanation: "Mintzberg's contingency theory holds that effective structure emerges from the fit between organisational characteristics (age, size, technology) and environmental factors (stability, complexity). No single variable is sufficient alone.",
+            },
+          ],
+        },
+        {
+          id: "e2-l2",
+          title: "Leadership Styles and Theories",
+          topic: "Leadership",
+          estimatedMinutes: 35,
+          objectives: [
+            "Distinguish trait, behavioural and contingency approaches to leadership",
+            "Apply Hersey and Blanchard's situational leadership model",
+            "Contrast transformational and transactional leadership",
+          ],
+          keyTerms: [
+            { term: "Transformational Leadership", definition: "Leaders inspire followers through vision and personal appeal, motivating them to transcend self-interest and embrace change." },
+            { term: "Transactional Leadership", definition: "Leaders motivate through contingent reward and management by exception — effective for routine tasks but less so for innovation." },
+            { term: "Situational Leadership (Hersey & Blanchard)", definition: "Leaders should adapt their style (S1 Directing → S2 Coaching → S3 Supporting → S4 Delegating) to the readiness (ability + willingness) of each follower." },
+            { term: "Tannenbaum and Schmidt Continuum", definition: "A spectrum from boss-centred (autocratic: tells, sells) to subordinate-centred (democratic: consults, delegates). The right position depends on manager, subordinate and situational factors." },
+            { term: "Blake and Mouton Managerial Grid", definition: "9×9 grid plotting concern for production vs concern for people. The 9,9 'Team Manager' style (high on both) is considered ideal." },
+          ],
+          explanation:
+            "<h3>Trait vs Behavioural vs Contingency</h3>" +
+            "<p><strong>Trait theories</strong> sought universal leadership characteristics. While some traits correlate with effectiveness, no set guarantees success in all contexts.</p>" +
+            "<p><strong>Behavioural theories</strong> focus on what leaders do: Ohio State identified two dimensions — initiating structure (task) and consideration (relationships). Blake and Mouton mapped these on a grid.</p>" +
+            "<p><strong>Contingency theories</strong> argue no single best style exists — effectiveness depends on the situation.</p>" +
+            "<h3>Hersey and Blanchard Situational Leadership</h3>" +
+            "<p>Four styles matched to follower readiness (ability + willingness):</p>" +
+            "<ul><li>S1 <strong>Directing:</strong> Low readiness — high task, low relationship</li>" +
+            "<li>S2 <strong>Coaching:</strong> Some readiness — high task, high relationship</li>" +
+            "<li>S3 <strong>Supporting:</strong> Moderate-high readiness — low task, high relationship</li>" +
+            "<li>S4 <strong>Delegating:</strong> High readiness — low task, low relationship</li></ul>" +
+            "<h3>Transformational vs Transactional</h3>" +
+            "<p>Bass argued effective leaders use both: transactional for day-to-day management; transformational to inspire during change. Transformational leadership is particularly important in volatile environments.</p>",
+          workedExample: {
+            setup: "Maria manages five management accountants: two newly qualified and nervous; two experienced and highly motivated; one skilled but recently disengaged. Apply Hersey and Blanchard to determine the appropriate style for each sub-group.",
+            steps: [
+              "Newly qualified (low ability, willing): R1 readiness — use S1 Directing. Provide clear instructions, close supervision and structured guidance.",
+              "Experienced and motivated (high ability, willing): R4 readiness — use S4 Delegating. Set objectives and trust them to deliver autonomously.",
+              "Skilled but disengaged (high ability, unwilling): R3 readiness — use S3 Supporting. Involve them in decisions, explore reasons for disengagement, rebuild motivation.",
+            ],
+            answer: "S1 Directing for new staff, S4 Delegating for experienced motivated staff, S3 Supporting for the skilled but disengaged employee. Effective leaders flex style to individual readiness levels.",
+          },
+          summary: [
+            "Trait theories identified characteristics of leaders but no universal set predicts success across all situations.",
+            "Behavioural theories (Ohio State, Blake and Mouton) focus on what leaders do rather than who they are.",
+            "Hersey and Blanchard's situational model matches four styles to four follower readiness levels.",
+            "Transformational leaders inspire through vision; transactional leaders motivate through reward and exception management.",
+            "Effective leaders are flexible — they read the situation and adapt their style accordingly.",
+          ],
+          practiceQuestions: [
+            {
+              question: "According to Hersey and Blanchard, which leadership style is most appropriate for a highly skilled and motivated employee?",
+              options: [
+                "Directing (S1)",
+                "Coaching (S2)",
+                "Supporting (S3)",
+                "Delegating (S4)",
+              ],
+              correct: 3,
+              explanation: "High readiness (high ability + high willingness) means the follower requires minimal direction or support. S4 Delegating gives the employee autonomy and responsibility, freeing the leader to focus on lower-readiness team members.",
+            },
+            {
+              question: "Transformational leadership differs from transactional leadership primarily because:",
+              options: [
+                "Transformational leaders use punishment more frequently",
+                "Transformational leaders inspire followers through vision beyond self-interest",
+                "Transactional leaders focus entirely on relationships rather than tasks",
+                "Transformational leadership only works in small organisations",
+              ],
+              correct: 1,
+              explanation: "Transformational leaders inspire followers to transcend personal self-interest for a higher collective goal, using charisma, vision and intellectual stimulation. Transactional leaders use contingent reward and management by exception.",
+            },
+            {
+              question: "The Tannenbaum and Schmidt leadership continuum describes:",
+              options: [
+                "The relationship between leadership traits and organisational size",
+                "A spectrum from autocratic (boss-centred) to democratic (subordinate-centred) decision-making",
+                "Four fixed leadership styles based on task structure alone",
+                "The link between leadership style and financial performance",
+              ],
+              correct: 1,
+              explanation: "The continuum shows how decision-making authority can shift between the manager and subordinates. The appropriate position depends on the manager's personality, subordinates' maturity and the urgency of the situation.",
+            },
+          ],
+        },
+        {
+          id: "e2-l3",
+          title: "Motivation — Theories and Application",
+          topic: "People management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply content theories of motivation: Maslow, Herzberg and McClelland",
+            "Use process theories — Vroom's Expectancy and Adams' Equity — to diagnose motivational issues",
+            "Recommend appropriate motivational strategies for finance team contexts",
+          ],
+          keyTerms: [
+            { term: "Maslow's Hierarchy", definition: "Five levels: physiological, safety, social, esteem, self-actualisation. Lower needs must be satisfied before higher needs become motivators." },
+            { term: "Herzberg Two-Factor Theory", definition: "Hygiene factors (pay, conditions) prevent dissatisfaction; motivators (achievement, recognition, responsibility) create positive engagement." },
+            { term: "Vroom's Expectancy Theory", definition: "Motivation = Expectancy × Instrumentality × Valence. If any factor is zero, motivation collapses." },
+            { term: "Adams' Equity Theory", definition: "People compare their effort-to-reward ratio with peers. Perceived inequity drives behaviour change to restore balance." },
+            { term: "Job Enrichment", definition: "Herzberg's prescription: add responsibility, variety and achievement opportunities to roles to create intrinsic motivation." },
+          ],
+          explanation:
+            "<h3>Content Theories</h3>" +
+            "<p><strong>Maslow (1943):</strong> Five-level hierarchy. Once physiological and safety needs are met, social, esteem and self-actualisation needs motivate. Limitation: needs don't always follow a fixed sequence.</p>" +
+            "<p><strong>Herzberg (1959):</strong> Two separate dimensions:</p>" +
+            "<ul><li><strong>Hygiene factors</strong> (salary, policy, conditions) — remove dissatisfaction but cannot motivate.</li>" +
+            "<li><strong>Motivators</strong> (achievement, recognition, responsibility, growth) — create positive engagement. Prescription: job enrichment.</li></ul>" +
+            "<p><strong>McClelland:</strong> Three acquired needs — achievement (nAch), affiliation (nAff), power (nPow). High-nAch individuals prefer challenging goals with clear feedback.</p>" +
+            "<h3>Process Theories</h3>" +
+            "<p><strong>Vroom's Expectancy (VIE):</strong></p>" +
+            "<ul><li>Expectancy: Will effort → required performance?</li>" +
+            "<li>Instrumentality: Will performance → promised reward?</li>" +
+            "<li>Valence: How much is the reward valued?</li></ul>" +
+            "<p>If any of the three is zero, motivation force = 0.</p>" +
+            "<p><strong>Adams' Equity:</strong> Employees compare their Output:Input ratio with referents. Perceived underpayment → reduced effort. Perceived overpayment → guilt or rationalisation.</p>",
+          workedExample: {
+            setup: "A finance team has low morale and rising turnover. Exit interviews show: pay is below market; staff feel recognition is absent; they have little autonomy. Use Herzberg to diagnose and prescribe.",
+            steps: [
+              "Hygiene deficit: below-market pay is a hygiene factor — it is actively causing dissatisfaction. Must be fixed first, though fixing it alone will not motivate.",
+              "Missing motivators: lack of recognition and autonomy (responsibility) mean no positive motivation is being generated even for satisfied hygiene needs.",
+              "Recommendation — hygiene: benchmark and restore competitive pay.",
+              "Recommendation — motivators: introduce formal recognition programmes; redesign roles through job enrichment (give ownership of end-to-end analysis, not just data collection).",
+            ],
+            answer: "Fix the hygiene deficit first (pay), then build motivators through recognition and job enrichment. Both dimensions must be addressed — hygiene alone produces neutral satisfaction, not engagement.",
+          },
+          summary: [
+            "Maslow's hierarchy: lower-order needs (physiological, safety) must be met before higher-order needs motivate.",
+            "Herzberg: hygiene factors remove dissatisfaction; only motivators (achievement, recognition, responsibility) create genuine engagement.",
+            "Vroom: motivation = expectancy × instrumentality × valence — any zero makes the whole product zero.",
+            "Adams: perceived inequity relative to peers reduces effort or triggers other corrective behaviour.",
+            "Job enrichment (adding responsibility, variety and growth) is Herzberg's key prescription for sustained motivation.",
+          ],
+          practiceQuestions: [
+            {
+              question: "According to Herzberg, which of the following is a hygiene factor?",
+              options: [
+                "Recognition for achievement",
+                "Opportunities for career advancement",
+                "Company policy and administration",
+                "The intrinsic interest of the work itself",
+              ],
+              correct: 2,
+              explanation: "Hygiene factors include salary, working conditions, company policy, supervision and job security. Their absence causes dissatisfaction but their presence does not motivate. Recognition, advancement and the work itself are motivators.",
+            },
+            {
+              question: "In Vroom's expectancy theory, 'instrumentality' refers to:",
+              options: [
+                "The belief that effort will lead to the required performance level",
+                "The degree to which the individual values the promised reward",
+                "The belief that good performance will lead to the promised reward",
+                "The impact of peer performance on individual effort levels",
+              ],
+              correct: 2,
+              explanation: "Instrumentality is the perceived probability that achieving the target performance will actually deliver the promised reward. If employees doubt that management will honour promised bonuses, instrumentality — and thus motivation — falls to zero.",
+            },
+            {
+              question: "An employee discovers a colleague with identical responsibilities earns 20% more. Adams' equity theory predicts the most likely response is:",
+              options: [
+                "Immediate resignation without any other action",
+                "Reducing work effort to restore perceived equity",
+                "Increasing output to justify a pay rise request",
+                "Accepting the imbalance without any behavioural change",
+              ],
+              correct: 1,
+              explanation: "When an individual perceives their input-to-output ratio is unfavourable versus a referent, they experience tension. Reducing inputs (effort, hours, quality) is a common response to restore perceived balance.",
+            },
+          ],
+        },
+        {
+          id: "e2-l4",
+          title: "Strategic Analysis — Environment and Competitive Forces",
+          topic: "Strategy",
+          estimatedMinutes: 45,
+          objectives: [
+            "Apply PESTEL analysis to identify macro-environmental factors",
+            "Use Porter's Five Forces to assess industry attractiveness and competitive dynamics",
+            "Combine PESTEL and Five Forces in a strategic situation analysis",
+          ],
+          keyTerms: [
+            { term: "PESTEL", definition: "Macro-environmental analysis across Political, Economic, Social, Technological, Environmental and Legal dimensions." },
+            { term: "Porter's Five Forces", definition: "Assesses industry profit potential via: competitive rivalry, threat of new entrants, buyer power, supplier power and threat of substitutes." },
+            { term: "Barriers to Entry", definition: "Factors preventing new firms from entering an industry: economies of scale, capital requirements, brand loyalty, switching costs, regulatory barriers." },
+            { term: "Competitive Rivalry", definition: "Intensity of competition among existing firms. High rivalry (many players, low differentiation, slow growth) depresses industry margins." },
+            { term: "Industry Attractiveness", definition: "The long-run profit potential of an industry as determined by the collective strength of the five competitive forces." },
+          ],
+          explanation:
+            "<h3>PESTEL Analysis</h3>" +
+            "<p>PESTEL scans the external macro-environment for factors the organisation cannot control but must respond to:</p>" +
+            "<ul>" +
+            "<li><strong>Political:</strong> Government stability, trade policy, taxation, deregulation.</li>" +
+            "<li><strong>Economic:</strong> GDP growth, interest rates, exchange rates, inflation, unemployment cycles.</li>" +
+            "<li><strong>Social:</strong> Demographics, cultural trends, attitudes to work and consumption.</li>" +
+            "<li><strong>Technological:</strong> Digitalisation, automation, AI, disruption, R&D intensity.</li>" +
+            "<li><strong>Environmental:</strong> Climate policy, carbon regulation, ESG expectations, resource scarcity.</li>" +
+            "<li><strong>Legal:</strong> Employment law, data protection (GDPR), competition law, product liability.</li>" +
+            "</ul>" +
+            "<h3>Porter's Five Forces</h3>" +
+            "<ol>" +
+            "<li><strong>Threat of new entrants:</strong> High barriers protect incumbents' margins.</li>" +
+            "<li><strong>Supplier power:</strong> Concentrated suppliers with unique inputs have leverage.</li>" +
+            "<li><strong>Buyer power:</strong> Large buyers with low switching costs reduce margins.</li>" +
+            "<li><strong>Threat of substitutes:</strong> Alternative products cap price power.</li>" +
+            "<li><strong>Competitive rivalry:</strong> Intense in slow-growth commodity markets.</li>" +
+            "</ol>",
+          workedExample: {
+            setup: "Apply Porter's Five Forces to the UK grocery supermarket industry and assess its attractiveness.",
+            steps: [
+              "Rivalry: HIGH — Tesco, Sainsbury's, Asda, Morrisons compete on price; Aldi and Lidl have grown significantly. Margins are thin across the sector.",
+              "New entrants: MODERATE — High capital requirements and brand loyalty create barriers, but the discounters proved entry is possible at scale.",
+              "Buyer power: HIGH — Consumers are price-sensitive with many alternatives and low switching costs. Price comparison apps amplify this.",
+              "Supplier power: MODERATE-LOW — Supermarkets are large-volume buyers with significant leverage over most suppliers; major branded FMCG firms retain some power.",
+              "Substitutes: MODERATE — Restaurants, meal kits, convenience stores and online delivery platforms are growing alternatives.",
+            ],
+            answer: "Moderately unattractive industry: intense rivalry, strong buyer power and low switching costs constrain margins. Sustainable advantage requires scale, cost efficiency or strong differentiation (premium range, loyalty programme, own-label).",
+          },
+          summary: [
+            "PESTEL examines six macro-environmental dimensions that shape the context in which all organisations operate.",
+            "Porter's Five Forces assesses industry attractiveness through the power of buyers, suppliers, entrants, substitutes and rivalry.",
+            "Strong forces (powerful buyers, easy entry, close substitutes) erode industry profitability.",
+            "PESTEL and Five Forces work together: PESTEL identifies macro trends; Five Forces translates them into competitive implications at industry level.",
+            "The purpose of both tools is to identify threats and opportunities that should inform strategic choices.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Porter's Five Forces model is primarily used to assess:",
+              options: [
+                "The internal competencies and resources of an organisation",
+                "The long-run profit potential and attractiveness of an industry",
+                "The macro-economic factors affecting a country's economy",
+                "An organisation's financial performance versus competitors",
+              ],
+              correct: 1,
+              explanation: "Five Forces analyses the structural determinants of industry profitability. It helps strategists understand whether their industry is attractive (weak forces = high profit potential) and which forces most threaten returns.",
+            },
+            {
+              question: "High barriers to entry in an industry tend to:",
+              options: [
+                "Intensify competitive rivalry among existing firms",
+                "Protect existing firms' profitability by limiting new competition",
+                "Increase buyer power by reducing available suppliers",
+                "Make the industry less attractive to existing participants",
+              ],
+              correct: 1,
+              explanation: "High barriers (capital requirements, brand loyalty, switching costs, regulation) limit the threat from new entrants, allowing existing firms to earn above-average returns over time.",
+            },
+            {
+              question: "Which PESTEL factor is most relevant to a consumer goods firm assessing the impact of the UK leaving the EU Single Market?",
+              options: [
+                "Technological — supply chain automation",
+                "Environmental — carbon border adjustment",
+                "Political and Legal — trade tariffs, customs procedures and regulatory divergence",
+                "Social — changing consumer preferences",
+              ],
+              correct: 2,
+              explanation: "Exiting the EU Single Market is primarily a Political and Legal change — new tariffs, customs declarations, product standards and employment rules directly affect operating costs and market access.",
+            },
+          ],
+        },
+        {
+          id: "e2-l5",
+          title: "Strategic Options and Implementation",
+          topic: "Strategy",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the Ansoff Growth Matrix to identify and evaluate strategic options",
+            "Distinguish Porter's three generic competitive strategies",
+            "Apply the SAF framework to evaluate and select between options",
+          ],
+          keyTerms: [
+            { term: "Ansoff Matrix", definition: "2×2 matrix of products (existing/new) × markets (existing/new) generating four strategies: market penetration, market development, product development, diversification." },
+            { term: "Cost Leadership", definition: "Being the lowest-cost producer, enabling competitive pricing while maintaining margins. Requires scale, process efficiency and overhead control." },
+            { term: "Differentiation", definition: "Creating products or services perceived as unique, commanding a price premium exceeding the cost of differentiation." },
+            { term: "Focus Strategy", definition: "Targeting a narrow market segment with either cost or differentiation advantage." },
+            { term: "SAF Framework", definition: "Evaluates strategic options on Suitability (does it address the strategic issues?), Acceptability (returns, risk and stakeholder reaction) and Feasibility (can we resource it?)." },
+          ],
+          explanation:
+            "<h3>Ansoff's Growth Matrix</h3>" +
+            "<p>Four strategic directions, risk increasing from top-left to bottom-right:</p>" +
+            "<ul>" +
+            "<li><strong>Market Penetration</strong> (existing product, existing market): Grow share — promotions, price, distribution. Lowest risk.</li>" +
+            "<li><strong>Market Development</strong> (existing product, new market): Geographic or segment expansion.</li>" +
+            "<li><strong>Product Development</strong> (new product, existing market): Innovation for current customers. Requires R&D.</li>" +
+            "<li><strong>Diversification</strong> (new product, new market): Related (shared capabilities) or unrelated (conglomerate). Highest risk.</li>" +
+            "</ul>" +
+            "<h3>Porter's Generic Strategies</h3>" +
+            "<ul>" +
+            "<li><strong>Cost Leadership:</strong> Lowest cost in the industry — Aldi, Ryanair. Requires scale and discipline.</li>" +
+            "<li><strong>Differentiation:</strong> Premium price through uniqueness — Apple, BMW. Requires innovation and brand.</li>" +
+            "<li><strong>Focus:</strong> Niche segment — Ferrari (focus differentiation), local discount supermarket (focus cost).</li>" +
+            "</ul>" +
+            "<p>Porter warned against being <em>stuck in the middle</em> — no clear position leads to mediocre performance.</p>" +
+            "<h3>Evaluating Options — SAF</h3>" +
+            "<p>Suitability: does the option exploit opportunities and address threats? Acceptability: returns adequate? Risk bearable? Stakeholders supportive? Feasibility: do we have the resources, capabilities and time?</p>",
+          workedExample: {
+            setup: "EduTech Ltd sells online accounting courses to UK university students. Three options: (A) more aggressive marketing to existing UK students; (B) launch the same courses in Australia; (C) add data analytics courses for existing students. Classify and evaluate using Ansoff and SAF.",
+            steps: [
+              "Ansoff classification: A = Market Penetration (lowest risk); B = Market Development; C = Product Development.",
+              "SAF for A: Suitable (addresses need to grow revenue in existing market); Acceptable (low risk, good returns); Feasible (uses existing resources). Strong case.",
+              "SAF for B: Suitable (global reach of online platform); Acceptable (moderate risk — brand unknown in Australia, may need course localisation); Feasible (digital delivery removes physical barriers). Moderate case.",
+              "SAF for C: Suitable (data analytics is high-demand); Acceptable (moderate risk — content development cost, demand uncertain); Feasible (need to hire analytics subject matter experts). Moderate case.",
+            ],
+            answer: "Option A has the strongest immediate case (lowest risk, highest feasibility). B and C offer greater growth potential but require investment and carry more execution risk. All three can be pursued sequentially.",
+          },
+          summary: [
+            "Ansoff offers four growth directions — risk increases moving from penetration (lowest) to diversification (highest).",
+            "Diversification is riskiest because the firm lacks experience in both the product and the market simultaneously.",
+            "Porter's three generic strategies are cost leadership, differentiation and focus — being stuck in the middle yields below-average returns.",
+            "SAF (Suitability, Acceptability, Feasibility) provides a structured evaluation framework for choosing between strategic options.",
+            "Strategic options should be ranked, not just identified — the goal is to select the option that best fits the organisation's context and capabilities.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A telecoms company launches its existing mobile contracts in three new African markets. Which Ansoff strategy is this?",
+              options: [
+                "Market Penetration",
+                "Product Development",
+                "Market Development",
+                "Diversification",
+              ],
+              correct: 2,
+              explanation: "Market Development takes existing products to new markets (geographic or segment expansion). The product is unchanged — the company is expanding geographically. Less risky than product development but requires understanding of new market dynamics.",
+            },
+            {
+              question: "A firm pursuing cost leadership should prioritise:",
+              options: [
+                "Investing heavily in brand advertising and premium packaging",
+                "Achieving scale economies, process efficiency and tight overhead control",
+                "Targeting only the highest-margin customer segments",
+                "Differentiating through superior product features",
+              ],
+              correct: 1,
+              explanation: "Cost leadership requires being the lowest-cost producer — achieved through scale, process efficiency, lean overhead and supply chain optimisation. Differentiation spending undermines the cost advantage.",
+            },
+            {
+              question: "The 'Feasibility' dimension of the SAF framework asks:",
+              options: [
+                "Whether the strategy addresses the key strategic issues identified in the analysis",
+                "Whether the returns are adequate and the risk is acceptable to stakeholders",
+                "Whether the organisation has the resources, capabilities and time to implement the strategy",
+                "Whether the strategy is legally permissible",
+              ],
+              correct: 2,
+              explanation: "Feasibility tests whether the strategy can actually be delivered — does the firm have (or can it acquire) the financial resources, people, technology and time required? Suitability tests strategic logic; Acceptability tests returns and risk.",
+            },
+          ],
+        },
+        {
+          id: "e2-l6",
+          title: "Change Management",
+          topic: "Change management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply Lewin's force field analysis and Unfreeze-Change-Refreeze model",
+            "Use Kotter's 8-step model to plan a change programme",
+            "Identify and address sources of resistance to change",
+          ],
+          keyTerms: [
+            { term: "Force Field Analysis", definition: "Lewin's tool mapping driving forces (for change) and restraining forces (against). Change happens when driving forces outweigh restraining forces." },
+            { term: "Kotter's 8-Step Model", definition: "Sequential model: create urgency → build coalition → develop vision → communicate → empower → generate wins → sustain momentum → anchor in culture." },
+            { term: "Resistance to Change", definition: "Individual or group opposition arising from fear of job loss, habit, mistrust, or perceived threat to status and comfort." },
+            { term: "Unfreeze-Change-Refreeze", definition: "Lewin's three-phase change model: create readiness (unfreeze), implement the change, embed the new state (refreeze)." },
+            { term: "Incremental vs Transformational", definition: "Incremental change involves small continuous improvements within the existing paradigm; transformational change is fundamental and organisation-wide." },
+          ],
+          explanation:
+            "<h3>Why Change Fails</h3>" +
+            "<p>McKinsey research suggests 70% of change programmes fail to achieve their objectives. Most failures are people-related: resistance, poor communication, insufficient leadership commitment and underestimating the cultural dimension.</p>" +
+            "<h3>Lewin's Models</h3>" +
+            "<p><strong>Force field analysis:</strong> Organisations exist in quasi-stationary equilibrium between driving and restraining forces. To change: increase drivers, reduce restrainers, or both.</p>" +
+            "<p><strong>Unfreeze-Change-Refreeze:</strong></p>" +
+            "<ul><li><em>Unfreeze:</em> Disrupt the status quo — create urgency, challenge assumptions, make people ready to change.</li>" +
+            "<li><em>Change:</em> Implement the new state through training, communication and support.</li>" +
+            "<li><em>Refreeze:</em> Embed the change in processes, culture, norms and reward systems.</li></ul>" +
+            "<h3>Kotter's 8 Steps</h3>" +
+            "<ol><li>Create urgency</li><li>Build a guiding coalition</li><li>Develop vision and strategy</li><li>Communicate the vision</li>" +
+            "<li>Empower broad-based action</li><li>Generate short-term wins</li><li>Sustain acceleration</li><li>Anchor in culture</li></ol>" +
+            "<h3>Overcoming Resistance</h3>" +
+            "<p>Education/communication, participation, negotiation, support — in order of preference. Coercion is a last resort and damages trust.</p>",
+          workedExample: {
+            setup: "A regional bank is implementing a new digital banking platform replacing paper processes. 60% of branch staff are over 50 with 20+ years experience. Management announced the change with a 3-month timeline. Identify what Kotter steps are missing and what is likely to go wrong.",
+            steps: [
+              "Missing Step 1 — Urgency: Has management explained WHY (competitor threat, customer migration to digital)? Without this, staff see no reason to change.",
+              "Missing Step 2 — Coalition: Is there a cross-functional team including respected branch staff champions? Without credible change agents at branch level, resistance stays high.",
+              "Inadequate Steps 3-4 — Vision and communication: A top-down announcement is insufficient. Two-way dialogue addressing 'what does this mean for my job?' is essential.",
+              "Missing Step 5 — Remove obstacles: Older employees unfamiliar with digital tools need thorough training before go-live. The 3-month timeline is very aggressive.",
+              "Missing Step 6 — Short-term wins: Celebrating early adopter branches would build momentum and demonstrate the technology works.",
+            ],
+            answer: "The programme is likely to face high resistance due to missing Steps 1-6. Management must: articulate urgency, build a coalition of branch champions, communicate two-way, provide thorough training and celebrate early wins before attempting to embed the change in culture.",
+          },
+          summary: [
+            "Lewin: change occurs when driving forces outweigh restraining forces — the most effective approach addresses both sides simultaneously.",
+            "Unfreeze-Change-Refreeze: readiness must be created before implementation, and the new state must be embedded afterwards.",
+            "Kotter's 8 steps emphasise that urgency, coalition and communication must precede implementation — most failures occur when these early steps are rushed.",
+            "Resistance arises from fear, habit and mistrust — it can be addressed through communication, participation and negotiation.",
+            "Transformational change requires sustained leadership commitment and active cultural embedding to stick long-term.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In Lewin's force field analysis, effective change is best achieved by:",
+              options: [
+                "Increasing driving forces and reducing restraining forces simultaneously",
+                "Reducing driving forces to slow the pace of change",
+                "Ignoring restraining forces and focusing only on deadlines",
+                "Waiting for restraining forces to disappear naturally over time",
+              ],
+              correct: 0,
+              explanation: "The most effective approach combines strengthening driving forces (creating urgency, demonstrating benefits) with weakening restraining forces (addressing concerns, providing support and training). Addressing only one side is less effective.",
+            },
+            {
+              question: "Kotter places 'creating a sense of urgency' as the first step because:",
+              options: [
+                "It is the cheapest step to complete",
+                "Without urgency, people have no motivation to endure the discomfort of change",
+                "It allows management to bypass employee consultation",
+                "Urgency automatically eliminates all resistance",
+              ],
+              correct: 1,
+              explanation: "Unless people understand and feel the compelling need for change, they lack motivation to embrace it. Urgency — conveyed through data, competitive threat or customer evidence — creates the psychological readiness essential for Step 2 onwards.",
+            },
+            {
+              question: "Which approach to overcoming resistance is most likely to build genuine long-term commitment?",
+              options: [
+                "Coercion — mandating compliance through authority",
+                "Negotiation — offering incentives to key resistors only",
+                "Participation — involving those affected in planning and implementing the change",
+                "Manipulation — selectively presenting information to gain compliance",
+              ],
+              correct: 2,
+              explanation: "Participation generates genuine commitment by giving people agency and voice in the change process. Coercion produces compliance but resentment; negotiation addresses only the loudest resistors; manipulation risks destroying trust when discovered.",
+            },
+          ],
+        },
+        {
+          id: "e2-l7",
+          title: "Project Management — Planning and Control",
+          topic: "Project management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the project life cycle and produce a project initiation document",
+            "Use network analysis to identify the critical path and calculate float",
+            "Apply earned value analysis to monitor project performance",
+          ],
+          keyTerms: [
+            { term: "Critical Path", definition: "The longest path through a project network — its duration equals the minimum project completion time. Activities on the critical path have zero float." },
+            { term: "Float (Slack)", definition: "Total float = Latest Start Time − Earliest Start Time. Non-critical activities have positive float; critical activities have zero float." },
+            { term: "Earned Value Analysis", definition: "A project control technique comparing Budgeted Cost of Work Scheduled (BCWS) with Budgeted Cost of Work Performed (BCWP) and Actual Cost of Work Performed (ACWP)." },
+            { term: "Schedule Variance", definition: "BCWP − BCWS. Positive = ahead of schedule; negative = behind schedule." },
+            { term: "Cost Variance", definition: "BCWP − ACWP. Positive = under budget; negative = over budget." },
+          ],
+          explanation:
+            "<h3>Project Life Cycle</h3>" +
+            "<ol><li><strong>Initiation:</strong> Define scope, objectives, stakeholders. Produce Project Initiation Document (PID).</li>" +
+            "<li><strong>Planning:</strong> Work Breakdown Structure (WBS), Gantt chart, network diagram, risk register, resource plan.</li>" +
+            "<li><strong>Execution:</strong> Deliver tasks; manage teams, risks and stakeholders.</li>" +
+            "<li><strong>Monitoring and Control:</strong> Track progress against plan; manage changes through a change control process.</li>" +
+            "<li><strong>Closure:</strong> Formal handover, post-implementation review, lessons learned, sign-off.</li></ol>" +
+            "<h3>Network Analysis</h3>" +
+            "<p>Activities are linked in a precedence diagram. Forward pass calculates Earliest Start Times (EST); backward pass calculates Latest Start Times (LST).</p>" +
+            "<p>Total Float = LST − EST. Activities with zero float are on the critical path.</p>" +
+            "<h3>Earned Value Analysis (EVA)</h3>" +
+            "<p>Three values at any point in time:</p>" +
+            "<ul><li><strong>BCWS</strong> (Planned Value): what work should have been done by now?</li>" +
+            "<li><strong>BCWP</strong> (Earned Value): what is the planned value of work actually completed?</li>" +
+            "<li><strong>ACWP</strong> (Actual Cost): what did completed work actually cost?</li></ul>" +
+            "<p>Schedule Variance (SV) = BCWP − BCWS. Cost Variance (CV) = BCWP − ACWP. Cost Performance Index (CPI) = BCWP / ACWP.</p>",
+          workedExample: {
+            setup: "A project has four activities: A(4 days), B(6 days, after A), C(3 days, after A), D(5 days, after B and C). At the end of week 2 (10 days): BCWS = £40,000; BCWP = £35,000; ACWP = £38,000. Calculate the critical path and EVA variances.",
+            steps: [
+              "Network paths: A→B→D = 4+6+5 = 15 days; A→C→D = 4+3+5 = 12 days. Critical path = A→B→D = 15 days.",
+              "Float for C: 15 − 12 = 3 days float. C is non-critical.",
+              "Schedule Variance: SV = BCWP − BCWS = £35,000 − £40,000 = −£5,000 (behind schedule).",
+              "Cost Variance: CV = BCWP − ACWP = £35,000 − £38,000 = −£3,000 (over budget).",
+              "Cost Performance Index: CPI = 35,000 / 38,000 = 0.92 — for every £1 spent, only £0.92 of planned value is being delivered.",
+            ],
+            answer: "Critical path A→B→D = 15 days. The project is behind schedule (SV = −£5,000) and over budget (CV = −£3,000). CPI of 0.92 means cost efficiency is poor — corrective action is required.",
+          },
+          summary: [
+            "The project life cycle (Initiation, Planning, Execution, Monitoring, Closure) provides a framework for managing any project from authorisation to sign-off.",
+            "Network analysis identifies the critical path (longest sequence, zero float) and calculates the minimum project duration.",
+            "Float (slack) shows scheduling flexibility on non-critical activities; project managers can reallocate resources from high-float activities to critical ones.",
+            "Earned Value Analysis compares planned value, earned value and actual cost to give an integrated view of schedule and cost performance.",
+            "SV < 0 means behind schedule; CV < 0 means over budget; CPI < 1 means cost inefficiency.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Activities on the critical path have which characteristic?",
+              options: [
+                "The highest individual activity cost",
+                "The most resources assigned",
+                "Zero total float — any delay extends the project end date",
+                "The shortest individual durations",
+              ],
+              correct: 2,
+              explanation: "Critical path activities have zero float. There is no scheduling flexibility — any delay to a critical activity directly and immediately delays the project completion date by the same amount.",
+            },
+            {
+              question: "In earned value analysis, a Cost Performance Index (CPI) of 0.85 means:",
+              options: [
+                "The project is 85% complete",
+                "For every £1 spent, only £0.85 of planned value has been delivered",
+                "The project will complete 15% late",
+                "The project is 15% under budget",
+              ],
+              correct: 1,
+              explanation: "CPI = BCWP / ACWP = 0.85. For every £1 of actual spend, only £0.85 of planned value is being earned — the project is cost-inefficient. A CPI > 1 would mean better-than-planned cost performance.",
+            },
+            {
+              question: "A Gantt chart is primarily useful for:",
+              options: [
+                "Calculating the critical path of a network",
+                "Displaying the schedule of activities and their timings in a visual bar chart",
+                "Computing earned value analysis metrics",
+                "Identifying project risks and their mitigations",
+              ],
+              correct: 1,
+              explanation: "A Gantt chart visually displays project activities as horizontal bars against a time axis, showing start dates, durations and dependencies. It is a simple, widely used communication tool but does not automatically identify the critical path.",
+            },
+          ],
+        },
+        {
+          id: "e2-l8",
+          title: "Stakeholder Management",
+          topic: "Stakeholder management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Classify stakeholders using Mendelow's Power-Interest matrix",
+            "Design appropriate engagement strategies for each stakeholder category",
+            "Manage conflicting stakeholder interests in organisational decisions",
+          ],
+          keyTerms: [
+            { term: "Mendelow's Matrix", definition: "Classifies stakeholders by power (ability to influence the organisation) and interest (degree of concern). Four quadrants determine the engagement strategy." },
+            { term: "Key Players", definition: "High power, high interest stakeholders requiring the most intensive management. Examples: major investors, key regulators, trade unions." },
+            { term: "Stakeholder Mapping", definition: "Systematic identification and classification of all stakeholders by power and interest, used to develop targeted engagement plans." },
+            { term: "Stakeholder Conflict", definition: "Disagreement between groups with different objectives — e.g., shareholders want cost reduction; employees want job security." },
+            { term: "Satisficing", definition: "Meeting a minimum acceptable threshold for all key stakeholder groups rather than maximising for any single group." },
+          ],
+          explanation:
+            "<h3>Why Stakeholder Management Matters</h3>" +
+            "<p>Organisations depend on stakeholders for resources, legitimacy and social licence to operate. Failing to manage key relationships can result in regulatory problems, reputational damage, industrial action or lost business.</p>" +
+            "<h3>Mendelow's Power-Interest Matrix</h3>" +
+            "<ul>" +
+            "<li><strong>High Power / High Interest — Key Players:</strong> Manage closely. Consult frequently, respond to concerns. Examples: major institutional shareholders, key regulators, trade unions.</li>" +
+            "<li><strong>High Power / Low Interest — Keep Satisfied:</strong> Important but not engaged with detail. Keep content without overwhelming. Examples: government, passive major investors.</li>" +
+            "<li><strong>Low Power / High Interest — Keep Informed:</strong> Cannot influence directly but care deeply. Transparent communication maintains goodwill. Examples: local communities, small shareholders.</li>" +
+            "<li><strong>Low Power / Low Interest — Monitor:</strong> Minimal engagement. Watch for changes in position. Examples: general public.</li>" +
+            "</ul>" +
+            "<h3>Managing Conflicts</h3>" +
+            "<p>When stakeholder interests conflict, strategies include: prioritisation (which stakeholders matter most for this decision?), negotiation (find mutually acceptable compromises) and satisficing (meet minimum thresholds for all key groups).</p>",
+          workedExample: {
+            setup: "A pharmaceutical company is considering closing a UK manufacturing plant and offshoring production. Identify key stakeholders and classify them using Mendelow's matrix.",
+            steps: [
+              "High Power / High Interest (Key Players): Trade unions (can take industrial action; high interest in job protection); institutional shareholders (can vote against board; interested in cost savings).",
+              "High Power / Low Interest (Keep Satisfied): Government/regulators (can impose conditions on closure; currently not engaged but could intervene if political pressure mounts).",
+              "Low Power / High Interest (Keep Informed): Employees (directly affected but individually have little power; keep informed to manage transition and morale); local community (concerned about job losses — no formal power but reputational risk).",
+              "Low Power / Low Interest (Monitor): General public and media (low direct power, but negative press can shift positions of more powerful stakeholders).",
+            ],
+            answer: "Trade unions and institutional shareholders are the key players requiring closest management. Government should be kept satisfied. Employees and local community need transparent, two-way communication. Media should be monitored as it can shift other stakeholders' positions.",
+          },
+          summary: [
+            "Mendelow's matrix classifies stakeholders into four groups based on power and interest — each requires a different engagement strategy.",
+            "Key Players (high power / high interest) require the most intensive, ongoing management.",
+            "Stakeholder positions are dynamic — power and interest change with circumstances, requiring regular re-mapping.",
+            "Satisficing — meeting minimum thresholds for all key groups — is more achievable than maximising for any single group.",
+            "Stakeholder conflict is inevitable; effective management involves prioritisation, negotiation and transparent communication.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In Mendelow's matrix, which group requires the most intensive engagement?",
+              options: [
+                "Low power, low interest",
+                "Low power, high interest",
+                "High power, low interest",
+                "High power, high interest",
+              ],
+              correct: 3,
+              explanation: "High power / high interest stakeholders (Key Players) can directly influence strategy and care deeply about outcomes. They require frequent consultation, genuine responsiveness and close ongoing management.",
+            },
+            {
+              question: "A major institutional investor holds 8% of shares and rarely engages but could vote against management resolutions. How should they be managed?",
+              options: [
+                "Monitor only — their interest is low",
+                "Keep informed — they have high interest",
+                "Keep satisfied — high power but currently low interest",
+                "Manage closely — they are a Key Player",
+              ],
+              correct: 2,
+              explanation: "An 8% shareholder has significant power but current low engagement suggests low active interest. 'Keep Satisfied' means ensuring they are content with governance and returns without burdening them with operational detail — avoiding any trigger that might prompt active opposition.",
+            },
+            {
+              question: "Stakeholder satisficing means:",
+              options: [
+                "Maximising value for the most powerful stakeholder group above all others",
+                "Meeting a satisfactory minimum threshold across all key stakeholder groups",
+                "Satisfying shareholders first and all other stakeholders second",
+                "Accepting any stakeholder demand unconditionally to avoid conflict",
+              ],
+              correct: 1,
+              explanation: "Since simultaneously maximising outcomes for all stakeholders is usually impossible, organisations aim to meet satisfactory (minimum acceptable) levels for each key group. This was Herbert Simon's concept of bounded rationality applied to organisational goal-setting.",
+            },
+          ],
+        },
+        {
+          id: "e2-l9",
+          title: "Teams, Groups and Collaboration",
+          topic: "People management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply Tuckman's group development model to team situations",
+            "Use Belbin's team role framework to build balanced teams",
+            "Identify and mitigate the risk of groupthink in cohesive teams",
+          ],
+          keyTerms: [
+            { term: "Tuckman's Stages", definition: "Forming → Storming → Norming → Performing → Adjourning. Groups must navigate conflict (Storming) before achieving high performance." },
+            { term: "Belbin Roles", definition: "Nine roles grouped into action-oriented (Shaper, Implementer, Completer Finisher), people-oriented (Co-ordinator, Teamworker, Resource Investigator) and thinking-oriented (Plant, Monitor Evaluator, Specialist)." },
+            { term: "Groupthink", definition: "The tendency of cohesive groups to suppress dissent and converge on a flawed consensus — identified by Irving Janis. Associated with high-profile decision failures." },
+            { term: "Group Cohesion", definition: "The degree to which members are attracted to each other and motivated to remain in the group. High cohesion can improve performance but also increase groupthink risk." },
+            { term: "Virtual Team", definition: "Geographically dispersed team interacting primarily through digital tools. Requires deliberate trust-building and communication protocols." },
+          ],
+          explanation:
+            "<h3>Tuckman's Group Development Model</h3>" +
+            "<ul>" +
+            "<li><strong>Forming:</strong> Polite; roles unclear; dependent on leader for direction.</li>" +
+            "<li><strong>Storming:</strong> Conflict as personalities clash and authority is questioned. Uncomfortable but necessary.</li>" +
+            "<li><strong>Norming:</strong> Agreed norms and working practices emerge; cohesion builds.</li>" +
+            "<li><strong>Performing:</strong> Focus on goals; high performance. Leader can delegate more.</li>" +
+            "<li><strong>Adjourning:</strong> Team disbands; members may experience loss.</li>" +
+            "</ul>" +
+            "<h3>Belbin's Nine Team Roles</h3>" +
+            "<ul>" +
+            "<li><em>Action:</em> Shaper (drives energy), Implementer (turns plans into action), Completer Finisher (quality and detail).</li>" +
+            "<li><em>People:</em> Co-ordinator (chairs and delegates), Teamworker (harmony), Resource Investigator (external network).</li>" +
+            "<li><em>Thinking:</em> Plant (creative ideas), Monitor Evaluator (objective analysis), Specialist (deep expertise).</li>" +
+            "</ul>" +
+            "<p>Teams that lack certain roles develop blind spots. Individuals can perform secondary roles.</p>" +
+            "<h3>Groupthink</h3>" +
+            "<p>Janis identified groupthink as a risk in highly cohesive teams: illusion of invulnerability, collective rationalisation, pressure on dissenting members. Antidotes: devil's advocate, anonymous input, external challenge.</p>",
+          workedExample: {
+            setup: "A new finance project team has been arguing about roles for three weeks. The project manager is worried about deadlines. Apply Tuckman's model to diagnose the situation and recommend action.",
+            steps: [
+              "Diagnose: three weeks of conflict about roles is consistent with the Storming stage — this is normal and expected in new teams.",
+              "Avoid the wrong response: imposing authority to end all conflict may drive issues underground, preventing genuine norming.",
+              "Recommended action: facilitate a structured role-clarification session. Establish agreed norms (meeting protocols, decision rules, communication expectations).",
+              "Move to Norming: once norms are established, the team should progress to Performing. The project manager's role shifts from directive to facilitative.",
+            ],
+            answer: "The team is in the Storming stage — normal and temporary. The manager should facilitate role clarity and norm-setting, not suppress conflict, enabling the transition to Norming and then Performing.",
+          },
+          summary: [
+            "Tuckman: Forming → Storming → Norming → Performing → Adjourning. Storming is essential and must not be avoided.",
+            "Belbin's nine roles — when all are represented — give teams balanced capability across action, people and thinking dimensions.",
+            "High cohesion improves performance when team goals align with organisational objectives, but increases groupthink risk.",
+            "Groupthink is countered by devil's advocate roles, anonymous input and inviting external challenge.",
+            "Virtual teams require deliberate investment in trust-building and structured communication protocols to perform effectively.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A project team is polite, unsure of their roles and looking to the leader for all direction. Tuckman's model identifies this as:",
+              options: [
+                "Storming",
+                "Norming",
+                "Forming",
+                "Performing",
+              ],
+              correct: 2,
+              explanation: "Forming is characterised by politeness, low conflict and dependency on the leader. Team members are testing the waters and establishing who does what. The leader should provide clear direction and structure at this stage.",
+            },
+            {
+              question: "The Belbin 'Monitor Evaluator' role contributes to a team by:",
+              options: [
+                "Generating creative, unconventional ideas and solutions",
+                "Providing objective, impartial analysis and evaluation of options",
+                "Building and maintaining team harmony and morale",
+                "Implementing decisions and translating plans into action",
+              ],
+              correct: 1,
+              explanation: "The Monitor Evaluator provides sober, objective analysis — weighing up options, identifying flaws in proposals and avoiding poor decisions. They balance the Plant (ideas) and Implementer (action) roles with critical thinking.",
+            },
+            {
+              question: "The most effective way to prevent groupthink in a high-performing, cohesive team is to:",
+              options: [
+                "Reduce team cohesion by rotating members frequently",
+                "Assign a devil's advocate role and create mechanisms for anonymous challenge",
+                "Limit decision-making to the most experienced team members only",
+                "Avoid discussing controversial decisions in team meetings",
+              ],
+              correct: 1,
+              explanation: "Groupthink is countered by deliberately introducing dissent mechanisms: a devil's advocate, anonymous voting, external review. These counter the social pressure to conform that characterises cohesive groups.",
+            },
+          ],
+        },
+        {
+          id: "e2-l10",
+          title: "Digital Technologies and Innovation",
+          topic: "Innovation",
+          estimatedMinutes: 35,
+          objectives: [
+            "Distinguish incremental from disruptive innovation using Christensen's framework",
+            "Assess the impact of digital technologies (RPA, AI, cloud) on the finance function",
+            "Evaluate the change management implications of digital transformation",
+          ],
+          keyTerms: [
+            { term: "Disruptive Innovation", definition: "An innovation that creates a new market or fundamentally changes an existing one, often initially targeting overlooked segments before moving upmarket (Christensen)." },
+            { term: "Robotic Process Automation (RPA)", definition: "Software bots that automate repetitive, rules-based tasks (reconciliations, data entry, report formatting) — freeing finance staff for higher-value analytical work." },
+            { term: "Artificial Intelligence", definition: "Systems performing tasks requiring human-like intelligence — pattern recognition, prediction, natural language generation. Applications in finance include fraud detection, forecasting and automated commentary." },
+            { term: "Cloud Computing", definition: "On-demand, scalable computing resources over the internet. Reduces capital expenditure on IT infrastructure and enables real-time, remote data access." },
+            { term: "Data Literacy", definition: "The ability to read, understand, create and communicate with data. An increasingly essential competency for modern management accountants." },
+          ],
+          explanation:
+            "<h3>Types of Innovation</h3>" +
+            "<ul>" +
+            "<li><strong>Incremental:</strong> Continuous small improvements within the existing paradigm. Low risk, limited disruption.</li>" +
+            "<li><strong>Radical/Disruptive:</strong> Fundamental change creating new markets or displacing incumbents. High risk, high potential upside.</li>" +
+            "</ul>" +
+            "<p>Christensen argued disruptors typically start at the low end or in a new market segment, initially ignored by incumbents. By the time the disruption is clear, it may be too late to respond.</p>" +
+            "<h3>Digital Finance Transformation</h3>" +
+            "<ul>" +
+            "<li><strong>RPA:</strong> Automates transaction processing, reconciliations and report formatting. Typical finance ROI: weeks payback.</li>" +
+            "<li><strong>AI/ML:</strong> Predictive forecasting, anomaly detection, automated management commentary.</li>" +
+            "<li><strong>Cloud BI:</strong> Real-time dashboards accessible anywhere — replacing static monthly reporting packs.</li>" +
+            "<li><strong>Blockchain:</strong> Immutable distributed ledger — potential to transform audit trails and financial reporting integrity.</li>" +
+            "</ul>" +
+            "<h3>Impact on Management Accountants</h3>" +
+            "<p>The finance function is shifting from data processing to insight generation. Management accountants must develop data literacy, analytical tool skills (Power BI, SQL, Python) and commercial acumen to translate data into strategic recommendations. The value-add shifts from 'what happened?' to 'why did it happen and what should we do next?'</p>",
+          workedExample: {
+            setup: "A finance team of 40 spends 60% of time on manual data extraction, reconciliation and report preparation. A proposed RPA + BI investment of £500,000 could automate 70% of these tasks within 18 months. Assess the case and the change management implications.",
+            steps: [
+              "Quantify the benefit: 40 staff × 60% × 70% = ~17 FTE equivalents freed. At £45,000 average cost per FTE, annual saving = ~£765,000. Payback < 1 year.",
+              "Qualitative benefits: faster, more accurate reporting; real-time management information; reduced manual error risk; staff doing higher-value analytical work.",
+              "Change management risk: staff may fear redundancy. Must communicate clearly that the goal is role redesign (processing → analysis), not headcount reduction.",
+              "Implementation risk: data quality issues and process variation may complicate automation. Pilot in one region/function before full rollout.",
+            ],
+            answer: "The financial case is strong (<1 year payback). The bigger challenge is people: communicating the vision, retraining for analytical roles and redesigning the finance operating model. Without good change management, the technology investment will under-deliver.",
+          },
+          summary: [
+            "Disruptive innovation enters at the low end or in a new market segment, initially ignored by incumbents who focus on their most profitable customers.",
+            "RPA automates repetitive rules-based finance tasks, freeing management accountants for analysis and business partnering.",
+            "AI and machine learning enable predictive, real-time insight — moving finance from backward-looking to forward-looking.",
+            "Digital transformation changes not just tools but operating models, required skills and organisational culture.",
+            "Management accountants must develop data literacy, analytical tool competency and commercial insight to remain relevant.",
+          ],
+          practiceQuestions: [
+            {
+              question: "RPA in the finance function primarily adds value by:",
+              options: [
+                "Replacing human judgement in complex strategic decisions",
+                "Automating high-volume, repetitive, rules-based tasks",
+                "Generating creative forecasting scenarios through machine learning",
+                "Eliminating all manual controls and reconciliations",
+              ],
+              correct: 1,
+              explanation: "RPA executes predefined, rules-based workflows — ideal for transaction processing, matching, reconciliation and report formatting. It does not replace human judgement; it frees humans to focus on that judgement.",
+            },
+            {
+              question: "Christensen's theory of disruptive innovation argues that disruption typically:",
+              options: [
+                "Originates from premium market segments targeting existing customers",
+                "Begins at the low end or in a new market before moving upmarket",
+                "Is always more expensive than the product it replaces",
+                "Only affects technology industries, not financial services",
+              ],
+              correct: 1,
+              explanation: "Disruptors enter at the low end or create a new market with simpler, cheaper offerings. Incumbents ignore them while serving their most profitable customers. By the time the disruptor moves upmarket, it is often too late for the incumbent to catch up.",
+            },
+            {
+              question: "The impact of analytics and automation on management accountants is best described as a shift towards:",
+              options: [
+                "Eliminating the need for financial judgement and professional scepticism",
+                "Insight generation and business partnering, away from backward-looking data processing",
+                "Focusing exclusively on statutory financial reporting",
+                "Replacing the balanced scorecard with purely financial metrics",
+              ],
+              correct: 1,
+              explanation: "Technology handles the data processing and report generation. The value-add for management accountants increasingly lies in interpreting data, building decision models and acting as commercial business partners — answering 'why?' and 'what next?' rather than just 'what happened?'",
+            },
+          ],
+        },
+        {
+          id: "e2-l11",
+          title: "Ethics and Professional Responsibility",
+          topic: "Ethics",
+          estimatedMinutes: 30,
+          objectives: [
+            "Apply ethical theories to business dilemmas",
+            "Explain CIMA's five fundamental ethical principles and how to handle threats",
+            "Assess the relationship between CSR, ESG and long-term value creation",
+          ],
+          keyTerms: [
+            { term: "CIMA Fundamental Principles", definition: "Five principles: Integrity, Objectivity, Professional competence and due care, Confidentiality, Professional behaviour." },
+            { term: "Consequentialism", definition: "Actions are judged by their outcomes — the greatest good for the greatest number (utilitarianism)." },
+            { term: "Deontology", definition: "Actions are judged by their adherence to duties and rules — some things are inherently right or wrong, regardless of consequences." },
+            { term: "CSR (Carroll's Pyramid)", definition: "Four obligations: Economic (be profitable) → Legal (obey the law) → Ethical (do what is right) → Philanthropic (be a good corporate citizen)." },
+            { term: "ESG", definition: "Environmental, Social and Governance criteria used by investors to assess non-financial risk and sustainability performance." },
+          ],
+          explanation:
+            "<h3>Ethical Theories</h3>" +
+            "<ul>" +
+            "<li><strong>Consequentialism/Utilitarianism:</strong> Judge actions by outcomes — the morally right action maximises overall welfare.</li>" +
+            "<li><strong>Deontology (Kant):</strong> Some duties are absolute — telling the truth, keeping promises. Outcomes are secondary.</li>" +
+            "<li><strong>Virtue Ethics:</strong> Focus on the character of the decision-maker — what would a person of integrity and good character do?</li>" +
+            "</ul>" +
+            "<h3>CIMA Code of Ethics</h3>" +
+            "<p>Five fundamental principles:</p>" +
+            "<ol><li><strong>Integrity:</strong> Honest and straightforward in all professional and business relationships.</li>" +
+            "<li><strong>Objectivity:</strong> No bias, conflicts of interest or undue influence.</li>" +
+            "<li><strong>Professional competence and due care:</strong> Maintain knowledge and skills at required level.</li>" +
+            "<li><strong>Confidentiality:</strong> Do not disclose information without proper authority.</li>" +
+            "<li><strong>Professional behaviour:</strong> Comply with law and avoid discrediting the profession.</li></ol>" +
+            "<p>When threats arise: identify → assess severity → apply safeguards → if unresolvable, escalate or disengage.</p>" +
+            "<h3>CSR and ESG</h3>" +
+            "<p>Carroll's pyramid: Economic (foundation) → Legal → Ethical → Philanthropic (aspiration). ESG frameworks translate CSR into investor-facing metrics.</p>",
+          workedExample: {
+            setup: "A management accountant discovers their employer has been recognising revenue from customer bonuses before the contractual conditions are met, overstating reported performance. Apply CIMA's ethical framework to determine the appropriate response.",
+            steps: [
+              "Identify the threat: premature revenue recognition is a potential integrity breach and may constitute fraudulent financial reporting.",
+              "Assess severity: material misstatement affecting board decision-making and potentially investors. Severity is high — this cannot be ignored.",
+              "Escalate internally: raise the concern with the immediate manager. If the manager is implicated, escalate to CFO or Audit Committee.",
+              "Document everything: record all communications, findings and responses received. Maintain confidentiality but do not participate in or facilitate the misstatement.",
+              "External reporting: if internal channels are ineffective and the issue is material, external reporting to a regulator may be required. Whistleblower protection legislation applies.",
+            ],
+            answer: "Internal escalation first, with full documentation. Do not participate in the misstatement. If internal channels are blocked or ineffective, external reporting may be necessary. CIMA's principles of integrity and professional behaviour override loyalty to the employer.",
+          },
+          summary: [
+            "Consequentialism judges actions by outcomes; deontology by duties; virtue ethics by character — all three frameworks offer useful perspectives on ethical dilemmas.",
+            "CIMA's five fundamental principles are: integrity, objectivity, professional competence and due care, confidentiality, and professional behaviour.",
+            "When facing ethical threats: identify, assess severity, apply safeguards, and — if unresolvable — escalate or disengage.",
+            "Carroll's CSR pyramid: businesses should be profitable, law-abiding, ethical and philanthropic — in that order of priority.",
+            "ESG frameworks provide investors with standardised non-financial performance metrics to assess long-run sustainability and risk.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A manager instructs an accountant to omit a material expense from a management report. The most appropriate first response is:",
+              options: [
+                "Comply immediately — the manager has authority",
+                "Refuse and immediately contact the external regulator",
+                "Raise the concern with the manager and document the conversation",
+                "Adjust the report but note the change in the working papers",
+              ],
+              correct: 2,
+              explanation: "CIMA guidance: raise the matter with the appropriate person first and document the conversation. If pressure persists, escalate to a higher authority (ethics committee, audit committee). External reporting is a last resort after internal channels are exhausted.",
+            },
+            {
+              question: "CIMA's fundamental principle of 'objectivity' requires a professional accountant to:",
+              options: [
+                "Always agree with the client to maintain the business relationship",
+                "Avoid bias, conflicts of interest or undue influence in professional judgements",
+                "Keep all client information strictly confidential",
+                "Complete all work to a high technical standard",
+              ],
+              correct: 1,
+              explanation: "Objectivity means professional judgements are not compromised by bias, conflicts of interest, or pressure from others. It is distinct from integrity (honesty), competence (knowledge/skill) and confidentiality (information security).",
+            },
+            {
+              question: "Carroll's CSR pyramid places 'economic responsibility' at the base because:",
+              options: [
+                "Profit is more important than ethics",
+                "Without profitability, the firm cannot fulfil its legal, ethical or philanthropic obligations",
+                "Shareholders always take precedence over other stakeholders",
+                "Philanthropic activities should only be funded from profits",
+              ],
+              correct: 1,
+              explanation: "Carroll argued that without an economically viable business, all other CSR responsibilities become impossible. Profitability is the foundation — not the only goal, but the prerequisite for being able to operate legally, ethically and philanthropically.",
+            },
+          ],
+        },
+        {
+          id: "e2-l12",
+          title: "Managing People — HR Practices",
+          topic: "People management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Describe the recruitment and selection process and the legal context",
+            "Apply performance appraisal frameworks including 360-degree feedback",
+            "Explain the principles of fair disciplinary and grievance procedures",
+          ],
+          keyTerms: [
+            { term: "Job Description", definition: "Specifies duties, responsibilities, reporting lines and conditions of a role — used for recruitment, appraisal and grading." },
+            { term: "Person Specification", definition: "Describes the skills, experience, qualifications and competencies required in the job holder — the basis for shortlisting criteria." },
+            { term: "360-Degree Feedback", definition: "Performance appraisal input from multiple sources: manager, peers, direct reports and sometimes customers — reducing single-rater bias." },
+            { term: "SMART Objectives", definition: "Performance targets that are Specific, Measurable, Achievable, Relevant and Time-bound." },
+            { term: "Gross Misconduct", definition: "A fundamental breach of the employment contract (e.g., theft, violence, serious dishonesty) justifying summary dismissal without notice." },
+          ],
+          explanation:
+            "<h3>Recruitment and Selection</h3>" +
+            "<p>Cycle: define role (job description + person specification) → advertise (internal/external) → screen → interview/assess → offer → onboard.</p>" +
+            "<p><strong>Selection validity:</strong> Assessment centres (combining multiple methods) have the highest predictive validity. Structured competency interviews outperform unstructured ones. References have low validity alone.</p>" +
+            "<p><strong>Legal context:</strong> Equality Act 2010 prohibits discrimination on protected characteristics (age, sex, race, disability, religion, sexual orientation) at all stages.</p>" +
+            "<h3>Performance Management</h3>" +
+            "<p>Appraisals serve: development, communication, reward and planning. Approaches:</p>" +
+            "<ul><li><strong>MBO:</strong> Agree SMART objectives; review performance against them.</li>" +
+            "<li><strong>Rating scales:</strong> Score competencies 1-5.</li>" +
+            "<li><strong>360-degree:</strong> Multi-source feedback reduces individual bias.</li></ul>" +
+            "<h3>Disciplinary and Grievance</h3>" +
+            "<p>ACAS Code of Practice requires: written procedure, right to be accompanied, graduated warnings (verbal → written → final written → dismissal), right of appeal. Gross misconduct can justify summary dismissal. Constructive dismissal arises when the employer's fundamental breach causes the employee to resign.</p>",
+          workedExample: {
+            setup: "A finance manager must appraise a senior analyst: technically excellent but poor stakeholder communication, evidenced by two client complaints. Design the appraisal approach.",
+            steps: [
+              "Prepare with evidence: gather specific examples of both — high-quality technical outputs AND client complaint records, ideally corroborated by 360-degree feedback.",
+              "Balanced opening: acknowledge genuine technical strengths first — don't make this a purely corrective conversation.",
+              "Address communication specifically: frame as a development area. Use open questions: 'How do you feel stakeholder communication has gone this quarter?'",
+              "Agree SMART objectives: 'Complete stakeholder communication training by Q2; receive neutral or positive client feedback scores in next three reviews.'",
+              "Agree support: identify coaching, mentoring or structured training. Set a 3-month follow-up review.",
+            ],
+            answer: "Balanced appraisal: acknowledge genuine strengths then clearly address the gap. SMART development objectives with agreed support and a follow-up review create accountability without demotivating a valued analyst.",
+          },
+          summary: [
+            "Effective recruitment requires clear job descriptions and person specifications to set objective, legally defensible selection criteria.",
+            "Assessment centres using multiple methods provide the highest-validity selection outcomes.",
+            "360-degree feedback provides multi-directional performance insight, reducing single-manager bias.",
+            "ACAS disciplinary procedures: written procedure, right to be accompanied, graduated warnings, right of appeal.",
+            "The Equality Act 2010 prohibits discrimination on protected characteristics throughout the entire employment lifecycle.",
+          ],
+          practiceQuestions: [
+            {
+              question: "The Equality Act 2010 protects employees from discrimination based on:",
+              options: [
+                "Job title and seniority level",
+                "Protected characteristics including age, sex, race, disability and religion",
+                "Length of service and professional qualifications",
+                "Salary level and contractual terms",
+              ],
+              correct: 1,
+              explanation: "The Equality Act 2010 defines nine protected characteristics: age, disability, gender reassignment, marriage/civil partnership, pregnancy/maternity, race, religion/belief, sex and sexual orientation. Discrimination on any of these grounds is unlawful throughout the employment relationship.",
+            },
+            {
+              question: "360-degree feedback improves on traditional single-manager appraisal by:",
+              options: [
+                "Only collecting feedback from external customers",
+                "Gathering input from multiple sources including peers, reports and the manager",
+                "Replacing formal performance objectives entirely",
+                "Being limited to executive-level employees only",
+              ],
+              correct: 1,
+              explanation: "360-degree feedback provides a richer, multi-directional view by collecting input from the full circle of stakeholders. This reduces individual manager bias and surfaces blind spots the manager alone might miss.",
+            },
+            {
+              question: "Under ACAS guidelines, an employee facing a disciplinary hearing has the right to:",
+              options: [
+                "Immediate dismissal without any prior warnings",
+                "Be accompanied by a colleague or trade union representative",
+                "Choose the composition of the disciplinary panel",
+                "Waive the right of appeal if they accept the sanction",
+              ],
+              correct: 1,
+              explanation: "The ACAS Code of Practice gives employees the statutory right to be accompanied at formal disciplinary or grievance hearings by a colleague or trade union representative. They also have the right to appeal against any sanction imposed.",
+            },
+          ],
+        },
+      ],
+    },
+
+    /* ══════════════════════════════════════════════════════════════════════
+       P2 — Advanced Management Accounting
+       ══════════════════════════════════════════════════════════════════════ */
+    {
+      id: "p2",
+      title: "P2",
+      fullTitle: "Advanced Management Accounting",
+      icon: "calculator",
+      modules: 12,
+      questions: 48,
+      mockExams: 1,
+      studyHoursTotal: 90,
+      lessons: [
+        {
+          id: "p2-l1",
+          title: "Value Chain Analysis and Strategic Cost Management",
+          topic: "Strategic cost management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply Porter's value chain to identify primary and support activities",
+            "Use value chain analysis to find cost reduction and differentiation opportunities",
+            "Explain kaizen costing and its role in continuous improvement",
+          ],
+          keyTerms: [
+            { term: "Value Chain (Porter)", definition: "A model that describes the sequence of activities through which a firm creates value: primary activities (inbound logistics, operations, outbound logistics, marketing, service) and support activities (infrastructure, HR, technology, procurement)." },
+            { term: "Value System", definition: "The extended chain of value from suppliers through the firm to customers and distribution channels — cost and differentiation advantages can exist anywhere in the system." },
+            { term: "Kaizen Costing", definition: "Continuous, incremental cost reduction applied during the production phase. Employees at all levels propose and implement small improvements." },
+            { term: "Strategic Cost Management", definition: "Using cost information in the context of strategy — identifying where costs are incurred relative to value delivered and competitors' cost positions." },
+            { term: "Cost Driver", definition: "An activity or factor that causes a cost to be incurred. Structural drivers (scale, scope, learning) and executional drivers (plant layout, product configuration) both affect long-run cost position." },
+          ],
+          explanation:
+            "<h3>Porter's Value Chain</h3>" +
+            "<p>Porter argued competitive advantage comes from performing value activities more cheaply or better than rivals. The value chain decomposes the firm into strategically relevant activities:</p>" +
+            "<p><strong>Primary activities:</strong></p>" +
+            "<ul><li>Inbound logistics (receiving, warehousing materials)</li><li>Operations (converting inputs to outputs)</li>" +
+            "<li>Outbound logistics (distributing finished products)</li><li>Marketing and sales</li><li>Service (after-sales support)</li></ul>" +
+            "<p><strong>Support activities</strong> (cut across all primary activities):</p>" +
+            "<ul><li>Firm infrastructure (finance, planning, legal)</li><li>Human resource management</li><li>Technology development</li><li>Procurement</li></ul>" +
+            "<h3>Using the Value Chain</h3>" +
+            "<p>By understanding where costs are incurred and where customers perceive value, firms can: (1) reduce cost in non-value-adding activities; (2) invest more in activities that create differentiation; (3) reconfigure the chain (e.g., outsource, partner, vertically integrate).</p>" +
+            "<h3>Kaizen Costing</h3>" +
+            "<p>Japanese concept: rather than accepting current costs, continuously seek small improvements. Typically involves monthly cost reduction targets, with variances analysed as 'kaizen achievement rate' vs target.</p>",
+          workedExample: {
+            setup: "A food manufacturer analyses its value chain and finds: outbound logistics costs are 18% of revenue vs an industry benchmark of 11%; marketing costs are 6% vs 12% for the market leader. Identify strategic implications.",
+            steps: [
+              "Outbound logistics gap: 7% of revenue above benchmark. This is a significant cost disadvantage. Investigate: is the distribution network inefficient? Are delivery routes sub-optimal? Could 3PL (third-party logistics) reduce cost?",
+              "Marketing underspend: 6% vs 12%. This may explain below-average brand recognition and customer acquisition. Cost advantage in marketing is intentional (lower-cost positioning) or is it underinvestment in growth?",
+              "Strategic trade-off: fixing logistics would reduce costs but improving marketing might increase revenue — both affect competitive position. Prioritise the logistics fix first (structural cost disadvantage) then consider marketing investment.",
+            ],
+            answer: "The logistics cost gap is a structural competitive disadvantage requiring immediate attention — consider route optimisation, 3PL or supply chain redesign. The marketing underspend may be intentional cost strategy or underinvestment; this requires strategic clarity before action.",
+          },
+          summary: [
+            "Porter's value chain decomposes the firm into primary and support activities — value is created where activities are performed better or more cheaply than rivals.",
+            "The value system extends the chain to include suppliers and channels — cost and differentiation opportunities exist across the whole system.",
+            "Strategic cost management uses cost data in competitive context, not just for internal control.",
+            "Kaizen costing drives continuous incremental improvement during production, complementing target costing's pre-production focus.",
+            "Identifying cost drivers (structural and executional) is the key first step in strategic cost reduction initiatives.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In Porter's value chain, which of the following is a primary activity?",
+              options: [
+                "Human resource management",
+                "Technology development",
+                "Procurement",
+                "Outbound logistics",
+              ],
+              correct: 3,
+              explanation: "Primary activities directly create and deliver the product or service: inbound logistics, operations, outbound logistics, marketing and sales, and service. HR, technology and procurement are support activities that enable the primary activities.",
+            },
+            {
+              question: "Kaizen costing differs from standard costing primarily because:",
+              options: [
+                "It sets cost standards once and keeps them fixed for the year",
+                "It continuously seeks incremental improvements to reduce actual costs below current standards",
+                "It applies only to material costs and ignores labour",
+                "It is used only during the product design phase",
+              ],
+              correct: 1,
+              explanation: "Kaizen costing assumes current costs are never optimal — it drives ongoing, incremental cost reduction during production. Standard costing sets a fixed benchmark; kaizen costing continuously revises the target downward.",
+            },
+            {
+              question: "A firm identifies that its after-sales service costs are twice the industry average. In value chain terms, this is best addressed by:",
+              options: [
+                "Reducing investment in inbound logistics",
+                "Redesigning or improving the 'service' primary activity to deliver equivalent value at lower cost",
+                "Investing more in procurement to source cheaper materials",
+                "Reducing marketing expenditure to offset service costs",
+              ],
+              correct: 1,
+              explanation: "The value chain maps activities to costs. A cost disadvantage in the 'service' activity (post-sale support, warranty, repairs) should be addressed by analysing and redesigning that specific activity — not by cutting unrelated activities.",
+            },
+          ],
+        },
+        {
+          id: "p2-l2",
+          title: "Advanced Pricing Decisions",
+          topic: "Pricing",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply advanced pricing strategies: price skimming, penetration, discriminatory and psychological pricing",
+            "Use the profit-maximising pricing formula from the demand function",
+            "Evaluate transfer pricing strategies in multi-divisional organisations",
+          ],
+          keyTerms: [
+            { term: "Price Discrimination", definition: "Charging different prices to different customer groups for the same product — requires market power, ability to segment and prevent resale." },
+            { term: "Yield Management", definition: "Dynamic pricing that adjusts price in real time based on demand, capacity availability and customer segment — used in airlines, hotels and rail." },
+            { term: "Psychological Pricing", definition: "Pricing that exploits consumer psychology — e.g., £9.99 instead of £10.00 (charm pricing), bundle pricing, or anchor pricing." },
+            { term: "Profit-Maximising Price", definition: "Found by setting MR = MC: P = a/2 + b/2 where demand is P = a − bQ. Alternatively, use P = a − 2bQ for MR and set equal to MC." },
+            { term: "Price Elasticity and Revenue", definition: "When demand is elastic (|PED| > 1), a price cut raises total revenue. When inelastic (|PED| < 1), a price rise raises total revenue." },
+          ],
+          explanation:
+            "<h3>Pricing Strategy Overview</h3>" +
+            "<ul>" +
+            "<li><strong>Price skimming:</strong> High initial price, reduced as competitors enter. Maximises revenue from early adopters. Requires genuine differentiation.</li>" +
+            "<li><strong>Penetration pricing:</strong> Low launch price to build share rapidly. Requires scale economies to sustain profitability long-term.</li>" +
+            "<li><strong>Price discrimination:</strong> First-degree (individualised), second-degree (volume discounts), third-degree (segment-based — peak/off-peak, student/adult).</li>" +
+            "<li><strong>Complementary product pricing:</strong> Razor/blade model — low price on the base product, high margin on consumables.</li>" +
+            "</ul>" +
+            "<h3>Profit-Maximising Price</h3>" +
+            "<p>Given demand: P = a − bQ, marginal revenue: MR = a − 2bQ. Set MR = MC to find Q*, substitute into demand function to get P*.</p>" +
+            "<p><strong>Tabular approach:</strong> For each price point, compute total revenue and total variable cost. Optimal price is where incremental revenue from a price cut exactly covers the incremental cost of higher volume.</p>" +
+            "<h3>Transfer Pricing (Advanced)</h3>" +
+            "<p>General rule: Minimum transfer price = Variable cost + Opportunity cost.</p>" +
+            "<ul><li>Spare capacity, no external market: TP = variable cost.</li>" +
+            "<li>Full capacity, external market: TP = market price.</li>" +
+            "<li>Partial capacity: TP = VC + (contribution foregone / units transferred).</li></ul>" +
+            "<p>International transfer pricing: tax authorities may impose arm's-length pricing to prevent profit shifting between tax jurisdictions.</p>",
+          workedExample: {
+            setup: "Demand function: P = 400 − 5Q. MC = £50. Find the profit-maximising price and quantity. Then assume fixed costs = £1,000. Calculate profit at the optimal price.",
+            steps: [
+              "Find MR: MR = 400 − 10Q (double the slope of the demand function).",
+              "Set MR = MC: 400 − 10Q = 50. 10Q = 350. Q* = 35 units.",
+              "Find P*: P = 400 − 5(35) = 400 − 175 = £225.",
+              "Total revenue = 35 × £225 = £7,875. Variable cost = 35 × £50 = £1,750. Contribution = £6,125.",
+              "Profit = Contribution − Fixed costs = £6,125 − £1,000 = £5,125.",
+            ],
+            answer: "Profit-maximising price = £225, quantity = 35 units, profit = £5,125.",
+          },
+          summary: [
+            "Price skimming extracts maximum value from early adopters; penetration pricing sacrifices short-run margin to build scale.",
+            "Third-degree price discrimination charges different segments different prices — requires segmentation ability and prevention of resale.",
+            "Profit maximisation: set MR = MC. With demand P = a − bQ, MR = a − 2bQ.",
+            "Transfer pricing minimum = variable cost + opportunity cost; international transfer prices must comply with arm's-length principle.",
+            "Yield management applies dynamic pricing in real-time, optimising revenue across time, capacity and customer segments.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Demand function: P = 300 − 4Q; MC = £60. What is the profit-maximising quantity?",
+              options: [
+                "Q = 30",
+                "Q = 35",
+                "Q = 40",
+                "Q = 25",
+              ],
+              correct: 0,
+              explanation: "MR = 300 − 8Q. Set MR = MC: 300 − 8Q = 60. 8Q = 240. Q* = 30. Profit-maximising price P = 300 − 4(30) = £180.",
+            },
+            {
+              question: "Third-degree price discrimination requires the seller to:",
+              options: [
+                "Charge every buyer the maximum price they are individually willing to pay",
+                "Offer volume discounts where higher quantities attract lower prices",
+                "Identify customer segments with different price elasticities and prevent resale between them",
+                "Set a single price for all customers but vary delivery terms",
+              ],
+              correct: 2,
+              explanation: "Third-degree discrimination (e.g., student discounts, peak/off-peak fares) requires: market power, the ability to identify segments with different elasticities, and barriers to resale (arbitrage) between segments.",
+            },
+            {
+              question: "A selling division has spare capacity. Variable cost = £20; no opportunity cost. The minimum transfer price that maximises group profit is:",
+              options: [
+                "Full cost + mark-up",
+                "£20 (variable cost)",
+                "Market price",
+                "Zero — any internal transfer is beneficial",
+              ],
+              correct: 1,
+              explanation: "With spare capacity and no opportunity cost, the minimum transfer price = variable cost = £20. Any price above £20 generates contribution for the selling division without damaging group profit, but the floor is variable cost.",
+            },
+          ],
+        },
+        {
+          id: "p2-l3",
+          title: "Risk Identification, Assessment and Response",
+          topic: "Risk management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Classify business risk using the CIMA risk categories",
+            "Apply probability-impact analysis to prioritise risks",
+            "Select appropriate risk response strategies: transfer, avoid, reduce, accept",
+          ],
+          keyTerms: [
+            { term: "Business Risk", definition: "The risk that adverse events will affect the organisation's ability to achieve its objectives. Categories include strategic, operational, financial and compliance risk." },
+            { term: "Risk Appetite", definition: "The amount and type of risk an organisation is willing to accept in pursuit of its objectives — set by the board and reflected in risk policies." },
+            { term: "Risk Register", definition: "A document recording identified risks, their likelihood and impact, current controls and assigned owners." },
+            { term: "Probability-Impact Matrix", definition: "A grid plotting risks by their likelihood of occurring (probability) and severity of consequences (impact). Determines priority for management attention." },
+            { term: "TARA Framework", definition: "Four risk response strategies: Transfer (insure or contract out), Avoid (exit activity), Reduce (implement controls), Accept (retain and monitor)." },
+          ],
+          explanation:
+            "<h3>Types of Business Risk</h3>" +
+            "<ul>" +
+            "<li><strong>Strategic risk:</strong> Failure to achieve long-term goals — wrong strategy, competitive disruption, M&A failure.</li>" +
+            "<li><strong>Operational risk:</strong> Process failures, IT outages, fraud, supply chain disruption, human error.</li>" +
+            "<li><strong>Financial risk:</strong> Liquidity risk, credit risk, foreign exchange, interest rate exposure.</li>" +
+            "<li><strong>Compliance risk:</strong> Breach of law, regulation or contractual obligations.</li>" +
+            "</ul>" +
+            "<h3>Risk Assessment</h3>" +
+            "<p>For each identified risk, assess: Likelihood (1-5) × Impact (1-5) = Risk Score. Plot on probability-impact matrix.</p>" +
+            "<ul><li>High likelihood / high impact: immediate priority — must be actively managed.</li>" +
+            "<li>Low likelihood / low impact: accept and monitor.</li></ul>" +
+            "<h3>TARA Risk Responses</h3>" +
+            "<ul>" +
+            "<li><strong>Transfer:</strong> Pass risk to a third party (insurance, outsourcing, derivatives). Cost is the premium paid.</li>" +
+            "<li><strong>Avoid:</strong> Withdraw from the risky activity entirely. Eliminates the risk but also any potential upside.</li>" +
+            "<li><strong>Reduce:</strong> Implement controls to lower likelihood or impact. Most common response for operational risks.</li>" +
+            "<li><strong>Accept:</strong> Retain the risk — appropriate when mitigation cost exceeds expected loss, or risk is within appetite.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "A retailer identifies five key risks. Using TARA, recommend the appropriate response for each: (1) Cyber breach — likelihood 3/5, impact 5/5; (2) Key supplier insolvency — likelihood 2/5, impact 4/5; (3) Minor equipment failure — likelihood 4/5, impact 1/5; (4) Exchange rate loss on USD purchases — likelihood 3/5, impact 3/5; (5) Regulatory fine for minor labelling error — likelihood 1/5, impact 2/5.",
+            steps: [
+              "Risk 1 — Cyber breach (score 15): High priority. REDUCE — implement multi-factor authentication, encryption, employee training, incident response plan. Also TRANSFER via cyber insurance.",
+              "Risk 2 — Supplier insolvency (score 8): Medium priority. REDUCE — qualify alternative suppliers; reduce dependence on single source. Consider contractual guarantees or dual sourcing.",
+              "Risk 3 — Equipment failure (score 4): Low impact despite frequency. REDUCE — preventive maintenance schedule. Cost of reduction is low relative to operational disruption.",
+              "Risk 4 — FX loss (score 9): Medium priority. TRANSFER — use forward contracts or options to hedge USD exposure, transferring the FX risk to the counterparty.",
+              "Risk 5 — Labelling fine (score 2): Low score. ACCEPT — monitor but do not invest heavily in controls. Residual risk is within appetite.",
+            ],
+            answer: "Cyber breach: Reduce + Transfer (insurance). Supplier: Reduce (dual sourcing). Equipment: Reduce (maintenance). FX: Transfer (hedging). Labelling: Accept. Responses are matched to risk scores and cost-effectiveness of controls.",
+          },
+          summary: [
+            "Business risk categories: strategic, operational, financial and compliance — each requires different management approaches.",
+            "Risk assessment uses probability × impact to produce a risk score, determining management priority.",
+            "The TARA framework (Transfer, Avoid, Reduce, Accept) provides four response strategies matched to risk characteristics.",
+            "Risk appetite sets the threshold above which risks require active management — set by the board and embedded in risk policy.",
+            "The risk register is the central tool for tracking risks, owners, controls and residual risk levels.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A manufacturing company is exposed to volatile energy prices that could significantly increase production costs. The most appropriate TARA response is:",
+              options: [
+                "Avoid — stop all manufacturing",
+                "Accept — do nothing and absorb the cost",
+                "Transfer — use energy price derivatives or fixed-price contracts",
+                "Reduce — switch to labour-intensive production methods",
+              ],
+              correct: 2,
+              explanation: "Energy price risk is a financial risk that can be transferred using derivatives (swaps, futures) or fixed-price supply contracts. This passes the price variability risk to the counterparty. Avoidance would require exiting the business.",
+            },
+            {
+              question: "A risk has high probability (4/5) but very low impact (1/5). The most appropriate response is usually to:",
+              options: [
+                "Avoid the activity generating the risk",
+                "Transfer the risk via insurance",
+                "Accept the risk — the expected loss is low",
+                "Implement extensive controls to reduce probability",
+              ],
+              correct: 2,
+              explanation: "A risk score of 4 (high probability × low impact) represents low overall exposure. The expected cost of controls or insurance premiums likely exceeds the expected loss. Accept and monitor is the cost-effective response.",
+            },
+            {
+              question: "Risk appetite is best described as:",
+              options: [
+                "The total amount of risk currently faced by the organisation",
+                "The board-set threshold of risk the organisation is willing to accept in pursuit of objectives",
+                "The maximum fine the organisation could incur for regulatory breaches",
+                "The level of risk that insurance covers",
+              ],
+              correct: 1,
+              explanation: "Risk appetite is a board-level policy decision defining how much and what type of risk is acceptable. It guides managers in deciding whether to accept, reduce, transfer or avoid individual risks, and ensures risk-taking is consistent with strategic objectives.",
+            },
+          ],
+        },
+        {
+          id: "p2-l4",
+          title: "Sensitivity Analysis and Scenario Planning",
+          topic: "Risk and uncertainty",
+          estimatedMinutes: 35,
+          objectives: [
+            "Perform sensitivity analysis on key variables in a financial model",
+            "Apply scenario planning to assess the impact of different future states",
+            "Evaluate the limitations of single-point estimates and expected value",
+          ],
+          keyTerms: [
+            { term: "Sensitivity Analysis", definition: "Tests how much a key variable can change before a decision changes (e.g., NPV becomes negative). Identifies the most critical assumptions in a model." },
+            { term: "Scenario Planning", definition: "Constructs alternative 'stories' about the future (base case, optimistic, pessimistic) and models the financial impact of each." },
+            { term: "Break-Even Sensitivity", definition: "The percentage change in a variable that causes NPV to fall to zero. The variable with the smallest percentage change is the most sensitive." },
+            { term: "Simulation (Monte Carlo)", definition: "A computational technique that assigns probability distributions to uncertain inputs and runs thousands of iterations to build a probability distribution of outputs (e.g., NPV)." },
+            { term: "Decision Tree", definition: "A diagram showing sequential decisions and chance events with associated probabilities and payoffs, enabling calculation of optimal expected value at each decision node." },
+          ],
+          explanation:
+            "<h3>Sensitivity Analysis</h3>" +
+            "<p>For each key variable (sales volume, selling price, variable cost, discount rate), ask: by what percentage can this change before NPV = 0?</p>" +
+            "<p>Break-even % change = NPV / PV of the variable's cash flows × 100</p>" +
+            "<p>The variable with the smallest allowable change is the most sensitive — deserving closest management attention and monitoring.</p>" +
+            "<h3>Scenario Analysis</h3>" +
+            "<p>Unlike sensitivity analysis (one variable at a time), scenario analysis changes multiple variables simultaneously to create coherent future states:</p>" +
+            "<ul><li><strong>Base case:</strong> Most likely outcome.</li><li><strong>Optimistic:</strong> Best credible outcome.</li><li><strong>Pessimistic:</strong> Worst credible outcome.</li></ul>" +
+            "<p>Scenarios should be internally consistent — e.g., an economic recession scenario would involve lower sales volume AND lower prices AND higher bad debts simultaneously.</p>" +
+            "<h3>Monte Carlo Simulation</h3>" +
+            "<p>Assigns probability distributions (not just single-point estimates) to uncertain variables. Thousands of iterations generate a full distribution of NPVs, enabling statements like: 'There is a 20% probability that NPV < 0.' This is far richer than a single-point expected value.</p>",
+          workedExample: {
+            setup: "A project has NPV = £200,000. PV of sales revenue = £2,000,000; PV of variable costs = £1,200,000; PV of fixed costs = £400,000. Perform sensitivity analysis on each variable.",
+            steps: [
+              "Sensitivity of sales revenue: % change = 200,000 / 2,000,000 × 100 = 10%. Revenue can fall 10% before NPV = 0.",
+              "Sensitivity of variable costs: % change = 200,000 / 1,200,000 × 100 = 16.7%. Variable costs can rise 16.7% before NPV = 0.",
+              "Sensitivity of fixed costs: % change = 200,000 / 400,000 × 100 = 50%. Fixed costs can rise 50% before NPV = 0.",
+              "Rank by sensitivity: Sales revenue (10%) is most sensitive; fixed costs (50%) are least sensitive.",
+            ],
+            answer: "Sales revenue is the most critical variable — a 10% decline makes the project non-viable. Management should focus monitoring and contingency planning on the sales revenue assumption. Fixed costs have the most headroom (50%).",
+          },
+          summary: [
+            "Sensitivity analysis tests how much each key variable can change before a decision reverses — the smallest allowable change identifies the most critical assumption.",
+            "Scenario analysis changes multiple variables simultaneously to model coherent future states, unlike sensitivity which moves one variable at a time.",
+            "Monte Carlo simulation generates a probability distribution of outcomes by running thousands of iterations with probabilistic inputs.",
+            "Decision trees map sequential decisions and probabilistic outcomes, enabling expected value calculations at each branch.",
+            "Single-point estimates and expected values disguise the range of possible outcomes — sensitivity and simulation reveal the true uncertainty.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A project has NPV = £150,000 and PV of sales revenue = £3,000,000. What is the sensitivity of NPV to a change in sales revenue?",
+              options: [
+                "20%",
+                "10%",
+                "5%",
+                "15%",
+              ],
+              correct: 2,
+              explanation: "Sensitivity % = NPV / PV of variable = £150,000 / £3,000,000 = 5%. Sales revenue can fall by only 5% before NPV reaches zero. This indicates high sensitivity to the sales revenue forecast.",
+            },
+            {
+              question: "Scenario analysis differs from sensitivity analysis because:",
+              options: [
+                "Scenario analysis changes only one variable at a time",
+                "Scenario analysis creates coherent alternative futures by changing multiple variables simultaneously",
+                "Sensitivity analysis uses probability distributions while scenario analysis uses single-point estimates",
+                "Scenario analysis cannot be applied to capital investment decisions",
+              ],
+              correct: 1,
+              explanation: "Sensitivity analysis moves one variable at a time holding others constant. Scenario analysis creates complete alternative futures — e.g., a recession scenario would simultaneously reduce sales volume, lower prices and increase bad debts, reflecting the real-world correlations between variables.",
+            },
+            {
+              question: "The main advantage of Monte Carlo simulation over expected value analysis is that it:",
+              options: [
+                "Always produces a higher NPV than expected value",
+                "Generates a full probability distribution of outcomes, not just a single expected value",
+                "Eliminates the need for probability estimates",
+                "Is simpler and cheaper to apply",
+              ],
+              correct: 1,
+              explanation: "Monte Carlo simulation shows the full range and probability of possible outcomes — including the probability of loss or extreme scenarios. Expected value collapses all uncertainty into a single number, which may never actually occur in a one-off decision.",
+            },
+          ],
+        },
+        {
+          id: "p2-l5",
+          title: "Advanced Budgeting and Forecasting",
+          topic: "Budgeting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Evaluate zero-based budgeting, activity-based budgeting and rolling forecasts",
+            "Apply beyond budgeting principles to adaptive performance management",
+            "Explain the use of big data and AI in financial forecasting",
+          ],
+          keyTerms: [
+            { term: "Zero-Based Budgeting (ZBB)", definition: "Each budget period starts from zero — all expenditure must be justified and prioritised rather than incrementally adjusted from prior year." },
+            { term: "Activity-Based Budgeting (ABB)", definition: "Budgets are built from the planned volume of activities and activity cost rates. Provides direct link between resource plans and operational objectives." },
+            { term: "Rolling Forecast", definition: "A continuously updated forecast that always extends a fixed horizon (e.g., 12 months) into the future, replacing or supplementing the static annual budget." },
+            { term: "Beyond Budgeting", definition: "Movement that replaces fixed annual budgets with adaptive, relative targets, devolved decision-making and dynamic resource allocation." },
+            { term: "Predictive Analytics", definition: "Uses statistical models and machine learning applied to historical and real-time data to generate probabilistic forecasts rather than single-point estimates." },
+          ],
+          explanation:
+            "<h3>Limitations of Traditional Budgeting</h3>" +
+            "<ul>" +
+            "<li>Time-consuming and expensive to prepare.</li>" +
+            "<li>Encourages 'use it or lose it' spending behaviour at year-end.</li>" +
+            "<li>Rapidly becomes irrelevant in fast-moving environments.</li>" +
+            "<li>Focuses management attention on meeting short-run targets rather than long-run value creation.</li>" +
+            "</ul>" +
+            "<h3>Alternatives</h3>" +
+            "<p><strong>ZBB:</strong> Forces rigorous prioritisation but is very resource-intensive. Best applied to selected cost areas (support functions, discretionary spend) rather than entire organisations.</p>" +
+            "<p><strong>ABB:</strong> Links budget to planned activity volumes and cost drivers. Aligned with ABC costing — provides greater operational insight than line-item budgets.</p>" +
+            "<p><strong>Rolling forecasts:</strong> Updated quarterly (or monthly), always extending 12 months ahead. Eliminates the relevance problem of annual budgets as year-end approaches.</p>" +
+            "<p><strong>Beyond Budgeting (Hope and Fraser):</strong> Replace fixed targets with relative benchmarks (vs peers, vs market). Devolve resource allocation to operational managers. Respond dynamically to actual performance. Used by Handelsbanken, Unilever.</p>" +
+            "<h3>AI in Forecasting</h3>" +
+            "<p>Machine learning models trained on large datasets can outperform human-produced single-point forecasts by generating probabilistic predictions and automatically detecting patterns. Requires high-quality data governance and human oversight.</p>",
+          workedExample: {
+            setup: "A manufacturing company currently uses annual incremental budgeting. The CFO is considering switching to quarterly rolling forecasts. Identify the advantages, implementation challenges and how AI could enhance the process.",
+            steps: [
+              "Advantages of rolling forecasts: always extends 12 months ahead — avoids the 'tunnel vision' problem as year-end approaches; enables faster response to changing conditions; reduces gaming behaviour ('sandbagging' targets).",
+              "Implementation challenges: requires more frequent forecasting cycles — higher workload unless automation is introduced; management culture change away from annual fixed targets; system capability to handle quarterly refresh.",
+              "AI enhancement: machine learning models can automate driver-based forecasts using ERP data — e.g., predict sales by region based on leading indicators (order book, web traffic, consumer sentiment). Reduces manual effort and improves accuracy.",
+              "Recommendation: implement rolling forecasts with BI automation for data aggregation. Use AI for volume/revenue forecasting where sufficient historical data exists. Keep human judgement for strategic scenarios.",
+            ],
+            answer: "Rolling forecasts improve relevance and reduce gaming behaviour. AI-enhanced driver-based models reduce manual effort. The key challenge is cultural — shifting managers from annual target-setting mindset to continuous performance management.",
+          },
+          summary: [
+            "Traditional annual budgets are time-consuming, encourage gaming and quickly become irrelevant in dynamic environments.",
+            "ZBB forces rigorous prioritisation but is resource-intensive — best applied selectively to discretionary spend.",
+            "ABB links budgets to planned activity volumes and cost drivers, improving operational insight.",
+            "Rolling forecasts always extend the same horizon ahead, eliminating the relevance degradation of annual budgets.",
+            "Beyond Budgeting replaces fixed targets with relative benchmarks and devolved decision-making — effective in adaptive organisations.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Zero-based budgeting requires that:",
+              options: [
+                "Last year's budget is automatically rolled forward with an inflation adjustment",
+                "All expenditure is justified from scratch each period, regardless of prior-year spending",
+                "Only capital expenditure is subject to rigorous justification",
+                "Budgets are set at zero and increased only for approved headcount",
+              ],
+              correct: 1,
+              explanation: "ZBB starts from a zero base — every cost must be justified and prioritised as if new. This eliminates the assumption that last year's spending level is automatically appropriate, forcing genuine resource allocation decisions.",
+            },
+            {
+              question: "A key advantage of rolling forecasts over annual budgets is:",
+              options: [
+                "They eliminate the need for variance analysis",
+                "The planning horizon always extends a fixed period ahead, keeping forecasts relevant",
+                "They are significantly cheaper and faster to prepare",
+                "They remove individual accountability for performance",
+              ],
+              correct: 1,
+              explanation: "Rolling forecasts (e.g., 12-month) are refreshed each quarter. As each quarter passes, a new quarter is added to the end. This means the organisation always has a 12-month forward view — unlike an annual budget which becomes increasingly short-horizon as the year progresses.",
+            },
+            {
+              question: "Beyond Budgeting replaces fixed annual budgets primarily with:",
+              options: [
+                "Zero-based budgets refreshed monthly",
+                "Relative performance targets and adaptive, devolved resource allocation",
+                "Activity-based budgets aligned to ABC costing",
+                "Single-point AI-generated forecasts",
+              ],
+              correct: 1,
+              explanation: "Beyond Budgeting advocates replacing absolute fixed targets (£x profit) with relative benchmarks (top quartile vs peer group) and giving operational managers authority to allocate resources dynamically. This creates greater agility and reduces the dysfunctional behaviours associated with fixed annual budgets.",
+            },
+          ],
+        },
+        {
+          id: "p2-l6",
+          title: "Advanced Variance Analysis",
+          topic: "Variance analysis",
+          estimatedMinutes: 45,
+          objectives: [
+            "Calculate and interpret mix and yield variances for materials and labour",
+            "Distinguish planning variances from operational variances",
+            "Apply advanced variance analysis to evaluate divisional and product performance",
+          ],
+          keyTerms: [
+            { term: "Mix Variance", definition: "Arises when the actual blend of inputs (materials or labour grades) differs from the standard blend, while total input quantity remains the same." },
+            { term: "Yield Variance", definition: "Arises when actual output differs from the standard output expected from the actual input — measures process efficiency." },
+            { term: "Planning Variance", definition: "The difference between the original standard and a revised standard that reflects changed external conditions — uncontrollable by management." },
+            { term: "Operational Variance", definition: "The difference between actual performance and the revised standard — controllable by management and the basis for performance evaluation." },
+            { term: "Sales Mix Variance", definition: "The profit impact of selling a different combination of products from the budgeted mix, holding total sales volume constant." },
+          ],
+          explanation:
+            "<h3>Material Mix and Yield Variances</h3>" +
+            "<p>These split the total material usage variance:</p>" +
+            "<ul>" +
+            "<li><strong>Mix variance:</strong> (Actual qty in actual mix − Actual qty in std mix) × Std cost. Measures the cost of deviating from the standard blend.</li>" +
+            "<li><strong>Yield variance:</strong> (Actual output − Std output from actual input) × Std cost per unit of output. Measures process efficiency.</li>" +
+            "</ul>" +
+            "<p>Check: Mix variance + Yield variance = Total usage variance ✓</p>" +
+            "<h3>Planning and Operational Variances</h3>" +
+            "<p>When the original standard becomes unrealistic due to external change (e.g., commodity price spike), the total variance should be split:</p>" +
+            "<ul><li><strong>Planning variance</strong> = (Original std − Revised std) × Actual qty. Reflects unforeseeable external change — not a management failure.</li>" +
+            "<li><strong>Operational variance</strong> = (Revised std − Actual) × Actual qty. Reflects management performance against the updated benchmark.</li></ul>" +
+            "<h3>Sales Mix and Quantity Variances</h3>" +
+            "<p>These split the total sales volume variance:</p>" +
+            "<ul>" +
+            "<li><strong>Mix variance:</strong> (Actual sales in actual mix − Actual sales in std mix) × Std margin. Effect of selling a different product mix.</li>" +
+            "<li><strong>Quantity variance:</strong> (Total actual sales − Total budgeted sales) × Weighted average std margin. Effect of selling more or fewer units in total.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "Standard mix: 60% Material A (£4/kg), 40% Material B (£6/kg). Actual input: 600 kg A, 300 kg B = 900 kg total. Standard output for 900 kg input = 810 kg. Actual output = 800 kg. Calculate mix variance and yield variance.",
+            steps: [
+              "Standard mix for 900 kg actual input: A = 60% × 900 = 540 kg; B = 40% × 900 = 360 kg.",
+              "Mix variance: A: (600 − 540) × £4 = +£240 Adverse; B: (300 − 360) × £6 = −£360 Favourable. Total mix variance = −£360 + £240 = £120 Favourable. (More of the cheaper A, less of the more expensive B.)",
+              "Weighted average standard cost per kg of input = 0.6 × £4 + 0.4 × £6 = £4.80/kg.",
+              "Standard cost per kg of output = (900 × £4.80) / 810 = £5.333/kg.",
+              "Yield variance: (800 − 810) × £5.333 = −10 × £5.333 = £53.33 Adverse. (Less output than standard.)",
+              "Check: Mix (£120 Fav) + Yield (£53.33 Adv) = £66.67 Fav = Total usage variance.",
+            ],
+            answer: "Mix variance = £120 Favourable (cheaper blend used). Yield variance = £53.33 Adverse (less output than expected). Total usage variance = £66.67 Favourable.",
+          },
+          summary: [
+            "Mix variance measures the cost impact of using a different blend of inputs; yield variance measures output efficiency for the actual input used.",
+            "Mix + Yield = Total Usage Variance — this relationship is a useful check.",
+            "Planning variances reflect uncontrollable external changes; operational variances measure management performance against the updated benchmark.",
+            "Sales mix variance measures the profit impact of selling a different product combination; sales quantity variance measures the impact of total volume change.",
+            "Advanced variance analysis improves the relevance and fairness of performance evaluation by separating controllable from uncontrollable factors.",
+          ],
+          practiceQuestions: [
+            {
+              question: "The material yield variance measures:",
+              options: [
+                "The cost effect of using a different blend of materials than planned",
+                "The profit impact of actual output differing from expected output for actual input",
+                "The price difference between actual and standard material costs",
+                "The volume of materials wasted above the normal loss allowance",
+              ],
+              correct: 1,
+              explanation: "The yield variance = (Actual output − Standard output for actual input) × Standard cost per output unit. It measures process efficiency — whether the conversion of inputs to outputs is better or worse than standard.",
+            },
+            {
+              question: "Original standard material cost = £10/kg; revised standard (market price rise) = £12/kg; actual cost = £11/kg for 2,000 kg. What is the operational price variance?",
+              options: [
+                "£4,000 Adverse",
+                "£2,000 Favourable",
+                "£2,000 Adverse",
+                "£4,000 Favourable",
+              ],
+              correct: 1,
+              explanation: "Operational price variance = (Revised std − Actual) × Actual qty = (£12 − £11) × 2,000 = £2,000 Favourable. Management paid £1 less than the revised market rate — this is their controllable achievement.",
+            },
+            {
+              question: "The planning variance for the same scenario above is:",
+              options: [
+                "£2,000 Adverse",
+                "£4,000 Adverse",
+                "£4,000 Favourable",
+                "£2,000 Favourable",
+              ],
+              correct: 1,
+              explanation: "Planning variance = (Original std − Revised std) × Actual qty = (£10 − £12) × 2,000 = −£4,000 Adverse. This reflects the uncontrollable external market price increase — not a management failure.",
+            },
+          ],
+        },
+        {
+          id: "p2-l7",
+          title: "Divisional Performance — Advanced ROI, RI and EVA",
+          topic: "Divisional performance",
+          estimatedMinutes: 45,
+          objectives: [
+            "Evaluate divisional performance using ROI, RI and EVA with their limitations",
+            "Explain the dysfunctional incentive effects of ROI and how RI/EVA address them",
+            "Adjust reported NOPAT and capital for EVA calculation",
+          ],
+          keyTerms: [
+            { term: "Return on Investment (ROI)", definition: "Net profit / Capital employed × 100. Easy to understand but creates incentives to reject positive-NPV investments that dilute divisional ROI." },
+            { term: "Residual Income (RI)", definition: "Net profit − (Capital employed × Cost of capital). An absolute measure that aligns divisional decisions with shareholder value creation." },
+            { term: "Economic Value Added (EVA)", definition: "NOPAT − (WACC × Capital employed). Adjusted for accounting distortions. Positive EVA means value is being created above the cost of capital." },
+            { term: "NOPAT", definition: "Net Operating Profit After Tax. EVA's starting point — earnings before interest, adjusted for tax, with accounting distortions reversed." },
+            { term: "EVA Adjustments", definition: "Add back: R&D expensed (treat as asset), operating lease charges (add back interest element), goodwill amortisation. Adjust capital employed accordingly." },
+          ],
+          explanation:
+            "<h3>ROI — Advantages and Dysfunctions</h3>" +
+            "<p>ROI = EBIT / Capital employed. Easy to calculate and compare. But creates a dysfunctional incentive: a division with ROI of 25% will reject a project earning 20% — even if the company's WACC is 12% and the project creates shareholder value.</p>" +
+            "<h3>Residual Income</h3>" +
+            "<p>RI = EBIT − (Capital employed × Cost of capital). A positive RI means the division earns above the cost of capital. RI encourages acceptance of any investment earning above WACC — aligning divisional decisions with group value creation.</p>" +
+            "<p>Limitation: RI is an absolute figure — cannot be used to compare divisions of different sizes fairly.</p>" +
+            "<h3>Economic Value Added (EVA)</h3>" +
+            "<p>EVA = NOPAT − (WACC × Capital employed). Key adjustments to NOPAT and capital:</p>" +
+            "<ul>" +
+            "<li>Add back R&D expense — treat as capital investment (amortise over benefit period).</li>" +
+            "<li>Add back operating lease costs — treat finance element as debt, operating element as cost.</li>" +
+            "<li>Reverse goodwill amortisation.</li>" +
+            "<li>Add capitalised R&D and lease right-of-use assets back to capital employed.</li>" +
+            "</ul>" +
+            "<p>EVA corrects accounting distortions to give a truer picture of economic profit.</p>",
+          workedExample: {
+            setup: "Division X: EBIT = £500,000; Capital employed = £2,500,000; Cost of capital = 12%; Tax rate = 25%. R&D expensed = £80,000 (should be capitalised; amortise over 4 years so only £20,000 amortisation). Calculate RI and EVA.",
+            steps: [
+              "RI = EBIT − (Capital employed × CoC) = £500,000 − (£2,500,000 × 12%) = £500,000 − £300,000 = £200,000.",
+              "EVA — adjust NOPAT: Reported EBIT = £500,000. Add back R&D expensed: +£80,000. Less amortisation of capitalised R&D: −£20,000. Adjusted EBIT = £560,000. NOPAT = £560,000 × (1 − 0.25) = £420,000.",
+              "EVA — adjust capital: Capital employed = £2,500,000. Add capitalised R&D (£80,000 × (4−1)/4 = £60,000 net book value): adjusted capital = £2,560,000.",
+              "EVA = NOPAT − (WACC × Adjusted capital) = £420,000 − (12% × £2,560,000) = £420,000 − £307,200 = £112,800.",
+            ],
+            answer: "RI = £200,000. EVA = £112,800 (lower than RI due to tax and EVA adjustments). Both are positive — the division is creating value above the cost of capital.",
+          },
+          summary: [
+            "ROI is intuitive but creates a dysfunctional incentive to reject value-creating projects that dilute divisional ROI percentage.",
+            "RI aligns divisional investment decisions with shareholder value by measuring profit above the cost of capital in absolute terms.",
+            "EVA extends RI by adjusting for accounting distortions, giving a truer picture of economic profit — but requires more complex calculation.",
+            "RI and EVA both encourage acceptance of any investment earning above WACC, unlike ROI which discourages investment when divisional ROI exceeds WACC.",
+            "EVA adjustments (R&D capitalisation, lease treatment, goodwill) align accounting profit with economic reality.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Division A has ROI = 22% and WACC = 15%. A new project offers ROI = 18%. A manager paid on ROI will likely:",
+              options: [
+                "Accept the project — it earns above WACC",
+                "Reject the project — it dilutes the division's 22% ROI even though it earns above WACC",
+                "Accept the project — the higher capital base reduces risk",
+                "Request additional information before making a decision",
+              ],
+              correct: 1,
+              explanation: "ROI creates a dysfunctional incentive: the manager rejects an 18% project because it reduces the division's 22% average ROI. But from a group perspective, any project earning 18% > 15% WACC creates value and should be accepted. This is why RI and EVA are preferred.",
+            },
+            {
+              question: "Residual Income (RI) is calculated as:",
+              options: [
+                "EBIT / Capital employed",
+                "EBIT − (Capital employed × Cost of capital)",
+                "NOPAT − (WACC × Adjusted capital)",
+                "Revenue − Total operating costs",
+              ],
+              correct: 1,
+              explanation: "RI = EBIT − (Capital employed × Cost of capital). It measures the profit earned above the opportunity cost of the capital employed. EVA extends this concept with accounting adjustments to NOPAT and capital.",
+            },
+            {
+              question: "A key EVA adjustment is to capitalise R&D expenditure rather than expensing it. This has what effect on reported NOPAT and capital employed?",
+              options: [
+                "Reduces NOPAT and reduces capital employed",
+                "Increases NOPAT and increases capital employed",
+                "No effect on either",
+                "Reduces NOPAT and increases capital employed",
+              ],
+              correct: 1,
+              explanation: "Capitalising R&D adds back the expense to NOPAT (increasing it) and adds the capitalised amount to capital employed. Only the periodic amortisation is charged to NOPAT. This reflects the investment nature of R&D rather than treating it as a period cost.",
+            },
+          ],
+        },
+        {
+          id: "p2-l8",
+          title: "Strategic Performance Management",
+          topic: "Performance management",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply Fitzgerald and Moon's Building Block model to service businesses",
+            "Evaluate the Balanced Scorecard in a strategic context",
+            "Assess performance measurement challenges in not-for-profit and public sector organisations",
+          ],
+          keyTerms: [
+            { term: "Building Block Model (Fitzgerald and Moon)", definition: "A performance framework for service businesses with three blocks: Standards (ownership, achievability, equity), Rewards (clarity, motivation, controllability) and Results (dimensions of performance — six categories)." },
+            { term: "Fitzgerald's Six Dimensions", definition: "Results: financial performance and competitiveness. Determinants: quality of service, flexibility, resource utilisation, innovation." },
+            { term: "Value for Money (VFM)", definition: "Public sector performance framework: Economy (minimise input cost), Efficiency (output per unit of input), Effectiveness (achieving objectives). The 3Es." },
+            { term: "Benchmarking", definition: "Comparing performance against best-in-class organisations (competitive), industry norms (industry) or internal divisions (internal). Drives improvement by identifying gaps." },
+            { term: "Non-Financial Performance Indicators (NFPIs)", definition: "Qualitative or quantitative measures that capture value creation beyond financial metrics — customer satisfaction, employee engagement, delivery time, quality defect rates." },
+          ],
+          explanation:
+            "<h3>Fitzgerald and Moon's Building Block Model</h3>" +
+            "<p>Designed for service businesses where outputs are intangible and service quality is hard to measure. Three building blocks:</p>" +
+            "<ul>" +
+            "<li><strong>Results</strong> — what was achieved: Financial performance (profit, ROI, cash flow) and Competitiveness (market share, relative price).</li>" +
+            "<li><strong>Determinants</strong> — what drives results: Quality of service, Flexibility, Resource utilisation, Innovation.</li>" +
+            "<li><strong>Standards</strong> — performance targets must be: Owned (by the person responsible), Achievable (but stretching), Equitable (fair across units).</li>" +
+            "<li><strong>Rewards</strong> — incentives must be: Clear (well understood), Motivating (valued by the recipient), Controllable (based on what managers can influence).</li>" +
+            "</ul>" +
+            "<h3>Strategic Balanced Scorecard</h3>" +
+            "<p>At Management Level, the BSC is used not just as a KPI list but as a strategy execution tool — linking the four perspectives into cause-and-effect chains (strategy maps) that translate strategy into operational action.</p>" +
+            "<h3>Public Sector / NFP Performance</h3>" +
+            "<p>Without profit as a performance signal, the 3Es framework is used: Economy (was money spent wisely?), Efficiency (was output maximised per unit of input?), Effectiveness (were the policy objectives achieved?). NFPIs are particularly important in NFPs.</p>",
+          workedExample: {
+            setup: "A private hospital group wants to implement Fitzgerald and Moon's Building Block model. Identify two KPIs for each of the six performance dimensions.",
+            steps: [
+              "Financial performance: Net margin %; Return on capital employed.",
+              "Competitiveness: Market share vs nearest competitor; Patient referral growth rate.",
+              "Quality of service: Patient satisfaction score (post-discharge survey); Clinical outcome rate (recovery within expected period).",
+              "Flexibility: Average appointment wait time; Ability to handle surge in emergency admissions.",
+              "Resource utilisation: Bed occupancy rate; Theatre utilisation rate.",
+              "Innovation: Number of new treatment protocols adopted; Investment in medical technology as % of revenue.",
+            ],
+            answer: "The six-dimension Building Block framework provides a balanced, service-appropriate performance picture covering both results (financial, competitive) and their determinants (quality, flexibility, resource use, innovation). KPIs for each dimension enable diagnosis of why financial results are what they are.",
+          },
+          summary: [
+            "Fitzgerald and Moon's Building Block model provides a performance framework specifically designed for service businesses with six result/determinant dimensions.",
+            "Standards must be owned, achievable and equitable; rewards must be clear, motivating and controllable.",
+            "The Balanced Scorecard at Management Level is used as a strategy execution tool through strategy maps linking cause-and-effect across perspectives.",
+            "Public sector performance uses the 3Es (Economy, Efficiency, Effectiveness) as a substitute for the profit signal absent in NFPs.",
+            "NFPIs capture value creation not visible in financial statements — essential for a complete performance picture.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In Fitzgerald and Moon's Building Block model, 'quality of service' is classified as:",
+              options: [
+                "A result — it directly measures financial performance",
+                "A determinant — it drives competitive position and future financial results",
+                "A standard — it sets the target level for performance",
+                "A reward — it determines how managers are incentivised",
+              ],
+              correct: 1,
+              explanation: "Quality of service is one of four determinants in the Building Block model — it drives (but does not directly constitute) the results of financial performance and competitiveness. Good service quality creates the competitive advantage that generates future profits.",
+            },
+            {
+              question: "The '3Es' framework (Economy, Efficiency, Effectiveness) is most commonly applied to:",
+              options: [
+                "Private sector businesses seeking to maximise shareholder value",
+                "Public sector and not-for-profit organisations that lack a profit signal",
+                "International transfer pricing between multinational divisions",
+                "Capital investment appraisal using NPV techniques",
+              ],
+              correct: 1,
+              explanation: "VFM (Value for Money) using Economy, Efficiency and Effectiveness provides a framework for performance assessment in public sector and NFP organisations where profit is not the primary goal. It assesses whether objectives were achieved at minimum cost with maximum output.",
+            },
+            {
+              question: "A Balanced Scorecard 'strategy map' is used to:",
+              options: [
+                "Plot financial KPIs on a geographic map by business unit",
+                "Show cause-and-effect linkages between objectives across the four BSC perspectives",
+                "Rank strategic options by their NPV and risk profile",
+                "Allocate budget across the four BSC perspectives proportionally",
+              ],
+              correct: 1,
+              explanation: "A strategy map (Kaplan and Norton) visualises how objectives in Learning and Growth enable Internal Process excellence, which drives Customer satisfaction, which ultimately delivers Financial results. It translates strategy into a coherent set of linked operational objectives.",
+            },
+          ],
+        },
+        {
+          id: "p2-l9",
+          title: "Quality Management and Cost of Quality",
+          topic: "Quality management",
+          estimatedMinutes: 35,
+          objectives: [
+            "Classify costs of quality into prevention, appraisal, internal failure and external failure",
+            "Explain the principles of Total Quality Management (TQM)",
+            "Apply quality cost analysis to identify improvement opportunities",
+          ],
+          keyTerms: [
+            { term: "Prevention Costs", definition: "Costs incurred to prevent defects occurring: staff training, supplier quality management, process design, quality planning." },
+            { term: "Appraisal Costs", definition: "Costs incurred to detect defects: inspection, testing, quality audits, calibration of measuring equipment." },
+            { term: "Internal Failure Costs", definition: "Costs arising from defects found before the product reaches the customer: rework, scrap, re-inspection, downtime." },
+            { term: "External Failure Costs", definition: "Costs arising from defects found after delivery: warranty claims, returns, product liability, reputational damage, lost customers." },
+            { term: "Total Quality Management (TQM)", definition: "A management philosophy of continuous improvement and organisation-wide commitment to quality, with customer satisfaction as the primary objective." },
+          ],
+          explanation:
+            "<h3>Cost of Quality Framework (PAF Model)</h3>" +
+            "<p>Quality costs are grouped into four categories:</p>" +
+            "<ul>" +
+            "<li><strong>Prevention</strong> — invest to stop defects at source. Highest quality leverage: £1 of prevention typically saves £5-10 of failure costs.</li>" +
+            "<li><strong>Appraisal</strong> — inspect to catch defects. Necessary but not optimal — catching failures doesn't prevent them.</li>" +
+            "<li><strong>Internal failure</strong> — defects caught inside the factory. Costly but less damaging than external failure.</li>" +
+            "<li><strong>External failure</strong> — defects reaching customers. The most expensive category: warranty, returns, lost future sales, reputational damage.</li>" +
+            "</ul>" +
+            "<p>Traditional view: there is an optimal quality level where total quality costs are minimised. TQM view: zero defects is the goal — prevention investment is always justified because it eliminates failure costs.</p>" +
+            "<h3>TQM Principles</h3>" +
+            "<ul>" +
+            "<li><strong>Customer focus:</strong> Internal and external customers define quality requirements.</li>" +
+            "<li><strong>Continuous improvement (Kaizen):</strong> Never accept the status quo — always seek better.</li>" +
+            "<li><strong>Employee involvement:</strong> Everyone is responsible for quality — not just the QC department.</li>" +
+            "<li><strong>Process orientation:</strong> Improve the process, not just the output.</li>" +
+            "<li><strong>Data-driven decisions:</strong> Statistical process control, root cause analysis.</li>" +
+            "</ul>" +
+            "<p>Key TQM tools: fishbone diagrams (cause-and-effect), Pareto analysis (80/20 — 80% of defects from 20% of causes), control charts (statistical process control).</p>",
+          workedExample: {
+            setup: "A car parts manufacturer has annual quality costs: Prevention £200,000; Appraisal £350,000; Internal failure £600,000; External failure £900,000. Total = £2,050,000. The quality manager proposes doubling prevention investment. Evaluate this proposal.",
+            steps: [
+              "Current distribution: external failure = 44% of total quality costs. This is the most damaging category — warranty, returns and lost customers are already costing £900,000/year.",
+              "Prevention-to-failure ratio: prevention (£200,000) represents only 10% of quality costs. This is low — quality literature suggests 70-80% of quality costs should be prevention.",
+              "Proposed change: double prevention from £200,000 to £400,000 (+£200,000). Expected reduction in failure costs: empirical studies suggest £1 prevention saves £5+ in failure costs. Expected saving = £1,000,000+.",
+              "Net benefit: saving of ~£1,000,000 vs additional investment of £200,000. Clear positive return on investment.",
+              "Also consider: higher prevention should reduce appraisal costs long-term as fewer defects need to be caught.",
+            ],
+            answer: "The proposal is strongly justified. External failure costs are disproportionately high at £900,000. Doubling prevention investment of £200,000 should yield failure cost savings well in excess of the investment, while also reducing reputational damage and lost future customers.",
+          },
+          summary: [
+            "The PAF model classifies quality costs into Prevention, Appraisal, Internal Failure and External Failure.",
+            "Prevention investment has the highest leverage: £1 of prevention typically eliminates far more than £1 of failure cost.",
+            "External failure costs are the most expensive — warranty, returns and lost customers — because the defect has already reached the customer.",
+            "TQM rejects the traditional optimal quality level concept — continuous improvement towards zero defects is the goal.",
+            "Pareto analysis identifies the vital few causes (20%) responsible for the majority (80%) of defects, focusing improvement effort where it matters most.",
+          ],
+          practiceQuestions: [
+            {
+              question: "A product recall costs £500,000. In the cost of quality framework, this is classified as:",
+              options: [
+                "Prevention cost",
+                "Appraisal cost",
+                "Internal failure cost",
+                "External failure cost",
+              ],
+              correct: 3,
+              explanation: "A product recall occurs after products have been delivered to customers — it is an external failure cost. External failure costs also include warranty claims, customer compensation, reputational damage and lost future revenue.",
+            },
+            {
+              question: "TQM differs from traditional quality control because:",
+              options: [
+                "TQM relies solely on end-of-line inspection to detect defects",
+                "TQM involves organisation-wide commitment to prevention and continuous improvement",
+                "TQM accepts that some defect level is economically optimal",
+                "TQM is only applicable to manufacturing, not service businesses",
+              ],
+              correct: 1,
+              explanation: "TQM embeds quality responsibility across the entire organisation — not just the QC department. It emphasises prevention over detection, continuous improvement (kaizen), customer focus and employee empowerment. It rejects the concept of an economically 'optimal' defect rate.",
+            },
+            {
+              question: "Pareto analysis in quality management identifies:",
+              options: [
+                "The optimal quality cost mix between prevention and appraisal",
+                "The vital few causes (typically 20%) responsible for the majority (typically 80%) of defects",
+                "The minimum inspection frequency required to detect defects",
+                "The statistical control limits for process variation",
+              ],
+              correct: 1,
+              explanation: "Pareto (80/20) analysis ranks defect causes by frequency of occurrence. Typically 20% of causes are responsible for 80% of defects. Focusing improvement efforts on this vital few produces the greatest quality gains for the least effort.",
+            },
+          ],
+        },
+        {
+          id: "p2-l10",
+          title: "Life Cycle Costing and Target Costing (Advanced)",
+          topic: "Advanced costing",
+          estimatedMinutes: 35,
+          objectives: [
+            "Calculate total life cycle costs including post-purchase and environmental costs",
+            "Apply target costing to drive value engineering and cost reduction",
+            "Integrate life cycle and target costing into strategic pricing decisions",
+          ],
+          keyTerms: [
+            { term: "Life Cycle Costing", definition: "Accumulating all costs incurred across a product's entire life: R&D and design, production, marketing and distribution, customer service, and end-of-life/disposal." },
+            { term: "Target Cost", definition: "The maximum cost at which a product must be made to earn the required profit at the market-determined price. Target cost = Market price − Required profit margin." },
+            { term: "Cost Gap", definition: "The difference between estimated product cost and target cost. Value engineering aims to close this gap without reducing customer-perceived value." },
+            { term: "Value Engineering", definition: "A systematic analysis of product functions to identify ways to achieve the same value at lower cost. Typically conducted during design — before production locks in costs." },
+            { term: "Cost Committed vs Incurred", definition: "80-90% of a product's lifecycle costs are committed during design, but only 5-10% are actually incurred at that stage. Most actual spend occurs later in production and service." },
+          ],
+          explanation:
+            "<h3>Life Cycle Costing</h3>" +
+            "<p>Traditional costing focuses on production-period costs. Life cycle costing takes a whole-life view: R&D → Design → Production → Distribution → Customer support → Disposal.</p>" +
+            "<p>Key insight: costs committed at design (80-90%) far exceed costs incurred at design (5-10%). Design decisions lock in future production and service costs. Influencing costs is cheapest at the design stage.</p>" +
+            "<p>Environmental life cycle costing (LCC) also includes: decommissioning, remediation, waste disposal and carbon costs. These may become financial liabilities (e.g., under carbon pricing regimes).</p>" +
+            "<h3>Target Costing Process</h3>" +
+            "<ol>" +
+            "<li>Determine market price based on competitor analysis and customer research.</li>" +
+            "<li>Decide required profit margin.</li>" +
+            "<li>Calculate target cost: TC = Market price − Required profit.</li>" +
+            "<li>Estimate current product cost.</li>" +
+            "<li>Identify cost gap: Cost gap = Estimated cost − Target cost.</li>" +
+            "<li>Use value engineering to close the gap — redesign, substitute materials, simplify assembly.</li>" +
+            "</ol>" +
+            "<p>If the cost gap cannot be closed, the product should not be launched (or the price/margin assumption must be revisited).</p>",
+          workedExample: {
+            setup: "A firm is developing a new product. Market price = £180. Required return on sales = 20%. Current estimated cost = £160. Apply target costing and suggest how to close the cost gap.",
+            steps: [
+              "Target cost = Market price − Required profit = £180 − (20% × £180) = £180 − £36 = £144.",
+              "Cost gap = Estimated cost − Target cost = £160 − £144 = £16 per unit.",
+              "Value engineering options: (a) Can components be redesigned to use cheaper materials without reducing performance? (b) Can assembly steps be simplified to reduce labour time? (c) Can suppliers be renegotiated or alternative sources used?",
+              "Evaluate each option for impact on customer value: features that customers pay for must be preserved; costs in non-valued features can be cut.",
+            ],
+            answer: "Target cost = £144; cost gap = £16/unit. Value engineering should focus on closing this gap through redesign and supplier negotiation. If the gap cannot be closed without reducing essential features, either the price assumption or required margin must be reconsidered.",
+          },
+          summary: [
+            "Life cycle costing considers all costs from R&D through disposal — not just production-period costs.",
+            "80-90% of a product's lifetime costs are committed at the design stage — this is where cost influence is greatest.",
+            "Target cost = Market price − Required profit. The cost gap must be closed before launch.",
+            "Value engineering systematically identifies ways to achieve required functionality at lower cost, typically during the design phase.",
+            "Environmental life cycle costs (decommissioning, remediation, carbon) are increasingly material financial liabilities.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Target cost is calculated as:",
+              options: [
+                "Actual production cost plus required profit margin",
+                "Market price minus required profit margin",
+                "Standard cost plus a design efficiency premium",
+                "Variable cost plus fixed overheads and profit",
+              ],
+              correct: 1,
+              explanation: "Target cost = Market price − Required profit margin. This works backwards from the market price, unlike cost-plus pricing which works forwards from cost. The firm must design and produce the product within the target cost to earn the required return.",
+            },
+            {
+              question: "The key insight of life cycle costing regarding cost commitment is:",
+              options: [
+                "Most costs are incurred equally across all stages of the product life cycle",
+                "80-90% of lifetime costs are committed during the design stage, when actual expenditure is low",
+                "Production costs are the largest category across the whole product life",
+                "Marketing costs committed early in the life cycle are the most significant",
+              ],
+              correct: 1,
+              explanation: "Design decisions determine material specifications, production processes and component counts — locking in future costs. Though only 5-10% of total spend occurs during design, 80-90% of lifetime costs are already committed by design completion. This is why value engineering during design is so powerful.",
+            },
+            {
+              question: "Value engineering during product development aims to:",
+              options: [
+                "Increase the product's selling price by adding premium features",
+                "Reduce production costs while maintaining or enhancing customer-perceived value",
+                "Calculate the NPV of the product's lifetime cash flows",
+                "Set standard costs for performance management purposes",
+              ],
+              correct: 1,
+              explanation: "Value engineering systematically analyses each product function and asks: can this function be delivered at lower cost without reducing the value perceived by the customer? It seeks to close the cost gap between estimated and target cost through redesign.",
+            },
+          ],
+        },
+        {
+          id: "p2-l11",
+          title: "Sustainability and Integrated Performance Reporting",
+          topic: "Sustainability",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the integrated reporting framework (<IR>) and its six capitals",
+            "Apply ESG metrics to measure and report non-financial performance",
+            "Evaluate the challenges and opportunities of sustainability accounting",
+          ],
+          keyTerms: [
+            { term: "Integrated Reporting (<IR>)", definition: "A reporting framework (IIRC) that communicates how an organisation creates value over time through the use and replenishment of six capitals: financial, manufactured, intellectual, human, social/relationship and natural." },
+            { term: "Six Capitals", definition: "Financial (funds), Manufactured (physical assets), Intellectual (IP, knowledge), Human (people skills and culture), Social and Relationship (stakeholder relationships), Natural (environmental resources and ecosystems)." },
+            { term: "GRI Standards", definition: "Global Reporting Initiative standards for sustainability disclosures — widely used for voluntary non-financial reporting across environmental, social and governance dimensions." },
+            { term: "Carbon Accounting", definition: "Measuring, reporting and verifying an organisation's greenhouse gas emissions across Scope 1 (direct), Scope 2 (purchased energy) and Scope 3 (value chain) emissions." },
+            { term: "Double Materiality", definition: "EU sustainability reporting concept: report on how ESG issues affect the organisation AND how the organisation affects the environment and society — two-way materiality." },
+          ],
+          explanation:
+            "<h3>The Case for Non-Financial Reporting</h3>" +
+            "<p>Traditional financial reporting captures only financial and manufactured capital. Modern organisations create (and destroy) value across all six capitals — hiding this in financial statements creates a misleading picture of long-run sustainability and risk.</p>" +
+            "<h3>Integrated Reporting Framework</h3>" +
+            "<p>The IIRC's <IR> Framework asks organisations to explain: what is the business model? How do inputs (six capitals) flow through the business model to create outputs and outcomes? What is the value creation story over short, medium and long term?</p>" +
+            "<p>Seven Guiding Principles: strategic focus, connectivity of information, stakeholder relationships, materiality, conciseness, reliability, comparability.</p>" +
+            "<h3>ESG Reporting</h3>" +
+            "<p>Environmental: carbon emissions, water usage, waste, biodiversity impact. Social: employee welfare, human rights, community impact, diversity and inclusion. Governance: board composition, executive pay, audit quality, anti-corruption.</p>" +
+            "<p>Mandatory reporting is increasing: UK TCFD disclosures (climate-related risk), EU CSRD (Corporate Sustainability Reporting Directive — mandatory from 2024/25), SEC climate disclosure rules (US).</p>" +
+            "<h3>Carbon Accounting</h3>" +
+            "<p>Scope 1: direct emissions (own combustion). Scope 2: indirect — purchased electricity and heat. Scope 3: all other indirect — supply chain, business travel, product use and disposal. Scope 3 typically 70%+ of total footprint.</p>",
+          workedExample: {
+            setup: "A logistics company wants to produce an integrated report. Identify one example KPI for each of the six capitals and explain why each matters for long-term value creation.",
+            steps: [
+              "Financial capital: ROCE — measures efficiency of capital use. Matters because without sustainable returns, investment cannot be maintained.",
+              "Manufactured capital: Fleet condition (% vehicles above 10 years old) — ageing fleet increases carbon emissions and breakdown risk.",
+              "Intellectual capital: Investment in proprietary route-optimisation software — drives cost efficiency and carbon reduction.",
+              "Human capital: Driver retention rate and training hours — experienced, well-trained drivers reduce accidents, fuel costs and compliance risk.",
+              "Social/relationship capital: Customer Net Promoter Score and supplier payment terms compliance — determines long-term contract renewal and supply chain reliability.",
+              "Natural capital: CO2 per tonne-kilometre (carbon intensity of operations) — directly affects regulatory compliance costs and customer ESG purchasing criteria.",
+            ],
+            answer: "Each capital KPI captures a different dimension of long-run value creation and risk. An integrated report weaves these into a coherent narrative showing how the business model deploys and replenishes all six capitals over time.",
+          },
+          summary: [
+            "Integrated Reporting (<IR>) tells the full value creation story across six capitals: financial, manufactured, intellectual, human, social/relationship and natural.",
+            "ESG reporting provides stakeholders with standardised non-financial performance data across environmental, social and governance dimensions.",
+            "Carbon accounting measures Scope 1, 2 and 3 emissions — Scope 3 (value chain) typically constitutes the largest share of total footprint.",
+            "Double materiality (EU CSRD) requires organisations to report both how ESG affects them AND how they affect the world.",
+            "Sustainability reporting is shifting from voluntary best practice to mandatory legal requirement across major jurisdictions.",
+          ],
+          practiceQuestions: [
+            {
+              question: "In the <IR> Framework's six capitals, 'human capital' refers to:",
+              options: [
+                "The financial investment in staff training programmes",
+                "People's competencies, capabilities, experience and the organisational culture",
+                "The physical workspace and offices provided to employees",
+                "The number of employees in the organisation",
+              ],
+              correct: 1,
+              explanation: "Human capital encompasses the knowledge, skills, experience, motivation and culture of the workforce — the intangible people-related factors that enable the organisation to execute its business model. It is distinct from the financial cost of employment.",
+            },
+            {
+              question: "Scope 3 carbon emissions include:",
+              options: [
+                "Direct emissions from the organisation's own combustion processes",
+                "Indirect emissions from purchased electricity and heat",
+                "All other indirect emissions across the value chain including supply chain, business travel and product use",
+                "Emissions offset by carbon credits purchased by the organisation",
+              ],
+              correct: 2,
+              explanation: "Scope 3 covers all indirect emissions not captured in Scopes 1 and 2 — supply chain (upstream), business travel, product use by customers, and end-of-life disposal (downstream). For most organisations Scope 3 represents 70%+ of their total carbon footprint.",
+            },
+            {
+              question: "The principle of 'double materiality' in EU sustainability reporting requires:",
+              options: [
+                "Two independent auditors to verify all sustainability disclosures",
+                "Reporting on both how ESG issues affect the organisation AND how the organisation affects the environment and society",
+                "Disclosing both financial and non-financial performance in the same document",
+                "Using two different reporting standards simultaneously",
+              ],
+              correct: 1,
+              explanation: "Double materiality has two perspectives: financial materiality (how ESG risks/opportunities affect the organisation's value) and impact materiality (how the organisation's activities affect the environment and society). Both dimensions must be disclosed under the EU CSRD.",
+            },
+          ],
+        },
+        {
+          id: "p2-l12",
+          title: "Transfer Pricing — International and Behavioural Aspects",
+          topic: "Transfer pricing",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply the general transfer pricing rule across capacity scenarios",
+            "Explain the arm's-length principle and international tax implications",
+            "Evaluate the behavioural effects of different transfer pricing methods",
+          ],
+          keyTerms: [
+            { term: "Arm's-Length Price", definition: "The price that would be charged between independent parties in an open market transaction. Required by tax authorities to prevent profit shifting between jurisdictions." },
+            { term: "Comparable Uncontrolled Price (CUP)", definition: "OECD transfer pricing method: uses the price charged in comparable transactions between unrelated parties as the arm's-length benchmark." },
+            { term: "Cost-Plus Transfer Price", definition: "Transfer price = production cost + a mark-up. Simple but allows inefficiency to be passed on through the cost base." },
+            { term: "Profit Shifting", definition: "Manipulation of transfer prices to move taxable profits to low-tax jurisdictions. Subject to anti-avoidance rules (BEPS Action Plans, OECD Pillar Two)." },
+            { term: "Dual Pricing", definition: "The selling division receives market price; the buying division is charged variable cost. Eliminates conflict but requires a group reconciliation entry." },
+          ],
+          explanation:
+            "<h3>General Transfer Pricing Rule</h3>" +
+            "<p><strong>Minimum TP = Variable cost + Opportunity cost (contribution foregone)</strong></p>" +
+            "<ul>" +
+            "<li>Spare capacity, no external market: TP = VC (no opportunity cost).</li>" +
+            "<li>Full capacity, active external market: TP = Market price (maximum opportunity cost).</li>" +
+            "<li>Partial spare capacity: TP = VC + (external contribution foregone / units transferred).</li>" +
+            "</ul>" +
+            "<h3>International Transfer Pricing</h3>" +
+            "<p>When divisions are in different countries, transfer prices affect taxable profit in each jurisdiction. Tax authorities require arm's-length pricing (OECD Guidelines). OECD transfer pricing methods:</p>" +
+            "<ul>" +
+            "<li>Comparable Uncontrolled Price (CUP) — preferred, but requires comparable market transactions.</li>" +
+            "<li>Cost Plus — transfer price = cost + appropriate mark-up.</li>" +
+            "<li>Resale Price — deduct a margin from the resale price to the end customer.</li>" +
+            "<li>Profit-based methods (TNMM, Profit Split) — where transactional methods can't be used.</li>" +
+            "</ul>" +
+            "<h3>Behavioural Effects</h3>" +
+            "<ul>" +
+            "<li>Market price TP: motivates selling division; may price buying division out of profit.</li>" +
+            "<li>Full cost TP: simple but passes inefficiency; no incentive for selling division to control costs.</li>" +
+            "<li>Negotiated TP: division managers negotiate — can create conflict and consume management time.</li>" +
+            "<li>Dual pricing: aligns group and divisional incentives but requires a reconciling entry.</li>" +
+            "</ul>",
+          workedExample: {
+            setup: "Division A (UK, tax 25%) sells to Division B (Ireland, tax 12.5%). Variable cost = £40; market price = £80; Division A has 1,000 units of spare capacity. Management wants to set a transfer price to minimise total group tax. What transfer price would minimise tax, and what are the ethical/regulatory constraints?",
+            steps: [
+              "Tax minimisation objective: profits are taxed at 25% in the UK and 12.5% in Ireland. Setting TP as low as possible (£40 = variable cost) shifts profit from UK (25% tax) to Ireland (12.5% tax), saving 12.5p per £1 of profit.",
+              "At TP = £40: Division A profit contribution = £0; Division B contribution = market price − £40 = £40 per unit (taxed at 12.5%).",
+              "At TP = £80 (market price): Division A contribution = £40 (taxed at 25%); Division B contribution = £0.",
+              "Tax saving from low TP vs market TP per 1,000 units: (£40 profit × 1,000 × 25%) − (£40 profit × 1,000 × 12.5%) = £10,000 − £5,000 = £5,000 tax saved.",
+              "Regulatory constraint: OECD arm's-length principle requires TP to reflect what an independent buyer would pay. Setting TP at £40 (variable cost only) will almost certainly be challenged by HMRC as below arm's-length. CUP method would require TP ≥ £80 if market comparable exists.",
+            ],
+            answer: "Tax minimisation favours a low TP (£40), but this breaches the arm's-length principle. Tax authorities in both jurisdictions can adjust the TP and impose penalties. The appropriate TP is market price (£80) or a negotiated price close to market, with documentation supporting arm's-length justification.",
+          },
+          summary: [
+            "The general TP rule: Minimum TP = Variable cost + Opportunity cost. The opportunity cost varies with capacity availability.",
+            "International TP must comply with the OECD arm's-length principle — prices must reflect what independent parties would charge.",
+            "Setting artificially low TPs to shift profit to low-tax jurisdictions risks tax authority challenge, penalties and reputational damage (BEPS).",
+            "Different TP methods have different behavioural effects on divisional managers — market price best preserves performance measurement integrity.",
+            "Dual pricing eliminates inter-divisional conflict but requires a central reconciling entry and cannot be used for tax purposes.",
+          ],
+          practiceQuestions: [
+            {
+              question: "Division S (selling) has spare capacity. Variable cost = £30; no external market. Division B (buying) can source externally at £50. What range of transfer prices maximises group profit?",
+              options: [
+                "TP must equal £50 (external market price)",
+                "Any TP between £30 (S's minimum) and £50 (B's maximum) is acceptable",
+                "TP must equal £30 (variable cost only)",
+                "TP must equal full cost plus a profit mark-up",
+              ],
+              correct: 1,
+              explanation: "With spare capacity, S's minimum TP = VC = £30 (no opportunity cost). B will not pay more than £50 (external price). Any TP between £30 and £50 makes both divisions better off than no transfer and maximises group contribution (£50 external revenue avoided vs £30 variable cost).",
+            },
+            {
+              question: "The arm's-length principle in international transfer pricing requires that:",
+              options: [
+                "Transfer prices equal the variable cost of production",
+                "Transfer prices reflect what independent parties would charge in comparable transactions",
+                "Transfer prices always equal the external market price",
+                "Group companies set transfer prices to minimise overall group tax",
+              ],
+              correct: 1,
+              explanation: "The arm's-length principle (OECD Model Tax Convention) requires that related-party transactions are priced as if they were between unrelated parties in comparable circumstances. This prevents profit shifting to low-tax jurisdictions.",
+            },
+            {
+              question: "A cost-plus transfer price (full cost + mark-up) has a key behavioural limitation because:",
+              options: [
+                "It is always higher than the external market price",
+                "It allows the selling division to pass on inefficiencies through the cost base",
+                "It requires the selling division to have spare capacity",
+                "It creates a dysfunctional incentive to under-utilise assets",
+              ],
+              correct: 1,
+              explanation: "Under cost-plus pricing, the selling division's transfer price rises if its costs increase — so inefficiency in the selling division is automatically passed on to the buying division. This removes the incentive for the seller to control costs.",
+            },
+          ],
+        },
+      ],
+    },
+
+    /* ══════════════════════════════════════════════════════════════════════
+       F2 — Advanced Financial Reporting
+       ══════════════════════════════════════════════════════════════════════ */
+    {
+      id: "f2",
+      title: "F2",
+      fullTitle: "Advanced Financial Reporting",
+      icon: "book-open",
+      modules: 12,
+      questions: 48,
+      mockExams: 1,
+      studyHoursTotal: 90,
+      lessons: [
+        {
+          id: "f2-l1",
+          title: "Group Accounts — Consolidated Statement of Financial Position",
+          topic: "Group accounting",
+          estimatedMinutes: 45,
+          objectives: [
+            "Prepare a consolidated statement of financial position under IFRS 10",
+            "Calculate goodwill using both the full goodwill and proportionate methods",
+            "Account for non-controlling interests (NCI) and intragroup balances",
+            "Apply IFRS 3 acquisition accounting including fair value adjustments",
+          ],
+          keyTerms: [
+            { term: "Control (IFRS 10)", definition: "An investor controls an investee when it has power over the investee, exposure to variable returns, and the ability to use power to affect those returns. Control triggers consolidation." },
+            { term: "Goodwill (IFRS 3)", definition: "The excess of the consideration transferred plus NCI over the fair value of net identifiable assets acquired. Goodwill is not amortised but tested for impairment annually under IAS 36." },
+            { term: "Non-Controlling Interest (NCI)", definition: "The equity in a subsidiary not attributable to the parent. Under the full goodwill method NCI is measured at fair value; under the proportionate method at share of net assets." },
+            { term: "Fair Value Adjustment", definition: "At acquisition, subsidiary assets and liabilities are remeasured to fair value. Any excess of fair value over book value increases the consolidated asset and creates a deferred tax liability." },
+            { term: "Pre-acquisition Reserves", definition: "The retained earnings of a subsidiary at the date of acquisition. These belong to the cost of investment and are not consolidated into group reserves — only post-acquisition profits flow through group P&L." },
+          ],
+          explanation:
+            "<h4>Consolidation — Why and When</h4>" +
+            "<p>Consolidation is required when a parent controls one or more subsidiaries. IFRS 10 defines control as having power, exposure to variable returns, and the ability to link them. The group consolidates 100% of every asset and liability line by line, regardless of the ownership percentage.</p>" +
+            "<h4>Acquisition Accounting — IFRS 3</h4>" +
+            "<p>At acquisition, identifiable assets and liabilities of the subsidiary are recognised at fair value. Goodwill = (Consideration + NCI) − Fair Value of Net Assets.</p>" +
+            "<ul><li><strong>Full goodwill method:</strong> NCI is measured at its fair value — grosses up goodwill.</li>" +
+            "<li><strong>Proportionate method:</strong> NCI is measured at its share of net identifiable assets — gives lower goodwill.</li></ul>" +
+            "<h4>Intragroup Eliminations</h4>" +
+            "<p>Intragroup balances (intercompany loans, current accounts) and unrealised profits on intragroup sales of inventory or assets must be eliminated on consolidation.</p>" +
+            "<h4>Post-acquisition Profits</h4>" +
+            "<p>Post-acquisition retained earnings of the subsidiary are split: NCI share goes to NCI equity, parent's share flows into group retained earnings. Pre-acquisition reserves stay within the goodwill calculation.</p>" +
+            "<h4>Impairment</h4>" +
+            "<p>Goodwill is tested for impairment annually at the cash-generating unit (CGU) level. Any impairment reduces the goodwill asset and is charged to group P&L.</p>",
+          workedExample: {
+            setup:
+              "Parent acquires 80% of Sub on 1 Jan for £500,000. At acquisition Sub's net assets = £400,000 at book value. Fair value adjustments: property is £50,000 above book, inventory is £10,000 above book. NCI fair value = £110,000.",
+            steps: [
+              "Step 1 — Net identifiable assets at fair value: £400,000 + £50,000 + £10,000 = £460,000.",
+              "Step 2 — Full goodwill: (£500,000 consideration + £110,000 NCI) − £460,000 = £150,000.",
+              "Step 3 — NCI in CSFP: £110,000 (measured at fair value).",
+              "Step 4 — Group retained earnings: Parent's own retained earnings + 80% × Sub's post-acquisition retained earnings (exclude pre-acquisition reserves).",
+              "Step 5 — Eliminate intragroup current account: if Parent owes Sub £20,000, remove £20,000 from both Parent payables and Sub receivables before aggregating.",
+              "Result: CSFP shows 100% of all assets and liabilities, goodwill £150,000, NCI £110,000 in equity.",
+            ],
+          },
+          summary: [
+            "Control under IFRS 10 = power + variable returns + ability to link them",
+            "Goodwill = (Consideration + NCI) − Fair value of net identifiable assets",
+            "Full goodwill: NCI at fair value; proportionate: NCI at share of net assets",
+            "100% of assets/liabilities consolidated line by line regardless of ownership %",
+            "Pre-acquisition reserves stay in goodwill; post-acquisition split between group and NCI",
+            "Eliminate all intragroup balances and unrealised profits on consolidation",
+          ],
+          practiceQuestions: [
+            {
+              question: "Parent acquires 75% of Sub for £600,000. Sub's net identifiable assets have a fair value of £700,000. NCI is measured at proportionate share. What is goodwill?",
+              options: [
+                "£75,000",
+                "£75,000 loss on bargain purchase",
+                "£25,000",
+                "£100,000",
+              ],
+              correct: 0,
+              explanation: "Proportionate NCI = 25% × £700,000 = £175,000. Goodwill = (£600,000 + £175,000) − £700,000 = £75,000.",
+            },
+            {
+              question: "Which standard governs the definition of control for consolidation purposes?",
+              options: [
+                "IAS 27",
+                "IFRS 3",
+                "IFRS 10",
+                "IAS 28",
+              ],
+              correct: 2,
+              explanation: "IFRS 10 Consolidated Financial Statements defines control and determines which entities must be consolidated. IFRS 3 covers business combinations (acquisition accounting). IAS 27 covers separate financial statements. IAS 28 covers associates.",
+            },
+            {
+              question: "Under the full goodwill method, how is NCI measured at acquisition?",
+              options: [
+                "At the NCI's share of the subsidiary's book value of net assets",
+                "At the NCI's share of the subsidiary's fair value of net assets",
+                "At the fair value of the NCI's equity interest",
+                "At the consideration paid by the parent grossed up to 100%",
+              ],
+              correct: 2,
+              explanation: "Under the full goodwill method, NCI is measured at its fair value (the price a willing buyer would pay for the minority stake), which may differ from its proportionate share of net assets. This grosses up goodwill.",
+            },
+            {
+              question: "Parent sells goods to Sub for £50,000 making a 20% margin. Sub still holds £30,000 of those goods at year-end. What unrealised profit must be eliminated on consolidation?",
+              options: [
+                "£6,000",
+                "£10,000",
+                "£30,000",
+                "£50,000",
+              ],
+              correct: 0,
+              explanation: "Unrealised profit = inventory held × margin = £30,000 × 20% = £6,000. The consolidation adjustment reduces group inventory by £6,000 and group profit by £6,000.",
+            },
+            {
+              question: "A subsidiary's retained earnings at acquisition were £80,000. At year-end they are £120,000. What amount flows into group retained earnings (assuming 70% ownership)?",
+              options: [
+                "£28,000",
+                "£56,000",
+                "£84,000",
+                "£40,000",
+              ],
+              correct: 0,
+              explanation: "Only post-acquisition retained earnings are consolidated. Post-acquisition increase = £120,000 − £80,000 = £40,000. Parent's share = 70% × £40,000 = £28,000 flows to group retained earnings. The remaining 30% × £40,000 = £12,000 goes to NCI.",
+            },
+          ],
+        },
+        {
+          id: "f2-l2",
+          title: "Consolidated Statement of Profit or Loss",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Prepare a consolidated statement of profit or loss including NCI's share",
+            "Eliminate intragroup revenues, purchases and management charges",
+            "Adjust for unrealised profits on intragroup inventory transfers",
+            "Account for mid-year acquisitions and disposals using the time-apportionment rule",
+          ],
+          keyTerms: [
+            { term: "Intragroup Elimination", definition: "The removal of revenues and purchases (or other transactions) that occur between group entities. If not eliminated, group revenue and costs are double-counted." },
+            { term: "NCI Share of Profit", definition: "The non-controlling interest's proportion of the subsidiary's profit for the year, deducted at the foot of the consolidated P&L to arrive at profit attributable to owners of the parent." },
+            { term: "Time Apportionment", definition: "When a subsidiary is acquired or disposed of during the year, only results from/to the date of acquisition/disposal are included in the consolidated P&L." },
+            { term: "Unrealised Profit Adjustment", definition: "If intragroup inventory is sold on and the buyer still holds it at year-end, the seller's margin on that stock is unrealised. It is removed from gross profit in the consolidated P&L." },
+            { term: "Dividend from Subsidiary", definition: "Dividends paid by a subsidiary to the parent are eliminated on consolidation — they are an intragroup cash flow, not group income. The parent's standalone P&L may show dividend income, but this disappears on consolidation." },
+          ],
+          explanation:
+            "<h4>Aggregation and Key Adjustments</h4>" +
+            "<p>The consolidated P&L aggregates 100% of the parent's and each subsidiary's revenues and costs line by line for the period of control. Three key categories of adjustment are required:</p>" +
+            "<h4>1. Intragroup Sales</h4>" +
+            "<p>If Sub sells goods to Parent for £100,000, eliminate £100,000 from Sub's revenue and £100,000 from Parent's purchases. Net P&L effect is zero — unless unrealised profit remains in inventory.</p>" +
+            "<h4>2. Unrealised Profit</h4>" +
+            "<p>If goods bought from Sub are still held by Parent at year-end, the intragroup profit element is unrealised. Increase cost of sales (reduce gross profit) by the unrealised amount. Also reduces closing inventory in the CSFP.</p>" +
+            "<h4>3. Mid-year Acquisitions</h4>" +
+            "<p>Include only results from the acquisition date. Time-apportion: if acquired on 1 April in a December year-end, include 9/12 of the subsidiary's results.</p>" +
+            "<h4>NCI Share of Profit</h4>" +
+            "<p>Calculate as NCI% × subsidiary's profit after tax for the period. Present as a deduction at the foot of the consolidated P&L alongside profit attributable to owners of the parent.</p>",
+          workedExample: {
+            setup:
+              "Parent and Sub (100% owned) year end 31 Dec. Parent revenue £800k, Sub revenue £500k. Sub sold goods to Parent for £120k; Parent sold all of those goods externally. No unrealised profit in this case. However, Parent also holds £40k of goods bought from Sub (Sub's margin 25%).",
+            steps: [
+              "Step 1 — Eliminate intragroup sale: Consolidated revenue = £800k + £500k − £120k = £1,180k.",
+              "Step 2 — Unrealised profit: £40k still held × 25% margin = £10k unrealised. Increase cost of sales by £10k.",
+              "Step 3 — NCI: if Sub were 80%-owned, NCI share of profit = 20% × Sub's PAT (e.g., 20% × £60k = £12k).",
+              "Step 4 — P&L foot: Profit for year £X; of which: Owners of parent £(X − 12k); NCI £12k.",
+            ],
+          },
+          summary: [
+            "Eliminate 100% of intragroup revenues and matching costs",
+            "Remove unrealised profit from closing inventory and adjust cost of sales",
+            "Time-apportion subsidiary results from/to acquisition or disposal date",
+            "NCI share of profit = NCI% × subsidiary PAT, shown at foot of P&L",
+            "Intragroup dividends from subsidiary to parent are eliminated on consolidation",
+          ],
+          practiceQuestions: [
+            {
+              question: "Sub (70% owned by Parent) generated PAT of £200,000. What is the NCI share of profit in the consolidated P&L?",
+              options: [
+                "£140,000",
+                "£60,000",
+                "£200,000",
+                "£70,000",
+              ],
+              correct: 1,
+              explanation: "NCI holds 30% of Sub. NCI share of profit = 30% × £200,000 = £60,000. The remaining £140,000 is attributable to owners of the parent.",
+            },
+            {
+              question: "Parent acquired Sub on 1 October. The group's year-end is 31 December. Sub generates profit of £120,000 per annum evenly. What is included in the consolidated P&L?",
+              options: [
+                "£120,000",
+                "£90,000",
+                "£30,000",
+                "£0 — full year included in next period",
+              ],
+              correct: 2,
+              explanation: "Time apportionment: Sub is consolidated from 1 October — 3 months out of 12. Include 3/12 × £120,000 = £30,000.",
+            },
+            {
+              question: "Sub sells goods to Parent for £200,000 at a margin of 30%. Parent holds all of these goods at year-end. What consolidation adjustment is required in the P&L?",
+              options: [
+                "Reduce revenue by £200,000 and reduce cost of sales by £200,000",
+                "Reduce revenue by £60,000",
+                "Reduce revenue by £200,000, reduce cost of sales by £200,000, and increase cost of sales by £60,000",
+                "Reduce revenue by £140,000",
+              ],
+              correct: 2,
+              explanation: "Step 1: eliminate intragroup sale — reduce Sub's revenue £200,000 and Parent's cost of sales £200,000 (net P&L effect = zero). Step 2: remove unrealised profit — increase cost of sales by £200,000 × 30% = £60,000. Combined: revenue −£200k, COS −£140k.",
+            },
+            {
+              question: "Which of the following is NOT eliminated when preparing a consolidated P&L?",
+              options: [
+                "Intragroup management fees",
+                "Dividend paid by subsidiary to parent",
+                "External dividend paid to the NCI",
+                "Interest on intragroup loans",
+              ],
+              correct: 2,
+              explanation: "Dividends paid by a subsidiary to external NCI shareholders are not eliminated — they represent a real cash outflow from the group to third parties. All intragroup items (fees, interest, dividends to the parent) are eliminated.",
+            },
+            {
+              question: "Parent and Sub each report revenue of £500,000. Sub sold £80,000 of goods to Parent; Parent has sold all of these to external customers. What is consolidated group revenue?",
+              options: [
+                "£1,000,000",
+                "£920,000",
+                "£500,000",
+                "£1,080,000",
+              ],
+              correct: 1,
+              explanation: "Consolidated revenue = £500,000 + £500,000 − £80,000 (intragroup elimination) = £920,000. Since all goods have been sold externally, there is no unrealised profit adjustment.",
+            },
+          ],
+        },
+        {
+          id: "f2-l3",
+          title: "Associates and Joint Arrangements",
+          topic: "Group accounting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the equity method for associates under IAS 28",
+            "Distinguish between joint operations and joint ventures under IFRS 11",
+            "Calculate the carrying amount of an associate using equity accounting",
+            "Identify significant influence and control thresholds",
+          ],
+          keyTerms: [
+            { term: "Associate (IAS 28)", definition: "An entity over which the investor has significant influence — typically 20%–50% ownership. Associates are not consolidated but accounted for using the equity method." },
+            { term: "Significant Influence", definition: "The power to participate in financial and operating policy decisions without controlling them. Presumed with 20%–50% voting rights but can be rebutted or established at other percentages by other evidence." },
+            { term: "Equity Method", definition: "The associate is initially recognised at cost, then increased/decreased by the investor's share of post-acquisition profit/loss and other comprehensive income. Dividends received reduce the carrying amount." },
+            { term: "Joint Venture (IFRS 11)", definition: "A joint arrangement where the parties that have joint control have rights to the net assets. Accounted for using the equity method in consolidated statements." },
+            { term: "Joint Operation (IFRS 11)", definition: "A joint arrangement where the parties have rights to assets and obligations for liabilities directly. Each party recognises its own share of assets, liabilities, revenues and expenses — not equity method." },
+          ],
+          explanation:
+            "<h4>Associates and Significant Influence</h4>" +
+            "<p>When a group holds 20%–50% of another entity's voting rights and exercises significant influence, that entity is an associate. Associates are NOT consolidated line by line — instead the equity method is applied.</p>" +
+            "<h4>Equity Method Mechanics</h4>" +
+            "<ul><li>Initial recognition: cost of investment</li>" +
+            "<li>Each year: add investor's share of associate's profit after tax; deduct investor's share of dividends received</li>" +
+            "<li>Also adjust for investor's share of OCI (e.g., revaluation surplus, actuarial gains/losses)</li>" +
+            "<li>Impairment: if carrying amount exceeds recoverable amount, impair to recoverable amount</li></ul>" +
+            "<p>In the consolidated P&L, show 'Share of profit of associate' as a single post-tax line. In the CSFP, the associate is a single non-current asset 'Investment in associate'.</p>" +
+            "<h4>IFRS 11 — Joint Arrangements</h4>" +
+            "<p>Joint control = contractually agreed sharing of control, requiring unanimous consent for relevant activities.</p>" +
+            "<ul><li><strong>Joint venture:</strong> rights to net assets → equity method (same as associates)</li>" +
+            "<li><strong>Joint operation:</strong> rights to individual assets and obligations for liabilities → each operator recognises its own proportion of each item</li></ul>",
+          workedExample: {
+            setup:
+              "Investor holds 30% of Associate since 1 Jan Year 1. Cost = £300,000. Associate's profit for Year 1 = £80,000; dividends paid = £20,000. In Year 2 the associate makes a loss of £40,000.",
+            steps: [
+              "Year 1 — Share of profit: 30% × £80,000 = £24,000 (to consolidated P&L).",
+              "Year 1 — Share of dividends: 30% × £20,000 = £6,000 reduces carrying amount.",
+              "Year 1 — Closing carrying amount: £300,000 + £24,000 − £6,000 = £318,000.",
+              "Year 2 — Share of loss: 30% × £40,000 = £12,000.",
+              "Year 2 — Closing carrying amount: £318,000 − £12,000 = £306,000.",
+              "If carrying amount reaches zero: stop recognising losses unless entity has an obligation to fund the associate.",
+            ],
+          },
+          summary: [
+            "Associates: 20–50% ownership + significant influence → equity method (not consolidation)",
+            "Equity method: cost + share of post-acquisition profits − share of dividends",
+            "Share of associate's profit shown as a single post-tax line in consolidated P&L",
+            "IFRS 11 joint venture = rights to net assets → equity method",
+            "IFRS 11 joint operation = rights to assets directly → own-share line-by-line accounting",
+            "Investor stops recognising associate losses once carrying amount reaches zero",
+          ],
+          practiceQuestions: [
+            {
+              question: "Investor owns 35% of Associate. Associate reports profit of £100,000. Investor's carrying amount was £50,000 (cost). What is the new carrying amount before dividends?",
+              options: [
+                "£85,000",
+                "£135,000",
+                "£50,000",
+                "£100,000",
+              ],
+              correct: 0,
+              explanation: "Share of profit = 35% × £100,000 = £35,000. New carrying amount = £50,000 + £35,000 = £85,000.",
+            },
+            {
+              question: "Which accounting method is used for an associate in consolidated financial statements?",
+              options: [
+                "Full consolidation (line by line)",
+                "Proportionate consolidation",
+                "Equity method",
+                "Cost model with dividend income",
+              ],
+              correct: 2,
+              explanation: "IAS 28 requires the equity method for associates in consolidated statements. The associate is shown as a single asset; the investor's share of profit is a single line in P&L. Full line-by-line consolidation is only for subsidiaries.",
+            },
+            {
+              question: "Under IFRS 11, how does an entity account for a joint operation?",
+              options: [
+                "Equity method",
+                "Recognise own share of each asset, liability, revenue and expense",
+                "Full consolidation",
+                "Cost model",
+              ],
+              correct: 1,
+              explanation: "In a joint operation, the parties have direct rights to assets and obligations for liabilities. Each operator recognises its own proportionate share of each line item — not through the equity method.",
+            },
+            {
+              question: "Investor holds 25% of Associate. Associate makes a loss of £200,000 when the carrying amount is £30,000. How much loss does the investor recognise?",
+              options: [
+                "£50,000",
+                "£30,000",
+                "£20,000",
+                "£0",
+              ],
+              correct: 1,
+              explanation: "Investor's share of loss = 25% × £200,000 = £50,000. But carrying amount is only £30,000. The investor can only recognise losses to the extent of its investment (£30,000), after which it stops unless there are obligations to fund further losses.",
+            },
+            {
+              question: "What is the key distinction between a joint venture and a joint operation under IFRS 11?",
+              options: [
+                "The percentage of ownership held by each party",
+                "Whether the arrangement is profitable",
+                "Whether the parties have rights to net assets or rights to individual assets",
+                "Whether there is a written joint venture agreement",
+              ],
+              correct: 2,
+              explanation: "IFRS 11 classifies joint arrangements by the nature of the rights and obligations. Rights to net assets → joint venture (equity method). Rights to individual assets and obligations for individual liabilities → joint operation (own-share recognition). Ownership percentage alone is not the determining factor.",
+            },
+          ],
+        },
+        {
+          id: "f2-l4",
+          title: "Foreign Currency Translation",
+          topic: "Financial reporting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Translate individual foreign currency transactions under IAS 21",
+            "Identify monetary and non-monetary items and apply correct exchange rates",
+            "Translate the financial statements of a foreign operation for consolidation",
+            "Recognise exchange differences in profit or loss versus other comprehensive income",
+          ],
+          keyTerms: [
+            { term: "Functional Currency", definition: "The currency of the primary economic environment in which an entity operates — the currency that mainly influences sales prices and costs. Determined by fact, not choice." },
+            { term: "Presentation Currency", definition: "The currency in which financial statements are presented. Can differ from functional currency — foreign operations' statements must be translated into the parent's presentation currency." },
+            { term: "Monetary Items (IAS 21)", definition: "Items representing a right to receive (or obligation to deliver) a fixed or determinable number of currency units — e.g., cash, receivables, payables, loans. Retranslated at the closing rate at each year-end." },
+            { term: "Closing Rate", definition: "The exchange rate at the end of the reporting period. Used to translate monetary items and all assets/liabilities of foreign operations." },
+            { term: "Translation Reserve (OCI)", definition: "Exchange differences arising on translating a foreign subsidiary's net assets at closing rate (vs. historical rate) are recognised in OCI and accumulated in a separate translation reserve in equity." },
+          ],
+          explanation:
+            "<h4>IAS 21 — Two Scenarios</h4>" +
+            "<h4>1. Individual Foreign Currency Transactions</h4>" +
+            "<ul><li>Recognise at the spot rate on the transaction date</li>" +
+            "<li><strong>Monetary items</strong> (cash, receivables, payables, loans): retranslate at the closing rate at each year-end; differences to P&L</li>" +
+            "<li><strong>Non-monetary items at historical cost:</strong> keep at the historical rate — no retranslation</li></ul>" +
+            "<h4>2. Translating a Foreign Operation for Consolidation</h4>" +
+            "<ul><li>Assets and liabilities: translate at the <strong>closing rate</strong></li>" +
+            "<li>Income and expenses: translate at the rate at the transaction date (average rate in practice)</li>" +
+            "<li>Share capital and pre-acquisition reserves: historical rate</li>" +
+            "<li>Exchange differences: go to <strong>OCI</strong> → translation reserve (NOT P&L)</li>" +
+            "<li>On disposal: cumulative translation reserve is recycled to P&L</li></ul>" +
+            "<p><strong>Key mnemonic:</strong> Monetary items move (retranslate); non-monetary at cost stay at historical rate. Foreign operations → closing rate for CSFP, average for P&L, differences to OCI.</p>",
+          workedExample: {
+            setup:
+              "Entity (£ functional) buys inventory from US supplier for USD 100,000 on 1 Nov (rate £1 = $1.25). Year-end 31 Dec (rate £1 = $1.20). Invoice paid on 31 Jan (rate £1 = $1.22).",
+            steps: [
+              "1 Nov: Recognise inventory at £80,000 (100,000/1.25). Payable = £80,000.",
+              "Inventory is non-monetary — stays at £80,000 (no retranslation).",
+              "31 Dec: Payable is monetary — retranslate: 100,000/1.20 = £83,333. Exchange loss = £83,333 − £80,000 = £3,333 → P&L.",
+              "31 Jan: Pay £81,967 (100,000/1.22). Exchange gain = £83,333 − £81,967 = £1,366 → P&L.",
+              "Note: inventory remains at £80,000 throughout (non-monetary at historical cost).",
+            ],
+          },
+          summary: [
+            "Functional currency = currency of primary economic environment (fact, not choice)",
+            "Monetary items retranslated at closing rate; differences to P&L",
+            "Non-monetary items at cost: kept at historical rate — no retranslation",
+            "Foreign subsidiary: assets/liabilities at closing rate; P&L at transaction (or average) rate",
+            "Translation differences on foreign operations go to OCI → translation reserve",
+            "On disposal of foreign operation: recycle cumulative translation reserve to P&L",
+          ],
+          practiceQuestions: [
+            {
+              question: "A UK company (£ functional) has a USD receivable of $50,000. At the transaction date the rate was £1=$1.40; at year-end it is £1=$1.50. What exchange difference arises?",
+              options: [
+                "Loss of £2,381",
+                "Gain of £2,381",
+                "Loss of £3,333",
+                "No difference — receivables are non-monetary",
+              ],
+              correct: 0,
+              explanation: "At transaction date: £35,714 (50,000/1.40). At year-end: £33,333 (50,000/1.50). The receivable is worth less in £ terms — an exchange loss of £35,714 − £33,333 = £2,381 is recognised in P&L. Receivables are monetary items.",
+            },
+            {
+              question: "Which rate is used to translate the income statement of a foreign subsidiary for consolidation under IAS 21?",
+              options: [
+                "Closing rate",
+                "Historical rate at acquisition",
+                "Average rate for the period (as a practical approximation)",
+                "Opening rate",
+              ],
+              correct: 2,
+              explanation: "IAS 21 requires income and expenses to be translated at the rate at the date of each transaction. In practice, an average rate for the period is used as an approximation. The closing rate is used for assets and liabilities on the CSFP.",
+            },
+            {
+              question: "Where are exchange differences arising on translation of a foreign subsidiary's net assets recognised?",
+              options: [
+                "Profit or loss",
+                "Other comprehensive income (translation reserve)",
+                "Goodwill",
+                "Retained earnings",
+              ],
+              correct: 1,
+              explanation: "IAS 21 requires exchange differences arising on the translation of a foreign operation to be recognised in OCI and accumulated in a translation reserve. They are only recycled to P&L when the foreign operation is disposed of.",
+            },
+            {
+              question: "A company purchases machinery for EUR 200,000 when the rate is £1 = €1.25. At year-end the rate is £1 = €1.30. What is the carrying amount of the machinery at year-end?",
+              options: [
+                "£153,846",
+                "£160,000",
+                "£166,667",
+                "£200,000",
+              ],
+              correct: 1,
+              explanation: "Machinery is a non-monetary item at historical cost. It is translated at the historical rate: EUR 200,000 / 1.25 = £160,000. No retranslation at year-end. Exchange movements on non-monetary items at cost are not recognised.",
+            },
+            {
+              question: "On disposal of a foreign subsidiary, what happens to the cumulative translation reserve?",
+              options: [
+                "It remains in equity permanently",
+                "It is transferred to goodwill",
+                "It is recycled (reclassified) to profit or loss",
+                "It is written off directly to retained earnings",
+              ],
+              correct: 2,
+              explanation: "IAS 21 requires the cumulative translation reserve relating to the disposed foreign operation to be reclassified (recycled) from OCI to profit or loss on disposal. This is part of the gain or loss on disposal.",
+            },
+          ],
+        },
+        {
+          id: "f2-l5",
+          title: "Financial Instruments — Classification and Measurement",
+          topic: "Financial reporting",
+          estimatedMinutes: 45,
+          objectives: [
+            "Classify financial assets under IFRS 9 into the three measurement categories",
+            "Apply the business model and contractual cash flow tests for debt instruments",
+            "Measure financial liabilities at amortised cost using the effective interest rate method",
+            "Understand the fair value option and the FVOCI category for equity instruments",
+          ],
+          keyTerms: [
+            { term: "Amortised Cost (AC)", definition: "Measurement at the amount initially recognised, adjusted for principal repayments, plus/minus amortisation using the effective interest rate, less impairment. Used for straightforward debt instruments held to collect cash flows." },
+            { term: "FVTPL", definition: "Fair Value through Profit or Loss. All fair value movements recognised in P&L. The default for instruments that fail the AC or FVOCI tests, and for held-for-trading instruments." },
+            { term: "FVOCI", definition: "Fair Value through Other Comprehensive Income. For debt: used when both collecting cash flows and selling; OCI recycled to P&L on disposal. For equity: irrevocable election at inception; OCI is never recycled." },
+            { term: "Business Model Test", definition: "Determines how the entity manages financial assets. Three models: hold to collect (→ AC), hold to collect and sell (→ FVOCI), all others (→ FVTPL)." },
+            { term: "SPPI Test", definition: "Solely Payments of Principal and Interest. Contractual cash flows must consist solely of principal and interest for the instrument to qualify for AC or FVOCI. Instruments with leverage, optionality or non-standard interest fail and go to FVTPL." },
+          ],
+          explanation:
+            "<h4>IFRS 9 Classification Matrix</h4>" +
+            "<p>Financial assets are classified based on two tests:</p>" +
+            "<ol><li><strong>Business model test:</strong> how does the entity manage the portfolio?</li>" +
+            "<li><strong>SPPI test:</strong> do contractual cash flows consist solely of principal and interest?</li></ol>" +
+            "<table><tr><th>Business model</th><th>SPPI</th><th>Category</th></tr>" +
+            "<tr><td>Hold to collect</td><td>Pass</td><td>Amortised Cost</td></tr>" +
+            "<tr><td>Hold to collect &amp; sell</td><td>Pass</td><td>FVOCI (debt — OCI recycled)</td></tr>" +
+            "<tr><td>Other/trading</td><td>Any</td><td>FVTPL</td></tr></table>" +
+            "<p>For <strong>equity instruments:</strong> no SPPI possible. Default = FVTPL. Irrevocable election at inception to use FVOCI (no recycling on disposal).</p>" +
+            "<h4>Amortised Cost — EIR Method</h4>" +
+            "<ul><li>Opening carrying amount × EIR = interest income (P&L)</li>" +
+            "<li>Coupon received = cash payment</li>" +
+            "<li>Difference = amortisation of discount/premium</li>" +
+            "<li>Closing carrying amount = opening + interest − coupon</li></ul>" +
+            "<h4>Financial Liabilities</h4>" +
+            "<p>Nearly all at amortised cost. Exception: designated at FVTPL — but own credit risk changes go to OCI to avoid P&L volatility.</p>",
+          workedExample: {
+            setup:
+              "Entity buys a 3-year bond for £950, face value £1,000, coupon 5% per annum. Effective interest rate (EIR) = 6.9%. Business model: hold to maturity. SPPI: pass. Classification: Amortised Cost.",
+            steps: [
+              "Year 1: Interest income = £950 × 6.9% = £65.55 (P&L). Coupon = £1,000 × 5% = £50 (cash). Amortisation = £15.55. Closing CA = £965.55.",
+              "Year 2: Interest = £965.55 × 6.9% = £66.62. Amortisation = £16.62. Closing CA = £982.17.",
+              "Year 3: Interest = £982.17 × 6.9% = £67.77. Amortisation = £17.77. Closing CA = £1,000 (redeems at par).",
+              "Note: interest income > coupon each year because the bond was bought at a discount (£950 < £1,000).",
+            ],
+          },
+          summary: [
+            "IFRS 9: classify financial assets using business model + SPPI test",
+            "Hold to collect + SPPI pass → Amortised Cost",
+            "Hold to collect & sell + SPPI pass → FVOCI (debt, OCI recycled on disposal)",
+            "Fail either test → FVTPL",
+            "Equity instruments: default FVTPL; irrevocable FVOCI election available (no recycling)",
+            "Amortised cost: EIR applied to carrying amount; difference between EIR income and coupon = amortisation",
+          ],
+          practiceQuestions: [
+            {
+              question: "A debt instrument passes the SPPI test and is held in a portfolio managed to both collect cash flows and sell. How should it be classified under IFRS 9?",
+              options: [
+                "Amortised cost",
+                "FVTPL",
+                "FVOCI",
+                "Historical cost",
+              ],
+              correct: 2,
+              explanation: "Business model: hold to collect and sell. SPPI: pass. Result = FVOCI for a debt instrument. Fair value changes go to OCI and are recycled to P&L on disposal.",
+            },
+            {
+              question: "Entity holds an equity investment with no specific designation. How is it classified under IFRS 9?",
+              options: [
+                "Amortised cost",
+                "FVOCI with recycling",
+                "FVTPL",
+                "Historical cost less impairment",
+              ],
+              correct: 2,
+              explanation: "Equity instruments cannot pass the SPPI test (they are not debt). Default classification is FVTPL. The entity may make an irrevocable election at inception to designate equity at FVOCI, but only if not held for trading.",
+            },
+            {
+              question: "Under the effective interest rate method, opening carrying amount of a bond is £980, EIR is 8%, coupon paid is £60. What is the closing carrying amount?",
+              options: [
+                "£998.40",
+                "£920.00",
+                "£1,038.40",
+                "£960.00",
+              ],
+              correct: 0,
+              explanation: "Interest income = £980 × 8% = £78.40. Amortisation = £78.40 − £60 = £18.40. Closing carrying amount = £980 + £18.40 = £998.40.",
+            },
+            {
+              question: "Which tests must a financial asset pass to be classified at amortised cost?",
+              options: [
+                "Business model: hold to sell; SPPI: pass",
+                "Business model: hold to collect; SPPI: fail",
+                "Business model: hold to collect; SPPI: pass",
+                "Business model: hold to collect and sell; SPPI: pass",
+              ],
+              correct: 2,
+              explanation: "For amortised cost: (1) business model must be to hold and collect contractual cash flows only, AND (2) contractual cash flows must consist solely of principal and interest (SPPI). Both conditions must be met.",
+            },
+            {
+              question: "An entity designates a financial liability at FVTPL. Under IFRS 9, where are changes due to the entity's own credit risk recognised?",
+              options: [
+                "Profit or loss",
+                "Other comprehensive income",
+                "Retained earnings directly",
+                "Goodwill",
+              ],
+              correct: 1,
+              explanation: "For financial liabilities at FVTPL (fair value option), IFRS 9 requires changes in fair value due to the entity's own credit risk to be recognised in OCI, not P&L. This prevents counter-intuitive gains in P&L when the entity's own creditworthiness deteriorates.",
+            },
+          ],
+        },
+        {
+          id: "f2-l6",
+          title: "Impairment of Financial Assets and Hedge Accounting",
+          topic: "Financial reporting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Apply the IFRS 9 expected credit loss (ECL) model to financial assets",
+            "Distinguish the three stages of the ECL model and calculate loss allowances",
+            "Identify the three types of hedging relationships and their accounting treatment",
+            "Assess hedge effectiveness and document hedging relationships",
+          ],
+          keyTerms: [
+            { term: "Expected Credit Loss (ECL)", definition: "A forward-looking impairment model under IFRS 9. Losses are recognised before a default event. ECL = Probability of Default × Loss Given Default × Exposure at Default, probability-weighted and discounted." },
+            { term: "Stage 1 (12-month ECL)", definition: "Applied to financial assets at initial recognition where credit risk has not significantly increased. Loss allowance = expected credit losses from default events possible within the next 12 months." },
+            { term: "Stage 2 (Lifetime ECL)", definition: "Applied when credit risk has significantly increased since initial recognition but the asset is not yet credit-impaired. Loss allowance = lifetime expected credit losses." },
+            { term: "Stage 3 (Lifetime ECL, credit-impaired)", definition: "Applied to credit-impaired assets (objective evidence of impairment). Lifetime ECL recognised; interest revenue calculated on the net carrying amount (gross less allowance)." },
+            { term: "Fair Value Hedge", definition: "Hedges the risk of changes in fair value of a recognised asset/liability or firm commitment. Gains/losses on the hedging instrument AND the hedged item (for the hedged risk) both go to P&L, offsetting each other." },
+          ],
+          explanation:
+            "<h4>ECL Three-Stage Model</h4>" +
+            "<p>IFRS 9 replaced the IAS 39 'incurred loss' model with an 'expected credit loss' (ECL) model — losses are recognised sooner, before default:</p>" +
+            "<ul><li><strong>Stage 1:</strong> all new assets — recognise 12-month ECL; interest on gross carrying amount</li>" +
+            "<li><strong>Stage 2:</strong> significant increase in credit risk — recognise lifetime ECL; interest on gross carrying amount</li>" +
+            "<li><strong>Stage 3:</strong> credit-impaired — recognise lifetime ECL; interest on <em>net</em> carrying amount (gross minus allowance)</li></ul>" +
+            "<p><strong>Simplified approach:</strong> for trade receivables without a significant financing component — always use lifetime ECL (often via a provision matrix based on days past due).</p>" +
+            "<h4>Hedge Accounting (IFRS 9)</h4>" +
+            "<p>Three types:</p>" +
+            "<ol><li><strong>Fair value hedge:</strong> hedges exposure to changes in fair value (e.g., fixed-rate debt). Both hedging instrument and hedged item are adjusted to fair value through P&L — they net off.</li>" +
+            "<li><strong>Cash flow hedge:</strong> hedges variability in future cash flows. Effective portion of hedging instrument gain/loss → OCI (cash flow hedge reserve); recycled to P&L when hedged item affects P&L.</li>" +
+            "<li><strong>Net investment hedge:</strong> hedges currency risk of net investment in foreign operation. Effective portion → OCI; recycled on disposal.</li></ol>",
+          workedExample: {
+            setup:
+              "Trade receivables: £500,000 total. Provision matrix by ageing. Also: entity has fixed-rate debt hedged with an interest rate swap.",
+            steps: [
+              "ECL provision matrix: 0–30 days: £200,000 × 1% = £2,000; 31–60 days: £150,000 × 5% = £7,500; 61–90 days: £100,000 × 20% = £20,000; 91+ days: £50,000 × 50% = £25,000.",
+              "Total ECL allowance = £54,500.",
+              "Fair value hedge: fixed-rate debt fair value falls £20,000 as rates rise → £20,000 gain in P&L on hedged item.",
+              "Simultaneously, interest rate swap fair value rises ~£20,000 → £20,000 gain in P&L on hedging instrument.",
+              "Net P&L impact ≈ zero (the two entries offset — this is the purpose of hedge accounting).",
+            ],
+          },
+          summary: [
+            "ECL model: recognise losses before default — forward-looking, not incurred",
+            "Stage 1: 12-month ECL; Stage 2: lifetime ECL (significant credit risk increase); Stage 3: lifetime ECL, interest on net amount",
+            "Trade receivables: simplified approach → always lifetime ECL (provision matrix)",
+            "Fair value hedge: both hedged item and hedging instrument go to P&L",
+            "Cash flow hedge: effective portion → OCI; recycled to P&L when hedged item affects P&L",
+            "Net investment hedge: effective portion → OCI translation reserve; recycled on disposal",
+          ],
+          practiceQuestions: [
+            {
+              question: "Under IFRS 9, when does an entity move a financial asset from Stage 1 to Stage 2?",
+              options: [
+                "When the asset is more than 90 days past due",
+                "When the asset's credit risk has significantly increased since initial recognition",
+                "At each year-end automatically",
+                "When the asset becomes impaired (objective evidence of loss)",
+              ],
+              correct: 1,
+              explanation: "Stage 2 is triggered by a significant increase in credit risk since initial recognition — not necessarily default or 90 days past due. There is a rebuttable presumption of significant increase at 30 days past due, but the indicator is broader.",
+            },
+            {
+              question: "A cash flow hedge effectively hedges a forecast purchase. The hedging instrument gains £30,000; £25,000 is the effective portion. Where is the £25,000 recognised?",
+              options: [
+                "Profit or loss",
+                "Other comprehensive income",
+                "Retained earnings",
+                "Deducted from the hedged asset cost",
+              ],
+              correct: 1,
+              explanation: "For a cash flow hedge, the effective portion of the hedging instrument's gain or loss is recognised in OCI (cash flow hedge reserve). It is recycled to P&L when the hedged transaction affects P&L. The ineffective portion (£5,000) goes to P&L.",
+            },
+            {
+              question: "Under the simplified approach to ECL for trade receivables, which stage ECL is always used?",
+              options: [
+                "12-month ECL",
+                "Incurred loss only",
+                "Lifetime ECL",
+                "Stage 3 ECL only",
+              ],
+              correct: 2,
+              explanation: "The simplified approach (IFRS 9 para 5.5.15) for trade receivables without a significant financing component always requires lifetime ECL — there is no Stage 1 for this category. The provision matrix is a common practical method.",
+            },
+            {
+              question: "Under a fair value hedge, the hedging instrument has a loss of £15,000. The hedged item's fair value changes by a gain of £14,000 (for the hedged risk). What is the net P&L impact?",
+              options: [
+                "Loss of £15,000",
+                "Gain of £14,000",
+                "Loss of £1,000",
+                "Zero impact",
+              ],
+              correct: 2,
+              explanation: "Hedging instrument loss £15,000 hits P&L; hedged item adjustment gain £14,000 hits P&L. Net P&L = £14,000 − £15,000 = −£1,000 loss. This represents hedge ineffectiveness.",
+            },
+            {
+              question: "At which stage of the ECL model is interest revenue calculated on the net carrying amount?",
+              options: [
+                "Stage 1",
+                "Stage 2",
+                "Stage 3",
+                "All stages",
+              ],
+              correct: 2,
+              explanation: "Stage 3 assets are credit-impaired. Interest revenue is calculated on the net carrying amount (gross minus loss allowance) using the effective interest rate. In Stages 1 and 2, interest is still calculated on the gross carrying amount.",
+            },
+          ],
+        },
+        {
+          id: "f2-l7",
+          title: "Leases — IFRS 16",
+          topic: "Financial reporting",
+          estimatedMinutes: 40,
+          objectives: [
+            "Identify a lease under IFRS 16 and distinguish it from a service contract",
+            "Prepare lessee accounting entries including right-of-use asset and lease liability",
+            "Calculate the lease liability using present value of future lease payments",
+            "Account for lessor finance and operating leases",
+          ],
+          keyTerms: [
+            { term: "Right-of-Use (ROU) Asset", definition: "An asset recognised by a lessee representing its right to use an underlying asset for the lease term. Measured at cost (PV of lease payments + initial direct costs + prepayments − lease incentives) and depreciated over the shorter of useful life and lease term." },
+            { term: "Lease Liability", definition: "A financial liability recognised by the lessee for the obligation to make lease payments. Initially measured at the present value of future lease payments, subsequently measured at amortised cost using the effective interest rate." },
+            { term: "Incremental Borrowing Rate (IBR)", definition: "The rate of interest a lessee would pay to borrow over a similar term with similar security the funds necessary to obtain an asset of similar value. Used when the rate implicit in the lease cannot be readily determined." },
+            { term: "Short-term Lease Exemption", definition: "Leases with a term of 12 months or less at commencement date. Lessees may elect not to recognise ROU asset/liability; payments are expensed on a straight-line basis." },
+            { term: "Finance Lease (Lessor)", definition: "A lease that transfers substantially all risks and rewards of ownership to the lessee. The lessor derecognises the asset and recognises a net investment in the lease (finance lease receivable); income recognised using EIR." },
+          ],
+          explanation:
+            "<h4>IFRS 16 — Lessee Accounting</h4>" +
+            "<p>IFRS 16 (effective 2019) requires lessees to recognise virtually all leases on the balance sheet — the operating/finance distinction for lessees is abolished (exceptions: short-term ≤12 months, low-value asset leases).</p>" +
+            "<h4>At Commencement</h4>" +
+            "<p>Recognise ROU asset and lease liability at the PV of future lease payments (discounted at rate implicit in the lease, or IBR if not determinable).</p>" +
+            "<h4>Subsequently</h4>" +
+            "<ul><li>ROU asset: depreciated straight-line over the shorter of lease term and asset's useful life</li>" +
+            "<li>Lease liability: unwound using effective interest method; reduced by lease payments</li></ul>" +
+            "<h4>P&L Impact</h4>" +
+            "<p>P&L shows depreciation (from ROU) + finance cost (from liability unwinding) — replaces old straight-line rent. <strong>EBITDA improves</strong> vs IAS 17 (rent was operating; now replaced by depreciation below EBITDA and interest). Gearing ratios worsen.</p>" +
+            "<h4>Lessor Accounting</h4>" +
+            "<ul><li><strong>Finance lease:</strong> derecognise asset, recognise net investment in lease. Interest income via EIR.</li>" +
+            "<li><strong>Operating lease:</strong> keep asset on balance sheet; depreciate normally; rental income straight-line.</li></ul>",
+          workedExample: {
+            setup:
+              "Entity leases equipment for 3 years. Annual payment £10,000 at year-end. Incremental borrowing rate = 8%. No initial direct costs.",
+            steps: [
+              "Initial lease liability = PV of payments: £10,000/1.08 + £10,000/1.08² + £10,000/1.08³ = £9,259 + £8,573 + £7,938 = £25,770.",
+              "ROU asset = £25,770 (same as lease liability at commencement).",
+              "Year 1 depreciation: £25,770 / 3 = £8,590 (P&L, below EBITDA).",
+              "Year 1 finance cost: £25,770 × 8% = £2,062 (P&L, below EBIT).",
+              "Year 1 lease payment: £10,000 cash. Liability reduction = £10,000 − £2,062 = £7,938.",
+              "Year 1 closing figures: ROU £17,180; Lease liability £17,832. Total P&L charge £10,652 vs £10,000 straight-line under old IAS 17.",
+            ],
+          },
+          summary: [
+            "IFRS 16: lessees recognise all leases as ROU asset + lease liability (exceptions: short-term, low-value)",
+            "Lease liability = PV of future payments at rate implicit in lease (or IBR)",
+            "ROU asset depreciated; lease liability unwound using effective interest rate",
+            "EBITDA improves; interest cover and gearing worsen under IFRS 16 vs old IAS 17",
+            "Short-term leases (≤12 months) and low-value leases: optional exemption; expense straight-line",
+            "Lessor: finance lease → derecognise asset, recognise receivable; operating lease → keep asset, income straight-line",
+          ],
+          practiceQuestions: [
+            {
+              question: "Under IFRS 16, where does a lessee recognise depreciation on the right-of-use asset?",
+              options: [
+                "Not recognised — the ROU asset is not depreciated",
+                "Profit or loss",
+                "Other comprehensive income",
+                "Directly to retained earnings",
+              ],
+              correct: 1,
+              explanation: "The ROU asset is depreciated, typically on a straight-line basis over the shorter of the lease term and the asset's useful life. The depreciation charge is recognised in profit or loss.",
+            },
+            {
+              question: "Entity enters a 2-year lease with annual payments of £20,000 at year-end. Discount rate = 10%. What is the initial lease liability?",
+              options: [
+                "£40,000",
+                "£34,711",
+                "£20,000",
+                "£36,000",
+              ],
+              correct: 1,
+              explanation: "PV = £20,000/1.10 + £20,000/1.10² = £18,182 + £16,529 = £34,711.",
+            },
+            {
+              question: "Which of the following is NOT a practical expedient allowed under IFRS 16 for lessees?",
+              options: [
+                "Short-term leases (≤12 months) — expense straight-line",
+                "Low-value asset leases — expense straight-line",
+                "Leases with variable payments only — exclude from on-balance-sheet treatment",
+                "Leases with a purchase option — treat as operating lease",
+              ],
+              correct: 3,
+              explanation: "IFRS 16 exemptions are for (1) short-term leases (≤12 months) and (2) leases of low-value underlying assets. There is no exemption based on purchase options.",
+            },
+            {
+              question: "How does IFRS 16 affect a lessee's EBITDA compared to old IAS 17 operating lease treatment?",
+              options: [
+                "EBITDA decreases because lease payments are added back",
+                "EBITDA increases because rental expense is replaced by depreciation and interest",
+                "EBITDA is unchanged",
+                "EBITDA decreases because the ROU asset adds depreciation charges",
+              ],
+              correct: 1,
+              explanation: "Under old IAS 17 (operating lease), the full rental was an operating expense, reducing EBITDA. Under IFRS 16, rent is replaced by depreciation (below EBITDA) and interest (below EBIT). So EBITDA improves.",
+            },
+            {
+              question: "A lessor classifies a lease as a finance lease. What does the lessor recognise on the balance sheet?",
+              options: [
+                "The underlying asset plus deferred income",
+                "A net investment in the lease (finance lease receivable)",
+                "A right-of-use asset",
+                "The underlying asset continues unchanged",
+              ],
+              correct: 1,
+              explanation: "For a finance lease, the lessor derecognises the underlying asset and recognises a net investment in the lease (gross receivable discounted at the rate implicit in the lease). Interest income is recognised using the EIR.",
+            },
+          ],
+        },
+        {
+          id: "f2-l8",
+          title: "Provisions, Contingencies and Events After the Reporting Period",
+          topic: "Financial reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Apply the recognition criteria for provisions under IAS 37",
+            "Distinguish provisions, contingent liabilities and contingent assets",
+            "Measure provisions including best estimate and risk adjustments",
+            "Account for events after the reporting period under IAS 10",
+          ],
+          keyTerms: [
+            { term: "Provision (IAS 37)", definition: "A liability of uncertain timing or amount. Recognised when: (1) present obligation from past event; (2) probable outflow of economic resources; (3) reliable estimate can be made." },
+            { term: "Constructive Obligation", definition: "An obligation arising from established patterns of past practice, published policies, or specific statements that create a valid expectation in other parties that the entity will accept certain responsibilities." },
+            { term: "Contingent Liability", definition: "A possible obligation whose existence depends on uncertain future events, OR a present obligation where outflow is not probable or amount cannot be reliably estimated. Disclosed but NOT recognised in the financial statements." },
+            { term: "Adjusting Event (IAS 10)", definition: "An event after the reporting period that provides evidence of conditions that existed at the end of the reporting period. The financial statements are adjusted for the event." },
+            { term: "Non-adjusting Event (IAS 10)", definition: "An event after the reporting period indicative of conditions that arose after the end of the reporting period. Disclosed but NOT adjusted in the financial statements." },
+          ],
+          explanation:
+            "<h4>IAS 37 — Provisions Recognition</h4>" +
+            "<p>Recognise a provision when ALL three criteria are met:</p>" +
+            "<ol><li>Present obligation (legal OR constructive) arising from a past event</li>" +
+            "<li>Probable that an outflow of resources will be required (&gt;50%)</li>" +
+            "<li>Reliable estimate of the amount can be made</li></ol>" +
+            "<h4>Measurement</h4>" +
+            "<p>Best estimate of expenditure required to settle. For large populations of similar items (e.g., warranty claims): use expected value (probability-weighted). For a single large obligation: single most likely outcome.</p>" +
+            "<h4>Special Cases</h4>" +
+            "<ul><li><strong>Onerous contracts:</strong> when unavoidable costs exceed benefits expected → recognise provision immediately</li>" +
+            "<li><strong>Restructuring:</strong> only when entity has a DETAILED formal plan AND has raised a valid expectation in those affected (announced or started implementing)</li></ul>" +
+            "<h4>IAS 10 — Events After the Reporting Period</h4>" +
+            "<ul><li><strong>Adjusting event:</strong> reveals condition existing at year-end → adjust financial statements. Examples: settlement of court case; discovery of fraud; customer going insolvent after year-end if already in difficulty at year-end.</li>" +
+            "<li><strong>Non-adjusting event:</strong> condition arose after year-end → disclose only. Examples: major acquisition; fire; dividends declared after year-end.</li></ul>",
+          workedExample: {
+            setup:
+              "Scenario 1: Company sells products with a 1-year warranty. 1,000 units sold. History: 70% no fault, 20% minor repair (£100 each), 10% major repair (£500 each). Scenario 2: Events after year-end 31 Dec (accounts authorised 28 Feb).",
+            steps: [
+              "Warranty provision (expected value): 70% × £0 = £0; 20% × 1,000 × £100 = £20,000; 10% × 1,000 × £500 = £50,000.",
+              "Total warranty provision = £70,000.",
+              "15 Jan — Customer (£80,000 debtor at 31 Dec) goes into administration. ADJUSTING EVENT — evidence of conditions at year-end. Increase bad debt provision by £80,000.",
+              "10 Feb — Fire destroys factory. NON-ADJUSTING EVENT — new condition arose after year-end. Disclose only; do not adjust financial statements.",
+            ],
+          },
+          summary: [
+            "Provision recognised: present obligation + probable outflow + reliable estimate",
+            "Constructive obligation: valid expectation created by practice or announcement",
+            "Contingent liability: possible obligation or not probable → disclose only, not recognised",
+            "Contingent asset: only disclose if probable; recognise only when virtually certain",
+            "Adjusting IAS 10 event: conditions existed at year-end → adjust statements",
+            "Non-adjusting IAS 10 event: condition arose after year-end → disclose only",
+          ],
+          practiceQuestions: [
+            {
+              question: "An entity has a dispute with a customer for £200,000. Legal counsel assesses an 80% probability of losing. Should a provision be recognised?",
+              options: [
+                "No — it is a contingent liability and should only be disclosed",
+                "Yes — recognise a provision for £200,000",
+                "Yes — recognise a provision for £160,000 (probability-weighted)",
+                "No — amounts in dispute cannot be reliably estimated",
+              ],
+              correct: 1,
+              explanation: "Present obligation: yes (legal claim from past event). Probable outflow (>50%): yes (80%). Reliable estimate: yes (£200,000). All three criteria met → recognise a provision for £200,000 (best estimate for a single-item case, not probability-weighted).",
+            },
+            {
+              question: "A company announces a restructuring plan at a board meeting on 20 December (year-end 31 December). No external communication has been made. Can a restructuring provision be recognised?",
+              options: [
+                "Yes — board approval is sufficient",
+                "No — the plan must be detailed and a valid expectation raised in those affected",
+                "Yes — if the plan is detailed enough",
+                "No — restructuring provisions can never be raised before restructuring begins",
+              ],
+              correct: 1,
+              explanation: "IAS 37 requires a constructive obligation for a restructuring provision. This needs a DETAILED formal plan AND communication to raise a valid expectation in those affected (employees, customers). Internal board approval alone is insufficient.",
+            },
+            {
+              question: "A customer goes into administration on 15 January. Year-end is 31 December; accounts authorised 28 February. The customer owed £50,000 at year-end. How is this treated?",
+              options: [
+                "Non-adjusting event — disclose only",
+                "Adjusting event — increase bad debt provision by £50,000",
+                "No adjustment or disclosure needed",
+                "Adjusting event — derecognise the receivable entirely from revenue",
+              ],
+              correct: 1,
+              explanation: "The customer's financial difficulty existed at 31 December; the administration provides evidence of conditions at year-end. Under IAS 10 this is an adjusting event. The trade receivable should be reduced by £50,000.",
+            },
+            {
+              question: "Which of the following is a contingent asset situation?",
+              options: [
+                "A legal claim already won with cash due imminently",
+                "A possible benefit that may arise from a legal claim with an uncertain outcome",
+                "Future tax savings from a loss carry-forward already recognised",
+                "A receivable in dispute with a customer",
+              ],
+              correct: 1,
+              explanation: "A contingent asset is a possible asset arising from past events that depends on uncertain future events. If virtual certainty exists, the asset should be recognised. If probable (but not virtually certain), disclose. The key is uncertainty about the outcome.",
+            },
+            {
+              question: "A flood destroys a factory on 10 February (year-end 31 December, accounts authorised 30 March). How is this treated?",
+              options: [
+                "Adjusting event — write down factory assets",
+                "Non-adjusting event — disclose only",
+                "Non-adjusting event — no disclosure required",
+                "Adjusting event — recognise an insurance receivable",
+              ],
+              correct: 1,
+              explanation: "The flood occurred after the year-end — a non-adjusting event under IAS 10. The financial statements should not be adjusted, but the event must be disclosed if material.",
+            },
+          ],
+        },
+        {
+          id: "f2-l9",
+          title: "Revenue Recognition — IFRS 15",
+          topic: "Financial reporting",
+          estimatedMinutes: 45,
+          objectives: [
+            "Apply the IFRS 15 five-step model to recognise revenue",
+            "Identify performance obligations in a contract with a customer",
+            "Allocate transaction prices to performance obligations using relative standalone selling prices",
+            "Determine when to recognise revenue over time versus at a point in time",
+          ],
+          keyTerms: [
+            { term: "Performance Obligation", definition: "A promise in a contract with a customer to transfer a distinct good or service (or bundle). Revenue is recognised when (or as) each performance obligation is satisfied." },
+            { term: "Transaction Price", definition: "The amount of consideration an entity expects to receive in exchange for transferring promised goods or services. Includes variable consideration (constrained), non-cash consideration, and significant financing components." },
+            { term: "Standalone Selling Price", definition: "The price at which an entity would sell a promised good or service separately to a customer. Used to allocate the transaction price proportionately across multiple performance obligations." },
+            { term: "Variable Consideration Constraint", definition: "Variable amounts (discounts, rebates, performance bonuses) are only included in the transaction price to the extent it is highly probable that a significant reversal will not occur when uncertainty is resolved." },
+            { term: "Over-time Recognition", definition: "Revenue recognised over time when: the customer simultaneously receives and consumes the benefit; the entity creates/enhances an asset the customer controls; or the entity creates an asset with no alternative use and has an enforceable right to payment." },
+          ],
+          explanation:
+            "<h4>The Five-Step Model</h4>" +
+            "<ol><li><strong>Identify the contract:</strong> enforceable agreement with commercial substance; payment terms and parties' rights identifiable; probable collection.</li>" +
+            "<li><strong>Identify performance obligations:</strong> distinct goods/services. Distinct = customer can benefit from it alone AND it is separately identifiable in the contract.</li>" +
+            "<li><strong>Determine the transaction price:</strong> expected consideration including variable amounts (apply constraint). Adjust for significant financing component if payment &gt;12 months from performance.</li>" +
+            "<li><strong>Allocate the transaction price:</strong> allocate to each performance obligation based on relative standalone selling price (SSP). Estimate SSP if not observable.</li>" +
+            "<li><strong>Recognise revenue when (or as) each PO is satisfied:</strong></li></ol>" +
+            "<ul><li><em>Point in time:</em> when control transfers (legal title, physical possession, risk/rewards, customer acceptance, right to payment)</li>" +
+            "<li><em>Over time:</em> if simultaneous consumption; customer-controlled asset; or asset with no alternative use + right to payment</li></ul>" +
+            "<p>For construction contracts: use input (costs incurred/total costs) or output (surveys, milestones) method to measure progress.</p>",
+          workedExample: {
+            setup:
+              "Bundled contract: Entity sells software licence + 12 months support for £12,000. SSP: licence = £10,000; support = £4,000. Total SSP = £14,000.",
+            steps: [
+              "Step 4 allocation: Licence = £12,000 × (£10,000/£14,000) = £8,571; Support = £12,000 × (£4,000/£14,000) = £3,429.",
+              "Step 5 — Licence: recognised at point in time when delivered (day 1) = £8,571.",
+              "Step 5 — Support: recognised over 12 months = £3,429/12 = £286/month.",
+              "Variable consideration: Contract has a £2,000 bonus if uptime >99.9%. If 40% probability of not earning it, the constraint requires exclusion until highly probable — so likely excluded until performance condition is substantially met.",
+            ],
+          },
+          summary: [
+            "Step 1: identify contract; Step 2: identify performance obligations; Step 3: transaction price",
+            "Step 4: allocate to POs by relative standalone selling price; Step 5: recognise when PO satisfied",
+            "A good/service is distinct: customer can benefit from it alone AND separately identifiable",
+            "Variable consideration: include only if highly probable no significant reversal",
+            "Over-time: simultaneous consumption, customer-controlled asset, or no-alternative-use + right to payment",
+            "Financing component: adjust if significant (payment >12 months from performance)",
+          ],
+          practiceQuestions: [
+            {
+              question: "Entity sells a product (SSP £800) and installation service (SSP £200) bundled for £900. How much revenue is allocated to the installation service?",
+              options: [
+                "£200",
+                "£180",
+                "£720",
+                "£450",
+              ],
+              correct: 1,
+              explanation: "Total SSP = £1,000. Installation share = £200/£1,000 = 20%. Allocated revenue = 20% × £900 = £180. Product gets £720.",
+            },
+            {
+              question: "A construction contract has a transaction price of £500,000. Costs incurred to date = £150,000; total expected costs = £300,000. Revenue recognised to date (input method)?",
+              options: [
+                "£250,000",
+                "£150,000",
+                "£500,000",
+                "£300,000",
+              ],
+              correct: 0,
+              explanation: "Progress = £150,000 / £300,000 = 50%. Revenue recognised = 50% × £500,000 = £250,000.",
+            },
+            {
+              question: "For revenue to be recognised over time, which condition must be met?",
+              options: [
+                "The customer has paid in advance",
+                "The entity creates an asset with no alternative use and has an enforceable right to payment for performance to date",
+                "The contract has a duration of more than 12 months",
+                "The goods are customised for the customer",
+              ],
+              correct: 1,
+              explanation: "IFRS 15 allows over-time recognition when: customer simultaneously receives and consumes benefit; entity creates/enhances an asset the customer controls; OR entity creates an asset with no alternative use AND has enforceable right to payment for performance to date.",
+            },
+            {
+              question: "An entity includes a £50,000 variable bonus. There is a 40% chance the bonus will not be earned. How should the constraint be applied?",
+              options: [
+                "Include £50,000 in full",
+                "Include £30,000 (probability-weighted expected value)",
+                "Exclude the variable amount entirely until highly probable",
+                "Include only if the customer agrees",
+              ],
+              correct: 2,
+              explanation: "The variable consideration constraint requires inclusion only to the extent it is highly probable that a significant reversal will not occur. A 40% chance of earning zero is significant uncertainty, so the entity would typically exclude the bonus until the performance condition is substantially met.",
+            },
+            {
+              question: "When does a promised good or service qualify as a distinct performance obligation?",
+              options: [
+                "When it is the only item in the contract",
+                "When the customer can benefit from it on its own AND it is separately identifiable in the contract",
+                "When it has a separately listed price in the contract",
+                "When it is delivered at a different time from other goods or services",
+              ],
+              correct: 1,
+              explanation: "IFRS 15 requires both tests: (1) the customer can benefit from the good/service on its own or with other readily available resources, AND (2) the entity's promise to transfer it is separately identifiable from other promises in the contract (no significant integration).",
+            },
+          ],
+        },
+        {
+          id: "f2-l10",
+          title: "Share-based Payments — IFRS 2",
+          topic: "Financial reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Distinguish equity-settled and cash-settled share-based payment transactions",
+            "Calculate the expense for equity-settled awards over the vesting period",
+            "Apply the market condition and non-market condition distinctions",
+            "Account for modifications to share-based payment arrangements",
+          ],
+          keyTerms: [
+            { term: "Equity-settled SBP", definition: "The entity gives equity instruments (shares or share options) in exchange for goods or services. Measured at the fair value of instruments granted AT GRANT DATE — not remeasured thereafter." },
+            { term: "Cash-settled SBP", definition: "The entity pays cash (or other assets) based on the price/value of the entity's shares (e.g., share appreciation rights). Measured at fair value at EACH REPORTING DATE — remeasured until settlement." },
+            { term: "Vesting Period", definition: "The period over which the service condition must be satisfied. The IFRS 2 expense is spread over the vesting period on a straight-line basis." },
+            { term: "Market Condition", definition: "A vesting condition related to the market price of the entity's shares (e.g., total shareholder return target). Market conditions are incorporated into the grant-date fair value — they do NOT affect the number of awards for which expense is recognised." },
+            { term: "Non-market Condition", definition: "A performance condition not related to market price (e.g., EPS growth). Non-market conditions ARE reflected in the estimate of the number of instruments expected to vest — adjusted at each year-end." },
+          ],
+          explanation:
+            "<h4>Equity-settled Awards</h4>" +
+            "<ul><li>Measure at fair value of equity instruments at <strong>grant date</strong> (e.g., Black-Scholes model) — not remeasured</li>" +
+            "<li>Recognise as expense (debit) and equity reserve (credit) over the vesting period</li>" +
+            "<li>Annual expense: <em>(Number expected to vest × grant-date FV) / vesting years</em></li>" +
+            "<li>Adjust each year for revised estimate of number expected to vest (unless market condition)</li>" +
+            "<li>Cumulative approach: year charge = (revised cumulative total due to date) minus prior years' charges</li></ul>" +
+            "<h4>Market vs Non-market Conditions</h4>" +
+            "<ul><li><strong>Market conditions</strong> (e.g., TSR target): built into grant-date FV via option pricing. Don't revise number — expense recognised even if market condition is missed by employee who completed service.</li>" +
+            "<li><strong>Non-market conditions</strong> (e.g., EPS growth): estimated number vesting adjusted each year. If target not met, award lapses and recognised expense is reversed.</li></ul>" +
+            "<h4>Cash-settled Awards</h4>" +
+            "<p>Measure liability at fair value at <strong>each reporting date</strong>. Expense + liability recognised; remeasured until settlement.</p>" +
+            "<h4>Modifications</h4>" +
+            "<p>If terms change in an employee's favour (higher fair value): recognise incremental fair value in addition to original. If terms worsen: continue on original terms.</p>",
+          workedExample: {
+            setup:
+              "Entity grants 100 employees 1,000 options each on 1 Jan Year 1. Vesting period 3 years. Grant-date fair value per option = £3. Non-market condition: revenue growth >10% per year.",
+            steps: [
+              "Year 1 estimate: 90 employees expected to satisfy condition.",
+              "Year 1 expense: (90 × 1,000 × £3) / 3 = £90,000. Dr Staff costs £90,000 / Cr Equity reserve £90,000.",
+              "Year 2 revised estimate: 85 employees expected to vest.",
+              "Cumulative charge to 31 Dec Year 2: (85 × 1,000 × £3) × 2/3 = £170,000.",
+              "Year 2 additional expense: £170,000 − £90,000 = £80,000.",
+              "Year 3 actual: 82 employees vested. Cumulative charge: 82 × 1,000 × £3 = £246,000. Year 3 expense: £246,000 − £170,000 = £76,000.",
+            ],
+          },
+          summary: [
+            "Equity-settled: measured at grant-date FV; not remeasured; expense spread over vesting period",
+            "Cash-settled: remeasured at each reporting date FV until settlement",
+            "Non-market conditions: revise number expected to vest each year",
+            "Market conditions: built into grant-date FV; don't revise number — expense recognised even if market condition missed",
+            "Cumulative approach: year charge = cumulative total due to date minus prior charges",
+            "Modification: recognise incremental FV if change is beneficial to employee",
+          ],
+          practiceQuestions: [
+            {
+              question: "Entity grants 500 share options to each of 200 employees (grant-date FV per option = £4). Vesting period = 4 years. In Year 1, 180 employees are expected to vest. What is the Year 1 IFRS 2 charge?",
+              options: [
+                "£90,000",
+                "£400,000",
+                "£180,000",
+                "£100,000",
+              ],
+              correct: 0,
+              explanation: "Annual expense = (180 × 500 × £4) / 4 = £360,000 / 4 = £90,000.",
+            },
+            {
+              question: "A share-based award has a market condition (TSR target). At year 3 of a 3-year vesting period, the TSR target was NOT met. Service was completed. What happens to the IFRS 2 expense?",
+              options: [
+                "All expense recognised to date is reversed",
+                "No expense is recognised in year 3",
+                "Expense continues to be recognised — market conditions do not affect the expense charge",
+                "The charge is reduced by the probability of non-vesting",
+              ],
+              correct: 2,
+              explanation: "Market conditions are incorporated into the grant-date fair value via option pricing models. If the condition is not met but the employee completes the service, the expense is still recognised in full — no reversal.",
+            },
+            {
+              question: "How is a cash-settled share-based payment liability measured at each reporting date?",
+              options: [
+                "At grant-date fair value — never remeasured",
+                "At the intrinsic value only",
+                "At fair value at each reporting date until settlement",
+                "At historical cost",
+              ],
+              correct: 2,
+              explanation: "Cash-settled SBPs create a liability that is remeasured at fair value at each reporting date (and at settlement). Changes in fair value go through P&L. This contrasts with equity-settled awards, which are fixed at grant-date fair value.",
+            },
+            {
+              question: "Under IFRS 2, what is the credit entry for an equity-settled share-based payment expense?",
+              options: [
+                "Share capital",
+                "Cash",
+                "Equity reserve (share-based payment reserve)",
+                "Liability",
+              ],
+              correct: 2,
+              explanation: "For equity-settled awards: Dr Staff costs (P&L), Cr Equity reserve (share-based payment reserve within equity). When options are exercised, the reserve is transferred to share capital and share premium.",
+            },
+            {
+              question: "An entity modifies share options by reducing the exercise price (in employees' favour). How is the modification accounted for?",
+              options: [
+                "Restart the vesting period from zero",
+                "Recognise the incremental fair value in addition to the original expense",
+                "Expense only the new higher fair value going forward",
+                "No change — the original terms are maintained for accounting",
+              ],
+              correct: 1,
+              explanation: "A beneficial modification increases the total fair value of the award. IFRS 2 requires recognition of the incremental fair value (FV after modification minus FV before modification, measured at modification date) in addition to the original grant-date expense.",
+            },
+          ],
+        },
+        {
+          id: "f2-l11",
+          title: "Earnings Per Share — IAS 33",
+          topic: "Financial reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Calculate basic EPS including the weighted average number of shares",
+            "Adjust weighted average shares for rights issues using the theoretical ex-rights price",
+            "Calculate diluted EPS for options, warrants and convertible instruments",
+            "Understand the anti-dilution principle",
+          ],
+          keyTerms: [
+            { term: "Basic EPS", definition: "Profit attributable to ordinary equity holders (after preference dividends) divided by the weighted average number of ordinary shares in issue during the period." },
+            { term: "Weighted Average Shares", definition: "Each tranche of shares is weighted by the fraction of the year it was in issue. Shares issued for cash are time-weighted; bonus issues are treated as if always outstanding (retrospective adjustment)." },
+            { term: "Rights Issue", definition: "An issue of shares to existing shareholders at a price below market. Contains a bonus element. Adjust weighted average by the bonus fraction = cum-rights price / TERP." },
+            { term: "Diluted EPS", definition: "EPS calculated assuming all dilutive potential ordinary shares (options, warrants, convertibles) have been converted. Shows the maximum dilution of EPS." },
+            { term: "Treasury Stock Method", definition: "Method for diluted EPS from options/warrants. Assumes proceeds from exercise buy back shares at average market price. Only the net additional shares (issued minus bought back) dilute EPS." },
+          ],
+          explanation:
+            "<h4>Basic EPS</h4>" +
+            "<p>Basic EPS = (Profit after tax − Preference dividends) / Weighted average ordinary shares</p>" +
+            "<h4>Weighted Average Shares</h4>" +
+            "<ul><li>New issue for cash: include from date of issue (time-weight)</li>" +
+            "<li>Bonus issue (or stock split): treat as always in issue — restate prior periods</li>" +
+            "<li>Rights issue: partly at market price, partly bonus → apply bonus fraction to pre-rights shares</li></ul>" +
+            "<p>TERP = [(Cum-rights price × existing shares) + (Issue price × new shares)] / Total shares after rights<br>" +
+            "Bonus fraction = Cum-rights price / TERP</p>" +
+            "<h4>Diluted EPS</h4>" +
+            "<p><strong>Options and warrants (treasury stock method):</strong></p>" +
+            "<ul><li>Assume all options exercised; proceeds used to buy back shares at average market price</li>" +
+            "<li>Net dilutive shares = shares issued on exercise − shares bought back</li>" +
+            "<li>Add net dilutive shares to denominator; numerator unchanged</li></ul>" +
+            "<p><strong>Convertible debt:</strong> add back post-tax interest saving to numerator; add conversion shares to denominator.</p>" +
+            "<p><strong>Anti-dilution:</strong> if including an instrument would INCREASE EPS (or reduce a loss per share) → exclude from diluted EPS.</p>",
+          workedExample: {
+            setup:
+              "Shares at 1 Jan: 2,000,000. On 1 April issued 600,000 shares for cash. PAT = £500,000. Preference dividends = £20,000. Options outstanding: 300,000 @ £1.20 exercise price. Average market price £2.00.",
+            steps: [
+              "Basic EPS — Weighted average: 2,000,000 + (600,000 × 9/12) = 2,450,000 shares.",
+              "Basic EPS = (£500,000 − £20,000) / 2,450,000 = £0.196 per share.",
+              "Diluted EPS — Options (treasury stock method): Shares issued on exercise: 300,000. Proceeds: 300,000 × £1.20 = £360,000. Shares bought back: £360,000 / £2.00 = 180,000.",
+              "Net dilutive shares: 300,000 − 180,000 = 120,000.",
+              "Diluted denominator: 2,450,000 + 120,000 = 2,570,000.",
+              "Diluted EPS = £480,000 / 2,570,000 = £0.187 per share.",
+            ],
+          },
+          summary: [
+            "Basic EPS: (PAT − preference divs) / weighted average ordinary shares",
+            "Bonus issue: retrospective adjustment — treat as if in issue from start",
+            "Rights issue: adjust pre-rights shares by bonus fraction (cum-rights price / TERP)",
+            "Diluted EPS: assume all dilutive instruments converted; treasury stock method for options",
+            "Options (treasury method): net dilutive shares = options exercised − shares bought back at market price",
+            "Anti-dilution: exclude any instrument whose inclusion would increase EPS",
+          ],
+          practiceQuestions: [
+            {
+              question: "Shares at 1 Jan: 1,000,000. On 1 Jul a 1-for-4 bonus issue is made. PAT = £240,000, no preference dividends. What is basic EPS?",
+              options: [
+                "£0.192",
+                "£0.240",
+                "£0.200",
+                "£0.160",
+              ],
+              correct: 0,
+              explanation: "Bonus issue treated as always in issue → weighted average = 1,000,000 × 1.25 (after 1-for-4) = 1,250,000. Basic EPS = £240,000 / 1,250,000 = £0.192.",
+            },
+            {
+              question: "In a rights issue: cum-rights price = £2.50; issue price = £1.00; ratio = 1 new share for every 4 existing. What is the TERP?",
+              options: [
+                "£2.20",
+                "£1.75",
+                "£2.00",
+                "£2.50",
+              ],
+              correct: 0,
+              explanation: "TERP = [(£2.50 × 4) + (£1.00 × 1)] / 5 = £11.00 / 5 = £2.20.",
+            },
+            {
+              question: "Entity has options over 500,000 shares at £1.50 exercise price. Average market price = £2.50. How many net dilutive shares are added to the diluted denominator?",
+              options: [
+                "500,000",
+                "200,000",
+                "300,000",
+                "250,000",
+              ],
+              correct: 1,
+              explanation: "Proceeds: 500,000 × £1.50 = £750,000. Shares bought back: £750,000 / £2.50 = 300,000. Net dilutive = 500,000 − 300,000 = 200,000.",
+            },
+            {
+              question: "A convertible bond has interest of £50,000 per annum; tax rate 25%. On conversion, 400,000 new shares would be issued. Current basic EPS = £0.30. Does this convertible dilute EPS?",
+              options: [
+                "Yes — dilutive",
+                "No — anti-dilutive",
+                "Cannot be determined without PAT",
+                "Yes, only if the bond was issued at a discount",
+              ],
+              correct: 0,
+              explanation: "Incremental EPS from convertible = after-tax interest saving / new shares = (£50,000 × 75%) / 400,000 = £37,500 / 400,000 = £0.094. Since £0.094 < basic EPS £0.30, including the convertible lowers EPS → dilutive. Include in diluted EPS.",
+            },
+            {
+              question: "Which of the following would be treated as anti-dilutive and excluded from diluted EPS?",
+              options: [
+                "Options where exercise price is below the average market price",
+                "Convertible preference shares where the effect of conversion increases EPS",
+                "Convertible debt where after-tax interest per diluted share is below basic EPS",
+                "Options issued at exercise price equal to market price",
+              ],
+              correct: 1,
+              explanation: "Anti-dilution occurs when including a potential ordinary share would INCREASE EPS (or reduce a per-share loss). Convertible preference shares that, on conversion, result in higher EPS are anti-dilutive and must be excluded from diluted EPS.",
+            },
+          ],
+        },
+        {
+          id: "f2-l12",
+          title: "Sustainability Reporting and the Integrated Reporting Framework",
+          topic: "Sustainability and reporting",
+          estimatedMinutes: 35,
+          objectives: [
+            "Explain the six capitals of the Integrated Reporting Framework",
+            "Describe the purpose and principles of integrated reporting",
+            "Distinguish GRI, TCFD and ISSB frameworks for sustainability reporting",
+            "Apply the concept of value creation over short, medium and long term",
+          ],
+          keyTerms: [
+            { term: "Integrated Report", definition: "A concise communication about how an organisation's strategy, governance, performance and prospects lead to value creation over the short, medium and long term. Produced using the IIRC/IFRS Foundation Integrated Reporting Framework." },
+            { term: "Six Capitals", definition: "Financial, manufactured, intellectual, human, social & relationship, and natural capital. An integrated report explains how the organisation uses, transforms and depletes these capitals to create value." },
+            { term: "GRI (Global Reporting Initiative)", definition: "An international standards organisation. GRI Standards are the most widely used global standards for sustainability reporting — modular framework covering economic, environmental, and social topics." },
+            { term: "TCFD", definition: "Task Force on Climate-related Financial Disclosures. Framework covering governance, strategy, risk management, and metrics & targets. Adopted by many regulators as a basis for mandatory climate reporting." },
+            { term: "ISSB", definition: "International Sustainability Standards Board, established by the IFRS Foundation. IFRS S1 (general requirements) and IFRS S2 (climate-related disclosures) provide a global baseline of sustainability-related financial disclosures." },
+          ],
+          explanation:
+            "<h4>Integrated Reporting (IR) Framework</h4>" +
+            "<p>The IR Framework aims to improve quality of information available to providers of financial capital. Key guiding principles:</p>" +
+            "<ul><li>Strategic focus and future orientation</li>" +
+            "<li>Connectivity of information</li>" +
+            "<li>Stakeholder relationships</li>" +
+            "<li>Materiality, conciseness, reliability and completeness</li>" +
+            "<li>Consistency and comparability</li></ul>" +
+            "<h4>The Six Capitals</h4>" +
+            "<ol><li><strong>Financial capital</strong> — funds available</li>" +
+            "<li><strong>Manufactured capital</strong> — physical infrastructure</li>" +
+            "<li><strong>Intellectual capital</strong> — knowledge, systems, IP, procedures</li>" +
+            "<li><strong>Human capital</strong> — competencies, capabilities, experience</li>" +
+            "<li><strong>Social &amp; relationship capital</strong> — relationships, networks, brand</li>" +
+            "<li><strong>Natural capital</strong> — environmental resources, ecosystem services</li></ol>" +
+            "<h4>Sustainability Frameworks</h4>" +
+            "<ul><li><strong>GRI Standards:</strong> stakeholder-focused, comprehensive ESG topics. Universal standards + topic-specific standards.</li>" +
+            "<li><strong>TCFD:</strong> four pillars — governance, strategy, risk management, metrics &amp; targets. Focus on climate risk/opportunity for financial statement users.</li>" +
+            "<li><strong>ISSB IFRS S1/S2:</strong> investor-focused, building on TCFD. S1 = general sustainability; S2 = climate. Basis for national mandatory requirements.</li></ul>" +
+            "<h4>GHG Emission Scopes</h4>" +
+            "<ul><li><strong>Scope 1:</strong> direct GHG from owned/controlled sources</li>" +
+            "<li><strong>Scope 2:</strong> indirect GHG from purchased energy</li>" +
+            "<li><strong>Scope 3:</strong> all other indirect GHG in value chain (upstream and downstream) — typically largest and hardest to measure</li></ul>",
+          workedExample: {
+            setup:
+              "A manufacturing company prepares an integrated report and a TCFD disclosure. Emissions: Scope 1: 10,000 tonnes; Scope 2: 8,000 tonnes; Scope 3: 22,000 tonnes. Net zero target: 2040.",
+            steps: [
+              "Business model — Inputs: Financial capital (£200m equity/debt); Manufactured capital (factories); Human capital (5,000 employees); Natural capital (raw materials, water).",
+              "Business model — Outputs: Products sold; waste; CO2 40,000 tonnes total; community investment £500k.",
+              "TCFD — Governance: Board ESG committee meets quarterly; CEO KPI includes carbon reduction target.",
+              "TCFD — Strategy: Climate scenario analysis (1.5°C and 3°C); transition risks include carbon tax exposure of £5m by 2030.",
+              "TCFD — Risk management: Physical risk assessment of flood exposure for two factories.",
+              "TCFD — Metrics: Net zero by 2040; Scope 1+2 intensity reduced 20% vs 2019 baseline.",
+            ],
+          },
+          summary: [
+            "IR Framework: strategy + governance + performance + prospects → value creation across 6 capitals",
+            "Six capitals: financial, manufactured, intellectual, human, social/relationship, natural",
+            "GRI: stakeholder-focused, comprehensive ESG topics, global standard",
+            "TCFD: climate-focused, four pillars: governance/strategy/risk management/metrics",
+            "ISSB IFRS S1/S2: global baseline investor-focused sustainability disclosure",
+            "Scope 1: direct emissions; Scope 2: purchased energy; Scope 3: value chain (largest)",
+          ],
+          practiceQuestions: [
+            {
+              question: "Which of the following is NOT one of the six capitals in the Integrated Reporting Framework?",
+              options: [
+                "Intellectual capital",
+                "Reputational capital",
+                "Natural capital",
+                "Human capital",
+              ],
+              correct: 1,
+              explanation: "The six capitals are: financial, manufactured, intellectual, human, social & relationship, and natural. 'Reputational capital' is not a separate category — aspects of reputation fall under social & relationship capital.",
+            },
+            {
+              question: "Under the TCFD framework, which of the following is one of the four recommended disclosure pillars?",
+              options: [
+                "Value chain analysis",
+                "Governance",
+                "Stakeholder engagement",
+                "Capital allocation",
+              ],
+              correct: 1,
+              explanation: "TCFD recommends disclosures around four pillars: Governance (board oversight of climate risk), Strategy (climate impacts on strategy), Risk Management (identifying/assessing/managing climate risk), and Metrics & Targets.",
+            },
+            {
+              question: "A company buys electricity from the national grid to power its factory. Which scope of GHG emissions does this represent?",
+              options: [
+                "Scope 1",
+                "Scope 2",
+                "Scope 3",
+                "Scope 4",
+              ],
+              correct: 1,
+              explanation: "Scope 2 covers indirect emissions from the purchase of electricity, heat, steam or cooling. Scope 1 is direct emissions from owned sources. Scope 3 covers all other indirect emissions in the value chain.",
+            },
+            {
+              question: "What is the primary audience focus of the ISSB (IFRS S1/S2) sustainability disclosure standards?",
+              options: [
+                "All stakeholders including civil society and employees",
+                "Regulators and tax authorities",
+                "Investors, lenders and other providers of financial capital",
+                "Governments and international bodies",
+              ],
+              correct: 2,
+              explanation: "The ISSB's mandate is to develop sustainability-related disclosure standards for use by investors, lenders, and other providers of financial capital (a financial market focus). This contrasts with GRI, which takes a multi-stakeholder perspective.",
+            },
+            {
+              question: "An integrated report should primarily demonstrate what?",
+              options: [
+                "Full compliance with all ESG standards",
+                "How the organisation's strategy and business model create value over the short, medium and long term",
+                "Detailed quantitative data on all six capitals",
+                "A reconciliation between financial and non-financial performance",
+              ],
+              correct: 1,
+              explanation: "The fundamental purpose of an integrated report under the IR Framework is to explain how an organisation's strategy, governance, performance and prospects lead to the creation of value over the short, medium and long term. It is concise and connectivity-focused.",
+            },
+          ],
+        },
+      ],
+    },
+
+
   ],
 
   /* ══════════════════════════════════════════════════════════════════════════
