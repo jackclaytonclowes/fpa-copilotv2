@@ -10,7 +10,7 @@
  * All data sourced from aiqStore (localStorage).
  * TODO: replace every aiqStore.get() call with real API data from /api/user/progress
  */
-const { useState: usePrfState } = React;
+const { useState: usePrfState, useEffect: usePrfEffect } = React;
 
 /* ── Predicted readiness derivation ────────────────────────────────────────
  * Readiness label is derived from per-paper progress (0–1) as follows:
@@ -109,8 +109,13 @@ function AIQProfile({ onNavigate }) {
   const { Icon, Button } = window;
   const { CrsProgressBar, CrsStatCard } = window;
 
-  // TODO: replace with real API data from /api/user/profile
-  const store = window.aiqStore ? window.aiqStore.get() : {};
+  const [store, setStore] = usePrfState(() => window.aiqStore ? window.aiqStore.get() : {});
+  usePrfEffect(() => {
+    const handler = (e) => setStore(e.detail);
+    window.addEventListener("aiq-store-update", handler);
+    return () => window.removeEventListener("aiq-store-update", handler);
+  }, []);
+
   const paperProgress = store.paperProgress  || {};
   const topicMastery  = store.topicMastery   || {};
   const streak        = store.streak         || 0;
@@ -126,13 +131,16 @@ function AIQProfile({ onNavigate }) {
   const allPapers = catalogue.papers || [];
   const certPapers = allPapers.filter((p) => ["ba1","ba2","ba3","ba4"].includes(p.id));
   const opsPapers  = allPapers.filter((p) => ["e1","p1","f1"].includes(p.id));
+  const mgmtPapers = allPapers.filter((p) => ["e2","p2","f2"].includes(p.id));
   const careerPath = catalogue.careerPathway || [];
 
   const certComplete = certPapers.every((p) => (paperProgress[p.id] || 0) >= 1);
+  const opsComplete  = certComplete && opsPapers.every((p) => (paperProgress[p.id] || 0) >= 1);
+  const mgmtComplete = opsComplete  && mgmtPapers.every((p) => (paperProgress[p.id] || 0) >= 1);
 
   // Derive current career stage
-  const currentStageId = certComplete ? "operational" : "certificate";
-  const unlockedIds    = certComplete ? ["certificate"] : [];
+  const currentStageId = mgmtComplete ? "strategic" : opsComplete ? "management" : certComplete ? "operational" : "certificate";
+  const unlockedIds    = ["certificate", opsComplete && "operational", mgmtComplete && "management"].filter(Boolean);
 
   const hasTopicData = Object.keys(topicMastery).length > 0;
   const topicEntries = Object.entries(topicMastery)
@@ -216,6 +224,22 @@ function AIQProfile({ onNavigate }) {
             <div className="card-b">
               <div className="prf-papers-grid">
                 {opsPapers.map((p) => (
+                  <PaperCard key={p.id} paper={p} progress={paperProgress[p.id] || 0} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Management Level papers */}
+        {opsComplete && mgmtPapers.length > 0 && (
+          <div className="card">
+            <div className="card-h">
+              <div><h3>Management Level Progress</h3><div className="sub">E2, P2, F2</div></div>
+            </div>
+            <div className="card-b">
+              <div className="prf-papers-grid">
+                {mgmtPapers.map((p) => (
                   <PaperCard key={p.id} paper={p} progress={paperProgress[p.id] || 0} />
                 ))}
               </div>

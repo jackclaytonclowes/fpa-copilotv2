@@ -1,5 +1,5 @@
 /* Courses — Duolingo-style learning dashboard */
-const { useState: useCrsState } = React;
+const { useState: useCrsState, useEffect: useCrsEffect } = React;
 
 /* ── Static course catalogue ───────────────────────────────────────────────
    Progress values are overridden at render-time from aiqStore.paperProgress.
@@ -18,7 +18,7 @@ const CRS_CERT_COURSES = [
     questions: 200,
     mockExams: 2,
     studyHoursTotal: 36,
-    progress: 0.78, // TODO: fetch from /api/user/progress
+    progress: 0,
   },
   {
     id: "ba2",
@@ -31,7 +31,7 @@ const CRS_CERT_COURSES = [
     questions: 240,
     mockExams: 3,
     studyHoursTotal: 40,
-    progress: 0.42, // TODO: fetch from /api/user/progress
+    progress: 0,
   },
   {
     id: "ba3",
@@ -44,7 +44,7 @@ const CRS_CERT_COURSES = [
     questions: 220,
     mockExams: 2,
     studyHoursTotal: 38,
-    progress: 0, // TODO: fetch from /api/user/progress
+    progress: 0,
   },
   {
     id: "ba4",
@@ -57,7 +57,7 @@ const CRS_CERT_COURSES = [
     questions: 180,
     mockExams: 2,
     studyHoursTotal: 32,
-    progress: 0, // TODO: fetch from /api/user/progress
+    progress: 0,
   },
 ];
 
@@ -99,6 +99,90 @@ const CRS_OPS_PAPERS = [
     questions: 350,
     mockExams: 3,
     studyHoursTotal: 100,
+    progress: 0,
+  },
+];
+
+const CRS_MGMT_PAPERS = [
+  {
+    id: "e2",
+    title: "E2",
+    fullTitle: "Managing Performance",
+    description:
+      "Organisational structure, leadership, motivation, strategic analysis, change management and project management.",
+    icon: "users",
+    modules: 12,
+    questions: 60,
+    mockExams: 1,
+    studyHoursTotal: 90,
+    progress: 0,
+  },
+  {
+    id: "p2",
+    title: "P2",
+    fullTitle: "Advanced Management Accounting",
+    description:
+      "Value chain analysis, advanced pricing, risk management, budgeting, variance analysis and divisional performance.",
+    icon: "calculator",
+    modules: 12,
+    questions: 60,
+    mockExams: 1,
+    studyHoursTotal: 90,
+    progress: 0,
+  },
+  {
+    id: "f2",
+    title: "F2",
+    fullTitle: "Advanced Financial Reporting",
+    description:
+      "Group accounts, foreign currency, financial instruments, IFRS 16 leases, IFRS 15 revenue and sustainability reporting.",
+    icon: "book-open",
+    modules: 12,
+    questions: 60,
+    mockExams: 1,
+    studyHoursTotal: 90,
+    progress: 0,
+  },
+];
+
+const CRS_STRAT_PAPERS = [
+  {
+    id: "e3",
+    title: "E3",
+    fullTitle: "Strategic Management",
+    description:
+      "Corporate strategy, business-level strategy, stakeholder management and the role of the strategist.",
+    icon: "compass",
+    modules: 0,
+    questions: 0,
+    mockExams: 0,
+    studyHoursTotal: 90,
+    progress: 0,
+  },
+  {
+    id: "p3",
+    title: "P3",
+    fullTitle: "Risk Management",
+    description:
+      "Enterprise risk management, risk identification and response, internal controls and governance.",
+    icon: "shield",
+    modules: 0,
+    questions: 0,
+    mockExams: 0,
+    studyHoursTotal: 90,
+    progress: 0,
+  },
+  {
+    id: "f3",
+    title: "F3",
+    fullTitle: "Financial Strategy",
+    description:
+      "Capital structure, financing decisions, valuations, mergers and acquisitions and financial risk management.",
+    icon: "bar-chart",
+    modules: 0,
+    questions: 0,
+    mockExams: 0,
+    studyHoursTotal: 90,
     progress: 0,
   },
 ];
@@ -192,7 +276,7 @@ function CrsHero({ courses, onNavigate }) {
 }
 
 /* ── Operational Level Section with unlock checklist ────────────────────── */
-function CrsOperationalSection({ certCourses, certComplete, onNavigate }) {
+function CrsOperationalSection({ certCourses, certComplete, paperProgress, onNavigate }) {
   const { Icon } = window;
 
   /* Build the four unlock criteria from live course progress. */
@@ -204,12 +288,9 @@ function CrsOperationalSection({ certCourses, certComplete, onNavigate }) {
   const completedCount = criteria.filter((c) => c.done).length;
   const totalCount     = criteria.length;
 
-  /* Merge live progress into operational papers when unlocked */
-  const store = window.aiqStore.get();
-  const paperProgress = store.paperProgress || {};
   const opCourses = CRS_OPS_PAPERS.map((p) => ({
     ...p,
-    progress: paperProgress[p.id] !== undefined ? paperProgress[p.id] : 0,
+    progress: (paperProgress || {})[p.id] ?? 0,
   }));
 
   return (
@@ -429,27 +510,217 @@ function CrsLockedCard({ paper }) {
   );
 }
 
+/* ── Coming-Soon card (for unpopulated papers) ───────────────────────────── */
+function CrsComingSoonCard({ paper }) {
+  const { Icon } = window;
+  return (
+    <div className="crs-locked-card card" style={{ opacity: 0.7 }}>
+      <div className="crs-locked-overlay">
+        <div className="crs-locked-icon">
+          <span style={{ fontSize: 10, fontWeight: 600, color: "var(--fg-3)", letterSpacing: "0.04em" }}>SOON</span>
+        </div>
+      </div>
+      <div className="crs-course-card-header">
+        <div className="crs-course-icon-wrap crs-course-icon-wrap--muted">
+          <Icon name={paper.icon} size={22} color="var(--fg-3)" />
+        </div>
+        <span className="crs-course-badge crs-course-badge--muted">{paper.title}</span>
+      </div>
+      <div className="crs-course-card-body">
+        <h3 className="crs-course-title crs-course-title--muted">{paper.fullTitle}</h3>
+        <p className="crs-course-desc crs-course-desc--muted">{paper.description}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Management Level Section ────────────────────────────────────────────── */
+function CrsManagementSection({ opsCourses, opsComplete, paperProgress, onNavigate }) {
+  const { Icon } = window;
+
+  const criteria = opsCourses.map((c) => ({
+    id:    c.id,
+    label: `${c.title} — ${c.fullTitle}`,
+    done:  c.progress >= 1,
+  }));
+  const completedCount = criteria.filter((c) => c.done).length;
+  const totalCount     = criteria.length;
+
+  const mgmtCourses = CRS_MGMT_PAPERS.map((p) => ({
+    ...p,
+    progress: paperProgress[p.id] !== undefined ? paperProgress[p.id] : 0,
+  }));
+
+  return (
+    <div className={`crs-section${opsComplete ? "" : " crs-section--locked"}`}>
+      <div className="crs-section-header">
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <h2 className={`crs-section-title${opsComplete ? "" : " crs-section-title--muted"}`}>
+              Management Level
+            </h2>
+            {opsComplete ? (
+              <span className="chip fav"><Icon name="unlock" size={11} />Unlocked</span>
+            ) : (
+              <span className="crs-lock-badge"><Icon name="lock" size={12} />Locked</span>
+            )}
+          </div>
+          <div className={`crs-section-sub${opsComplete ? "" : " crs-section-sub--muted"}`}>
+            {opsComplete
+              ? "E2, P2 and F2 · Management Level papers"
+              : "Complete Operational Level to unlock E2, P2 and F2"}
+          </div>
+        </div>
+        {opsComplete ? (
+          <span className="chip info">
+            {mgmtCourses.filter((p) => p.progress >= 1).length} of {mgmtCourses.length} complete
+          </span>
+        ) : (
+          <span className={`chip ${completedCount === totalCount ? "fav" : "info"}`}>
+            {completedCount} of {totalCount} complete
+          </span>
+        )}
+      </div>
+
+      {!opsComplete && (
+        <>
+          <div className="crs-unlock-checklist">
+            {criteria.map((c) => (
+              <div key={c.id} className={`crs-unlock-check${c.done ? " done" : ""}`}>
+                <div className={`crs-unlock-check-icon${c.done ? " done" : ""}`}>
+                  <Icon name={c.done ? "check" : "circle"} size={14} color={c.done ? "#fff" : "var(--fg-3)"} />
+                </div>
+                <span className={`crs-unlock-check-label${c.done ? " done" : ""}`}>{c.label}</span>
+                {c.done && <span className="chip fav" style={{ marginLeft: "auto", fontSize: 11 }}>Complete</span>}
+              </div>
+            ))}
+          </div>
+          <div className="crs-courses-grid">
+            {CRS_MGMT_PAPERS.map((paper) => (
+              <CrsLockedCard key={paper.id} paper={paper} />
+            ))}
+          </div>
+          <div className="crs-unlock-hint">
+            <Icon name="lock" size={14} color="var(--fg-3)" />
+            Complete all Operational Level papers to unlock Management Level courses
+          </div>
+        </>
+      )}
+
+      {opsComplete && (
+        <div className="crs-courses-grid">
+          {mgmtCourses.map((course) => {
+            const catalogue = window.AIQ_COURSE_DATA || {};
+            const paper = (catalogue.papers || []).find((p) => p.id === course.id);
+            const qCount = paper
+              ? (paper.lessons || []).reduce((n, l) => n + ((l.practiceQuestions || []).length), 0)
+              : 0;
+            return (
+              <CrsCourseCard key={course.id} course={course} onNavigate={onNavigate} availableQuestions={qCount} />
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Strategic Level Section ─────────────────────────────────────────────── */
+function CrsStrategicSection({ mgmtCourses, mgmtComplete }) {
+  const { Icon } = window;
+
+  const criteria = mgmtCourses.map((c) => ({
+    id:    c.id,
+    label: `${c.title} — ${c.fullTitle}`,
+    done:  c.progress >= 1,
+  }));
+  const completedCount = criteria.filter((c) => c.done).length;
+  const totalCount     = criteria.length;
+
+  return (
+    <div className="crs-section crs-section--locked">
+      <div className="crs-section-header">
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <h2 className="crs-section-title crs-section-title--muted">Strategic Level</h2>
+            <span className="crs-lock-badge"><Icon name="lock" size={12} />Locked</span>
+          </div>
+          <div className="crs-section-sub crs-section-sub--muted">
+            {mgmtComplete
+              ? "E3, P3 and F3 content coming soon"
+              : "Complete Management Level to unlock E3, P3 and F3"}
+          </div>
+        </div>
+        <span className={`chip ${completedCount === totalCount ? "fav" : "info"}`}>
+          {completedCount} of {totalCount} complete
+        </span>
+      </div>
+
+      {!mgmtComplete && (
+        <div className="crs-unlock-checklist">
+          {criteria.map((c) => (
+            <div key={c.id} className={`crs-unlock-check${c.done ? " done" : ""}`}>
+              <div className={`crs-unlock-check-icon${c.done ? " done" : ""}`}>
+                <Icon name={c.done ? "check" : "circle"} size={14} color={c.done ? "#fff" : "var(--fg-3)"} />
+              </div>
+              <span className={`crs-unlock-check-label${c.done ? " done" : ""}`}>{c.label}</span>
+              {c.done && <span className="chip fav" style={{ marginLeft: "auto", fontSize: 11 }}>Complete</span>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="crs-courses-grid">
+        {CRS_STRAT_PAPERS.map((paper) => (
+          <CrsComingSoonCard key={paper.id} paper={paper} />
+        ))}
+      </div>
+      <div className="crs-unlock-hint">
+        <Icon name="clock" size={14} color="var(--fg-3)" />
+        Strategic Level content is in development — check back soon
+      </div>
+    </div>
+  );
+}
+
 /* ── Courses Page ────────────────────────────────────────────────────────── */
 function Courses({ onNavigate }) {
   const { Icon } = window;
 
-  /* Read live values from store; fall back to sensible defaults so the page
-     renders correctly even before onboarding is complete. */
-  const store = window.aiqStore.get();
-  const paperProgress = store.paperProgress || {};
-  const dailyGoalMinutes = store.dailyGoalMinutes || 30; // TODO: replace with real API
+  /* Subscribe to store updates so progress bars update without navigation */
+  const [store, setStore] = useCrsState(() => window.aiqStore.get());
+  useCrsEffect(() => {
+    const handler = (e) => setStore(e.detail);
+    window.addEventListener("aiq-store-update", handler);
+    return () => window.removeEventListener("aiq-store-update", handler);
+  }, []);
+
+  const paperProgress    = store.paperProgress    || {};
+  const dailyGoalMinutes = store.dailyGoalMinutes || 30;
   const todayMinutes     = store.todayMinutes     || 0;
   const streak           = store.streak           || 0;
   const xp               = store.xp              || 0;
 
-  /* Merge stored progress values into the static catalogue */
+  /* Merge stored progress values into the static catalogues */
   const certCourses = CRS_CERT_COURSES.map((c) => ({
     ...c,
-    progress: paperProgress[c.id] !== undefined ? paperProgress[c.id] : c.progress,
+    progress: paperProgress[c.id] ?? 0,
   }));
 
-  const inProgress  = certCourses.filter((c) => c.progress > 0 && c.progress < 1).length;
-  const certComplete = certCourses.every((c) => c.progress >= 1);
+  const opsCourses = CRS_OPS_PAPERS.map((p) => ({
+    ...p,
+    progress: paperProgress[p.id] ?? 0,
+  }));
+
+  const mgmtCourses = CRS_MGMT_PAPERS.map((p) => ({
+    ...p,
+    progress: paperProgress[p.id] ?? 0,
+  }));
+
+  const inProgress   = certCourses.filter((c) => c.progress > 0 && c.progress < 1).length;
+  const certComplete  = certCourses.every((c) => c.progress >= 1);
+  const opsComplete   = opsCourses.every((c) => c.progress >= 1);
+  const mgmtComplete  = mgmtCourses.every((c) => c.progress >= 1);
   const dailyPct    = Math.min(1, todayMinutes / dailyGoalMinutes);
 
   /* Derive streak label */
@@ -515,11 +786,22 @@ function Courses({ onNavigate }) {
         </div>
 
         {/* ── 4. Operational Level ────────────────────────────────────── */}
-        <CrsOperationalSection certCourses={certCourses} certComplete={certComplete} onNavigate={onNavigate} />
+        <CrsOperationalSection certCourses={certCourses} certComplete={certComplete} paperProgress={paperProgress} onNavigate={onNavigate} />
+
+        {/* ── 5. Management Level ─────────────────────────────────────── */}
+        <CrsManagementSection
+          opsCourses={opsCourses}
+          opsComplete={opsComplete}
+          paperProgress={paperProgress}
+          onNavigate={onNavigate}
+        />
+
+        {/* ── 6. Strategic Level (Coming Soon) ────────────────────────── */}
+        <CrsStrategicSection mgmtCourses={mgmtCourses} mgmtComplete={mgmtComplete} />
 
       </div>
     </div>
   );
 }
 
-Object.assign(window, { Courses, CrsProgressBar, CrsStatCard, CrsLockedCard });
+Object.assign(window, { Courses, CrsProgressBar, CrsStatCard, CrsLockedCard, CrsComingSoonCard });
