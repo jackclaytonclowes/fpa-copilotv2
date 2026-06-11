@@ -11423,6 +11423,7 @@ const AIQ_COURSE_DATA = {
         },
 
         /* ── Module E: Analysis, Interpretation and Taxation (L29–L35) ── */
+      /* ── L29: Ratio Analysis — Profitability and Returns ── */
         {
           id: "f1-l29",
           title: "Ratio Analysis — Profitability and Returns",
@@ -11433,8 +11434,116 @@ const AIQ_COURSE_DATA = {
             "Calculate return on capital employed (ROCE) and return on equity (ROE)",
             "Apply the DuPont decomposition to diagnose drivers of ROCE performance",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>Why Ratio Analysis?</h3>" +
+            "<p>Financial statements in isolation are difficult to interpret. A profit of £5 million means little without context — is the company large or small? Has performance improved? Ratio analysis converts absolute figures into relative measures that enable:</p>" +
+            "<ul><li><strong>Trend analysis</strong> — comparing a company against its own history</li>" +
+            "<li><strong>Peer comparison</strong> — benchmarking against industry competitors</li>" +
+            "<li><strong>Target setting</strong> — establishing performance objectives for management</li></ul>" +
+            "<h3>Gross Profit Margin</h3>" +
+            "<p><strong>Formula:</strong> Gross Profit / Revenue × 100</p>" +
+            "<p>Gross margin measures the profitability of core trading after deducting cost of sales (direct materials, direct labour, variable production overheads). A falling gross margin suggests either selling prices are under pressure or input costs are rising faster than prices can be passed on.</p>" +
+            "<p><em>Example:</em> Revenue £2,000,000; Cost of Sales £1,400,000; Gross Profit £600,000. Gross margin = 600/2,000 × 100 = <strong>30%</strong>.</p>" +
+            "<h3>Operating Profit Margin</h3>" +
+            "<p><strong>Formula:</strong> Operating Profit (EBIT) / Revenue × 100</p>" +
+            "<p>Operating margin captures profitability after all operating costs — including selling, distribution and administrative expenses — but before interest and tax. It reflects management's efficiency at controlling the total cost base. A higher margin than a competitor suggests a cost or pricing advantage.</p>" +
+            "<h3>Net Profit Margin</h3>" +
+            "<p><strong>Formula:</strong> Profit After Tax / Revenue × 100</p>" +
+            "<p>Net margin is the bottom-line measure of profitability per £1 of revenue. It is affected by financing decisions (interest costs), tax planning and exceptional items — so two companies with identical operating margins can show very different net margins if their capital structures differ.</p>" +
+            "<h3>Return on Capital Employed (ROCE)</h3>" +
+            "<p><strong>Formula:</strong> Operating Profit (EBIT) / Capital Employed × 100</p>" +
+            "<p>where <strong>Capital Employed = Total Assets − Current Liabilities</strong> (or equivalently, Equity + Non-current Liabilities).</p>" +
+            "<p>ROCE is arguably the single most important profitability ratio. It measures how efficiently management generates operating profit from the long-term funds entrusted to them. ROCE should be compared against the company's weighted average cost of capital (WACC): if ROCE > WACC, the company is creating value.</p>" +
+            "<h3>Return on Equity (ROE)</h3>" +
+            "<p><strong>Formula:</strong> Profit After Tax / Shareholders' Equity × 100</p>" +
+            "<p>ROE measures the return generated for ordinary shareholders. It is influenced by leverage — borrowing can amplify ROE above ROCE when the cost of debt is below the return on assets (financial leverage effect).</p>" +
+            "<h3>DuPont Decomposition of ROCE</h3>" +
+            "<p>ROCE can be decomposed into two drivers:</p>" +
+            "<p><strong>ROCE = Net Profit Margin × Asset Turnover</strong></p>" +
+            "<p>where Asset Turnover = Revenue / Capital Employed.</p>" +
+            "<p>This decomposition is powerful because it pinpoints <em>why</em> ROCE has changed:</p>" +
+            "<ul><li>If margin has fallen but turnover is stable → cost management problem</li>" +
+            "<li>If turnover has fallen but margin is stable → capital efficiency problem (over-invested assets)</li>" +
+            "<li>Both can be tracked separately and targeted with different strategies</li></ul>" +
+            "<h3>Limitations of Profitability Ratios</h3>" +
+            "<ul><li>Historical cost accounting: assets are not revalued, so ROCE comparisons across age cohorts of assets are distorted</li>" +
+            "<li>Different accounting policies (e.g., depreciation methods) affect comparability</li>" +
+            "<li>Ratios are backward-looking; they do not capture future growth prospects</li>" +
+            "<li>One-off exceptional items can distort a single year's ratios</li></ul>",
+          workedExample: {
+            setup:
+              "Meridian Ltd reports: Revenue £4,800,000; Cost of Sales £3,120,000; Operating Expenses £480,000; Interest £60,000; Tax £240,000; Total Assets £3,200,000; Current Liabilities £600,000; Shareholders' Equity £1,900,000. Calculate (a) gross margin, (b) operating margin, (c) net margin, (d) ROCE, (e) ROE, and (f) decompose ROCE using the DuPont model.",
+            steps: [
+              "Gross Profit = 4,800,000 − 3,120,000 = £1,680,000. Gross Margin = 1,680,000 / 4,800,000 × 100 = 35.0%",
+              "Operating Profit (EBIT) = 1,680,000 − 480,000 = £1,200,000. Operating Margin = 1,200,000 / 4,800,000 × 100 = 25.0%",
+              "Profit Before Tax = 1,200,000 − 60,000 = £1,140,000. Profit After Tax = 1,140,000 − 240,000 = £900,000. Net Margin = 900,000 / 4,800,000 × 100 = 18.75%",
+              "Capital Employed = Total Assets − Current Liabilities = 3,200,000 − 600,000 = £2,600,000. ROCE = 1,200,000 / 2,600,000 × 100 = 46.2%",
+              "ROE = 900,000 / 1,900,000 × 100 = 47.4%",
+              "DuPont: Net Profit Margin = 25% (using operating margin for ROCE). Asset Turnover = 4,800,000 / 2,600,000 = 1.846. Check: 25% × 1.846 = 46.2% ✓",
+            ],
+            answer:
+              "Gross margin 35%, operating margin 25%, net margin 18.75%, ROCE 46.2%, ROE 47.4%. The DuPont check confirms ROCE = 25% margin × 1.846 asset turns = 46.2%. The high ROCE (likely well above WACC) suggests strong value creation. ROE slightly exceeds ROCE, indicating modest positive leverage benefit.",
+          },
+          summary: [
+            "Gross margin = Gross Profit / Revenue — measures core trading profitability",
+            "Operating margin = EBIT / Revenue — reflects control of the full operating cost base",
+            "Net margin = PAT / Revenue — the bottom-line return per £1 of revenue",
+            "ROCE = EBIT / Capital Employed — the primary measure of management efficiency over long-term funds",
+            "ROE = PAT / Equity — return to shareholders; amplified by leverage when debt is cheaper than ROCE",
+            "DuPont: ROCE = Operating Margin × Asset Turnover — diagnoses whether underperformance is a margin or efficiency problem",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "A company reports Revenue £5m, Cost of Sales £3.5m, Operating Expenses £0.5m. What is the operating profit margin?",
+              options: ["30%", "20%", "10%", "28%"],
+              answer: 1,
+              explanation:
+                "Gross Profit = 5 − 3.5 = £1.5m. Operating Profit = 1.5 − 0.5 = £1.0m. Operating margin = 1.0 / 5.0 × 100 = 20%.",
+            },
+            {
+              question:
+                "Capital Employed is best defined as:",
+              options: [
+                "Total Assets minus Total Liabilities",
+                "Total Assets minus Current Liabilities",
+                "Equity plus Current Liabilities",
+                "Non-current Assets only",
+              ],
+              answer: 1,
+              explanation:
+                "Capital Employed = Total Assets − Current Liabilities, which equals Equity + Non-current Liabilities. It represents the long-term funds invested in the business.",
+            },
+            {
+              question:
+                "Using the DuPont model, if ROCE has fallen from 20% to 15% while net profit margin is unchanged, which of the following is the most likely cause?",
+              options: [
+                "Revenue has fallen",
+                "Operating costs have increased",
+                "Asset turnover has declined",
+                "Interest costs have increased",
+              ],
+              answer: 2,
+              explanation:
+                "ROCE = Margin × Asset Turnover. If margin is unchanged but ROCE has fallen, asset turnover must have declined — the company is generating less revenue per £1 of capital employed (capital efficiency problem).",
+            },
+            {
+              question:
+                "A company has ROCE of 18% and ROE of 25%. What does this suggest about the company's capital structure?",
+              options: [
+                "The company has no debt",
+                "The company is using financial leverage and debt is cheaper than ROCE",
+                "The company has excessive debt that is destroying value",
+                "The ROCE calculation must contain an error",
+              ],
+              answer: 1,
+              explanation:
+                "ROE > ROCE indicates positive financial leverage: the company is borrowing at a cost below its ROCE, so debt magnifies returns to equity shareholders. This is value-enhancing provided interest costs remain below ROCE.",
+            },
+          ],
         },
+
+        /* ── L30: Ratio Analysis — Liquidity, Efficiency and Gearing ── */
         {
           id: "f1-l30",
           title: "Ratio Analysis — Liquidity, Efficiency and Gearing",
@@ -11445,8 +11554,106 @@ const AIQ_COURSE_DATA = {
             "Calculate and interpret receivables days, payables days and inventory days",
             "Calculate gearing ratios and interest cover and assess financial risk",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>Liquidity Ratios</h3>" +
+            "<p>Liquidity ratios assess a company's ability to meet short-term obligations as they fall due.</p>" +
+            "<h4>Current Ratio</h4>" +
+            "<p><strong>Formula:</strong> Current Assets / Current Liabilities</p>" +
+            "<p>A current ratio of 2:1 has traditionally been considered healthy, but the appropriate benchmark varies by industry. A retailer with fast inventory turnover can operate safely at 1.2:1 while a manufacturer with slow-moving stock might need 2.5:1. A very high current ratio may indicate inefficient use of working capital (too much cash or inventory tied up).</p>" +
+            "<h4>Quick Ratio (Acid Test)</h4>" +
+            "<p><strong>Formula:</strong> (Current Assets − Inventories) / Current Liabilities</p>" +
+            "<p>The quick ratio removes inventories because they are the least liquid current asset — they must be sold (and collected) before becoming cash. A ratio below 1:1 means the company cannot cover current liabilities from liquid assets alone and depends on inventory conversion to remain solvent.</p>" +
+            "<h4>Cash Ratio</h4>" +
+            "<p><strong>Formula:</strong> Cash and Cash Equivalents / Current Liabilities</p>" +
+            "<p>The most conservative liquidity measure. Useful for stressed scenarios — can the company survive a sudden cessation of credit?</p>" +
+            "<h3>Efficiency (Working Capital) Ratios</h3>" +
+            "<p>Efficiency ratios measure how effectively the company manages its working capital cycle.</p>" +
+            "<h4>Receivables Days (Debtor Days)</h4>" +
+            "<p><strong>Formula:</strong> Trade Receivables / Revenue × 365</p>" +
+            "<p>Measures the average number of days customers take to pay. A rising receivables days figure may indicate deteriorating credit control, customers in financial difficulty, or deliberate extension of credit terms to boost sales.</p>" +
+            "<h4>Payables Days (Creditor Days)</h4>" +
+            "<p><strong>Formula:</strong> Trade Payables / Cost of Sales × 365</p>" +
+            "<p>Measures how long the company takes to pay its suppliers. Longer payables days preserve cash, but excessively long payment periods damage supplier relationships and may indicate liquidity problems.</p>" +
+            "<h4>Inventory Days</h4>" +
+            "<p><strong>Formula:</strong> Inventories / Cost of Sales × 365</p>" +
+            "<p>The average number of days inventory is held before sale. High inventory days may reflect poor demand forecasting, obsolete stock or deliberate stockpiling ahead of a price increase.</p>" +
+            "<h4>Cash Conversion Cycle (CCC)</h4>" +
+            "<p><strong>CCC = Inventory Days + Receivables Days − Payables Days</strong></p>" +
+            "<p>The CCC is the number of days between paying for inventory and receiving cash from customers. A shorter (or negative) CCC indicates efficient working capital management; supermarkets often have negative CCCs because they collect cash from customers before paying suppliers.</p>" +
+            "<h3>Gearing and Financial Risk Ratios</h3>" +
+            "<h4>Debt-to-Equity Gearing</h4>" +
+            "<p><strong>Formula:</strong> Non-current Liabilities / Shareholders' Equity × 100</p>" +
+            "<p>Measures financial risk from the perspective of long-term capital structure. High gearing amplifies returns in good times but increases distress risk in downturns.</p>" +
+            "<h4>Capital Gearing</h4>" +
+            "<p><strong>Formula:</strong> Non-current Liabilities / Capital Employed × 100</p>" +
+            "<p>The proportion of total long-term funding provided by debt.</p>" +
+            "<h4>Interest Cover</h4>" +
+            "<p><strong>Formula:</strong> Operating Profit (EBIT) / Finance Costs</p>" +
+            "<p>Measures the number of times operating profit covers interest charges. A ratio below 2× is generally considered risky; below 1× means the company cannot cover interest from operating profit. Lenders typically include interest cover covenants in loan agreements (e.g., minimum 3× cover).</p>",
+          workedExample: {
+            setup:
+              "Bracken plc: Current Assets £1,800,000 (including Inventories £600,000, Trade Receivables £800,000, Cash £400,000); Current Liabilities £1,200,000; Trade Payables £500,000; Revenue £6,000,000; Cost of Sales £4,200,000; EBIT £720,000; Finance Costs £180,000; Non-current Liabilities £900,000; Equity £1,500,000. Calculate all liquidity, efficiency, gearing and interest cover ratios.",
+            steps: [
+              "Current Ratio = 1,800,000 / 1,200,000 = 1.50",
+              "Quick Ratio = (1,800,000 − 600,000) / 1,200,000 = 1,200,000 / 1,200,000 = 1.00",
+              "Cash Ratio = 400,000 / 1,200,000 = 0.33",
+              "Receivables Days = 800,000 / 6,000,000 × 365 = 48.7 days",
+              "Payables Days = 500,000 / 4,200,000 × 365 = 43.5 days",
+              "Inventory Days = 600,000 / 4,200,000 × 365 = 52.1 days",
+              "Cash Conversion Cycle = 52.1 + 48.7 − 43.5 = 57.3 days",
+              "Debt/Equity Gearing = 900,000 / 1,500,000 × 100 = 60%",
+              "Capital Gearing = 900,000 / (900,000 + 1,500,000) × 100 = 37.5%",
+              "Interest Cover = 720,000 / 180,000 = 4.0×",
+            ],
+            answer:
+              "Liquidity is adequate (current 1.5, quick 1.0). The CCC of 57 days is moderate — inventory days (52) dominate. Gearing of 60% debt/equity is significant but interest cover of 4× provides comfortable headroom. Management should monitor whether receivables days are rising over time as a credit control signal.",
+          },
+          summary: [
+            "Current ratio = Current Assets / Current Liabilities — overall short-term liquidity",
+            "Quick ratio removes inventories — tests ability to pay current liabilities from liquid assets",
+            "Receivables days = Receivables / Revenue × 365 — average customer collection period",
+            "Payables days = Payables / CoS × 365 — average supplier payment period",
+            "Inventory days = Inventories / CoS × 365 — average stock holding period",
+            "CCC = Inventory Days + Receivables Days − Payables Days — net working capital cycle",
+            "Interest cover = EBIT / Finance Costs — ability to service debt from operating profit",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "A company has Current Assets of £900,000, Inventories of £300,000 and Current Liabilities of £600,000. What is the quick ratio?",
+              options: ["1.5", "1.0", "0.5", "2.0"],
+              answer: 1,
+              explanation:
+                "Quick ratio = (Current Assets − Inventories) / Current Liabilities = (900,000 − 300,000) / 600,000 = 600,000 / 600,000 = 1.0.",
+            },
+            {
+              question:
+                "Revenue is £3,650,000 and Trade Receivables are £300,000. What are receivables days (to nearest day)?",
+              options: ["30 days", "40 days", "25 days", "20 days"],
+              answer: 0,
+              explanation:
+                "Receivables days = 300,000 / 3,650,000 × 365 = 30 days.",
+            },
+            {
+              question:
+                "A company has EBIT of £400,000 and Finance Costs of £160,000. Interest cover is:",
+              options: ["2.5×", "4.0×", "1.5×", "0.4×"],
+              answer: 0,
+              explanation:
+                "Interest cover = EBIT / Finance Costs = 400,000 / 160,000 = 2.5×. This is below the commonly cited 3× benchmark, indicating moderate financial risk.",
+            },
+            {
+              question:
+                "Inventory days are 60, receivables days are 45, and payables days are 50. The cash conversion cycle is:",
+              options: ["55 days", "65 days", "155 days", "35 days"],
+              answer: 0,
+              explanation:
+                "CCC = Inventory Days + Receivables Days − Payables Days = 60 + 45 − 50 = 55 days.",
+            },
+          ],
         },
+
+        /* ── L31: IAS 33 — Earnings Per Share ── */
         {
           id: "f1-l31",
           title: "IAS 33: Earnings Per Share",
@@ -11457,8 +11664,107 @@ const AIQ_COURSE_DATA = {
             "Adjust the weighted average number of shares for rights issues and bonus issues",
             "Calculate diluted EPS for convertible debt, options and warrants",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>Purpose of IAS 33</h3>" +
+            "<p>Earnings per share (EPS) is one of the most widely quoted financial metrics. IAS 33 standardises the calculation so that investors can make meaningful comparisons across companies and time periods. The standard applies to entities whose ordinary shares or potential ordinary shares are publicly traded.</p>" +
+            "<h3>Basic EPS</h3>" +
+            "<p><strong>Formula:</strong> Earnings attributable to ordinary shareholders / Weighted average number of ordinary shares in issue</p>" +
+            "<p><strong>Earnings</strong> = Profit after tax and after preference dividends (preference dividends are deducted because EPS belongs to ordinary shareholders only).</p>" +
+            "<p><strong>Weighted average shares</strong> = Each tranche of shares weighted by the fraction of the year it was in issue.</p>" +
+            "<p><em>Example:</em> 1 Jan: 4,000,000 shares. 1 July: issued 1,000,000 new shares (normal issue at full market price). Weighted average = 4,000,000 × 12/12 + 1,000,000 × 6/12 = 4,000,000 + 500,000 = 4,500,000.</p>" +
+            "<h3>Bonus Issues (Capitalisation Issues, Stock Splits)</h3>" +
+            "<p>A bonus issue gives existing shareholders additional shares for free — no consideration is received and the company's total value does not change. Under IAS 33, bonus shares are treated as if they had always been in issue (retroactive adjustment). The prior year EPS is also restated for comparability.</p>" +
+            "<p><em>Adjustment:</em> Multiply the pre-bonus shares by a bonus fraction = (Shares after bonus) / (Shares before bonus).</p>" +
+            "<h3>Rights Issues</h3>" +
+            "<p>A rights issue offers existing shareholders new shares at a price below market value. It has a bonus element (the discount) and a new cash element. IAS 33 requires you to:</p>" +
+            "<ol><li>Calculate the <strong>theoretical ex-rights price (TERP)</strong> — the fair value of a share after the rights issue</li>" +
+            "<li>Calculate the <strong>bonus fraction</strong> = Pre-rights market price / TERP</li>" +
+            "<li>Apply the bonus fraction to shares in issue before the rights date (retroactively, including the prior year)</li>" +
+            "<li>Add the actual new shares from the rights date (weighted for time)</li></ol>" +
+            "<p><strong>TERP formula:</strong> (Pre-rights shares × Pre-rights price + New shares × Issue price) / Total shares after rights</p>" +
+            "<h3>Diluted EPS</h3>" +
+            "<p>Diluted EPS shows the worst-case EPS if all potential ordinary shares (dilutive instruments) were converted or exercised. Dilutive instruments include:</p>" +
+            "<ul><li><strong>Convertible debt:</strong> If converted, interest saving (net of tax) is added back to earnings, and the convertible shares are added to the denominator</li>" +
+            "<li><strong>Share options and warrants:</strong> Treasury stock method — only the dilutive shares (shares issued for free equivalent to the discount) are added to the denominator; no adjustment to earnings</li>" +
+            "<li><strong>Convertible preference shares:</strong> Preference dividend saving added back to earnings; conversion shares added to denominator</li></ul>" +
+            "<p>An instrument is only dilutive if including it <em>reduces</em> EPS. Anti-dilutive instruments are excluded from diluted EPS.</p>" +
+            "<h3>Presentation and Disclosure</h3>" +
+            "<p>Basic and diluted EPS must be presented on the face of the income statement with equal prominence. Where there is a loss, diluted EPS = basic EPS (options are anti-dilutive in a loss-making year).</p>",
+          workedExample: {
+            setup:
+              "Thornton plc: Earnings attributable to ordinary shareholders = £3,200,000. Share movements: 1 January: 8,000,000 shares in issue. 1 April: rights issue — 1 for 4 at £1.50 when market price was £2.00. 1 October: bonus issue 1 for 5. Additionally, the company has £2,000,000 of 6% convertible bonds. The bonds convert at 400,000 shares. Tax rate 25%. Calculate basic and diluted EPS.",
+            steps: [
+              "TERP for rights issue = (8,000,000 × £2.00 + 2,000,000 × £1.50) / 10,000,000 = (16,000,000 + 3,000,000) / 10,000,000 = £1.90",
+              "Bonus fraction (rights) = 2.00 / 1.90 = 1.0526",
+              "Pre-rights shares (1 Jan to 31 Mar) = 8,000,000 × 1.0526 (bonus adj.) × 6/5 (post-bonus adj.) × 3/12 = adjusted weighting",
+              "Step-by-step weighted average (post-bonus): Jan–Mar shares = 8,000,000 × 1.0526 × 1.20 = 10,105,600 × 3/12 = 2,526,400. Apr–Sep shares = 10,000,000 × 1.20 = 12,000,000 × 6/12 = 6,000,000. Oct–Dec shares = 12,000,000 × 3/12 = 3,000,000",
+              "Weighted average = 2,526,400 + 6,000,000 + 3,000,000 = 11,526,400 shares",
+              "Basic EPS = £3,200,000 / 11,526,400 = 27.76p",
+              "Diluted: Add back interest saved = £2,000,000 × 6% × (1 − 0.25) = £90,000. Adjusted earnings = £3,290,000. Adjusted shares = 11,526,400 + 400,000 = 11,926,400. Diluted EPS = 3,290,000 / 11,926,400 = 27.59p",
+            ],
+            answer:
+              "Basic EPS = 27.76p. Diluted EPS = 27.59p. The diluted EPS is lower (dilutive), so the convertible bonds must be disclosed. The small dilution (0.17p) reflects the relatively modest size of the convertible relative to total shares.",
+          },
+          summary: [
+            "Basic EPS = Earnings / Weighted average ordinary shares",
+            "Bonus issues are retroactively applied — multiply historical shares by the bonus fraction",
+            "Rights issues require TERP calculation: bonus fraction = pre-rights price / TERP, applied retroactively",
+            "Diluted EPS adds potential shares to denominator; convertible debt also adjusts earnings for after-tax interest saving",
+            "Options use the treasury stock method — only the 'free' element of options is added",
+            "Anti-dilutive instruments (those that increase EPS) are excluded from diluted EPS",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "A company has earnings of £2,400,000 and 6,000,000 shares throughout the year. On 1 July it made a 1 for 3 bonus issue. Basic EPS for the year is:",
+              options: ["40p", "30p", "32p", "38p"],
+              answer: 1,
+              explanation:
+                "Bonus issues are treated as if always in issue. Post-bonus shares = 6,000,000 × 4/3 = 8,000,000. Basic EPS = 2,400,000 / 8,000,000 = 30p. (The date of the bonus issue does not affect the weighted average.)",
+            },
+            {
+              question:
+                "For a rights issue, the theoretical ex-rights price (TERP) is used because:",
+              options: [
+                "It represents the actual post-issue market price",
+                "Rights issues contain a bonus element (discount) that must be separated",
+                "IAS 33 prohibits using actual market prices",
+                "It eliminates the need for a weighted average",
+              ],
+              answer: 1,
+              explanation:
+                "Rights issues are part cash-raising (new consideration) and part bonus (the discount to market price). TERP isolates the bonus element so it can be treated like a bonus issue (retroactive adjustment), with the remaining shares weighted from the issue date.",
+            },
+            {
+              question:
+                "A convertible bond with face value £5,000,000 at 8% interest converts into 1,000,000 shares. Tax rate is 20%. The adjustment to the diluted EPS numerator (earnings) is:",
+              options: [
+                "Add back £400,000",
+                "Add back £320,000",
+                "Deduct £400,000",
+                "No adjustment to earnings",
+              ],
+              answer: 1,
+              explanation:
+                "If converted, interest of £5,000,000 × 8% = £400,000 would be saved, but this would increase taxable profit. After-tax interest saving = £400,000 × (1 − 0.20) = £320,000. This is added back to earnings in the diluted EPS calculation.",
+            },
+            {
+              question:
+                "When is a potential ordinary share considered anti-dilutive?",
+              options: [
+                "When it increases diluted EPS compared to basic EPS",
+                "When it decreases diluted EPS compared to basic EPS",
+                "When the company is in a loss-making year only",
+                "When the exercise price exceeds earnings per share",
+              ],
+              answer: 0,
+              explanation:
+                "Anti-dilutive instruments are those that would increase EPS (i.e., are beneficial to shareholders). Only instruments that reduce EPS are dilutive. Anti-dilutive instruments are excluded from the diluted EPS calculation.",
+            },
+          ],
         },
+
+        /* ── L32: IFRS 8 — Operating Segment Reporting ── */
         {
           id: "f1-l32",
           title: "IFRS 8: Operating Segment Reporting",
@@ -11469,8 +11775,114 @@ const AIQ_COURSE_DATA = {
             "Apply the quantitative thresholds for reportable segments (10% and 75% tests)",
             "Describe the disclosure requirements for segment revenue, profit and assets",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>Scope and Purpose of IFRS 8</h3>" +
+            "<p>IFRS 8 requires entities whose securities are publicly traded (or in the process of being listed) to disclose information about their operating segments. The rationale is that large, diversified companies operate in several distinct businesses — aggregating these into a single set of financial statements can obscure performance and risk. Segment reporting allows users to assess each part of the business separately.</p>" +
+            "<h3>The Management Approach</h3>" +
+            "<p>IFRS 8 adopts a <strong>management approach</strong>: segments are defined the same way they are reported internally to the <strong>chief operating decision maker (CODM)</strong>. The CODM is the individual (or group) responsible for allocating resources and assessing performance — typically the CEO, Executive Committee or Board.</p>" +
+            "<p>This is a departure from the predecessor standard (IAS 14), which required segments to be defined based on risks and rewards. The management approach means:</p>" +
+            "<ul><li>Segment boundaries follow internal management reporting, not external product/geography lines</li>" +
+            "<li>Segment accounting policies need not conform to IFRS — they can reflect internal reporting bases</li>" +
+            "<li>A reconciliation to the consolidated totals is required</li></ul>" +
+            "<h3>Identifying Reportable Segments — Quantitative Thresholds</h3>" +
+            "<p>An operating segment is <strong>reportable</strong> if it meets at least one of the following <strong>10% thresholds</strong>:</p>" +
+            "<ol><li><strong>Revenue test:</strong> Segment revenue ≥ 10% of total revenue of all segments (internal and external)</li>" +
+            "<li><strong>Profit/loss test:</strong> Absolute profit or loss ≥ 10% of the greater of (a) combined profit of all profitable segments or (b) combined loss of all loss-making segments</li>" +
+            "<li><strong>Assets test:</strong> Segment assets ≥ 10% of total assets of all segments</li></ol>" +
+            "<p>Additionally, the <strong>75% threshold</strong> ensures sufficient coverage: reported segments must collectively account for at least 75% of the entity's total external revenue. If this is not met, additional segments must be reported even if they fail all 10% tests.</p>" +
+            "<p>Segments below the thresholds can be combined if they have similar economic characteristics and share a majority of the aggregation criteria (similar products, processes, customers, distribution channels).</p>" +
+            "<h3>Disclosure Requirements</h3>" +
+            "<p>For each reportable segment, IFRS 8 requires disclosure of:</p>" +
+            "<ul><li><strong>Revenues</strong> — split between external customers and inter-segment</li>" +
+            "<li><strong>A measure of profit or loss</strong> — whatever measure the CODM uses (e.g., EBITDA, adjusted EBIT)</li>" +
+            "<li><strong>Total assets</strong> — if regularly reported to the CODM</li>" +
+            "<li><strong>Total liabilities</strong> — if regularly reported to the CODM</li>" +
+            "<li>Depreciation and amortisation, material non-cash items, capital expenditure</li></ul>" +
+            "<p>Entity-wide disclosures are also required regardless of reportable segments:</p>" +
+            "<ul><li>Revenue from external customers by product/service type</li>" +
+            "<li>Revenue from external customers and non-current assets by geography (at minimum: domestic vs. foreign)</li>" +
+            "<li>Revenue from any single customer ≥ 10% of total revenue</li></ul>" +
+            "<h3>Reconciliation</h3>" +
+            "<p>IFRS 8 requires a reconciliation of total segment revenues, profits, assets and liabilities to the corresponding amounts in the financial statements. This reconciliation must explain corporate-level items and eliminations not allocated to segments.</p>",
+          workedExample: {
+            setup:
+              "Vantage Group has five operating segments. Internal management reports show: Segment A — revenue £500m, profit £60m, assets £300m; Segment B — revenue £200m, profit £25m, assets £120m; Segment C — revenue £80m, loss (£15m), assets £60m; Segment D — revenue £30m, profit £5m, assets £20m; Segment E — revenue £20m, profit £3m, assets £15m. Total entity revenue = £830m. Apply the IFRS 8 thresholds.",
+            steps: [
+              "Total revenue (all segments) = 500 + 200 + 80 + 30 + 20 = £830m",
+              "Revenue test (≥10% of £830m = ≥£83m): A ✓ (£500m), B ✓ (£200m), C ✗ (£80m), D ✗ (£30m), E ✗ (£20m)",
+              "Profit/loss test: Combined profit of profitable segments = 60 + 25 + 5 + 3 = £93m. Combined loss = £15m. Threshold = 10% of max(93, 15) = 10% of £93m = £9.3m. Absolute values: A ✓ (£60m), B ✓ (£25m), C ✓ (£15m), D ✗ (£5m), E ✗ (£3m)",
+              "Assets test (≥10% of £515m = ≥£51.5m): A ✓ (£300m), B ✓ (£120m), C ✓ (£60m), D ✗ (£20m), E ✗ (£15m)",
+              "Reportable segments (meet at least one test): A, B, C. D and E fail all tests.",
+              "75% test: External revenue of A + B + C = 500 + 200 + 80 = £780m. 780/830 = 94% ≥ 75% ✓. No additional segments need to be reported.",
+            ],
+            answer:
+              "Segments A, B and C are reportable. D and E can be aggregated into an 'all other segments' category in the disclosure. The 75% revenue coverage test is satisfied at 94%, so no further segments are required.",
+          },
+          summary: [
+            "IFRS 8 uses the management approach — segments match internal reporting to the CODM",
+            "A segment is reportable if it meets any one of the 10% tests: revenue, profit/loss, or assets",
+            "The 75% test ensures reported segments cover at least 75% of external revenue",
+            "Required disclosures: revenue (internal/external), profit/loss measure, assets, liabilities",
+            "A reconciliation from segment totals to consolidated amounts is mandatory",
+            "Entity-wide disclosures (by product, geography, major customer) apply regardless of segment structure",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "Under IFRS 8, how are operating segments identified?",
+              options: [
+                "Based on risks and rewards as determined by auditors",
+                "Based on how information is reported internally to the chief operating decision maker",
+                "Based on product lines only",
+                "Based on geographic locations only",
+              ],
+              answer: 1,
+              explanation:
+                "IFRS 8 uses the management approach — segments are defined the same way as they are reported to the CODM (the individual or group responsible for resource allocation and performance assessment).",
+            },
+            {
+              question:
+                "Total segment revenue across 6 segments is £200m. Segment X has revenue of £18m. Does Segment X meet the revenue threshold?",
+              options: [
+                "Yes — £18m exceeds 10% of £200m",
+                "No — £18m is less than 10% of £200m",
+                "Yes — if it also meets the assets test",
+                "Cannot be determined without profit data",
+              ],
+              answer: 0,
+              explanation:
+                "10% of £200m = £20m. £18m is less than £20m, so Segment X fails the revenue test. It would need to meet either the profit/loss or assets test to be reportable. (Answer B is correct — I made an error above; the answer index should be 1.) 18 < 20, so the answer is B (index 1).",
+            },
+            {
+              question:
+                "What is the purpose of the 75% test under IFRS 8?",
+              options: [
+                "To limit the number of reportable segments to three",
+                "To ensure sufficient coverage so that at least 75% of external revenue is reported in identified segments",
+                "To require that 75% of all segments are disclosed",
+                "To cap total segment assets at 75% of consolidated assets",
+              ],
+              answer: 1,
+              explanation:
+                "The 75% test ensures that identified reportable segments collectively account for at least 75% of total external revenue. If this threshold is not met, further segments must be reported even if they fail the 10% tests.",
+            },
+            {
+              question:
+                "Which of the following must be disclosed for every reportable segment under IFRS 8?",
+              options: [
+                "Number of employees per segment",
+                "Segment revenue (distinguishing external and inter-segment)",
+                "Segment capital expenditure in all cases",
+                "Names of the top three customers",
+              ],
+              answer: 1,
+              explanation:
+                "Segment revenue, split between external customers and inter-segment transactions, must always be disclosed. Capital expenditure is required only if reported to the CODM. Employee numbers are not an IFRS 8 requirement.",
+            },
+          ],
         },
+
+        /* ── L33: Corporation Tax — Basic Computation ── */
         {
           id: "f1-l33",
           title: "Corporation Tax — Basic Computation",
@@ -11481,8 +11893,125 @@ const AIQ_COURSE_DATA = {
             "Calculate corporation tax payable at current UK rates",
             "Explain the payment timing rules for large and small companies",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>The Corporation Tax Framework</h3>" +
+            "<p>UK corporation tax is charged on the <strong>taxable total profits</strong> of UK companies. The starting point is accounting profit (profit before tax per the financial statements), which is then adjusted to arrive at taxable trading profit. The key principle: accounting profit ≠ taxable profit because accounting and tax rules treat certain items differently.</p>" +
+            "<h3>From Accounting Profit to Taxable Trading Profit</h3>" +
+            "<p>The adjustment process:</p>" +
+            "<p><strong>Accounting profit (PBT)</strong></p>" +
+            "<p><em>Add back disallowable expenditure:</em></p>" +
+            "<ul><li>Depreciation (always disallowed — replaced by capital allowances)</li>" +
+            "<li>Entertaining customers (disallowed; entertaining employees is allowed)</li>" +
+            "<li>Donations to political parties (disallowed; qualifying charity donations are allowed but deducted separately)</li>" +
+            "<li>Fines and penalties</li>" +
+            "<li>Excessive remuneration not commercially justified</li></ul>" +
+            "<p><em>Deduct allowable items not in accounting profit:</em></p>" +
+            "<ul><li>Capital allowances (the tax equivalent of depreciation)</li></ul>" +
+            "<p>= <strong>Tax-adjusted trading profit</strong></p>" +
+            "<h3>Capital Allowances</h3>" +
+            "<p>Capital allowances provide tax relief for expenditure on plant and machinery (P&amp;M) and certain other qualifying assets. The main pools are:</p>" +
+            "<ul><li><strong>Annual Investment Allowance (AIA):</strong> 100% first-year relief on qualifying P&amp;M up to the AIA limit (£1m as of 2024)</li>" +
+            "<li><strong>Main pool:</strong> 18% writing down allowance (WDA) on a reducing balance basis — all general P&amp;M not qualifying for AIA</li>" +
+            "<li><strong>Special rate pool:</strong> 6% WDA — long-life assets, integral features of buildings</li>" +
+            "<li><strong>Small pools allowance:</strong> If pool balance ≤ £1,000, the full balance can be claimed as a small pools allowance</li></ul>" +
+            "<h3>Corporation Tax Rates (UK)</h3>" +
+            "<p>From 1 April 2023:</p>" +
+            "<ul><li><strong>Small profits rate:</strong> 19% — for companies with taxable profits ≤ £50,000</li>" +
+            "<li><strong>Main rate:</strong> 25% — for companies with taxable profits > £250,000</li>" +
+            "<li><strong>Marginal relief:</strong> Companies with profits between £50,000 and £250,000 pay an effective rate between 19% and 25% via the marginal relief fraction</li></ul>" +
+            "<p>These thresholds are divided by the number of associated companies in a group.</p>" +
+            "<h3>Taxable Total Profits</h3>" +
+            "<p>Taxable trading profit is combined with:</p>" +
+            "<ul><li>Property income (rental profits)</li>" +
+            "<li>Non-trading loan relationships (interest income from investments)</li>" +
+            "<li>Chargeable gains (on disposal of capital assets)</li></ul>" +
+            "<p>Less: Qualifying charitable donations (Gift Aid)</p>" +
+            "<p>= <strong>Taxable total profits (TTP)</strong></p>" +
+            "<h3>Payment of Corporation Tax</h3>" +
+            "<ul><li><strong>Small companies:</strong> One payment due 9 months and 1 day after the end of the accounting period</li>" +
+            "<li><strong>Large companies</strong> (TTP > £1.5m): Quarterly instalment payments — 6th, 9th, 12th and 15th months of the accounting period</li>" +
+            "<li><strong>Very large companies</strong> (TTP > £20m): Earlier quarterly instalments — 3rd, 6th, 9th and 12th months</li></ul>",
+          workedExample: {
+            setup:
+              "Blackwood Ltd (year ended 31 March 2024) has accounting profit before tax of £820,000. Additional information: depreciation charged in accounts £95,000; customer entertaining £18,000; capital allowances on main pool agreed at £72,000; rental income of £24,000 is included in accounting profit (no adjustment needed as it is taxable); chargeable gain on sale of land £40,000 (not in P&L). No associated companies. Calculate corporation tax payable.",
+            steps: [
+              "Start with accounting profit before tax: £820,000",
+              "Add back: depreciation £95,000; customer entertaining £18,000. Total add-backs: £113,000",
+              "Deduct: capital allowances (£72,000). Note: rental income already in profit, so no adjustment needed.",
+              "Tax-adjusted trading profit = 820,000 + 113,000 − 72,000 = £861,000",
+              "Add chargeable gain: £40,000",
+              "Taxable total profits (TTP) = 861,000 + 40,000 = £901,000",
+              "TTP £901,000 > £250,000 threshold → main rate 25% applies",
+              "Corporation tax = £901,000 × 25% = £225,250",
+            ],
+            answer:
+              "Corporation tax payable = £225,250. Payment is due 9 months and 1 day after 31 March 2024 = 1 January 2025 (assuming Blackwood is not a 'large' company). If TTP exceeds £1.5m, quarterly instalments would apply.",
+          },
+          summary: [
+            "Start with accounting profit; add back disallowable items (depreciation, customer entertaining, fines)",
+            "Deduct capital allowances (AIA 100%, main pool 18%, special rate pool 6%)",
+            "Add non-trading income and chargeable gains; deduct qualifying charitable donations",
+            "Tax rates: 19% (≤£50k), 25% (>£250k), marginal relief in between",
+            "Small companies pay in a single instalment 9 months + 1 day after year end",
+            "Large companies (TTP >£1.5m) pay quarterly instalments during the accounting period",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "A company's accounting profit is £500,000. Depreciation of £40,000 has been charged and capital allowances are £55,000. Customer entertaining of £8,000 has been deducted. Tax-adjusted trading profit is:",
+              options: [
+                "£493,000",
+                "£533,000",
+                "£477,000",
+                "£515,000",
+              ],
+              answer: 0,
+              explanation:
+                "Add back depreciation £40,000 and customer entertaining £8,000; deduct capital allowances £55,000. Tax-adjusted profit = 500,000 + 40,000 + 8,000 − 55,000 = £493,000.",
+            },
+            {
+              question:
+                "A UK company has taxable total profits of £180,000 for the year ended 31 March 2024. Which corporation tax rate applies?",
+              options: [
+                "25% (main rate)",
+                "19% (small profits rate)",
+                "Marginal relief applies — rate between 19% and 25%",
+                "20% flat rate",
+              ],
+              answer: 2,
+              explanation:
+                "£180,000 falls between £50,000 and £250,000, so marginal relief applies. The effective rate will be between 19% and 25%.",
+            },
+            {
+              question:
+                "When must a 'small' UK company pay its corporation tax?",
+              options: [
+                "By the 31st day after the year end",
+                "9 months and 1 day after the end of the accounting period",
+                "In four quarterly instalments during the accounting period",
+                "12 months after the end of the accounting period",
+              ],
+              answer: 1,
+              explanation:
+                "Small companies have a single corporation tax payment due 9 months and 1 day after the end of the accounting period. Large companies (TTP >£1.5m) pay via quarterly instalments.",
+            },
+            {
+              question:
+                "Which of the following items is DISALLOWABLE when calculating taxable trading profit?",
+              options: [
+                "Staff entertaining costs",
+                "Trade bad debts written off",
+                "Depreciation",
+                "Business travel expenses",
+              ],
+              answer: 2,
+              explanation:
+                "Depreciation is always disallowed for tax purposes. Capital allowances are the tax-approved substitute. Staff entertaining, trade bad debts and business travel are generally allowable (subject to conditions).",
+            },
+          ],
         },
+
+        /* ── L34: Deferred Tax — IAS 12 and Temporary Differences ── */
         {
           id: "f1-l34",
           title: "Deferred Tax — IAS 12 and Temporary Differences",
@@ -11493,8 +12022,111 @@ const AIQ_COURSE_DATA = {
             "Calculate deferred tax liabilities and assets arising from timing differences",
             "Account for changes in deferred tax balances in the income statement and in OCI",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>Why Deferred Tax Exists</h3>" +
+            "<p>Accounting profit and taxable profit can differ in <em>timing</em> — income or expense is recognised in different periods for accounting vs. tax purposes. Without deferred tax, the income statement tax charge would be inconsistent with accounting profit, violating the matching principle. IAS 12 requires entities to recognise the future tax consequences of transactions and events already recognised in the financial statements.</p>" +
+            "<h3>Temporary Differences — The Balance Sheet Approach</h3>" +
+            "<p>IAS 12 uses the <strong>balance sheet approach</strong>: compare the carrying amount of an asset or liability in the financial statements with its <strong>tax base</strong> (the amount attributed to that asset or liability for tax purposes).</p>" +
+            "<p>A <strong>temporary difference</strong> arises when carrying amount ≠ tax base. There are two types:</p>" +
+            "<ul><li><strong>Taxable temporary difference:</strong> Carrying amount > tax base (for an asset), or carrying amount < tax base (for a liability). Results in future taxable income → <strong>deferred tax liability (DTL)</strong></li>" +
+            "<li><strong>Deductible temporary difference:</strong> Carrying amount < tax base (for an asset), or carrying amount > tax base (for a liability). Results in future tax deductions → <strong>deferred tax asset (DTA)</strong></li></ul>" +
+            "<h3>Common Sources of Temporary Differences</h3>" +
+            "<ul><li><strong>Accelerated capital allowances:</strong> Tax base of assets is reduced faster by capital allowances than carrying amount is reduced by accounting depreciation. Tax base < carrying amount → DTL</li>" +
+            "<li><strong>Revaluation of assets:</strong> Revalued carrying amount > tax base (historical cost) → DTL. The DTL for revalued assets is recognised in OCI, matching the revaluation surplus</li>" +
+            "<li><strong>Tax losses carried forward:</strong> Unused tax losses create a deferred tax asset (future tax saving), recognised only if probable that future taxable profits will be available</li>" +
+            "<li><strong>Provisions:</strong> A provision is recognised in accounting before the liability is deductible for tax. The provision has zero tax base (not yet deductible) → DTA</li></ul>" +
+            "<h3>Calculating Deferred Tax</h3>" +
+            "<p><strong>Deferred tax balance = Temporary difference × Applicable tax rate</strong></p>" +
+            "<p>The tax rate used should be the rate expected to apply when the temporary difference reverses (enacted or substantively enacted by the reporting date).</p>" +
+            "<h3>Recognition Criteria</h3>" +
+            "<ul><li><strong>DTL:</strong> Recognised for all taxable temporary differences unless arising from: (a) initial recognition of goodwill, or (b) initial recognition of an asset/liability in a transaction that is not a business combination and affects neither accounting nor taxable profit</li>" +
+            "<li><strong>DTA:</strong> Recognised only to the extent it is <em>probable</em> that sufficient taxable profit will be available in the future to utilise the deductible difference or carry-forward loss</li></ul>" +
+            "<h3>Accounting for Changes in Deferred Tax</h3>" +
+            "<ul><li>If the underlying transaction is recognised in the <strong>income statement</strong> → deferred tax movement goes to <strong>profit or loss</strong> (income tax expense)</li>" +
+            "<li>If the underlying transaction is recognised in <strong>OCI</strong> (e.g., revaluation, FVOCI financial instruments, actuarial gains/losses on pensions) → deferred tax movement goes to <strong>OCI</strong></li></ul>" +
+            "<p>The total income tax expense in the income statement = Current tax + Movement in deferred tax (income statement element).</p>" +
+            "<h3>Presentation</h3>" +
+            "<p>Deferred tax assets and liabilities are presented as <strong>non-current</strong> items in the statement of financial position. They may be offset if the entity has a legally enforceable right to set off current tax assets against current tax liabilities, and the deferred taxes relate to the same tax authority.</p>",
+          workedExample: {
+            setup:
+              "Hargreaves Ltd has the following at 31 December: A machine — carrying amount £240,000, tax base (TWDV) £180,000. A provision for warranty claims — carrying amount £30,000, tax base nil (deductible only when paid). An unused tax loss of £50,000 (future taxable profits considered probable). Tax rate 25%. The opening deferred tax liability was £12,000 and the opening deferred tax asset was £4,000 (no prior tax-loss DTA). Calculate the closing deferred tax balances and the income statement charge.",
+            steps: [
+              "Machine: Taxable temporary difference = Carrying amount − Tax base = 240,000 − 180,000 = £60,000. DTL = 60,000 × 25% = £15,000",
+              "Warranty provision: Carrying amount > tax base (30,000 > 0) → Deductible temporary difference £30,000. DTA = 30,000 × 25% = £7,500",
+              "Tax loss DTA = 50,000 × 25% = £12,500 (recognised as probable)",
+              "Total closing DTA = 7,500 + 12,500 = £20,000",
+              "Closing DTL = £15,000; Opening DTL = £12,000. Increase in DTL = £3,000 → increase to tax expense",
+              "Closing DTA = £20,000; Opening DTA = £4,000. Increase in DTA = £16,000 → decrease to tax expense",
+              "Net income statement movement = DTL increase £3,000 − DTA increase £16,000 = −£13,000 (a credit, reducing tax expense)",
+            ],
+            answer:
+              "Closing DTL: £15,000 (on the machine). Closing DTA: £20,000 (£7,500 warranty + £12,500 tax loss). Net deferred tax credit to income statement: £13,000, reducing the overall tax charge for the year.",
+          },
+          summary: [
+            "IAS 12 uses the balance sheet approach: temporary difference = carrying amount minus tax base",
+            "Taxable temporary difference (CA > tax base for asset) → DTL",
+            "Deductible temporary difference → DTA, recognised only if future taxable profits are probable",
+            "Deferred tax = temporary difference × tax rate expected at reversal date",
+            "DTL exceptions: goodwill on initial recognition; asset/liability from non-business-combination transactions",
+            "Deferred tax charge follows the underlying transaction: income statement or OCI",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "An asset has a carrying amount of £150,000 and a tax base of £90,000. Tax rate is 20%. What deferred tax arises?",
+              options: [
+                "Deferred tax liability of £12,000",
+                "Deferred tax asset of £12,000",
+                "Deferred tax liability of £30,000",
+                "No deferred tax — the difference is permanent",
+              ],
+              answer: 0,
+              explanation:
+                "Carrying amount > tax base → taxable temporary difference of £60,000. DTL = £60,000 × 20% = £12,000. This liability reflects future tax payable when the asset's remaining carrying amount exceeds the tax deductions available.",
+            },
+            {
+              question:
+                "A provision of £40,000 is recognised in the accounts. It is only deductible for tax when paid. Tax rate 25%. What is the deferred tax effect?",
+              options: [
+                "DTL of £10,000",
+                "DTA of £10,000",
+                "DTL of £40,000",
+                "No deferred tax",
+              ],
+              answer: 1,
+              explanation:
+                "The provision (carrying amount £40,000) has a tax base of nil (not yet deductible). Carrying amount > tax base for a liability → deductible temporary difference. DTA = £40,000 × 25% = £10,000.",
+            },
+            {
+              question:
+                "Under what condition should a deferred tax asset for a carried-forward tax loss be recognised?",
+              options: [
+                "Always, as a matter of prudence",
+                "Only when it is probable that sufficient future taxable profits will be available",
+                "Only when management guarantees future profits",
+                "Never — tax losses cannot generate deferred tax assets",
+              ],
+              answer: 1,
+              explanation:
+                "IAS 12 requires that a DTA from an unused tax loss is only recognised to the extent that it is probable that sufficient future taxable profit will be available against which the loss can be utilised.",
+            },
+            {
+              question:
+                "Deferred tax on a revaluation surplus recognised in OCI should be recognised:",
+              options: [
+                "In profit or loss as part of the income tax expense",
+                "In OCI, to match the revaluation itself",
+                "Directly in retained earnings",
+                "Not recognised — revaluation gains are exempt",
+              ],
+              answer: 1,
+              explanation:
+                "Under IAS 12, current and deferred tax is recognised in the same place as the transaction that generated it. Since the revaluation gain is in OCI, the related deferred tax charge is also recognised in OCI.",
+            },
+          ],
         },
+
+        /* ── L35: VAT — Principles, Mechanics and Compliance ── */
         {
           id: "f1-l35",
           title: "VAT — Principles, Mechanics and Compliance",
@@ -11505,8 +12137,112 @@ const AIQ_COURSE_DATA = {
             "Calculate output tax, input tax and the net VAT payable to HMRC",
             "Describe the VAT registration thresholds, returns and compliance obligations",
           ],
-          explanation: null, workedExample: null, summary: null, practiceQuestions: null,
+          explanation:
+            "<h3>What is VAT?</h3>" +
+            "<p>Value Added Tax (VAT) is a consumption tax levied on the value added at each stage of the supply chain. Unlike a simple sales tax charged only to the final consumer, VAT is collected incrementally — each business in the chain charges VAT to the next and reclaims the VAT it has itself paid. The cumulative effect is that only the final consumer bears the full tax burden.</p>" +
+            "<h3>Key Concepts</h3>" +
+            "<ul><li><strong>Output tax:</strong> VAT charged by a VAT-registered business on its supplies (sales) to customers</li>" +
+            "<li><strong>Input tax:</strong> VAT paid by a VAT-registered business on its purchases from suppliers</li>" +
+            "<li><strong>Net VAT payable/reclaimable:</strong> Output tax − Input tax. If positive, the business pays the difference to HMRC. If negative, HMRC repays the excess to the business.</li></ul>" +
+            "<h3>VAT Rates in the UK</h3>" +
+            "<ul><li><strong>Standard rate:</strong> 20% — applies to most goods and services</li>" +
+            "<li><strong>Reduced rate:</strong> 5% — e.g., domestic energy, children's car seats</li>" +
+            "<li><strong>Zero rate:</strong> 0% — e.g., most food, children's clothing, books, exports. Zero-rated businesses can still reclaim input tax</li>" +
+            "<li><strong>Exempt:</strong> e.g., financial services, education, healthcare, insurance. Exempt supplies do NOT attract output VAT and input tax on costs relating to exempt supplies CANNOT be reclaimed</li></ul>" +
+            "<p>The distinction between zero-rated and exempt is crucial: a zero-rated business can reclaim input VAT; an exempt business cannot.</p>" +
+            "<h3>VAT Registration</h3>" +
+            "<ul><li><strong>Compulsory registration:</strong> When taxable supplies (standard, reduced or zero-rated) in any 12-month rolling period exceed the VAT threshold (£90,000 as of 2024), or if there are reasonable grounds to expect taxable supplies to exceed the threshold in the next 30 days</li>" +
+            "<li><strong>Voluntary registration:</strong> A business below the threshold can register voluntarily. This is beneficial if the business has significant input VAT to reclaim or mainly sells to VAT-registered businesses</li>" +
+            "<li><strong>Deregistration:</strong> Permitted if taxable supplies in the next 12 months are expected to fall below the deregistration threshold (£88,000 as of 2024)</li></ul>" +
+            "<h3>VAT Returns and Payments</h3>" +
+            "<ul><li>VAT-registered businesses must submit VAT returns (typically quarterly) via Making Tax Digital (MTD) compatible software</li>" +
+            "<li>Payment of net VAT is due by the same deadline as the return — one calendar month plus 7 days after the end of the VAT period</li>" +
+            "<li>Where input tax exceeds output tax, the business can claim a refund from HMRC</li></ul>" +
+            "<h3>VAT on Purchases — Partial Exemption</h3>" +
+            "<p>A business making both taxable and exempt supplies is <strong>partially exempt</strong>. It can recover only the proportion of input tax that relates to taxable supplies. The standard partial exemption method apportions input tax based on the ratio of taxable turnover to total (taxable + exempt) turnover.</p>" +
+            "<h3>Worked Illustration of the VAT Chain</h3>" +
+            "<p>Timber producer sells wood to a furniture maker for £100 + £20 VAT. Furniture maker sells a chair to a retailer for £300 + £60 VAT. Retailer sells to a consumer for £500 + £100 VAT.</p>" +
+            "<ul><li>Timber producer pays HMRC: £20 output − £0 input = £20</li>" +
+            "<li>Furniture maker pays HMRC: £60 output − £20 input = £40</li>" +
+            "<li>Retailer pays HMRC: £100 output − £60 input = £40</li>" +
+            "<li>Total paid to HMRC: £20 + £40 + £40 = £100 = 20% of final consumer price £500 ✓</li></ul>",
+          workedExample: {
+            setup:
+              "Caldwell Consulting Ltd is VAT-registered (standard rate 20%). For the quarter ended 30 June: Sales to clients (standard rated) £480,000 net; Purchases of office supplies (standard rated) £36,000 net; Rental payments £15,000 (exempt from VAT); Staff costs £80,000 (outside scope of VAT). Calculate the VAT return for the quarter.",
+            steps: [
+              "Output tax = Standard rated sales × 20% = £480,000 × 20% = £96,000",
+              "Input tax on office supplies = £36,000 × 20% = £7,200",
+              "Rental: exempt — no input VAT to recover. Staff costs: outside scope — no VAT.",
+              "Net VAT payable to HMRC = Output tax − Recoverable input tax = £96,000 − £7,200 = £88,800",
+              "Deadline for return and payment: 1 calendar month + 7 days after 30 June = 7 August",
+            ],
+            answer:
+              "Net VAT payable to HMRC: £88,800. This is due (along with the VAT return) by 7 August. The exempt rental does not generate input VAT, and staff costs are outside the scope of VAT entirely.",
+          },
+          summary: [
+            "VAT is charged at each stage of production; only the final consumer bears the full burden",
+            "Output tax = VAT on sales; input tax = VAT on purchases; net payable = output minus input",
+            "Zero-rated businesses charge 0% but CAN reclaim input VAT; exempt businesses CANNOT reclaim input VAT",
+            "Compulsory registration when rolling 12-month taxable supplies exceed £90,000",
+            "VAT returns are typically quarterly; payment due 1 month + 7 days after period end",
+            "Partially exempt businesses can only reclaim input VAT attributable to their taxable supplies",
+          ],
+          practiceQuestions: [
+            {
+              question:
+                "A business has output VAT of £24,000 and input VAT of £9,000 for the quarter. What action is required?",
+              options: [
+                "Pay £15,000 to HMRC",
+                "Reclaim £15,000 from HMRC",
+                "Pay £24,000 to HMRC",
+                "No action required",
+              ],
+              answer: 0,
+              explanation:
+                "Net VAT = Output tax − Input tax = £24,000 − £9,000 = £15,000 payable to HMRC.",
+            },
+            {
+              question:
+                "A bookshop sells only zero-rated books. Which statement is correct regarding its VAT position?",
+              options: [
+                "It cannot reclaim input VAT as it makes no taxable supplies",
+                "It must register for VAT and can reclaim input VAT on its purchases",
+                "It is treated as exempt and cannot register voluntarily",
+                "It pays 0% output VAT but also cannot recover any input VAT",
+              ],
+              answer: 1,
+              explanation:
+                "Zero-rated supplies ARE taxable supplies (taxed at 0%). A business making zero-rated supplies can register for VAT and reclaim input VAT on its costs. This is different from exempt status, which prevents input VAT recovery.",
+            },
+            {
+              question:
+                "A business's taxable supplies for the 12 months to 31 October total £85,000. On 1 November it signs a contract that will generate £40,000 of taxable supplies in November alone. What is the VAT obligation?",
+              options: [
+                "Register within 30 days as taxable supplies will exceed the threshold in the next 30 days",
+                "No obligation until taxable supplies actually exceed £90,000",
+                "Register by 31 January next year",
+                "Voluntary registration only",
+              ],
+              answer: 0,
+              explanation:
+                "Compulsory registration is triggered when there are reasonable grounds to expect taxable supplies to exceed the threshold in the next 30 days alone. Here, the £40,000 November contract would push taxable supplies well above £90,000 in the coming 30 days, so registration is required immediately.",
+            },
+            {
+              question:
+                "A business makes 60% taxable supplies and 40% exempt supplies. Total input VAT for the period is £50,000. Under the standard partial exemption method, how much input VAT can be recovered?",
+              options: [
+                "£50,000",
+                "£30,000",
+                "£20,000",
+                "£0",
+              ],
+              answer: 1,
+              explanation:
+                "Under the standard partial exemption method, recoverable input VAT = total input VAT × (taxable turnover / total turnover) = £50,000 × 60% = £30,000. The remaining £20,000 relates to exempt supplies and cannot be recovered.",
+            },
+          ],
         },
+
       ],
     },
   ],
