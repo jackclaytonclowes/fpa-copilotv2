@@ -24,6 +24,7 @@ const PAPERS = [
 const SITTINGS = [
   "May 2026", "August 2026", "November 2026",
   "February 2027", "May 2027", "August 2027", "November 2027",
+  "Not booked yet",
 ];
 
 const CONFIDENCE_OPTIONS = [
@@ -100,7 +101,7 @@ function OnbStep2({ value, onChange }) {
       </div>
       <h2 className="onb-step-title">When are you sitting the exam?</h2>
       <p className="onb-step-sub">
-        CIMA exams are available on demand. Pick the sitting you're aiming for.
+        CIMA exams are available on demand. Pick the sitting you're aiming for, or select "Not booked yet" if you haven't scheduled one.
       </p>
       <div className="onb-options onb-options--compact">
         {SITTINGS.map((s) => (
@@ -109,7 +110,11 @@ function OnbStep2({ value, onChange }) {
             className={`onb-option onb-option--compact${value === s ? " selected" : ""}`}
             onClick={() => onChange(s)}
           >
-            <Icon name="calendar" size={14} color={value === s ? "var(--primary)" : "var(--fg-3)"} />
+            <Icon
+              name={s === "Not booked yet" ? "clock" : "calendar"}
+              size={14}
+              color={value === s ? "var(--primary)" : "var(--fg-3)"}
+            />
             {s}
             {value === s && <Icon name="check-circle" size={14} color="var(--primary)" style={{ marginLeft: "auto" }} />}
           </button>

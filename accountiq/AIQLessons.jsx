@@ -85,6 +85,15 @@ function LsnPracticeQ({ q, index, onAnswer }) {
   );
 }
 
+/* ── Section definitions ─────────────────────────────────────────────────── */
+const LSN_SECTIONS = [
+  { id: "intro",       label: "Intro",       icon: "target" },
+  { id: "explanation", label: "Explanation",  icon: "book-open" },
+  { id: "example",     label: "Example",     icon: "pencil-ruler" },
+  { id: "summary",     label: "Summary",     icon: "list-checks" },
+  { id: "quiz",        label: "Quiz",        icon: "help-circle" },
+];
+
 /* ── Main Lesson component ───────────────────────────────────────────────── */
 function AIQLessons({ paperId, lessonId, onNavigate }) {
   const { Icon, Button } = window;
@@ -101,7 +110,8 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
     ? lessons.find((l) => l.id === lessonId) || lessons[0]
     : lessons[0];
 
-  const [score, setScore]             = useLsnState({ correct: 0, total: 0 });
+  const [sectionIdx, setSectionIdx] = useLsnState(0);
+  const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps] = useLsnState(1);
 
   const store        = window.aiqStore ? window.aiqStore.get() : {};
@@ -121,10 +131,27 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
     );
   }
 
+  // Only surface sections that have content
+  const availSections = LSN_SECTIONS.filter((s) => {
+    if (s.id === "intro")       return lesson.objectives || (lesson.keyTerms && lesson.keyTerms.length > 0);
+    if (s.id === "explanation") return !!lesson.explanation;
+    if (s.id === "example")     return !!lesson.workedExample;
+    if (s.id === "summary")     return !!lesson.summary;
+    if (s.id === "quiz")        return !!(lesson.practiceQuestions && lesson.practiceQuestions.length > 0);
+    return false;
+  });
+
+  // Clamp index if lesson changed
+  const safeSectionIdx = Math.min(sectionIdx, availSections.length - 1);
+  const curSectionId   = availSections[safeSectionIdx]?.id;
+  const isFirstSection = safeSectionIdx === 0;
+  const isLastSection  = safeSectionIdx === availSections.length - 1;
+
   // Track time spent on this lesson; record on unmount
   const openedAt = useLsnRef(Date.now());
   useLsnEffect(() => {
     openedAt.current = Date.now();
+    setSectionIdx(0);
     return () => {
       const minutes = Math.round((Date.now() - openedAt.current) / 60000);
       if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
@@ -138,6 +165,16 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
   const lessonIndex = lessons.findIndex((l) => l.id === lesson.id);
   const prevLesson  = lessonIndex > 0 ? lessons[lessonIndex - 1] : null;
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
+
+  const goNext = () => {
+    if (!isLastSection) {
+      setSectionIdx(safeSectionIdx + 1);
+    } else if (nextLesson) {
+      onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id });
+    } else {
+      onNavigate && onNavigate(isTrack ? "skillslab" : "courses");
+    }
+  };
 
   return (
     <div className="content">
@@ -176,170 +213,168 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
               </div>
             )}
           </div>
+
+          {/* Section tab strip */}
+          <div className="lsn-section-tabs">
+            {availSections.map((s, i) => (
+              <button
+                key={s.id}
+                className={`lsn-section-tab${i === safeSectionIdx ? " active" : ""}${i < safeSectionIdx ? " done" : ""}`}
+                onClick={() => setSectionIdx(i)}
+              >
+                <Icon
+                  name={i < safeSectionIdx ? "check" : s.icon}
+                  size={11}
+                  color={i === safeSectionIdx ? "var(--primary)" : i < safeSectionIdx ? "var(--favourable)" : "var(--fg-3)"}
+                />
+                {s.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Objectives */}
-        {lesson.objectives ? (
-          <LsnSection icon="target" title="Learning Objectives" tone="primary">
-            <ul className="lsn-list">
-              {lesson.objectives.map((o, i) => (
-                <li key={i}><Icon name="check" size={12} color="var(--primary)" />{o}</li>
-              ))}
-            </ul>
-          </LsnSection>
-        ) : (
-          <div className="lsn-todo">
-            {/* TODO: add objectives for {lesson.title} */}
-            <Icon name="circle-dashed" size={14} />
-            Objectives coming soon
-          </div>
-        )}
+        {/* Section panels — all stay mounted so state (quiz answers, step reveal) persists */}
+        <div className="lsn-section-panels">
 
-        {/* Key terms — shown when the lesson provides a glossary */}
-        {lesson.keyTerms && lesson.keyTerms.length > 0 && (
-          <LsnSection icon="bookmark" title="Key Terms" tone="primary">
-            <div className="lsn-key-terms">
-              {lesson.keyTerms.map((kt, i) => (
-                <div key={i} className="lsn-key-term-card">
-                  <div className="lsn-key-term-name">{kt.term}</div>
-                  <div className="lsn-key-term-def">{kt.definition}</div>
+          {/* Intro: objectives + key terms */}
+          <div className={`lsn-section-panel${curSectionId === "intro" ? " active" : ""}`}>
+            {lesson.objectives && (
+              <LsnSection icon="target" title="Learning Objectives" tone="primary">
+                <ul className="lsn-list">
+                  {lesson.objectives.map((o, i) => (
+                    <li key={i}><Icon name="check" size={12} color="var(--primary)" />{o}</li>
+                  ))}
+                </ul>
+              </LsnSection>
+            )}
+            {lesson.keyTerms && lesson.keyTerms.length > 0 && (
+              <LsnSection icon="bookmark" title="Key Terms" tone="primary">
+                <div className="lsn-key-terms">
+                  {lesson.keyTerms.map((kt, i) => (
+                    <div key={i} className="lsn-key-term-card">
+                      <div className="lsn-key-term-name">{kt.term}</div>
+                      <div className="lsn-key-term-def">{kt.definition}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </LsnSection>
-        )}
-
-        {/* Explanation */}
-        {lesson.explanation ? (
-          <LsnSection icon="book-open" title="Explanation" tone="neutral">
-            <div className="lsn-prose"
-              dangerouslySetInnerHTML={{ __html: lesson.explanation }}
-            />
-          </LsnSection>
-        ) : (
-          <div className="lsn-todo">
-            {/* TODO: add explanation for {lesson.title} */}
-            <Icon name="circle-dashed" size={14} />
-            Explanation coming soon
+              </LsnSection>
+            )}
           </div>
-        )}
 
-        {/* Worked example — steps revealed one at a time */}
-        {lesson.workedExample ? (
-          <LsnSection icon="pencil-ruler" title="Worked Example" tone="amber">
-            <div className="lsn-example">
-              {lesson.workedExample.setup && (
-                <div className="lsn-example-setup">{lesson.workedExample.setup}</div>
-              )}
-              {lesson.workedExample.steps ? (
-                <>
-                  <ol className="lsn-example-steps">
-                    {lesson.workedExample.steps.slice(0, revealedSteps).map((s, i) => (
-                      <li key={i} className="lsn-example-step-item">{s}</li>
-                    ))}
-                  </ol>
-                  {revealedSteps < lesson.workedExample.steps.length ? (
-                    <button
-                      className="lsn-step-reveal-btn"
-                      onClick={() => setRevealedSteps((r) => r + 1)}
-                    >
-                      <Icon name="chevron-down" size={14} />
-                      Step {revealedSteps + 1} of {lesson.workedExample.steps.length}
-                    </button>
+          {/* Explanation */}
+          <div className={`lsn-section-panel${curSectionId === "explanation" ? " active" : ""}`}>
+            {lesson.explanation && (
+              <LsnSection icon="book-open" title="Explanation" tone="neutral">
+                <div className="lsn-prose" dangerouslySetInnerHTML={{ __html: lesson.explanation }} />
+              </LsnSection>
+            )}
+          </div>
+
+          {/* Worked example */}
+          <div className={`lsn-section-panel${curSectionId === "example" ? " active" : ""}`}>
+            {lesson.workedExample && (
+              <LsnSection icon="pencil-ruler" title="Worked Example" tone="amber">
+                <div className="lsn-example">
+                  {lesson.workedExample.setup && (
+                    <div className="lsn-example-setup">{lesson.workedExample.setup}</div>
+                  )}
+                  {lesson.workedExample.steps ? (
+                    <>
+                      <ol className="lsn-example-steps">
+                        {lesson.workedExample.steps.slice(0, revealedSteps).map((s, i) => (
+                          <li key={i} className="lsn-example-step-item">{s}</li>
+                        ))}
+                      </ol>
+                      {revealedSteps < lesson.workedExample.steps.length ? (
+                        <button className="lsn-step-reveal-btn" onClick={() => setRevealedSteps((r) => r + 1)}>
+                          <Icon name="chevron-down" size={14} />
+                          Step {revealedSteps + 1} of {lesson.workedExample.steps.length}
+                        </button>
+                      ) : lesson.workedExample.answer && (
+                        <div className="lsn-example-answer">
+                          <Icon name="check-circle" size={14} color="var(--favourable)" />
+                          <strong>Answer:</strong> {lesson.workedExample.answer}
+                        </div>
+                      )}
+                    </>
                   ) : lesson.workedExample.answer && (
                     <div className="lsn-example-answer">
                       <Icon name="check-circle" size={14} color="var(--favourable)" />
                       <strong>Answer:</strong> {lesson.workedExample.answer}
                     </div>
                   )}
-                </>
-              ) : lesson.workedExample.answer && (
-                <div className="lsn-example-answer">
-                  <Icon name="check-circle" size={14} color="var(--favourable)" />
-                  <strong>Answer:</strong> {lesson.workedExample.answer}
                 </div>
-              )}
-            </div>
-          </LsnSection>
-        ) : (
-          <div className="lsn-todo">
-            {/* TODO: add worked example for {lesson.title} */}
-            <Icon name="circle-dashed" size={14} />
-            Worked example coming soon
-          </div>
-        )}
-
-        {/* Summary */}
-        {lesson.summary ? (
-          <LsnSection icon="list-checks" title="Summary" tone="green">
-            <ul className="lsn-list lsn-list--summary">
-              {lesson.summary.map((s, i) => (
-                <li key={i}><Icon name="arrow-right" size={12} color="var(--favourable)" />{s}</li>
-              ))}
-            </ul>
-          </LsnSection>
-        ) : (
-          <div className="lsn-todo">
-            {/* TODO: add summary for {lesson.title} */}
-            <Icon name="circle-dashed" size={14} />
-            Summary coming soon
-          </div>
-        )}
-
-        {/* Practice questions */}
-        {lesson.practiceQuestions && lesson.practiceQuestions.length > 0 ? (
-          <LsnSection icon="help-circle" title="Practice Questions" tone="primary">
-            <div className="lsn-pq-list">
-              {lesson.practiceQuestions.map((q, i) => (
-                <LsnPracticeQ key={i} q={q} index={i} onAnswer={handleAnswer} />
-              ))}
-            </div>
-            {score.total > 0 && (
-              <div className="lsn-score">
-                <Icon name="zap" size={14} color="var(--primary)" />
-                {score.correct} / {score.total} correct
-                {score.total === lesson.practiceQuestions.length && (
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    icon="arrow-right"
-                    style={{ marginLeft: "auto" }}
-                    onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}
-                  >
-                    Take full quiz
-                  </Button>
-                )}
-              </div>
+              </LsnSection>
             )}
-          </LsnSection>
-        ) : (
-          <div className="lsn-todo">
-            {/* TODO: add practice questions for {lesson.title} */}
-            <Icon name="circle-dashed" size={14} />
-            Practice questions coming soon
           </div>
-        )}
 
-        {/* Navigation */}
+          {/* Summary */}
+          <div className={`lsn-section-panel${curSectionId === "summary" ? " active" : ""}`}>
+            {lesson.summary && (
+              <LsnSection icon="list-checks" title="Summary" tone="green">
+                <ul className="lsn-list lsn-list--summary">
+                  {lesson.summary.map((s, i) => (
+                    <li key={i}><Icon name="arrow-right" size={12} color="var(--favourable)" />{s}</li>
+                  ))}
+                </ul>
+              </LsnSection>
+            )}
+          </div>
+
+          {/* Quiz / practice questions */}
+          <div className={`lsn-section-panel${curSectionId === "quiz" ? " active" : ""}`}>
+            {lesson.practiceQuestions && lesson.practiceQuestions.length > 0 && (
+              <LsnSection icon="help-circle" title="Practice Questions" tone="primary">
+                <div className="lsn-pq-list">
+                  {lesson.practiceQuestions.map((q, i) => (
+                    <LsnPracticeQ key={i} q={q} index={i} onAnswer={handleAnswer} />
+                  ))}
+                </div>
+                {score.total > 0 && (
+                  <div className="lsn-score">
+                    <Icon name="zap" size={14} color="var(--primary)" />
+                    {score.correct} / {score.total} correct
+                    {score.total === lesson.practiceQuestions.length && (
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        icon="arrow-right"
+                        style={{ marginLeft: "auto" }}
+                        onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}
+                      >
+                        Take full quiz
+                      </Button>
+                    )}
+                  </div>
+                )}
+              </LsnSection>
+            )}
+          </div>
+
+        </div>
+
+        {/* Section navigation */}
         <div className="lsn-nav-row">
-          {prevLesson ? (
-            <Button
-              variant="secondary"
-              icon="arrow-left"
-              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id })}
-            >
+          {!isFirstSection ? (
+            <Button variant="secondary" icon="arrow-left" onClick={() => setSectionIdx(safeSectionIdx - 1)}>
+              Previous
+            </Button>
+          ) : prevLesson ? (
+            <Button variant="secondary" icon="arrow-left"
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id })}>
               {prevLesson.title}
             </Button>
           ) : <div />}
-          {nextLesson && (
-            <Button
-              variant="primary"
-              iconRight="arrow-right"
-              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id })}
-            >
-              {nextLesson.title}
-            </Button>
-          )}
+
+          <Button
+            variant="primary"
+            iconRight="arrow-right"
+            onClick={goNext}
+          >
+            {isLastSection
+              ? (nextLesson ? nextLesson.title : "Back to course")
+              : (availSections[safeSectionIdx + 1]?.label || "Next")}
+          </Button>
         </div>
 
       </div>

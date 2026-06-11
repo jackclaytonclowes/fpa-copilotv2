@@ -1079,6 +1079,48 @@
   font-size: 13px;
   color: var(--primary-press);
 }
+/* ── Section tabs (within lesson header card) ───────────────────────────── */
+.lsn-section-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.lsn-section-tabs::-webkit-scrollbar { display: none; }
+.lsn-section-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  font: var(--text-label);
+  font-size: 11px;
+  color: var(--fg-3);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.lsn-section-tab.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 600;
+}
+.lsn-section-tab.done {
+  border-color: var(--favourable-border);
+  background: var(--favourable-soft);
+  color: var(--favourable-text);
+}
+
+/* ── Section panels — only active one visible ───────────────────────────── */
+.lsn-section-panels { display: flex; flex-direction: column; gap: 14px; }
+.lsn-section-panel  { display: none; flex-direction: column; gap: 14px; }
+.lsn-section-panel.active { display: flex; }
+
 .lsn-nav-row {
   display: flex;
   justify-content: space-between;
