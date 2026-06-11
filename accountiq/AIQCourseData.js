@@ -112,7 +112,30 @@ const AIQ_COURSE_DATA = {
               explanation: "In a market economy, prices signal where resources should go. Rising prices attract producers and discourage consumers, allocating resources without central direction.",
               topic: "Market economy",
             },
-          ],
+          
+          {
+            question: "Which of the following best describes a PESTEL analysis?",
+            options: [
+              "A financial ratio analysis of a company's performance",
+              "A framework for analysing macro-environmental factors affecting an organisation",
+              "A tool for evaluating internal operational strengths",
+              "A competitor benchmarking technique",
+            ],
+            correct: 1,
+            explanation: "PESTEL analyses Political, Economic, Social, Technological, Environmental and Legal factors in the external macro-environment. It helps organisations identify opportunities and threats arising from outside their direct control.",
+          },
+          {
+            question: "A stakeholder in a business is best described as:",
+            options: [
+              "A shareholder who owns more than 50% of the company",
+              "Any individual or group that has an interest in or is affected by the organisation's activities",
+              "Only the employees and managers of the organisation",
+              "The board of directors and senior management team",
+            ],
+            correct: 1,
+            explanation: "Stakeholders include shareholders, employees, customers, suppliers, government, the community and others who affect or are affected by the business. Stakeholder management is central to corporate governance and ethics.",
+          },
+        ],
         },
         {
           id: "ba1-l2",
@@ -335,7 +358,30 @@ const AIQ_COURSE_DATA = {
                 "% change in Qd = (120−100)/100 × 100 = +20%. % change in P = (16−20)/20 × 100 = −20%. PED = 20% / −20% = −0.5 (inelastic).",
               topic: "PED calculation",
             },
-          ],
+          
+          {
+            question: "If the price elasticity of demand (PED) for a product is −0.4, demand is described as:",
+            options: [
+              "Elastic — quantity demanded is sensitive to price",
+              "Inelastic — a price rise increases total revenue",
+              "Unit elastic — total revenue is unchanged by price",
+              "Perfectly elastic — any price rise loses all customers",
+            ],
+            correct: 1,
+            explanation: "PED of −0.4 means |PED| < 1: demand is inelastic. A 10% price rise reduces quantity by only 4%, so total revenue rises. Inelastic demand typically occurs for necessities with few substitutes.",
+          },
+          {
+            question: "Cross-price elasticity of demand between two goods is positive (+0.8). This indicates the goods are:",
+            options: [
+              "Complements — used together",
+              "Substitutes — interchangeable in consumption",
+              "Inferior goods",
+              "Giffen goods",
+            ],
+            correct: 1,
+            explanation: "Positive cross-price elasticity means a rise in the price of Good A increases demand for Good B — they are substitutes. Negative cross-price elasticity indicates complements (e.g., cars and petrol).",
+          },
+        ],
         },
         {
           id: "ba1-l4",
@@ -435,7 +481,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Oligopoly is characterised by a small number of large firms whose strategies are interdependent. Each firm must consider likely reactions when changing price or output.",
               topic: "Oligopoly",
             },
-          ],
+          
+          {
+            question: "In a perfectly competitive market, in the long run, firms earn:",
+            options: [
+              "Supernormal profits",
+              "Normal profits only",
+              "Losses equal to fixed costs",
+              "Monopoly rents",
+            ],
+            correct: 1,
+            explanation: "In perfect competition, free entry and exit drive economic (supernormal) profits to zero in the long run. Firms earn only normal profit (covering the opportunity cost of capital). This is the long-run equilibrium condition.",
+          },
+          {
+            question: "Which market structure is characterised by one seller, significant barriers to entry, and the ability to set prices?",
+            options: [
+              "Perfect competition",
+              "Monopolistic competition",
+              "Oligopoly",
+              "Monopoly",
+            ],
+            correct: 3,
+            explanation: "A monopoly has a single seller controlling the entire market. High barriers to entry prevent competition, allowing the monopolist to set price (price maker) above marginal cost, resulting in deadweight loss.",
+          },
+        ],
         },
         {
           id: "ba1-l5",
@@ -527,7 +596,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Real GDP growth ≈ Nominal GDP growth − Inflation = 6% − 4% = 2%. Real GDP strips out the effect of price increases to show true output growth.",
               topic: "Real vs nominal GDP",
             },
-          ],
+          
+          {
+            question: "GDP measures:",
+            options: [
+              "The total value of a country's exports minus imports",
+              "The total market value of all final goods and services produced in a country in a given period",
+              "The total income of all residents of a country wherever they earn it",
+              "The government's total tax revenue less public expenditure",
+            ],
+            correct: 1,
+            explanation: "GDP (Gross Domestic Product) measures the total value of final goods and services produced within a country's borders in a specific period (typically a year or quarter), regardless of the nationality of producers.",
+          },
+          {
+            question: "If nominal GDP grows by 5% and inflation is 3%, real GDP growth is approximately:",
+            options: [
+              "8%",
+              "5%",
+              "2%",
+              "3%",
+            ],
+            correct: 2,
+            explanation: "Real GDP growth ≈ Nominal GDP growth − Inflation rate = 5% − 3% = 2%. Real GDP strips out price changes to show genuine growth in the volume of output.",
+          },
+        ],
         },
         {
           id: "ba1-l6",
@@ -630,7 +722,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The Phillips Curve shows that in the short run, lower unemployment is associated with higher inflation as demand pressures in both labour and goods markets intensify.",
               topic: "Phillips Curve",
             },
-          ],
+          
+          {
+            question: "Cost-push inflation is caused by:",
+            options: [
+              "Excessive growth in consumer spending and aggregate demand",
+              "Rises in production costs (e.g., wages, raw materials) pushing up prices",
+              "An increase in the money supply beyond output growth",
+              "Government budget surpluses reducing aggregate demand",
+            ],
+            correct: 1,
+            explanation: "Cost-push inflation arises from supply-side shocks that increase production costs — e.g., oil price spikes, wage increases, supply chain disruptions. Firms pass higher costs on as higher prices.",
+          },
+          {
+            question: "The Phillips Curve suggests a short-run trade-off between:",
+            options: [
+              "Inflation and economic growth",
+              "Unemployment and inflation",
+              "Interest rates and exchange rates",
+              "Savings and investment",
+            ],
+            correct: 1,
+            explanation: "The short-run Phillips Curve shows an inverse relationship between unemployment and inflation: lower unemployment (stronger economy) tends to raise wage pressure and inflation. The trade-off disappears in the long run.",
+          },
+        ],
         },
         {
           id: "ba1-l7",
@@ -728,7 +843,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Higher interest rates increase borrowing costs, reducing consumer and business spending and cooling inflationary demand pressure. Higher rates also tend to strengthen the currency (opposite of depreciation).",
               topic: "Monetary policy",
             },
-          ],
+          
+          {
+            question: "An expansionary fiscal policy involves:",
+            options: [
+              "Raising interest rates to reduce borrowing",
+              "Increasing government spending or cutting taxes to stimulate aggregate demand",
+              "Reducing the money supply to control inflation",
+              "Strengthening the exchange rate to reduce import prices",
+            ],
+            correct: 1,
+            explanation: "Expansionary fiscal policy uses higher government expenditure and/or lower taxes to increase aggregate demand and stimulate economic activity. The opposite — contractionary fiscal policy — reduces the deficit through spending cuts or tax rises.",
+          },
+          {
+            question: "Monetary policy primarily affects the economy through changes in:",
+            options: [
+              "Government expenditure levels",
+              "Interest rates and the money supply",
+              "Tax rates and fiscal transfers",
+              "Trade tariffs and exchange controls",
+            ],
+            correct: 1,
+            explanation: "Monetary policy is operated by central banks and works through interest rates (affecting borrowing costs and saving), the money supply, and exchange rates. In the UK, the Bank of England's Monetary Policy Committee sets the base rate.",
+          },
+        ],
         },
         {
           id: "ba1-l8",
@@ -834,7 +972,30 @@ const AIQ_COURSE_DATA = {
               explanation: "A weaker pound means eurozone buyers get more pounds per euro — UK goods become cheaper for them, boosting UK export demand. Import costs rise, not fall.",
               topic: "Exchange rates",
             },
-          ],
+          
+          {
+            question: "Comparative advantage theory (Ricardo) states that countries should specialise in goods where they:",
+            options: [
+              "Have an absolute cost advantage over all trading partners",
+              "Have the lowest opportunity cost of production",
+              "Possess the most natural resources",
+              "Can produce at the lowest absolute cost",
+            ],
+            correct: 1,
+            explanation: "Comparative advantage arises from having the lowest opportunity cost, not absolute cost. Even if a country is less efficient at producing everything, it gains from specialising where it is relatively least inefficient.",
+          },
+          {
+            question: "A depreciation of the domestic currency will tend to:",
+            options: [
+              "Make exports more expensive and imports cheaper",
+              "Make exports cheaper and imports more expensive",
+              "Have no effect on the trade balance",
+              "Reduce inflation by lowering import prices",
+            ],
+            correct: 1,
+            explanation: "Currency depreciation lowers the price of exports in foreign currency (boosting export demand) and raises the price of imports in domestic currency (reducing import demand). The net effect on the trade balance depends on the Marshall-Lerner condition.",
+          },
+        ],
         },
 
         {
@@ -900,7 +1061,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Unlimited liability means the owner is personally responsible for all business debts. If the business cannot pay, creditors can pursue the owner's personal assets. This applies to sole traders and general partners.",
               topic: "Business organisations",
             },
-          ],
+          
+          {
+            question: "A partnership differs from a sole trader primarily because:",
+            options: [
+              "Partners have limited liability for all debts",
+              "There are two or more owners sharing management and profit",
+              "It must file public accounts at Companies House",
+              "It is a separate legal entity from its owners",
+            ],
+            correct: 1,
+            explanation: "A partnership involves two or more individuals who jointly own and run the business. Unlike a company, a traditional partnership is not a separate legal entity and partners typically have unlimited liability.",
+          },
+          {
+            question: "A company limited by shares has which key advantage over a sole trader?",
+            options: [
+              "No requirement to pay corporation tax",
+              "Shareholders' personal liability is limited to the amount unpaid on their shares",
+              "It cannot be sued by creditors",
+              "The owner retains 100% of the profits",
+            ],
+            correct: 1,
+            explanation: "Limited liability protects shareholders: they can only lose the amount they invested (or agreed to pay) for their shares. This risk-limiting feature encourages investment and is the primary advantage of incorporation.",
+          },
+        ],
         },
         {
           id: "ba1-l10",
@@ -965,7 +1149,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Comparative advantage is about relative, not absolute, efficiency. A country gains by specialising where its opportunity cost is lowest — even if it is less productive than trading partners in absolute terms.",
               topic: "International trade",
             },
-          ],
+          
+          {
+            question: "Globalisation has primarily been driven by:",
+            options: [
+              "Increased government protectionism worldwide",
+              "Advances in technology, transport and the reduction of trade barriers",
+              "Higher currency exchange rate volatility",
+              "Growing nationalism and political isolationism",
+            ],
+            correct: 1,
+            explanation: "Globalisation has been accelerated by containerised shipping, the internet, falling tariffs (WTO), financial liberalisation and communication technology — reducing the cost and complexity of conducting business across borders.",
+          },
+          {
+            question: "A multinational enterprise (MNE) typically benefits from which of the following compared with purely domestic firms?",
+            options: [
+              "Higher tax rates in all jurisdictions",
+              "Economies of scale, access to lower-cost inputs, and market diversification",
+              "Greater exposure to a single country's economic cycle",
+              "Less complex regulatory compliance requirements",
+            ],
+            correct: 1,
+            explanation: "MNEs gain competitive advantages by accessing lower-cost labour and resources globally, achieving large-scale economies, and spreading risk across multiple markets. They also face complexity in managing cross-border legal, tax and cultural differences.",
+          },
+        ],
         },
         {
           id: "ba1-l11",
@@ -1030,7 +1237,30 @@ const AIQ_COURSE_DATA = {
               explanation: "When Px falls, MUx/Px rises above MUy/Py. The consumer now gets more utility per pound from X, so they buy more X (and less Y) until the ratio equalises again at a new equilibrium.",
               topic: "Consumer equilibrium",
             },
-          ],
+          
+          {
+            question: "The law of diminishing marginal utility states that:",
+            options: [
+              "Total utility increases without limit as consumption rises",
+              "Each additional unit of a good consumed adds less utility than the previous unit",
+              "Consumers always prefer more expensive goods",
+              "Utility is constant across all units consumed",
+            ],
+            correct: 1,
+            explanation: "Diminishing marginal utility: after a point, each additional unit consumed provides less extra satisfaction. This underpins the downward-sloping demand curve — consumers only buy more at a lower price as marginal utility falls.",
+          },
+          {
+            question: "An indifference curve shows combinations of two goods that:",
+            options: [
+              "Maximise total consumer spending",
+              "Give the consumer equal total utility",
+              "Are available at the same price",
+              "Represent the consumer's budget constraint",
+            ],
+            correct: 1,
+            explanation: "An indifference curve maps all combinations of two goods yielding the same level of satisfaction. Higher curves represent greater utility. The budget line shows what is affordable; the optimum is where the budget line is tangent to the highest attainable indifference curve.",
+          },
+        ],
         },
         {
           id: "ba1-l12",
@@ -1095,7 +1325,30 @@ const AIQ_COURSE_DATA = {
               explanation: "When MC < ATC, ATC is being pulled down; when MC > ATC, ATC is pulled up. At their intersection, MC = ATC, which must be the minimum of ATC. The same logic applies to MC and AVC.",
               topic: "Cost curves",
             },
-          ],
+          
+          {
+            question: "Economies of scale arise when:",
+            options: [
+              "Average costs rise as output expands in the long run",
+              "Long-run average costs fall as output increases",
+              "Variable costs per unit decline due to bulk buying only",
+              "Fixed costs are spread over fewer units",
+            ],
+            correct: 1,
+            explanation: "Economies of scale occur when expanding output leads to lower long-run average costs. Sources include specialisation of labour, bulk purchasing, spreading fixed costs, and using more efficient large-scale technology.",
+          },
+          {
+            question: "The short run in economics is defined as a period in which:",
+            options: [
+              "All costs are variable",
+              "At least one factor of production is fixed",
+              "No production can take place",
+              "All factors of production are variable",
+            ],
+            correct: 1,
+            explanation: "In the short run, at least one input (typically capital) cannot be varied — production must work within existing capacity. In the long run, all inputs are variable and firms can fully adjust their scale of operation.",
+          },
+        ],
         },
         {
           id: "ba1-l13",
@@ -1161,7 +1414,30 @@ const AIQ_COURSE_DATA = {
               explanation: "DWL represents the value of transactions that would benefit both buyer and seller but do not happen because the monopolist restricts output. It is a triangle between the competitive and monopoly output levels on a supply-demand diagram.",
               topic: "Monopoly welfare loss",
             },
-          ],
+          
+          {
+            question: "Deadweight loss from monopoly arises because:",
+            options: [
+              "The monopolist produces more output than the competitive equilibrium",
+              "The monopolist restricts output below the competitive level, creating unexploited gains from trade",
+              "Monopolists always charge prices below marginal cost",
+              "Consumer surplus is transferred entirely to the government",
+            ],
+            correct: 1,
+            explanation: "A monopolist maximises profit by setting MR = MC, which means producing less and charging more than in a competitive market. The units that would have been traded in competition but are not under monopoly represent the deadweight loss.",
+          },
+          {
+            question: "Price discrimination requires the monopolist to:",
+            options: [
+              "Produce more output than in a competitive market",
+              "Prevent resale between customer groups and identify groups with different elasticities",
+              "Set the same price for all customers",
+              "Operate in a perfectly competitive market",
+            ],
+            correct: 1,
+            explanation: "For price discrimination to work, the seller must: (1) have market power, (2) be able to identify groups with different price elasticities, and (3) prevent arbitrage (resale between groups). Examples: student discounts, peak vs off-peak rail fares.",
+          },
+        ],
         },
         {
           id: "ba1-l14",
@@ -1226,7 +1502,30 @@ const AIQ_COURSE_DATA = {
               explanation: "A Nash Equilibrium is a set of strategies where no player can do better by changing their own strategy, given the strategies of all other players. It need not be the best collective outcome — in the prisoner's dilemma, the Nash Equilibrium (mutual price cutting) is worse for both players than mutual cooperation.",
               topic: "Game theory",
             },
-          ],
+          
+          {
+            question: "In an oligopoly, the kinked demand curve model predicts that:",
+            options: [
+              "Firms frequently change prices to gain market share",
+              "Prices are relatively stable because rivals match price cuts but not price rises",
+              "All firms earn supernormal profits in the long run",
+              "There is no interdependence between firms",
+            ],
+            correct: 1,
+            explanation: "The kinked demand curve (Sweezy) argues rivals match price reductions (preventing market share gain) but not price rises (causing sales loss). This creates a discontinuity in the marginal revenue curve, making prices 'sticky' around the prevailing level.",
+          },
+          {
+            question: "In a prisoner's dilemma (game theory), the Nash equilibrium typically results in:",
+            options: [
+              "The outcome that is best for all players collectively",
+              "Both players defecting, even though cooperation would give a better joint outcome",
+              "One player always winning and one always losing",
+              "Players cooperating because they communicate freely",
+            ],
+            correct: 1,
+            explanation: "The Nash equilibrium in a single-shot prisoner's dilemma is mutual defection — each player's dominant strategy is to defect regardless of what the other does, leading to a worse outcome for both than if they had cooperated.",
+          },
+        ],
         },
         {
           id: "ba1-l15",
@@ -1291,7 +1590,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Under RPI − X, the firm can raise prices by no more than inflation (RPI) minus an efficiency factor (X). If the firm reduces costs by more than X, it retains the extra profit — creating an incentive to become more efficient. Over time, real prices fall by X per year.",
               topic: "Regulation",
             },
-          ],
+          
+          {
+            question: "Competition policy aims primarily to:",
+            options: [
+              "Protect domestic industries from foreign competition",
+              "Prevent anti-competitive behaviour and promote markets that work in consumers' interests",
+              "Maximise government tax revenues from large corporations",
+              "Ensure all firms in a market earn equal profits",
+            ],
+            correct: 1,
+            explanation: "Competition policy (antitrust) is designed to prevent monopolies, cartels, price-fixing and abuse of dominant positions that harm consumer welfare. In the UK, the Competition and Markets Authority (CMA) enforces competition law.",
+          },
+          {
+            question: "A natural monopoly exists when:",
+            options: [
+              "One firm controls all natural resources in an industry",
+              "Long-run average costs fall continuously, making a single large supplier most efficient",
+              "The government grants an exclusive licence to one firm",
+              "Competition is illegal in the industry",
+            ],
+            correct: 1,
+            explanation: "A natural monopoly arises from very high fixed costs and economies of scale throughout the entire market — e.g., water distribution, electricity grids. One large firm can serve the market at lower cost than multiple competing firms.",
+          },
+        ],
         },
         {
           id: "ba1-l16",
@@ -1356,7 +1678,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The MPC meets monthly and sets the Bank of England base rate to achieve the 2% CPI inflation target set by the government. The Prudential Regulation Authority (PRA) supervises individual banks; the FCA regulates conduct; the Debt Management Office manages government borrowing.",
               topic: "Central banking",
             },
-          ],
+          
+          {
+            question: "The primary function of the financial system is to:",
+            options: [
+              "Set interest rates for the government",
+              "Channel funds from savers (surplus units) to borrowers (deficit units)",
+              "Collect taxes on behalf of the government",
+              "Regulate the level of government borrowing",
+            ],
+            correct: 1,
+            explanation: "The financial system intermediates between those with surplus funds (savers, investors) and those who need funds (borrowers, businesses, government). This intermediation function supports investment and economic growth.",
+          },
+          {
+            question: "Commercial banks create money primarily through:",
+            options: [
+              "Printing banknotes when reserves are low",
+              "Extending loans, which create new deposits in the banking system",
+              "Accepting government bonds in exchange for cash",
+              "Transferring funds between central bank accounts",
+            ],
+            correct: 1,
+            explanation: "When a commercial bank makes a loan, it creates a new deposit in the borrower's account. This credit creation expands the money supply (broad money). The central bank controls base money (reserves and notes), but commercial banks create most money through lending.",
+          },
+        ],
         },
         {
           id: "ba1-l17",
@@ -1420,7 +1765,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Monetary policy operates with long and variable lags — typically 18–24 months for the full effect on inflation. This makes precise policy calibration difficult: the MPC must forecast future economic conditions rather than simply respond to current data.",
               topic: "Monetary policy",
             },
-          ],
+          
+          {
+            question: "When the central bank raises the base interest rate, the expected effect on the economy includes:",
+            options: [
+              "Higher consumer spending and lower saving",
+              "Reduced borrowing, lower spending and downward pressure on inflation",
+              "A weaker exchange rate and higher exports",
+              "Increased government borrowing costs only",
+            ],
+            correct: 1,
+            explanation: "A higher base rate raises borrowing costs and rewards saving, reducing consumer spending and business investment. Lower aggregate demand puts downward pressure on inflation. It also tends to attract foreign capital, strengthening the exchange rate.",
+          },
+          {
+            question: "Quantitative easing (QE) involves the central bank:",
+            options: [
+              "Raising interest rates to attract foreign investment",
+              "Purchasing financial assets (e.g., government bonds) to inject money into the economy",
+              "Reducing bank reserve requirements to increase lending",
+              "Issuing new government bonds to fund spending",
+            ],
+            correct: 1,
+            explanation: "QE is an unconventional monetary policy tool where the central bank buys assets (typically government bonds) from financial institutions, crediting their reserve accounts and expanding the money supply to stimulate lending and spending.",
+          },
+        ],
         },
         {
           id: "ba1-l18",
@@ -1485,7 +1853,30 @@ const AIQ_COURSE_DATA = {
               explanation: "A technical recession is specifically defined as two consecutive quarters (six months) of negative real GDP growth. This is the standard definition used by the ONS in the UK and most international bodies.",
               topic: "Business cycle",
             },
-          ],
+          
+          {
+            question: "The business cycle describes the pattern of:",
+            options: [
+              "Interest rate changes over time",
+              "Fluctuations in economic activity (GDP) around a long-run trend growth path",
+              "Stock market price movements over decades",
+              "Government spending and taxation over the fiscal year",
+            ],
+            correct: 1,
+            explanation: "The business cycle tracks recurring phases of economic expansion (recovery, boom) followed by contraction (downturn, recession). Understanding the cycle helps businesses and governments anticipate and respond to changing economic conditions.",
+          },
+          {
+            question: "A leading economic indicator is one that:",
+            options: [
+              "Confirms the current phase of the business cycle after the event",
+              "Changes before the economy as a whole changes, signalling future direction",
+              "Moves in line with current GDP",
+              "Measures lagged government spending",
+            ],
+            correct: 1,
+            explanation: "Leading indicators (e.g., business confidence surveys, new housing starts, stock prices, purchasing managers' indices) tend to change before GDP does, providing advance warning of turning points in the business cycle.",
+          },
+        ],
         },
         {
           id: "ba1-l19",
@@ -1550,7 +1941,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The CPI is the internationally comparable measure (used across the EU and OECD) and uses a geometric mean formula that partially corrects for substitution bias. The RPI uses an arithmetic mean (Laspeyres formula) which tends to overstate inflation. The ONS has recognised RPI's methodological flaws.",
               topic: "Inflation measurement",
             },
-          ],
+          
+          {
+            question: "A price index measures:",
+            options: [
+              "The total value of goods exported in a period",
+              "The change in the average price level of a basket of goods over time",
+              "The level of interest rates in financial markets",
+              "The growth rate of nominal GDP",
+            ],
+            correct: 1,
+            explanation: "A price index (e.g., CPI, RPI) tracks changes in the cost of a representative basket of goods and services over time. An index value of 110 compared with a base of 100 means prices have risen 10%.",
+          },
+          {
+            question: "The Consumer Prices Index (CPI) is typically used to:",
+            options: [
+              "Measure house price inflation only",
+              "Set the Bank of England's inflation target and adjust wages/benefits",
+              "Calculate changes in wholesale producer costs",
+              "Measure the purchasing power of sterling against other currencies",
+            ],
+            correct: 1,
+            explanation: "The UK government uses CPI as its official inflation measure, with the Bank of England targeting 2% CPI inflation. CPI also informs pay settlements, benefit uprating and index-linked financial instruments.",
+          },
+        ],
         },
         {
           id: "ba1-l20",
@@ -1615,7 +2029,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Private firms face market discipline — shareholders demand returns and competitors force efficiency. State enterprises may lack these pressures. However, if a privatised firm is a natural monopoly without regulation, the efficiency gains may not be passed to consumers.",
               topic: "Privatisation",
             },
-          ],
+          
+          {
+            question: "Supply-side economic policies aim to:",
+            options: [
+              "Increase aggregate demand through higher government spending",
+              "Improve the productive capacity and efficiency of the economy",
+              "Reduce interest rates to stimulate borrowing",
+              "Control inflation by cutting the money supply",
+            ],
+            correct: 1,
+            explanation: "Supply-side policies address long-run growth by improving labour market flexibility (education, training), reducing regulation, lowering tax rates, investing in infrastructure and promoting competition — shifting the aggregate supply curve outward.",
+          },
+          {
+            question: "Privatisation of state-owned enterprises is a supply-side policy primarily aimed at:",
+            options: [
+              "Increasing government tax revenue immediately",
+              "Improving efficiency through competition and commercial incentives",
+              "Reducing income inequality in the economy",
+              "Expanding the money supply to fund public investment",
+            ],
+            correct: 1,
+            explanation: "Privatisation transfers state enterprises to private ownership, exposing them to market competition and profit incentives. This aims to drive efficiency improvements and innovation that are less likely under public ownership with soft budget constraints.",
+          },
+        ],
         },
         {
           id: "ba1-l21",
@@ -1679,7 +2116,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The dependency ratio = non-working population / working-age population. A rising ratio means more dependants (elderly and/or young) per worker, increasing fiscal pressure on pensions, healthcare, and social care — typically funded through taxation of the working population.",
               topic: "Demographics",
             },
-          ],
+          
+          {
+            question: "An ageing population structure in a developed economy typically implies:",
+            options: [
+              "A growing working-age population generating more tax revenue",
+              "Increased pressure on pension, healthcare and social care spending relative to the working population",
+              "Rising birth rates and higher consumer spending on children",
+              "Reduced need for investment in infrastructure",
+            ],
+            correct: 1,
+            explanation: "As the proportion of elderly people rises relative to working-age adults, governments face higher pension and healthcare costs. The dependency ratio worsens, creating fiscal pressure and potential labour shortages.",
+          },
+          {
+            question: "Urbanisation describes the trend of:",
+            options: [
+              "Population moving from cities to rural areas",
+              "Population moving from rural areas to cities",
+              "Government investment in rural infrastructure",
+              "Declining birth rates in urban centres",
+            ],
+            correct: 1,
+            explanation: "Urbanisation is the increasing concentration of population in urban areas. It is driven by rural-to-urban migration in search of better employment and services. Over 50% of the global population now lives in cities.",
+          },
+        ],
         },
         {
           id: "ba1-l22",
@@ -1744,7 +2204,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Cap and trade sets a hard limit (cap) on total emissions. Whatever price emerges from permit trading, total emissions cannot exceed the cap. A carbon tax, by contrast, guarantees the price per tonne but not the total quantity of emissions — firms may emit more than desired if the tax rate is set too low.",
               topic: "Environmental policy",
             },
-          ],
+          
+          {
+            question: "A carbon tax is an example of which type of government intervention in markets?",
+            options: [
+              "A subsidy to correct a positive externality",
+              "A Pigouvian tax designed to internalise the cost of a negative externality",
+              "A price ceiling to protect consumers",
+              "A trade tariff to protect domestic producers",
+            ],
+            correct: 1,
+            explanation: "Pollution creates a negative externality (social cost borne by third parties). A Pigouvian carbon tax raises the private cost of carbon-emitting activity to reflect its social cost, nudging producers and consumers towards less polluting choices.",
+          },
+          {
+            question: "The concept of sustainable development (Brundtland Commission, 1987) is defined as development that:",
+            options: [
+              "Maximises current generation GDP regardless of future impact",
+              "Meets the needs of the present without compromising future generations' ability to meet their own needs",
+              "Focuses entirely on eliminating poverty in developing nations",
+              "Prioritises environmental protection over economic growth",
+            ],
+            correct: 1,
+            explanation: "Sustainable development balances economic growth, social equity and environmental protection. It recognises that natural capital must be preserved for future generations, linking business decisions to long-term ESG frameworks.",
+          },
+        ],
         },
         {
           id: "ba1-l23",
@@ -1809,7 +2292,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Job polarisation theory suggests automation displaces routine tasks — both manual (assembly, processing) and cognitive (data entry, bookkeeping). These are typically middle-skill jobs. High-skill complex roles and low-skill non-routine manual roles (caring, cleaning) are harder to automate.",
               topic: "Automation and labour markets",
             },
-          ],
+          
+          {
+            question: "Creative destruction (Schumpeter) describes the process by which:",
+            options: [
+              "Monopolists destroy competition through predatory pricing",
+              "Innovation displaces existing technologies, firms and industries",
+              "Governments destroy inefficient industries through nationalisation",
+              "Currency depreciation erodes purchasing power",
+            ],
+            correct: 1,
+            explanation: "Schumpeter's creative destruction captures how innovation continuously disrupts existing economic structures — new products, processes or business models render established ones obsolete, driving long-run economic progress.",
+          },
+          {
+            question: "Which of the following is an example of a disruptive technology that transformed an existing industry?",
+            options: [
+              "A marginal upgrade to an existing product",
+              "Streaming services replacing physical media rental (e.g., Netflix vs video rental)",
+              "A price cut by an established market leader",
+              "A minor process improvement in manufacturing",
+            ],
+            correct: 1,
+            explanation: "Streaming services fundamentally changed how consumers access entertainment, rendering the physical video rental industry largely obsolete. Disruptive technologies typically enter at the low end or with a new delivery model before displacing incumbents.",
+          },
+        ],
         },
         {
           id: "ba1-l24",
@@ -1873,7 +2379,30 @@ const AIQ_COURSE_DATA = {
               explanation: "In long-run perfect competition, free entry and exit ensures all supernormal profits are competed away. Equilibrium: P = MR = MC = minimum ATC. The firm earns only normal (zero economic) profit — covering all costs including opportunity cost of capital.",
               topic: "Perfect competition",
             },
-          ],
+          
+          {
+            question: "The price elasticity of supply (PES) measures:",
+            options: [
+              "How consumer demand responds to income changes",
+              "The responsiveness of quantity supplied to a change in price",
+              "The relationship between inflation and interest rates",
+              "How quickly firms can enter a market",
+            ],
+            correct: 1,
+            explanation: "PES = % change in quantity supplied / % change in price. A PES > 1 is elastic (supply responds strongly to price). Supply tends to be more elastic in the long run when producers have more time to adjust capacity.",
+          },
+          {
+            question: "Which factor makes supply more price elastic?",
+            options: [
+              "High barriers to entry and specialised capital equipment",
+              "Abundant spare production capacity and easily sourced inputs",
+              "Long production lead times",
+              "Highly perishable output",
+            ],
+            correct: 1,
+            explanation: "Supply is more elastic when firms can respond quickly and cheaply to price changes — e.g., by drawing on spare capacity, hiring variable labour, or sourcing inputs readily. Fixed capacity and long lead times make supply inelastic.",
+          },
+        ],
         },
         {
           id: "ba1-l25",
@@ -1937,7 +2466,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The J-curve describes the current account response to depreciation. In the short run, existing contracts mean export revenue and import costs are slow to change — the current account worsens. Over time, as volumes adjust (export demand rises, import demand falls), the balance improves, tracing a J shape.",
               topic: "International economics",
             },
-          ],
+          
+          {
+            question: "The multiplier effect in macroeconomics describes how:",
+            options: [
+              "Interest rate cuts amplify bank lending proportionally",
+              "An initial injection of spending generates a larger final increase in national income",
+              "Inflation multiplies the real value of debt over time",
+              "Tax cuts always double government revenue",
+            ],
+            correct: 1,
+            explanation: "The Keynesian multiplier: an initial increase in spending (e.g., government investment) raises incomes, which are partly re-spent, raising others' incomes further. The size of the multiplier depends on the marginal propensity to consume.",
+          },
+          {
+            question: "The aggregate demand (AD) curve slopes downward because:",
+            options: [
+              "As the price level rises, real wealth falls, net exports fall, and real interest rates rise — all reducing spending",
+              "Higher prices always mean higher unemployment",
+              "Firms reduce supply as the price level falls",
+              "Government spending automatically falls when prices rise",
+            ],
+            correct: 0,
+            explanation: "The AD curve slopes down due to three effects: (1) wealth effect — higher prices erode real purchasing power; (2) interest rate effect — higher prices raise demand for money, pushing up interest rates and reducing investment; (3) trade effect — higher domestic prices make exports less competitive.",
+          },
+        ],
         },
         {
           id: "ba1-l26",
@@ -2535,7 +3087,30 @@ const AIQ_COURSE_DATA = {
                 "Note: absorbed overhead is based on standard hours for actual output, not actual hours worked.",
               topic: "Overhead absorption",
             },
-          ],
+          
+          {
+            question: "Budgeted fixed overheads = £300,000; budgeted machine hours = 50,000; actual machine hours worked = 52,000. What is the fixed overhead volume variance?",
+            options: [
+              "£12,000 Favourable",
+              "£12,000 Adverse",
+              "£5,000 Favourable",
+              "£17,000 Adverse",
+            ],
+            correct: 0,
+            explanation: "OAR = £300,000 / 50,000 = £6/hour. Overhead absorbed = 52,000 × £6 = £312,000. Volume variance = Absorbed − Budgeted = £312,000 − £300,000 = £12,000 Favourable. More hours worked than budgeted means more overhead is absorbed.",
+          },
+          {
+            question: "Under absorption costing, when closing inventory exceeds opening inventory, reported profit compared with marginal costing will be:",
+            options: [
+              "Lower — fewer fixed costs carried forward",
+              "Higher — fixed costs are deferred in closing inventory",
+              "Equal — both methods show the same profit",
+              "Higher under marginal costing only",
+            ],
+            correct: 1,
+            explanation: "Absorption costing includes fixed overheads in inventory valuation. When closing inventory rises, more fixed costs are carried forward to the next period, reducing the current period charge and producing a higher profit than marginal costing.",
+          },
+        ],
         },
         {
           id: "ba2-l4",
@@ -2904,7 +3479,30 @@ const AIQ_COURSE_DATA = {
                 "Cost at 7,000 units = £15,000 + (£4 × 7,000) = £15,000 + £28,000 = £43,000.",
               topic: "High-low prediction",
             },
-          ],
+          
+          {
+            question: "Highest activity: 800 units, total cost £18,000. Lowest activity: 300 units, total cost £11,000. What is the variable cost per unit using the high-low method?",
+            options: [
+              "£14.00",
+              "£22.50",
+              "£36.67",
+              "£7.00",
+            ],
+            correct: 0,
+            explanation: "VC per unit = Change in cost / Change in activity = (£18,000 − £11,000) / (800 − 300) = £7,000 / 500 = £14.00 per unit.",
+          },
+          {
+            question: "Using the high-low data above, what is the estimated fixed cost?",
+            options: [
+              "£6,000",
+              "£6,800",
+              "£7,200",
+              "£4,200",
+            ],
+            correct: 1,
+            explanation: "Fixed cost = Total cost − (VC/unit × activity level). Using the high point: £18,000 − (£14 × 800) = £18,000 − £11,200 = £6,800. Verify with low point: £11,000 − (£14 × 300) = £6,800 ✓.",
+          },
+        ],
         },
         {
           id: "ba2-l7",
@@ -3036,7 +3634,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The principal budget factor (also called the key budget factor or limiting factor) is the constraint — typically sales demand — around which all other budgets must be built.",
               topic: "Budgeting principles",
             },
-          ],
+          
+          {
+            question: "Which budgeting approach requires all expenditure to be justified from zero each period, regardless of prior-year spending?",
+            options: [
+              "Incremental budgeting",
+              "Zero-based budgeting (ZBB)",
+              "Activity-based budgeting",
+              "Rolling budgeting",
+            ],
+            correct: 1,
+            explanation: "Zero-based budgeting (ZBB) starts from a zero base each period. All costs must be re-justified rather than simply uplifting last year's figures, making it more resource-intensive but better at eliminating wasteful spending.",
+          },
+          {
+            question: "A flexed budget is most useful for variance analysis because it:",
+            options: [
+              "Eliminates all variable costs from the comparison",
+              "Compares actual costs with costs adjusted to the actual activity level",
+              "Shows the original budget without any changes",
+              "Excludes fixed costs from the performance report",
+            ],
+            correct: 1,
+            explanation: "A flexed budget adjusts the original budget to the actual activity level achieved. This isolates price/efficiency variances from volume variances, giving a fairer basis for evaluating cost performance.",
+          },
+        ],
         },
         {
           id: "ba2-l8",
@@ -3394,7 +4015,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Contribution per machine hour: A = £30/5 = £6/hr; B = £28/4 = £7/hr. Product B earns more per unit of the scarce resource and should be prioritised.",
               topic: "Limiting factor analysis",
             },
-          ],
+          
+          {
+            question: "A company has spare capacity. Selling price = £80; variable cost = £55; absorbed fixed cost = £20/unit. What is the minimum price for a one-off special order?",
+            options: [
+              "£80",
+              "£75",
+              "£55",
+              "£35",
+            ],
+            correct: 2,
+            explanation: "With spare capacity there is no opportunity cost. The relevant (incremental) cost is variable cost only: £55. Fixed costs are already committed and do not change with this order, so any price above £55 contributes to profit.",
+          },
+          {
+            question: "In a make-or-buy decision, in-house variable cost = £30/unit; in-house fixed costs = £15 (unavoidable if bought in). Buy-in price = £40. Which option is preferred?",
+            options: [
+              "Buy in — total in-house cost of £45 exceeds £40",
+              "Make in-house — relevant in-house cost of £30 is less than £40",
+              "Make in-house — total cost of £45 is irrelevant",
+              "Buy in — fixed costs are irrelevant",
+            ],
+            correct: 1,
+            explanation: "Because fixed costs are unavoidable (incurred regardless of the decision), the relevant comparison is variable cost vs buy-in price: £30 vs £40. Making in-house saves £10 per unit.",
+          },
+        ],
         },
 
         {
@@ -3462,7 +4106,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Abnormal gain occurs when actual losses are less than the normal (expected) level — i.e., the process performs better than anticipated and actual output exceeds expected output. It is treated as a credit in the process account.",
               topic: "Process costing",
             },
-          ],
+          
+          {
+            question: "Process input = 5,000 kg. Normal loss = 10% of input. Actual output = 4,200 kg. What is the abnormal loss?",
+            options: [
+              "800 kg",
+              "500 kg",
+              "300 kg",
+              "200 kg",
+            ],
+            correct: 2,
+            explanation: "Expected output = 5,000 − (10% × 5,000) = 4,500 kg. Abnormal loss = Expected output − Actual output = 4,500 − 4,200 = 300 kg. Normal loss is budgeted; abnormal loss is the unexpected additional loss.",
+          },
+          {
+            question: "Total process costs = £32,000; input = 5,000 kg; normal loss = 10%. What is the cost per unit of expected output?",
+            options: [
+              "£6.40",
+              "£7.11",
+              "£8.00",
+              "£5.00",
+            ],
+            correct: 1,
+            explanation: "Expected output = 5,000 × 90% = 4,500 kg. Cost per expected kg = £32,000 / 4,500 = £7.11. This rate is then applied to value good output, abnormal loss and abnormal gain.",
+          },
+        ],
         },
         {
           id: "ba2-l11",
@@ -3527,7 +4194,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Cost per unit = £2,500 ÷ 500 = £5.00. A 20% margin means profit = 20% of selling price, so cost = 80% of selling price. Selling price = £5.00 ÷ 0.80 = £6.25. Note: if 20% mark-up on cost were asked: £5.00 × 1.20 = £6.00.",
               topic: "Batch costing",
             },
-          ],
+          
+          {
+            question: "Job costing is most appropriate when:",
+            options: [
+              "Identical products are mass-produced continuously",
+              "Work is carried out to unique customer specifications",
+              "Products are processed in a continuous flow",
+              "Standard costs apply to every output unit",
+            ],
+            correct: 1,
+            explanation: "Job costing assigns costs to each individual job or customer order. It is suitable for bespoke work — e.g., construction, legal services, printing — where each job differs in specification and cost.",
+          },
+          {
+            question: "A batch of 500 units incurs: materials £4,000, labour £2,500, overheads £1,500. What is the unit cost?",
+            options: [
+              "£8.00",
+              "£12.00",
+              "£16.00",
+              "£20.00",
+            ],
+            correct: 2,
+            explanation: "Total batch cost = £4,000 + £2,500 + £1,500 = £8,000. Unit cost = £8,000 / 500 units = £16.00. Batch costing accumulates all costs for the batch then divides by units produced.",
+          },
+        ],
         },
         {
           id: "ba2-l12",
@@ -3593,7 +4283,30 @@ const AIQ_COURSE_DATA = {
               explanation: "ABC makes the greatest difference when: (1) overheads are large relative to direct costs; (2) products differ significantly in complexity, batch size, or support activity consumption; and (3) overheads are driven by non-volume activities (set-ups, orders, inspections). In a single-product environment or where direct costs dominate, ABC adds little value.",
               topic: "ABC vs traditional costing",
             },
-          ],
+          
+          {
+            question: "ABC was developed primarily to address which weakness of traditional costing?",
+            options: [
+              "Traditional costing ignores variable costs",
+              "Volume-based overhead absorption distorts unit costs in multi-product environments",
+              "Traditional costing cannot be used for service businesses",
+              "Traditional costing requires too many cost pools",
+            ],
+            correct: 1,
+            explanation: "When overheads are absorbed on a single volume basis (e.g., labour hours), complex low-volume products are under-costed and simple high-volume products are over-costed. ABC traces costs via activities, giving more accurate unit costs.",
+          },
+          {
+            question: "In ABC, a cost driver is best defined as:",
+            options: [
+              "The total overhead absorbed per unit of output",
+              "The factor that causes activity costs to be incurred",
+              "The rate at which overhead is charged to production",
+              "The manager responsible for overhead cost control",
+            ],
+            correct: 1,
+            explanation: "A cost driver is the factor that causes an activity's cost to change — e.g., number of set-ups drives set-up costs; number of orders drives order-processing costs. Identifying true cost drivers is central to ABC.",
+          },
+        ],
         },
         {
           id: "ba2-l13",
@@ -3659,7 +4372,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The reciprocal method uses simultaneous equations to fully account for services rendered between service centres. The direct method ignores inter-service work entirely; the step-down method only partially accounts for it. When service centres serve each other significantly, only the reciprocal method is fully accurate.",
               topic: "Service centre reapportionment",
             },
-          ],
+          
+          {
+            question: "Total overheads for Production Department A = £180,000; budgeted direct labour hours = 60,000. What is the overhead absorption rate (OAR)?",
+            options: [
+              "£1.80 per DLH",
+              "£3.00 per DLH",
+              "£4.50 per DLH",
+              "£6.00 per DLH",
+            ],
+            correct: 1,
+            explanation: "OAR = Budgeted overhead / Budgeted activity = £180,000 / 60,000 DLH = £3.00 per direct labour hour. This rate is then applied to actual hours worked to absorb overhead into product costs.",
+          },
+          {
+            question: "Service department costs are apportioned to production departments using:",
+            options: [
+              "An arbitrary split decided by senior management",
+              "Bases that reflect actual usage or benefit received",
+              "The direct labour hour rate only",
+              "An equal share regardless of usage",
+            ],
+            correct: 1,
+            explanation: "The apportionment base should reflect the benefit each production department receives from the service department — e.g., floor area for maintenance, headcount for HR, machine hours for power.",
+          },
+        ],
         },
         {
           id: "ba2-l14",
@@ -3724,7 +4460,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Target costing works backwards from the market price: Target cost = Market price − Required profit. This forces designers and engineers to find ways to achieve the required cost, rather than simply pricing to cover whatever cost arises.",
               topic: "Target costing",
             },
-          ],
+          
+          {
+            question: "Price skimming involves:",
+            options: [
+              "Setting a low price initially to build rapid market share",
+              "Setting a high initial price that is reduced over time as competition increases",
+              "Pricing at marginal cost to maximise volume",
+              "Adding a fixed percentage mark-up to full cost",
+            ],
+            correct: 1,
+            explanation: "Price skimming sets a high launch price to extract maximum revenue from early adopters willing to pay a premium. The price is then reduced as competitors enter and the market matures.",
+          },
+          {
+            question: "Target costing determines the allowable cost by:",
+            options: [
+              "Starting from cost and adding a margin to arrive at price",
+              "Starting from the market price and subtracting the required profit margin",
+              "Starting from competitor prices and adjusting for quality differences",
+              "Starting from variable cost and computing the breakeven volume",
+            ],
+            correct: 1,
+            explanation: "Target costing: Target cost = Market price − Required profit margin. The product must be designed and manufactured to meet this cost target, driving cost reduction from the outset.",
+          },
+        ],
         },
         {
           id: "ba2-l15",
@@ -3790,7 +4549,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The relevant question is: does the division improve or worsen overall profit? Contribution £150,000 vs specific fixed costs saved £80,000 → net benefit of staying open = £70,000. Apportioned central overhead (£90,000) is not saved by closure — it is redistributed to remaining divisions. Closing would reduce group profit by £70,000.",
               topic: "Shutdown decisions",
             },
-          ],
+          
+          {
+            question: "Material Y is in regular use. 200 kg in inventory, originally purchased at £8/kg; current market price = £10/kg. What is the relevant cost per kg for a special contract?",
+            options: [
+              "£8/kg — original purchase price",
+              "£10/kg — current replacement cost",
+              "Nil — already paid for",
+              "£18/kg — combined cost",
+            ],
+            correct: 1,
+            explanation: "Because Material Y is in regular use, using it now means it must be replaced at the current market price of £10/kg. The relevant cost is the replacement cost, not the sunk historical cost.",
+          },
+          {
+            question: "An employee is paid £15/hr and is currently idle (no alternative productive work). What is the relevant labour cost per hour for a special contract?",
+            options: [
+              "£15/hr — the employee is paid regardless",
+              "£0/hr — no additional cash cost is incurred",
+              "£7.50/hr — half the normal rate",
+              "Only the on-costs (NI and pension) apply",
+            ],
+            correct: 1,
+            explanation: "With spare capacity and no alternative use for idle labour, the employee is paid whether or not the contract proceeds. No additional (incremental) cash outflow arises, so the relevant cost is nil.",
+          },
+        ],
         },
         {
           id: "ba2-l16",
@@ -3858,7 +4640,30 @@ const AIQ_COURSE_DATA = {
               explanation: "A shadow price of zero means relaxing the constraint does not change the optimal solution — because the constraint is not binding (the firm already has more of this resource than it needs at the optimal production mix). Only binding constraints have a positive shadow price.",
               topic: "Linear programming",
             },
-          ],
+          
+          {
+            question: "Machine hours available = 10,000. Product X: 4 hrs/unit, contribution £20. Product Y: 2 hrs/unit, contribution £12. In what priority order should production be scheduled?",
+            options: [
+              "X first — higher contribution per unit",
+              "Y first — higher contribution per machine hour",
+              "Equal — both rank the same",
+              "X first — uses more hours so is more productive",
+            ],
+            correct: 1,
+            explanation: "Contribution per machine hour: X = £20 / 4 = £5/hr; Y = £12 / 2 = £6/hr. Y generates more contribution per unit of the scarce resource, so Y should be produced first to maximise total contribution.",
+          },
+          {
+            question: "In a linear programming model, the objective function represents:",
+            options: [
+              "The resource constraints that limit production",
+              "The quantity to be maximised or minimised (e.g., total contribution)",
+              "The selling price of each product",
+              "The shadow price of the binding constraint",
+            ],
+            correct: 1,
+            explanation: "The objective function states what is being optimised — typically maximise total contribution (Maximise Z = cₓX + c_yY) or minimise total cost. Constraints are separate expressions that limit the feasible solution space.",
+          },
+        ],
         },
         {
           id: "ba2-l17",
@@ -3925,7 +4730,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Average annual profit = £90,000 ÷ 5 = £18,000. Average investment = (£200,000 + £20,000) ÷ 2 = £110,000. ARR = £18,000 ÷ £110,000 × 100 = 16.4%.",
               topic: "ARR",
             },
-          ],
+          
+          {
+            question: "An investment of £120,000 generates net cash inflows of £30,000 per year. What is the payback period?",
+            options: [
+              "3 years",
+              "4 years",
+              "5 years",
+              "6 years",
+            ],
+            correct: 1,
+            explanation: "Payback period = Initial investment / Annual cash inflow = £120,000 / £30,000 = 4 years. Payback ignores the time value of money and cash flows after the payback date.",
+          },
+          {
+            question: "Accounting Rate of Return (ARR) is calculated as:",
+            options: [
+              "(Average annual accounting profit / Average investment) × 100",
+              "(Total cash inflows / Initial investment) × 100",
+              "(Initial investment / Average annual cash flow) × 100",
+              "(NPV / Initial investment) × 100",
+            ],
+            correct: 0,
+            explanation: "ARR = (Average annual profit / Average investment) × 100%. Unlike payback, ARR uses accounting profit (after depreciation), not cash flows. Average investment = (Initial cost + Residual value) / 2.",
+          },
+        ],
         },
         {
           id: "ba2-l18",
@@ -3990,7 +4818,30 @@ const AIQ_COURSE_DATA = {
               explanation: "IRR ≈ L + [NPV_L ÷ (NPV_L − NPV_H)] × (H − L) = 12 + [6,000 ÷ (6,000 + 2,000)] × (18 − 12) = 12 + (6,000 ÷ 8,000) × 6 = 12 + 0.75 × 6 = 12 + 4.5 = 16.5%.",
               topic: "IRR",
             },
-          ],
+          
+          {
+            question: "Project cash flows: Year 0 −£100,000; Year 1 +£40,000; Year 2 +£60,000; Year 3 +£50,000. Discount factors at 10%: Y1=0.909, Y2=0.826, Y3=0.751. What is the NPV?",
+            options: [
+              "£23,470",
+              "£50,000",
+              "£150,000",
+              "−£23,470",
+            ],
+            correct: 0,
+            explanation: "PV of inflows = (40,000×0.909) + (60,000×0.826) + (50,000×0.751) = 36,360 + 49,560 + 37,550 = £123,470. NPV = £123,470 − £100,000 = £23,470. Positive NPV means the project exceeds the required return.",
+          },
+          {
+            question: "The Internal Rate of Return (IRR) is the discount rate at which:",
+            options: [
+              "NPV is at its maximum",
+              "NPV equals zero",
+              "The payback period equals the project life",
+              "ARR equals the cost of capital",
+            ],
+            correct: 1,
+            explanation: "IRR is the rate that makes NPV = 0. If IRR > cost of capital, the project creates value and should be accepted. IRR can give misleading rankings for mutually exclusive projects, so NPV is generally preferred.",
+          },
+        ],
         },
         {
           id: "ba2-l19",
@@ -4056,7 +4907,30 @@ const AIQ_COURSE_DATA = {
               explanation: "y = 5,000 + 8(600) = 5,000 + 4,800 = £9,800. Fixed cost component = £5,000; variable cost component = £4,800. The regression equation separates total cost into fixed (intercept) and variable (slope × activity) elements.",
               topic: "Cost forecasting",
             },
-          ],
+          
+          {
+            question: "In the regression equation Y = a + bX, what does the coefficient 'b' represent in a cost estimation context?",
+            options: [
+              "The fixed cost at zero activity",
+              "The variable cost per unit of activity",
+              "The coefficient of determination (R²)",
+              "The correlation coefficient",
+            ],
+            correct: 1,
+            explanation: "In Y = a + bX, 'a' is the intercept (estimated fixed cost) and 'b' is the slope (estimated variable cost per unit of activity). This mirrors the cost equation: Total cost = Fixed cost + (Variable cost × activity).",
+          },
+          {
+            question: "A Pearson correlation coefficient of −0.95 indicates:",
+            options: [
+              "A strong positive linear relationship",
+              "A weak negative relationship",
+              "A strong negative linear relationship",
+              "No significant linear relationship",
+            ],
+            correct: 2,
+            explanation: "The correlation coefficient ranges from −1 to +1. A value of −0.95 indicates a strong negative linear relationship: as X increases, Y decreases, and the relationship is close to perfectly linear.",
+          },
+        ],
         },
         {
           id: "ba2-l20",
@@ -4121,7 +4995,30 @@ const AIQ_COURSE_DATA = {
               explanation: "A 4-point moving average of periods 1–4 falls between periods 2 and 3 — it has no natural alignment with an actual observation. Centring (averaging two adjacent 4-point averages) repositions the trend value to sit at period 3, so it can be compared directly with the actual data for that period.",
               topic: "Moving averages",
             },
-          ],
+          
+          {
+            question: "In time series analysis, a moving average is used to:",
+            options: [
+              "Calculate percentage growth rates",
+              "Smooth out short-term fluctuations to reveal the underlying trend",
+              "Project seasonal indices into the future",
+              "Remove cyclical components from the data",
+            ],
+            correct: 1,
+            explanation: "A moving average averages successive data points over a fixed period (e.g., 4-quarter moving average). This smooths out random variations and seasonal effects, revealing the longer-term trend.",
+          },
+          {
+            question: "Under the additive model of time series decomposition, actual data (A) is expressed as:",
+            options: [
+              "A = T × S × C × R",
+              "A = T + S + C + R",
+              "A = T × S only",
+              "A = T / S",
+            ],
+            correct: 1,
+            explanation: "The additive model: A = Trend + Seasonal + Cyclical + Random. It is used when seasonal fluctuations are roughly constant in absolute terms. The multiplicative model (A = T × S × C × R) is used when fluctuations grow proportionally with the trend.",
+          },
+        ],
         },
         {
           id: "ba2-l21",
@@ -4186,7 +5083,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The controllability principle holds that it is unfair and demotivating to hold a manager responsible for variances they cannot influence. Apportioned head office costs, group financing costs, and externally-driven commodity price movements are typically excluded from controllable performance reports.",
               topic: "Responsibility accounting",
             },
-          ],
+          
+          {
+            question: "The controllability principle in responsibility accounting states that managers should be:",
+            options: [
+              "Held responsible for all costs that appear in their department's budget",
+              "Evaluated only on costs and revenues they can directly influence",
+              "Responsible for head office cost allocations passed to their division",
+              "Judged on divisional ROI regardless of group-level decisions",
+            ],
+            correct: 1,
+            explanation: "Controllability means managers are assessed only on items within their authority to influence. Holding managers responsible for uncontrollable items (e.g., allocated head office costs) is unfair and demotivating.",
+          },
+          {
+            question: "A cost centre is a responsibility centre that:",
+            options: [
+              "Has accountability for revenues and costs",
+              "Is responsible for costs only",
+              "Controls costs, revenues and capital investment decisions",
+              "Only reports non-financial performance indicators",
+            ],
+            correct: 1,
+            explanation: "A cost centre manager controls costs but has no authority over revenues. A profit centre controls both costs and revenues. An investment centre controls costs, revenues and capital investment.",
+          },
+        ],
         },
         {
           id: "ba2-l22",
@@ -4252,7 +5172,30 @@ const AIQ_COURSE_DATA = {
               explanation: "At variable cost transfer prices, the buying division sees the true marginal cost of the product to the group. It will buy internally (cheaper than external) and the group's variable cost is minimised. Full cost pricing causes the buying division to treat fixed costs as variable, potentially leading to suboptimal make-or-buy decisions.",
               topic: "Transfer pricing",
             },
-          ],
+          
+          {
+            question: "A selling division with spare capacity and no external market should set the transfer price at:",
+            options: [
+              "Market price",
+              "Full cost plus a profit mark-up",
+              "Variable cost",
+              "Variable cost plus a mark-up for profit",
+            ],
+            correct: 2,
+            explanation: "With spare capacity and no opportunity cost, the minimum transfer price is variable cost. Charging anything higher than variable cost discourages internal transfers that would benefit the group as a whole.",
+          },
+          {
+            question: "Dual pricing in transfer pricing means:",
+            options: [
+              "Charging two different external customers different prices",
+              "The selling division receives a market price while the buying division is charged variable cost",
+              "Using two accounting standards simultaneously",
+              "Applying both IFRS and local GAAP in the same report",
+            ],
+            correct: 1,
+            explanation: "Dual pricing credits the selling division at market price (maintaining its motivation) while charging the buying division at variable cost (encouraging it to transfer internally). The difference is a reconciling item at group level.",
+          },
+        ],
         },
         {
           id: "ba2-l23",
@@ -4318,7 +5261,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The dilution problem: if a manager's current ROCE is 20% and a new project earns 15% (above the 12% cost of capital), accepting it dilutes their ROCE. The manager rejects the project to protect their ratio — suboptimal for the group. RI avoids this: any project with positive RI (earning above cost of capital) increases RI regardless of the current level.",
               topic: "Performance measurement",
             },
-          ],
+          
+          {
+            question: "Return on Capital Employed (ROCE) is calculated as:",
+            options: [
+              "Net profit after tax / Revenue × 100",
+              "EBIT / Capital employed × 100",
+              "Net profit after tax / Total assets × 100",
+              "Revenue / Capital employed × 100",
+            ],
+            correct: 1,
+            explanation: "ROCE = EBIT (earnings before interest and tax) / Capital employed × 100. Capital employed = Total assets − Current liabilities. ROCE measures how efficiently a business generates profit from its long-term capital.",
+          },
+          {
+            question: "An organisation uses both leading and lagging KPIs because:",
+            options: [
+              "Lagging indicators predict future performance; leading indicators confirm past results",
+              "Leading indicators provide forward-looking signals; lagging indicators confirm historical outcomes",
+              "Both types measure historical performance",
+              "Leading indicators are financial; lagging indicators are always non-financial",
+            ],
+            correct: 1,
+            explanation: "Leading indicators (e.g., employee training hours, customer pipeline) provide early warning of future performance. Lagging indicators (e.g., profit, customer satisfaction) confirm outcomes after the fact. Together they give a balanced view.",
+          },
+        ],
         },
         {
           id: "ba2-l24",
@@ -4382,7 +5348,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The BSC includes non-financial leading indicators (customer satisfaction, process quality, employee development) that predict future financial results. Financial measures are lagging — they report what has already happened. The BSC helps managers invest in future value drivers, not just manage today's profit.",
               topic: "Balanced scorecard",
             },
-          ],
+          
+          {
+            question: "The balanced scorecard framework was developed by:",
+            options: [
+              "Michael Porter",
+              "Kaplan and Norton",
+              "Peter Drucker",
+              "Mintzberg and Quinn",
+            ],
+            correct: 1,
+            explanation: "Robert Kaplan and David Norton introduced the Balanced Scorecard in a 1992 Harvard Business Review article. It links strategy to operational performance across four perspectives: Financial, Customer, Internal Business Process, and Learning and Growth.",
+          },
+          {
+            question: "Which balanced scorecard perspective addresses the question 'How do our customers see us?'",
+            options: [
+              "Financial",
+              "Customer",
+              "Internal Business Process",
+              "Learning and Growth",
+            ],
+            correct: 1,
+            explanation: "The Customer perspective measures how well the organisation meets customer needs — e.g., customer satisfaction scores, on-time delivery, repeat purchase rates, and customer retention.",
+          },
+        ],
         },
         {
           id: "ba2-l25",
@@ -4446,7 +5435,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Overhead absorbed = Actual hours × OAR. If actual hours > budgeted hours, more overhead is absorbed than budgeted. As long as actual overhead incurred is close to budget, absorbed > actual = over-absorption, which is a credit to the P&L.",
               topic: "Overhead absorption",
             },
-          ],
+          
+          {
+            question: "Contribution per unit = £25; total fixed costs = £100,000. What is the breakeven point in units?",
+            options: [
+              "2,500",
+              "4,000",
+              "5,000",
+              "4,500",
+            ],
+            correct: 1,
+            explanation: "Breakeven units = Fixed costs / Contribution per unit = £100,000 / £25 = 4,000 units. At this output level, total contribution exactly covers fixed costs and profit is zero.",
+          },
+          {
+            question: "The margin of safety measures:",
+            options: [
+              "Fixed cost as a percentage of variable cost",
+              "The amount by which actual/budgeted sales exceed the breakeven sales volume",
+              "The difference between selling price and variable cost per unit",
+              "The minimum required return on a capital investment",
+            ],
+            correct: 1,
+            explanation: "Margin of safety = Actual (or budgeted) sales − Breakeven sales. It shows how far sales could fall before the business makes a loss. It is often expressed as a percentage of budgeted sales.",
+          },
+        ],
         },
         {
           id: "ba2-l26",
@@ -4736,7 +5748,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The two fundamental characteristics are relevance and faithful representation. Comparability, understandability, timeliness, and verifiability are enhancing characteristics.",
               topic: "Qualitative characteristics",
             },
-          ],
+          
+          {
+            question: "Which TWO qualitative characteristics are identified as fundamental under the IASB Conceptual Framework?",
+            options: [
+              "Relevance and faithful representation",
+              "Comparability and verifiability",
+              "Relevance and comparability",
+              "Faithful representation and timeliness",
+            ],
+            correct: 0,
+            explanation: "The Conceptual Framework identifies two fundamental qualitative characteristics: relevance (capable of making a difference to decisions) and faithful representation (complete, neutral and free from error). Comparability, verifiability, timeliness and understandability are enhancing characteristics.",
+          },
+          {
+            question: "Under the going concern assumption, financial statements are prepared on the basis that:",
+            options: [
+              "All assets are shown at net realisable value",
+              "The entity will continue in operation for the foreseeable future",
+              "All debts will be repaid within 12 months",
+              "Historical cost must be used for all assets",
+            ],
+            correct: 1,
+            explanation: "Going concern means the entity is assumed to continue trading for the foreseeable future. If going concern is not appropriate, assets may need to be restated at realisable values and liabilities reclassified as current.",
+          },
+        ],
         },
         {
           id: "ba3-l2",
@@ -4999,7 +6034,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Under the accruals concept, expenses are recognised when incurred, not when paid. The £1,200 is charged to the income statement as an expense and a current liability (accrual) is created on the balance sheet.",
               topic: "Accruals",
             },
-          ],
+          
+          {
+            question: "Revenue £500,000; cost of sales £320,000; operating expenses £80,000; finance costs £15,000; tax £25,500. What is profit after tax?",
+            options: [
+              "£59,500",
+              "£85,000",
+              "£100,000",
+              "£180,000",
+            ],
+            correct: 0,
+            explanation: "Gross profit = £500,000 − £320,000 = £180,000. Operating profit = £180,000 − £80,000 = £100,000. PBT = £100,000 − £15,000 = £85,000. PAT = £85,000 − £25,500 = £59,500.",
+          },
+          {
+            question: "Which of the following is presented in Other Comprehensive Income (OCI) rather than profit or loss?",
+            options: [
+              "Revenue from sales",
+              "Gain on revaluation of property, plant and equipment",
+              "Finance costs on borrowings",
+              "Current income tax expense",
+            ],
+            correct: 1,
+            explanation: "Revaluation gains on PPE are recognised in OCI under IAS 16 because they are not yet realised through a sale. Items in OCI bypass the income statement but accumulate in a revaluation surplus within equity.",
+          },
+        ],
         },
         {
           id: "ba3-l4",
@@ -5116,7 +6174,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Using the accounting equation: Equity = Assets − Liabilities = £500,000 − £180,000 = £320,000.",
               topic: "Accounting equation",
             },
-          ],
+          
+          {
+            question: "Non-current assets £580,000; current assets £240,000; non-current liabilities £200,000; current liabilities £160,000. What is total equity?",
+            options: [
+              "£420,000",
+              "£460,000",
+              "£360,000",
+              "£580,000",
+            ],
+            correct: 1,
+            explanation: "Total assets = £580,000 + £240,000 = £820,000. Total liabilities = £200,000 + £160,000 = £360,000. Equity = £820,000 − £360,000 = £460,000. This follows the accounting equation: Assets = Liabilities + Equity.",
+          },
+          {
+            question: "Which of the following is correctly classified as an intangible non-current asset?",
+            options: [
+              "Land and buildings",
+              "Purchased goodwill arising on a business acquisition",
+              "Equity investments in subsidiaries",
+              "Trade receivables",
+            ],
+            correct: 1,
+            explanation: "Purchased goodwill (arising when acquisition cost exceeds the fair value of net assets acquired) is an intangible non-current asset under IFRS 3. Internally generated goodwill cannot be capitalised.",
+          },
+        ],
         },
         {
           id: "ba3-l5",
@@ -5218,7 +6299,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Profit on disposal = proceeds − carrying amount = £23,500 − £20,000 = £3,500 profit. This is recognised in the income statement.",
               topic: "Asset disposal",
             },
-          ],
+          
+          {
+            question: "An asset costs £50,000 with a residual value of £5,000 and a useful life of 9 years. What is the annual straight-line depreciation charge?",
+            options: [
+              "£5,000",
+              "£5,556",
+              "£4,500",
+              "£6,250",
+            ],
+            correct: 0,
+            explanation: "Straight-line depreciation = (Cost − Residual value) / Useful life = (£50,000 − £5,000) / 9 = £45,000 / 9 = £5,000 per year.",
+          },
+          {
+            question: "An asset costing £40,000 is depreciated using the reducing balance method at 25% per annum. What is the carrying amount after 2 years?",
+            options: [
+              "£20,000",
+              "£22,500",
+              "£25,000",
+              "£30,000",
+            ],
+            correct: 1,
+            explanation: "Year 1: £40,000 × 75% = £30,000 carrying amount. Year 2: £30,000 × 75% = £22,500 carrying amount. The reducing balance method applies the rate to the carrying amount each year, not the original cost.",
+          },
+        ],
         },
         {
           id: "ba3-l6",
@@ -7659,7 +8763,30 @@ const AIQ_COURSE_DATA = {
                 "Integrity requires honesty and straightforwardness. Inflating revenue figures is dishonest and directly violates integrity.",
               topic: "CIMA ethical principles",
             },
-          ],
+          
+          {
+            question: "The ethical theory that judges the morality of an action solely by its consequences and outcomes is:",
+            options: [
+              "Deontology",
+              "Virtue ethics",
+              "Consequentialism (utilitarianism)",
+              "Rights-based theory",
+            ],
+            correct: 2,
+            explanation: "Consequentialism (including utilitarianism) holds that an action is right if it produces the best overall outcomes. Deontology focuses on duties and rules; virtue ethics on character; rights theory on entitlements.",
+          },
+          {
+            question: "CIMA's Code of Ethics is built around five fundamental principles. Which of the following is NOT one of them?",
+            options: [
+              "Integrity",
+              "Objectivity",
+              "Profitability",
+              "Professional competence and due care",
+            ],
+            correct: 2,
+            explanation: "The five CIMA fundamental principles are: integrity, objectivity, professional competence and due care, confidentiality, and professional behaviour. Profitability is a business objective, not an ethical principle.",
+          },
+        ],
         },
         {
           id: "ba4-l2",
@@ -7761,7 +8888,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The audit committee — comprising independent non-executive directors — oversees the integrity of financial reporting, monitors internal controls and risk management, and manages the relationship with the external auditor.",
               topic: "Audit committee",
             },
-          ],
+          
+          {
+            question: "The UK Corporate Governance Code operates on which basis?",
+            options: [
+              "Mandatory — all provisions must be complied with by law",
+              "Comply or explain — companies must comply or explain non-compliance",
+              "Comply or be fined — non-compliance triggers automatic penalties",
+              "Purely voluntary with no disclosure requirement",
+            ],
+            correct: 1,
+            explanation: "The UK Corporate Governance Code uses a 'comply or explain' approach. Listed companies must either comply with each provision or explain in their annual report why they have not done so, giving flexibility while maintaining accountability.",
+          },
+          {
+            question: "The audit committee of a listed company should consist primarily of:",
+            options: [
+              "Executive directors with financial expertise",
+              "Independent non-executive directors",
+              "Senior finance managers",
+              "The external audit partner and firm representatives",
+            ],
+            correct: 1,
+            explanation: "The UK Corporate Governance Code requires the audit committee to consist entirely of independent non-executive directors, with at least one having recent and relevant financial experience. This ensures independence from management.",
+          },
+        ],
         },
         {
           id: "ba4-l3",
@@ -7874,7 +9024,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Limited liability means a shareholder's maximum loss is the amount invested (or any amount still unpaid on partly-paid shares). Personal assets cannot be seized to meet company debts.",
               topic: "Limited liability",
             },
-          ],
+          
+          {
+            question: "The principle that a company is a legal entity separate from its shareholders was established in:",
+            options: [
+              "Salomon v Salomon & Co Ltd [1897]",
+              "Adams v Cape Industries [1990]",
+              "Re Duomatic [1969]",
+              "Foss v Harbottle [1843]",
+            ],
+            correct: 0,
+            explanation: "Salomon v Salomon established the doctrine of separate legal personality and limited liability. Mr Salomon's company was treated as a distinct legal person from him, even though he owned almost all the shares.",
+          },
+          {
+            question: "A public limited company (plc) must have a minimum allotted share capital of:",
+            options: [
+              "£1",
+              "£50,000",
+              "£100,000",
+              "£500,000",
+            ],
+            correct: 1,
+            explanation: "Under the Companies Act 2006, a public company must have a minimum allotted share capital of £50,000 (of which at least 25% must be paid up before it can trade). Private companies have no minimum.",
+          },
+        ],
         },
         {
           id: "ba4-l4",
@@ -7973,7 +9146,30 @@ const AIQ_COURSE_DATA = {
               explanation: "Proposing a different price is a counter-offer, not an acceptance. A counter-offer terminates the original offer — the seller is no longer bound by the £100 offer.",
               topic: "Offer and acceptance",
             },
-          ],
+          
+          {
+            question: "For a binding contract to exist in English law, which elements are required?",
+            options: [
+              "Offer, acceptance, consideration and intention to create legal relations",
+              "Offer, acceptance and a written signature",
+              "Written agreement, consideration and two witnesses",
+              "Offer, consideration and registration with Companies House",
+            ],
+            correct: 0,
+            explanation: "The essential elements are offer, acceptance, consideration (something of value exchanged), intention to create legal relations, and capacity. Most contracts do not require writing — oral contracts are generally valid.",
+          },
+          {
+            question: "An invitation to treat is best described as:",
+            options: [
+              "A binding offer that the other party can accept immediately",
+              "An invitation to make an offer, which is not itself an offer",
+              "A counter-offer that terminates the original offer",
+              "A legally binding advertisement creating contractual obligations",
+            ],
+            correct: 1,
+            explanation: "An invitation to treat (e.g., displaying goods with a price tag, a shop window display, or a catalogue) invites others to make an offer. The shopkeeper can then accept or reject. Only genuine offers, when accepted, create contracts.",
+          },
+        ],
         },
         {
           id: "ba4-l5",
@@ -8095,7 +9291,30 @@ const AIQ_COURSE_DATA = {
               explanation: "The key indicator of employment is the control test — if the business dictates how, when, and where the work is done, the worker is likely an employee. Providing own tools and the ability to substitute are indicators of self-employment.",
               topic: "Employment status",
             },
-          ],
+          
+          {
+            question: "In UK employment law, how long must an employee typically work continuously before qualifying for unfair dismissal protection?",
+            options: [
+              "No qualifying period",
+              "6 months",
+              "2 years",
+              "5 years",
+            ],
+            correct: 2,
+            explanation: "Employees need 2 years of continuous employment to claim ordinary unfair dismissal. Some automatically unfair dismissal reasons (e.g., whistleblowing, pregnancy) have no qualifying period.",
+          },
+          {
+            question: "Constructive dismissal occurs when:",
+            options: [
+              "The employer gives proper notice and provides lawful reasons for dismissal",
+              "The role is made redundant following a fair process",
+              "The employer unilaterally breaches a fundamental term of the employment contract, causing the employee to resign",
+              "The employee resigns voluntarily after receiving a promotion",
+            ],
+            correct: 2,
+            explanation: "Constructive dismissal arises when the employer commits a fundamental breach of contract (e.g., cutting pay, changing duties without consent, creating an intolerable work environment) and the employee accepts the breach by resigning.",
+          },
+        ],
         },
 
         {
