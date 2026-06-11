@@ -39,6 +39,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between microeconomics and macroeconomics",
             "Identify key stakeholders and their objectives",
           ],
+          keyTerms: [
+            { term: "PESTLE Analysis", definition: "A framework scanning Political, Economic, Social, Technological, Legal and Environmental factors in the macro-environment to identify external opportunities and threats." },
+            { term: "Stakeholders", definition: "Individuals or groups with an interest in the organisation, including shareholders, employees, customers, suppliers and government. Different stakeholders often have competing objectives." },
+            { term: "Macro Environment", definition: "External forces beyond the organisation's direct control — economic conditions, government policy, social trends — that shape the business context." },
+            { term: "Market Forces", definition: "Supply and demand dynamics that determine prices and quantities in a market without central planning." },
+            { term: "Competitive Environment", definition: "The immediate industry context analysed using Porter's Five Forces: competitors, buyers, suppliers, new entrants and substitutes." },
+          ],
           explanation:
             "<h4>Types of Economic System</h4>" +
             "<p>An <strong>economic system</strong> is the mechanism by which a society decides what to produce, how to produce it, and for whom. Three main types:</p>" +
@@ -116,6 +123,13 @@ const AIQ_COURSE_DATA = {
             "Explain the law of demand and supply",
             "Construct and interpret supply and demand diagrams",
             "Analyse the effects of shifts in supply and demand on equilibrium price and quantity",
+          ],
+          keyTerms: [
+            { term: "Law of Demand", definition: "As price rises, quantity demanded falls (all else equal), producing a downward-sloping demand curve." },
+            { term: "Law of Supply", definition: "As price rises, quantity supplied increases (all else equal), producing an upward-sloping supply curve." },
+            { term: "Market Equilibrium", definition: "The price at which quantity demanded equals quantity supplied — the market clears with no surplus or shortage." },
+            { term: "Surplus", definition: "When quantity supplied exceeds quantity demanded at the current price, creating downward pressure on price." },
+            { term: "Shortage", definition: "When quantity demanded exceeds quantity supplied at the current price, creating upward pressure on price." },
           ],
           explanation:
             "<h4>The Demand Curve</h4>" +
@@ -235,6 +249,13 @@ const AIQ_COURSE_DATA = {
             "Interpret elasticity values and explain their business significance",
             "Explain income elasticity and cross-price elasticity of demand",
           ],
+          keyTerms: [
+            { term: "Price Elasticity of Demand (PED)", definition: "Measures the responsiveness of quantity demanded to a change in price. PED = % change in Qd / % change in P. A value greater than 1 (ignoring sign) is elastic." },
+            { term: "Elastic Demand", definition: "|PED| > 1: a given price change causes a proportionally larger change in quantity demanded. Typical of luxury goods with many substitutes." },
+            { term: "Inelastic Demand", definition: "|PED| < 1: quantity demanded changes proportionally less than the price change. Typical of necessities and goods with no close substitutes." },
+            { term: "Price Elasticity of Supply (PES)", definition: "Measures how responsive quantity supplied is to a price change. PES > 1 = elastic supply; PES < 1 = inelastic supply." },
+            { term: "Income Elasticity of Demand (YED)", definition: "Measures how demand responds to a change in consumer income. Positive YED = normal good; negative YED = inferior good." },
+          ],
           explanation:
             "<h4>What Is Elasticity?</h4>" +
             "<p><strong>Elasticity</strong> measures the responsiveness of one variable to a change in another. In economics, we use elasticity to quantify how much demand or supply reacts to price changes, income changes, or the prices of related goods. Elasticity is expressed as a percentage change ratio, making it unit-free and comparable across different goods.</p>" +
@@ -325,6 +346,13 @@ const AIQ_COURSE_DATA = {
             "Describe the characteristics of perfect competition, monopoly, oligopoly and monopolistic competition",
             "Explain how output and pricing decisions differ across market structures",
             "Assess the efficiency implications of different market structures",
+          ],
+          keyTerms: [
+            { term: "Perfect Competition", definition: "A market with many small firms selling identical products, free entry/exit, and perfect information. Firms are price-takers earning only normal profit in the long run." },
+            { term: "Monopoly", definition: "A market dominated by a single seller with barriers to entry. The monopolist is a price-maker and can earn supernormal profit in the long run." },
+            { term: "Oligopoly", definition: "A market dominated by a few large firms whose decisions are interdependent. Characterised by barriers to entry and potential for collusion." },
+            { term: "Normal Profit", definition: "The minimum profit required to keep a firm in an industry long-term — equivalent to covering the opportunity cost of the owner's capital and time." },
+            { term: "Supernormal Profit", definition: "Profit above normal profit, earned when price exceeds average total cost. Attracts new entrants in competitive markets, eroding it over time." },
           ],
           explanation:
             "<h4>The Spectrum of Market Structures</h4>" +
@@ -419,6 +447,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between nominal and real GDP",
             "Identify the determinants of economic growth",
           ],
+          keyTerms: [
+            { term: "Gross Domestic Product (GDP)", definition: "The total monetary value of all final goods and services produced within a country in a given period. The primary measure of national output." },
+            { term: "Real vs Nominal GDP", definition: "Nominal GDP is measured at current prices; real GDP is adjusted for inflation. Real GDP growth reflects actual increases in output, not price level changes." },
+            { term: "Economic Growth", definition: "An increase in the productive capacity of an economy, measured by the annual percentage change in real GDP." },
+            { term: "Business Cycle", definition: "The recurring pattern of expansion, peak, contraction and trough in economic activity around the long-run trend growth rate." },
+            { term: "Gross National Income (GNI)", definition: "GDP plus net income from abroad (income earned by residents abroad minus income earned by foreign residents domestically)." },
+          ],
           explanation:
             "<h4>Gross Domestic Product (GDP)</h4>" +
             "<p><strong>GDP</strong> measures the total monetary value of all goods and services produced within a country's borders during a given period (usually a quarter or year). It is the most widely used measure of economic activity and living standards.</p>" +
@@ -503,6 +538,13 @@ const AIQ_COURSE_DATA = {
             "Define and measure inflation and unemployment",
             "Explain the causes and consequences of inflation",
             "Describe the relationship between inflation and unemployment (Phillips Curve)",
+          ],
+          keyTerms: [
+            { term: "Inflation", definition: "A sustained increase in the general price level, eroding the purchasing power of money. Measured in the UK by the Consumer Price Index (CPI)." },
+            { term: "Consumer Price Index (CPI)", definition: "The UK's main inflation measure: tracks changes in the price of a weighted basket of goods and services purchased by households." },
+            { term: "Cyclical Unemployment", definition: "Unemployment caused by a fall in aggregate demand during a recession — the most common form of short-term unemployment." },
+            { term: "Structural Unemployment", definition: "Long-term unemployment caused by a mismatch between workers' skills and the skills demanded by employers, often following industrial change." },
+            { term: "Phillips Curve", definition: "A theoretical relationship suggesting a short-run trade-off between inflation and unemployment: lower unemployment tends to coincide with higher inflation." },
           ],
           explanation:
             "<h4>Inflation — Definition and Measurement</h4>" +
@@ -600,6 +642,13 @@ const AIQ_COURSE_DATA = {
             "Explain how interest rate changes affect economic activity",
             "Assess the effectiveness and limitations of policy tools",
           ],
+          keyTerms: [
+            { term: "Fiscal Policy", definition: "Government use of spending and taxation to influence aggregate demand and the wider economy. An expansionary fiscal policy increases spending or cuts taxes." },
+            { term: "Monetary Policy", definition: "Central bank use of interest rates and money supply to control inflation and support economic stability. In the UK, set by the Bank of England's MPC." },
+            { term: "Bank Rate", definition: "The interest rate set by the Bank of England at which it lends to commercial banks. Changes in the Bank Rate influence borrowing costs across the economy." },
+            { term: "Quantitative Easing (QE)", definition: "A monetary policy tool where the central bank creates money to buy financial assets, injecting liquidity into the economy when conventional interest rate cuts are insufficient." },
+            { term: "Budget Deficit", definition: "When government spending exceeds tax revenues in a given year. Financed by borrowing, adding to the national debt." },
+          ],
           explanation:
             "<h4>Fiscal Policy</h4>" +
             "<p><strong>Fiscal policy</strong> is the use of government spending and taxation to influence macroeconomic objectives — primarily managing aggregate demand (AD), growth, unemployment, and inflation.</p>" +
@@ -690,6 +739,13 @@ const AIQ_COURSE_DATA = {
             "Explain the principle of comparative advantage",
             "Describe the effects of tariffs, quotas and trade agreements",
             "Analyse the impact of exchange rate movements on businesses",
+          ],
+          keyTerms: [
+            { term: "Comparative Advantage", definition: "A country has a comparative advantage in a good if it can produce it at a lower opportunity cost than another country. The basis for gains from international trade." },
+            { term: "Terms of Trade", definition: "The ratio of a country's export prices to its import prices. Improving terms of trade means a country can buy more imports per unit of exports." },
+            { term: "Exchange Rate", definition: "The price of one currency in terms of another. An appreciation makes exports more expensive and imports cheaper." },
+            { term: "Balance of Payments", definition: "A record of all economic transactions between a country's residents and the rest of the world, comprising the current account, capital account and financial account." },
+            { term: "Protectionism", definition: "Government policies that restrict international trade, such as tariffs, quotas and subsidies, to protect domestic industries." },
           ],
           explanation:
             "<h4>Why Countries Trade — Comparative Advantage</h4>" +
@@ -791,6 +847,13 @@ const AIQ_COURSE_DATA = {
             "Explain the concept of limited liability and why it matters",
             "Describe the role of the private and public sectors in a mixed economy",
           ],
+          keyTerms: [
+            { term: "Sole Trader", definition: "A business owned and run by one person with unlimited personal liability for business debts. Simple to set up but no separate legal personality." },
+            { term: "Partnership", definition: "A business owned by two or more partners who share profits and unlimited liability unless a Limited Liability Partnership (LLP) is formed." },
+            { term: "Private Limited Company (Ltd)", definition: "A company with separate legal personality where shareholders' liability is limited to the amount they have invested. Cannot offer shares to the public." },
+            { term: "Unlimited Liability", definition: "The owner is personally liable for all business debts — creditors can pursue personal assets. Applies to sole traders and general partners." },
+            { term: "Limited Liability", definition: "Shareholders' financial exposure is capped at the value of their shares. Personal assets cannot be seized to settle company debts." },
+          ],
           explanation:
             "<h4>Types of Business Organisation</h4>" +"<p>When individuals set up in business they must choose a <strong>legal form</strong>. The choice affects liability, taxation, access to finance, and regulatory obligations.</p>" +"<table><thead><tr><th>Form</th><th>Ownership</th><th>Liability</th><th>Key feature</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Sole trader</strong></td><td>One owner</td><td>Unlimited</td><td>Simple to set up; owner keeps all profit but bears all risk</td></tr>" +"<tr><td><strong>Partnership</strong></td><td>2–20 partners</td><td>Unlimited (joint and several)</td><td>Governed by Partnership Act 1890 unless deed exists; profits shared per agreement</td></tr>" +"<tr><td><strong>Limited Liability Partnership (LLP)</strong></td><td>2+ partners</td><td>Limited to capital contributed</td><td>Partners have limited liability; used by professional firms (law, accounting)</td></tr>" +"<tr><td><strong>Private Limited Company (Ltd)</strong></td><td>Shareholders</td><td>Limited</td><td>Separate legal personality; cannot offer shares to public; managed by directors</td></tr>" +"<tr><td><strong>Public Limited Company (PLC)</strong></td><td>Shareholders</td><td>Limited</td><td>Shares traded on stock exchange; minimum share capital £50,000; greater disclosure</td></tr>" +"<tr><td><strong>Co-operative</strong></td><td>Members</td><td>Limited</td><td>Profit distributed to members/customers; one member one vote</td></tr>" +"</tbody></table>" +"<h4>Limited Liability</h4>" +"<p><strong>Limited liability</strong> means shareholders can only lose the amount they invested — personal assets are protected from business creditors. This is the key advantage of incorporation and why most businesses of any scale choose the company structure. The trade-off is greater regulatory burden: companies must file accounts at Companies House and comply with the Companies Act 2006.</p>" +"<h4>Separate Legal Personality</h4>" +"<p>A company is a distinct legal entity, separate from its owners (established in <em>Salomon v Salomon</em> [1897]). It can own property, enter contracts, and be sued in its own name. The <strong>veil of incorporation</strong> separates the company from shareholders — though courts can 'pierce the veil' in cases of fraud.</p>" +"<h4>Public Sector Organisations</h4>" +"<p>Not all organisations aim to make a profit. Public sector bodies (government departments, NHS trusts, local councils) are funded by taxation and aim to provide public services. <strong>Social enterprises</strong> pursue social objectives but trade commercially. <strong>Charities</strong> are governed by the Charities Act and regulated by the Charity Commission.</p>",
           workedExample: {
@@ -848,6 +911,13 @@ const AIQ_COURSE_DATA = {
             "Define globalisation and identify its key drivers",
             "Explain the benefits and risks of multinational enterprise activity",
             "Describe the influence of trade blocs and the World Trade Organization",
+          ],
+          keyTerms: [
+            { term: "Globalisation", definition: "The increasing integration of world economies through trade, investment, migration and information flows, creating interdependence between nations." },
+            { term: "Multinational Enterprise (MNE)", definition: "A company that operates in more than one country, with production, sales or services located internationally. Examples include Shell, Apple and Toyota." },
+            { term: "Foreign Direct Investment (FDI)", definition: "Investment by a company in productive assets in a foreign country, such as building a factory or acquiring a foreign company." },
+            { term: "Offshoring", definition: "Relocating business activities to another country, typically to reduce labour or production costs while retaining ownership." },
+            { term: "Outsourcing", definition: "Contracting a business function to an external third-party provider, either domestically or internationally." },
           ],
           explanation:
             "<h4>What is Globalisation?</h4>" +"<p><strong>Globalisation</strong> describes the increasing integration of the world's economies through the movement of goods, services, capital, people, and information across national borders. It has accelerated since the 1980s, driven by trade liberalisation, falling transport costs, and digital technology.</p>" +"<p><strong>Key drivers of globalisation:</strong></p>" +"<ul>" +"<li><strong>Trade liberalisation:</strong> reduction of tariffs and quotas through WTO agreements and regional trade blocs</li>" +"<li><strong>Technology:</strong> the internet, containerisation, and falling communication costs</li>" +"<li><strong>Foreign Direct Investment (FDI):</strong> companies investing in production facilities abroad</li>" +"<li><strong>Deregulation:</strong> financial market opening allows capital to flow freely</li>" +"<li><strong>Emerging markets:</strong> rapid growth in Asia, Latin America, and Africa creates new consumer bases</li>" +"</ul>" +"<h4>Trade Blocs and the WTO</h4>" +"<p>Countries form <strong>trade blocs</strong> to reduce barriers among members:</p>" +"<ul>" +"<li><strong>Free Trade Area</strong> (e.g., CPTPP): no tariffs between members; each keeps own external tariffs</li>" +"<li><strong>Customs Union</strong> (e.g., EU customs union): free trade plus common external tariff</li>" +"<li><strong>Single/Common Market</strong> (e.g., EU internal market): free movement of goods, services, capital, and labour</li>" +"<li><strong>Economic/Monetary Union</strong> (e.g., Eurozone): single currency plus coordinated economic policy</li>" +"</ul>" +"<p>The <strong>World Trade Organization (WTO)</strong> sets multilateral rules for international trade, resolves disputes between members, and promotes Most Favoured Nation (MFN) treatment — any trade concession given to one member must be given to all.</p>" +"<h4>Multinational Enterprises (MNEs)</h4>" +"<p>An MNE owns or controls production in more than one country. Motivations include:</p>" +"<ul>" +"<li><strong>Market seeking:</strong> access to new customers</li>" +"<li><strong>Resource seeking:</strong> access to raw materials or cheap labour</li>" +"<li><strong>Efficiency seeking:</strong> exploit economies of scale across operations</li>" +"<li><strong>Strategic asset seeking:</strong> acquire brands, technology, or distribution networks</li>" +"</ul>" +"<p><strong>Benefits of MNEs to host countries:</strong> employment, technology transfer, tax revenues, infrastructure development.<br>" +"<strong>Drawbacks:</strong> profit repatriation, transfer pricing manipulation (reducing host-country tax), environmental concerns, crowding out of local firms.</p>" +"<h4>Comparative Advantage</h4>" +"<p>The theory of <strong>comparative advantage</strong> (Ricardo) holds that countries benefit from specialising in goods they produce at the lowest <em>opportunity cost</em> and trading for others — even if one country is absolutely better at producing everything. This is the theoretical foundation for the gains from international trade.</p>",
@@ -907,6 +977,13 @@ const AIQ_COURSE_DATA = {
             "Derive an individual demand curve from utility theory",
             "Distinguish between income and substitution effects of a price change",
           ],
+          keyTerms: [
+            { term: "Utility", definition: "The satisfaction or benefit a consumer derives from consuming a good or service. Economists treat it as a measure of preference, not an absolute value." },
+            { term: "Marginal Utility", definition: "The additional utility gained from consuming one more unit of a good. Forms the basis of the demand curve." },
+            { term: "Diminishing Marginal Utility", definition: "As consumption of a good increases, each additional unit provides less extra utility. Explains why demand curves slope downward." },
+            { term: "Consumer Surplus", definition: "The difference between what a consumer is willing to pay for a good and what they actually pay. Represents welfare gained from trade." },
+            { term: "Indifference Curve", definition: "A curve showing all combinations of two goods that give a consumer equal utility. Consumer optimum is where the budget constraint is tangent to an indifference curve." },
+          ],
           explanation:
             "<h4>Utility and Consumer Choice</h4>" +"<p><strong>Utility</strong> is the satisfaction or benefit a consumer derives from consuming a good or service. Economists assume consumers act rationally to <em>maximise total utility</em> subject to a budget constraint.</p>" +"<p><strong>Marginal utility (MU)</strong> is the additional satisfaction from consuming one more unit. The <strong>law of diminishing marginal utility</strong> states that, beyond some point, each additional unit consumed adds less utility than the previous one — the first coffee of the morning is more satisfying than the fifth.</p>" +"<h4>Consumer Equilibrium</h4>" +"<p>A rational consumer allocates spending so that the last pound spent on each good yields equal marginal utility. The equilibrium condition is:</p>" +"<p style='text-align:center'><strong>MU<sub>X</sub> / P<sub>X</sub> = MU<sub>Y</sub> / P<sub>Y</sub></strong></p>" +"<p>If MU<sub>X</sub>/P<sub>X</sub> &gt; MU<sub>Y</sub>/P<sub>Y</sub>, the consumer gains more utility per pound from X and should buy more X (and less Y) until the ratio equalises. This condition underpins the downward-sloping individual demand curve: as price rises, the ratio MU/P falls, so the consumer buys less.</p>" +"<h4>Income and Substitution Effects</h4>" +"<p>When the price of a good falls, two effects occur simultaneously:</p>" +"<ul>" +"<li><strong>Substitution effect:</strong> the good becomes relatively cheaper than alternatives → consumers substitute towards it. Always negative (price ↓ → quantity demanded ↑).</li>" +"<li><strong>Income effect:</strong> the real purchasing power of the consumer's income rises (prices are lower) → the consumer can afford more of all goods. For <strong>normal goods</strong>, this reinforces the substitution effect. For <strong>inferior goods</strong>, the income effect is negative (consumers buy less as real income rises).</li>" +"</ul>" +"<p><strong>Giffen goods</strong> are a theoretical extreme case of inferior good where the negative income effect is so large it outweighs the substitution effect — demand rises as price rises (upward-sloping demand curve). Historical example: staple foods like bread during famines.</p>" +"<table><thead><tr><th>Good type</th><th>Substitution effect</th><th>Income effect</th><th>Net demand response to price fall</th></tr></thead>" +"<tbody>" +"<tr><td>Normal good</td><td>Quantity ↑</td><td>Quantity ↑</td><td>Quantity ↑ (demand curve slopes down)</td></tr>" +"<tr><td>Inferior good</td><td>Quantity ↑</td><td>Quantity ↓</td><td>Quantity ↑ (substitution effect dominates)</td></tr>" +"<tr><td>Giffen good</td><td>Quantity ↑</td><td>Quantity ↓↓</td><td>Quantity ↓ (income effect dominates)</td></tr>" +"</tbody></table>" +"<h4>Indifference Curves and Budget Lines</h4>" +"<p>An <strong>indifference curve</strong> shows all combinations of two goods that give equal total utility. Curves are downward-sloping (more of one good requires less of the other to maintain utility) and convex (reflecting diminishing MRS). The <strong>budget line</strong> shows all combinations affordable at given prices and income. Consumer equilibrium is where the budget line is tangent to the highest attainable indifference curve.</p>",
           workedExample: {
@@ -965,6 +1042,13 @@ const AIQ_COURSE_DATA = {
             "Explain the law of diminishing returns and its impact on short-run costs",
             "Describe internal and external economies and diseconomies of scale",
           ],
+          keyTerms: [
+            { term: "Economies of Scale", definition: "Cost advantages gained as output increases — average costs fall as fixed costs are spread over more units. Key driver of large firm dominance." },
+            { term: "Diseconomies of Scale", definition: "Rising average costs as a firm grows too large, caused by management complexity, coordination problems and loss of worker motivation." },
+            { term: "Short Run", definition: "The period in which at least one factor of production (typically capital) is fixed. Firms can vary output only by changing variable inputs." },
+            { term: "Long Run", definition: "The period in which all factors of production are variable. Firms can expand or contract capacity and enter or exit the market." },
+            { term: "Minimum Efficient Scale (MES)", definition: "The lowest level of output at which a firm achieves minimum long-run average cost. Below MES, the firm is not fully exploiting economies of scale." },
+          ],
           explanation:
             "<h4>Short Run vs Long Run</h4>" +"<p>In economics, the <strong>short run</strong> is a period in which at least one factor of production is fixed (typically capital — buildings and machinery). The <strong>long run</strong> is a period long enough for all factors to be varied. The distinction drives fundamental differences in cost behaviour.</p>" +"<h4>The Law of Diminishing Returns (Short Run)</h4>" +"<p>As more units of a variable factor (labour) are added to a fixed factor (capital), beyond some point the <strong>marginal product</strong> of the variable factor falls. This is the <strong>law of diminishing (marginal) returns</strong> — not to be confused with economies of scale, which operate in the long run.</p>" +"<p>Consequences for short-run costs:</p>" +"<ul>" +"<li><strong>Marginal cost (MC)</strong> rises once diminishing returns set in</li>" +"<li><strong>Average variable cost (AVC)</strong> is U-shaped; it falls while MR &gt; AVC, rises when MC &gt; AVC</li>" +"<li><strong>MC always intersects AVC and ATC at their minimum points</strong></li>" +"</ul>" +"<h4>Short-Run Cost Relationships</h4>" +"<table><thead><tr><th>Cost</th><th>Definition</th><th>Formula</th></tr></thead>" +"<tbody>" +"<tr><td>Total Fixed Cost (TFC)</td><td>Does not vary with output</td><td>Constant</td></tr>" +"<tr><td>Total Variable Cost (TVC)</td><td>Changes with output</td><td>Rises with output</td></tr>" +"<tr><td>Total Cost (TC)</td><td>Sum of fixed and variable</td><td>TC = TFC + TVC</td></tr>" +"<tr><td>Average Fixed Cost (AFC)</td><td>Fixed cost per unit</td><td>TFC / Q → always falls</td></tr>" +"<tr><td>Average Variable Cost (AVC)</td><td>Variable cost per unit</td><td>TVC / Q → U-shaped</td></tr>" +"<tr><td>Average Total Cost (ATC)</td><td>Total cost per unit</td><td>TC / Q = AFC + AVC</td></tr>" +"<tr><td>Marginal Cost (MC)</td><td>Cost of one more unit</td><td>ΔTC / ΔQ</td></tr>" +"</tbody></table>" +"<h4>Economies of Scale (Long Run)</h4>" +"<p>In the long run all costs are variable. <strong>Economies of scale</strong> occur when long-run average cost (LRAC) falls as output rises. <strong>Diseconomies of scale</strong> occur when LRAC rises. The LRAC curve is the <em>envelope</em> of all possible short-run ATC curves.</p>" +"<p><strong>Internal economies of scale</strong> arise within the firm:</p>" +"<ul>" +"<li><strong>Technical:</strong> larger, more specialised machinery; indivisibilities</li>" +"<li><strong>Managerial:</strong> division of labour among specialist managers</li>" +"<li><strong>Financial:</strong> larger firms borrow at lower interest rates</li>" +"<li><strong>Purchasing:</strong> bulk-buying discounts on inputs</li>" +"<li><strong>Marketing:</strong> spreading advertising costs over more units</li>" +"<li><strong>Risk-bearing:</strong> diversified product range reduces exposure to any single market</li>" +"</ul>" +"<p><strong>External economies of scale</strong> benefit all firms in an industry as the industry grows: skilled local labour pool, specialised suppliers, knowledge spillovers (e.g., Silicon Valley, the City of London).</p>" +"<p><strong>Diseconomies of scale:</strong> as firms grow very large, coordination difficulties, communication breakdowns, and management layers push LRAC upward. The <strong>minimum efficient scale (MES)</strong> is the lowest output at which LRAC is minimised.</p>",
           workedExample: {
@@ -1022,6 +1106,13 @@ const AIQ_COURSE_DATA = {
             "Explain how a monopolist sets price and output to maximise profit",
             "Define and calculate deadweight welfare loss under monopoly",
             "Evaluate arguments for and against natural monopoly",
+          ],
+          keyTerms: [
+            { term: "Deadweight Loss", definition: "The loss of economic efficiency (consumer and producer surplus) caused by monopoly pricing or other market distortions. Represents transactions that would be mutually beneficial but do not occur." },
+            { term: "Price-Maker", definition: "A firm with market power that sets price rather than accepting the market price. Monopolists are price-makers; they face a downward-sloping demand curve." },
+            { term: "Barriers to Entry", definition: "Obstacles that prevent new competitors from entering an industry, such as high capital costs, patents, brand loyalty or economies of scale." },
+            { term: "Allocative Inefficiency", definition: "A situation where resources are not allocated to their highest-value uses. Occurs in monopoly when P > MC, meaning more output would benefit consumers." },
+            { term: "Price Discrimination", definition: "Charging different prices to different customers for the same product based on their willingness to pay, increasing producer surplus at the expense of consumer surplus." },
           ],
           explanation:
             "<h4>The Monopolist's Pricing Decision</h4>" +"<p>A monopolist is the sole supplier in a market and therefore faces the entire downward-sloping market demand curve. Unlike a competitive firm, it is a <strong>price maker</strong> — it can choose either price or quantity, but not both independently (the demand curve constrains the other).</p>" +"<p>Because the demand curve slopes downward, to sell an extra unit the monopolist must <em>reduce the price on all units</em>. This means <strong>marginal revenue (MR) is always below price (P)</strong>. Specifically, MR = P(1 − 1/e) where e is the price elasticity of demand.</p>" +"<p>Profit-maximising rule: produce where <strong>MR = MC</strong>, then charge the highest price consumers will pay for that quantity (read from the demand curve). The result:</p>" +"<ul>" +"<li>Output is <strong>lower</strong> than the competitive level (where P = MC)</li>" +"<li>Price is <strong>higher</strong> than the competitive level</li>" +"<li>The monopolist earns <strong>supernormal (abnormal) profit</strong> in both short and long run (barriers prevent entry)</li>" +"</ul>" +"<h4>Deadweight Welfare Loss</h4>" +"<p>The output restriction under monopoly means that some mutually beneficial transactions do not occur. This creates a <strong>deadweight welfare loss (DWL)</strong> — a triangle on the supply-demand diagram between the competitive output and the monopoly output. Society loses consumer and producer surplus that would have existed under competition.</p>" +"<h4>Price Discrimination</h4>" +"<p>A monopolist with market power can increase profit by <strong>price discriminating</strong> — charging different prices to different consumer groups based on willingness to pay:</p>" +"<ul>" +"<li><strong>First degree (perfect):</strong> charge each consumer their maximum willingness to pay; entire consumer surplus extracted; DWL eliminated</li>" +"<li><strong>Second degree:</strong> different prices for different quantities (e.g., bulk discounts, utility tariff blocks)</li>" +"<li><strong>Third degree:</strong> different prices to different market segments (e.g., student/adult rail fares, international drug pricing). Requires: ability to segment market, prevent resale, and different price elasticities in each segment</li>" +"</ul>" +"<h4>Natural Monopoly and Regulation</h4>" +"<p>A <strong>natural monopoly</strong> exists where the LRAC curve falls continuously across the entire market — one firm can supply the whole market at lower cost than two firms. Examples: water distribution, electricity networks, rail track. Duplication of infrastructure is wasteful.</p>" +"<p>Regulators face a dilemma: if they require P = MC (allocative efficiency), the natural monopolist makes a loss (because AC &gt; MC at all outputs). Solutions include:</p>" +"<ul>" +"<li><strong>P = AC regulation:</strong> sets price to cover average cost (normal profit); allocatively inefficient but financially viable</li>" +"<li><strong>RPI − X (price cap):</strong> price rises capped at inflation minus an efficiency factor; used by Ofwat, Ofgem</li>" +"<li><strong>Nationalisation:</strong> government ownership; can set P = MC and fund losses through taxation</li>" +"</ul>",
@@ -1082,6 +1173,13 @@ const AIQ_COURSE_DATA = {
             "Apply basic game theory concepts (prisoner's dilemma, Nash equilibrium) to business decisions",
             "Explain price rigidity using the kinked demand curve model",
           ],
+          keyTerms: [
+            { term: "Oligopoly", definition: "A market structure dominated by a few large, interdependent firms. Each firm must consider rivals' likely reactions before changing price or output." },
+            { term: "Interdependence", definition: "In oligopoly, the profit of each firm depends on the decisions of its rivals. Price changes by one firm typically trigger responses from competitors." },
+            { term: "Game Theory", definition: "A mathematical framework for analysing strategic interactions between rational decision-makers. Used to model pricing and output decisions in oligopolistic markets." },
+            { term: "Nash Equilibrium", definition: "A stable outcome in a game where no player can improve their payoff by changing their strategy, given the strategies of other players." },
+            { term: "Kinked Demand Curve", definition: "A model of oligopoly suggesting demand is elastic above the current price (rivals do not follow a price rise) and inelastic below it (rivals match a price cut), creating price rigidity." },
+          ],
           explanation:
             "<h4>Characteristics of Oligopoly</h4>" +"<p>An <strong>oligopoly</strong> is a market dominated by a small number of large firms (typically 3–10) whose decisions are <strong>interdependent</strong>. No single firm can ignore the likely reaction of rivals when setting price or output. UK examples: supermarkets (Tesco, Sainsbury's, Asda, Morrisons), mobile networks (EE, Vodafone, O2, Three).</p>" +"<p>Key characteristics: high concentration ratios, significant barriers to entry (economies of scale, brand loyalty, sunk costs), product differentiation, and non-price competition (advertising, loyalty schemes).</p>" +"<h4>The Kinked Demand Curve Model</h4>" +"<p>Sweezy's <strong>kinked demand curve</strong> attempts to explain why prices are <em>sticky</em> in oligopolistic markets:</p>" +"<ul>" +"<li>If a firm <strong>raises price</strong>: rivals do NOT follow (they gain market share) → demand for the firm's product is <em>elastic</em> above the current price. Revenue falls significantly.</li>" +"<li>If a firm <strong>cuts price</strong>: rivals WILL match the cut (to protect market share) → demand is <em>inelastic</em> below the current price. Revenue barely increases.</li>" +"</ul>" +"<p>The result is a kink in the demand curve at the current price, creating a vertical gap in the MR curve. As long as MC passes through this gap, the profit-maximising output and price remain unchanged — prices are rigid even when costs change moderately.</p>" +"<h4>Game Theory and the Prisoner's Dilemma</h4>" +"<p>Game theory models strategic interaction between rational agents. The <strong>prisoner's dilemma</strong> applied to oligopoly pricing:</p>" +"<table><thead><tr><th></th><th>Firm B: High price</th><th>Firm B: Low price</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Firm A: High price</strong></td><td>A:£5m, B:£5m</td><td>A:£1m, B:£8m</td></tr>" +"<tr><td><strong>Firm A: Low price</strong></td><td>A:£8m, B:£1m</td><td>A:£3m, B:£3m</td></tr>" +"</tbody></table>" +"<p>Each firm's <strong>dominant strategy</strong> is to price low — regardless of what the rival does, cutting price either boosts profit (if rival prices high) or avoids being undercut (if rival prices low). The <strong>Nash Equilibrium</strong> is both firms pricing low (£3m each) — individually rational but collectively suboptimal vs the cooperative outcome (£5m each).</p>" +"<h4>Collusion: Tacit and Explicit</h4>" +"<p><strong>Explicit collusion</strong> (cartels): firms formally agree to fix prices and/or share markets. OPEC is the most visible global example. Illegal under UK and EU competition law.</p>" +"<p><strong>Tacit collusion</strong>: firms coordinate behaviour without formal agreement — e.g., price leadership (dominant firm sets price; others follow). Harder to detect and prosecute. Leads to outcomes approaching the monopoly price.</p>" +"<p>Collusion is inherently unstable: each firm has an incentive to defect (cut price secretly to gain market share). This is why cartels often break down.</p>",
           workedExample: {
@@ -1139,6 +1237,13 @@ const AIQ_COURSE_DATA = {
             "Explain the rationale for competition policy and consumer protection",
             "Describe the role of the Competition and Markets Authority (CMA)",
             "Identify when and how governments regulate natural monopolies",
+          ],
+          keyTerms: [
+            { term: "Competition Policy", definition: "Government or regulatory measures designed to promote competition and prevent anti-competitive behaviour such as price-fixing, mergers that reduce competition, and abuse of market power." },
+            { term: "CMA (Competition and Markets Authority)", definition: "The UK body responsible for promoting competition and investigating mergers, markets and anti-competitive practices. Can block mergers and impose fines." },
+            { term: "Cartel", definition: "An agreement between competing firms to fix prices, restrict output or allocate markets. Illegal in the UK and EU; can attract criminal penalties." },
+            { term: "Merger Control", definition: "Regulatory scrutiny of proposed mergers to determine whether they would substantially lessen competition. The CMA can block or impose conditions on mergers." },
+            { term: "Abuse of Dominant Position", definition: "When a firm with significant market power acts in ways that harm competition, such as predatory pricing, exclusive dealing or tying. Prohibited under UK and EU competition law." },
           ],
           explanation:
             "<h4>The Rationale for Competition Policy</h4>" +"<p>Competition policy aims to prevent firms from restricting competition in ways that harm consumers, suppliers, or economic efficiency. Without intervention, dominant firms may abuse market power to raise prices, exclude rivals, or collude. Policy targets three main areas: anti-competitive agreements, abuse of dominance, and merger control.</p>" +"<h4>UK Competition Law</h4>" +"<p>The <strong>Competition Act 1998</strong> (modelled on EU law) contains two key prohibitions:</p>" +"<ul>" +"<li><strong>Chapter I prohibition:</strong> agreements between firms that prevent, restrict, or distort competition (e.g., price-fixing, market sharing, bid rigging). These are void and may attract fines up to 10% of global turnover.</li>" +"<li><strong>Chapter II prohibition:</strong> abuse of a dominant position (generally market share &gt;40%). Abuses include predatory pricing (pricing below cost to eliminate rivals), exclusive dealing, and excessive pricing.</li>" +"</ul>" +"<p>The <strong>Competition and Markets Authority (CMA)</strong> is the UK's primary competition regulator, with powers to investigate, impose fines, and require remedies. Sector-specific regulators (Ofgem, Ofwat, Ofcom, the FCA) have concurrent competition powers in their sectors.</p>" +"<h4>Merger Control</h4>" +"<p>Mergers are reviewed by the CMA if: (a) the combined UK turnover exceeds £70 million, or (b) the merged entity would have a market share of 25%+ in the UK. The CMA can block mergers, approve them with conditions (remedies such as divesting parts of the business), or clear them unconditionally.</p>" +"<h4>Regulatory Approaches for Natural Monopolies</h4>" +"<p>For utilities that are natural monopolies, sector regulators use specific tools:</p>" +"<ul>" +"<li><strong>RPI − X price cap:</strong> prices can rise by no more than RPI minus an efficiency factor X (set by the regulator). Incentivises the firm to reduce costs below the cap. Used by Ofwat (water) and Ofgem (energy networks).</li>" +"<li><strong>Rate of return (cost-plus) regulation:</strong> regulator sets prices to allow a fair return on capital. Less incentive for efficiency.</li>" +"<li><strong>Yardstick competition:</strong> compare performance of regional monopolies against each other to set benchmarks.</li>" +"</ul>" +"<h4>EU Competition Law</h4>" +"<p>Post-Brexit, the EU rules (Articles 101 and 102 TFEU) no longer apply directly in UK domestic law, though they remain relevant for firms operating in the EU. Article 101 covers anti-competitive agreements; Article 102 covers abuse of dominance. The European Commission (DG Competition) enforces these, with fines up to 10% of global annual turnover.</p>",
@@ -1198,6 +1303,13 @@ const AIQ_COURSE_DATA = {
             "Explain the functions of commercial banks and the central bank",
             "Distinguish between money markets and capital markets",
           ],
+          keyTerms: [
+            { term: "Financial Intermediation", definition: "The process by which financial institutions (banks) channel funds from savers to borrowers, reducing transaction costs and information asymmetry." },
+            { term: "Commercial Bank", definition: "A bank that accepts deposits, provides loans and offers payment services to households and businesses. Creates money through the lending process." },
+            { term: "Central Bank", definition: "The government's bank and lender of last resort, responsible for monetary policy, financial stability and issuing currency. In the UK: the Bank of England." },
+            { term: "Capital Markets", definition: "Markets where long-term financial instruments (shares and bonds) are traded. Equity markets and bond markets are the two main components." },
+            { term: "Liquidity", definition: "The ease with which an asset can be converted to cash without significant loss of value. Banks must balance liquidity (holding cash) with profitability (lending)." },
+          ],
           explanation:
             "<h4>The Role of the Financial System</h4>" +"<p>The financial system channels funds from <strong>savers</strong> (surplus units) to <strong>borrowers</strong> (deficit units). Its core functions are:</p>" +"<ul>" +"<li><strong>Financial intermediation:</strong> banks and other institutions pool savings and lend them out at scale</li>" +"<li><strong>Maturity transformation:</strong> short-term deposits converted into long-term loans</li>" +"<li><strong>Risk transformation:</strong> diversification reduces risk for individual savers</li>" +"<li><strong>Payment and settlement:</strong> the system enables transactions to clear efficiently</li>" +"</ul>" +"<h4>Commercial Banks</h4>" +"<p>Commercial banks accept deposits and make loans. They <strong>create money</strong> through the process of credit creation: when a bank makes a loan, it credits the borrower's account — creating a new deposit. The <strong>money multiplier</strong> = 1 / reserve ratio. If banks hold 10% reserves, £100 of new base money can support up to £1,000 of deposits.</p>" +"<p>Banks manage three competing objectives:</p>" +"<ul>" +"<li><strong>Profitability:</strong> earn margin between lending rate and deposit rate</li>" +"<li><strong>Liquidity:</strong> maintain enough liquid assets to meet withdrawal demands</li>" +"<li><strong>Security:</strong> avoid excessive credit risk (loan defaults)</li>" +"</ul>" +"<h4>The Central Bank (Bank of England)</h4>" +"<p>The Bank of England has three core roles:</p>" +"<ol>" +"<li><strong>Monetary policy:</strong> the Monetary Policy Committee (MPC) sets the base rate to achieve the 2% CPI inflation target</li>" +"<li><strong>Financial stability:</strong> the Financial Policy Committee (FPC) identifies and reduces systemic risks; macroprudential tools include capital buffers and LTV limits</li>" +"<li><strong>Lender of last resort:</strong> provides emergency liquidity to solvent banks facing short-term funding crises</li>" +"</ol>" +"<h4>Financial Markets</h4>" +"<table><thead><tr><th>Market</th><th>Instruments</th><th>Maturity</th><th>Purpose</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Money market</strong></td><td>Treasury bills, commercial paper, repos</td><td>Short term (&lt;1 year)</td><td>Short-term borrowing/lending; central bank operations</td></tr>" +"<tr><td><strong>Capital market</strong></td><td>Equities (shares), corporate and government bonds</td><td>Long term</td><td>Long-term investment finance</td></tr>" +"<tr><td><strong>Foreign exchange market</strong></td><td>Currencies</td><td>Spot and forward</td><td>International trade and investment settlement</td></tr>" +"<tr><td><strong>Derivatives market</strong></td><td>Futures, options, swaps</td><td>Various</td><td>Risk management (hedging) and speculation</td></tr>" +"</tbody></table>" +"<h4>Financial Intermediaries</h4>" +"<p>Beyond commercial banks: <strong>investment banks</strong> (capital raising, M&amp;A advisory, trading), <strong>insurance companies</strong> (risk pooling), <strong>pension funds</strong> (long-term savings), <strong>building societies</strong> (mutual mortgage lenders), and <strong>credit unions</strong> (member-owned savings and loans).</p>",
           workedExample: {
@@ -1256,6 +1368,13 @@ const AIQ_COURSE_DATA = {
             "Describe the quantity theory of money and its limitations",
             "Evaluate the effectiveness of monetary policy in controlling inflation",
           ],
+          keyTerms: [
+            { term: "Money Supply", definition: "The total stock of money in an economy, including notes and coins in circulation plus bank deposits. Measured in the UK using M0, M1, M2 and M4 aggregates." },
+            { term: "Quantitative Easing (QE)", definition: "A monetary policy tool where the central bank creates money to purchase financial assets, expanding the money supply and reducing long-term interest rates." },
+            { term: "Monetary Policy Committee (MPC)", definition: "The Bank of England's committee responsible for setting the Bank Rate to meet the government's inflation target of 2% CPI." },
+            { term: "Velocity of Circulation", definition: "The average number of times a unit of money changes hands in the economy in a given period. A key variable in the quantity theory of money (MV = PQ)." },
+            { term: "Transmission Mechanism", definition: "The chain of effects through which a change in Bank Rate flows through to inflation and output — via borrowing costs, asset prices, exchange rates and confidence." },
+          ],
           explanation:
             "<h4>Interest Rates and the Transmission Mechanism</h4>" +"<p>The <strong>base rate</strong> (Bank Rate) set by the MPC is the rate at which the Bank of England lends to commercial banks overnight. Changes in the base rate ripple through the economy via several channels:</p>" +"<ol>" +"<li><strong>Bank rates:</strong> commercial banks adjust mortgage, loan, and savings rates → affects household spending and saving</li>" +"<li><strong>Asset prices:</strong> lower interest rates raise bond and equity prices (higher present values) → positive wealth effect boosts consumption</li>" +"<li><strong>Exchange rate:</strong> lower UK rates make sterling less attractive to international investors → pound depreciates → exports cheaper, imports dearer → affects net exports and inflation</li>" +"<li><strong>Expectations:</strong> MPC signals affect business and household confidence → investment and spending decisions change</li>" +"</ol>" +"<p>The full effect on inflation takes <strong>18–24 months</strong> — hence the MPC must forecast ahead rather than react to current data.</p>" +"<h4>The Quantity Theory of Money</h4>" +"<p>The <strong>Fisher equation</strong>: <strong>MV = PQ</strong> where M = money supply, V = velocity of circulation (how often each £ is spent), P = price level, Q = real output. Rearranging: P = MV/Q.</p>" +"<p>The monetarist assumption is that V is stable and Q is determined by supply-side factors in the long run → increasing M causes a proportional rise in P (inflation). This underpins the view that <em>inflation is always and everywhere a monetary phenomenon</em> (Friedman). The policy implication: control money supply growth to control inflation.</p>" +"<p>Critics argue V is unstable (especially during financial crises) and Q responds to monetary stimulus in the short run.</p>" +"<h4>Monetary Policy Tools</h4>" +"<ul>" +"<li><strong>Interest rate (base rate):</strong> primary tool; raises borrowing costs and rewards saving, reducing aggregate demand</li>" +"<li><strong>Quantitative easing (QE):</strong> central bank buys government bonds from banks, injecting reserves into the banking system; intended to lower long-term yields and stimulate lending when base rates near zero. Used extensively 2009–2022.</li>" +"<li><strong>Forward guidance:</strong> communicating the expected future path of rates to manage market expectations</li>" +"<li><strong>Reserve requirements:</strong> less common in UK; setting minimum capital/liquidity ratios by the PRA</li>" +"</ul>" +"<h4>Limitations of Monetary Policy</h4>" +"<ul>" +"<li><strong>Time lags:</strong> 18–24 month transmission delay makes fine-tuning difficult</li>" +"<li><strong>Zero lower bound:</strong> conventional interest rate cuts are ineffective once rates near zero</li>" +"<li><strong>Credit channel:</strong> banks may not pass on rate cuts if they are capital-constrained</li>" +"<li><strong>Structural inflation:</strong> cost-push inflation driven by supply shocks (oil, food) cannot be easily offset by demand-side monetary policy without causing recession</li>" +"</ul>",
           workedExample: {
@@ -1312,6 +1431,13 @@ const AIQ_COURSE_DATA = {
             "Identify the four phases of the business cycle and their characteristics",
             "Interpret leading, lagging, and coincident economic indicators",
             "Explain how the business cycle affects business planning and investment",
+          ],
+          keyTerms: [
+            { term: "Business Cycle", definition: "The recurring pattern of expansion (growth), peak, contraction (recession) and trough in real GDP around the long-run trend growth rate." },
+            { term: "Recession", definition: "Technically defined as two consecutive quarters of negative GDP growth. Associated with rising unemployment, falling investment and lower consumer spending." },
+            { term: "Leading Indicators", definition: "Economic variables that tend to change before the economy as a whole changes, helping predict future activity. Examples: PMI surveys, consumer confidence, new orders." },
+            { term: "Lagging Indicators", definition: "Variables that change after the economy has already changed. Examples: unemployment rate and corporate profits. Confirm trends rather than predict them." },
+            { term: "Output Gap", definition: "The difference between actual GDP and potential GDP. A positive output gap indicates the economy is overheating; a negative gap indicates spare capacity." },
           ],
           explanation:
             "<h4>The Business Cycle</h4>" +"<p>The <strong>business cycle</strong> (or economic cycle) describes the recurring pattern of expansion and contraction in real GDP around its long-run trend. All market economies experience cycles, though their timing, amplitude, and causes vary.</p>" +"<p><strong>The four phases:</strong></p>" +"<table><thead><tr><th>Phase</th><th>GDP</th><th>Unemployment</th><th>Inflation</th><th>Business conditions</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Recovery (upturn)</strong></td><td>Rising from trough</td><td>Falling</td><td>Low, stable</td><td>Consumer confidence recovering; investment cautiously rising</td></tr>" +"<tr><td><strong>Boom (peak)</strong></td><td>Above trend; high growth</td><td>Low</td><td>Rising (demand-pull)</td><td>High investment; capacity constraints; labour shortages</td></tr>" +"<tr><td><strong>Downturn (recession risk)</strong></td><td>Slowing</td><td>Rising</td><td>Moderating</td><td>Consumer and business confidence falling; destocking</td></tr>" +"<tr><td><strong>Recession (trough)</strong></td><td>Falling (two consecutive quarters of negative growth)</td><td>High and rising</td><td>Low or falling</td><td>Business failures; reduced investment; credit tightening</td></tr>" +"</tbody></table>" +"<h4>Economic Indicators</h4>" +"<p>Indicators are classified by their timing relative to the cycle:</p>" +"<ul>" +"<li><strong>Leading indicators:</strong> move <em>before</em> the economy — useful for forecasting. Examples: consumer confidence surveys, new housing starts, stock market indices, PMI (Purchasing Managers' Index), order books.</li>" +"<li><strong>Lagging indicators:</strong> move <em>after</em> the economy has changed direction — confirm trends already underway. Examples: unemployment rate, business investment levels, average loan rates.</li>" +"<li><strong>Coincident indicators:</strong> move <em>with</em> the economy in real time. Examples: retail sales, industrial production, GDP itself.</li>" +"</ul>" +"<h4>Business Implications</h4>" +"<p>Firms use cycle awareness for strategic planning:</p>" +"<ul>" +"<li><strong>Boom:</strong> expand capacity, invest, recruit; but watch for overheating (inflation, wage pressure)</li>" +"<li><strong>Downturn/recession:</strong> conserve cash, reduce inventory, review staffing; countercyclical opportunities (acquire distressed assets, gain market share from failing rivals)</li>" +"<li><strong>Recovery:</strong> cautiously expand; first movers gain advantage as competitors lag</li>" +"</ul>" +"<p><strong>Cyclical vs defensive industries:</strong> consumer discretionary (cars, restaurants, holidays) are highly cyclical; utilities, food retailers, healthcare, and tobacco are more defensive (demand relatively stable across the cycle).</p>",
@@ -1371,6 +1497,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between CPI and RPI measures of inflation",
             "Use index numbers to deflate nominal values to real values",
           ],
+          keyTerms: [
+            { term: "Index Number", definition: "A statistical measure expressing the value of a variable relative to a chosen base year value (set to 100). Used to track price levels, output and wages over time." },
+            { term: "Base Year", definition: "The reference year in an index number series, assigned a value of 100. Changes in the index reflect percentage changes relative to the base year." },
+            { term: "Weighted Index", definition: "An index that assigns different weights to components based on their economic importance. The CPI is a weighted price index where weights reflect household spending patterns." },
+            { term: "Price Deflator", definition: "A ratio used to adjust nominal values to real values by removing the effect of price changes. GDP Deflator = (Nominal GDP / Real GDP) × 100." },
+            { term: "Real Values", definition: "Economic values adjusted for inflation, allowing meaningful comparisons over time. Contrast with nominal values, which are measured at current prices." },
+          ],
           explanation:
             "<h4>What is an Index Number?</h4>" +"<p>An <strong>index number</strong> expresses the value of a variable relative to a chosen <strong>base period</strong>, which is given a value of 100. Index numbers allow comparison of changes over time and across items of different scales.</p>" +"<p><strong>Formula:</strong> Index = (Current value / Base period value) × 100</p>" +"<p><strong>Example:</strong> If house prices were £200,000 in 2020 (base year) and are £250,000 in 2024:<br>" +"Index<sub>2024</sub> = (250,000 / 200,000) × 100 = 125 → prices are 25% higher than in the base year.</p>" +"<h4>CPI and RPI</h4>" +"<p>The two main UK measures of inflation are calculated using price index methodology:</p>" +"<table><thead><tr><th>Feature</th><th>CPI (Consumer Prices Index)</th><th>RPI (Retail Prices Index)</th></tr></thead>" +"<tbody>" +"<tr><td>Formula type</td><td>Geometric mean of price relatives</td><td>Arithmetic mean (Laspeyres)</td></tr>" +"<tr><td>Housing costs</td><td>Excludes mortgage interest and council tax</td><td>Includes mortgage interest payments</td></tr>" +"<tr><td>Population</td><td>All private households</td><td>Excludes highest earners and pensioners</td></tr>" +"<tr><td>MPC target</td><td>2% target (official inflation measure)</td><td>No longer an official target</td></tr>" +"<tr><td>Use</td><td>Monetary policy, benefit uprating (from 2011)</td><td>Index-linked gilts, rail fares, some pensions</td></tr>" +"</tbody></table>" +"<p>RPI is typically higher than CPI (the 'formula effect') — important when index-linked payments are negotiated.</p>" +"<h4>Real vs Nominal Values</h4>" +"<p>A <strong>nominal</strong> value is measured in current prices; a <strong>real</strong> value is adjusted for inflation (measured in constant base-year prices). To convert nominal to real:</p>" +"<p style='text-align:center'><strong>Real value = (Nominal value / Price index) × 100</strong></p>" +"<p><strong>Example:</strong> If nominal wages rose from £30,000 to £33,000 (10%) but the CPI rose from 100 to 108:<br>" +"Real wage in current year = (33,000 / 108) × 100 = £30,556.<br>" +"Real wage rose by only £556 (1.9%) — most of the nominal rise was eroded by inflation.</p>" +"<h4>Laspeyres vs Paasche Indices</h4>" +"<p><strong>Laspeyres (base-weighted):</strong> uses base-period quantities as weights — tends to overstate inflation because it ignores substitution away from expensive goods.<br>" +"<strong>Paasche (current-weighted):</strong> uses current quantities — tends to understate inflation because it gives more weight to goods whose relative prices have fallen. CPI uses a geometric mean approach that partially corrects for substitution bias.</p>",
           workedExample: {
@@ -1428,6 +1561,13 @@ const AIQ_COURSE_DATA = {
             "Explain the aims and instruments of supply-side economic policy",
             "Evaluate policies to improve labour market flexibility and productivity",
             "Contrast supply-side and demand-side approaches to managing the economy",
+          ],
+          keyTerms: [
+            { term: "Supply-Side Policy", definition: "Government measures to increase the productive capacity of the economy by improving labour market flexibility, reducing business costs and promoting competition." },
+            { term: "Deregulation", definition: "Removing or reducing government regulations on businesses and markets to increase competition, lower barriers to entry and improve efficiency." },
+            { term: "Privatisation", definition: "The transfer of state-owned enterprises to private ownership, typically to improve efficiency through profit incentives and competitive pressure." },
+            { term: "Labour Market Reform", definition: "Supply-side measures to make the labour market more flexible and efficient, such as reducing employment protection legislation or improving skills training." },
+            { term: "Incentive Effects", definition: "The impact of tax rates on individual and business behaviour. Lower income or corporation tax rates can incentivise work, saving and investment." },
           ],
           explanation:
             "<h4>Supply-Side vs Demand-Side Policy</h4>" +"<p><strong>Demand-side policies</strong> (fiscal and monetary) aim to manage aggregate demand to smooth the business cycle and control inflation. <strong>Supply-side policies</strong> aim to shift the aggregate supply curve to the right — increasing the economy's productive capacity and long-run growth potential without necessarily causing inflation.</p>" +"<p>Supply-side reforms are particularly favoured by free-market economists and tend to take years to have full effect — they are long-run structural improvements rather than short-run stabilisers.</p>" +"<h4>Labour Market Reforms</h4>" +"<ul>" +"<li><strong>Reducing trade union power:</strong> increases wage flexibility; reduces strike risk; lowers costs. UK reforms in the 1980s are frequently cited.</li>" +"<li><strong>Reducing unemployment benefits / reducing the replacement ratio:</strong> increases incentive to accept work; reduces frictional unemployment.</li>" +"<li><strong>Investment in education and training:</strong> raises human capital → higher productivity → higher potential output. Apprenticeships, T-Levels, university expansion.</li>" +"<li><strong>Immigration policy:</strong> skilled immigration directly fills labour market gaps; reduces wage pressure in shortage occupations.</li>" +"<li><strong>Reducing income tax / national insurance:</strong> increases the incentive to work and reduces the cost of employing workers.</li>" +"</ul>" +"<h4>Product Market Reforms</h4>" +"<ul>" +"<li><strong>Privatisation:</strong> transfer state-owned enterprises to private ownership; private firms face competitive pressures that drive efficiency. UK examples: British Telecom, British Gas, water companies.</li>" +"<li><strong>Deregulation:</strong> remove regulations that raise costs or restrict entry; increases competition. Deregulation of UK financial markets (Big Bang, 1986).</li>" +"<li><strong>Competition policy:</strong> preventing monopoly abuse maintains competitive pressure on prices and innovation.</li>" +"<li><strong>Infrastructure investment:</strong> public investment in transport, broadband, and energy networks reduces costs for businesses — a complementary supply-side tool even from a Keynesian perspective.</li>" +"</ul>" +"<h4>Evaluation</h4>" +"<p>Supply-side policies take <strong>long time lags</strong> to have full effect — education reform may take a generation. Distributive effects are controversial: privatisation and benefit cuts may increase inequality. Some deregulation contributed to the 2008 financial crisis. Infrastructure investment has more bipartisan support as a supply-side tool.</p>",
@@ -1487,6 +1627,13 @@ const AIQ_COURSE_DATA = {
             "Describe the impact of changing social values on consumer behaviour",
             "Assess how workforce diversity and skills shortages affect business strategy",
           ],
+          keyTerms: [
+            { term: "Demographics", definition: "Statistical characteristics of a population including age, gender, birth and death rates, and migration. Demographic trends shape labour supply, consumer demand and public finances." },
+            { term: "Ageing Population", definition: "A population with an increasing proportion of older people, driven by rising life expectancy and falling birth rates. Creates pressure on pensions, healthcare and the working-age population." },
+            { term: "Labour Force Participation Rate", definition: "The percentage of the working-age population that is employed or actively seeking work. Affected by demographics, education levels and cultural factors." },
+            { term: "Social Mobility", definition: "The ability of individuals to move between socio-economic groups over their lifetime or across generations. Higher mobility supports a more skilled and productive workforce." },
+            { term: "Consumer Trends", definition: "Shifts in consumer preferences, buying behaviour and demographics that create new opportunities and threats for businesses." },
+          ],
           explanation:
             "<h4>Demographic Change</h4>" +"<p>Demographics — the study of population structure and change — profoundly affects business strategy, government policy, and economic growth. Key variables: population size, age structure, birth rate, death rate, and net migration.</p>" +"<p><strong>Ageing population</strong> (rising median age, increasing proportion of over-65s): caused by rising life expectancy and falling birth rates. UK median age has risen from 34 to 40 since 1980.</p>" +"<p>Business implications of an ageing population:</p>" +"<ul>" +"<li><strong>Consumer market:</strong> growing demand for healthcare, retirement living, leisure, and financial services; declining demand for childcare and youth fashion</li>" +"<li><strong>Labour supply:</strong> shrinking working-age population → potential labour shortages → upward wage pressure</li>" +"<li><strong>Fiscal pressure:</strong> rising pension and healthcare costs; higher dependency ratio (ratio of non-workers to workers) strains public finances</li>" +"<li><strong>Savings rate:</strong> as population ages and retires, aggregate savings rate may fall → lower investment</li>" +"</ul>" +"<h4>Migration</h4>" +"<p>Net migration directly affects labour supply and consumer markets. High-skilled immigration fills gaps in technology, healthcare, and professional services; lower-skilled immigration supports agriculture, food processing, and hospitality. Post-Brexit changes to UK immigration rules (points-based system) have affected labour availability in some sectors.</p>" +"<h4>Social Trends and Changing Consumer Behaviour</h4>" +"<ul>" +"<li><strong>Urbanisation:</strong> UK population increasingly concentrated in cities; urban consumers have different spending patterns (eating out, transport, renting)</li>" +"<li><strong>Rising educational attainment:</strong> more university graduates → higher average earnings → demand for premium products; greater health and environmental consciousness</li>" +"<li><strong>Changing household structures:</strong> more single-person households → demand for smaller portions, smaller homes, individual financial products</li>" +"<li><strong>Digital literacy:</strong> consumer expectations of online services, instant delivery, and personalised marketing have risen sharply</li>" +"<li><strong>Ethical consumption:</strong> growing consumer preference for sustainable, ethical, and local products — particularly among younger demographics</li>" +"</ul>" +"<h4>Workforce Diversity</h4>" +"<p>Greater gender, ethnic, and age diversity in workforces brings benefits (wider perspectives, better decision-making, access to larger talent pool) and requires management attention (inclusive culture, flexible working, unconscious bias training). Legislation (Equality Act 2010) protects against discrimination on nine protected characteristics.</p>",
           workedExample: {
@@ -1543,6 +1690,13 @@ const AIQ_COURSE_DATA = {
             "Define externalities and explain how they lead to market failure",
             "Evaluate policy instruments for correcting environmental externalities (taxes, subsidies, permits)",
             "Explain the concept of sustainable development and its relevance to business",
+          ],
+          keyTerms: [
+            { term: "Negative Externality", definition: "A cost imposed on third parties not involved in a transaction, such as pollution from production. Leads to market failure as the social cost exceeds the private cost." },
+            { term: "Market Failure", definition: "A situation where the free market does not allocate resources efficiently, justifying government intervention. Causes include externalities, public goods and information asymmetry." },
+            { term: "Carbon Tax", definition: "A tax on carbon emissions designed to internalise the negative externality of pollution by making the private cost of production reflect its social cost." },
+            { term: "Cap and Trade Scheme", definition: "An environmental policy that sets a total limit (cap) on emissions and allows firms to buy and sell permits within that cap. The UK Emissions Trading Scheme is an example." },
+            { term: "Sustainable Development", definition: "Development that meets the needs of the present without compromising the ability of future generations to meet their own needs (Brundtland definition)." },
           ],
           explanation:
             "<h4>Externalities and Market Failure</h4>" +"<p>An <strong>externality</strong> is a cost or benefit imposed on a third party not involved in a transaction. When externalities exist, the market price does not reflect the full social cost or benefit of production/consumption, leading to <strong>market failure</strong> — the market produces too much or too little relative to the socially optimal level.</p>" +"<ul>" +"<li><strong>Negative externality</strong> (e.g., carbon emissions, air pollution): private cost &lt; social cost → market over-produces. MSC = MPC + external cost.</li>" +"<li><strong>Positive externality</strong> (e.g., education, R&amp;D, vaccination): private benefit &lt; social benefit → market under-provides. MSB = MPB + external benefit.</li>" +"</ul>" +"<h4>Policy Instruments to Correct Environmental Externalities</h4>" +"<table><thead><tr><th>Tool</th><th>Mechanism</th><th>Advantages</th><th>Limitations</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Pigouvian tax</strong> (carbon tax)</td><td>Tax equal to external cost at optimal output; raises price to producer, shifting supply curve left</td><td>Economically efficient; generates revenue; technology-neutral</td><td>Hard to set correct rate; regressive (hits lower incomes harder); may cause carbon leakage</td></tr>" +"<tr><td><strong>Cap and trade</strong> (Emissions Trading Scheme)</td><td>Government sets total emissions cap; firms buy/sell permits; price determined by market</td><td>Guarantees total emissions; firms with low abatement costs reduce most; permits create investment incentive</td><td>Setting cap is political; windfall profits if permits given free; volatile permit prices</td></tr>" +"<tr><td><strong>Regulation</strong> (standards)</td><td>Legal limits on emissions or production processes</td><td>Certainty of outcome; easy to understand</td><td>Blunt instrument; not cost-effective (no incentive to go below limit); stifles innovation</td></tr>" +"<tr><td><strong>Subsidies</strong></td><td>Subsidise green alternatives (solar, EVs) to increase supply and reduce cost</td><td>Encourages adoption of clean technology</td><td>Expensive; may cause market distortions; taxpayer-funded</td></tr>" +"</tbody></table>" +"<h4>Sustainable Development</h4>" +"<p>The <strong>Brundtland Commission (1987)</strong> definition: 'development that meets the needs of the present without compromising the ability of future generations to meet their own needs.'</p>" +"<p>The <strong>triple bottom line</strong> (Elkington): businesses should report on <strong>People</strong> (social), <strong>Planet</strong> (environmental), and <strong>Profit</strong> (financial). This broadens corporate accountability beyond shareholder returns.</p>" +"<p>UN Sustainable Development Goals (SDGs): 17 global goals adopted in 2015, covering poverty, health, education, climate action, and responsible production. Businesses increasingly align strategy and reporting to SDGs.</p>",
@@ -1602,6 +1756,13 @@ const AIQ_COURSE_DATA = {
             "Describe the role of intellectual property rights in incentivising innovation",
             "Assess the economic effects of digitalisation and automation on labour markets",
           ],
+          keyTerms: [
+            { term: "Disruptive Technology", definition: "A technology that fundamentally changes an industry by creating new markets and displacing established products or businesses. Examples: smartphones, streaming services, AI." },
+            { term: "Creative Destruction", definition: "Schumpeter's concept: innovation creates new industries and business models while destroying old ones. The engine of long-run capitalist growth." },
+            { term: "Technology Adoption Lifecycle", definition: "A model showing how innovation diffuses through a population: innovators, early adopters, early majority, late majority and laggards." },
+            { term: "Automation", definition: "The use of technology to perform tasks previously done by humans, improving productivity but potentially displacing jobs and requiring workforce reskilling." },
+            { term: "Innovation", definition: "The successful commercial application of a new idea, process or product. Distinguishable from invention (the idea itself) by its market implementation." },
+          ],
           explanation:
             "<h4>Technological Change and Economic Growth</h4>" +"<p>Technology is a key driver of long-run economic growth. <strong>Total Factor Productivity (TFP)</strong> measures the portion of output growth not explained by more inputs — it captures the effect of better technology, processes, and organisation. Historical evidence (Solow residual) suggests TFP accounts for the majority of long-run growth in developed economies.</p>" +"<h4>Creative Destruction</h4>" +"<p>Joseph Schumpeter's concept of <strong>creative destruction</strong> describes how innovation continuously displaces existing products, firms, and industries. New technologies destroy old market structures (steamships replaced sail; smartphones replaced cameras, MP3 players, sat-navs) while creating new markets and jobs. The process is economically efficient but disruptive at the firm and individual level.</p>" +"<h4>Intellectual Property Rights</h4>" +"<p>Innovation involves high fixed costs and low marginal costs — once knowledge is created, it can be copied cheaply. Without protection, free-riding would reduce the return to innovators, leading to under-investment in R&amp;D. IP rights give temporary monopoly power to recoup innovation costs:</p>" +"<ul>" +"<li><strong>Patents:</strong> 20 years exclusive right to use an invention; trade-off between innovation incentive and short-term monopoly inefficiency</li>" +"<li><strong>Copyright:</strong> automatic; protects creative works (software, music, writing) for author's life plus 70 years</li>" +"<li><strong>Trade marks:</strong> registered brand names and logos; renewable indefinitely</li>" +"<li><strong>Trade secrets:</strong> protect confidential business information (Coca-Cola formula) without registration</li>" +"</ul>" +"<h4>The Digital Economy and Platform Business Models</h4>" +"<p><strong>Network effects</strong> occur when a product becomes more valuable as more people use it (social networks, payment systems, marketplaces). Platforms exploiting network effects tend to winner-takes-all outcomes — Google in search, Amazon in e-commerce, Visa/Mastercard in payments. This creates new forms of market concentration that traditional antitrust tools struggle to address.</p>" +"<p>Key features of digital markets: near-zero marginal cost of serving extra users; data as a competitive asset; multi-sided platforms matching buyers and sellers.</p>" +"<h4>Automation and Labour Markets</h4>" +"<p>Automation and AI affect employment through two opposing channels:</p>" +"<ul>" +"<li><strong>Substitution effect:</strong> machines replace routine (manual and cognitive) tasks → some jobs disappear</li>" +"<li><strong>Complementarity/productivity effect:</strong> technology augments worker productivity, creates new tasks and industries → new jobs emerge (historically dominant)</li>" +"</ul>" +"<p>Middle-skill routine jobs face greatest displacement risk (routine cognitive: data entry, bookkeeping; routine manual: assembly). High-skill (complex problem-solving) and low-skill (non-routine manual: cleaning, caring) are more resilient. This drives <strong>job polarisation</strong> — growth at the top and bottom of the skill distribution at the expense of the middle.</p>",
           workedExample: {
@@ -1660,6 +1821,13 @@ const AIQ_COURSE_DATA = {
             "Review cost theory, market structures, and competition policy",
             "Practise exam-style questions across all microeconomic topics",
           ],
+          keyTerms: [
+            { term: "Price Mechanism", definition: "The system by which prices signal information about scarcity and value, coordinating the decisions of producers and consumers without central planning." },
+            { term: "Allocative Efficiency", definition: "Achieved when resources are allocated to their highest-value uses, with P = MC at the margin. Associated with perfectly competitive markets." },
+            { term: "Consumer Surplus", definition: "The difference between what consumers are willing to pay and what they actually pay. A measure of buyer welfare in a market." },
+            { term: "Producer Surplus", definition: "The difference between the price a producer receives and the minimum price they would accept. A measure of seller welfare in a market." },
+            { term: "Market Failure", definition: "When the free market does not produce an efficient outcome, justifying government intervention via taxes, subsidies or regulation." },
+          ],
           explanation:
             "<h4>Revision: Microeconomics — Key Concepts</h4>" +"<p>This lesson consolidates the core microeconomic concepts from BA1. Use it as a structured review before attempting the mock exam.</p>" +"<h4>Demand and Supply (Lessons 2–3)</h4>" +"<ul>" +"<li><strong>Demand shifts</strong> (not price changes): income, tastes, price of substitutes/complements, expectations</li>" +"<li><strong>Supply shifts</strong>: input costs, technology, taxes/subsidies, number of firms</li>" +"<li><strong>PED</strong> = % change in Qd / % change in P. |PED| &gt; 1 = elastic; &lt; 1 = inelastic. Determinants: substitutes, necessity, time horizon, proportion of income.</li>" +"<li><strong>PES</strong> = % change in Qs / % change in P. Determinants: spare capacity, factor mobility, time to produce, perishability.</li>" +"<li><strong>Cross-price elasticity (XED)</strong>: positive = substitutes; negative = complements.</li>" +"<li><strong>Income elasticity (YED)</strong>: positive = normal good; negative = inferior good; YED &gt; 1 = luxury.</li>" +"</ul>" +"<h4>Market Structures (Lessons 4, 13–14)</h4>" +"<table><thead><tr><th>Structure</th><th>Profit max rule</th><th>Long-run profit</th><th>Efficiency</th></tr></thead>" +"<tbody>" +"<tr><td>Perfect competition</td><td>P = MC</td><td>Normal only</td><td>Allocative + productive</td></tr>" +"<tr><td>Monopolistic competition</td><td>MR = MC</td><td>Normal only (LR)</td><td>Neither (X-inefficiency)</td></tr>" +"<tr><td>Oligopoly</td><td>MR = MC (kinked)</td><td>Supernormal possible</td><td>Depends on competition</td></tr>" +"<tr><td>Monopoly</td><td>MR = MC, P from demand</td><td>Supernormal (barriers)</td><td>Neither; DWL exists</td></tr>" +"</tbody></table>" +"<h4>Production and Costs (Lesson 12)</h4>" +"<ul>" +"<li>Short run: law of diminishing returns → MC rises; MC crosses AVC and ATC at their minima</li>" +"<li>Long run: economies of scale → LRAC falls; diseconomies → LRAC rises; MES = minimum of LRAC</li>" +"</ul>" +"<h4>Consumer Theory (Lesson 11)</h4>" +"<ul>" +"<li>Consumer equilibrium: MUx/Px = MUy/Py</li>" +"<li>Substitution effect always negative (price ↑ → Qd ↓); income effect depends on good type</li>" +"<li>Giffen good: perverse demand (price ↑ → Qd ↑) because income effect dominates substitution effect</li>" +"</ul>" +"<h4>Competition Policy (Lesson 15)</h4>" +"<ul>" +"<li>Chapter I: anti-competitive agreements (fines up to 10% global turnover)</li>" +"<li>Chapter II: abuse of dominant position (&gt;40% market share generally)</li>" +"<li>CMA: mergers reviewed if UK turnover &gt;£70m or market share &gt;25%</li>" +"<li>RPI − X price cap: used for natural monopoly regulation (Ofwat, Ofgem)</li>" +"</ul>" +"<h4>Common Exam Traps</h4>" +"<ul>" +"<li>Elasticity is about <em>responsiveness</em> — don't confuse elastic demand (flat curve) with inelastic (steep curve)</li>" +"<li>Diminishing returns (short run) ≠ diseconomies of scale (long run)</li>" +"<li>Monopoly profit maximisation: output where MR = MC; price read from <em>demand</em> curve, not MR curve</li>" +"<li>DWL = efficiency loss, not profit — it's the triangle between competitive and monopoly output</li>" +"<li>Nash Equilibrium ≠ joint profit maximum — the prisoner's dilemma outcome is worse for both players than cooperation</li>" +"</ul>",
           workedExample: {
@@ -1717,6 +1885,13 @@ const AIQ_COURSE_DATA = {
             "Review international trade, exchange rates, and globalisation",
             "Practise exam-style questions across all macroeconomic and environmental topics",
           ],
+          keyTerms: [
+            { term: "Aggregate Demand (AD)", definition: "The total demand for goods and services in an economy at a given price level: AD = C + I + G + (X − M)." },
+            { term: "Aggregate Supply (AS)", definition: "The total output of goods and services that producers in an economy are willing to supply at a given price level." },
+            { term: "Multiplier Effect", definition: "An initial change in spending (e.g. government investment) leads to a larger final change in GDP as the additional income circulates through the economy." },
+            { term: "Crowding Out", definition: "When increased government borrowing raises interest rates, reducing private investment. A criticism of expansionary fiscal policy." },
+            { term: "Macroeconomic Objectives", definition: "The government's key economic goals: stable prices (low inflation), high employment, sustainable economic growth, and a stable balance of payments." },
+          ],
           explanation:
             "<h4>Revision: Macroeconomics and the Business Environment</h4>" +"<p>This lesson consolidates the macroeconomic and business environment topics from BA1.</p>" +"<h4>National Income and Economic Growth (Lesson 5)</h4>" +"<ul>" +"<li><strong>GDP (Gross Domestic Product)</strong>: total value of goods and services produced in a country in a year. Three approaches: <em>expenditure</em> (C + I + G + (X−M)), <em>income</em>, <em>output</em>.</li>" +"<li><strong>GNP/GNI</strong>: GDP + net property income from abroad</li>" +"<li><strong>Nominal GDP</strong>: at current prices; <strong>Real GDP</strong>: adjusted for inflation (base year prices)</li>" +"<li><strong>Economic growth drivers</strong>: capital accumulation, labour force growth, technology (TFP)</li>" +"<li><strong>Circular flow</strong>: injections (I + G + X) vs withdrawals (S + T + M)</li>" +"</ul>" +"<h4>Inflation and Unemployment (Lesson 6)</h4>" +"<ul>" +"<li><strong>Demand-pull</strong>: excess aggregate demand; <strong>cost-push</strong>: supply-side price shocks (oil, wages)</li>" +"<li><strong>Frictional</strong>: between jobs; <strong>structural</strong>: skills mismatch; <strong>cyclical</strong>: demand deficient</li>" +"<li><strong>NAIRU</strong>: non-accelerating inflation rate of unemployment (natural rate)</li>" +"<li><strong>Phillips curve</strong>: short-run trade-off between inflation and unemployment; long-run vertical at NAIRU</li>" +"</ul>" +"<h4>Fiscal and Monetary Policy (Lesson 7)</h4>" +"<ul>" +"<li><strong>Fiscal policy</strong>: G and T; expansionary (deficit) or contractionary (surplus); multiplier effect</li>" +"<li><strong>Multiplier</strong> = 1/(1−MPC) = 1/MPW; a £1bn spending increase raises GDP by more</li>" +"<li><strong>Monetary policy</strong>: MPC sets base rate; QE = buying bonds to expand money supply</li>" +"<li><strong>MV = PQ</strong>: Fisher equation; monetarists argue M controls P in long run</li>" +"</ul>" +"<h4>International Economics (Lesson 8)</h4>" +"<ul>" +"<li><strong>Comparative advantage</strong>: specialise in lowest opportunity cost good → gains from trade</li>" +"<li><strong>Current account deficit</strong>: imports &gt; exports; financed by capital account surplus</li>" +"<li><strong>Exchange rate</strong>: floating (market), managed, fixed, or monetary union</li>" +"<li><strong>J-curve</strong>: depreciation initially worsens current account (contracts already signed) before improving it</li>" +"<li><strong>Marshall-Lerner condition</strong>: depreciation improves current account only if PED(X) + PED(M) &gt; 1</li>" +"</ul>" +"<h4>Common Exam Traps</h4>" +"<ul>" +"<li>Real GDP removes inflation — always compare real figures across time periods</li>" +"<li>Fiscal multiplier is largest when MPC is high (lower-income consumers more likely to spend extra income)</li>" +"<li>Monetary policy lag = 18–24 months; fiscal policy typically faster in the short run</li>" +"<li>Supply-side policies shift LRAS; demand-side policies shift AD — know which the question is asking about</li>" +"<li>A current account deficit is not automatically bad — it may reflect strong inward investment</li>" +"</ul>",
           workedExample: {
@@ -1773,6 +1948,13 @@ const AIQ_COURSE_DATA = {
             "Complete a timed 60-question multiple-choice paper under exam conditions",
             "Identify topic areas requiring further revision",
             "Review worked solutions and examiner guidance",
+          ],
+          keyTerms: [
+            { term: "Opportunity Cost", definition: "The value of the next best alternative forgone when making a choice. The foundation of economic reasoning — every decision has a cost." },
+            { term: "Scarcity", definition: "The fundamental economic problem: unlimited wants relative to limited resources, requiring choices about how to allocate those resources." },
+            { term: "Rational Economic Behaviour", definition: "The assumption that individuals make decisions to maximise their utility (consumers) or profit (firms), given their constraints." },
+            { term: "Price Mechanism", definition: "The system by which prices signal scarcity and coordinate economic decisions without central planning." },
+            { term: "Ceteris Paribus", definition: "A Latin term meaning 'all else being equal'. Used in economics to isolate the effect of one variable while holding all others constant." },
           ],
           explanation:
             "<h4>Mock Exam: BA1 Fundamentals of Business Economics</h4>" +"<p>This mock exam contains <strong>10 practice questions</strong> drawn from across the BA1 syllabus. The real BA1 exam has 60 questions (computer-based, multiple-choice) with a 2-hour time limit.</p>" +"<p><strong>Time guidance for this practice set:</strong> allow 20 minutes. Review all answers — including the ones you get right — using the explanations provided.</p>" +"<p><strong>Exam technique reminders:</strong></p>" +"<ul>" +"<li>Read each question twice — identify the <em>key verb</em> (calculate, explain, identify, which of the following)</li>" +"<li>Eliminate obviously wrong answers first</li>" +"<li>For calculation questions: write out the formula before substituting numbers</li>" +"<li>For 'which of the following' questions: test each option against the economic theory, not intuition</li>" +"<li>Do not leave blanks — there is no negative marking in BA1</li>" +"</ul>",
@@ -1944,6 +2126,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purpose of management accounting information",
             "Identify the qualities of useful management accounting information",
           ],
+          keyTerms: [
+            { term: "Management Accounting", definition: "The provision of financial and non-financial information to managers within an organisation to support planning, control and decision-making." },
+            { term: "Cost Accounting", definition: "The process of recording, classifying and analysing costs to provide management with information for cost control and pricing decisions." },
+            { term: "Management Information", definition: "Data processed and presented to help managers make decisions, plan future activities and control operations." },
+            { term: "Financial Accounting", definition: "The preparation of financial statements for external users (shareholders, regulators) in accordance with accounting standards. Contrasts with management accounting." },
+            { term: "Decision-Making", definition: "The process of selecting the best course of action from available alternatives, supported by relevant cost and revenue analysis." },
+          ],
           explanation:
             "<h4>Management Accounting vs Financial Accounting</h4>" +
             "<p><strong>Management accounting</strong> provides financial and non-financial information to help internal managers plan, control, and make decisions. It differs from financial accounting in several fundamental ways:</p>" +
@@ -2059,6 +2248,13 @@ const AIQ_COURSE_DATA = {
             "Classify costs by nature, function and behaviour",
             "Distinguish between direct and indirect costs",
             "Explain fixed, variable and semi-variable costs",
+          ],
+          keyTerms: [
+            { term: "Direct Cost", definition: "A cost that can be directly traced to a specific cost unit, such as direct materials and direct labour." },
+            { term: "Indirect Cost (Overhead)", definition: "A cost that cannot be directly traced to a specific cost unit and must be allocated or apportioned, such as factory rent and supervision." },
+            { term: "Fixed Cost", definition: "A cost that remains constant in total regardless of the level of activity within the relevant range, such as rent and straight-line depreciation." },
+            { term: "Variable Cost", definition: "A cost that changes in direct proportion to changes in activity level, such as direct materials and direct labour." },
+            { term: "Semi-Variable Cost", definition: "A cost with both a fixed element and a variable element, such as a telephone bill with a fixed line rental plus call charges." },
           ],
           explanation:
             "<h4>Why Classify Costs?</h4>" +
@@ -2208,6 +2404,13 @@ const AIQ_COURSE_DATA = {
             "Allocate, apportion, and reapportion overheads across production and service cost centres",
             "Calculate over- and under-absorption and account for it in the income statement",
           ],
+          keyTerms: [
+            { term: "Absorption Costing", definition: "A costing method that includes both variable and fixed production overhead in product cost. Required by IAS 2 for inventory valuation." },
+            { term: "Overhead Absorption Rate (OAR)", definition: "A predetermined rate used to charge overhead to products: OAR = Budgeted overhead / Budgeted activity level (often direct labour hours or machine hours)." },
+            { term: "Under-Absorption", definition: "When the overhead absorbed into products is less than the actual overhead incurred. Under-absorption is a debit to the income statement (extra cost)." },
+            { term: "Over-Absorption", definition: "When the overhead absorbed exceeds actual overhead incurred. Over-absorption is a credit to the income statement (cost saving)." },
+            { term: "Full Cost", definition: "The total cost of a product including both prime cost (direct materials, direct labour, direct expenses) and absorbed overhead." },
+          ],
           explanation:
             "<h4>Why Absorb Overheads?</h4>" +
             "<p><strong>Absorption costing</strong> charges all production costs — direct costs and production overheads — to cost units. It is the standard method for external financial reporting (required by IAS 2 for inventory valuation) and for setting selling prices that cover the full cost of production.</p>" +
@@ -2344,6 +2547,13 @@ const AIQ_COURSE_DATA = {
             "Prepare marginal and absorption costing profit statements",
             "Reconcile the profit difference between the two methods",
           ],
+          keyTerms: [
+            { term: "Marginal Costing", definition: "A costing method that includes only variable costs in product cost; fixed costs are treated as period costs and written off to the income statement." },
+            { term: "Contribution", definition: "Sales revenue minus variable costs. Contribution per unit = selling price per unit minus variable cost per unit." },
+            { term: "Contribution/Sales Ratio (C/S Ratio)", definition: "Contribution as a percentage of sales revenue. Also known as the profit-volume ratio. C/S = Contribution / Sales × 100%." },
+            { term: "Profit Reconciliation", definition: "The reconciliation of profit under absorption costing and marginal costing, which differ only by the change in the fixed overhead element of inventory." },
+            { term: "Period Cost", definition: "Under marginal costing, fixed production overheads are treated as period costs — expensed in full in the period incurred, regardless of inventory levels." },
+          ],
           explanation:
             "<h4>The Marginal Costing Approach</h4>" +
             "<p>Under <strong>marginal costing</strong>, only <em>variable</em> production costs are charged to cost units. <strong>Fixed costs are treated as period costs</strong> — they are written off in full to the income statement in the period they are incurred, regardless of the level of production or inventory.</p>" +
@@ -2479,6 +2689,13 @@ const AIQ_COURSE_DATA = {
             "Calculate margin of safety",
             "Interpret and draw a break-even chart",
           ],
+          keyTerms: [
+            { term: "Break-Even Point", definition: "The level of activity at which total revenue equals total cost and profit is zero. BEP (units) = Fixed costs / Contribution per unit." },
+            { term: "Margin of Safety", definition: "The amount by which actual sales exceed break-even sales. Expressed as units, revenue or a percentage: MoS % = (Actual − BEP) / Actual × 100%." },
+            { term: "Target Profit", definition: "The level of sales needed to achieve a specific profit: Required sales = (Fixed costs + Target profit) / Contribution per unit." },
+            { term: "Break-Even Chart", definition: "A graph showing total revenue, total cost and total variable cost lines against output. The intersection of revenue and total cost lines is the break-even point." },
+            { term: "Profit-Volume (PV) Chart", definition: "A graph showing the relationship between profit and volume of sales, highlighting break-even, margin of safety and target profit on a single line." },
+          ],
           explanation:
             "<h4>The Break-Even Concept</h4>" +
             "<p>The <strong>break-even point (BEP)</strong> is the level of sales at which total revenue exactly equals total costs — no profit, no loss. Every unit sold above the break-even point generates profit equal to the contribution per unit; every unit short of break-even generates a loss of the contribution per unit.</p>" +
@@ -2591,6 +2808,13 @@ const AIQ_COURSE_DATA = {
             "Apply the high-low method to separate fixed and variable costs",
             "Use the cost equation to predict costs at different activity levels",
           ],
+          keyTerms: [
+            { term: "High-Low Method", definition: "A technique to separate fixed and variable cost components from mixed cost data using the highest and lowest activity levels: Variable cost = Change in cost / Change in activity." },
+            { term: "Relevant Range", definition: "The range of activity levels within which cost behaviour assumptions (fixed vs variable) are valid. Outside this range, cost behaviour may change." },
+            { term: "Scatter Graph", definition: "A diagram plotting historical cost and activity data to visualise the relationship. Helps identify outliers before applying regression or the high-low method." },
+            { term: "Variable Cost per Unit", definition: "Calculated via high-low method as: (Cost at high activity − Cost at low activity) / (High activity − Low activity)." },
+            { term: "Step-Fixed Cost", definition: "A cost that is fixed within a range of activity but increases in steps as activity exceeds certain capacity thresholds (e.g. supervisory salaries)." },
+          ],
           explanation:
             "<h4>Why Separate Fixed and Variable Costs?</h4>" +
             "<p>Many costs are semi-variable — they have a fixed element (incurred even at zero output) and a variable element (proportional to activity). To use these costs in budgeting, break-even analysis, or marginal costing, you must split them into their two components. The <strong>high-low method</strong> does this using historical cost data.</p>" +
@@ -2691,6 +2915,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purposes of budgets",
             "Prepare functional and master budgets",
             "Explain the concept of a flexed budget",
+          ],
+          keyTerms: [
+            { term: "Budget", definition: "A quantified plan, expressed in financial and/or non-financial terms, covering a future period. Used for planning, coordination and control." },
+            { term: "Master Budget", definition: "The overall budget for an organisation, comprising the budgeted income statement, statement of financial position and cash budget, derived from functional budgets." },
+            { term: "Flexed Budget", definition: "A budget that has been adjusted to reflect the actual level of activity achieved, allowing meaningful comparison with actual costs." },
+            { term: "Budgetary Control", definition: "The process of comparing actual results with the budget, calculating variances, and taking corrective action to keep performance on track." },
+            { term: "Functional Budget", definition: "A budget for a specific function of the business, such as the sales budget, production budget, labour budget or overhead budget." },
           ],
           explanation:
             "<h4>What Is a Budget?</h4>" +
@@ -2816,6 +3047,13 @@ const AIQ_COURSE_DATA = {
             "Explain standard costing, types of standard, and the purpose of variance analysis",
             "Calculate materials, labour, variable overhead, and fixed overhead variances with correct signs",
             "Prepare a full reconciliation statement from budgeted profit to actual profit",
+          ],
+          keyTerms: [
+            { term: "Standard Cost", definition: "A predetermined cost for a unit of output, set at the start of the period and used as a benchmark against which actual costs are compared." },
+            { term: "Favourable Variance", definition: "An actual result that is better than the standard: actual cost less than standard cost, or actual revenue greater than standard revenue." },
+            { term: "Adverse Variance", definition: "An actual result that is worse than the standard: actual cost greater than standard cost, or actual revenue less than standard revenue." },
+            { term: "Material Price Variance", definition: "The difference between the standard price and actual price paid, applied to the actual quantity purchased: (SP − AP) × AQ." },
+            { term: "Labour Efficiency Variance", definition: "The difference between standard hours allowed for actual output and actual hours worked, valued at the standard rate: (SH − AH) × SR." },
           ],
           explanation:
             "<h4>What Is Standard Costing?</h4>" +
@@ -3040,6 +3278,13 @@ const AIQ_COURSE_DATA = {
             "Evaluate make-or-buy, accept/reject, and limiting factor decisions",
             "Calculate contribution per unit of limiting factor",
           ],
+          keyTerms: [
+            { term: "Relevant Cost", definition: "A future, incremental cash cost that differs between decision alternatives. Only relevant costs should be considered when evaluating short-term decisions." },
+            { term: "Sunk Cost", definition: "A past cost that has already been incurred and cannot be recovered. Irrelevant to future decisions as it will not change regardless of the action taken." },
+            { term: "Opportunity Cost", definition: "The value of the best alternative forgone when a resource is used for a particular purpose. Always relevant in decision-making." },
+            { term: "Incremental Cost", definition: "The additional cost incurred from taking a particular course of action — also called differential or marginal cost for decision purposes." },
+            { term: "Make or Buy Decision", definition: "A decision whether to produce a component internally or purchase it externally. The relevant comparison is the variable cost of making vs the purchase price, adjusted for any freed capacity." },
+          ],
           explanation:
             "<h4>Relevant Costing — The Foundation</h4>" +
             "<p>Short-term decisions require <strong>relevant costing</strong>: only costs and revenues that <em>change</em> as a direct result of a decision are relevant. To qualify as relevant, a cost must be:</p>" +
@@ -3162,6 +3407,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the cost per unit using equivalent units for WIP",
             "Account for normal and abnormal losses in a process account",
           ],
+          keyTerms: [
+            { term: "Process Costing", definition: "A costing method used in continuous mass-production industries where output passes through a series of processes. Costs are averaged across all units." },
+            { term: "Normal Loss", definition: "The expected and unavoidable loss from a process, expressed as a percentage of input. Its cost is borne by the good output." },
+            { term: "Abnormal Loss", definition: "Loss in excess of normal loss. Costed at the same cost per unit as good output and written off to the income statement." },
+            { term: "Abnormal Gain", definition: "When actual loss is less than normal loss. Reduces normal loss cost; valued at the cost per unit of good output." },
+            { term: "Equivalent Units", definition: "A technique for valuing partially completed work-in-progress by converting partly finished units into an equivalent number of fully completed units." },
+          ],
           explanation:
             "<h4>When to Use Process Costing</h4>" +"<p><strong>Process costing</strong> is used in industries where identical or near-identical products pass through a continuous production process — chemicals, oil refining, food processing, paint manufacture. Unlike job costing (where each job is distinct), process costing averages costs across all units produced in a period.</p>" +"<h4>The Process Account</h4>" +"<p>Each process has a T-account (the <em>process account</em>) that records inputs and outputs:</p>" +"<ul>" +"<li><strong>Debit side:</strong> opening WIP + materials added + labour + overheads + transferred-in costs</li>" +"<li><strong>Credit side:</strong> normal loss (at scrap value) + closing WIP + transferred-out output</li>" +"</ul>" +"<h4>Normal and Abnormal Loss/Gain</h4>" +"<p><strong>Normal loss</strong> is the expected loss inherent in the process (e.g., evaporation, spoilage). It is anticipated and planned for — its cost is spread across the <em>expected output</em>, not treated separately. Any scrap value of normal loss reduces the cost of the process.</p>" +"<p><strong>Abnormal loss</strong> = actual loss &gt; normal loss. This unexpected loss is costed as if it were good output and written off to the income statement (debit abnormal loss account).</p>" +"<p><strong>Abnormal gain</strong> = actual loss &lt; normal loss (more output than expected). It is credited at the same rate as good output but the normal loss scrap value forgone is deducted.</p>" +"<p>Formula for cost per unit of expected output:</p>" +"<p style='text-align:center'><code>Cost per unit = (Total process costs − Scrap value of normal loss) ÷ Expected output units</code></p>" +"<h4>Work in Progress (WIP) and Equivalent Units</h4>" +"<p>When units are partially complete at period end, costs must be split between completed units and closing WIP. <strong>Equivalent units</strong> convert partially completed units into a whole-unit equivalent:</p>" +"<p style='text-align:center'><code>Equivalent units = Physical units × % completion</code></p>" +"<p>Two methods for valuing WIP:</p>" +"<ul>" +"<li><strong>FIFO:</strong> opening WIP costs are kept separate; current period costs divided by current period equivalent units only. More complex but more accurate when costs change period to period.</li>" +"<li><strong>Weighted Average (AVCO):</strong> opening WIP costs merged with current period costs; total cost divided by total equivalent units. Simpler; used where cost fluctuation is minimal.</li>" +"</ul>",
           workedExample: {
@@ -3222,6 +3474,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between job and batch costing and calculate batch unit costs",
             "Explain the challenges of service costing and appropriate cost units",
           ],
+          keyTerms: [
+            { term: "Job Costing", definition: "A costing method where costs are collected for each unique job or contract, typically where products are made to individual customer specifications." },
+            { term: "Batch Costing", definition: "A form of job costing where a batch of identical products is treated as a single cost unit. The unit cost = total batch cost / number of units in the batch." },
+            { term: "Service Costing", definition: "Costing for service organisations where the cost unit is often composite (e.g. cost per passenger-kilometre, cost per bed-night)." },
+            { term: "Cost Unit", definition: "A unit of product or service for which costs are separately ascertained. The cost unit varies by industry: per tonne, per patient-day, per job." },
+            { term: "Cost Centre", definition: "An organisational unit for which costs are collected and a manager held responsible. Does not generate revenue; evaluated on cost control." },
+          ],
           explanation:
             "<h4>Job Costing</h4>" +"<p><strong>Job costing</strong> is used when each order (job) is unique and must be costed separately — building contracts, bespoke engineering, advertising campaigns, legal cases, audit engagements. Each job accumulates direct materials, direct labour, and absorbed overheads on a <em>job cost card</em>.</p>" +"<p>Profit on a job: Selling price − Full job cost (direct costs + absorbed overhead). The job does not start until a customer order exists, and the cost accumulates until the job is complete.</p>" +"<h4>Batch Costing</h4>" +"<p><strong>Batch costing</strong> applies when a group (batch) of identical items is produced together and treated as a single cost unit until complete. Total batch cost is calculated the same way as a job; the <em>unit cost</em> = total batch cost ÷ number of units in the batch. Common in food production, clothing, and component manufacturing.</p>" +"<h4>Service Costing</h4>" +"<p>Service industries (hospitals, hotels, airlines, transport companies) need costing but cannot use physical units. Instead, they use <strong>composite cost units</strong> that reflect the nature of service delivery:</p>" +"<table><thead><tr><th>Industry</th><th>Composite cost unit</th></tr></thead>" +"<tbody>" +"<tr><td>Hotel</td><td>Room-night occupied</td></tr>" +"<tr><td>Hospital</td><td>Patient-day</td></tr>" +"<tr><td>Airline</td><td>Passenger-mile (or seat-mile)</td></tr>" +"<tr><td>Road haulage</td><td>Tonne-mile</td></tr>" +"<tr><td>Education</td><td>Student enrolled or credit-hour</td></tr>" +"</tbody></table>" +"<p>Cost per service unit = Total costs ÷ Number of service units. This is used for pricing, benchmarking, and efficiency monitoring.</p>" +"<h4>Challenges in Service Costing</h4>" +"<ul>" +"<li><strong>Intangibility:</strong> services cannot be inventoried; all costs are period costs</li>" +"<li><strong>Heterogeneity:</strong> service quality varies between deliveries — cost per unit may not capture value differences</li>" +"<li><strong>High fixed cost proportion:</strong> airlines, hospitals, and hotels have large fixed infrastructure — cost per unit is sensitive to capacity utilisation</li>" +"<li><strong>Labour intensity:</strong> direct labour is usually the dominant cost; productivity measurement is critical</li>" +"</ul>",
           workedExample: {
@@ -3279,6 +3538,13 @@ const AIQ_COURSE_DATA = {
             "Explain why traditional absorption costing can distort product costs",
             "Identify cost pools and cost drivers and calculate ABC unit costs",
             "Evaluate the advantages and limitations of ABC versus traditional costing",
+          ],
+          keyTerms: [
+            { term: "Activity-Based Costing (ABC)", definition: "A costing method that assigns overhead costs to products based on the activities that drive those costs, rather than simple volume-based absorption rates." },
+            { term: "Cost Driver", definition: "The factor that causes the cost of an activity to change. Examples: number of purchase orders (purchasing activity), number of setups (machine setup activity)." },
+            { term: "Cost Pool", definition: "The total overhead cost for a specific activity, accumulated before being divided by the cost driver to calculate an activity rate." },
+            { term: "Activity Rate", definition: "The overhead cost per unit of cost driver: Activity Rate = Total cost pool / Total units of cost driver." },
+            { term: "Overhead Distortion", definition: "The mis-allocation of overhead to products under traditional absorption costing, typically over-costing high-volume simple products and under-costing low-volume complex products." },
           ],
           explanation:
             "<h4>The Problem with Traditional Absorption Costing</h4>" +"<p>Traditional absorption costing allocates overheads using volume-based bases (machine hours, direct labour hours). When overhead is driven by activities that are not volume-related — set-up costs, purchase orders, quality inspections — high-volume products are over-costed and low-volume products are under-costed, distorting pricing and profitability decisions.</p>" +"<h4>Activity-Based Costing (ABC)</h4>" +"<p><strong>ABC</strong> traces overhead costs to products via the activities that cause them (cost drivers), giving a more accurate picture of the true cost of producing each product. Developed by Cooper and Kaplan (Harvard, 1988).</p>" +"<p><strong>Key ABC concepts:</strong></p>" +"<ul>" +"<li><strong>Cost pool:</strong> a group of overhead costs that are driven by the same activity (e.g., all machine set-up costs in one pool)</li>" +"<li><strong>Cost driver:</strong> the factor that causes the costs in a pool to be incurred (e.g., number of set-ups, number of purchase orders, number of inspections)</li>" +"<li><strong>Cost driver rate:</strong> Cost pool total ÷ Total cost driver units</li>" +"</ul>" +"<h4>ABC Procedure</h4>" +"<ol>" +"<li>Identify the main overhead activities (set-ups, procurement, inspection, dispatch)</li>" +"<li>Group overhead costs into cost pools by activity</li>" +"<li>Identify the cost driver for each pool</li>" +"<li>Calculate the cost driver rate for each pool</li>" +"<li>Charge costs to products based on each product's usage of each cost driver</li>" +"</ol>" +"<h4>Advantages vs Limitations of ABC</h4>" +"<table><thead><tr><th>Advantages</th><th>Limitations</th></tr></thead>" +"<tbody>" +"<tr><td>More accurate product costs when overhead is diverse</td><td>Complex and costly to implement and maintain</td></tr>" +"<tr><td>Better pricing and mix decisions</td><td>Choice of cost drivers is subjective</td></tr>" +"<tr><td>Identifies non-value-adding activities for elimination</td><td>Still uses arbitrary allocation for some shared costs</td></tr>" +"<tr><td>Supports activity-based management (ABM)</td><td>May not improve decisions if overhead is small relative to direct costs</td></tr>" +"</tbody></table>",
@@ -3339,6 +3605,13 @@ const AIQ_COURSE_DATA = {
             "Reapportion service department costs to production departments",
             "Calculate and apply predetermined overhead absorption rates",
           ],
+          keyTerms: [
+            { term: "Overhead Allocation", definition: "Directly assigning overhead costs to a specific cost centre where the cost relates entirely to that centre (e.g. the depreciation of a dedicated machine)." },
+            { term: "Overhead Apportionment", definition: "Sharing overhead costs between cost centres on a fair basis where a cost benefits more than one centre (e.g. rent apportioned by floor area)." },
+            { term: "Re-apportionment", definition: "The process of transferring service cost centre overheads to production cost centres so all overhead ends up in production centres for absorption." },
+            { term: "Predetermined OAR", definition: "An overhead absorption rate set at the start of the period using budgeted figures, rather than calculated from actuals, to allow timely product costing." },
+            { term: "Basis of Apportionment", definition: "The measure used to share overhead between cost centres: floor area (rent), headcount (HR costs), machine hours (power) or direct labour hours (supervision)." },
+          ],
           explanation:
             "<h4>The Three-Stage Process</h4>" +"<p>This lesson consolidates the full overhead absorption process. In BA2, you must be able to work through all three stages in a single question:</p>" +"<ol>" +"<li><strong>Allocation:</strong> overheads wholly attributable to one cost centre are charged directly (e.g., depreciation on Dept A's machines → Dept A)</li>" +"<li><strong>Apportionment:</strong> shared overheads split across cost centres on a fair basis</li>" +"<li><strong>Reapportionment:</strong> service centre totals redistributed to production centres, then OAR calculated</li>" +"</ol>" +"<h4>Apportionment Bases — Quick Reference</h4>" +"<table><thead><tr><th>Overhead item</th><th>Best basis</th></tr></thead>" +"<tbody>" +"<tr><td>Rent, rates, building insurance</td><td>Floor area (m²)</td></tr>" +"<tr><td>Plant and machinery depreciation</td><td>Net book value (or cost) of assets</td></tr>" +"<tr><td>Canteen / welfare</td><td>Number of employees (headcount)</td></tr>" +"<tr><td>Electricity (lighting)</td><td>Floor area</td></tr>" +"<tr><td>Electricity (power for machines)</td><td>Kilowatt hours or machine hours</td></tr>" +"<tr><td>Supervision</td><td>Number of employees</td></tr>" +"<tr><td>Materials handling / stores</td><td>Value or volume of materials issued</td></tr>" +"</tbody></table>" +"<h4>Service Centre Reapportionment Methods</h4>" +"<p><strong>Direct method:</strong> each service centre's costs go only to production centres — ignores inter-service work. Quick but less accurate.</p>" +"<p><strong>Step-down method:</strong> the service centre that provides most services to <em>other</em> service centres is reapportioned first, including to other service centres. Once a service centre has been reapportioned it receives no further charges.</p>" +"<p><strong>Reciprocal method (algebraic):</strong> set up simultaneous equations when two service centres serve each other. Most accurate for the exam:</p>" +"<p>Let S1 = total cost of Service Centre 1 and S2 = total cost of Service Centre 2. If S1 serves 20% of its time to S2 and S2 serves 10% of its time to S1:<br>" +"S1 = Primary cost of S1 + 0.10 × S2<br>" +"S2 = Primary cost of S2 + 0.20 × S1</p>" +"<p>Solve simultaneously to find S1 and S2, then apportion each to production centres.</p>" +"<h4>OAR and Over/Under-Absorption</h4>" +"<p><code>OAR = Budgeted overhead ÷ Budgeted activity</code><br>" +"<code>Overhead absorbed = Actual activity × OAR</code><br>" +"<code>Over/under absorption = Absorbed − Actual overhead incurred</code></p>" +"<p>An <em>over-absorption</em> is added back to profit; an <em>under-absorption</em> is deducted. The difference from the <strong>budgeted</strong> profit equals (volume variance + expenditure variance) — the same figures you would derive from standard costing.</p>",
           workedExample: {
@@ -3398,6 +3671,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the profit-maximising price using the demand function and marginal revenue",
             "Describe target costing and value engineering approaches",
           ],
+          keyTerms: [
+            { term: "Cost-Plus Pricing", definition: "Setting price by adding a mark-up percentage to the full cost of production. Simple to apply but ignores demand and competitor pricing." },
+            { term: "Mark-Up", definition: "Profit expressed as a percentage of cost. If cost is £80 and selling price is £100, mark-up = 25%." },
+            { term: "Margin", definition: "Profit expressed as a percentage of selling price. If selling price is £100 and cost is £80, margin = 20%." },
+            { term: "Market Skimming", definition: "Setting a high initial price to target early adopters willing to pay a premium, then reducing price over time. Used for innovative products." },
+            { term: "Penetration Pricing", definition: "Setting a low initial price to gain market share quickly, then raising price once established. Used to enter competitive markets." },
+          ],
           explanation:
             "<h4>Cost-Plus Pricing</h4>" +"<p><strong>Cost-plus pricing</strong> sets price by adding a mark-up (or margin) to the calculated cost of the product. It is widely used because it is simple, ensures cost recovery, and is easy to justify to customers.</p>" +"<ul>" +"<li><strong>Full cost-plus:</strong> cost = direct costs + absorbed overheads; add target mark-up. Price = Full cost × (1 + mark-up %). Ensures all costs are covered.</li>" +"<li><strong>Marginal cost-plus:</strong> cost = variable cost only; add contribution margin. Useful for short-term pricing (e.g., spare capacity jobs) but risks failing to cover fixed costs if used universally.</li>" +"</ul>" +"<p>Limitations: ignores demand and competition; circular logic (overhead depends on volume which depends on price); may set price too high (lost sales) or too low (opportunity cost).</p>" +"<h4>Demand-Based Pricing: The Price/Demand Relationship</h4>" +"<p>When demand can be modelled, the profit-maximising price is found by setting MR = MC. Given a linear demand curve:</p>" +"<p><code>P = a − bQ</code> (inverse demand; a = price at zero demand; b = slope)</p>" +"<p><code>MR = a − 2bQ</code> (MR falls at twice the rate of demand)</p>" +"<p>Set MR = MC, solve for Q*, substitute back to find P*. This is the same approach as monopoly pricing — because the firm has some pricing power.</p>" +"<h4>Target Costing</h4>" +"<p><strong>Target costing</strong> reverses the cost-plus logic:</p>" +"<ol>" +"<li>Establish the market price consumers will pay (competitive analysis)</li>" +"<li>Deduct the required profit margin: <strong>Target cost = Selling price − Required profit</strong></li>" +"<li>If the estimated product cost exceeds the target cost, use <strong>value engineering</strong> — redesign the product or process to reduce cost without reducing perceived value</li>" +"</ol>" +"<p>Target costing is most useful at the product design stage, when 70–80% of lifetime costs are committed.</p>" +"<h4>Other Pricing Strategies</h4>" +"<ul>" +"<li><strong>Penetration pricing:</strong> low initial price to gain market share; risk: may not cover costs; unsustainable if rivals match</li>" +"<li><strong>Price skimming:</strong> high launch price for innovative products; gradually reduced as market matures and competition enters</li>" +"<li><strong>Predatory pricing:</strong> pricing below cost to eliminate a competitor — illegal under competition law</li>" +"<li><strong>Price discrimination:</strong> different prices to different market segments (3rd degree); requires ability to segment and prevent resale</li>" +"</ul>",
           workedExample: {
@@ -3455,6 +3735,13 @@ const AIQ_COURSE_DATA = {
             "Define relevant costs and distinguish sunk, committed, and opportunity costs",
             "Apply relevant costing to make-or-buy and shut-down decisions",
             "Evaluate outsourcing decisions using incremental analysis",
+          ],
+          keyTerms: [
+            { term: "Relevant Cost", definition: "A future incremental cash cost that differs between decision alternatives. Used to identify the financially optimal choice for short-term decisions." },
+            { term: "Avoidable Cost", definition: "A cost that will not be incurred if a particular activity is stopped. Avoidable costs are relevant to shut-down decisions." },
+            { term: "Non-Avoidable Cost", definition: "A cost that will continue regardless of the decision taken (e.g. absorbed fixed overheads). Irrelevant to most short-term decisions." },
+            { term: "Contribution", definition: "Selling price minus variable cost per unit. In a special order decision, if the contribution is positive and capacity is available, the order is financially worthwhile." },
+            { term: "Shut-Down Decision", definition: "The decision to close a department or product line. A segment should be retained if its contribution exceeds its avoidable fixed costs." },
           ],
           explanation:
             "<h4>Relevant Costs</h4>" +"<p>A <strong>relevant cost</strong> is a future incremental cash flow that changes as a direct result of a decision. Non-relevant costs must be excluded from decision analysis:</p>" +"<ul>" +"<li><strong>Sunk costs:</strong> already incurred and cannot be recovered regardless of the decision. Never relevant.</li>" +"<li><strong>Committed costs:</strong> future costs that will be incurred regardless of the decision. Not relevant to the current choice.</li>" +"<li><strong>Non-cash items:</strong> depreciation, apportioned fixed overhead — not cash flows; excluded.</li>" +"<li><strong>Opportunity cost:</strong> the value of the next-best alternative foregone. Always relevant — it represents the real economic cost of using a resource.</li>" +"</ul>" +"<h4>Relevant Cost of Materials</h4>" +"<ul>" +"<li>Not in stock, must be purchased: relevant cost = current purchase price</li>" +"<li>In stock, not regularly used, no alternative use: relevant cost = scrap/disposal value (opportunity cost)</li>" +"<li>In stock, regularly used (will need to be replaced): relevant cost = current replacement cost</li>" +"<li>In stock with an alternative use (can be sold or used elsewhere): relevant cost = higher of net realisable value and opportunity cost of alternative use</li>" +"</ul>" +"<h4>Relevant Cost of Labour</h4>" +"<ul>" +"<li>Idle labour with no alternative work: relevant cost = nil (labour cost is a sunk/committed cost)</li>" +"<li>Fully employed labour, must be diverted from other work: relevant cost = wage cost + contribution foregone from the other work</li>" +"<li>Labour must be hired specifically for the job: relevant cost = additional wages paid</li>" +"</ul>" +"<h4>Make or Buy Decisions</h4>" +"<p>When a firm can make a component internally or buy it from an outside supplier:</p>" +"<p><strong>Buy externally if:</strong> external purchase price &lt; relevant (incremental) cost of making internally.</p>" +"<p>The relevant cost of making = variable cost + any incremental fixed costs specific to production. General fixed overheads already absorbed are NOT relevant (they will continue whether or not the firm makes the component).</p>" +"<h4>Shutdown Decisions</h4>" +"<p>A segment should be shut down only if closing it improves overall profit — i.e., the contribution it generates is less than the specific fixed costs that would be saved by closing it. Apportioned (shared) fixed costs are not saved by closure and therefore not relevant.</p>",
@@ -3514,6 +3801,13 @@ const AIQ_COURSE_DATA = {
             "Calculate contribution per unit of limiting factor to rank products",
             "Formulate a linear programming problem with two decision variables",
             "Identify the optimal production plan graphically and using the objective function",
+          ],
+          keyTerms: [
+            { term: "Limiting Factor", definition: "A scarce resource that constrains output and profitability. To maximise profit, products should be ranked by contribution per unit of limiting factor." },
+            { term: "Contribution per Limiting Factor", definition: "Contribution per unit divided by the quantity of limiting factor required per unit. Products with the highest ratio should be prioritised." },
+            { term: "Shadow Price", definition: "The maximum additional amount worth paying to obtain one more unit of the limiting factor — the increase in total contribution from a marginal unit of scarce resource." },
+            { term: "Linear Programming", definition: "A mathematical technique to optimise an objective function (maximise contribution or minimise cost) subject to linear constraints, used when two or more limiting factors exist." },
+            { term: "Feasible Region", definition: "The set of all combinations of products that satisfy all the constraints in a linear programming problem. The optimal solution lies on the boundary." },
           ],
           explanation:
             "<h4>Limiting Factor Analysis</h4>" +"<p>When a business faces a <strong>binding constraint</strong> (a resource that is insufficient to meet all demand), it must decide which products to prioritise. The decision rule:</p>" +"<p style='text-align:center'><strong>Rank products by contribution per unit of limiting factor</strong></p>" +"<p>Steps: (1) Identify the limiting factor (e.g., machine hours, labour hours, kg of scarce material). (2) Calculate contribution per unit of limiting factor for each product. (3) Rank products and produce in order of highest to lowest ratio. (4) Produce as much of the highest-ranked product as demand allows, then next, until the resource is exhausted.</p>" +"<h4>Linear Programming (LP)</h4>" +"<p>When there are <strong>two or more scarce resources</strong> simultaneously, simple ranking fails — we need <strong>linear programming</strong>.</p>" +"<p><strong>Formulating an LP problem:</strong></p>" +"<ol>" +"<li>Define decision variables: let x = units of Product X, y = units of Product Y</li>" +"<li>Write the <strong>objective function</strong>: Maximise C = cₓx + cᵧy (where c = contribution per unit)</li>" +"<li>Write <strong>constraints</strong> for each scarce resource: aₓx + aᵧy ≤ capacity (where a = resource usage per unit)</li>" +"<li>Add non-negativity constraints: x ≥ 0, y ≥ 0</li>" +"</ol>" +"<p><strong>Graphical solution (for two variables):</strong></p>" +"<ol>" +"<li>Plot each constraint line (treat as equality and find x- and y-intercepts)</li>" +"<li>Shade the <em>feasible region</em> — the area satisfying all constraints simultaneously</li>" +"<li>Identify corner points of the feasible region</li>" +"<li>Calculate total contribution at each corner point; the highest is the optimal solution</li>" +"</ol>" +"<p>Alternatively, use the <strong>iso-contribution line</strong> method: draw a profit line and slide it away from the origin until it just touches the feasible region — that corner is optimal.</p>" +"<h4>Shadow Price</h4>" +"<p>The <strong>shadow price</strong> of a binding constraint is the increase in total contribution from relaxing the constraint by one unit (e.g., one extra machine hour). It represents the maximum premium a firm should pay to obtain more of the scarce resource. Non-binding constraints have a shadow price of zero.</p>",
@@ -3576,6 +3870,13 @@ const AIQ_COURSE_DATA = {
             "Compute accounting rate of return (ARR) using average annual profit",
             "Evaluate the strengths and weaknesses of payback and ARR as appraisal methods",
           ],
+          keyTerms: [
+            { term: "Payback Period", definition: "The time taken for the cumulative cash inflows from a project to equal the initial investment. Favours quick returns; ignores cash flows beyond payback." },
+            { term: "Accounting Rate of Return (ARR)", definition: "Average annual accounting profit as a percentage of average (or initial) investment. ARR = Average annual profit / Average investment × 100%." },
+            { term: "Capital Budgeting", definition: "The process of evaluating and selecting long-term investment projects. Involves estimating future cash flows and comparing them against the cost of investment." },
+            { term: "Non-Discounting Methods", definition: "Investment appraisal techniques (payback, ARR) that do not adjust for the time value of money. Simple but less rigorous than DCF methods." },
+            { term: "Time Value of Money", definition: "The principle that £1 today is worth more than £1 in the future because it can be invested to earn a return. The foundation of discounted cash flow analysis." },
+          ],
           explanation:
             "<h4>Capital Investment Appraisal</h4>" +"<p>Capital investment appraisal (or capital budgeting) evaluates whether long-term investment projects are financially worthwhile. Four main methods are tested in BA2: <strong>Payback period</strong>, <strong>Accounting Rate of Return (ARR)</strong>, <strong>Net Present Value (NPV)</strong>, and <strong>Internal Rate of Return (IRR)</strong>.</p>" +"<h4>Payback Period</h4>" +"<p><strong>Payback period</strong> measures how long it takes for cumulative cash inflows to recover the initial investment. The firm accepts projects with payback below a maximum threshold.</p>" +"<p><strong>Even cash flows:</strong> Payback = Initial investment ÷ Annual net cash inflow</p>" +"<p><strong>Uneven cash flows:</strong> sum cash flows year by year until the cumulative total reaches zero; interpolate for the fraction of the final year.</p>" +"<p><strong>Advantages:</strong> simple; quick; focuses on liquidity; useful for risky projects where early cash recovery is important.</p>" +"<p><strong>Disadvantages:</strong> ignores the time value of money; ignores all cash flows after the payback date; does not measure profitability.</p>" +"<h4>Accounting Rate of Return (ARR)</h4>" +"<p>ARR (also called Return on Capital Employed or ROCE for investments) compares average annual <em>accounting profit</em> with the average (or initial) capital invested:</p>" +"<p style='text-align:center'><code>ARR = Average annual profit ÷ Average investment × 100%</code></p>" +"<p style='text-align:center'><code>Average annual profit = (Total profit over life) ÷ Number of years</code></p>" +"<p style='text-align:center'><code>Average investment = (Initial cost + Residual value) ÷ 2</code></p>" +"<p>Accept the project if ARR ≥ target rate. <strong>Note:</strong> ARR uses <em>accounting profit</em>, not cash flows — it deducts depreciation. This contrasts with NPV and payback which use cash flows.</p>" +"<p><strong>Advantages:</strong> easy to calculate; linked to financial statements and ROCE targets.</p>" +"<p><strong>Disadvantages:</strong> ignores time value of money; profit-based not cash-based; choice of average investment (initial vs average) affects the result; not objective — depends on accounting policies.</p>",
           workedExample: {
@@ -3636,6 +3937,13 @@ const AIQ_COURSE_DATA = {
             "Interpret NPV and make investment accept/reject decisions",
             "Estimate IRR by interpolation and compare with the cost of capital",
           ],
+          keyTerms: [
+            { term: "Net Present Value (NPV)", definition: "The sum of the present values of all future cash flows (inflows minus outflows) from a project, discounted at the required rate of return. Positive NPV = accept the project." },
+            { term: "Internal Rate of Return (IRR)", definition: "The discount rate at which the NPV of a project equals zero. A project is accepted if IRR exceeds the cost of capital." },
+            { term: "Discount Rate", definition: "The rate used to convert future cash flows to present value, representing the required return or cost of capital. Higher risk projects use a higher discount rate." },
+            { term: "Discounted Cash Flow (DCF)", definition: "A valuation method that discounts future cash flows to present value using the time value of money. NPV and IRR are both DCF techniques." },
+            { term: "Annuity", definition: "A series of equal cash flows occurring at regular intervals. The present value of an annuity is calculated using the annuity factor (from tables or formulae)." },
+          ],
           explanation:
             "<h4>Net Present Value (NPV)</h4>" +"<p>NPV is the theoretically correct method of capital investment appraisal. It discounts all future cash flows back to their <strong>present value (PV)</strong> using the <strong>cost of capital</strong> (discount rate), then subtracts the initial investment.</p>" +"<p style='text-align:center'><code>NPV = Σ [Cash flow_t ÷ (1 + r)^t] − Initial investment</code></p>" +"<p>Or using present value tables: <code>PV = Cash flow × Discount factor (from tables)</code></p>" +"<p><strong>Decision rule:</strong> Accept if NPV ≥ 0 (the project increases shareholder wealth). Reject if NPV &lt; 0. Where projects compete, choose the highest positive NPV.</p>" +"<p><strong>Advantages:</strong> accounts for time value of money; uses cash flows not profit; directly measures wealth creation; theoretically superior to all other methods.</p>" +"<p><strong>Disadvantage:</strong> requires estimation of discount rate; difficult to explain to non-financial managers; sensitive to assumptions about terminal value.</p>" +"<h4>Annuities and Perpetuities</h4>" +"<p>If cash flows are <strong>equal each year</strong> (an annuity), use the cumulative discount factor (annuity factor):</p>" +"<p style='text-align:center'><code>PV of annuity = Annual cash flow × Annuity factor (from tables)</code></p>" +"<p>A <strong>perpetuity</strong> is an annuity that lasts forever: PV = Cash flow ÷ r</p>" +"<h4>Internal Rate of Return (IRR)</h4>" +"<p>The <strong>IRR</strong> is the discount rate at which NPV = 0. It is the 'break-even' return of the project.</p>" +"<p><strong>Decision rule:</strong> Accept if IRR ≥ cost of capital. Reject if IRR &lt; cost of capital.</p>" +"<p><strong>Interpolation formula:</strong></p>" +"<p style='text-align:center'><code>IRR ≈ L + [NPV_L ÷ (NPV_L − NPV_H)] × (H − L)</code></p>" +"<p>Where L = lower rate (positive NPV), H = higher rate (negative NPV). Use two trial rates that straddle the IRR.</p>" +"<p><strong>Limitations of IRR:</strong> can give multiple solutions for non-conventional cash flows; assumes reinvestment at the IRR (unrealistic); ranking by IRR can conflict with NPV for mutually exclusive projects (NPV is preferred for ranking).</p>",
           workedExample: {
@@ -3693,6 +4001,13 @@ const AIQ_COURSE_DATA = {
             "Calculate a line of best fit using least-squares regression",
             "Interpret regression coefficients in a cost behaviour context",
             "Assess the reliability of forecasts using the coefficient of determination (r²)",
+          ],
+          keyTerms: [
+            { term: "Regression Analysis", definition: "A statistical technique that finds the line of best fit through data points to express the relationship between a dependent variable (cost) and an independent variable (activity)." },
+            { term: "Least Squares Method", definition: "The mathematical approach to regression that minimises the sum of squared differences between actual data points and the fitted line, yielding the most accurate a and b values." },
+            { term: "Coefficient of Determination (r²)", definition: "Measures the proportion of variation in the dependent variable (cost) explained by the independent variable (activity). r² = 1 is a perfect fit; r² < 0.7 suggests a weak relationship." },
+            { term: "Correlation Coefficient (r)", definition: "Measures the strength and direction of the linear relationship between two variables. r = +1 is perfect positive correlation; r = −1 is perfect negative correlation." },
+            { term: "Extrapolation", definition: "Using a regression line to forecast beyond the range of observed data. Less reliable than interpolation and should be used with caution." },
           ],
           explanation:
             "<h4>Regression Analysis</h4>" +"<p><strong>Regression analysis</strong> finds the line of best fit through a set of data points, expressing the relationship between a dependent variable (e.g., total cost) and an independent variable (e.g., output). In management accounting, it is used to separate fixed and variable cost components more accurately than the high-low method.</p>" +"<p>The least-squares regression line: <strong>y = a + bx</strong></p>" +"<p>Where: y = total cost, x = activity level, a = fixed cost estimate, b = variable cost per unit.</p>" +"<p><strong>Formulas:</strong></p>" +"<p><code>b = (nΣxy − ΣxΣy) ÷ (nΣx² − (Σx)²)</code></p>" +"<p><code>a = (Σy ÷ n) − b(Σx ÷ n) = ȳ − bx̄</code></p>" +"<p>Where n = number of data pairs.</p>" +"<h4>Coefficient of Determination (r²)</h4>" +"<p>r² measures how well the regression line fits the data (the proportion of variation in y explained by x). Range: 0 to 1.</p>" +"<ul>" +"<li>r² = 1.0: perfect fit — all data points lie exactly on the line</li>" +"<li>r² = 0.9: 90% of variation in cost is explained by the activity variable — strong relationship</li>" +"<li>r² &lt; 0.7: weak relationship — the model may not be reliable for forecasting</li>" +"</ul>" +"<p>The correlation coefficient r = √r². If r is close to +1, strong positive correlation; close to −1, strong negative correlation; close to 0, weak/no linear relationship.</p>" +"<h4>Using Regression for Forecasting</h4>" +"<p>To forecast costs at a given activity level, substitute x into y = a + bx. The forecast is only reliable within the <strong>range of observed data</strong> (interpolation); extrapolation beyond observed data is unreliable.</p>" +"<p><strong>Limitations:</strong> assumes a linear relationship; past data may not reflect future conditions; ignores non-quantifiable cost drivers; time lags between data collection and use can reduce relevance.</p>",
@@ -3753,6 +4068,13 @@ const AIQ_COURSE_DATA = {
             "Calculate moving averages to identify underlying trends",
             "Use additive and multiplicative models to forecast future values",
           ],
+          keyTerms: [
+            { term: "Time Series", definition: "A sequence of data points recorded at regular time intervals (e.g. monthly sales). Decomposed into trend, seasonal variation and residual components." },
+            { term: "Trend Line", definition: "The underlying long-run movement in a time series, obtained by calculating moving averages to smooth out seasonal fluctuations." },
+            { term: "Seasonal Variation", definition: "Regularly repeating patterns in a time series within a year, caused by seasonal factors such as weather, holidays and agricultural cycles." },
+            { term: "Moving Average", definition: "A technique to smooth a time series and reveal the underlying trend by averaging a fixed number of consecutive data points." },
+            { term: "Additive Model", definition: "A time series model where: Actual = Trend + Seasonal variation + Random. The seasonal component is a fixed amount added to or subtracted from the trend." },
+          ],
           explanation:
             "<h4>Components of a Time Series</h4>" +"<p>A <strong>time series</strong> is a sequence of data recorded at regular intervals (weekly, monthly, quarterly). It is decomposed into four components:</p>" +"<ul>" +"<li><strong>Trend (T):</strong> the long-run direction of the series (rising, falling, or flat)</li>" +"<li><strong>Seasonal variation (SV):</strong> regular, predictable fluctuations within a year (e.g., retail sales peak at Christmas)</li>" +"<li><strong>Cyclical variation:</strong> longer-term waves linked to the business cycle (usually extracted with the trend for short-run analysis)</li>" +"<li><strong>Residual/irregular variation (R):</strong> random, unexplained fluctuations</li>" +"</ul>" +"<h4>Moving Averages — Finding the Trend</h4>" +"<p>A <strong>moving average</strong> smooths out seasonal and random variation to reveal the underlying trend. For quarterly data, use a 4-point moving average; for monthly data, a 12-point moving average.</p>" +"<p>Centring: a 4-point moving average lands between time periods. Centre it by taking the average of two consecutive 4-point averages to align with an actual data point. The centred value is the trend value (T) at that time period.</p>" +"<h4>Additive vs Multiplicative Models</h4>" +"<ul>" +"<li><strong>Additive model:</strong> Actual = T + SV + R. Seasonal variation is a <em>constant absolute amount</em>. Use when seasonal fluctuation is roughly the same size regardless of the trend level.</li>" +"<li><strong>Multiplicative model:</strong> Actual = T × SV × R. Seasonal variation is a <em>percentage</em> of trend. Use when seasonal fluctuation grows or shrinks proportionally with the trend level.</li>" +"</ul>" +"<h4>Calculating Seasonal Variations</h4>" +"<p><strong>Additive:</strong> SV = Actual − Trend. Average the seasonal variations for each season (Q1, Q2, Q3, Q4) across all years. Adjust so they sum to zero.</p>" +"<p><strong>Multiplicative:</strong> SV = Actual ÷ Trend. Seasonal index > 1 means above-trend; < 1 means below-trend.</p>" +"<h4>Forecasting Using Time Series</h4>" +"<ol>" +"<li>Extend the trend line to the forecast period (using the trend equation y = a + bt, where t = time period)</li>" +"<li>Apply the seasonal variation for that period: Additive: Forecast = T + SV. Multiplicative: Forecast = T × SV</li>" +"</ol>",
           workedExample: {
@@ -3811,6 +4133,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between cost centres, profit centres, and investment centres",
             "Apply the controllability principle when evaluating manager performance",
           ],
+          keyTerms: [
+            { term: "Responsibility Accounting", definition: "A system that assigns accountability for costs, revenues, assets and profits to the manager with authority over those items." },
+            { term: "Controllability Principle", definition: "Managers should only be held accountable for costs and revenues they can influence. Charging non-controllable items to a manager's budget is demotivating." },
+            { term: "Cost Centre", definition: "An organisational unit where a manager is accountable only for costs incurred. Performance measured against a cost budget." },
+            { term: "Profit Centre", definition: "An organisational unit where a manager is accountable for both revenues and costs. Performance measured by profit contribution." },
+            { term: "Investment Centre", definition: "An organisational unit where a manager controls revenues, costs and the capital invested. Performance measured by ROI or residual income." },
+          ],
           explanation:
             "<h4>Responsibility Accounting</h4>" +"<p><strong>Responsibility accounting</strong> holds managers accountable only for costs and revenues that are within their control. It links the budgetary control system to the organisational structure — each budget centre corresponds to a manager who is responsible for its performance.</p>" +"<h4>Types of Responsibility Centre</h4>" +"<table><thead><tr><th>Type</th><th>Manager controls</th><th>Performance measured by</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Cost centre</strong></td><td>Costs only</td><td>Cost variances; cost per unit</td></tr>" +"<tr><td><strong>Revenue centre</strong></td><td>Revenue only</td><td>Sales volume/value vs budget</td></tr>" +"<tr><td><strong>Profit centre</strong></td><td>Revenue and costs</td><td>Profit; contribution</td></tr>" +"<tr><td><strong>Investment centre</strong></td><td>Revenue, costs, and capital investment</td><td>ROCE; RI; EVA</td></tr>" +"</tbody></table>" +"<h4>The Controllability Principle</h4>" +"<p>Managers should only be held accountable for items over which they have genuine control. Uncontrollable costs — group charges, apportioned central overhead, currency fluctuations — should be excluded from performance reports, or clearly labelled as uncontrollable, to ensure fair appraisal.</p>" +"<p>In practice, the line between controllable and uncontrollable is blurred. Some costs are controllable in the long run but not the short run (e.g., fixed overhead once capacity is committed). Responsibility accounting must balance motivational benefits (accountability) with fairness (not demoralising managers for things outside their control).</p>" +"<h4>Behavioural Considerations</h4>" +"<ul>" +"<li><strong>Dysfunctional behaviour:</strong> managers may game the system — e.g., under-spend on maintenance to hit cost targets, at the expense of long-run asset quality</li>" +"<li><strong>Budget padding (budget slack):</strong> managers overstate cost budgets or understate revenue budgets to make targets easier to hit</li>" +"<li><strong>Short-termism:</strong> focus on period cost/profit targets may sacrifice long-term value creation</li>" +"<li><strong>Participation:</strong> involving managers in budget-setting improves motivation, ownership, and information quality</li>" +"</ul>",
           workedExample: {
@@ -3868,6 +4197,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purposes of transfer pricing within divisionalised organisations",
             "Calculate the minimum transfer price from the supplying division's perspective",
             "Evaluate market-based, cost-based, and negotiated transfer pricing approaches",
+          ],
+          keyTerms: [
+            { term: "Transfer Price", definition: "The internal price charged when one division of an organisation supplies goods or services to another division of the same organisation." },
+            { term: "Market Price Method", definition: "Setting the transfer price equal to the external market price for the transferred good. Ensures both divisions transact at arm's length and encourages goal congruence." },
+            { term: "Cost-Based Transfer Price", definition: "Setting the transfer price at the supplying division's cost (variable cost, full cost, or cost-plus). Marginal cost is theoretically optimal but provides no profit incentive for the supplier." },
+            { term: "Divisional Autonomy", definition: "The degree to which divisional managers have freedom to make their own decisions. High autonomy requires market-based transfer prices to avoid distorting divisional performance." },
+            { term: "Goal Congruence", definition: "When divisional managers making decisions that are best for their division are also making decisions that are best for the organisation as a whole." },
           ],
           explanation:
             "<h4>Why Transfer Prices Matter</h4>" +"<p>When divisions within a company trade with each other (e.g., a manufacturing division sells components to an assembly division), the price charged for those internal transactions — the <strong>transfer price</strong> — affects each division's reported profit and the decisions divisional managers make. It also affects the allocation of taxable profit if divisions are in different tax jurisdictions.</p>" +"<h4>Transfer Pricing Objectives</h4>" +"<ul>" +"<li>Reflect a fair allocation of group profit between divisions</li>" +"<li>Preserve divisional autonomy (managers should not be forced into decisions they would not make independently)</li>" +"<li>Lead to goal congruent decisions (what is best for the division should also be best for the group)</li>" +"<li>Avoid manipulation for tax purposes (HMRC requires arm's-length pricing)</li>" +"</ul>" +"<h4>Transfer Pricing Methods</h4>" +"<table><thead><tr><th>Method</th><th>Formula</th><th>Strengths</th><th>Weaknesses</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Market price</strong></td><td>External market price (or adjusted for cost savings)</td><td>Objective; fair; preserves autonomy; goal congruent if market is competitive</td><td>No external market may exist; market price may include selling costs not incurred internally</td></tr>" +"<tr><td><strong>Marginal/variable cost</strong></td><td>Variable cost per unit</td><td>Goal congruent (group-optimal); good if capacity unused</td><td>No profit for supplying division; demotivating</td></tr>" +"<tr><td><strong>Full cost</strong></td><td>Full absorption cost per unit</td><td>Simple; ensures cost recovery</td><td>Not goal congruent — buying division sees fixed costs as variable; poor decisions result</td></tr>" +"<tr><td><strong>Cost plus mark-up</strong></td><td>Full cost + margin</td><td>Gives supplying division some profit</td><td>Arbitrary mark-up; passes inefficiency to buying division</td></tr>" +"<tr><td><strong>Negotiated price</strong></td><td>Agreed between divisions</td><td>Autonomy preserved; information sharing</td><td>Time-consuming; may depend on relative bargaining power</td></tr>" +"</tbody></table>" +"<h4>The Minimum Transfer Price Rule</h4>" +"<p>The supplying division will only agree to transfer if the transfer price (TP) ≥ its minimum acceptable price:</p>" +"<p style='text-align:center'><code>Minimum TP = Marginal cost + Opportunity cost per unit</code></p>" +"<p>Opportunity cost arises when the supplying division is at full capacity and must sacrifice external sales to transfer internally. If spare capacity exists, opportunity cost = 0.</p>",
@@ -3928,6 +4264,13 @@ const AIQ_COURSE_DATA = {
             "Explain the limitations of purely financial performance measurement",
             "Identify appropriate non-financial KPIs for different business types",
           ],
+          keyTerms: [
+            { term: "Key Performance Indicator (KPI)", definition: "A quantifiable measure used to evaluate the success of an organisation or individual in achieving key objectives. Should be SMART: specific, measurable, achievable, relevant, time-bound." },
+            { term: "Non-Financial KPIs", definition: "Performance measures not expressed in monetary terms, such as customer satisfaction scores, employee turnover, defect rates and delivery times." },
+            { term: "Benchmarking", definition: "Comparing performance against a reference point — a competitor, industry average or best-in-class standard — to identify gaps and improvement opportunities." },
+            { term: "Lag Indicator", definition: "A KPI that measures past performance outcomes, such as last month's profit margin. Useful for control but cannot drive prospective management action." },
+            { term: "Lead Indicator", definition: "A KPI that predicts future performance, such as new customer enquiries or employee engagement scores. More useful for influencing outcomes before they occur." },
+          ],
           explanation:
             "<h4>Return on Capital Employed (ROCE)</h4>" +"<p>For investment centres, <strong>ROCE</strong> (also called Return on Investment, ROI) measures profit relative to the capital employed:</p>" +"<p style='text-align:center'><code>ROCE = (Divisional profit ÷ Divisional capital employed) × 100%</code></p>" +"<p><strong>Advantage:</strong> easy to compare divisions of different sizes. <strong>Disadvantage:</strong> may cause managers to reject positive-NPV projects that would dilute their current ROCE (dysfunctional short-termism).</p>" +"<h4>Residual Income (RI)</h4>" +"<p><strong>RI</strong> deducts a notional (imputed) interest charge on capital employed from divisional profit:</p>" +"<p style='text-align:center'><code>RI = Divisional profit − (Cost of capital × Capital employed)</code></p>" +"<p><strong>Advantage:</strong> RI encourages managers to accept any project earning above the cost of capital (no dilution effect). Goal congruence is improved. <strong>Disadvantage:</strong> absolute measure — cannot be directly compared across divisions of different sizes.</p>" +"<h4>Economic Value Added (EVA)</h4>" +"<p><strong>EVA</strong> (Stern Stewart) is a refined version of RI that adjusts both profit and capital employed for accounting distortions:</p>" +"<p style='text-align:center'><code>EVA = Adjusted NOPAT − (WACC × Adjusted capital employed)</code></p>" +"<p>Adjustments include: capitalising R&amp;D and marketing expenditure; deducting the full tax charge; using Weighted Average Cost of Capital (WACC). EVA is the closest financial metric to economic profit (true wealth creation).</p>" +"<h4>Non-Financial KPIs</h4>" +"<p>Financial measures alone are <strong>lagging indicators</strong> — they report past results and may not predict future performance. Non-financial KPIs capture value drivers:</p>" +"<ul>" +"<li><strong>Quality:</strong> defect rates, customer complaints, returns</li>" +"<li><strong>Delivery:</strong> on-time delivery rate, lead time</li>" +"<li><strong>Customer:</strong> Net Promoter Score (NPS), customer retention rate</li>" +"<li><strong>Innovation:</strong> R&amp;D spend as % of revenue, new product launch rate</li>" +"<li><strong>Employee:</strong> staff turnover, training days per employee, engagement scores</li>" +"</ul>",
           workedExample: {
@@ -3987,6 +4330,13 @@ const AIQ_COURSE_DATA = {
             "Explain how the balanced scorecard links strategy to operational performance",
             "Evaluate the balanced scorecard against other performance frameworks",
           ],
+          keyTerms: [
+            { term: "Balanced Scorecard", definition: "A performance management framework developed by Kaplan and Norton linking financial and non-financial KPIs across four perspectives: financial, customer, internal business process, and learning and growth." },
+            { term: "Four Perspectives", definition: "The Balanced Scorecard's four measurement areas: Financial (how do we look to shareholders?), Customer (how do customers see us?), Internal Process (what must we excel at?), and Learning and Growth (how do we improve?)." },
+            { term: "Strategy Map", definition: "A visual representation of the cause-and-effect relationships between strategic objectives across the four Balanced Scorecard perspectives." },
+            { term: "Lead Indicator", definition: "A forward-looking measure that predicts future financial performance. In the Balanced Scorecard, learning and customer metrics are lead indicators for financial results." },
+            { term: "Lag Indicator", definition: "A results-based measure reflecting past performance, such as revenue growth or ROCE. The financial perspective is dominated by lag indicators." },
+          ],
           explanation:
             "<h4>The Balanced Scorecard (BSC)</h4>" +"<p>Developed by Kaplan and Norton (1992), the <strong>Balanced Scorecard</strong> addresses the limitation of purely financial performance measurement by evaluating the business across four perspectives, linking strategy to operational performance.</p>" +"<table><thead><tr><th>Perspective</th><th>Key question</th><th>Typical metrics</th></tr></thead>" +"<tbody>" +"<tr><td><strong>Financial</strong></td><td>How do we look to shareholders?</td><td>Revenue growth, ROCE, EVA, profit margin, EPS</td></tr>" +"<tr><td><strong>Customer</strong></td><td>How do customers see us?</td><td>Customer satisfaction, retention, NPS, market share, on-time delivery</td></tr>" +"<tr><td><strong>Internal processes</strong></td><td>What must we excel at?</td><td>Defect rates, cycle time, capacity utilisation, innovation rate, order fulfilment</td></tr>" +"<tr><td><strong>Learning and growth</strong></td><td>Can we continue to improve?</td><td>Staff turnover, training hours, employee engagement, R&amp;D spend, system capabilities</td></tr>" +"</tbody></table>" +"<h4>Strategy Mapping</h4>" +"<p>The BSC links the four perspectives through <strong>cause-and-effect relationships</strong>: investing in employee development (learning and growth) → improves internal processes → improves customer satisfaction → drives financial performance. A <strong>strategy map</strong> visualises these linkages.</p>" +"<h4>Advantages of the BSC</h4>" +"<ul>" +"<li>Balances short-term financial results with long-run value drivers</li>" +"<li>Communicates strategy throughout the organisation via measurable targets</li>" +"<li>Reduces dysfunctional behaviour driven by purely financial targets</li>" +"<li>Integrates multiple dimensions of performance in one framework</li>" +"</ul>" +"<h4>Limitations of the BSC</h4>" +"<ul>" +"<li>Large number of metrics can cause information overload — prioritisation is needed</li>" +"<li>Selection of KPIs is subjective and may not capture all important value drivers</li>" +"<li>Cause-and-effect linkages are assumed — difficult to verify empirically</li>" +"<li>Implementation is time-consuming and costly; requires cultural change</li>" +"<li>Remains focused on internal performance — external context (competition, regulation) may be neglected</li>" +"</ul>",
           workedExample: {
@@ -4044,6 +4394,13 @@ const AIQ_COURSE_DATA = {
             "Review decision-making techniques including relevant costing and linear programming",
             "Practise exam-style questions across all cost accounting topics",
           ],
+          keyTerms: [
+            { term: "Absorption vs Marginal Costing", definition: "The key difference: absorption costing includes fixed overhead in product cost (so fixed cost follows inventory); marginal costing expenses fixed overhead as a period cost." },
+            { term: "CVP Analysis", definition: "Cost-Volume-Profit analysis examines how changes in costs and volume affect profit. Tools: break-even analysis, contribution analysis, margin of safety." },
+            { term: "Relevant Costing", definition: "Only future, incremental, cash costs that differ between alternatives are relevant to a decision. Sunk costs, committed costs and non-cash costs are irrelevant." },
+            { term: "Variance Analysis", definition: "Comparing standard costs with actual costs to identify favourable and adverse variances, then investigating material variances for corrective action." },
+            { term: "Decision Framework", definition: "The structured approach to short-term decisions: identify the decision, determine relevant costs and revenues, calculate the contribution of each option, and recommend the profit-maximising choice." },
+          ],
           explanation:
             "<h4>Revision: Cost Accounting — Key Formulas and Concepts</h4>" +"<h4>Costing Methods Summary</h4>" +"<table><thead><tr><th>Method</th><th>When used</th><th>Key formula</th></tr></thead>" +"<tbody>" +"<tr><td>Absorption costing</td><td>All industries (IAS 2); full cost pricing</td><td>Full cost = Direct + Absorbed OH; OAR = Budgeted OH ÷ Budgeted activity</td></tr>" +"<tr><td>Marginal costing</td><td>Short-run decisions; contribution analysis</td><td>Contribution = Revenue − Variable costs; Profit = Contribution − Fixed costs</td></tr>" +"<tr><td>ABC</td><td>Complex multi-product; diverse overhead drivers</td><td>Rate per cost driver = Pool total ÷ Driver units; Cost to product = Rate × Driver units used</td></tr>" +"<tr><td>Process costing</td><td>Continuous homogeneous production</td><td>Cost/unit = (Total cost − Normal loss scrap) ÷ Expected output</td></tr>" +"<tr><td>Job/batch</td><td>Unique orders or batches</td><td>Unit cost (batch) = Total batch cost ÷ Units in batch</td></tr>" +"</tbody></table>" +"<h4>Decision-Making Formulas</h4>" +"<ul>" +"<li><strong>Contribution/unit of limiting factor:</strong> C ÷ Units of scarce resource per product</li>" +"<li><strong>MR = MC pricing:</strong> P = a − bQ; MR = a − 2bQ; solve MR = MC for Q*</li>" +"<li><strong>Target cost:</strong> Selling price − Required profit margin</li>" +"<li><strong>Min TP:</strong> Marginal cost + Opportunity cost per unit</li>" +"</ul>" +"<h4>Investment Appraisal Formulas</h4>" +"<ul>" +"<li><strong>Payback:</strong> Initial investment ÷ Annual cash inflow (even flows); cumulate (uneven)</li>" +"<li><strong>ARR:</strong> (Total profit ÷ Years) ÷ [(Cost + RV) ÷ 2] × 100%</li>" +"<li><strong>NPV:</strong> Σ(Cash flow × Discount factor) − Initial investment</li>" +"<li><strong>IRR:</strong> L + [NPV_L ÷ (NPV_L − NPV_H)] × (H − L)</li>" +"</ul>" +"<h4>Performance Measurement</h4>" +"<ul>" +"<li><strong>ROCE:</strong> Divisional profit ÷ Capital employed × 100%</li>" +"<li><strong>RI:</strong> Divisional profit − (r × Capital employed); accept if RI &gt; 0</li>" +"</ul>" +"<h4>Common Exam Traps</h4>" +"<ul>" +"<li>Over/under-absorption: absorbed = <em>actual</em> hours × OAR, not budgeted hours</li>" +"<li>Payback ignores cash flows after the payback date — it is NOT a measure of profitability</li>" +"<li>ARR uses <em>accounting profit</em> (after depreciation), not cash flows</li>" +"<li>NPV: Year 0 cash flows are <em>not discounted</em> (discount factor = 1.000)</li>" +"<li>Abnormal loss is costed at the same rate as <em>good output</em>, not at scrap value</li>" +"<li>Minimum TP = MC + opportunity cost; if spare capacity, opportunity cost = 0</li>" +"<li>RI is goal congruent for investment decisions; ROCE can lead to wrong decisions (dilution)</li>" +"</ul>",
           workedExample: {
@@ -4100,6 +4457,13 @@ const AIQ_COURSE_DATA = {
             "Complete a timed 60-question multiple-choice paper under exam conditions",
             "Identify topic areas requiring further revision from mock results",
             "Review worked solutions and examiner guidance for all question types",
+          ],
+          keyTerms: [
+            { term: "Contribution Analysis", definition: "Used in marginal costing to evaluate product profitability: contribution = sales − variable costs. Products with positive contribution cover fixed costs." },
+            { term: "Investment Appraisal", definition: "The evaluation of long-term capital projects using NPV, IRR, payback and ARR. NPV is the theoretically superior method as it accounts for the time value of money." },
+            { term: "Standard Costing", definition: "A system of cost control where a standard cost per unit is set in advance and compared with actual costs to calculate variances for management action." },
+            { term: "Process Costing", definition: "Used in mass-production environments: costs are averaged across all units produced in a period, with normal loss absorbed into the good output cost." },
+            { term: "Activity-Based Costing", definition: "Overhead is assigned to products based on the activities that cause costs (using cost drivers), producing more accurate product costs than volume-based absorption." },
           ],
           explanation:
             "<h4>Mock Exam: BA2 Fundamentals of Management Accounting</h4>" +"<p>This mock contains <strong>10 exam-standard questions</strong> across the BA2 syllabus. The real BA2 exam has 60 MCQs over 2 hours.</p>" +"<p><strong>Topics covered:</strong> cost behaviour, absorption costing, process costing, decision-making (relevant costs, LP), investment appraisal, performance measurement.</p>" +"<p><strong>Exam technique:</strong></p>" +"<ul>" +"<li>For calculation questions, always write out the formula first</li>" +"<li>Check whether the question asks for profit (deduct depreciation) or cash flow (do not deduct depreciation)</li>" +"<li>For relevant cost questions, explicitly identify and exclude sunk costs and apportioned overheads</li>" +"<li>For investment appraisal, confirm whether Year 0 has been excluded from discounting</li>" +"</ul>",
@@ -4271,6 +4635,13 @@ const AIQ_COURSE_DATA = {
             "Describe the qualitative characteristics of useful financial information",
             "Identify the elements of financial statements",
           ],
+          keyTerms: [
+            { term: "Conceptual Framework", definition: "The IASB's foundational document that sets the objective of financial reporting, the qualitative characteristics of useful information, and the definitions of financial statement elements." },
+            { term: "Qualitative Characteristics", definition: "Properties that make financial information useful: fundamental characteristics are relevance and faithful representation; enhancing characteristics are comparability, verifiability, timeliness and understandability." },
+            { term: "Faithful Representation", definition: "Financial information faithfully represents economic phenomena when it is complete, neutral and free from error. One of the two fundamental qualitative characteristics." },
+            { term: "Accruals Basis", definition: "Transactions are recognised when they occur (when performance obligations are met), not when cash is received or paid. Required by the Conceptual Framework." },
+            { term: "Going Concern", definition: "The assumption that the entity will continue in operation for the foreseeable future. If not, assets must be written down to liquidation values." },
+          ],
           explanation:
             "<h4>What Is the Conceptual Framework?</h4>" +
             "<p>The IASB's <strong>Conceptual Framework for Financial Reporting</strong> is not an accounting standard — it cannot override any specific standard. Instead, it provides the theoretical foundation on which all accounting standards are built. It answers the question: <em>what should financial reporting aim to achieve, and how should it achieve it?</em></p>" +
@@ -4376,6 +4747,13 @@ const AIQ_COURSE_DATA = {
             "Apply the principles of double-entry bookkeeping",
             "Record transactions in T-accounts",
             "Extract a trial balance from ledger accounts",
+          ],
+          keyTerms: [
+            { term: "Debit", definition: "An entry on the left side of a T-account. Debits increase asset and expense accounts and decrease liability, equity and revenue accounts." },
+            { term: "Credit", definition: "An entry on the right side of a T-account. Credits increase liability, equity and revenue accounts and decrease asset and expense accounts." },
+            { term: "Double-Entry Bookkeeping", definition: "The principle that every transaction has two equal and opposite effects — a debit in one account and a credit in another — keeping the accounting equation in balance." },
+            { term: "Trial Balance", definition: "A list of all ledger account balances at a point in time. If double-entry is correct, total debits equal total credits." },
+            { term: "Ledger Account (T-Account)", definition: "A record showing all transactions affecting a single account, with debits on the left and credits on the right, and a running balance." },
           ],
           explanation:
             "<h4>The Fundamental Principle</h4>" +
@@ -4514,6 +4892,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between gross profit and profit for the period",
             "Account for accruals, prepayments, and depreciation in the income statement",
           ],
+          keyTerms: [
+            { term: "Revenue", definition: "Income arising from the principal activities of the business, such as sales of goods or provision of services. Recognised when performance obligations are met." },
+            { term: "Gross Profit", definition: "Revenue minus cost of sales. The first profit subtotal in the income statement, before operating expenses." },
+            { term: "Operating Profit", definition: "Gross profit minus operating expenses (distribution, administration). Profit from core trading before finance costs and tax." },
+            { term: "Cost of Sales", definition: "The direct costs of producing goods or services sold in the period: opening inventory + purchases − closing inventory (for a trading business)." },
+            { term: "Profit for the Period", definition: "The bottom-line profit after all expenses including finance costs and taxation have been deducted from revenue." },
+          ],
           explanation:
             "<h4>Purpose and Structure</h4>" +
             "<p>The <strong>income statement</strong> (also called the statement of profit or loss, or P&amp;L account) shows a business's financial performance over a period — its revenues earned and costs incurred. Under the accruals concept, income and expenses are recognised in the period to which they relate, not simply when cash changes hands.</p>" +
@@ -4626,6 +5011,13 @@ const AIQ_COURSE_DATA = {
             "Prepare a statement of financial position",
             "Apply the accounting equation",
           ],
+          keyTerms: [
+            { term: "Non-Current Assets", definition: "Assets held for use in the business for more than one accounting period, such as property, plant, equipment and intangible assets." },
+            { term: "Current Assets", definition: "Assets expected to be converted to cash or consumed within one year: inventory, trade receivables, prepayments and cash and cash equivalents." },
+            { term: "Current Liabilities", definition: "Obligations due within one year: trade payables, accruals, short-term loans, and the current portion of long-term debt." },
+            { term: "Equity", definition: "The residual interest in the assets after deducting all liabilities: share capital + retained earnings + other reserves. Also called net assets." },
+            { term: "Accounting Equation", definition: "Assets = Liabilities + Equity. Every transaction maintains this balance through double-entry bookkeeping." },
+          ],
           explanation:
             "<h4>The Statement of Financial Position — What It Shows</h4>" +
             "<p>The <strong>statement of financial position (SOFP)</strong> — also called the balance sheet — shows what a business <em>owns</em> (assets), what it <em>owes</em> (liabilities), and the residual interest of the owners (equity) at a <em>specific date</em>. It is a snapshot, not a period summary.</p>" +
@@ -4736,6 +5128,13 @@ const AIQ_COURSE_DATA = {
             "Calculate depreciation using straight-line and reducing balance methods",
             "Account for the disposal of non-current assets",
           ],
+          keyTerms: [
+            { term: "Depreciation", definition: "The systematic allocation of the cost of a non-current asset over its useful economic life, matching the cost against the revenues it generates." },
+            { term: "Straight-Line Method", definition: "Depreciation = (Cost − Residual value) / Useful life. Produces an equal charge each year; used when economic benefits are consumed evenly." },
+            { term: "Reducing Balance Method", definition: "Depreciation = Carrying amount × Fixed percentage. Higher charge in early years, declining over time; reflects assets that generate more benefit when newer." },
+            { term: "Carrying Amount", definition: "The net book value of an asset: cost (or revalued amount) minus accumulated depreciation. Shown on the statement of financial position." },
+            { term: "Residual Value", definition: "The estimated proceeds from disposing of an asset at the end of its useful life. Deducted from cost when calculating depreciable amount under the straight-line method." },
+          ],
           explanation:
             "<h4>Why Depreciate?</h4>" +
             "<p>Non-current assets (property, plant and equipment, vehicles, equipment) are used over multiple accounting periods. Under the <strong>matching concept</strong> (now part of the accruals basis), their cost must be spread over the periods that benefit from their use — this is <strong>depreciation</strong>.</p>" +
@@ -4830,6 +5229,13 @@ const AIQ_COURSE_DATA = {
             "Apply FIFO and weighted average cost methods",
             "Explain the lower of cost and net realisable value rule",
             "Assess the impact of inventory valuation on profit",
+          ],
+          keyTerms: [
+            { term: "FIFO (First In, First Out)", definition: "An inventory valuation method where the earliest purchases are assumed to be sold first. Under rising prices, FIFO gives lower COGS and higher closing inventory." },
+            { term: "Weighted Average Cost (AVCO)", definition: "Inventory valued at the average cost of all units available for sale. AVCO smooths the impact of price fluctuations on cost of sales." },
+            { term: "Net Realisable Value (NRV)", definition: "The estimated selling price minus estimated costs of completion and selling. Inventory is stated at the lower of cost and NRV per IAS 2." },
+            { term: "Inventory Write-Down", definition: "When NRV falls below cost, the difference is written down (expensed). Any subsequent reversal (if NRV recovers) is recognised up to the original cost." },
+            { term: "Cost of Sales", definition: "Opening inventory + Purchases/Production costs − Closing inventory. The periodic cost of goods sold, directly affected by the choice of inventory valuation method." },
           ],
           explanation:
             "<h4>Why Does Inventory Valuation Matter?</h4>" +
@@ -4960,6 +5366,13 @@ const AIQ_COURSE_DATA = {
           objectives: [
             "Account for irrecoverable debts and allowances for receivables",
             "Prepare control accounts for receivables and payables",
+          ],
+          keyTerms: [
+            { term: "Trade Receivables", definition: "Amounts owed to the business by customers for goods or services delivered on credit. Shown as a current asset on the statement of financial position." },
+            { term: "Trade Payables", definition: "Amounts owed by the business to suppliers for goods or services received on credit. Shown as a current liability." },
+            { term: "Settlement Discount", definition: "A discount offered to customers for prompt payment (e.g. 2% if paid within 10 days). The discount is only recognised as a reduction in revenue if taken." },
+            { term: "Ageing Analysis", definition: "A listing of receivables by time outstanding (0–30 days, 31–60 days, 61–90 days, 90+ days). Helps identify overdue accounts requiring chase or write-off." },
+            { term: "Credit Terms", definition: "The agreed period within which a customer must pay. Standard terms vary by industry; extending credit increases receivables and working capital requirements." },
           ],
           explanation:
             "<h4>The Receivables Cycle</h4>" +
@@ -5137,6 +5550,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between profit and cash flow",
             "Classify cash flows as operating, investing, or financing",
             "Prepare a simple cash flow statement using the indirect method",
+          ],
+          keyTerms: [
+            { term: "Statement of Cash Flows", definition: "A primary financial statement showing cash inflows and outflows classified as operating, investing and financing activities in a period." },
+            { term: "Operating Activities", definition: "Cash flows from the principal revenue-producing activities of the business. Calculated using the direct or indirect method." },
+            { term: "Investing Activities", definition: "Cash flows from the acquisition and disposal of long-term assets and investments: purchase/sale of PPE, acquisitions and disposals of subsidiaries." },
+            { term: "Financing Activities", definition: "Cash flows from changes in the size and composition of equity and borrowings: share issues, loan drawdowns/repayments, dividend payments." },
+            { term: "Indirect Method", definition: "Calculates operating cash flow by adjusting profit for non-cash items (depreciation, amortisation) and working capital changes." },
           ],
           explanation:
             "<h4>Why Profit ≠ Cash</h4>" +
@@ -5316,6 +5736,13 @@ const AIQ_COURSE_DATA = {
             "Identify the main types of period-end adjustments required before producing financial statements",
             "Transfer adjusted balances to produce draft financial statements",
           ],
+          keyTerms: [
+            { term: "Extended Trial Balance (ETB)", definition: "A worksheet that extends the trial balance to incorporate period-end adjustments, allowing the adjusted income statement and balance sheet figures to be derived." },
+            { term: "Period-End Adjustments", definition: "Entries required at the end of an accounting period to ensure accruals accounting is applied: accruals, prepayments, depreciation, provisions and inventory." },
+            { term: "Accrual", definition: "A liability for an expense incurred but not yet invoiced or paid at the period end. The expense is recognised in the current period." },
+            { term: "Prepayment", definition: "An asset representing an expense paid in advance of the period to which it relates. Carried forward to be matched against future revenue." },
+            { term: "Closing Entries", definition: "Journal entries that transfer income and expense account balances to retained earnings at the end of the accounting period, resetting them to zero for the next period." },
+          ],
           explanation:
             "<h3>The Extended Trial Balance and Period-End Adjustments</h3>"+ "<p>The <strong>extended trial balance (ETB)</strong> is a worksheet used to move from an unadjusted trial balance to completed financial statements. It extends the trial balance by adding columns for adjustments, an adjusted trial balance, the income statement, and the statement of financial position.</p>"+ "<h4>Structure of the ETB</h4>"+ "<p>The ETB has the following column sets: <strong>Trial Balance</strong> (unadjusted ledger balances), <strong>Adjustments</strong> (period-end entries such as accruals, prepayments and depreciation), <strong>Adjusted Trial Balance</strong> (trial balance + adjustments), then split into the <strong>Income Statement</strong> and <strong>Statement of Financial Position</strong>.</p>"+ "<h4>Key Period-End Adjustments</h4>"+ "<p><strong>Accruals:</strong> Expenses incurred but not yet recorded — debit expense, credit accruals (liability). <strong>Prepayments:</strong> Expenses paid in advance — debit prepayments (asset), credit expense. <strong>Depreciation:</strong> Allocate asset cost over useful life — debit depreciation expense, credit accumulated depreciation. <strong>Irrecoverable debts:</strong> Write off bad debts — debit irrecoverable debt expense, credit receivables. <strong>Allowance for receivables:</strong> Estimate expected losses — debit expense, credit allowance.</p>"+ "<h4>Balancing the ETB</h4>"+ "<p>Each row of adjustments must balance (debits = credits). The adjusted trial balance totals must also balance. Profit is the balancing figure: if income exceeds expenses in the income statement columns, the surplus (profit) is carried to retained earnings in the SOFP columns.</p>"+ "<p>The ETB ensures all adjustments are captured before preparing the formal financial statements and provides a clear audit trail.</p>",
           workedExample: {
@@ -5384,6 +5811,13 @@ const AIQ_COURSE_DATA = {
             "Explain the accruals concept and its effect on profit measurement",
             "Calculate and record accruals and prepayments for expenses and income",
             "Show the impact of accruals and prepayments on the income statement and balance sheet",
+          ],
+          keyTerms: [
+            { term: "Accrual", definition: "An amount owed at the period end for an expense incurred but not yet invoiced. Recognised as a liability (current) and an expense in the income statement." },
+            { term: "Prepayment", definition: "Cash paid in advance for a benefit not yet received. Recognised as a current asset; charged to the income statement in the period the benefit is consumed." },
+            { term: "Matching Principle", definition: "Costs should be recognised in the same period as the revenue they help generate. A core application of the accruals basis." },
+            { term: "Accruals Concept", definition: "Revenue and expenses are recognised when earned/incurred, not when cash is received/paid. One of the two fundamental accounting assumptions (the other being going concern)." },
+            { term: "Period-End Journal", definition: "A journal entry posted at the end of an accounting period to record accruals, prepayments, depreciation or provisions not captured in day-to-day bookkeeping." },
           ],
           explanation:
             "<h3>Accruals and Prepayments</h3>"+ "<p>The <strong>accruals concept</strong> (also called the matching concept) requires that income and expenses are recognised in the period they are earned or incurred, regardless of when cash is received or paid.</p>"+ "<h4>Accruals (Accrued Expenses)</h4>"+ "<p>An <strong>accrual</strong> is an expense that has been incurred in the current period but has not yet been paid or recorded. It represents an obligation — a current liability on the SOFP.</p>"+ "<p>Journal: <strong>Dr Expense account / Cr Accruals (liability)</strong>. At year end this liability appears in current liabilities. In the next period when the invoice is received and paid: Dr Accruals / Cr Bank.</p>"+ "<h4>Prepayments (Prepaid Expenses)</h4>"+ "<p>A <strong>prepayment</strong> arises when cash is paid in advance for a cost that relates to a future period. The portion relating to the future period is an asset — it represents a benefit still to be received.</p>"+ "<p>Journal: <strong>Dr Prepayments (asset) / Cr Expense account</strong>. At year end the prepayment appears in current assets. In the next period: Dr Expense / Cr Prepayments.</p>"+ "<h4>Calculating Accruals and Prepayments</h4>"+ "<p>Formula: <strong>Expense in IS = Cash paid + Opening accrual − Closing accrual − Opening prepayment + Closing prepayment</strong>. Or use a T-account approach: Opening balance + cash paid − closing balance = IS charge.</p>"+ "<p>Accrued income and deferred income apply the same logic to revenue: accrued income is earned but not yet invoiced (asset); deferred income is invoiced but not yet earned (liability).</p>",
@@ -5455,6 +5889,13 @@ const AIQ_COURSE_DATA = {
             "Record the write-off of irrecoverable debts and any subsequent recoveries",
             "Calculate and adjust an allowance for receivables and its effect on profit",
           ],
+          keyTerms: [
+            { term: "Irrecoverable Debt (Bad Debt)", definition: "An amount owed by a customer that is deemed uncollectable. Written off by debiting bad debt expense and crediting trade receivables." },
+            { term: "Allowance for Receivables", definition: "A provision for the estimated portion of receivables that may not be collected. Deducted from gross receivables on the balance sheet." },
+            { term: "Specific Allowance", definition: "An allowance for a specific customer whose ability to pay is in doubt — based on individual assessment of recoverability." },
+            { term: "General Allowance", definition: "An allowance based on historical bad debt experience applied to the total receivables balance, such as 2% of all receivables over 60 days." },
+            { term: "Recovery of Written-Off Debt", definition: "When a previously written-off debt is subsequently collected, the write-off is reversed (debit receivables, credit bad debt expense) and cash is recorded." },
+          ],
           explanation:
             "<h3>Irrecoverable Debts and Allowances for Receivables</h3>"+ "<p>Not all credit customers pay their debts. Accounting must reflect the realistic value of trade receivables on the SOFP.</p>"+ "<h4>Irrecoverable Debts (Bad Debts)</h4>"+ "<p>An <strong>irrecoverable debt</strong> is a specific debt that is known to be uncollectable (e.g. the customer has gone into liquidation). It must be written off immediately.</p>"+ "<p>Journal: <strong>Dr Irrecoverable debts expense / Cr Trade receivables</strong>. The debt is removed from the books. If the debt is later recovered: Dr Bank / Cr Irrecoverable debts expense.</p>"+ "<h4>Allowance for Receivables (Doubtful Debts)</h4>"+ "<p>An <strong>allowance for receivables</strong> is a general or specific estimate of debts that <em>might</em> not be collected. It reduces the reported receivables figure without removing specific invoices from the ledger.</p>"+ "<p>The allowance is a contra asset: <strong>Trade receivables at gross − Allowance for receivables = Net receivables</strong> on the SOFP.</p>"+ "<h4>Accounting for the Allowance</h4>"+ "<p>When the allowance is <strong>increased</strong>: Dr Allowance expense / Cr Allowance for receivables (by the increase). When the allowance is <strong>decreased</strong>: Dr Allowance for receivables / Cr Allowance expense (by the decrease). Only the <em>movement</em> in the allowance hits the income statement each year.</p>"+ "<h4>Income Statement Impact</h4>"+ "<p>IS charge = Irrecoverable debts written off + Increase in allowance (or − Decrease in allowance).</p>",
           workedExample: {
@@ -5524,6 +5965,13 @@ const AIQ_COURSE_DATA = {
             "Explain why the cash book and bank statement balances may differ",
             "Identify timing differences, errors, and bank charges in a reconciliation",
             "Prepare a formal bank reconciliation statement",
+          ],
+          keyTerms: [
+            { term: "Bank Reconciliation", definition: "A statement reconciling the balance per the cash book (company's records) with the balance per the bank statement, explaining timing differences." },
+            { term: "Outstanding Lodgements (Deposits in Transit)", definition: "Cash receipts recorded in the company's cash book but not yet cleared on the bank statement." },
+            { term: "Unpresented Cheques (Outstanding Cheques)", definition: "Cheques written by the company and recorded in the cash book but not yet cleared by the bank." },
+            { term: "Bank Charges and Interest", definition: "Items appearing on the bank statement but not yet recorded in the cash book. Must be entered in the cash book before the bank reconciliation is complete." },
+            { term: "Adjusted Cash Book Balance", definition: "The cash book balance after correcting for errors and adding bank charges/interest. Should equal the reconciled bank statement balance." },
           ],
           explanation:
             "<h3>Bank Reconciliation</h3>"+ "<p>A <strong>bank reconciliation</strong> is a control procedure that compares the cash book balance (per the business's records) with the bank statement balance (per the bank) and explains any differences.</p>"+ "<h4>Why Differences Arise</h4>"+ "<p><strong>Timing differences:</strong> <em>Unpresented cheques</em> — cheques written by the business but not yet cleared at the bank. <em>Outstanding lodgements</em> — receipts recorded in the cash book but not yet credited by the bank.</p>"+ "<p><strong>Errors and omissions:</strong> Items on the bank statement not yet entered in the cash book — direct debits, bank charges, bank interest, dishonoured cheques. These require updating the cash book before reconciling.</p>"+ "<h4>Reconciliation Format</h4>"+ "<p>Start with the <strong>balance per bank statement</strong>. Add outstanding lodgements. Less unpresented cheques. Equals <strong>corrected (adjusted) cash book balance</strong>.</p>"+ "<p>Alternatively, start with the cash book balance, adjust for any cash book errors, to arrive at the adjusted cash book balance — this should agree with the bank statement after timing adjustments.</p>"+ "<h4>Errors in the Cash Book</h4>"+ "<p>Bank charges and direct debits must be entered in the cash book (debit the bank account in the cash book is a credit in the ledger — remember the cash book is the bank account from the business's perspective). A dishonoured cheque requires reversing the original receipt entry.</p>",
@@ -5595,6 +6043,13 @@ const AIQ_COURSE_DATA = {
             "Prepare journal entries to correct common bookkeeping errors",
             "Use a suspense account to locate and clear errors",
           ],
+          keyTerms: [
+            { term: "Suspense Account", definition: "A temporary account used when a transaction cannot be immediately posted to the correct account. Must be cleared before financial statements are prepared." },
+            { term: "Error of Omission", definition: "A transaction has been completely omitted from the books. Does not affect the trial balance agreement." },
+            { term: "Error of Commission", definition: "A transaction has been posted to the correct type of account but the wrong personal account (e.g. debit to Jones instead of Smith)." },
+            { term: "Compensating Error", definition: "Two separate errors that cancel each other out, so the trial balance still agrees even though both errors exist." },
+            { term: "Journal Entry", definition: "A formal bookkeeping entry recording a transaction or correction: specifying the accounts to be debited and credited and the amounts." },
+          ],
           explanation:
             "<h3>Suspense Accounts and Correction of Errors</h3>"+ "<p>Even with double-entry bookkeeping, errors can occur. Some errors cause the trial balance to not balance — others do not. A <strong>suspense account</strong> is a temporary account used to make the trial balance balance while errors are investigated.</p>"+ "<h4>Errors that DO NOT Affect the Trial Balance</h4>"+ "<p>These errors still need correcting but do not prevent the trial balance from balancing: <strong>Error of omission</strong> — a transaction is completely omitted. <strong>Error of commission</strong> — posted to the wrong account of the same type. <strong>Error of principle</strong> — posted to the wrong type of account (e.g., capital expenditure treated as revenue). <strong>Compensating error</strong> — two errors that cancel each other out. <strong>Error of original entry</strong> — wrong amount used in both entries. <strong>Complete reversal</strong> — correct accounts but debit and credit swapped.</p>"+ "<h4>Errors that DO Affect the Trial Balance (Require Suspense)</h4>"+ "<p>Single-sided entry (only one side posted). Posting to wrong side of an account. Different amounts on debit and credit sides. These create a difference in the trial balance — post the difference to a suspense account.</p>"+ "<h4>Correcting Errors</h4>"+ "<p>Use journal entries to correct errors. For suspense account errors: the correcting entry must eliminate the suspense account balance. For non-suspense errors: reverse the incorrect entry and post the correct one (or post the net correcting entry).</p>"+ "<p>After corrections, recalculate profit: some errors affect profit (income statement errors), others do not (balance sheet errors only).</p>",
           workedExample: {
@@ -5664,6 +6119,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between capital and revenue expenditure and their accounting treatment",
             "Explain the consequences of misclassifying expenditure on profit and asset values",
             "Identify the components of the cost of a non-current asset",
+          ],
+          keyTerms: [
+            { term: "Capital Expenditure (CapEx)", definition: "Expenditure on acquiring or improving non-current assets that provides benefit over more than one accounting period. Capitalised on the balance sheet." },
+            { term: "Revenue Expenditure (RevEx)", definition: "Expenditure on maintaining the existing earning capacity of assets, or day-to-day running costs. Expensed to the income statement in the period incurred." },
+            { term: "Capitalisation", definition: "The process of treating an expenditure as a non-current asset (capital expenditure) rather than expensing it immediately. Increases assets and reduces current-period expenses." },
+            { term: "Enhancement", definition: "Expenditure that improves an asset beyond its original capability (e.g. extending a building). Should be capitalised as it creates future economic benefits." },
+            { term: "Maintenance and Repairs", definition: "Day-to-day upkeep expenditure that merely restores an asset to its original condition. Revenue expenditure — expensed, not capitalised." },
           ],
           explanation:
             "<h3>Capital and Revenue Expenditure</h3>"+ "<p>Correctly classifying expenditure as capital or revenue is fundamental to preparing accurate financial statements.</p>"+ "<h4>Capital Expenditure</h4>"+ "<p><strong>Capital expenditure (CapEx)</strong> is spending on assets that will provide economic benefit over more than one accounting period. It appears on the <strong>Statement of Financial Position</strong> as a non-current asset. Examples: purchasing equipment, building extensions, legal costs of acquiring property, delivery costs to get an asset ready for use.</p>"+ "<p>Key test: Does the expenditure create a new asset, extend an asset's life, or improve its performance beyond the original specification? If yes → capital.</p>"+ "<h4>Revenue Expenditure</h4>"+ "<p><strong>Revenue expenditure (RevEx)</strong> is spending to maintain the business or generate income within the current period. It is charged to the <strong>Income Statement</strong> as an expense. Examples: repairs and maintenance, fuel, stationery, wages, insurance, cleaning.</p>"+ "<h4>Why the Distinction Matters</h4>"+ "<p>Misclassifying CapEx as RevEx understates assets and overstates expenses → understates profit. Misclassifying RevEx as CapEx overstates assets and understates expenses → overstates profit. Both are errors of principle that distort the financial statements.</p>"+ "<h4>Subsequent Expenditure</h4>"+ "<p>Expenditure on an existing asset is capital if it enhances the asset above its original specification (e.g., fitting air conditioning to a vehicle). Routine servicing and repairs are revenue expenditure.</p>",
@@ -5737,6 +6199,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the profit or loss on disposal",
             "Account for part-exchange transactions involving non-current assets",
           ],
+          keyTerms: [
+            { term: "Disposal Account", definition: "A temporary account used to record the disposal of a non-current asset, bringing together the cost, accumulated depreciation and proceeds." },
+            { term: "Gain on Disposal", definition: "When proceeds from selling an asset exceed its carrying amount. Credited to the income statement." },
+            { term: "Loss on Disposal", definition: "When proceeds are less than the carrying amount. Debited to the income statement as an expense." },
+            { term: "Part-Exchange", definition: "When a new asset is acquired by trading in an old asset plus a cash payment. The trade-in value is the deemed proceeds for the old asset disposal." },
+            { term: "Carrying Amount at Disposal", definition: "Cost minus accumulated depreciation at the date of disposal. Compared to proceeds to calculate gain or loss on disposal." },
+          ],
           explanation:
             "<h3>Disposal of Non-Current Assets</h3>"+ "<p>When a non-current asset is sold, scrapped, or given away, the original cost and accumulated depreciation must be removed from the books, and any profit or loss on disposal recognised in the income statement.</p>"+ "<h4>The Disposal Account Method</h4>"+ "<p>Open a <strong>Disposal account</strong> and use it to bring together all elements of the disposal:</p>"+ "<p>1. Transfer cost: Dr Disposal / Cr Asset at cost<br>2. Transfer accumulated depreciation: Dr Accumulated depreciation / Cr Disposal<br>3. Record sale proceeds: Dr Bank/Receivables / Cr Disposal<br>4. Close disposal account: if credit > debit → profit on disposal (Cr IS); if debit > credit → loss on disposal (Dr IS).</p>"+ "<h4>Part-Exchange</h4>"+ "<p>In a part-exchange, the old asset is taken as part payment for a new one. The part-exchange value is the agreed trade-in value. Record: Dr Disposal / Cr Asset cost (old); Dr Accumulated depreciation / Cr Disposal (old); Dr New asset / Cr Disposal (part-ex value) + Cr Bank (cash paid).</p>"+ "<h4>Depreciation in Year of Disposal</h4>"+ "<p>Policy dictates whether a full year's depreciation is charged in the year of acquisition and none in disposal, or time-apportioned. Ensure consistency with the business's stated policy.</p>",
           workedExample: {
@@ -5808,6 +6277,13 @@ const AIQ_COURSE_DATA = {
             "Reconstruct missing figures using the accounting equation and ledger relationships",
             "Prepare financial statements from incomplete information using mark-up and margin",
           ],
+          keyTerms: [
+            { term: "Incomplete Records", definition: "A situation where full double-entry bookkeeping has not been maintained. Financial statements must be reconstructed from available evidence." },
+            { term: "Mark-Up", definition: "Gross profit expressed as a percentage of cost. Used to calculate missing figures when reconstructing accounts: Cost of Sales = Revenue / (1 + mark-up)." },
+            { term: "Margin", definition: "Gross profit expressed as a percentage of sales. Used to reconstruct accounts: Cost of Sales = Revenue × (1 − margin)." },
+            { term: "Capital Equation", definition: "Opening capital + Profit − Drawings = Closing capital. Used in incomplete records to derive profit when full records are unavailable." },
+            { term: "Reconstructed Cash Account", definition: "A T-account built from available information (receipts from customers, payments to suppliers) to derive missing balances such as cash stolen or lost." },
+          ],
           explanation:
             "<h3>Incomplete Records and Reconstructed Accounts</h3>"+ "<p>Many small businesses do not maintain full double-entry records. <strong>Incomplete records</strong> techniques allow accountants to reconstruct financial statements from partial information — bank statements, invoices, cash records, and opening/closing balances.</p>"+ "<h4>Key Techniques</h4>"+ "<p><strong>1. Opening capital (net assets):</strong> If the opening statement of financial position is missing, calculate: Opening capital = Opening assets − Opening liabilities.</p>"+ "<p><strong>2. Profit from capital comparison:</strong> Profit = Closing net assets − Opening net assets + Drawings − Additional capital introduced.</p>"+ "<p><strong>3. Reconstructing the cash/bank account:</strong> Use a T-account: Opening balance + Receipts (sales, loans, capital) − Payments (purchases, expenses, drawings) = Closing balance. If the closing balance is known, work backwards to find missing figures.</p>"+ "<p><strong>4. Reconstructing purchases/sales via control accounts:</strong> <em>Purchases</em>: Opening payables + Purchases − Payments to suppliers = Closing payables → rearrange for Purchases. <em>Sales</em>: Opening receivables + Sales − Receipts from customers = Closing receivables → rearrange for Sales.</p>"+ "<h4>Mark-up vs Margin</h4>"+ "<p>Often used to estimate missing figures: <strong>Mark-up</strong> = Gross profit as % of cost. <strong>Margin</strong> = Gross profit as % of sales. If margin is 25%: GP = 25% × Sales; Cost of sales = 75% × Sales.</p>",
           workedExample: {
@@ -5877,6 +6353,13 @@ const AIQ_COURSE_DATA = {
             "Explain the key features of a partnership and the role of a partnership agreement",
             "Prepare a profit and loss appropriation account including salaries, interest on capital, and residual profit sharing",
             "Maintain partners' capital and current accounts",
+          ],
+          keyTerms: [
+            { term: "Partnership", definition: "A business owned by two or more partners who share profits, losses and unlimited liability in agreed ratios unless a Limited Liability Partnership (LLP) is formed." },
+            { term: "Profit Sharing Ratio (PSR)", definition: "The agreed ratio in which partners share the residual profit after salaries and interest on capital have been allocated." },
+            { term: "Partner's Capital Account", definition: "Records a partner's permanent capital investment in the partnership. Usually fixed; changes only on admission, retirement or revaluation." },
+            { term: "Partner's Current Account", definition: "Records each partner's share of profit, drawings, salary and interest on capital. Fluctuates period to period." },
+            { term: "Interest on Capital", definition: "A notional charge rewarding partners for the capital they have invested, credited to their current accounts before residual profit is shared." },
           ],
           explanation:
             "<h3>Partnership Accounts: Formation and Profit Appropriation</h3>"+ "<p>A <strong>partnership</strong> is a business owned by two or more people who share the profits and losses according to a Partnership Agreement.</p>"+ "<h4>The Partnership Agreement</h4>"+ "<p>The agreement sets out: profit-sharing ratios (PSR), interest on capital (IOC) — rewarding partners for their capital investment, partners' salaries — rewarding active partners, interest on drawings (IOD) — a charge for withdrawing funds, and the drawings limit.</p>"+ "<p>If no agreement exists, the Partnership Act 1890 applies: equal profit shares, no interest on capital, no salaries, 5% interest on loans to the firm.</p>"+ "<h4>The Appropriation Account</h4>"+ "<p>The appropriation account distributes the net profit among the partners. Format:</p>"+ "<p>Net profit (from IS)<br>Less: Interest on capital (to each partner)<br>Less: Partners' salaries<br>Add: Interest on drawings (from each partner)<br>= Residual profit<br>Split by PSR → share of residual profit to each partner</p>"+ "<h4>Partners' Capital and Current Accounts</h4>"+ "<p><strong>Capital accounts</strong> are usually fixed — recording the permanent capital contributed. <strong>Current accounts</strong> record the running total of profit shares, salary, interest on capital, less drawings and interest on drawings. A debit balance on a current account means the partner owes the firm.</p>",
@@ -5950,6 +6433,13 @@ const AIQ_COURSE_DATA = {
             "Prepare accounts for the retirement or death of a partner",
             "Account for the dissolution of a partnership under Garner v Murray and revaluation rules",
           ],
+          keyTerms: [
+            { term: "Goodwill (Partnership)", definition: "The excess of the value of the partnership over the fair value of its net assets. Must be valued and adjusted on admission or retirement of a partner." },
+            { term: "Revaluation Account", definition: "Used to record the revaluation of partnership assets on a change in membership. Profit/loss on revaluation is shared in the old profit-sharing ratio." },
+            { term: "Admission of a Partner", definition: "When a new partner joins, existing partners' capitals are adjusted for goodwill and revaluation. The new partner may introduce capital or goodwill." },
+            { term: "Retirement of a Partner", definition: "A retiring partner is entitled to their capital account balance plus any unrecorded goodwill or asset appreciation, paid out in cash or as a loan." },
+            { term: "Capital Adjustment", definition: "When partners agree to change their profit-sharing ratio, goodwill and any asset revaluations must be accounted for to ensure each partner receives their fair share." },
+          ],
           explanation:
             "<h3>Partnership Accounts: Changes in Partnerships</h3>"+ "<p>When a partnership changes — a partner joins, leaves, or partners are revalued — goodwill must be recognised and often immediately written off. Assets may also be revalued.</p>"+ "<h4>Goodwill</h4>"+ "<p><strong>Goodwill</strong> is the value of the business in excess of the fair value of its net assets — reflecting reputation, customer relationships, and brand. For partnership changes, goodwill is introduced to credit outgoing partners (or the existing partnership before a new partner joins) and then eliminated to avoid it remaining on the SOFP.</p>"+ "<h4>Admission of a New Partner</h4>"+ "<p>Steps: (1) Raise goodwill — Dr Goodwill / Cr Existing partners' capital accounts (in old PSR). (2) New partner pays in capital (and goodwill premium if agreed). (3) Write off goodwill — Dr All partners' capital accounts (in new PSR) / Cr Goodwill. (4) Any revaluation of assets: Dr Asset / Cr Revaluation account → credit partners in old PSR.</p>"+ "<h4>Retirement of a Partner</h4>"+ "<p>Steps: (1) Raise goodwill in old PSR. (2) Retire the partner — settle their capital and current account (cash, loan, or deferred payment). (3) Write off goodwill in new PSR. The remaining partners bear the cost of buying out goodwill in their new PSR.</p>"+ "<h4>Dissolution</h4>"+ "<p>On dissolution, all assets are sold, liabilities settled, and any surplus (or deficit) shared between partners according to their capital balances (after adjusting for Garner v Murray if a partner has a capital deficiency).</p>",
           workedExample: {
@@ -6020,6 +6510,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between ordinary shares, preference shares, and debentures",
             "Account for the issue of shares at par and at a premium",
             "Explain the nature and purpose of capital and revenue reserves",
+          ],
+          keyTerms: [
+            { term: "Ordinary Shares", definition: "The main class of share capital giving holders voting rights and a share of residual profits (dividends). Ordinary shareholders rank last in a winding-up." },
+            { term: "Preference Shares", definition: "Shares with a fixed dividend, paid before ordinary dividends. Cumulative preference shares carry forward unpaid dividends; non-cumulative do not." },
+            { term: "Share Premium", definition: "The excess of the issue price of shares over their nominal value. Shown separately from share capital in equity; cannot be distributed as dividends." },
+            { term: "Retained Earnings", definition: "Cumulative profits kept in the business after paying dividends. The largest component of equity for most established companies." },
+            { term: "Rights Issue", definition: "An offer of new shares to existing shareholders in proportion to their current holdings, at a price below market value. Raises capital while giving existing shareholders priority." },
           ],
           explanation:
             "<h3>Company Accounts: Share Capital and Reserves</h3>"+ "<p>Companies are separate legal entities. Their equity section on the SOFP is more complex than a sole trader, comprising share capital, share premium, and retained earnings.</p>"+ "<h4>Share Capital</h4>"+ "<p><strong>Ordinary shares</strong> (equity shares) carry voting rights and the right to dividends (not guaranteed). <strong>Preference shares</strong> carry a fixed dividend and priority over ordinary shares in a winding-up but usually no voting rights. Shares have a <strong>nominal value</strong> (par value, e.g., £1) and are issued at a price that may exceed nominal value.</p>"+ "<h4>Share Premium</h4>"+ "<p>When shares are issued above nominal value, the excess is the <strong>share premium</strong>. Example: 10,000 shares with £1 nominal issued at £2.50 each → Share capital £10,000 + Share premium £15,000. The share premium account is a capital reserve — it cannot be used to pay dividends.</p>"+ "<h4>Retained Earnings (Retained Profit)</h4>"+ "<p>The cumulative net profits less dividends paid since the company's formation. This is a revenue reserve — it can be used to pay dividends. Movement: Opening retained earnings + Net profit for period − Dividends = Closing retained earnings.</p>"+ "<h4>Dividends</h4>"+ "<p><strong>Interim dividends</strong> are paid during the year (Dr Dividends paid / Cr Bank). <strong>Final dividends</strong> are proposed after the year end and approved at the AGM — only recognised as a liability when approved. Under IAS 10, proposed dividends at the year end are disclosed as a note, not accrued.</p>",
@@ -6092,6 +6589,13 @@ const AIQ_COURSE_DATA = {
             "Account for corporation tax, dividends, and transfers to reserves",
             "Distinguish between the income statement and the statement of changes in equity",
           ],
+          keyTerms: [
+            { term: "Revenue (Companies)", definition: "Income from the principal activities of the company, recognised per IFRS 15 when performance obligations are satisfied." },
+            { term: "Tax Charge", definition: "Corporation tax on the company's taxable profit for the period, shown as a separate line in the income statement. Comprises current tax and deferred tax." },
+            { term: "Dividends", definition: "Distributions of profit to shareholders, shown in the statement of changes in equity (not the income statement). Only declared dividends are recognised as liabilities." },
+            { term: "Earnings Per Share (EPS)", definition: "Profit attributable to ordinary shareholders divided by weighted average ordinary shares. A key investor ratio required to be disclosed by IAS 33." },
+            { term: "Statement of Changes in Equity", definition: "A primary statement showing all movements in equity for the period: opening balance, total comprehensive income, dividends paid, and share issues." },
+          ],
           explanation:
             "<h3>Company Accounts: The Income Statement</h3>"+ "<p>The company income statement follows a standard format under IAS 1, showing gross profit and then operating profit before finance items and tax.</p>"+ "<h4>Standard Format</h4>"+ "<p>Revenue (turnover)<br>Less: Cost of sales<br>= <strong>Gross profit</strong><br>Less: Distribution costs<br>Less: Administrative expenses<br>= <strong>Operating profit</strong><br>Add: Other income (e.g., investment income)<br>Less: Finance costs (interest payable)<br>= <strong>Profit before tax</strong><br>Less: Income tax expense<br>= <strong>Profit for the year</strong></p>"+ "<h4>Key Differences from Sole Trader</h4>"+ "<p><strong>Tax:</strong> Companies pay corporation tax — this is an expense in the IS. <strong>Directors' remuneration:</strong> Directors are employees — their salaries are operating expenses (NOT an appropriation of profit like a partner's salary). <strong>Debenture interest:</strong> A finance cost deducted before arriving at profit before tax. <strong>Dividends:</strong> Not an IS expense — they are a distribution of profit, shown in the statement of changes in equity.</p>"+ "<h4>Statement of Changes in Equity</h4>"+ "<p>Links the IS profit to the SOFP retained earnings: Opening retained earnings + Profit for year − Dividends paid = Closing retained earnings. This may also show movements in share capital and share premium.</p>",
           workedExample: {
@@ -6162,6 +6666,13 @@ const AIQ_COURSE_DATA = {
             "Prepare a company statement of financial position in IAS 1 format",
             "Classify assets and liabilities as current and non-current",
             "Reconcile equity between the opening and closing balance sheet",
+          ],
+          keyTerms: [
+            { term: "Non-Current Liabilities", definition: "Obligations due after more than one year: long-term borrowings, deferred tax liabilities, finance lease liabilities and pension obligations." },
+            { term: "Share Capital", definition: "The nominal value of shares issued, shown at par value on the face of the statement of financial position." },
+            { term: "Reserves", definition: "Equity balances other than share capital: share premium, revaluation reserve, retained earnings and other comprehensive income reserves." },
+            { term: "Working Capital", definition: "Current assets minus current liabilities. A positive figure indicates the company can meet short-term obligations; negative indicates liquidity risk." },
+            { term: "Net Assets", definition: "Total assets minus total liabilities. Equal to total equity by the accounting equation." },
           ],
           explanation:
             "<h3>Company Accounts: The Statement of Financial Position</h3>"+ "<p>The company SOFP follows IAS 1 format, classifying assets and liabilities as current (due within 12 months) or non-current (beyond 12 months).</p>"+ "<h4>Standard Format</h4>"+ "<p><strong>Non-current assets:</strong> Property, plant and equipment (at cost less accumulated depreciation), intangible assets (goodwill, patents), investments.</p>"+ "<p><strong>Current assets:</strong> Inventories, trade and other receivables, prepayments, cash and cash equivalents.</p>"+ "<p><strong>Total assets = Non-current assets + Current assets.</strong></p>"+ "<p><strong>Non-current liabilities:</strong> Long-term borrowings, debentures, deferred tax.</p>"+ "<p><strong>Current liabilities:</strong> Trade payables, accruals, bank overdraft, tax payable, short-term borrowings, proposed dividends (when approved).</p>"+ "<p><strong>Net assets = Total assets − Total liabilities.</strong></p>"+ "<p><strong>Equity:</strong> Share capital + Share premium + Retained earnings = Total equity = Net assets.</p>"+ "<h4>Working Capital</h4>"+ "<p>Working capital = Current assets − Current liabilities. Adequate working capital is essential for liquidity.</p>"+ "<h4>Key Accounting Policies</h4>"+ "<p>Non-current assets stated at cost less accumulated depreciation (or at revalued amount if using the revaluation model). Inventories at the lower of cost and net realisable value (IAS 2). Receivables stated net of the allowance for doubtful debts.</p>",
@@ -6237,6 +6748,13 @@ const AIQ_COURSE_DATA = {
             "Define subsidiary, associate, and joint venture for accounting purposes",
             "Describe the acquisition method and the concept of goodwill on consolidation",
           ],
+          keyTerms: [
+            { term: "Consolidated Financial Statements", definition: "Financial statements that present the results, assets and liabilities of a parent company and all its subsidiaries as a single economic entity." },
+            { term: "Parent Company", definition: "An entity that controls one or more subsidiaries. Required to prepare consolidated financial statements under IFRS 10." },
+            { term: "Subsidiary", definition: "An entity controlled by a parent. Control is defined in IFRS 10 as having power over the investee, exposure to variable returns, and ability to use power to affect those returns." },
+            { term: "Non-Controlling Interest (NCI)", definition: "The equity in a subsidiary not attributable to the parent. Shown as a separate component of equity in the consolidated statement of financial position." },
+            { term: "Control (IFRS 10)", definition: "A parent controls an entity when it has power over the investee, exposure to variable returns, and the ability to use its power to affect those returns." },
+          ],
           explanation:
             "<h3>Introduction to Consolidated Financial Statements</h3>"+ "<p>When one company (the <strong>parent</strong>) controls another (the <strong>subsidiary</strong>), the group must present <strong>consolidated financial statements</strong> that combine the financial results of both as if they were a single economic entity.</p>"+ "<h4>Key Definitions</h4>"+ "<p><strong>Control:</strong> Under IFRS 10, an investor controls an investee when it has power over the investee, exposure to variable returns, and the ability to use that power to affect those returns. Typically control = more than 50% of voting rights.</p>"+ "<p><strong>Subsidiary:</strong> An entity controlled by the parent.</p>"+ "<p><strong>Associate:</strong> An entity over which the investor has significant influence (typically 20–50% of voting rights) but not control — accounted for using the equity method.</p>"+ "<h4>Principles of Consolidation</h4>"+ "<p>1. Combine 100% of parent and subsidiary assets, liabilities, income and expenses line by line.<br>2. Eliminate intra-group balances and transactions (e.g., intra-group sales, loans).<br>3. Recognise goodwill arising on acquisition.<br>4. Recognise the non-controlling interest (NCI) if the parent owns less than 100%.</p>"+ "<h4>Goodwill on Acquisition</h4>"+ "<p>Goodwill = Cost of investment − Fair value of net assets acquired at date of acquisition (× parent's %). Or using full goodwill method: Goodwill = (Cost + NCI at FV) − Fair value of net assets. Goodwill is capitalised as an intangible asset and tested annually for impairment.</p>",
           workedExample: {
@@ -6307,6 +6825,13 @@ const AIQ_COURSE_DATA = {
             "Calculate goodwill arising on acquisition including non-controlling interests",
             "Eliminate inter-company balances and unrealised profits on consolidation",
             "Prepare a consolidated statement of financial position for a simple group",
+          ],
+          keyTerms: [
+            { term: "Goodwill on Consolidation", definition: "The premium paid for a subsidiary above the fair value of its identifiable net assets: Goodwill = Consideration + NCI − Fair value of net assets at acquisition." },
+            { term: "Pre-Acquisition Reserves", definition: "The subsidiary's retained earnings at the acquisition date. These are included within goodwill at acquisition and do not flow through to consolidated retained earnings." },
+            { term: "Investment Elimination", definition: "The consolidation adjustment that cancels the parent's investment against the subsidiary's share capital and pre-acquisition reserves." },
+            { term: "NCI at Acquisition", definition: "The non-controlling interest's share of the subsidiary's net assets at the acquisition date. Calculated as NCI% × fair value of identifiable net assets." },
+            { term: "Consolidated Retained Earnings", definition: "Parent's retained earnings plus the group's share of the subsidiary's post-acquisition retained earnings." },
           ],
           explanation:
             "<h3>Consolidated Statement of Financial Position</h3>"+ "<p>The consolidated SOFP combines 100% of the parent's and subsidiary's assets and liabilities, adjusted for goodwill, NCI, and any intra-group balances.</p>"+ "<h4>Step-by-Step Approach</h4>"+ "<p><strong>Step 1:</strong> Calculate goodwill at acquisition and at reporting date (after impairment).</p>"+ "<p><strong>Step 2:</strong> Calculate the NCI at reporting date: NCI at acquisition + NCI% of post-acquisition retained earnings − NCI% of goodwill impairment (if full goodwill method).</p>"+ "<p><strong>Step 3:</strong> Calculate consolidated retained earnings: Parent's retained earnings + Parent%'s share of subsidiary's post-acquisition retained earnings − Goodwill impairment charge.</p>"+ "<p><strong>Step 4:</strong> Consolidate assets and liabilities — add 100% of each line. Replace the parent's investment in subsidiary with goodwill.</p>"+ "<p><strong>Step 5:</strong> Cancel any intra-group balances (e.g., parent owes subsidiary £X — cancel both the receivable and payable).</p>"+ "<p><strong>Step 6:</strong> Present equity: Share capital (parent only) + Share premium (parent only) + Consolidated retained earnings + NCI.</p>"+ "<h4>Unrealised Profit on Intra-Group Inventory</h4>"+ "<p>If one group company sells goods to another and the goods remain in closing inventory, the profit is unrealised from the group's perspective. Adjust: reduce inventory by the unrealised profit AND reduce the selling entity's retained earnings (or NCI if subsidiary sold to parent).</p>",
@@ -6379,6 +6904,13 @@ const AIQ_COURSE_DATA = {
             "Calculate gross profit margin, operating profit margin, and ROCE",
             "Interpret profitability ratios and identify possible reasons for changes",
             "Compare ratios across periods and between entities",
+          ],
+          keyTerms: [
+            { term: "Gross Profit Margin", definition: "Gross profit / Revenue × 100%. Measures the percentage of revenue retained after direct production costs. Higher is better." },
+            { term: "Return on Capital Employed (ROCE)", definition: "Operating profit / Capital employed × 100%. Capital employed = Total assets − Current liabilities. The primary measure of overall business profitability." },
+            { term: "Asset Turnover", definition: "Revenue / Capital employed. Measures how efficiently assets are used to generate sales. ROCE = Net profit margin × Asset turnover." },
+            { term: "Net Profit Margin", definition: "Profit before interest and tax / Revenue × 100%. Measures overall cost control and operational efficiency." },
+            { term: "Return on Equity (ROE)", definition: "Profit after tax / Shareholders' equity × 100%. Measures the return generated for equity shareholders; affected by financial leverage." },
           ],
           explanation:
             "<h3>Ratio Analysis: Profitability</h3>"+ "<p>Profitability ratios measure how effectively a business generates profit relative to its revenue or assets.</p>"+ "<h4>Gross Profit Margin (GPM)</h4>"+ "<p><strong>GPM = (Gross Profit / Revenue) × 100</strong>. Measures the percentage of revenue retained after direct costs. A higher margin suggests better pricing power or lower direct costs.</p>"+ "<h4>Operating Profit Margin (OPM)</h4>"+ "<p><strong>OPM = (Operating Profit / Revenue) × 100</strong>. Extends the GPM to include overheads. Shows how well overhead costs are controlled.</p>"+ "<h4>Net Profit Margin (NPM)</h4>"+ "<p><strong>NPM = (Profit for the Year / Revenue) × 100</strong>. Includes finance costs and tax.</p>"+ "<h4>Return on Capital Employed (ROCE)</h4>"+ "<p><strong>ROCE = (Operating Profit / Capital Employed) × 100</strong>. Capital employed = Total assets − Current liabilities (= Non-current assets + Working capital) OR Equity + Non-current liabilities. Measures how efficiently capital is used to generate profit.</p>"+ "<h4>Asset Turnover</h4>"+ "<p><strong>Asset Turnover = Revenue / Capital Employed</strong>. Measures revenue generated per £1 of capital. Combined with OPM: ROCE = OPM × Asset Turnover (the DuPont identity).</p>"+ "<h4>Trend and Comparison</h4>"+ "<p>Ratios are most useful when compared over time (trend analysis) or against competitors/industry benchmarks. A single ratio in isolation has limited meaning.</p>",
@@ -6453,6 +6985,13 @@ const AIQ_COURSE_DATA = {
             "Interpret liquidity ratios and assess short-term financial health",
             "Calculate receivables, payables, and inventory days and assess efficiency",
           ],
+          keyTerms: [
+            { term: "Current Ratio", definition: "Current assets / Current liabilities. A ratio above 1 means current assets cover current liabilities. Typical range: 1.5–2.0 for manufacturing businesses." },
+            { term: "Quick Ratio (Acid Test)", definition: "(Current assets − Inventory) / Current liabilities. Excludes inventory as the least liquid current asset. A ratio below 1 may indicate liquidity risk." },
+            { term: "Inventory Days (Days Inventory Outstanding)", definition: "(Inventory / Cost of Sales) × 365. Number of days inventory is held before being sold. High days may indicate overstocking or slow-moving goods." },
+            { term: "Receivables Days", definition: "(Trade receivables / Revenue) × 365. Average time taken to collect from customers. High days indicate slow collection or generous credit terms." },
+            { term: "Payables Days", definition: "(Trade payables / Cost of Sales) × 365. Average time taken to pay suppliers. High days conserve cash but may damage supplier relationships." },
+          ],
           explanation:
             "<h3>Ratio Analysis: Liquidity and Working Capital Efficiency</h3>"+ "<p>Liquidity ratios assess whether a business can meet its short-term obligations. Working capital efficiency ratios measure how effectively the business manages its current assets and liabilities.</p>"+ "<h4>Current Ratio</h4>"+ "<p><strong>Current Ratio = Current Assets / Current Liabilities</strong>. A ratio above 1 means current assets exceed current liabilities. A benchmark of around 2:1 is often cited for manufacturing but varies significantly by industry. Too high may indicate idle assets; too low signals liquidity risk.</p>"+ "<h4>Quick Ratio (Acid Test)</h4>"+ "<p><strong>Quick Ratio = (Current Assets − Inventories) / Current Liabilities</strong>. Excludes inventories as they are the least liquid current asset. A benchmark of 1:1 is often suggested.</p>"+ "<h4>Inventory Days (Inventory Holding Period)</h4>"+ "<p><strong>Inventory Days = (Inventories / Cost of Sales) × 365</strong>. Measures how many days inventory is held before sale. Lower is generally better (faster-moving stock).</p>"+ "<h4>Receivables Days (Debtor Days)</h4>"+ "<p><strong>Receivables Days = (Trade Receivables / Revenue) × 365</strong>. Measures how long customers take to pay. Shorter is better for cash flow.</p>"+ "<h4>Payables Days (Creditor Days)</h4>"+ "<p><strong>Payables Days = (Trade Payables / Cost of Sales) × 365</strong>. Measures how long the business takes to pay its suppliers. Longer gives free credit but must not damage supplier relationships.</p>"+ "<h4>Cash Operating Cycle</h4>"+ "<p>Cash Operating Cycle = Inventory Days + Receivables Days − Payables Days. A shorter (or negative) cycle improves cash flow.</p>",
           workedExample: {
@@ -6523,6 +7062,13 @@ const AIQ_COURSE_DATA = {
             "Calculate gearing ratio and interest cover and interpret financial risk",
             "Calculate earnings per share, P/E ratio, and dividend yield",
             "Explain the limitations of ratio analysis as an analytical tool",
+          ],
+          keyTerms: [
+            { term: "Gearing Ratio", definition: "Non-current liabilities / (Non-current liabilities + Equity) × 100%, or alternatively Net debt / Equity. Measures reliance on debt financing. High gearing increases financial risk." },
+            { term: "Interest Cover", definition: "Operating profit / Finance costs. Measures how many times profit covers interest payments. A ratio below 2× indicates the business may struggle to service its debt." },
+            { term: "Earnings Per Share (EPS)", definition: "Profit attributable to ordinary shareholders / Weighted average ordinary shares. Key measure of shareholder value; required by IAS 33." },
+            { term: "Price/Earnings Ratio (P/E)", definition: "Share price / EPS. Reflects market expectations of future earnings growth. A high P/E suggests investors expect strong growth." },
+            { term: "Dividend Yield", definition: "Dividend per share / Share price × 100%. Measures the income return on an investment in the company's shares." },
           ],
           explanation:
             "<h3>Ratio Analysis: Gearing, Interest Cover and Investor Ratios</h3>"+ "<p>Gearing and investor ratios help assess financial risk and returns for shareholders.</p>"+ "<h4>Gearing</h4>"+ "<p><strong>Debt/Equity Gearing = Non-current liabilities / Equity × 100</strong> (or sometimes total debt / total capital). Measures the proportion of financing from debt vs equity. High gearing = more financial risk (interest obligations regardless of profit) but potential for higher equity returns in good years (financial leverage).</p>"+ "<p>Alternative: <strong>Capital Gearing = Non-current liabilities / (Equity + Non-current liabilities) × 100</strong>.</p>"+ "<h4>Interest Cover</h4>"+ "<p><strong>Interest Cover = Operating Profit / Finance Costs</strong>. Measures how many times the business can cover its interest from operating profit. Above 2× is generally comfortable; below 1.5× raises concerns.</p>"+ "<h4>Earnings per Share (EPS)</h4>"+ "<p><strong>EPS = Profit attributable to ordinary shareholders / Weighted average number of ordinary shares</strong>. A key measure for investors.</p>"+ "<h4>Price/Earnings Ratio (P/E)</h4>"+ "<p><strong>P/E = Market price per share / EPS</strong>. Reflects market expectations of future growth. High P/E = market expects strong growth.</p>"+ "<h4>Dividend Yield</h4>"+ "<p><strong>Dividend Yield = (Dividend per share / Market price per share) × 100</strong>. Income return on a share investment.</p>"+ "<h4>Dividend Cover</h4>"+ "<p><strong>Dividend Cover = EPS / Dividend per share</strong>. Measures how many times the dividend is covered by earnings. Higher cover = more sustainable.</p>",
@@ -6596,6 +7142,13 @@ const AIQ_COURSE_DATA = {
             "Identify and comment on key trends and anomalies across financial statements",
             "Communicate findings clearly to a non-financial audience",
           ],
+          keyTerms: [
+            { term: "Trend Analysis", definition: "Comparing financial ratios over several periods to identify improving or deteriorating trends in profitability, liquidity or efficiency." },
+            { term: "Cross-Sectional Analysis", definition: "Comparing ratios with industry averages or competitor data to benchmark performance. Limited by differences in accounting policies and business models." },
+            { term: "Limitations of Ratio Analysis", definition: "Ratios are based on historical data; affected by accounting policies; do not account for non-financial factors; can be manipulated; comparable only if accounting policies are consistent." },
+            { term: "Narrative Reporting", definition: "Written commentary accompanying the financial statements, explaining the numbers in context. Includes the strategic report, MD&A, and KPI commentary." },
+            { term: "Window Dressing", definition: "Actions taken near the period end to improve the appearance of financial statements, such as delaying payments to reduce payables or accelerating collections." },
+          ],
           explanation:
             "<h3>Interpreting and Reporting on Financial Statements</h3>"+ "<p>Calculating ratios is only the first step. <strong>Interpreting</strong> them requires comparing results, identifying trends, and understanding what drives changes.</p>"+ "<h4>Framework for Interpretation</h4>"+ "<p>1. <strong>Profitability</strong> — Is the business generating adequate returns? Compare margins over time and against competitors.<br>2. <strong>Liquidity</strong> — Can the business meet short-term obligations? Is the working capital cycle efficient?<br>3. <strong>Financial risk (gearing)</strong> — Is the capital structure sustainable? Can interest be serviced?<br>4. <strong>Investor returns</strong> — Are shareholders being rewarded? Is the share price justified?</p>"+ "<h4>Limitations of Ratio Analysis</h4>"+ "<p><strong>Historical data:</strong> Ratios are backward-looking — past performance does not guarantee the future.<br><strong>Accounting policies:</strong> Different policies (e.g., depreciation method, inventory valuation) affect comparability.<br><strong>Window dressing:</strong> Year-end balances may not represent the whole year.<br><strong>Inflation:</strong> Non-current assets on historical cost may understate real asset values.<br><strong>Non-financial factors:</strong> Ratios ignore staff morale, customer satisfaction, innovation, and market position.</p>"+ "<h4>Structuring an Answer</h4>"+ "<p>In exam questions: State the ratio calculated → Compare (to prior year or benchmark) → Explain the possible cause → Comment on what this means for the business → Note any limitations. Do not just list ratios — interpretation and comment earn the marks.</p>",
           workedExample: {
@@ -6666,6 +7219,13 @@ const AIQ_COURSE_DATA = {
             "Review error correction, bank reconciliation, and incomplete records",
             "Practise exam-style questions on the core double-entry topics",
           ],
+          keyTerms: [
+            { term: "Trial Balance", definition: "A list of all ledger account balances. If double-entry is correct, debits equal credits. It is the starting point for preparing financial statements." },
+            { term: "Bank Reconciliation", definition: "Reconciles the cash book balance to the bank statement balance, explaining timing differences (outstanding cheques and lodgements)." },
+            { term: "Period-End Adjustments", definition: "Journal entries at the end of the period to ensure accruals accounting: accruals, prepayments, depreciation, inventory write-downs and bad debt provisions." },
+            { term: "Irrecoverable Debt", definition: "A customer balance written off because collection is no longer probable. Written off by debiting bad debt expense and crediting receivables." },
+            { term: "Incomplete Records", definition: "Accounts reconstructed from available evidence where full bookkeeping records have not been maintained." },
+          ],
           explanation:
             "<h3>Revision: Double Entry, Adjustments and Incomplete Records</h3>"+ "<p>This revision lesson consolidates the core bookkeeping and adjustments topics from BA3.</p>"+ "<h4>Double Entry Fundamentals</h4>"+ "<p>Every transaction has two sides: a debit and an equal credit. The trial balance confirms the books balance. Key accounts: Assets = Debit balance. Liabilities = Credit balance. Capital/Equity = Credit balance. Income = Credit balance. Expenses = Debit balance.</p>"+ "<h4>Period-End Adjustments</h4>"+ "<p>Accruals (Dr Expense / Cr Accruals), Prepayments (Dr Prepayments / Cr Expense), Depreciation (Dr Dep expense / Cr Acc dep), Irrecoverable debts (Dr Expense / Cr Receivables), Allowance movement (Dr/Cr Expense / Cr/Dr Allowance).</p>"+ "<h4>Correction of Errors</h4>"+ "<p>Six errors not affecting the TB: omission, commission, principle, compensating, original entry, complete reversal. Errors affecting the TB require a suspense account. All errors corrected by journal entry.</p>"+ "<h4>Bank Reconciliation</h4>"+ "<p>Update cash book for bank statement items (charges, direct debits). Reconcile: Bank statement ± timing differences (lodgements, unpresented cheques) = Adjusted cash book balance.</p>"+ "<h4>Incomplete Records</h4>"+ "<p>Profit = Closing net assets − Opening net assets + Drawings − Capital introduced. Use receivables/payables control accounts to reconstruct sales and purchases.</p>"+ "<h4>Capital vs Revenue Expenditure</h4>"+ "<p>Capital: assets lasting more than one year → SOFP. Revenue: current period costs → IS. Disposal: use disposal account; profit/loss goes to IS.</p>",
           workedExample: {
@@ -6735,6 +7295,13 @@ const AIQ_COURSE_DATA = {
             "Consolidate preparation of sole trader, partnership, and company financial statements",
             "Review consolidated accounts and ratio analysis techniques",
             "Practise exam-style questions on financial statements and interpretation",
+          ],
+          keyTerms: [
+            { term: "Profitability Ratios", definition: "Ratios measuring the ability to generate profit relative to revenue, assets or equity: gross margin, operating margin, ROCE and ROE." },
+            { term: "Liquidity Ratios", definition: "Ratios measuring the ability to meet short-term obligations: current ratio and quick (acid test) ratio." },
+            { term: "Efficiency Ratios", definition: "Ratios measuring how effectively assets and working capital are managed: inventory days, receivables days, payables days and asset turnover." },
+            { term: "Gearing and Investor Ratios", definition: "Gearing measures debt reliance; interest cover measures debt servicing ability; EPS, P/E and dividend yield measure returns to equity investors." },
+            { term: "Inter-Firm Comparisons", definition: "Comparing a company's ratios with those of competitors or industry averages. Valid only if accounting policies are comparable." },
           ],
           explanation:
             "<h3>Revision: Financial Statements and Analysis</h3>"+ "<p>This revision lesson consolidates the financial statements and ratio analysis topics from BA3.</p>"+ "<h4>Sole Trader Accounts</h4>"+ "<p>Income statement: Revenue → Cost of sales → Gross profit → Expenses → Net profit. SOFP: Assets − Liabilities = Capital (Opening capital + Profit − Drawings).</p>"+ "<h4>Partnership Accounts</h4>"+ "<p>Appropriation account: Net profit → IOC → Salaries → IOD → Residual split by PSR. Current accounts: credit profit shares; debit drawings and IOD.</p>"+ "<h4>Company Accounts</h4>"+ "<p>IS: Revenue → Gross profit → Operating profit → PBT → Profit for year (less tax). SOFP: NCA + CA − CL − NCL = Equity (Share capital + Share premium + Retained earnings).</p>"+ "<h4>Consolidated Accounts</h4>"+ "<p>100% line-by-line addition + goodwill + NCI. Eliminate intra-group. Consolidated RE = Parent RE + parent % of sub post-acquisition RE.</p>"+ "<h4>Ratio Analysis</h4>"+ "<p>Profitability: GPM, OPM, ROCE, Asset Turnover. Liquidity: Current ratio, Quick ratio, working capital ratios. Gearing: Debt/equity, Interest cover. Investor: EPS, P/E, Dividend yield, Dividend cover. Interpret by comparison and consider limitations.</p>",
@@ -6808,6 +7375,13 @@ const AIQ_COURSE_DATA = {
             "Complete a timed 60-question multiple-choice paper under exam conditions",
             "Identify topic areas requiring further revision from mock results",
             "Review worked solutions and examiner guidance for all question types",
+          ],
+          keyTerms: [
+            { term: "Income Statement", definition: "Shows revenue, costs and profit for the period. Key structure: Revenue → Gross Profit → Operating Profit → Profit before tax → Profit after tax." },
+            { term: "Statement of Financial Position", definition: "A snapshot of assets, liabilities and equity at the period end. Structured as: Non-current assets + Current assets − Liabilities = Equity." },
+            { term: "Statement of Cash Flows", definition: "Classifies cash movements as operating, investing and financing activities to show how cash was generated and used." },
+            { term: "Ratio Analysis", definition: "Calculating profitability, liquidity, efficiency and gearing ratios to evaluate and compare financial performance." },
+            { term: "Accruals Basis", definition: "Revenue and expenses recognised when earned/incurred, not when cash moves. Underpins the income statement and most financial statement figures." },
           ],
           explanation:
             "<h3>Mock Exam: BA3 Fundamentals of Financial Accounting</h3>"+ "<p>This mock exam covers the full BA3 syllabus. Allow yourself 2 hours. Answer all questions. Review your answers against the explanations provided.</p>"+ "<p><strong>Syllabus areas tested:</strong> Double-entry bookkeeping, period-end adjustments, correction of errors, bank reconciliation, incomplete records, non-current assets, partnerships, company accounts, consolidated accounts, ratio analysis and interpretation.</p>",
@@ -6991,6 +7565,13 @@ const AIQ_COURSE_DATA = {
             "Apply CIMA's Code of Ethics to scenarios",
             "Identify and respond to ethical threats and safeguards",
           ],
+          keyTerms: [
+            { term: "Business Ethics", definition: "The application of ethical principles and moral values to business decisions, relationships and conduct." },
+            { term: "Stakeholder Theory", definition: "The view that a company has obligations to all its stakeholders, not just shareholders, including employees, customers, suppliers, the community and the environment." },
+            { term: "Shareholder Theory", definition: "Milton Friedman's view that a company's sole social responsibility is to maximise returns to shareholders within legal and ethical constraints." },
+            { term: "Moral Philosophy", definition: "The branch of philosophy examining what constitutes right and wrong conduct. Major theories include consequentialism (outcomes), deontology (rules) and virtue ethics (character)." },
+            { term: "Corporate Values", definition: "The ethical principles and standards that guide an organisation's behaviour and culture, embedded through governance structures and codes of conduct." },
+          ],
           explanation:
             "<h4>Why Ethics Matters for Accountants</h4>" +
             "<p>Management accountants occupy positions of trust. They handle sensitive financial information, prepare reports used for major decisions, and advise on strategy. Ethical behaviour is not optional — it is the foundation of the profession's credibility and the protection of the public interest. CIMA's Code of Ethics (aligned with the IESBA Code) provides a framework for navigating ethical challenges.</p>" +
@@ -7090,6 +7671,13 @@ const AIQ_COURSE_DATA = {
             "Describe the roles of the board of directors and audit committee",
             "Identify the principles of the UK Corporate Governance Code",
           ],
+          keyTerms: [
+            { term: "Corporate Governance", definition: "The system of rules, practices and processes by which a company is directed and controlled, balancing the interests of shareholders, directors, employees and other stakeholders." },
+            { term: "Agency Problem", definition: "The conflict of interest between principals (shareholders) and agents (directors) who may pursue their own interests rather than maximising shareholder value." },
+            { term: "UK Corporate Governance Code", definition: "The FRC's code of best practice for UK listed companies, operating on a 'comply or explain' basis. Covers board composition, audit, remuneration and shareholder relations." },
+            { term: "Comply or Explain", definition: "Listed companies must either comply with the UK Corporate Governance Code provisions or explain why they have not. Provides flexibility while maintaining accountability." },
+            { term: "Separation of Ownership and Control", definition: "In large companies, ownership (shareholders) is separated from day-to-day management (directors). This creates agency problems managed through governance structures." },
+          ],
           explanation:
             "<h4>The Agency Problem</h4>" +
             "<p><strong>Corporate governance</strong> is the system of rules, practices, and processes by which a company is directed and controlled. The central issue it addresses is the <strong>principal-agent problem</strong>: in most large companies, the owners (shareholders — principals) delegate day-to-day control to directors and managers (agents). Agents may act in their own interests rather than those of shareholders — pursuing high salaries, job security, empire-building, or excessive risk-taking. Good governance structures attempt to align these interests and provide accountability mechanisms.</p>" +
@@ -7184,6 +7772,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between different types of business entity",
             "Explain the legal implications of incorporation",
             "Describe the rights and duties of directors and shareholders",
+          ],
+          keyTerms: [
+            { term: "Incorporation", definition: "The process of creating a company as a separate legal entity. On incorporation, the company can own property, sue, and be sued in its own name." },
+            { term: "Corporate Personality", definition: "A company's status as a separate legal person distinct from its shareholders and directors. Established in Salomon v Salomon (1897)." },
+            { term: "Veil of Incorporation", definition: "The legal separation between the company and its members. Courts may 'pierce the veil' in cases of fraud or improper use of the corporate form." },
+            { term: "Memorandum of Association", definition: "A constitutional document confirming the subscribers' agreement to form the company. Under the Companies Act 2006 it has minimal content requirements." },
+            { term: "Articles of Association", definition: "The internal rulebook of a company governing management, decision-making and shareholder rights. The Companies Act 2006 provides model articles as a default." },
           ],
           explanation:
             "<h4>Forms of Business Entity</h4>" +
@@ -7291,6 +7886,13 @@ const AIQ_COURSE_DATA = {
             "Explain breach of contract and available remedies",
             "Apply contract law principles to business scenarios",
           ],
+          keyTerms: [
+            { term: "Offer", definition: "A definite proposal to contract on stated terms, made with the intention that it will become binding on acceptance. Differs from an invitation to treat." },
+            { term: "Acceptance", definition: "An unconditional agreement to all the terms of an offer. A counter-offer rejects the original offer and makes a new one." },
+            { term: "Consideration", definition: "Something of value exchanged between the parties to a contract. Must be sufficient (has some value) but need not be adequate (does not need to be a fair exchange)." },
+            { term: "Intention to Create Legal Relations", definition: "Both parties must intend the agreement to be legally binding. Presumed in commercial agreements; presumed absent in social and domestic arrangements." },
+            { term: "Breach of Contract", definition: "Failure by one party to perform a contractual obligation. May entitle the innocent party to damages, specific performance or (for repudiatory breach) termination." },
+          ],
           explanation:
             "<h4>Formation of a Contract — The Five Requirements</h4>" +
             "<p>A <strong>legally binding contract</strong> is formed when five elements are present. If any element is missing, there is no contract — only a void agreement.</p>" +
@@ -7382,6 +7984,13 @@ const AIQ_COURSE_DATA = {
             "Explain the distinction between employees and independent contractors",
             "Describe the main statutory employment rights",
             "Explain unfair dismissal and redundancy",
+          ],
+          keyTerms: [
+            { term: "Contract of Employment", definition: "The legal agreement between employer and employee setting out terms and conditions. May be written (statement of particulars required by law) or implied by conduct." },
+            { term: "Unfair Dismissal", definition: "Terminating employment without a fair reason or without following a fair procedure. Employees with 2+ years' service can claim at an Employment Tribunal." },
+            { term: "Constructive Dismissal", definition: "When an employee resigns because the employer's conduct fundamentally breaches the employment contract. Treated as a dismissal for unfair dismissal purposes." },
+            { term: "Redundancy", definition: "Dismissal because a job role ceases to exist, the business closes, or the workplace relocates. Qualifying employees are entitled to a statutory redundancy payment." },
+            { term: "Employment Tribunal", definition: "A specialist court hearing employment disputes including unfair dismissal, discrimination and wages claims. Less formal than civil courts; majority of cases settle before hearing." },
           ],
           explanation:
             "<h4>Employee vs Independent Contractor</h4>" +
@@ -7499,6 +8108,13 @@ const AIQ_COURSE_DATA = {
             "Describe the conceptual framework approach to identifying and evaluating ethical threats",
             "Apply safeguards to reduce or eliminate ethical threats to an acceptable level",
           ],
+          keyTerms: [
+            { term: "Integrity", definition: "One of CIMA's five fundamental ethical principles: being straightforward and honest in all professional and business relationships." },
+            { term: "Objectivity", definition: "Not allowing bias, conflicts of interest or undue influence to override professional judgements. One of CIMA's fundamental principles." },
+            { term: "Professional Competence and Due Care", definition: "Maintaining the knowledge and skill to provide a competent professional service, and acting diligently and in accordance with technical and professional standards." },
+            { term: "Confidentiality", definition: "Not disclosing information acquired in a professional capacity to third parties without proper authority, except where there is a legal or professional duty to disclose." },
+            { term: "Professional Behaviour", definition: "Complying with laws and regulations and avoiding conduct that discredits the profession." },
+          ],
           explanation:
             "<h3>CIMA's Code of Ethics and the Fundamental Principles</h3>"+ "<p>CIMA members and students are bound by the <strong>CIMA Code of Ethics</strong>, which is based on the IESBA (International Ethics Standards Board for Accountants) Code. The code identifies five <strong>fundamental principles</strong> that all professional accountants must uphold.</p>"+ "<h4>The Five Fundamental Principles</h4>"+ "<p><strong>1. Integrity:</strong> Be straightforward and honest in all professional and business relationships. Do not be associated with misleading information.</p>"+ "<p><strong>2. Objectivity:</strong> Do not allow bias, conflicts of interest, or undue influence to override professional judgements.</p>"+ "<p><strong>3. Professional Competence and Due Care:</strong> Maintain professional knowledge and skill at the level required to provide competent professional services. Act diligently and in accordance with applicable technical and professional standards.</p>"+ "<p><strong>4. Confidentiality:</strong> Respect the confidentiality of information acquired in the course of professional work. Do not disclose it to third parties without proper authority, unless there is a legal or professional right or duty to do so.</p>"+ "<p><strong>5. Professional Behaviour:</strong> Comply with relevant laws and regulations. Avoid any action that discredits the profession.</p>"+ "<h4>Threats to the Fundamental Principles</h4>"+ "<p>The code identifies threats: <strong>Self-interest</strong> (financial or other interests), <strong>Self-review</strong> (evaluating your own previous judgement), <strong>Advocacy</strong> (promoting a client's position), <strong>Familiarity</strong> (excessive trust through close relationships), <strong>Intimidation</strong> (pressure from others).</p>"+ "<h4>Safeguards</h4>"+ "<p>Threats must be addressed by applying safeguards. Safeguards fall into two categories: <strong>profession/legislation safeguards</strong> (education, continuing professional development, professional standards, regulatory oversight) and <strong>work environment safeguards</strong> (firm policies, ethics training, supervision, complaint mechanisms).</p>",
           workedExample: {
@@ -7569,6 +8185,13 @@ const AIQ_COURSE_DATA = {
             "Identify situations that create ethical conflict and apply a structured resolution process",
             "Explain the meaning and legal protections associated with whistleblowing",
             "Assess the consequences of unethical behaviour for the individual and the organisation",
+          ],
+          keyTerms: [
+            { term: "Ethical Conflict", definition: "A situation where a professional faces competing pressures or obligations that make it difficult to comply with the fundamental ethical principles." },
+            { term: "Whistleblowing", definition: "Reporting suspected wrongdoing within an organisation to an appropriate authority. Protected in the UK under the Public Interest Disclosure Act 1998 for qualifying disclosures." },
+            { term: "Safeguards", definition: "Actions taken to reduce threats to compliance with ethical principles to an acceptable level. May be created by the profession, legislation or the firm." },
+            { term: "Self-Interest Threat", definition: "A threat to objectivity or integrity arising from a financial or other interest, such as holding shares in an audit client or having a loan from them." },
+            { term: "Intimidation Threat", definition: "When a member is deterred from acting objectively by actual or perceived threats, such as being threatened with litigation or dismissal." },
           ],
           explanation:
             "<h3>Ethical Conflict, Dilemmas and Whistleblowing</h3>"+ "<p>Professional accountants will encounter situations where their ethical obligations conflict with the wishes of their employer, client, or colleagues. Knowing how to navigate these dilemmas is a core competency.</p>"+ "<h4>Identifying Ethical Dilemmas</h4>"+ "<p>An ethical dilemma arises when there is no obviously correct course of action — competing interests, pressures, or values pull in different directions. Common examples: being pressured to manipulate financial data, discovering fraud or illegal activity, conflicts of interest, requests that breach confidentiality.</p>"+ "<h4>Resolution Framework</h4>"+ "<p>CIMA recommends a structured approach: <strong>1. Identify the facts</strong> — what are the relevant facts and who is involved? <strong>2. Identify the ethical issues</strong> — which principles are threatened? <strong>3. Identify the options</strong> — what courses of action are available? <strong>4. Evaluate</strong> — what are the consequences of each option? <strong>5. Select the best option</strong> — which best upholds the fundamental principles? <strong>6. Act and monitor</strong>.</p>"+ "<h4>Internal Escalation</h4>"+ "<p>If you identify unethical conduct, raise it internally first: line manager, senior management, ethics committee, audit committee, or the board. Document all communications.</p>"+ "<h4>Whistleblowing</h4>"+ "<p><strong>Whistleblowing</strong> means disclosing wrongdoing to an external authority (regulator, law enforcement). In the UK, the <strong>Public Interest Disclosure Act 1998 (PIDA)</strong> protects workers who make qualifying disclosures in good faith about wrongdoing (criminal acts, failure to comply with legal obligations, health and safety risks, environmental damage, cover-ups). A protected disclosure must relate to the public interest — personal grievances are not protected. Dismissal for whistleblowing is automatically unfair.</p>"+ "<h4>When to Override Confidentiality</h4>"+ "<p>Confidentiality may be overridden when disclosure is: required by law (court order, anti-money laundering), in the public interest, or authorised by the client/employer. Always seek legal advice before external disclosure.</p>",
@@ -7641,6 +8264,13 @@ const AIQ_COURSE_DATA = {
             "Describe the Carroll CSR pyramid and integrate it with stakeholder theory",
             "Evaluate different approaches to CSR from philanthropic to strategic",
           ],
+          keyTerms: [
+            { term: "Corporate Social Responsibility (CSR)", definition: "A business approach that contributes to sustainable development by delivering economic, social and environmental benefits to all stakeholders." },
+            { term: "Triple Bottom Line", definition: "A framework measuring business performance against three dimensions: profit (economic), people (social) and planet (environmental). Also known as the 3Ps." },
+            { term: "Social Contract", definition: "The implicit agreement between a business and society: the business is granted a licence to operate in exchange for contributing positively to society." },
+            { term: "Stakeholder Engagement", definition: "The process of involving stakeholders in decision-making and communicating with them about the organisation's activities and impacts." },
+            { term: "Greenwashing", definition: "Making misleading claims about the environmental benefits of products or practices to appear more sustainable than the business actually is." },
+          ],
           explanation:
             "<h3>Corporate Social Responsibility</h3>"+ "<p><strong>Corporate Social Responsibility (CSR)</strong> refers to a company's commitment to operate ethically and contribute positively to the economy, society, and environment — beyond its legal obligations.</p>"+ "<h4>The Triple Bottom Line</h4>"+ "<p>John Elkington's <strong>Triple Bottom Line (TBL)</strong> framework evaluates business performance across three dimensions: <strong>Profit</strong> (economic performance), <strong>People</strong> (social impact — employees, communities, supply chains), and <strong>Planet</strong> (environmental impact).</p>"+ "<h4>Stakeholder Theory</h4>"+ "<p>Freeman's stakeholder theory argues that businesses have responsibilities to all <strong>stakeholders</strong> — not just shareholders. Stakeholders include employees, customers, suppliers, communities, regulators, and the environment. Managing stakeholder relationships well is central to long-term value creation.</p>"+ "<h4>Carroll's CSR Pyramid</h4>"+ "<p>Carroll identified four levels of corporate responsibility (from base to apex): <strong>Economic</strong> (be profitable), <strong>Legal</strong> (obey the law), <strong>Ethical</strong> (do what is right beyond the law), <strong>Philanthropic</strong> (be a good corporate citizen — give back to society).</p>"+ "<h4>CSR Reporting</h4>"+ "<p>Many companies now produce <strong>sustainability reports</strong> or <strong>integrated reports</strong> alongside financial statements. The Global Reporting Initiative (GRI) provides a widely-used framework. Integrated Reporting (<IR>) connects financial and non-financial performance.</p>"+ "<h4>The Business Case for CSR</h4>"+ "<p>CSR can improve reputation, attract talent, reduce regulatory risk, build customer loyalty, and create long-term shareholder value. Critics (Friedman) argue that a company's only social responsibility is to increase profits for shareholders within the law.</p>",
           workedExample: {
@@ -7711,6 +8341,13 @@ const AIQ_COURSE_DATA = {
             "Describe the key environmental legislation affecting UK businesses",
             "Explain the role of environmental impact assessments and permits",
             "Outline sustainability reporting frameworks and disclosure obligations",
+          ],
+          keyTerms: [
+            { term: "GRI (Global Reporting Initiative)", definition: "An international framework for sustainability reporting covering economic, environmental and social impacts. The most widely used sustainability reporting standard globally." },
+            { term: "TCFD (Task Force on Climate-related Financial Disclosures)", definition: "A framework requiring organisations to disclose climate-related financial risks and opportunities across governance, strategy, risk management, and metrics and targets." },
+            { term: "Carbon Footprint", definition: "The total greenhouse gas emissions caused by an individual, event, organisation or product, expressed as CO₂ equivalent. Covers Scopes 1, 2 and 3 emissions." },
+            { term: "Environmental Law", definition: "The body of law regulating the interaction between human activity and the natural environment, including pollution control, waste management and biodiversity protection." },
+            { term: "Net Zero", definition: "Achieving a balance between greenhouse gas emissions and removals, so that net emissions are zero. Target set by the UK government for 2050." },
           ],
           explanation:
             "<h3>Environmental Law and Sustainability Reporting</h3>"+ "<p>Environmental regulation and sustainability reporting are increasingly important for businesses. Accountants need to understand the legal framework and reporting requirements.</p>"+ "<h4>Key UK Environmental Legislation</h4>"+ "<p><strong>Environment Act 1995:</strong> Established the Environment Agency (EA) — the main regulator for environmental protection in England. Powers include enforcement, fines, prosecution. <strong>Environmental Protection Act 1990:</strong> Regulates waste disposal, statutory nuisance, and contaminated land. <strong>Climate Change Act 2008:</strong> UK's legally binding target to reduce greenhouse gas emissions — currently net zero by 2050.</p>"+ "<h4>Environmental Liability</h4>"+ "<p>Businesses can face criminal liability (fines, imprisonment of directors) and civil liability (clean-up costs, compensation to affected parties) for environmental breaches. The <strong>polluter pays principle</strong> means the entity causing environmental damage is responsible for remediation costs.</p>"+ "<h4>Sustainability Reporting Frameworks</h4>"+ "<p><strong>GRI (Global Reporting Initiative):</strong> The most widely used voluntary standard for sustainability reporting — covers economic, environmental, and social disclosures. <strong>TCFD (Task Force on Climate-related Financial Disclosures):</strong> Framework for disclosing climate-related financial risks and opportunities. Mandatory for large UK companies since 2022. <strong>ISSB (International Sustainability Standards Board):</strong> Sets global baseline sustainability disclosure standards (IFRS S1, S2).</p>"+ "<h4>Carbon Reporting</h4>"+ "<p>Large UK companies must report Scope 1 (direct emissions), Scope 2 (indirect — purchased energy), and increasingly Scope 3 (value chain) emissions under the Streamlined Energy and Carbon Reporting (SECR) framework.</p>",
@@ -7784,6 +8421,13 @@ const AIQ_COURSE_DATA = {
             "Describe the role and independence requirements of non-executive directors",
             "Summarise the requirements of the UK Corporate Governance Code",
           ],
+          keyTerms: [
+            { term: "Executive Director", definition: "A director who also holds a senior management role (e.g. CEO, CFO) and is employed full-time by the company. May have conflicts between management and governance roles." },
+            { term: "Non-Executive Director (NED)", definition: "A board member who is not an employee and provides independent oversight, challenge and accountability of the executive directors." },
+            { term: "Audit Committee", definition: "A board sub-committee (typically 3+ independent NEDs) overseeing financial reporting, internal controls and the relationship with the external auditor." },
+            { term: "Remuneration Committee", definition: "A board sub-committee setting the pay and incentives of executive directors, aiming to align executive reward with long-term shareholder value." },
+            { term: "Board Diversity", definition: "The range of backgrounds, experience, gender and skills represented on the board. Linked to better decision-making and reduced groupthink." },
+          ],
           explanation:
             "<h3>The Role of the Board: Directors and Non-Executive Directors</h3>"+ "<p>The <strong>board of directors</strong> is the governing body of a company, responsible for setting strategy, overseeing management, and safeguarding shareholder interests.</p>"+ "<h4>Types of Directors</h4>"+ "<p><strong>Executive directors</strong> are full-time employees with day-to-day management responsibilities (e.g., CEO, CFO, COO). <strong>Non-executive directors (NEDs)</strong> are part-time, independent board members who do not participate in day-to-day management. Their role is to <strong>challenge, scrutinise, and provide independent oversight</strong>.</p>"+ "<h4>The UK Corporate Governance Code</h4>"+ "<p>The <strong>UK Corporate Governance Code</strong> (FRC) applies to premium-listed UK companies on a <strong>comply or explain</strong> basis. Key requirements: <em>Leadership</em> — clear division of responsibility between chair and CEO; <em>Effectiveness</em> — board composition, skills, diversity; <em>Accountability</em> — robust risk management and internal controls; <em>Remuneration</em> — executive pay aligned with long-term performance; <em>Relations with shareholders</em> — shareholder engagement.</p>"+ "<h4>Board Committees</h4>"+ "<p>The Code recommends three key committees, each chaired and predominantly staffed by NEDs: <strong>Audit Committee</strong> — oversees financial reporting, internal and external audit, and internal controls. <strong>Remuneration Committee</strong> — sets executive directors' pay. <strong>Nomination Committee</strong> — oversees board appointments and succession planning.</p>"+ "<h4>Duties of Directors</h4>"+ "<p>Under the Companies Act 2006, directors must: act within their powers, promote the success of the company, exercise independent judgement, exercise reasonable care skill and diligence, avoid conflicts of interest, not accept benefits from third parties, and declare interests in proposed transactions.</p>",
           workedExample: {
@@ -7853,6 +8497,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purpose and components of a sound internal control system",
             "Distinguish between internal audit and external audit functions",
             "Describe enterprise risk management frameworks and the role of the audit committee",
+          ],
+          keyTerms: [
+            { term: "Internal Control", definition: "Policies and procedures implemented by management to safeguard assets, ensure reliable financial reporting, and promote compliance with laws and regulations." },
+            { term: "Control Environment", definition: "The overall culture, management commitment and governance structures that form the foundation for effective internal controls." },
+            { term: "Risk Assessment", definition: "The process of identifying and evaluating risks to the achievement of organisational objectives, prior to determining appropriate control responses." },
+            { term: "Internal Audit", definition: "An independent assurance function within an organisation that evaluates the effectiveness of risk management, controls and governance processes." },
+            { term: "External Audit", definition: "An independent examination of the financial statements by a qualified auditor to give an opinion on whether they present a true and fair view." },
           ],
           explanation:
             "<h3>Internal Control, Audit and Risk Management</h3>"+ "<p>Effective internal controls, audit functions, and risk management frameworks are cornerstones of good corporate governance.</p>"+ "<h4>Internal Controls</h4>"+ "<p><strong>Internal controls</strong> are policies and procedures implemented by management to: safeguard assets, ensure the accuracy of financial records, prevent and detect fraud and error, and ensure compliance with laws and regulations.</p>"+ "<p>Types of control: <strong>Preventive controls</strong> (stop errors occurring — e.g., segregation of duties, authorisation limits), <strong>Detective controls</strong> (identify errors after they occur — e.g., bank reconciliations, internal audit), <strong>Corrective controls</strong> (fix identified problems — e.g., journal adjustments, disciplinary procedures).</p>"+ "<h4>Internal Audit</h4>"+ "<p>The <strong>internal audit function</strong> provides independent assurance to management and the audit committee that internal controls are operating effectively. Internal auditors are employees (or outsourced) who report to the audit committee, not management — preserving their independence. Scope: financial controls, operational efficiency, compliance, risk management.</p>"+ "<h4>Risk Management</h4>"+ "<p>Risk management involves: <strong>Identify</strong> risks → <strong>Assess</strong> (likelihood × impact) → <strong>Respond</strong> → <strong>Monitor</strong>. Responses: <strong>Avoid</strong> (don't do the activity), <strong>Reduce</strong> (implement controls), <strong>Transfer</strong> (insurance, contracts), <strong>Accept</strong> (retain the risk).</p>"+ "<h4>The Three Lines of Defence</h4>"+ "<p><strong>First line:</strong> Management — own and manage risks day-to-day. <strong>Second line:</strong> Risk and compliance functions — oversee and provide guidance. <strong>Third line:</strong> Internal audit — independent assurance. External audit provides additional independent assurance to shareholders.</p>",
@@ -7925,6 +8576,13 @@ const AIQ_COURSE_DATA = {
             "Explain the corporate offence of failing to prevent bribery and its defences",
             "Describe adequate procedures an organisation should implement to prevent bribery",
           ],
+          keyTerms: [
+            { term: "Bribery Act 2010", definition: "UK legislation making it a criminal offence to give or receive bribes, bribe a foreign public official, or fail to prevent bribery by persons associated with the organisation." },
+            { term: "Active Bribery", definition: "Offering, promising or giving a financial or other advantage to induce improper performance of a relevant function." },
+            { term: "Passive Bribery", definition: "Requesting, agreeing to receive or accepting a financial or other advantage as an inducement to perform a function improperly." },
+            { term: "Facilitation Payment", definition: "A small payment to a public official to speed up a routine government action. Illegal under the Bribery Act 2010 (no facilitation payment exception in UK law)." },
+            { term: "Adequate Procedures Defence", definition: "An organisation can avoid liability for failure to prevent bribery if it can demonstrate it had adequate procedures in place to prevent bribery by associated persons." },
+          ],
           explanation:
             "<h3>The Bribery Act 2010 and Anti-Corruption Measures</h3>"+ "<p>The <strong>Bribery Act 2010</strong> is the UK's primary anti-corruption legislation. It is widely regarded as one of the strictest anti-bribery laws in the world.</p>"+ "<h4>Four Main Offences</h4>"+ "<p><strong>Section 1 — Bribing another person:</strong> Offering, promising, or giving a financial or other advantage to induce or reward improper performance of a relevant function.</p>"+ "<p><strong>Section 2 — Being bribed:</strong> Requesting, agreeing to receive, or accepting a financial or other advantage in exchange for improper performance.</p>"+ "<p><strong>Section 6 — Bribing a foreign public official:</strong> Offering/giving an advantage to a foreign public official to obtain or retain business. This offence has no 'improper performance' requirement.</p>"+ "<p><strong>Section 7 — Failure of commercial organisations to prevent bribery:</strong> A commercial organisation is liable if a person associated with it (employee, agent, subsidiary) bribes another person on its behalf. This is a strict liability offence — the organisation does not need to have known about or directed the bribery.</p>"+ "<h4>The Section 7 Defence</h4>"+ "<p>The only defence to Section 7 is that the organisation had <strong>adequate procedures</strong> in place to prevent bribery. The government's six principles for adequate procedures are: Proportionate procedures, Top-level commitment, Risk assessment, Due diligence, Communication (including training), Monitoring and review.</p>"+ "<h4>Penalties and Scope</h4>"+ "<p>Individuals: up to 10 years' imprisonment + unlimited fine. Companies: unlimited fine. The Act applies to UK persons and businesses worldwide — and to non-UK businesses that carry on any part of their business in the UK.</p>"+ "<h4>Facilitation Payments</h4>"+ "<p>Unlike the US FCPA, the Bribery Act does NOT permit facilitation payments (small payments to officials to speed up routine processes). These are illegal under the Act.</p>",
           workedExample: {
@@ -7995,6 +8653,13 @@ const AIQ_COURSE_DATA = {
             "State the six lawful bases for processing personal data under UK GDPR",
             "Identify the rights of data subjects and corresponding obligations of data controllers",
             "Describe the consequences of data breaches and notification obligations",
+          ],
+          keyTerms: [
+            { term: "GDPR (General Data Protection Regulation)", definition: "EU regulation (retained in UK as UK GDPR) setting standards for the collection, processing and storage of personal data. Enforced by the ICO in the UK." },
+            { term: "Data Controller", definition: "The person or organisation that determines the purposes and means of processing personal data. Bears primary responsibility for GDPR compliance." },
+            { term: "Data Processor", definition: "A person or organisation that processes personal data on behalf of the data controller (e.g. a cloud service provider). Subject to contractual obligations under GDPR." },
+            { term: "Personal Data", definition: "Any information relating to an identified or identifiable living person. Includes names, email addresses, location data and online identifiers." },
+            { term: "Data Subject Rights", definition: "Rights granted by GDPR to individuals regarding their personal data: right of access, right to rectification, right to erasure, right to restrict processing, and right to data portability." },
           ],
           explanation:
             "<h3>Data Protection, Privacy and GDPR</h3>"+ "<p>Data protection law governs how organisations collect, store, process, and share personal data. In the UK, the key legislation is the <strong>UK GDPR</strong> (retained post-Brexit) and the <strong>Data Protection Act 2018 (DPA 2018)</strong>.</p>"+ "<h4>Key Definitions</h4>"+ "<p><strong>Personal data:</strong> Any information relating to an identified or identifiable living individual (the 'data subject'). Examples: name, email, NI number, IP address, payroll data. <strong>Special category data:</strong> Sensitive data requiring higher protection — health, race/ethnicity, religion, sexual orientation, biometric data, criminal records.</p>"+ "<h4>Data Controllers and Processors</h4>"+ "<p><strong>Data controller:</strong> Determines the purpose and means of processing personal data (e.g., the employer). <strong>Data processor:</strong> Processes data on behalf of the controller (e.g., a payroll outsourcing company). Both have legal obligations under UK GDPR.</p>"+ "<h4>Six Lawful Bases for Processing</h4>"+ "<p>1. <strong>Consent</strong> — freely given, specific, informed. 2. <strong>Contract</strong> — necessary for a contract. 3. <strong>Legal obligation.</strong> 4. <strong>Vital interests.</strong> 5. <strong>Public task.</strong> 6. <strong>Legitimate interests</strong> — controller's interests balanced against data subject's rights.</p>"+ "<h4>Data Subject Rights</h4>"+ "<p>Under UK GDPR, data subjects have: Right of access (Subject Access Request — SARs); Right to rectification; Right to erasure ('right to be forgotten'); Right to restrict processing; Right to data portability; Right to object; Rights related to automated decision-making.</p>"+ "<h4>Penalties</h4>"+ "<p>The ICO (Information Commissioner's Office) enforces UK GDPR. Fines up to £17.5 million or 4% of global annual turnover (whichever is higher) for serious breaches.</p>",
@@ -8067,6 +8732,13 @@ const AIQ_COURSE_DATA = {
             "Explain how intellectual property rights are acquired, protected, and enforced",
             "Assess the business importance of IP protection and the consequences of infringement",
           ],
+          keyTerms: [
+            { term: "Copyright", definition: "An automatic right protecting original creative works (books, music, software, artwork) from unauthorised copying or reproduction. Lasts 70 years after the author's death in the UK." },
+            { term: "Patent", definition: "A registered right giving the inventor exclusive commercial use of a new invention for up to 20 years. Must be novel, inventive and capable of industrial application." },
+            { term: "Trademark", definition: "A registered sign (word, logo, shape) that distinguishes one business's goods or services from another's. Can be renewed indefinitely in 10-year periods." },
+            { term: "Trade Secret", definition: "Confidential business information that provides a competitive advantage, such as a formula, process or client list. Protected by confidentiality agreements rather than registration." },
+            { term: "Intellectual Property (IP)", definition: "Intangible creations of the mind that can be owned and exploited commercially: patents, trademarks, copyright and design rights." },
+          ],
           explanation:
             "<h3>Intellectual Property Law</h3>"+ "<p><strong>Intellectual property (IP)</strong> refers to creations of the mind — inventions, literary and artistic works, designs, symbols, and names. IP law grants creators exclusive rights over their work for a limited period.</p>"+ "<h4>Patents</h4>"+ "<p>A <strong>patent</strong> grants an inventor a monopoly right over a new invention for up to <strong>20 years</strong>. Requirements: the invention must be new, involve an inventive step, be capable of industrial application, and not be excluded (e.g., mathematical methods, software as such, and business methods are not patentable in themselves). Registered with the Intellectual Property Office (IPO).</p>"+ "<h4>Trade Marks</h4>"+ "<p>A <strong>trade mark</strong> is a sign (word, logo, shape, colour) that distinguishes the goods/services of one business from another. Registered trade marks (® symbol) give the owner exclusive rights — renewable indefinitely in 10-year periods. Unregistered marks may have some common law protection (passing off).</p>"+ "<h4>Copyright</h4>"+ "<p><strong>Copyright</strong> protects original literary, dramatic, musical, and artistic works, films, and software automatically (no registration required). Duration varies: literary works — <strong>life of author + 70 years</strong>. Copyright is infringed by copying, adapting, or publishing without consent.</p>"+ "<h4>Design Rights</h4>"+ "<p><strong>Registered designs</strong> protect the appearance of a product for up to 25 years (5-year renewals). <strong>Unregistered design right</strong> arises automatically and protects the shape/configuration of articles for 10–15 years.</p>"+ "<h4>Remedies for IP Infringement</h4>"+ "<p>Civil: injunction (stop the infringement), damages or account of profits, delivery up of infringing articles. Criminal (for trade mark and copyright): fines and/or imprisonment.</p>",
           workedExample: {
@@ -8137,6 +8809,13 @@ const AIQ_COURSE_DATA = {
             "Explain the prohibition on anti-competitive agreements under the Competition Act 1998",
             "Describe the abuse of dominant position and enforcement by the CMA",
             "Summarise key consumer protection legislation including the Consumer Rights Act 2015",
+          ],
+          keyTerms: [
+            { term: "Competition Law", definition: "Laws prohibiting anti-competitive practices such as price-fixing, market-sharing agreements, and abuse of dominant market position. Enforced by the CMA in the UK." },
+            { term: "Price-Fixing", definition: "An agreement between competitors to set prices at an agreed level rather than competing on price. A serious criminal offence; can result in fines and imprisonment." },
+            { term: "Consumer Rights Act 2015", definition: "UK legislation giving consumers rights when buying goods (must be of satisfactory quality, fit for purpose), digital content and services." },
+            { term: "Unfair Commercial Practices", definition: "Marketing or selling practices that mislead consumers, use high-pressure selling, or cause consumers to make decisions they would not otherwise have made." },
+            { term: "Market Investigation", definition: "A CMA investigation into whether market structures or firm behaviour are harming competition and consumer welfare. Can result in orders to change business conduct." },
           ],
           explanation:
             "<h3>Competition Law and Consumer Protection</h3>"+ "<p>Competition law aims to maintain fair markets, prevent anti-competitive behaviour, and protect consumers. The key UK legislation is the <strong>Competition Act 1998</strong> and the <strong>Enterprise Act 2002</strong>. The <strong>Competition and Markets Authority (CMA)</strong> is the primary regulator.</p>"+ "<h4>Chapter I Prohibition (Competition Act 1998)</h4>"+ "<p>Prohibits <strong>agreements between undertakings</strong> that prevent, restrict, or distort competition — for example: price-fixing, market-sharing, bid-rigging, limiting production. These are often called <strong>cartels</strong>. Such agreements are void and unenforceable. Cartels are also criminal offences under the Enterprise Act 2002.</p>"+ "<h4>Chapter II Prohibition (Competition Act 1998)</h4>"+ "<p>Prohibits <strong>abuse of dominant position</strong>. A business is dominant if it holds a market share of around 40% or more. Abuse includes: predatory pricing (below cost to drive out competitors), excessive pricing, refusal to supply, and tying/bundling.</p>"+ "<h4>Merger Control</h4>"+ "<p>The CMA reviews mergers that may substantially lessen competition. Mergers with combined UK turnover above £70 million (or market share above 25%) may be investigated. The CMA can block or impose conditions on mergers.</p>"+ "<h4>Consumer Protection</h4>"+ "<p>Key legislation: <strong>Consumer Rights Act 2015</strong> — goods must be of satisfactory quality, fit for purpose, and as described; services must be carried out with reasonable care and skill. <strong>Consumer Contracts Regulations 2013</strong> — 14-day cooling-off period for online/distance contracts. <strong>Consumer Protection from Unfair Trading Regulations 2008</strong> — prohibits misleading and aggressive commercial practices.</p>",
@@ -8209,6 +8888,13 @@ const AIQ_COURSE_DATA = {
             "Describe the duties and rights of agents and principals",
             "Explain the concept of apparent authority and its consequences for third parties",
           ],
+          keyTerms: [
+            { term: "Agency", definition: "A legal relationship in which one party (the agent) is authorised to act on behalf of another (the principal) in dealings with third parties." },
+            { term: "Principal", definition: "The party on whose behalf an agent acts. The principal is bound by contracts made by the agent within the scope of the agent's authority." },
+            { term: "Actual Authority", definition: "Authority expressly granted to the agent by the principal (express authority) or reasonably implied from the circumstances (implied authority)." },
+            { term: "Apparent Authority", definition: "Authority that a third party reasonably believes the agent has, based on the principal's conduct. The principal is bound by contracts made under apparent authority." },
+            { term: "Fiduciary Duty", definition: "An agent's duty to act in the best interests of the principal, avoiding conflicts of interest, not taking secret profits, and maintaining confidentiality." },
+          ],
           explanation:
             "<h3>Agency Law and Business Structures</h3>"+ "<p><strong>Agency</strong> is a legal relationship in which one party (the <strong>agent</strong>) acts on behalf of another (the <strong>principal</strong>) to create legal relations with a third party. The principal is bound by the acts of the agent carried out within the agent's authority.</p>"+ "<h4>Types of Authority</h4>"+ "<p><strong>Actual authority:</strong> Express (stated in the agency agreement) or implied (arises from the agent's role — e.g., a company director has implied authority to do acts normal for their role). <strong>Apparent (ostensible) authority:</strong> Authority that a third party reasonably believes the agent has, based on the principal's representations — even if the agent had no actual authority. The principal is bound where apparent authority exists and the third party acts in good faith.</p>"+ "<h4>Duties of Agents</h4>"+ "<p>An agent owes the principal: duty to follow instructions, duty of care and skill, duty of good faith (no conflict of interest, no secret profit), duty of confidentiality, and duty to account for money received.</p>"+ "<h4>Business Structures</h4>"+ "<p><strong>Sole trader:</strong> Simplest structure — unlimited personal liability, no separate legal personality, all profits to the owner. <strong>Partnership:</strong> Two or more persons — partners have unlimited joint and several liability (except LLPs). <strong>Limited Liability Partnership (LLP):</strong> Separate legal personality, members' liability limited. <strong>Private Limited Company (Ltd):</strong> Separate legal personality, limited liability for shareholders, must file accounts. <strong>Public Limited Company (Plc):</strong> Can offer shares to the public, must have share capital of at least £50,000, subject to greater regulation.</p>"+ "<h4>Lifting the Corporate Veil</h4>"+ "<p>Courts will 'lift the veil' of incorporation (treat shareholders as personally liable) in limited circumstances: fraud, sham companies, statutory provisions (e.g., wrongful trading).</p>",
           workedExample: {
@@ -8279,6 +8965,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between voluntary and compulsory liquidation",
             "Explain the purpose and process of administration and company voluntary arrangements",
             "Describe the order of priority in which creditors are paid on insolvency",
+          ],
+          keyTerms: [
+            { term: "Insolvency", definition: "The inability to pay debts as they fall due (cash flow insolvency) or where liabilities exceed assets (balance sheet insolvency)." },
+            { term: "Liquidation", definition: "The winding-up of a company: assets are sold, debts paid in a legally prescribed order, and any surplus distributed to shareholders." },
+            { term: "Administration", definition: "A rescue procedure placing an insolvent company under an administrator who seeks to rescue the business as a going concern or achieve a better outcome than liquidation." },
+            { term: "Voluntary Arrangement (CVA)", definition: "A formal agreement between a company and its creditors to pay debts over time or at a discount, supervised by a licensed insolvency practitioner." },
+            { term: "Creditor Hierarchy", definition: "The order in which creditors are paid on liquidation: fixed charge holders → insolvency costs → preferential creditors → floating charge holders → unsecured creditors → shareholders." },
           ],
           explanation:
             "<h3>Insolvency, Liquidation and Administration</h3>"+ "<p>When a company cannot pay its debts, the <strong>Insolvency Act 1986</strong> provides formal procedures for resolving the situation — either by rescuing the business or winding it up in an orderly manner.</p>"+ "<h4>Tests for Insolvency</h4>"+ "<p><strong>Cash flow test:</strong> Unable to pay debts as they fall due. <strong>Balance sheet test:</strong> Assets are less than liabilities (including contingent and prospective liabilities).</p>"+ "<h4>Administration</h4>"+ "<p><strong>Administration</strong> is a rescue procedure. An administrator (insolvency practitioner) is appointed to: rescue the company as a going concern, achieve a better result for creditors than immediate liquidation, or realise assets for secured/preferential creditors. Administration provides a moratorium — creditors cannot take action against the company without the court's permission.</p>"+ "<h4>Liquidation (Winding Up)</h4>"+ "<p><strong>Compulsory liquidation:</strong> Ordered by the court, usually on a creditor's petition. <strong>Voluntary liquidation:</strong> <em>Members' voluntary liquidation (MVL)</em> — solvent company wound up by shareholders. <em>Creditors' voluntary liquidation (CVL)</em> — insolvent company wound up by creditors.</p>"+ "<p>On liquidation, a liquidator realises assets and distributes proceeds in the statutory order of priority:</p>"+ "<p>1. Fixed charge holders (secured creditors over specific assets)<br>2. Liquidator's costs and expenses<br>3. Preferential creditors (employee wages, pension contributions)<br>4. Floating charge holders<br>5. Unsecured creditors (trade creditors, HMRC)<br>6. Shareholders (any surplus)</p>"+ "<h4>Director Liability in Insolvency</h4>"+ "<p><strong>Wrongful trading (s.214 Insolvency Act 1986):</strong> Directors who continue to trade when they knew (or ought to have known) that insolvent liquidation was unavoidable, and did not take every step to minimise losses to creditors, can be made personally liable for the company's debts incurred after that point. <strong>Fraudulent trading:</strong> Deliberate fraud on creditors — criminal offence, unlimited personal liability.</p>",
@@ -8353,6 +9046,13 @@ const AIQ_COURSE_DATA = {
             "Apply the Caparo test to determine whether a duty of care exists",
             "Explain occupiers' liability to lawful visitors and trespassers",
           ],
+          keyTerms: [
+            { term: "Negligence", definition: "A tort where the defendant breaches a duty of care owed to the claimant, causing foreseeable damage. Three elements must be proved: duty, breach and damage." },
+            { term: "Duty of Care", definition: "A legal obligation to take reasonable care to avoid acts or omissions likely to cause foreseeable harm to those who are closely and directly affected." },
+            { term: "Breach of Duty", definition: "Failure to meet the standard of care expected of a reasonable person in the circumstances. Assessed objectively by what the reasonable person would have done." },
+            { term: "Causation", definition: "The claimant must prove the defendant's breach caused their loss (factual causation, 'but for' test) and that the loss was not too remote (legal causation)." },
+            { term: "Occupiers' Liability", definition: "The duty of care owed by occupiers of premises to visitors (Occupiers' Liability Act 1957) and to trespassers (Occupiers' Liability Act 1984)." },
+          ],
           explanation:
             "<h3>Tort Law: Negligence and Occupiers' Liability</h3>"+ "<p><strong>Tort law</strong> deals with civil wrongs that cause harm. The most important tort for business is <strong>negligence</strong>.</p>"+ "<h4>Negligence: The Three Elements</h4>"+ "<p>To succeed in a negligence claim, the claimant must prove all three: <strong>1. Duty of care</strong> — the defendant owed the claimant a duty of care (established by the <em>Donoghue v Stevenson [1932]</em> 'neighbour test': is the claimant someone who could foreseeably be harmed?). <strong>2. Breach of duty</strong> — the defendant fell below the standard of the reasonable person in the same position. <strong>3. Damage</strong> — the breach caused the claimant loss that was not too remote (reasonable foreseeability of the type of loss).</p>"+ "<h4>Negligent Misstatement</h4>"+ "<p>From <em>Hedley Byrne v Heller [1964]</em> — a duty of care can arise for negligent advice/statements where there is a <strong>special relationship</strong> of proximity (one party relies on the other's expertise, and the other party knows this and accepts responsibility). Auditors, accountants, and advisers may owe a duty of care in negligent misstatement.</p>"+ "<h4>Defences to Negligence</h4>"+ "<p><strong>Contributory negligence:</strong> If the claimant was partly responsible for their own harm, damages are reduced proportionately. <strong>Volenti non fit injuria:</strong> The claimant voluntarily accepted the risk — complete defence.</p>"+ "<h4>Occupiers' Liability</h4>"+ "<p><strong>Occupiers' Liability Act 1957:</strong> Occupiers owe a common duty of care to all lawful visitors — to take reasonable care to ensure they are reasonably safe while using the premises for the permitted purpose. <strong>Occupiers' Liability Act 1984:</strong> Reduced duty of care owed to trespassers — only where the occupier knows of the danger, knows trespassers may be in that area, and the risk is one against which they should reasonably guard.</p>",
           workedExample: {
@@ -8422,6 +9122,13 @@ const AIQ_COURSE_DATA = {
             "Consolidate understanding of CIMA's ethical code, corporate governance, and CSR",
             "Review regulatory obligations including Bribery Act, GDPR, and environmental law",
             "Practise exam-style questions across all ethics and governance topics",
+          ],
+          keyTerms: [
+            { term: "Fundamental Principles (CIMA)", definition: "The five core ethical principles of the CIMA Code: Integrity, Objectivity, Professional Competence and Due Care, Confidentiality, and Professional Behaviour." },
+            { term: "Governance Framework", definition: "The system of rules, structures and processes ensuring an organisation is directed and controlled in the interests of shareholders and other stakeholders." },
+            { term: "Internal Controls", definition: "Policies, procedures and systems designed to safeguard assets, ensure accurate reporting, and promote operational efficiency and legal compliance." },
+            { term: "Regulatory Compliance", definition: "Adhering to laws, regulations and professional standards applicable to an organisation's activities. Non-compliance risks fines, reputational damage and criminal liability." },
+            { term: "Threats to Objectivity", definition: "CIMA identifies five categories: self-interest, self-review, advocacy, familiarity and intimidation threats. Safeguards must reduce threats to an acceptable level." },
           ],
           explanation:
             "<h3>Revision: Ethics, Governance and Regulation</h3>"+ "<p>This revision lesson consolidates the ethics, corporate governance, and regulation topics from BA4.</p>"+ "<h4>CIMA Code of Ethics</h4>"+ "<p>Five fundamental principles: <strong>Integrity, Objectivity, Professional Competence and Due Care, Confidentiality, Professional Behaviour</strong>. Five threat categories: Self-interest, Self-review, Advocacy, Familiarity, Intimidation. Apply safeguards to reduce threats to an acceptable level.</p>"+ "<h4>Ethical Dilemmas and Whistleblowing</h4>"+ "<p>Resolution framework: Facts → Ethical issues → Options → Evaluate → Decide → Act. Escalate internally first. PIDA 1998: qualifying disclosures (criminal acts, legal breaches, H&S, environment, cover-ups) in the public interest are protected. Dismissal for a protected disclosure is automatically unfair.</p>"+ "<h4>CSR and Environmental Law</h4>"+ "<p>CSR: Triple Bottom Line (Profit, People, Planet). Carroll's Pyramid: Economic → Legal → Ethical → Philanthropic. Environment Agency enforces environmental law. Polluter pays principle. GRI, TCFD, SECR sustainability reporting frameworks.</p>"+ "<h4>Corporate Governance</h4>"+ "<p>UK Corporate Governance Code: comply or explain. Board: separate CEO and Chair. NEDs: independent oversight. Three committees: Audit, Remuneration, Nomination — all chaired by independent NEDs. Three lines of defence: management, risk/compliance, internal audit.</p>"+ "<h4>Bribery Act 2010</h4>"+ "<p>S.1 bribing, S.2 being bribed, S.6 foreign public officials, S.7 failure to prevent (strict liability). Adequate procedures defence (6 principles). No facilitation payments. Individuals: up to 10 years. Companies: unlimited fine.</p>"+ "<h4>GDPR and Data Protection</h4>"+ "<p>UK GDPR + DPA 2018. Six lawful bases. Special category data requires additional protection. Data subject rights (access, rectification, erasure, portability, object). Breach notification to ICO within 72 hours. ICO fines: up to £17.5m or 4% global turnover.</p>",
@@ -8494,6 +9201,13 @@ const AIQ_COURSE_DATA = {
             "Review IP, competition, agency, insolvency, and tort law topics",
             "Practise exam-style questions across all business law topics",
           ],
+          keyTerms: [
+            { term: "Contract Formation", definition: "A valid contract requires offer, acceptance, consideration, intention to create legal relations and (in some cases) form. All five elements must be present." },
+            { term: "Employment Rights", definition: "Statutory minimum rights of employees including the minimum wage, working time limits, statutory sick pay, maternity/paternity leave, and protection against unfair dismissal." },
+            { term: "Corporate Personality", definition: "A company is a separate legal entity from its shareholders. Shareholders enjoy limited liability; the company can own property and enter contracts in its own name." },
+            { term: "Insolvency Procedures", definition: "Formal legal procedures for insolvent companies: administration (rescue-focused) and liquidation (winding-up). Different procedures serve different creditor interests." },
+            { term: "Intellectual Property", definition: "Intangible assets protected by copyright, patents, trademarks and design rights. Key to business value in knowledge-based economies." },
+          ],
           explanation:
             "<h3>Revision: Business Law</h3>"+ "<p>This revision lesson consolidates the business law topics from BA4 and the foundational law lessons (BA4-L1 to BA4-L5).</p>"+ "<h4>Company Law</h4>"+ "<p>Companies Act 2006: separate legal personality (Salomon v Salomon), limited liability, shares, directors' duties (7 statutory duties). Types: private Ltd, public Plc. Formation: Memorandum + Articles of Association. Corporate veil lifted for fraud/wrongful trading.</p>"+ "<h4>Contract Law</h4>"+ "<p>Valid contract: offer + acceptance + consideration + intention to create legal relations + capacity. Termination: performance, agreement, breach, frustration. Remedies: damages (put claimant in position as if contract performed), specific performance, injunction, rescission.</p>"+ "<h4>Employment Law</h4>"+ "<p>Implied duties of employer (safe workplace, pay). Implied duties of employee (obey reasonable instructions, fidelity). Unfair dismissal: qualifying period 2 years; fair reasons (capability, conduct, redundancy, statutory illegality, SOSR). Wrongful dismissal: breach of contract — no qualifying period. Discrimination: 9 protected characteristics under Equality Act 2010.</p>"+ "<h4>IP and Competition Law</h4>"+ "<p>Patents (20 years), trade marks (indefinitely renewable), copyright (automatic; life+70 years), design rights. Competition Act 1998: Chapter I (agreements), Chapter II (dominance). CMA: 10% worldwide turnover fine. Cartel offence: 5 years imprisonment.</p>"+ "<h4>Insolvency and Agency</h4>"+ "<p>Liquidation priority: Fixed charge → Costs → Preferential → Floating charge → Unsecured → Shareholders. Administration: rescue moratorium. Wrongful trading (s.214): civil liability for continuing to trade. Agency: actual and apparent authority. Apparent authority binds the principal to innocent third parties.</p>"+ "<h4>Tort Law</h4>"+ "<p>Negligence: duty + breach + damage. Hedley Byrne: negligent misstatement (special relationship). Occupiers' Liability Acts: 1957 (visitors), 1984 (trespassers).</p>",
           workedExample: {
@@ -8561,6 +9275,13 @@ const AIQ_COURSE_DATA = {
             "Complete a timed 60-question multiple-choice paper under exam conditions",
             "Identify topic areas requiring further revision from mock results",
             "Review worked solutions and examiner guidance for all question types",
+          ],
+          keyTerms: [
+            { term: "Ethical Decision-Making", definition: "A structured approach to resolving ethical dilemmas: identify the issue, gather facts, consider stakeholders, apply ethical frameworks, and choose the action most consistent with professional standards." },
+            { term: "CIMA Code of Ethics", definition: "The framework governing the professional and ethical conduct of CIMA members and students, based on the IESBA International Code of Ethics." },
+            { term: "UK Corporate Governance Code", definition: "A 'comply or explain' code for listed companies covering board composition, audit, remuneration and shareholder relations, published by the FRC." },
+            { term: "Data Protection", definition: "The legal framework governing how personal data is collected, stored, processed and shared. In the UK governed by UK GDPR and the Data Protection Act 2018." },
+            { term: "Bribery Prevention", definition: "Organisations must have adequate anti-bribery procedures to avoid criminal liability under the Bribery Act 2010. Includes training, due diligence and risk assessment." },
           ],
           explanation:
             "<h3>Mock Exam: BA4 Ethics, Corporate Governance and Business Law</h3>"+ "<p>This mock exam covers the full BA4 syllabus. Allow yourself 2 hours. Answer all questions and review your answers against the explanations.</p>"+ "<p><strong>Syllabus areas tested:</strong> CIMA Code of Ethics, ethical conflict and whistleblowing, CSR, environmental law, corporate governance, internal controls and audit, Bribery Act 2010, GDPR, intellectual property, competition law, agency, insolvency, and tort law.</p>",
@@ -8746,6 +9467,13 @@ const AIQ_COURSE_DATA = {
             "Describe the historical evolution from scorekeeper to strategic partner",
             "Identify the key capabilities required of modern finance professionals",
           ],
+          keyTerms: [
+            { term: "Finance Transformation", definition: "The fundamental redesign of the finance function's operating model, using technology and changed ways of working to move from transactional to value-adding activities." },
+            { term: "Horizon Model", definition: "A model of finance evolution across three horizons: Horizon 1 (transactional efficiency), Horizon 2 (business insight), Horizon 3 (strategic advisory)." },
+            { term: "Digitalisation", definition: "Using digital technologies to redesign business processes and models — a deeper transformation than digitisation (converting paper to digital format)." },
+            { term: "Business Partnering", definition: "Finance professionals working alongside operational management to provide analytical insight, challenge assumptions, and support decision-making." },
+            { term: "Shared Service Centre (SSC)", definition: "A centralised unit providing standardised support services (transactional finance, HR, IT) to multiple business units, gaining efficiency through economies of scale." },
+          ],
           explanation:
             "<h4>The Historical Journey of Finance</h4>" +
             "<p>The finance function has undergone a fundamental transformation over the past four decades. Understanding this evolution is central to E1 because it explains <em>why</em> organisations are investing in digital tools and why the skills profile of finance professionals has changed so dramatically.</p>" +
@@ -8856,6 +9584,13 @@ const AIQ_COURSE_DATA = {
             "Define the finance business partnering model and its benefits",
             "Explain the skills and competencies required of a finance business partner",
             "Describe how finance adds strategic value beyond reporting",
+          ],
+          keyTerms: [
+            { term: "Business Partner", definition: "A finance professional who embeds in business functions to provide analysis, challenge and strategic support, going beyond reporting historical results." },
+            { term: "Commercial Acumen", definition: "Understanding how the business makes money, its key value drivers, cost structure and competitive environment — enabling finance to add strategic value." },
+            { term: "Insight", definition: "Analysis that goes beyond what happened to explain why it happened and what should be done. The key output of effective business partnering." },
+            { term: "Stakeholder Communication", definition: "Tailoring financial messages to different audiences: detailed analysis for the FD, concise narrative for operational managers, strategic framing for the board." },
+            { term: "T-Shaped Skills", definition: "A model where finance professionals combine deep technical expertise (the vertical bar) with broad cross-functional knowledge and collaborative skills (the horizontal bar)." },
           ],
           explanation:
             "<h4>What is Finance Business Partnering?</h4>" +
@@ -8969,6 +9704,13 @@ const AIQ_COURSE_DATA = {
             "Compare outsourcing, co-sourcing and in-house finance delivery models",
             "Assess the factors influencing the make-or-buy decision for finance services",
           ],
+          keyTerms: [
+            { term: "Shared Service Centre (SSC)", definition: "A centralised unit providing standardised finance operations (accounts payable, payroll, management reporting) to multiple business units at lower cost." },
+            { term: "Outsourcing", definition: "Contracting a business function to an external service provider. Reduces headcount and fixed costs but requires careful vendor management and SLA governance." },
+            { term: "Service Level Agreement (SLA)", definition: "A contract specifying the service quality, response times and performance metrics expected from an internal or external service provider." },
+            { term: "Economies of Scale", definition: "Cost savings achieved by centralising a function: fixed costs are spread over a larger volume of transactions, reducing cost per transaction." },
+            { term: "Offshoring", definition: "Relocating business processes to lower-cost countries. Common for transactional finance work (AP, payroll) but requires robust controls and communication." },
+          ],
           explanation:
             "<h4>Finance Operating Models Overview</h4>" +
             "<p>Organisations face a fundamental choice about <em>how</em> to deliver finance services: build and run them internally, centralise them into a shared service centre, or transfer them to an external provider. This decision affects cost, control, quality and the strategic positioning of the finance function.</p>" +
@@ -9079,6 +9821,13 @@ const AIQ_COURSE_DATA = {
             "Explain the role of automation in redesigning finance processes",
             "Evaluate the impact of digital operating models on finance headcount and skills",
           ],
+          keyTerms: [
+            { term: "Operating Model", definition: "The design of how an organisation delivers value: its structure, processes, people, technology and governance." },
+            { term: "Centre of Excellence (CoE)", definition: "A specialist team providing deep expertise in a specific area (e.g. financial planning and analysis, tax) to the wider organisation." },
+            { term: "Finance Automation", definition: "Using technology (RPA, AI, ERP workflows) to execute repetitive finance processes without manual intervention, freeing staff for higher-value work." },
+            { term: "Centralisation", definition: "Consolidating decision-making or operations into a central location or team to improve consistency and reduce duplication." },
+            { term: "Decentralisation", definition: "Distributing responsibility and decision-making to business units or local finance teams, improving responsiveness but potentially reducing consistency." },
+          ],
           explanation:
             "<h4>What is a Digital Finance Operating Model?</h4>" +
             "<p>A <strong>digital finance operating model</strong> describes how the finance function organises people, processes, data and technology to deliver its outputs efficiently and at scale. The 'digital' qualifier signals that automation, data analytics and cloud technology are foundational — not peripheral additions — to how work gets done.</p>" +
@@ -9185,6 +9934,13 @@ const AIQ_COURSE_DATA = {
             "Describe the evolving role and priorities of the CFO",
             "Explain the digital and commercial skills required in the modern finance team",
             "Identify strategies for talent development in a digital finance environment",
+          ],
+          keyTerms: [
+            { term: "CFO", definition: "Chief Financial Officer — the senior executive accountable for financial strategy, reporting, treasury, risk and the finance function." },
+            { term: "T-Shaped Skills", definition: "Finance professionals need deep technical expertise combined with broad cross-functional skills (commercial, digital, communication) to operate effectively in modern finance." },
+            { term: "Digital Skills (Finance)", definition: "Capability in data analytics, visualisation tools (Power BI), automation (RPA), ERP systems and AI literacy required of modern finance professionals." },
+            { term: "Upskilling", definition: "Training and developing existing employees to acquire new competencies, particularly in digital and analytical capabilities, often driven by automation displacing transactional roles." },
+            { term: "Finance Talent Strategy", definition: "The CFO's approach to recruiting, retaining and developing finance professionals with the skills needed to support the organisation's strategic goals." },
           ],
           explanation:
             "<h4>The Modern CFO</h4>" +
@@ -9296,6 +10052,13 @@ const AIQ_COURSE_DATA = {
             "Explain integrated reporting and the six capitals framework",
             "Describe how management information and reporting have evolved with technology",
             "Identify the principles of effective financial and non-financial reporting",
+          ],
+          keyTerms: [
+            { term: "Integrated Reporting (<IR>)", definition: "A framework communicating how an organisation creates value over time, integrating financial and non-financial information across six capitals (financial, manufactured, intellectual, human, social, natural)." },
+            { term: "Key Performance Indicator (KPI)", definition: "A quantifiable metric used to evaluate the success of an organisation in achieving its key objectives. Should be relevant, measurable and aligned to strategy." },
+            { term: "Management Information", definition: "Processed data provided to managers to support decision-making, planning and control. Contrasts with financial accounting information, which is for external stakeholders." },
+            { term: "Value Reporting", definition: "Reporting that communicates the drivers of long-term value creation — including non-financial capitals, risks and strategic progress — alongside traditional financial metrics." },
+            { term: "Balanced Scorecard", definition: "A performance management framework linking financial and non-financial KPIs across four perspectives: financial, customer, internal process, and learning and growth." },
           ],
           explanation:
             "<h4>The Evolution of Financial Reporting</h4>" +
@@ -9414,6 +10177,13 @@ const AIQ_COURSE_DATA = {
             "Describe the key characteristics of the Fourth Industrial Revolution",
             "Identify the main digital technologies reshaping business and finance",
           ],
+          keyTerms: [
+            { term: "Fourth Industrial Revolution (4IR)", definition: "The current era of digital transformation characterised by the fusion of physical, digital and biological systems. Builds on the Third Industrial Revolution (computers and IT)." },
+            { term: "Digitisation", definition: "Converting analogue information to digital format (e.g. scanning paper documents). A prerequisite for, but not the same as, digitalisation." },
+            { term: "Digital Transformation", definition: "The fundamental rethinking of how an organisation uses technology to radically change business performance and customer experience." },
+            { term: "Industry 4.0", definition: "The application of 4IR technologies — IoT, AI, robotics, cloud and big data — to manufacturing and supply chain management." },
+            { term: "Disruptive Innovation", definition: "A new product or technology that initially targets low-end or new market segments but eventually displaces incumbent products and businesses." },
+          ],
           explanation:
             "<h4>Digitisation vs Digitalisation vs Digital Transformation</h4>" +
             "<p>These three terms are often used interchangeably but have distinct meanings that are tested in CIMA E1:</p>" +
@@ -9515,6 +10285,13 @@ const AIQ_COURSE_DATA = {
             "Describe public, private and hybrid cloud deployment models",
             "Assess the benefits and risks of cloud adoption for finance functions",
           ],
+          keyTerms: [
+            { term: "Cloud Computing", definition: "The delivery of computing services (servers, storage, databases, software) over the internet on a pay-as-you-go basis." },
+            { term: "SaaS (Software as a Service)", definition: "A cloud delivery model where software is hosted by a provider and accessed via the internet. Examples: Salesforce, Microsoft 365, Workday. No local installation required." },
+            { term: "IaaS (Infrastructure as a Service)", definition: "A cloud model providing virtualised computing infrastructure (servers, storage, networking) on demand. The customer manages the OS and applications." },
+            { term: "PaaS (Platform as a Service)", definition: "A cloud model providing a platform for developers to build and deploy applications without managing the underlying infrastructure." },
+            { term: "Scalability", definition: "The ability to rapidly increase or decrease computing resources to match demand. A key benefit of cloud computing over on-premise infrastructure." },
+          ],
           explanation:
             "<h4>What is Cloud Computing?</h4>" +
             "<p><strong>Cloud computing</strong> is the delivery of computing services — servers, storage, databases, networking, software, analytics and intelligence — over the internet ('the cloud') on a pay-as-you-go basis. Instead of owning and maintaining physical data centres, organisations access computing resources from a provider (AWS, Microsoft Azure, Google Cloud) and pay only for what they use.</p>" +
@@ -9612,6 +10389,13 @@ const AIQ_COURSE_DATA = {
             "Explain the concepts of artificial intelligence, machine learning and deep learning",
             "Identify finance applications of AI: forecasting, fraud detection, NLP",
             "Assess the ethical and governance implications of AI in financial decision-making",
+          ],
+          keyTerms: [
+            { term: "Artificial Intelligence (AI)", definition: "Computer systems performing tasks that would normally require human intelligence: recognising patterns, making decisions, generating text and predicting outcomes." },
+            { term: "Machine Learning", definition: "A subset of AI where algorithms learn from data to improve their performance over time without being explicitly programmed for each task." },
+            { term: "Natural Language Processing (NLP)", definition: "AI capability enabling computers to understand, interpret and generate human language. Underpins chatbots, sentiment analysis and document extraction tools." },
+            { term: "Predictive Analytics", definition: "Using historical data and statistical algorithms to forecast future outcomes. Applications in finance: credit scoring, churn prediction, demand forecasting." },
+            { term: "Large Language Model (LLM)", definition: "An AI model trained on vast text corpora to generate human-like text. Examples: GPT-4, Claude. Used for commentary generation, summarisation and Q&A." },
           ],
           explanation:
             "<h4>Understanding AI — The Hierarchy</h4>" +
@@ -9713,6 +10497,13 @@ const AIQ_COURSE_DATA = {
             "Define RPA and explain how it differs from traditional automation",
             "Identify finance processes most suitable for RPA implementation",
             "Evaluate the costs, benefits and implementation risks of RPA",
+          ],
+          keyTerms: [
+            { term: "Robotic Process Automation (RPA)", definition: "Software 'bots' that automate repetitive, rule-based digital tasks by mimicking human interactions with applications — ideal for data entry, reconciliation and reporting." },
+            { term: "Attended RPA", definition: "Bots triggered by a human user and operating on their workstation. Used for tasks requiring human oversight or decision at certain steps." },
+            { term: "Unattended RPA", definition: "Bots running autonomously on servers without human interaction, scheduled to run at set times. Used for end-to-end automation of high-volume processes." },
+            { term: "Process Mining", definition: "Using event log data from IT systems to visualise and analyse actual business processes — identifying inefficiencies and automation opportunities." },
+            { term: "Intelligent Automation", definition: "Combining RPA with AI capabilities (NLP, machine learning) to automate more complex tasks that involve unstructured data or require judgement." },
           ],
           explanation:
             "<h4>What is RPA?</h4>" +
@@ -9825,6 +10616,13 @@ const AIQ_COURSE_DATA = {
             "Explain the principles of blockchain and distributed ledger technology (DLT)",
             "Describe smart contracts and their applications in finance",
             "Assess the potential and limitations of blockchain for accounting and audit",
+          ],
+          keyTerms: [
+            { term: "Blockchain", definition: "A distributed, immutable ledger recording transactions in chronological blocks. Each block is cryptographically linked to the previous one, making alteration extremely difficult." },
+            { term: "Distributed Ledger Technology (DLT)", definition: "A broader term for any decentralised database shared across a network of computers, of which blockchain is the most well-known form." },
+            { term: "Smart Contract", definition: "Self-executing code stored on a blockchain that automatically enforces the terms of an agreement when predetermined conditions are met." },
+            { term: "Immutability", definition: "Once data is recorded on a blockchain it cannot be altered without changing all subsequent blocks and gaining consensus from the network. Provides an audit trail." },
+            { term: "Cryptocurrency", definition: "A digital currency secured by cryptography and operating on a blockchain (e.g. Bitcoin, Ether). Not issued or guaranteed by any central bank." },
           ],
           explanation:
             "<h4>What is Distributed Ledger Technology (DLT)?</h4>" +
@@ -9941,6 +10739,13 @@ const AIQ_COURSE_DATA = {
             "Explain descriptive, diagnostic, predictive and prescriptive analytics",
             "Identify how finance functions use data analytics for insight and decision support",
           ],
+          keyTerms: [
+            { term: "Big Data", definition: "Datasets too large or complex for traditional data processing tools, characterised by the 5Vs: Volume, Velocity, Variety, Veracity and Value." },
+            { term: "Structured Data", definition: "Data organised in a predefined format (rows and columns), easily stored in relational databases. Examples: ERP transaction data, spreadsheet data." },
+            { term: "Unstructured Data", definition: "Data with no predefined format: emails, social media posts, images, audio and video. Requires AI/NLP tools to extract value." },
+            { term: "Data Lake", definition: "A large repository storing raw data in its native format until needed. Contrasts with a data warehouse, which stores processed, structured data." },
+            { term: "Data Analytics", definition: "The process of examining data to discover useful information, draw conclusions and support decision-making. Ranges from descriptive to predictive to prescriptive analytics." },
+          ],
           explanation:
             "<h4>What is Big Data?</h4>" +
             "<p><strong>Big data</strong> refers to datasets so large, fast-moving, or diverse that traditional data processing tools (spreadsheets, standard databases) cannot handle them effectively. Big data is not just about volume — it is about the combination of characteristics that make it both challenging and valuable.</p>" +
@@ -10037,6 +10842,13 @@ const AIQ_COURSE_DATA = {
             "Identify the main categories of cybersecurity threat (phishing, ransomware, insider threats)",
             "Explain technical and organisational controls to manage cyber risk",
             "Describe the role of governance frameworks such as ISO 27001 and NIST in cybersecurity",
+          ],
+          keyTerms: [
+            { term: "Cybersecurity", definition: "The protection of computer systems, networks and data from digital attack, damage and unauthorised access." },
+            { term: "Phishing", definition: "A social engineering attack where fraudulent communications (usually email) appear to be from a trusted source to trick victims into revealing credentials or installing malware." },
+            { term: "Ransomware", definition: "Malicious software that encrypts a victim's files and demands payment for the decryption key. A major threat to organisations of all sizes." },
+            { term: "CIA Triad", definition: "The three core principles of information security: Confidentiality (data accessible only to authorised users), Integrity (data accuracy and completeness), Availability (systems accessible when needed)." },
+            { term: "Cyber Risk", definition: "The risk of financial loss, disruption or reputational damage from failure of IT systems or a cyber attack. A key enterprise risk requiring board-level oversight." },
           ],
           explanation:
             "<h4>Why Cybersecurity Matters to Finance</h4>" +
@@ -10142,6 +10954,13 @@ const AIQ_COURSE_DATA = {
             "Describe the finance implications of real-time operational data from IoT devices",
             "Assess how Industry 4.0 is changing cost structures and business models",
           ],
+          keyTerms: [
+            { term: "Internet of Things (IoT)", definition: "The network of physical devices, vehicles and sensors connected to the internet, collecting and sharing data. Examples: smart meters, connected manufacturing equipment." },
+            { term: "Connected Devices", definition: "Physical objects embedded with sensors, software and connectivity that communicate data over the internet, enabling monitoring and automation." },
+            { term: "Edge Computing", definition: "Processing data near the source (at the 'edge' of the network) rather than in a centralised data centre, reducing latency for time-critical IoT applications." },
+            { term: "Industry 4.0", definition: "The integration of cyber-physical systems, IoT and AI into manufacturing and supply chains, enabling real-time monitoring, predictive maintenance and smart factories." },
+            { term: "Sensor Data", definition: "Data collected by physical sensors (temperature, pressure, location, usage) and transmitted to systems for analysis and automated response." },
+          ],
           explanation:
             "<h4>The Internet of Things (IoT)</h4>" +
             "<p>The <strong>Internet of Things (IoT)</strong> refers to the network of physical devices — machines, vehicles, sensors, appliances — embedded with sensors, software and connectivity that allows them to collect and exchange data over the internet without requiring human-to-human or human-to-computer interaction.</p>" +
@@ -10236,6 +11055,13 @@ const AIQ_COURSE_DATA = {
             "Define data governance and explain why it is critical for organisations",
             "Describe the DAMA-DMBOK framework and its key knowledge areas",
             "Explain accountability structures: data owners, stewards and custodians",
+          ],
+          keyTerms: [
+            { term: "Data Governance", definition: "The framework of policies, standards, roles and responsibilities that ensure data is managed as a trusted organisational asset throughout its lifecycle." },
+            { term: "Data Owner", definition: "A senior leader accountable for the quality, integrity and appropriate use of a specific data domain (e.g. the CFO as data owner for financial data)." },
+            { term: "Data Steward", definition: "An individual responsible for day-to-day management of data quality within their domain, implementing the policies set by the data owner." },
+            { term: "Metadata", definition: "Data about data: describing the content, format, source and meaning of data fields. Essential for data cataloguing and governance." },
+            { term: "Master Data", definition: "The core reference data shared across systems: customers, suppliers, employees, products and chart of accounts. Master data quality underpins all downstream analytics." },
           ],
           explanation:
             "<h4>What is Data Governance?</h4>" +
@@ -10337,6 +11163,13 @@ const AIQ_COURSE_DATA = {
             "Define the six dimensions of data quality (accuracy, completeness, consistency, timeliness, validity, uniqueness)",
             "Explain data quality assessment and cleansing processes",
             "Describe the financial and reputational consequences of poor data quality",
+          ],
+          keyTerms: [
+            { term: "Data Quality", definition: "The degree to which data is fit for purpose across the key dimensions: accuracy, completeness, consistency, timeliness, uniqueness and validity." },
+            { term: "Accuracy", definition: "Data correctly represents the real-world values it is intended to model. Inaccurate data leads to incorrect analysis and poor decisions." },
+            { term: "Completeness", definition: "All required data values are present. Incomplete data creates gaps in analysis — e.g. missing cost centre codes prevent management reporting." },
+            { term: "Consistency", definition: "Data values are the same across different systems that should hold the same information. Inconsistencies arise when data is duplicated across systems without synchronisation." },
+            { term: "Data Profiling", definition: "Analysing a dataset to understand its structure, content, quality and relationships — the first step in any data quality improvement programme." },
           ],
           explanation:
             "<h4>Why Data Quality Matters</h4>" +
@@ -10451,6 +11284,13 @@ const AIQ_COURSE_DATA = {
             "Describe how ERP integrates finance with operations, HR and supply chain",
             "Evaluate the benefits, costs and implementation risks of ERP adoption",
           ],
+          keyTerms: [
+            { term: "Enterprise Resource Planning (ERP)", definition: "An integrated software system managing core business processes — finance, supply chain, HR, procurement — in a single database. Examples: SAP, Oracle, Microsoft Dynamics." },
+            { term: "Module", definition: "A functional component of an ERP system (e.g. accounts payable, general ledger, payroll) that can be implemented independently or integrated with other modules." },
+            { term: "Single Source of Truth", definition: "The principle that a single ERP database eliminates data duplication and inconsistency, ensuring all users work from the same accurate, real-time data." },
+            { term: "Go-Live", definition: "The point at which an ERP system is switched on for live production use. Preceded by design, build, testing and training phases." },
+            { term: "Data Migration", definition: "The process of transferring historical data from legacy systems into the new ERP, requiring extensive cleansing and validation to ensure accuracy." },
+          ],
           explanation:
             "<h4>What is an ERP System?</h4>" +
             "<p>An <strong>Enterprise Resource Planning (ERP) system</strong> is an integrated software platform that manages and integrates all core business processes — finance, operations, HR, supply chain, procurement, manufacturing, sales — within a single database. Instead of separate systems for each function (a finance system, a separate HR system, a separate inventory system), an ERP provides one unified platform where all transactions flow through the same data model.</p>" +
@@ -10555,6 +11395,13 @@ const AIQ_COURSE_DATA = {
             "Explain the ethical principles governing the use of personal data",
             "Describe the key requirements of UK GDPR relevant to finance teams",
             "Identify the compliance obligations and penalties for data protection breaches",
+          ],
+          keyTerms: [
+            { term: "UK GDPR", definition: "The retained EU GDPR as amended for UK law post-Brexit, supplemented by the Data Protection Act 2018. Sets rules for processing personal data in the UK." },
+            { term: "Data Minimisation", definition: "GDPR principle: only collect and retain the personal data necessary for the specified purpose. Excess data increases compliance risk." },
+            { term: "Lawful Basis for Processing", definition: "GDPR requires a valid reason for processing personal data. The six lawful bases are: consent, contract, legal obligation, vital interests, public task, and legitimate interests." },
+            { term: "Data Retention Policy", definition: "An organisational policy specifying how long different categories of personal data are kept before being securely deleted. Must balance legal obligations with GDPR minimisation principles." },
+            { term: "Data Ethics", definition: "The moral principles governing the collection and use of data, beyond mere legal compliance: fairness, transparency, avoiding harm, and respecting individuals' reasonable privacy expectations." },
           ],
           explanation:
             "<h4>Data Ethics — Why it Matters</h4>" +
@@ -10672,6 +11519,13 @@ const AIQ_COURSE_DATA = {
             "Describe data warehouse architecture: OLTP vs OLAP systems",
             "Explain the role of data lakes and data marts in finance analytics",
           ],
+          keyTerms: [
+            { term: "Data Warehouse", definition: "A centralised repository of integrated, subject-oriented, historical data from multiple sources, optimised for querying and reporting (not transaction processing)." },
+            { term: "ETL (Extract, Transform, Load)", definition: "The process of extracting data from source systems, transforming it into the required format, and loading it into a data warehouse or analytics platform." },
+            { term: "Data Mart", definition: "A subject-specific subset of a data warehouse, serving a particular business function (e.g. a finance data mart for P&L reporting)." },
+            { term: "Master Data Management (MDM)", definition: "The discipline of ensuring consistent, accurate and complete master data (customers, suppliers, products) across all systems in the organisation." },
+            { term: "OLAP (Online Analytical Processing)", definition: "A technology enabling multidimensional analysis of data (slicing and dicing by product, region, time period) to support business intelligence reporting." },
+          ],
           explanation:
             "<h4>Master Data Management (MDM)</h4>" +
             "<p><strong>Master data</strong> is the core reference data that an organisation depends on to run its business — customers, suppliers, employees, products, chart of accounts, cost centres, legal entities. Unlike transactional data (which changes constantly), master data changes infrequently but is used in every transaction.</p>" +
@@ -10771,6 +11625,13 @@ const AIQ_COURSE_DATA = {
             "Identify key regulatory requirements for data management in financial services",
             "Explain information risk management and its relationship to operational risk",
             "Describe control frameworks for managing information risk (COBIT, COSO)",
+          ],
+          keyTerms: [
+            { term: "Regulatory Compliance", definition: "Adherence to laws, regulations and standards governing the organisation's activities. Non-compliance exposes the organisation to fines, sanctions and reputational damage." },
+            { term: "Information Risk", definition: "The risk of unauthorised access, disclosure, modification or destruction of information assets, leading to financial loss, regulatory penalties or reputational harm." },
+            { term: "Regulatory Reporting", definition: "Mandatory submission of financial and other data to regulators (HMRC, FCA, Companies House) in prescribed formats and within prescribed deadlines." },
+            { term: "Data Breach", definition: "An incident resulting in unauthorised access to, or disclosure of, personal data. Under UK GDPR, reportable breaches must be notified to the ICO within 72 hours." },
+            { term: "Sanctions", definition: "Penalties imposed by regulators for non-compliance: fines (e.g. up to £17.5m or 4% of global turnover under UK GDPR), reputational consequences and operational restrictions." },
           ],
           explanation:
             "<h4>Regulatory Environment for Data Management in Finance</h4>" +
@@ -10881,6 +11742,13 @@ const AIQ_COURSE_DATA = {
             "Describe the components of an information security management system (ISMS)",
             "Identify physical, technical and administrative controls for information security",
           ],
+          keyTerms: [
+            { term: "CIA Triad", definition: "The three pillars of information security: Confidentiality (data accessible only to authorised parties), Integrity (data is accurate and unaltered), Availability (systems are accessible when needed)." },
+            { term: "ISO 27001", definition: "An international standard for information security management systems (ISMS). Provides a framework of policies and controls for managing information security risks." },
+            { term: "Access Control", definition: "Mechanisms restricting system access to authorised users based on their role. Includes authentication (verifying identity) and authorisation (granting permissions)." },
+            { term: "Multi-Factor Authentication (MFA)", definition: "Requiring two or more forms of verification to access a system (e.g. password + SMS code). Significantly reduces the risk of account compromise." },
+            { term: "Incident Response", definition: "A structured approach for detecting, containing, eradicating and recovering from security incidents, minimising damage and restoring normal operations." },
+          ],
           explanation:
             "<h4>ISO/IEC 27001 — International ISMS Standard</h4>" +
             "<p><strong>ISO/IEC 27001</strong> is the internationally recognised standard for establishing, implementing, maintaining and continually improving an <strong>Information Security Management System (ISMS)</strong>. It provides a systematic, risk-based approach to protecting information assets — covering people, processes and technology.</p>" +
@@ -10989,6 +11857,13 @@ const AIQ_COURSE_DATA = {
             "Describe value creation, value delivery and value capture mechanisms",
             "Compare traditional and platform-based business models",
           ],
+          keyTerms: [
+            { term: "Business Model", definition: "How an organisation creates, delivers and captures value. Describes the value proposition, customer segments, channels, revenue streams and cost structure." },
+            { term: "Value Proposition", definition: "The bundle of benefits and value that an organisation promises to deliver to customers in exchange for payment." },
+            { term: "Value Chain", definition: "Porter's model of primary activities (inbound logistics, operations, outbound logistics, marketing, service) and support activities that create value and competitive advantage." },
+            { term: "Revenue Model", definition: "How an organisation generates income: subscription, transaction, advertising, licensing, freemium, asset sale, or usage-based." },
+            { term: "Competitive Advantage", definition: "A condition enabling an organisation to outperform competitors: through cost leadership, differentiation, or focus on a particular niche." },
+          ],
           explanation:
             "<h4>What is a Business Model?</h4>" +
             "<p>A <strong>business model</strong> describes how an organisation creates, delivers and captures value. It answers three fundamental questions:</p>" +
@@ -11091,6 +11966,13 @@ const AIQ_COURSE_DATA = {
             "Define digital disruption and identify industries at risk",
             "Explain network effects and the economics of platform businesses",
             "Describe strategic responses to digital disruption: adapt, partner, or acquire",
+          ],
+          keyTerms: [
+            { term: "Digital Disruption", definition: "The displacement of established businesses and industries by new entrants leveraging digital technology to deliver superior value at lower cost." },
+            { term: "Platform Economy", definition: "An economic system where digital platforms facilitate transactions between producers and consumers (e.g. Uber, Amazon, Airbnb), capturing value through network effects." },
+            { term: "Network Effects", definition: "The increase in value of a platform or service as more users join it. Positive feedback loop driving winner-takes-most dynamics in digital markets." },
+            { term: "Two-Sided Market", definition: "A platform serving two distinct user groups whose needs are interdependent (e.g. buyers and sellers, riders and drivers). Value increases for each side as the other grows." },
+            { term: "Disintermediation", definition: "Digital platforms removing traditional intermediaries (e.g. travel agents, banks) by connecting buyers and sellers directly, reducing transaction costs." },
           ],
           explanation:
             "<h4>What is Digital Disruption?</h4>" +
@@ -11197,6 +12079,13 @@ const AIQ_COURSE_DATA = {
             "Use SWOT analysis to evaluate a digital transformation strategy",
             "Explain dynamic capabilities and their role in sustaining competitive advantage",
           ],
+          keyTerms: [
+            { term: "SWOT Analysis", definition: "A strategic framework identifying an organisation's internal Strengths and Weaknesses, and external Opportunities and Threats." },
+            { term: "Porter's Five Forces", definition: "An industry analysis framework assessing competitive intensity via: threat of new entrants, supplier power, buyer power, threat of substitutes, and competitive rivalry." },
+            { term: "Digital Maturity Model", definition: "A framework assessing an organisation's digital capability across dimensions such as strategy, culture, technology and data, identifying the path to advanced digital operations." },
+            { term: "PESTLE Analysis", definition: "Macro-environment scanning across Political, Economic, Social, Technological, Legal and Environmental factors — particularly relevant for digital organisations facing rapid regulatory change." },
+            { term: "Value Chain Analysis", definition: "Examining primary and support activities to identify where digital technology can create cost advantages, improve customer experience or create new revenue streams." },
+          ],
           explanation:
             "<h4>PESTEL Analysis in a Digital Context</h4>" +
             "<p>PESTEL analysis maps the macro-environment. In a digital context, each factor has specific digital dimensions:</p>" +
@@ -11296,6 +12185,13 @@ const AIQ_COURSE_DATA = {
             "Explain the principles of Agile working and the Agile Manifesto",
             "Compare Agile (Scrum, Kanban) and traditional waterfall project management",
             "Describe how finance functions can adopt Agile approaches in planning and reporting",
+          ],
+          keyTerms: [
+            { term: "Agile", definition: "An iterative approach to project management and software development emphasising flexibility, collaboration and continuous delivery of working outputs in short cycles (sprints)." },
+            { term: "Scrum", definition: "The most widely used Agile framework: work is organised into time-boxed sprints (2–4 weeks), with daily stand-ups, sprint reviews and retrospectives." },
+            { term: "Sprint", definition: "A fixed time period (typically 2 weeks) in which a Scrum team completes a set of agreed tasks from the product backlog." },
+            { term: "Minimum Viable Product (MVP)", definition: "The smallest version of a product that delivers enough value to early users and allows a team to collect feedback for further development." },
+            { term: "Product Backlog", definition: "An ordered list of features, enhancements, bug fixes and tasks to be delivered by the development team, managed by the product owner." },
           ],
           explanation:
             "<h4>What is Agile?</h4>" +
@@ -11409,6 +12305,13 @@ const AIQ_COURSE_DATA = {
             "Explain common barriers to change and strategies to overcome resistance",
             "Describe the role of communication and stakeholder engagement in change programmes",
           ],
+          keyTerms: [
+            { term: "Change Management", definition: "The structured approach to transitioning individuals and organisations from a current state to a desired future state, managing the people side of change." },
+            { term: "Kotter's 8-Step Model", definition: "A change management framework: Create urgency, Build a coalition, Form a vision, Communicate, Remove obstacles, Create quick wins, Build on change, Anchor the change." },
+            { term: "Resistance to Change", definition: "Individual or organisational opposition to change, driven by fear of the unknown, loss of status, disruption to routine or distrust of leadership motives." },
+            { term: "Change Agents", definition: "Individuals who champion and facilitate change within an organisation, bridging leadership and those affected and helping to embed new ways of working." },
+            { term: "Cultural Change", definition: "A shift in the shared values, beliefs and behaviours of an organisation. The hardest and slowest type of change; requires consistent leadership behaviour over time." },
+          ],
           explanation:
             "<h4>Why Change Management is Critical for Digital Transformation</h4>" +
             "<p>Research consistently shows that 70% of change programmes fail to achieve their objectives. The most common reason is not poor technology or strategy — it is the <em>human</em> dimension: resistance, lack of engagement, unclear communication, and insufficient leadership commitment. Digital transformation in finance involves significant behavioural change: new systems, new processes, new skills, new ways of working. Without effective change management, even the best technology implementation will fail.</p>" +
@@ -11513,6 +12416,13 @@ const AIQ_COURSE_DATA = {
             "Apply Maslow, Herzberg and McClelland motivation theories to finance professionals",
             "Explain virtual and cross-functional team management challenges",
           ],
+          keyTerms: [
+            { term: "Transformational Leadership", definition: "A leadership style that inspires followers to exceed expectations through a compelling vision, intellectual stimulation and individual consideration." },
+            { term: "Situational Leadership", definition: "Hersey and Blanchard's model: effective leaders adapt their style (directing, coaching, supporting, delegating) based on each follower's competence and commitment level." },
+            { term: "Motivation Theory", definition: "Theories explaining what drives human behaviour at work. Key theories: Maslow's hierarchy of needs, Herzberg's two-factor theory, and McClelland's needs theory." },
+            { term: "Psychological Safety", definition: "A team climate where individuals feel safe to speak up, take risks and admit mistakes without fear of punishment. Essential for innovation and learning." },
+            { term: "Team Dynamics", definition: "The behavioural and psychological forces that influence a team's direction and performance. Tuckman's model: forming, storming, norming, performing." },
+          ],
           explanation:
             "<h4>Situational Leadership</h4>" +
             "<p>The <strong>Situational Leadership</strong> model (Hersey and Blanchard) proposes that there is no single 'best' leadership style — effective leaders adapt their style to match the needs of the individual or team in each specific situation. The appropriate style depends on the follower's <strong>development level</strong> — their combination of competence (skills, knowledge) and commitment (motivation, confidence).</p>" +
@@ -11612,6 +12522,13 @@ const AIQ_COURSE_DATA = {
             "Define ESG and explain its importance to investors, regulators and society",
             "Describe the GRI Standards, TCFD framework and IFRS Sustainability Disclosure Standards",
             "Explain the role of the management accountant in sustainability reporting and the SDGs",
+          ],
+          keyTerms: [
+            { term: "ESG (Environmental, Social, Governance)", definition: "Three criteria used by investors and stakeholders to evaluate the sustainability and ethical impact of an organisation beyond financial performance." },
+            { term: "Sustainable Development Goals (SDGs)", definition: "The UN's 17 global goals for 2030, ranging from zero hunger to climate action, providing a framework for corporate sustainability reporting and strategy." },
+            { term: "TCFD (Task Force on Climate-related Financial Disclosures)", definition: "A framework requiring disclosure of climate-related financial risks and opportunities across governance, strategy, risk management, and metrics/targets." },
+            { term: "Net Zero", definition: "A state where greenhouse gas emissions are balanced by removals. The UK government's legally binding target is net zero by 2050." },
+            { term: "Integrated Reporting (<IR>)", definition: "A reporting framework connecting financial performance with value creation across six capitals, communicating long-term sustainability to investors." },
           ],
           explanation:
             "<h4>What is ESG?</h4>" +
@@ -11731,6 +12648,13 @@ const AIQ_COURSE_DATA = {
             "Prepare job cost sheets and calculate profit or loss on individual jobs",
             "Distinguish between job costing and batch costing and explain when each is used",
           ],
+          keyTerms: [
+            { term: "Job Costing", definition: "A costing method collecting costs for each unique, individual job or contract. Used where products are made to customer specification." },
+            { term: "Batch Costing", definition: "A form of job costing where a batch of identical products is treated as a single cost unit. Unit cost = total batch cost / number of units." },
+            { term: "Job Card", definition: "A document recording all costs incurred on a specific job: materials issued, labour hours worked and overhead absorbed." },
+            { term: "Cost Unit", definition: "The unit of product or service for which costs are separately ascertained. For job costing, each job is a cost unit." },
+            { term: "Overhead Absorption", definition: "Charging a share of indirect overhead costs to each job using a predetermined overhead absorption rate (OAR)." },
+          ],
           explanation:
             "<h4>Job Costing — When and Why</h4>" +
             "<p><strong>Job costing</strong> accumulates costs for each individual job or project separately. It is used when each unit of output is unique and identifiable — the customer specifies requirements, and the job is carried out to those specifications. Examples: construction projects, bespoke engineering, advertising campaign production, specialist legal work, printing to order.</p>" +
@@ -11834,6 +12758,13 @@ const AIQ_COURSE_DATA = {
             "Prepare process accounts with normal loss, abnormal loss and abnormal gain",
             "Value output and losses using the weighted average and FIFO methods",
           ],
+          keyTerms: [
+            { term: "Process Costing", definition: "A costing method used in continuous mass-production where output passes through a series of stages. Costs are averaged across all output." },
+            { term: "Normal Loss", definition: "The expected, unavoidable loss from a process, expressed as a percentage of input. Its cost is borne by good output." },
+            { term: "Abnormal Loss", definition: "Loss in excess of the normal loss. Costed at the same rate as good output and written off to the income statement as an expense." },
+            { term: "Abnormal Gain", definition: "When actual loss is less than normal loss. Reduces the cost borne by good output; valued at the cost per unit of good output." },
+            { term: "Equivalent Units", definition: "A technique converting partially complete WIP into an equivalent number of fully completed units, enabling cost per unit to be calculated." },
+          ],
           explanation:
             "<h4>What is Process Costing?</h4>" +
             "<p><strong>Process costing</strong> is used when production is a continuous, homogeneous process where individual units cannot be distinguished from each other and pass through a sequence of processing stages. It is appropriate for: chemical manufacture, oil refining, food processing (milling, canning), paper making, paint manufacture, brewing.</p>" +
@@ -11926,6 +12857,13 @@ const AIQ_COURSE_DATA = {
             "Apportion joint costs using sales value and physical quantity methods",
             "Account for by-product income in process accounts",
           ],
+          keyTerms: [
+            { term: "Joint Products", definition: "Two or more products produced simultaneously from a common input process, each with significant sales value (e.g. cream and skimmed milk from whole milk processing)." },
+            { term: "By-Product", definition: "A product incidentally produced from the main process with a low sales value. By-product net realisable value is credited against joint process costs." },
+            { term: "Joint Cost", definition: "The common cost incurred up to the split-off point before individual products can be separately identified. Cannot be attributed to a specific product." },
+            { term: "Split-Off Point", definition: "The stage in the production process at which joint products become separately identifiable and can be sold or processed further." },
+            { term: "Further Processing Decision", definition: "A joint product should be processed further beyond the split-off point only if the incremental revenue from further processing exceeds the incremental cost." },
+          ],
           explanation:
             "<h4>Joint Products and the Split-Off Point</h4>" +
             "<p>In some processes, a single input produces two or more <em>main products</em> simultaneously — these are <strong>joint products</strong>. They are produced from the same inputs and process up to the <strong>split-off point</strong>, where they can be separately identified.</p>" +
@@ -12004,6 +12942,13 @@ const AIQ_COURSE_DATA = {
             "Explain the characteristics of service organisations that affect costing",
             "Define appropriate cost units for different service industries",
             "Calculate composite cost units and interpret unit cost data",
+          ],
+          keyTerms: [
+            { term: "Service Costing", definition: "Costing for service businesses where intangible output is provided rather than physical goods. Cost unit is often a composite measure." },
+            { term: "Composite Cost Unit", definition: "A cost unit combining two variables to reflect the nature of the service, such as cost per passenger-kilometre or cost per bed-night." },
+            { term: "In-House vs Outsource", definition: "A decision whether to provide a service internally or contract it externally. Compare the marginal cost of in-house provision against the external price." },
+            { term: "Cost per Service Unit", definition: "Total cost / Number of service units. Enables comparison of efficiency over time or against benchmarks." },
+            { term: "Fixed vs Variable Service Costs", definition: "Service businesses often have high fixed costs (staff salaries, premises) and low variable costs, creating high operating leverage." },
           ],
           explanation:
             "<h4>Why Service Costing is Different</h4>" +
@@ -12103,6 +13048,13 @@ const AIQ_COURSE_DATA = {
             "Define activities, cost pools and cost drivers in the ABC framework",
             "Describe when ABC is most likely to improve cost accuracy over traditional methods",
           ],
+          keyTerms: [
+            { term: "Activity-Based Costing (ABC)", definition: "A costing method assigning overhead costs to products based on the activities that cause those costs, using cost drivers as the basis of allocation." },
+            { term: "Cost Pool", definition: "The total overhead cost accumulated for a specific activity. Divided by the cost driver quantity to calculate the activity rate." },
+            { term: "Cost Driver", definition: "The factor that causes the cost of an activity to change (e.g. number of purchase orders drives purchasing activity cost)." },
+            { term: "Overhead Distortion", definition: "The inaccurate product costing produced by traditional volume-based absorption: high-volume simple products are over-costed; low-volume complex products are under-costed." },
+            { term: "Traditional Absorption Costing", definition: "Overhead is absorbed into products using a single volume-based rate (e.g. per direct labour hour). Suitable when products consume overhead in proportion to volume." },
+          ],
           explanation:
             "<h4>The Problem with Traditional Absorption Costing</h4>" +
             "<p>Traditional absorption costing (TAC) absorbs overheads using a single volume-based rate (typically direct labour hours or machine hours). This was appropriate when most costs were labour-related and product variety was low. In modern manufacturing and service environments, overheads are large and diverse — driven by many different activities, not just volume.</p>" +
@@ -12191,6 +13143,13 @@ const AIQ_COURSE_DATA = {
             "Compare ABC product costs with traditional absorption costing results",
             "Evaluate the strategic implications of switching to ABC for pricing and product mix",
           ],
+          keyTerms: [
+            { term: "Activity Rate", definition: "The overhead cost per unit of cost driver: Activity Rate = Total cost pool / Total units of cost driver." },
+            { term: "Cost per Unit (ABC)", definition: "The ABC product cost per unit, calculated by dividing total activity costs allocated to a product by the number of units produced." },
+            { term: "ABC vs Absorption Costing", definition: "ABC produces more accurate product costs than traditional absorption for companies with diverse products and overhead driven by non-volume factors." },
+            { term: "High-Volume Products (ABC)", definition: "Under ABC, high-volume simple products typically receive less overhead than under traditional absorption — they have lower complexity and fewer transactions per unit." },
+            { term: "Low-Volume Products (ABC)", definition: "Low-volume complex products typically receive more overhead under ABC — they require proportionally more setups, orders and engineering changes per unit." },
+          ],
           explanation:
             "<h4>ABC Full Calculation Framework</h4>" +
             "<p>A complete ABC system follows five steps:</p>" +
@@ -12274,6 +13233,13 @@ const AIQ_COURSE_DATA = {
             "Explain the Theory of Constraints and the concept of the bottleneck",
             "Calculate throughput accounting ratio (TPAR) and interpret results",
             "Use TPAR to prioritise production and identify actions to improve throughput",
+          ],
+          keyTerms: [
+            { term: "Throughput", definition: "Selling price minus direct material cost only. All other costs are treated as 'operating expenses' (fixed costs of the system) in throughput accounting." },
+            { term: "Bottleneck", definition: "The resource constraining total output: the production process or machine with the lowest capacity determines maximum throughput for the whole system." },
+            { term: "Theory of Constraints (ToC)", definition: "Goldratt's theory: a system's output is limited by its bottleneck. Management should focus on exploiting, elevating and managing the constraint." },
+            { term: "Return Per Factory Hour", definition: "Throughput per unit / Time per unit on the bottleneck resource. Used to rank products when the bottleneck is time-constrained." },
+            { term: "Throughput Accounting Ratio (TA Ratio)", definition: "Return per factory hour / Operating cost per factory hour. A ratio above 1 indicates the product is making a positive contribution to covering operating expenses." },
           ],
           explanation:
             "<h4>Theory of Constraints (Goldratt)</h4>" +
@@ -12363,6 +13329,13 @@ const AIQ_COURSE_DATA = {
             "Explain target costing and calculate the cost gap between target and estimated cost",
             "Describe value engineering techniques used to close the cost gap",
             "Apply lifecycle costing to evaluate total costs across a product's life",
+          ],
+          keyTerms: [
+            { term: "Target Costing", definition: "A market-driven approach: Target cost = Target selling price − Desired profit margin. The design and engineering team must achieve this cost before the product launches." },
+            { term: "Target Price", definition: "The market-driven selling price determined by competitive analysis and customer willingness to pay, not by cost-plus methods." },
+            { term: "Cost Gap", definition: "Target cost minus estimated cost. If the gap is positive (cost too high), the product must be redesigned or value-engineered to close the gap before launch." },
+            { term: "Lifecycle Costing", definition: "Accumulating costs over the entire life of a product (development, production, sales, and end-of-life). Reveals the true total cost including post-sale obligations." },
+            { term: "Value Engineering", definition: "A systematic approach to reducing product costs by analysing each component's function and finding lower-cost ways to deliver the same value." },
           ],
           explanation:
             "<h4>Target Costing — Market-Led Costing</h4>" +
@@ -12472,6 +13445,13 @@ const AIQ_COURSE_DATA = {
             "Explain market skimming, penetration pricing and their appropriate use",
             "Calculate cost-plus prices using full cost and marginal cost bases",
           ],
+          keyTerms: [
+            { term: "Cost-Plus Pricing", definition: "Setting price by adding a mark-up or margin to the product's cost. Simple to apply but ignores market demand and competitor behaviour." },
+            { term: "Mark-Up", definition: "Profit expressed as a percentage of cost: if cost is £80 and price is £100, mark-up = 25%." },
+            { term: "Market Skimming", definition: "Setting a high initial price to capture consumer surplus from early adopters, then reducing price over time as the market matures." },
+            { term: "Penetration Pricing", definition: "Setting a low initial price to gain market share quickly. Suitable for elastic demand markets; risks triggering competitive price reductions." },
+            { term: "Going Rate Pricing", definition: "Setting price in line with the industry norm or competitors' prices, regardless of individual cost structure. Common in commodity markets." },
+          ],
           explanation:
             "<h4>Overview of Pricing Strategies</h4>" +
             "<p>Pricing is one of the most important and complex decisions a business makes. The right price must recover costs, generate target profit, and attract customers at a volume that is commercially viable. There is no single 'correct' pricing method — the right approach depends on the market, the product, the competitive landscape, and the organisation's strategic objectives.</p>" +
@@ -12551,6 +13531,13 @@ const AIQ_COURSE_DATA = {
             "Use the demand function to find the profit-maximising price and quantity",
             "Explain how price elasticity affects the relationship between price and total revenue",
           ],
+          keyTerms: [
+            { term: "Price Elasticity of Demand (PED)", definition: "Measures how sensitive quantity demanded is to a price change. PED = % change in Qd / % change in price. |PED| > 1 is elastic." },
+            { term: "Demand Function", definition: "A mathematical expression of the relationship between price and quantity demanded: Q = a − bP (linear demand). As P rises, Q falls." },
+            { term: "Inverse Demand Function", definition: "Expressing price as a function of quantity: P = a/b − (1/b)Q. Used to determine the price that will sell a given quantity." },
+            { term: "Elastic Demand", definition: "|PED| > 1: a price increase causes a proportionally larger fall in demand, reducing total revenue. Reducing price increases total revenue." },
+            { term: "Inelastic Demand", definition: "|PED| < 1: demand is relatively unresponsive to price changes. Increasing price raises total revenue; reducing price reduces it." },
+          ],
           explanation:
             "<h4>Price Elasticity of Demand (PED)</h4>" +
             "<p><strong>Price elasticity of demand (PED)</strong> measures the responsiveness of quantity demanded to a change in price:</p>" +
@@ -12626,6 +13613,13 @@ const AIQ_COURSE_DATA = {
             "Derive the marginal revenue function from the demand function",
             "Apply the profit-maximising rule: set output where MR = MC",
             "Calculate the optimal price and quantity and verify with the demand equation",
+          ],
+          keyTerms: [
+            { term: "Marginal Revenue (MR)", definition: "The additional revenue from selling one more unit. For a monopolist facing a downward-sloping demand curve, MR falls faster than price and equals zero at the revenue-maximising output." },
+            { term: "Marginal Cost (MC)", definition: "The additional cost of producing one more unit. In the short run, typically assumed to be constant (equal to variable cost per unit)." },
+            { term: "Profit Maximisation Rule", definition: "Profit is maximised where MR = MC. Producing beyond this point reduces profit; producing less leaves profit on the table." },
+            { term: "Optimal Price", definition: "The price charged at the profit-maximising output level. Found by substituting the profit-maximising quantity back into the demand/inverse demand function." },
+            { term: "Total Revenue (TR)", definition: "Price × Quantity. TR is maximised where MR = 0, which occurs at the midpoint of a linear demand curve where PED = 1." },
           ],
           explanation:
             "<h4>The Profit-Maximising Rule: MR = MC</h4>" +
@@ -12714,6 +13708,13 @@ const AIQ_COURSE_DATA = {
             "Apply relevant costing to make-or-buy, special order and shutdown decisions",
             "Explain the treatment of sunk costs, committed costs and opportunity costs",
           ],
+          keyTerms: [
+            { term: "Relevant Cost", definition: "A future, incremental cash cost that differs between decision alternatives. Only relevant costs matter in short-term decisions." },
+            { term: "Sunk Cost", definition: "A cost already incurred and non-recoverable. Irrelevant to future decisions — will not change regardless of the action taken." },
+            { term: "Opportunity Cost", definition: "The value of the best alternative forgone. Always relevant when a scarce resource has an alternative use." },
+            { term: "Contribution", definition: "Selling price minus variable cost per unit. The relevant profit measure for short-term decisions when fixed costs are unchanged." },
+            { term: "Make or Buy", definition: "Decision: compare the variable cost of making internally vs the purchase price, adjusted for any freed capacity opportunity." },
+          ],
           explanation:
             "<h4>Relevant Costs and Revenues</h4>" +
             "<p><strong>Relevant costs</strong> are future, incremental, cash costs that change as a direct result of the decision being made. Only relevant costs and revenues should be considered when making short-run decisions.</p>" +
@@ -12793,6 +13794,13 @@ const AIQ_COURSE_DATA = {
             "Explain risk and uncertainty in the context of management decisions",
             "Calculate expected values (EVs) and use them in decision tables",
             "Describe the limitations of expected value as a decision criterion",
+          ],
+          keyTerms: [
+            { term: "Expected Value (EV)", definition: "The weighted average outcome, calculated by multiplying each possible outcome by its probability and summing: EV = Σ(probability × payoff)." },
+            { term: "Payoff Table", definition: "A matrix showing the financial outcome for each combination of decision and state of the world, used to calculate expected values." },
+            { term: "Risk", definition: "Situations where outcomes are uncertain but probabilities can be estimated (e.g. from historical data). Distinguishable from uncertainty where probabilities cannot be estimated." },
+            { term: "Expected Value Limitation", definition: "EV is a long-run average and may not represent any single possible outcome. Decision-makers may be risk-averse and prefer a lower certain outcome to a higher risky EV." },
+            { term: "Risk Aversion", definition: "The preference for a certain outcome over a gamble with the same expected value. Most managers are risk-averse, particularly for large, non-repeatable decisions." },
           ],
           explanation:
             "<h4>Risk vs Uncertainty</h4>" +
@@ -12876,6 +13884,13 @@ const AIQ_COURSE_DATA = {
             "Apply backward induction (rollback) to select the optimal strategy",
             "Evaluate the value of perfect and imperfect information",
           ],
+          keyTerms: [
+            { term: "Decision Tree", definition: "A diagram used to map out a multi-stage decision under uncertainty, showing decision nodes, chance nodes, probabilities and payoffs." },
+            { term: "Decision Node", definition: "A square on a decision tree representing a point where the decision-maker makes a choice between alternatives." },
+            { term: "Chance Node", definition: "A circle on a decision tree representing a point where an uncertain outcome occurs, with associated probabilities." },
+            { term: "Roll-Back Technique", definition: "Solving a decision tree from right to left: calculate EVs at each chance node, then choose the best decision at each decision node." },
+            { term: "Sequential Decisions", definition: "Decisions that are made in stages, with later decisions depending on the outcomes of earlier ones. Decision trees are ideal for modelling these." },
+          ],
           explanation:
             "<h4>Decision Trees — Structure</h4>" +
             "<p>A <strong>decision tree</strong> is a diagram that maps out a sequence of decisions and chance events to show all possible paths and their outcomes. They are particularly useful for multi-stage decisions where an initial decision leads to further chance events, which may then lead to further decisions.</p>" +
@@ -12952,6 +13967,13 @@ const AIQ_COURSE_DATA = {
             "Apply the maximax decision rule and explain its risk-seeking logic",
             "Construct a regret table and apply the minimax regret criterion",
           ],
+          keyTerms: [
+            { term: "Maximin", definition: "A pessimistic decision rule: choose the strategy that maximises the minimum possible payoff. Suitable for risk-averse decision-makers." },
+            { term: "Maximax", definition: "An optimistic decision rule: choose the strategy that maximises the maximum possible payoff. Suitable for risk-seeking decision-makers." },
+            { term: "Minimax Regret", definition: "Minimise the maximum regret (opportunity loss) from choosing the wrong strategy. Regret = Best payoff in a state − Actual payoff chosen." },
+            { term: "Regret Table", definition: "A matrix showing the opportunity loss (regret) for each combination of strategy and state of the world. Derived from the payoff table." },
+            { term: "Decision Criteria Under Uncertainty", definition: "When probabilities cannot be estimated, non-EV criteria are used: maximin (pessimist), maximax (optimist), minimax regret (regret minimiser)." },
+          ],
           explanation:
             "<h4>Decision Criteria Without Probabilities</h4>" +
             "<p>When probabilities of outcomes are not known (true uncertainty), alternative decision criteria are used. The three main non-probabilistic criteria are: Maximin (risk-averse), Maximax (risk-seeking), and Minimax Regret (regret-minimising).</p>" +
@@ -13026,6 +14048,13 @@ const AIQ_COURSE_DATA = {
             "Formulate a linear programming problem with an objective function and constraints",
             "Solve a two-variable LP problem using the graphical method",
             "Interpret the optimal solution and shadow prices for scarce resources",
+          ],
+          keyTerms: [
+            { term: "Linear Programming (LP)", definition: "A mathematical technique optimising an objective function (maximise contribution or minimise cost) subject to linear constraints." },
+            { term: "Objective Function", definition: "The expression to be maximised (contribution) or minimised (cost) in a linear programming problem." },
+            { term: "Constraint", definition: "A resource limitation expressed as a linear inequality, e.g. 2x + 3y ≤ 600 (machine hours). The feasible region satisfies all constraints simultaneously." },
+            { term: "Feasible Region", definition: "The set of all solutions satisfying every constraint. The optimal solution lies at one of the vertices (corners) of the feasible region." },
+            { term: "Shadow Price (LP)", definition: "The increase in optimal contribution from relaxing a binding constraint by one unit. Represents the maximum premium worth paying for an additional unit of the scarce resource." },
           ],
           explanation:
             "<h4>What is Linear Programming?</h4>" +
@@ -13107,6 +14136,13 @@ const AIQ_COURSE_DATA = {
             "Explain activity-based budgeting and its link to ABC costing",
             "Describe rolling (continuous) budgets and their advantages over annual budgets",
             "Apply zero-based budgeting (ZBB) methodology and evaluate when it is appropriate",
+          ],
+          keyTerms: [
+            { term: "Zero-Based Budgeting (ZBB)", definition: "All budget lines start at zero each period; every expenditure must be justified from scratch. Eliminates incremental budget drift but is time-intensive." },
+            { term: "Activity-Based Budgeting (ABB)", definition: "Budgets are built from the cost of activities required to meet the planned output level, using the same cost drivers as ABC. Directly links resources to activities." },
+            { term: "Rolling Budget", definition: "A budget that is continuously updated by adding a new period (e.g. month or quarter) as the most recent period ends, maintaining a fixed planning horizon." },
+            { term: "Incremental Budgeting", definition: "Starting with last year's budget and adjusting for known changes. Simple but entrenches existing spending patterns and encourages budget padding." },
+            { term: "Participative Budgeting", definition: "Budget holders are involved in setting their own budgets. Improves motivation and information quality but risks budget slack." },
           ],
           explanation:
             "<h4>The Limitations of Incremental Budgeting</h4>" +
@@ -13207,6 +14243,13 @@ const AIQ_COURSE_DATA = {
             "Describe the Beyond Budgeting model and its twelve principles",
             "Evaluate the practical challenges of implementing Beyond Budgeting",
           ],
+          keyTerms: [
+            { term: "Beyond Budgeting", definition: "A management model abandoning the annual fixed budget in favour of relative performance targets, adaptive planning and decentralised decision-making." },
+            { term: "Rolling Forecast", definition: "A continuously updated forecast (e.g. 12 months forward) revised each month or quarter, providing a more current view of expected performance than the annual budget." },
+            { term: "Relative Targets", definition: "Performance measured against external benchmarks (market growth, competitor performance) rather than internal fixed budget targets, reducing gaming incentives." },
+            { term: "Adaptive Management", definition: "Responding dynamically to changing conditions rather than following a rigid annual plan. Requires timely, reliable management information." },
+            { term: "Budget Slack", definition: "Deliberately understating revenue or overstating costs in the budget to make targets easier to achieve. A consequence of fixed performance contracts linked to budget." },
+          ],
           explanation:
             "<h4>The Case Against Traditional Budgeting</h4>" +
             "<p>Despite its near-universal use, traditional annual budgeting has attracted fierce criticism from academics and practitioners. The main charges against it include:</p>" +
@@ -13298,6 +14341,13 @@ const AIQ_COURSE_DATA = {
             "Explain budget padding (slack) and how it distorts resource allocation",
             "Describe participative budgeting and its effects on motivation and bias",
             "Explain gaming behaviour and dysfunctional actions caused by budget targets",
+          ],
+          keyTerms: [
+            { term: "Budget Slack", definition: "The deliberate padding of budget estimates — understating revenues or overstating costs — to create an easier performance target. Also called budgetary slack or padding." },
+            { term: "Gaming", definition: "Manipulating actual performance or accounting figures to achieve budget targets, rather than improving genuine performance." },
+            { term: "Aspiration Level", definition: "The minimum level of performance an individual considers satisfactory. Participative budgeting works best when targets align with the individual's aspiration level." },
+            { term: "Dysfunctional Behaviour", definition: "Actions taken by managers that improve their reported performance but are harmful to the organisation as a whole, e.g. cutting maintenance to reduce costs before year-end." },
+            { term: "Budget Pressure", definition: "The stress placed on managers by tight budget targets. Excessive pressure increases the risk of gaming, budget slack and dysfunctional behaviour." },
           ],
           explanation:
             "<h4>Why Behaviour Matters in Budgeting</h4>" +
@@ -13391,6 +14441,13 @@ const AIQ_COURSE_DATA = {
             "Explain the advantages and criticisms of standard costing in modern environments",
             "Reconcile budgeted and actual profit using a standard costing framework",
           ],
+          keyTerms: [
+            { term: "Standard Cost", definition: "A predetermined cost per unit set at the start of the period as the benchmark against which actual costs are compared." },
+            { term: "Attainable Standard", definition: "A standard that can be achieved under efficient operating conditions, allowing for normal levels of waste and machine downtime. The most commonly used type." },
+            { term: "Ideal Standard", definition: "A standard achievable only under perfect conditions with no waste, idle time or downtime. Generally considered motivationally demotivating as it is never achieved." },
+            { term: "Basic Standard", definition: "A long-term standard that rarely changes, used as a base for measuring trends over time. May become out of date as conditions change." },
+            { term: "Standard Setting Process", definition: "Determining standard costs involves engineering studies (for direct labour and materials) and analysis of overhead budgets, requiring input from operations, procurement and finance." },
+          ],
           explanation:
             "<h4>What is Standard Costing?</h4>" +
             "<p>Standard costing is a control technique that establishes <strong>predetermined (standard) costs</strong> for products or services and then compares these with actual costs incurred. The difference is a <strong>variance</strong> — favourable (F) if actual cost is lower than standard, adverse (A) if higher.</p>" +
@@ -13480,6 +14537,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the materials mix variance (actual mix vs standard mix at actual total quantity)",
             "Calculate the materials yield variance (standard yield vs actual yield at standard mix)",
           ],
+          keyTerms: [
+            { term: "Material Mix Variance", definition: "The variance arising from using a different mix of materials than standard: (Actual total in standard mix − Actual total in actual mix) × Standard cost per unit." },
+            { term: "Material Yield Variance", definition: "The variance arising from the yield of output being different from standard: (Actual yield − Standard yield from actual input) × Standard cost per unit of output." },
+            { term: "Standard Mix", definition: "The planned proportion of each material input specified in the standard recipe. Deviating from this proportion creates a mix variance." },
+            { term: "Process Efficiency", definition: "The relationship between material input and output. Lower actual output than expected from actual input creates an adverse yield variance." },
+            { term: "Sub-Variance Relationship", definition: "Material Mix + Material Yield = Total Material Usage Variance. The two sub-variances always sum to the usage variance calculated in a standard standard costing system." },
+          ],
           explanation:
             "<h4>Why Subdivide the Materials Usage Variance?</h4>" +
             "<p>In industries where a product is made from a <strong>mixture</strong> of inputs — chemicals, food manufacturing, blended fuels, alloys — the materials usage variance can be split into two components that tell different stories:</p>" +
@@ -13566,6 +14630,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the sales mix variance using the contribution approach",
             "Calculate the sales quantity variance and interpret results",
           ],
+          keyTerms: [
+            { term: "Sales Mix Variance", definition: "The effect on profit of selling a different mix of products than budgeted: (Actual sales in budget mix − Actual sales in actual mix) × Standard contribution per unit." },
+            { term: "Sales Quantity Variance", definition: "The effect on profit of selling a different total quantity than budgeted: (Actual total sales − Budgeted total sales) × Weighted average standard contribution." },
+            { term: "Weighted Average Contribution", definition: "The average contribution per unit across all products, weighted by their budgeted sales mix. Used to calculate the sales quantity variance." },
+            { term: "Budget Mix", definition: "The planned proportion of each product in total sales, set when the budget is prepared. Changes from this proportion create a sales mix variance." },
+            { term: "Sub-Variance Relationship (Sales)", definition: "Sales Mix + Sales Quantity = Sales Volume Variance. The two sub-variances decompose the total volume variance into mix and volume effects." },
+          ],
           explanation:
             "<h4>Why Subdivide the Sales Volume Variance?</h4>" +
             "<p>When a business sells <strong>multiple products</strong>, the total sales volume variance only tells us whether total unit sales were above or below budget. It says nothing about whether the relative proportions (mix) of products sold were as planned. A company could sell the right total number of units but sell too many low-margin products and too few high-margin ones — this would show as a zero volume variance but could hide a serious profit shortfall.</p>" +
@@ -13644,6 +14715,13 @@ const AIQ_COURSE_DATA = {
             "Explain why planning variances arise when standards are revised retrospectively",
             "Calculate planning and operational variances for materials, labour and sales",
             "Evaluate the use of planning and operational variances in performance appraisal",
+          ],
+          keyTerms: [
+            { term: "Planning Variance", definition: "The variance caused by the original standard being set incorrectly — comparing the original (ex-ante) standard with a revised (ex-post) standard." },
+            { term: "Operational Variance", definition: "The variance due to operational performance relative to the revised standard — comparing the ex-post standard with actual results." },
+            { term: "Ex-Ante Standard", definition: "The original standard set at the beginning of the period, before actual conditions were known." },
+            { term: "Ex-Post Standard", definition: "A revised standard set after the period, based on conditions that actually existed. Used to separate planning errors from operational performance." },
+            { term: "Variance Cause Analysis", definition: "Identifying whether a variance is due to poor planning (planning variance) or poor operational performance (operational variance), determining who is accountable." },
           ],
           explanation:
             "<h4>The Problem with Traditional Variance Analysis</h4>" +
@@ -13726,6 +14804,13 @@ const AIQ_COURSE_DATA = {
             "Apply statistical control limits (mean ± 2σ) to decide whether to investigate a variance",
             "Identify qualitative factors affecting the investigation decision",
             "Explain interdependencies between variances (e.g., favourable price / adverse usage)",
+          ],
+          keyTerms: [
+            { term: "Variance Investigation", definition: "The process of determining the cause of a variance and whether it is significant enough to warrant corrective management action." },
+            { term: "Control Limits", definition: "Upper and lower boundaries defining acceptable variance. Variances within limits are not investigated; those beyond are subject to management review." },
+            { term: "Management by Exception", definition: "Focusing management attention on significant variances from plan rather than reviewing all results. Improves efficiency of management control." },
+            { term: "Significance Test", definition: "Using probability-based criteria (e.g. 2 standard deviations from mean) to determine whether a variance is likely due to chance or to an assignable cause." },
+            { term: "Corrective Action", definition: "Steps taken in response to an adverse variance to restore performance to standard. May include renegotiating supplier prices, retraining staff or adjusting the process." },
           ],
           explanation:
             "<h4>The Investigation Decision</h4>" +
@@ -13812,6 +14897,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purpose and limitations of performance measurement systems",
             "Describe the criteria for effective KPIs (SMART framework)",
             "Distinguish between financial and non-financial performance measures",
+          ],
+          keyTerms: [
+            { term: "SMART Objectives", definition: "Performance targets should be Specific, Measurable, Achievable, Relevant and Time-bound to be useful for management control." },
+            { term: "Non-Financial KPIs", definition: "Performance measures not in monetary terms: customer satisfaction, employee retention, quality defect rate, on-time delivery. Lead indicators for future financial results." },
+            { term: "Benchmarking", definition: "Comparing KPI performance against a reference point: internal (prior periods), competitive (same industry) or best-in-class (leading organisations in any sector)." },
+            { term: "Performance Dashboard", definition: "A visual display of key performance indicators, typically using traffic-light coding, updated in real time or at regular intervals to support management decision-making." },
+            { term: "Leading vs Lagging KPIs", definition: "Lead indicators predict future performance (e.g. pipeline value, employee engagement); lag indicators measure past results (e.g. revenue, profit). Both are needed." },
           ],
           explanation:
             "<h4>Why Measure Performance?</h4>" +
@@ -13905,6 +14997,13 @@ const AIQ_COURSE_DATA = {
             "Develop a strategy map linking objectives across the four perspectives",
             "Evaluate the Balanced Scorecard's advantages over purely financial measurement",
           ],
+          keyTerms: [
+            { term: "Balanced Scorecard", definition: "Kaplan and Norton's performance management framework linking financial and non-financial measures across four perspectives: financial, customer, internal process, and learning and growth." },
+            { term: "Financial Perspective", definition: "How do shareholders see us? Measures: revenue growth, profit margin, ROCE, EVA. Lag indicators of financial performance." },
+            { term: "Customer Perspective", definition: "How do customers see us? Measures: market share, customer satisfaction scores, retention rates, on-time delivery. Lead indicators for financial performance." },
+            { term: "Internal Process Perspective", definition: "What must we excel at? Measures: cycle time, defect rates, new product development time. The processes that drive customer and financial outcomes." },
+            { term: "Learning and Growth Perspective", definition: "How can we continue to improve? Measures: employee skills, training investment, information system quality, employee satisfaction. The foundation enabling the other three perspectives." },
+          ],
           explanation:
             "<h4>Origins and Purpose</h4>" +
             "<p>The Balanced Scorecard (BSC) was developed by Robert Kaplan and David Norton in the early 1990s in response to evidence that companies relying solely on financial measures were making poor strategic decisions. The BSC is a strategic management framework that translates an organisation's vision and strategy into a coherent set of performance measures across <strong>four perspectives</strong>.</p>" +
@@ -13987,6 +15086,13 @@ const AIQ_COURSE_DATA = {
             "Calculate Return on Investment (ROI) and explain its advantages and limitations",
             "Calculate Residual Income (RI) and explain how it overcomes ROI's shortcomings",
             "Assess investment decisions using ROI and RI and identify dysfunctional behaviour",
+          ],
+          keyTerms: [
+            { term: "Return on Investment (ROI)", definition: "Divisional profit / Divisional net assets × 100%. A relative measure of divisional performance; can discourage investment in positive NPV projects if they reduce the division's ROI." },
+            { term: "Residual Income (RI)", definition: "Divisional profit minus a notional capital charge (net assets × cost of capital). An absolute measure that encourages investment in positive NPV projects." },
+            { term: "Cost of Capital", definition: "The minimum required rate of return on invested capital. Used as the notional interest rate in the residual income calculation." },
+            { term: "Goal Congruence", definition: "When divisional managers' self-interested decisions are also optimal for the organisation as a whole. RI tends to encourage more goal-congruent decisions than ROI." },
+            { term: "Asset Base", definition: "The investment base used in ROI/RI calculations: typically net book value of divisional assets. Choice of gross vs net assets and depreciation method affects comparability." },
           ],
           explanation:
             "<h4>The Divisionalisation Context</h4>" +
@@ -14078,6 +15184,13 @@ const AIQ_COURSE_DATA = {
             "Calculate EVA with accounting adjustments (add back R&D, operating lease adjustments)",
             "Evaluate the advantages of EVA as a performance measure and its practical difficulties",
           ],
+          keyTerms: [
+            { term: "Economic Value Added (EVA)", definition: "NOPAT minus (Capital employed × WACC). A measure of economic profit: value is created only when returns exceed the full cost of capital, including equity." },
+            { term: "NOPAT (Net Operating Profit After Tax)", definition: "Operating profit adjusted for tax and accounting distortions (e.g. adding back R&D expense, converting operating leases). The numerator of EVA." },
+            { term: "WACC (Weighted Average Cost of Capital)", definition: "The blended cost of all capital sources (debt and equity) weighted by their market value proportions. Represents the return required by all capital providers." },
+            { term: "Accounting Adjustments (EVA)", definition: "EVA requires adjustments to GAAP figures to remove accounting distortions: capitalise R&D and training, remove goodwill amortisation, convert operating leases to finance." },
+            { term: "Economic Profit", definition: "Profit after charging for the opportunity cost of all capital employed (equity and debt). Positive economic profit means the business is creating shareholder value." },
+          ],
           explanation:
             "<h4>What is EVA?</h4>" +
             "<p>Economic Value Added (EVA®) is a performance measure developed and trademarked by Stern Stewart & Co. It is conceptually similar to Residual Income but makes a series of <strong>accounting adjustments</strong> to convert profit from an accounting basis to an economic basis. The fundamental formula is:</p>" +
@@ -14160,6 +15273,13 @@ const AIQ_COURSE_DATA = {
             "Explain the purposes of transfer pricing in divisionalised organisations",
             "Calculate transfer prices using market price, cost-based and negotiated methods",
             "Apply the general transfer pricing rule and evaluate international transfer pricing issues",
+          ],
+          keyTerms: [
+            { term: "Transfer Price", definition: "The internal price charged when one division of an organisation supplies goods or services to another division." },
+            { term: "Market-Based Transfer Price", definition: "Setting transfer price equal to the external market price. Ensures arm's-length transactions and maintains divisional autonomy." },
+            { term: "Cost-Based Transfer Price", definition: "Setting transfer price at the supplying division's cost (variable, full cost or cost-plus). Variable cost is theoretically optimal but provides no profit incentive for the supplier." },
+            { term: "Negotiated Transfer Price", definition: "Transfer price agreed between divisional managers through negotiation. May achieve goal congruence but requires time and management effort." },
+            { term: "Optimal Transfer Price Rule", definition: "Transfer price should be: Marginal cost of supplying division + Opportunity cost per unit (contribution forgone on external sales displaced by internal supply)." },
           ],
           explanation:
             "<h4>What is Transfer Pricing?</h4>" +
@@ -14246,6 +15366,13 @@ const AIQ_COURSE_DATA = {
             "Explain the role of non-financial performance indicators in assessing organisational health",
             "Describe sustainability and ESG metrics and their integration into performance frameworks",
             "Evaluate the challenges of measuring and reporting non-financial performance",
+          ],
+          keyTerms: [
+            { term: "Non-Financial Performance Indicators", definition: "Measures of organisational performance not expressed in monetary terms: quality, customer satisfaction, employee engagement, environmental impact." },
+            { term: "Triple Bottom Line", definition: "A reporting framework measuring performance across Profit (economic), People (social) and Planet (environmental), capturing sustainability alongside financial results." },
+            { term: "ESG Metrics", definition: "Environmental, Social and Governance measures used by investors and stakeholders to evaluate an organisation's sustainability and ethical performance beyond financial results." },
+            { term: "Sustainability Reporting", definition: "Disclosing an organisation's environmental and social impacts alongside financial results, typically using GRI, TCFD or integrated reporting frameworks." },
+            { term: "Balanced Scorecard (Sustainability)", definition: "The learning and growth perspective of the Balanced Scorecard can incorporate sustainability KPIs, linking long-term environmental and social investment to financial outcomes." },
           ],
           explanation:
             "<h4>The Importance of Non-Financial Performance Indicators</h4>" +
@@ -14357,6 +15484,13 @@ const AIQ_COURSE_DATA = {
             "Explain the standard-setting due process (discussion paper, exposure draft, standard)",
             "Distinguish between principles-based (IFRS) and rules-based (US GAAP) frameworks",
           ],
+          keyTerms: [
+            { term: "IASB (International Accounting Standards Board)", definition: "The independent body that develops and issues International Financial Reporting Standards (IFRS). Its standards are used in over 140 countries." },
+            { term: "IFRS (International Financial Reporting Standards)", definition: "Standards issued by the IASB governing the preparation of financial statements for external reporting. Used mandatorily by UK listed companies." },
+            { term: "IAS (International Accounting Standards)", definition: "Standards issued by the IASB's predecessor body (IASC). Many remain in force alongside newer IFRS standards." },
+            { term: "Conceptual Framework", definition: "The IASB's foundational document setting the objective of financial reporting, qualitative characteristics, and definitions of elements (assets, liabilities, equity, income, expenses)." },
+            { term: "Endorsement", definition: "The process by which the UK (post-Brexit) adopts IASB standards into UK law. The UK Endorsement Board reviews new IFRS before they are adopted for use in the UK." },
+          ],
           explanation:
             "<h4>The Need for Global Accounting Standards</h4>" +
             "<p>Financial statements must be understandable to investors, lenders and other stakeholders across borders. Without common standards, a UK investor reading a Chinese company's accounts and a US company's accounts would be comparing incompatible numbers. The globalisation of capital markets has driven convergence towards a single set of high-quality accounting standards.</p>" +
@@ -14439,6 +15573,13 @@ const AIQ_COURSE_DATA = {
             "Explain the objective of general purpose financial reporting and primary users",
             "Describe the qualitative characteristics: fundamental (relevance, faithful representation) and enhancing",
             "Apply the recognition criteria and measurement bases to practical scenarios",
+          ],
+          keyTerms: [
+            { term: "Relevance", definition: "A fundamental qualitative characteristic: financial information is relevant if it has predictive value, confirmatory value, or both, and could make a difference to decisions." },
+            { term: "Faithful Representation", definition: "A fundamental qualitative characteristic: information must be complete, neutral and free from material error to faithfully represent the economic phenomena it purports to represent." },
+            { term: "Comparability", definition: "An enhancing qualitative characteristic: users can identify and understand similarities and differences between items over time or across entities." },
+            { term: "Materiality", definition: "Information is material if its omission or misstatement could influence the economic decisions of users. Materiality is entity-specific — there is no universal threshold." },
+            { term: "Prudence", definition: "Exercising caution under conditions of uncertainty: assets and income are not overstated; liabilities and expenses are not understated. Re-introduced into the Conceptual Framework in 2018." },
           ],
           explanation:
             "<h4>Purpose of the Conceptual Framework</h4>" +
@@ -14529,6 +15670,13 @@ const AIQ_COURSE_DATA = {
             "Identify the components of a complete set of financial statements under IAS 1",
             "Apply the classification of current and non-current assets and liabilities",
             "Explain the requirements for presenting the statement of profit or loss and OCI",
+          ],
+          keyTerms: [
+            { term: "Going Concern", definition: "The assumption that the entity will continue to operate for the foreseeable future. If not appropriate, assets must be measured at liquidation values." },
+            { term: "Comparative Information", definition: "IAS 1 requires at least one year of comparative figures alongside current period amounts in all primary statements." },
+            { term: "Statement of Changes in Equity", definition: "A primary financial statement required by IAS 1 showing all changes in equity: profit, other comprehensive income, dividends and share issues." },
+            { term: "Other Comprehensive Income (OCI)", definition: "Items of income and expense not recognised in profit or loss but in equity. Examples: revaluation gains (IAS 16), fair value changes on FVTOCI instruments (IFRS 9)." },
+            { term: "Aggregation and Disaggregation", definition: "IAS 1 requires material items to be presented separately; immaterial items may be aggregated. Inappropriate aggregation can obscure important information." },
           ],
           explanation:
             "<h4>Purpose and Scope</h4>" +
@@ -14624,6 +15772,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the cost of a PPE asset including directly attributable costs and borrowing costs",
             "Explain the initial measurement of self-constructed assets and assets received in exchange",
           ],
+          keyTerms: [
+            { term: "Property, Plant and Equipment (PPE)", definition: "Tangible non-current assets held for use in production/supply of goods and services, rental, or administrative purposes and expected to be used for more than one period." },
+            { term: "Recognition Criteria (PPE)", definition: "An item is recognised as PPE when it is probable that future economic benefits will flow to the entity and the cost can be reliably measured." },
+            { term: "Cost Model", definition: "PPE carried at cost minus accumulated depreciation and impairment losses. The simplest and most commonly used measurement basis for PPE." },
+            { term: "Revaluation Model", definition: "PPE carried at revalued amount (fair value at revaluation date) minus subsequent depreciation and impairment. Revaluations must be kept sufficiently up to date." },
+            { term: "Capitalisation of Borrowing Costs", definition: "Under IAS 23, borrowing costs directly attributable to the acquisition or construction of a qualifying asset must be capitalised as part of the asset's cost." },
+          ],
           explanation:
             "<h4>Scope and Definition</h4>" +
             "<p>IAS 16 <em>Property, Plant and Equipment</em> applies to tangible assets held for use in the production or supply of goods/services, for rental to others, or for administrative purposes — and expected to be used for more than one period. It excludes investment property (IAS 40), biological assets (IAS 41) and mineral rights (IFRS 6).</p>" +
@@ -14716,6 +15871,13 @@ const AIQ_COURSE_DATA = {
             "Account for revaluation of PPE including the revaluation surplus and deferred tax",
             "Prepare journal entries for the disposal of PPE and calculate gain or loss on disposal",
           ],
+          keyTerms: [
+            { term: "Depreciation", definition: "The systematic allocation of the depreciable amount of an asset over its useful life, matching cost against the economic benefits it generates." },
+            { term: "Revaluation Surplus", definition: "The increase in carrying amount on revaluation, credited to Other Comprehensive Income and accumulated in the revaluation reserve in equity." },
+            { term: "Depreciation of Revalued Asset", definition: "Depreciation is based on the revalued amount, not original cost. The excess depreciation (vs historical cost) is transferred from revaluation reserve to retained earnings." },
+            { term: "Gain/Loss on Disposal (PPE)", definition: "Proceeds from sale minus carrying amount at disposal date. Recognised in profit or loss. Any remaining revaluation reserve is transferred to retained earnings." },
+            { term: "Component Accounting", definition: "Significant parts of an asset with different useful lives must be depreciated separately. Enables more accurate cost allocation when components have different usage patterns." },
+          ],
           explanation:
             "<h4>Depreciation</h4>" +
             "<p>Depreciation is the systematic allocation of an asset's depreciable amount over its useful life. It reflects the consumption of the asset's economic benefits over time. Key principles:</p>" +
@@ -14801,6 +15963,13 @@ const AIQ_COURSE_DATA = {
             "Calculate recoverable amount as the higher of fair value less costs to sell and value in use",
             "Account for impairment losses for individual assets and cash-generating units",
           ],
+          keyTerms: [
+            { term: "Impairment", definition: "A fall in the carrying amount of an asset below its recoverable amount. Recognised as an expense in profit or loss (or in OCI for revalued assets)." },
+            { term: "Recoverable Amount", definition: "The higher of Fair Value Less Costs of Disposal (FVLCD) and Value in Use (VIU). The impairment test compares carrying amount with recoverable amount." },
+            { term: "Value in Use (VIU)", definition: "The present value of future cash flows expected from continuing use and ultimate disposal of an asset. Requires cash flow forecasts and an appropriate discount rate." },
+            { term: "Fair Value Less Costs of Disposal (FVLCD)", definition: "The price that would be received in an orderly arm's-length sale, minus costs directly attributable to the disposal." },
+            { term: "Cash-Generating Unit (CGU)", definition: "The smallest identifiable group of assets that generates cash inflows largely independent of other assets. Used as the level at which impairment is tested when individual asset values cannot be determined." },
+          ],
           explanation:
             "<h4>The Impairment Concept</h4>" +
             "<p>IAS 36 <em>Impairment of Assets</em> requires that an asset is never carried at more than its <strong>recoverable amount</strong> — the economic benefit it can deliver. If an asset's carrying amount exceeds its recoverable amount, it is <strong>impaired</strong> and must be written down.</p>" +
@@ -14885,6 +16054,13 @@ const AIQ_COURSE_DATA = {
             "Explain the recognition criteria for intangible assets under IAS 38",
             "Distinguish between research costs (expensed) and development costs (capitalised if criteria met)",
             "Apply amortisation and impairment to finite-life and indefinite-life intangible assets",
+          ],
+          keyTerms: [
+            { term: "Intangible Asset", definition: "An identifiable non-monetary asset without physical substance, such as patents, trademarks, software and customer lists. Recognised only if identifiable, controlled and with probable future benefits." },
+            { term: "Research (IAS 38)", definition: "Original and planned investigation to gain new knowledge. Research costs must be expensed as incurred — no asset is recognised." },
+            { term: "Development (IAS 38)", definition: "Application of research findings to develop new products/processes. Must be capitalised if all six recognition criteria are met (technical feasibility, intent, ability, resources, probability of future benefits, reliable measurement)." },
+            { term: "Amortisation", definition: "The systematic allocation of an intangible asset's cost over its useful life. Intangibles with indefinite useful lives are not amortised but are tested annually for impairment." },
+            { term: "Internally Generated Goodwill", definition: "Goodwill created by the business itself — not recognised as an asset under IAS 38. Only purchased goodwill (arising on acquisition) is recognised." },
           ],
           explanation:
             "<h4>Definition and Recognition Criteria</h4>" +
@@ -14979,6 +16155,13 @@ const AIQ_COURSE_DATA = {
             "Compare the fair value model and cost model for investment property measurement",
             "Account for transfers between owner-occupied property and investment property",
           ],
+          keyTerms: [
+            { term: "Investment Property", definition: "Property held to earn rentals or for capital appreciation (or both) rather than for use in the owner's own operations. Defined and accounted for under IAS 40." },
+            { term: "Fair Value Model (IAS 40)", definition: "Investment property measured at fair value at each reporting date. Changes in fair value are recognised in profit or loss (not OCI)." },
+            { term: "Cost Model (IAS 40)", definition: "Investment property measured at cost less accumulated depreciation and impairment. The entity must still disclose fair value in the notes." },
+            { term: "Transfer Between Classes", definition: "When a property moves between owner-occupied (IAS 16) and investment property (IAS 40), any revaluation difference is treated consistently with the relevant standard." },
+            { term: "Rental Income", definition: "Income from investment property is recognised in profit or loss on a straight-line basis over the lease term, even if cash flows are uneven." },
+          ],
           explanation:
             "<h4>What is Investment Property?</h4>" +
             "<p>IAS 40 <em>Investment Property</em> defines investment property as property (land or building, or part of a building) held <strong>to earn rentals, for capital appreciation, or both</strong> — rather than for use in production/supply of goods or services (owner-occupied, IAS 16) or for sale in the ordinary course of business (inventory, IAS 2).</p>" +
@@ -15057,6 +16240,13 @@ const AIQ_COURSE_DATA = {
             "Identify the criteria for classifying assets as held for sale under IFRS 5",
             "Measure assets held for sale at the lower of carrying amount and fair value less costs to sell",
             "Present discontinued operations separately in the statement of profit or loss",
+          ],
+          keyTerms: [
+            { term: "Held for Sale Classification", definition: "A non-current asset (or disposal group) is classified as held for sale when it is available for immediate sale in its present condition and the sale is highly probable." },
+            { term: "Measurement (IFRS 5)", definition: "Assets held for sale are measured at the lower of carrying amount and fair value less costs to sell. Depreciation ceases on classification." },
+            { term: "Discontinued Operation", definition: "A component of an entity that has been disposed of or classified as held for sale, representing a separate major line of business or geographical area." },
+            { term: "Presentation (IFRS 5)", definition: "Discontinued operations are presented as a single line in the income statement (net of tax); assets held for sale are presented separately on the balance sheet." },
+            { term: "Highly Probable Sale", definition: "For held-for-sale classification, the sale must be expected to complete within 12 months of classification, and management must have committed to a plan to sell." },
           ],
           explanation:
             "<h4>Purpose and Overview</h4>" +
@@ -15141,6 +16331,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between provisions, contingent liabilities and contingent assets",
             "Measure provisions using best estimate, probability-weighted, and expected value approaches",
           ],
+          keyTerms: [
+            { term: "Provision", definition: "A liability of uncertain timing or amount recognised when there is a present obligation, a probable outflow of resources, and the amount can be reliably estimated." },
+            { term: "Present Obligation", definition: "A provision requires an obligation arising from a past event. Can be legal (from a contract or legislation) or constructive (from a valid expectation created by past practice or communication)." },
+            { term: "Probable Outflow", definition: "Under IAS 37, an outflow is 'probable' if it is more likely than not (>50% probability). If probable, a provision is recognised." },
+            { term: "Contingent Liability", definition: "A possible obligation dependent on a future event, or a present obligation where the outflow is not probable or cannot be measured reliably. Disclosed in notes; not recognised on the balance sheet." },
+            { term: "Onerous Contract", definition: "A contract where the unavoidable costs of meeting the obligations exceed the expected benefits. A provision for the least-cost exit must be recognised." },
+          ],
           explanation:
             "<h4>Why IAS 37 Matters</h4>" +
             "<p>IAS 37 <em>Provisions, Contingent Liabilities and Contingent Assets</em> governs the recognition of obligations that are uncertain in timing or amount. Without it, companies could manipulate profits by creating or reversing provisions opportunistically. IAS 37 imposes rigorous recognition criteria to ensure provisions reflect genuine obligations.</p>" +
@@ -15221,6 +16418,13 @@ const AIQ_COURSE_DATA = {
             "Explain the criteria for recognising revenue at a point in time versus over time",
             "Apply IFRS 15 to common scenarios: licenses, warranties, principal vs agent",
           ],
+          keyTerms: [
+            { term: "Five-Step Model (IFRS 15)", definition: "The revenue recognition framework: (1) Identify the contract; (2) Identify performance obligations; (3) Determine transaction price; (4) Allocate price to obligations; (5) Recognise revenue when/as each obligation is satisfied." },
+            { term: "Performance Obligation", definition: "A distinct promise in a contract to transfer a good or service to a customer. Revenue is recognised when (or as) each performance obligation is satisfied." },
+            { term: "Transaction Price", definition: "The amount the entity expects to be entitled to receive in exchange for transferring goods or services. Includes variable consideration, financing components and non-cash consideration." },
+            { term: "Point in Time vs Over Time", definition: "Revenue is recognised over time if control transfers progressively (e.g. a long-term construction contract). If control transfers at a single point, revenue is recognised at that point." },
+            { term: "Contract Asset / Contract Liability", definition: "A contract asset arises when revenue is recognised before billing. A contract liability (deferred revenue) arises when cash is received before performance obligations are satisfied." },
+          ],
           explanation:
             "<h4>Why IFRS 15?</h4>" +
             "<p>IFRS 15 <em>Revenue from Contracts with Customers</em> replaced IAS 18 and IAS 11 with a single, comprehensive framework. The old standards contained multiple models and were inconsistent across industries. IFRS 15 provides a single five-step model applicable to almost all revenue transactions.</p>" +
@@ -15300,6 +16504,13 @@ const AIQ_COURSE_DATA = {
             "Apply the constraint on variable consideration recognition",
             "Account for contract modifications as new contracts or modifications of existing contracts",
           ],
+          keyTerms: [
+            { term: "Variable Consideration", definition: "A transaction price element that varies based on uncertain future events: discounts, rebates, refunds, performance bonuses or penalties." },
+            { term: "Constraint on Variable Consideration", definition: "Variable consideration is only included in the transaction price to the extent it is highly probable that a significant revenue reversal will not occur when uncertainty is resolved." },
+            { term: "Expected Value Method", definition: "Estimating variable consideration as the probability-weighted average of possible outcomes. Appropriate when there are many possible outcomes." },
+            { term: "Most Likely Amount Method", definition: "Estimating variable consideration as the single most probable outcome. Appropriate for binary outcomes (e.g. either a bonus is earned or not)." },
+            { term: "Contract Modification", definition: "A change in the scope or price of a contract. Accounted for as a separate contract (if distinct) or as a modification of the existing contract (catch-up or prospective adjustment)." },
+          ],
           explanation:
             "<h4>Variable Consideration</h4>" +
             "<p>Variable consideration exists when the amount a customer pays depends on uncertain future events — volume discounts, rebates, refunds, performance bonuses, penalties, price concessions. Under IFRS 15, variable consideration is <strong>estimated</strong> and included in the transaction price.</p>" +
@@ -15370,6 +16581,13 @@ const AIQ_COURSE_DATA = {
             "Identify lease arrangements and explain the IFRS 16 recognition model",
             "Calculate the initial measurement of the right-of-use asset and lease liability",
             "Prepare the journal entries for lease payments and depreciation over the lease term",
+          ],
+          keyTerms: [
+            { term: "Right-of-Use (ROU) Asset", definition: "The lessee's asset representing the right to use the underlying asset for the lease term, recognised on the balance sheet at the commencement date under IFRS 16." },
+            { term: "Lease Liability", definition: "The lessee's obligation to make lease payments, measured at the present value of future lease payments discounted at the incremental borrowing rate." },
+            { term: "Incremental Borrowing Rate (IBR)", definition: "The rate the lessee would pay to borrow funds (with similar security, term and amount) to purchase the underlying asset. Used if the implicit rate in the lease is not readily determinable." },
+            { term: "Finance Charge (IFRS 16)", definition: "The interest component of the lease liability unwind, calculated as opening lease liability × IBR. Recognised in finance costs in profit or loss." },
+            { term: "Short-Term and Low-Value Exemptions", definition: "IFRS 16 allows lessees to exempt short-term leases (≤12 months) and leases of low-value assets from ROU/liability recognition, expensing payments instead." },
           ],
           explanation:
             "<h4>The IFRS 16 Revolution</h4>" +
@@ -15451,6 +16669,13 @@ const AIQ_COURSE_DATA = {
             "Explain the business model test and contractual cash flow characteristics test",
             "Apply the effective interest method to amortise financial instruments at amortised cost",
           ],
+          keyTerms: [
+            { term: "Financial Asset", definition: "A contractual right to receive cash or another financial asset, or an equity instrument of another entity. Classified and measured under IFRS 9." },
+            { term: "Amortised Cost", definition: "Measurement basis for financial assets held to collect contractual cash flows that are solely payments of principal and interest. Interest recognised using the effective interest method." },
+            { term: "Fair Value Through P&L (FVTPL)", definition: "Measurement basis for financial assets held for trading or where the SPPI test fails. Fair value changes recognised immediately in profit or loss." },
+            { term: "Fair Value Through OCI (FVTOCI)", definition: "Measurement basis for equity investments not held for trading where the entity irrevocably elects this option. Fair value changes in OCI; dividends in P&L." },
+            { term: "Effective Interest Rate (EIR)", definition: "The rate that exactly discounts estimated future cash flows to the financial asset's gross carrying amount. Used to recognise interest income under amortised cost." },
+          ],
           explanation:
             "<h4>Scope of IFRS 9</h4>" +
             "<p>IFRS 9 <em>Financial Instruments</em> replaced IAS 39. It governs recognition, classification, measurement and impairment of financial instruments. At F1 level, the focus is on <strong>classification of financial assets</strong> and the <strong>effective interest method</strong>.</p>" +
@@ -15529,6 +16754,13 @@ const AIQ_COURSE_DATA = {
             "Explain how accounting policies are selected and applied consistently",
             "Distinguish between changes in accounting policy (retrospective) and changes in estimate (prospective)",
             "Account for the correction of prior period errors with retrospective restatement",
+          ],
+          keyTerms: [
+            { term: "Accounting Policy", definition: "The specific principles, bases, conventions, rules and practices applied in preparing and presenting financial statements. Should be applied consistently." },
+            { term: "Change in Accounting Policy", definition: "Adopted when required by a new IFRS or when the change provides more reliable and relevant information. Applied retrospectively (prior periods restated)." },
+            { term: "Change in Accounting Estimate", definition: "A revision of an amount based on new information (e.g. revised useful life of an asset). Applied prospectively — future periods only, no restatement." },
+            { term: "Prior Period Error", definition: "An omission or misstatement in prior financial statements. Corrected by restating prior period comparatives and opening equity. Not permitted to be recognised in current P&L." },
+            { term: "Retrospective Application", definition: "Applying a new accounting policy as if it had always been used. Prior period comparatives are restated. Required for changes in accounting policy under IAS 8." },
           ],
           explanation:
             "<h4>Accounting Policies</h4>" +
@@ -15610,6 +16842,13 @@ const AIQ_COURSE_DATA = {
             "Distinguish between adjusting and non-adjusting events after the reporting period",
             "Apply IAS 10 to determine whether to adjust financial statements or disclose only",
           ],
+          keyTerms: [
+            { term: "Adjusting Event (IAS 10)", definition: "An event after the reporting period that provides evidence of conditions existing at the period end. Requires the financial statements to be adjusted." },
+            { term: "Non-Adjusting Event (IAS 10)", definition: "An event after the reporting period indicating conditions arising after the period end. Disclosed in notes if material; financial statements are not adjusted." },
+            { term: "Reporting Period", definition: "The period covered by the financial statements. Events occurring between the period end date and the date of authorisation are post-balance-sheet events." },
+            { term: "Authorisation for Issue", definition: "The date on which the board authorises the financial statements for issue. Post-balance-sheet events are assessed up to this date." },
+            { term: "Going Concern Post-Balance-Sheet", definition: "Evidence of going concern uncertainty arising after the period end can trigger IAS 10's requirement to prepare accounts on a basis other than going concern." },
+          ],
           explanation:
             "<h4>What are Events After the Reporting Period?</h4>" +
             "<p>Events after the reporting period are those events (favourable and unfavourable) that occur between the <strong>end of the reporting period</strong> (e.g., 31 December) and the <strong>date the financial statements are authorised for issue</strong> (when the board approves the accounts for publication). This window can be weeks or months.</p>" +
@@ -15682,6 +16921,13 @@ const AIQ_COURSE_DATA = {
             "Prepare the operating activities section using the indirect method",
             "Classify investing and financing activities and prepare those sections",
             "Reconcile the opening and closing cash and cash equivalents balances",
+          ],
+          keyTerms: [
+            { term: "Indirect Method (IAS 7)", definition: "Calculates operating cash flow by starting with profit before tax and adjusting for non-cash items (depreciation, amortisation) and working capital changes." },
+            { term: "Non-Cash Adjustments", definition: "Items added back to profit in the operating cash flow section: depreciation, amortisation, impairment losses, and non-cash provisions (e.g. unwinding of discount)." },
+            { term: "Working Capital Movements", definition: "Changes in inventory, receivables and payables that cause profit to differ from cash flow. An increase in receivables reduces operating cash flow; an increase in payables increases it." },
+            { term: "Capital Expenditure (Cash Flow)", definition: "Purchase of PPE and other non-current assets: classified as an investing activity outflow. Proceeds from disposal are also investing activities." },
+            { term: "Free Cash Flow", definition: "Operating cash flow minus capital expenditure. Represents the cash available to service debt, pay dividends or fund acquisitions. A key measure for analysts." },
           ],
           explanation:
             "<h4>Purpose of the Cash Flow Statement</h4>" +
@@ -15763,6 +17009,13 @@ const AIQ_COURSE_DATA = {
             "Apply the lower of cost and net realisable value rule to inventory valuation",
             "Calculate inventory cost using FIFO and weighted average cost formulas",
             "Explain the disclosure requirements under IAS 2 and the write-down process",
+          ],
+          keyTerms: [
+            { term: "Lower of Cost and NRV", definition: "IAS 2 requires inventory to be measured at the lower of cost and net realisable value (NRV). Write-down to NRV is expensed immediately." },
+            { term: "Net Realisable Value (NRV)", definition: "The estimated selling price in the ordinary course of business less estimated costs of completion and selling. Compared to cost to test for write-down." },
+            { term: "FIFO (First In, First Out)", definition: "An inventory cost formula assuming the earliest costs are used first. Under rising prices, FIFO gives the highest closing inventory value and lowest cost of sales." },
+            { term: "Weighted Average Cost", definition: "An inventory cost formula averaging cost across all units available for sale. Smooths price fluctuations; acceptable under IAS 2." },
+            { term: "Inventory Write-Down Reversal", definition: "If the circumstances causing an NRV write-down reverse, the write-down may be reversed (up to the original cost). The reversal is recognised as a reduction in cost of sales." },
           ],
           explanation:
             "<h4>Scope and Definition</h4>" +
@@ -15846,6 +17099,13 @@ const AIQ_COURSE_DATA = {
             "Explain when consolidation is required and the concept of the group",
             "Describe the circumstances where a parent is exempt from preparing group accounts",
           ],
+          keyTerms: [
+            { term: "Control (IFRS 10)", definition: "An investor controls an investee when it has power over the investee, exposure to variable returns, and the ability to use power to affect those returns." },
+            { term: "Consolidated Financial Statements", definition: "Financial statements presenting the parent and all its subsidiaries as a single economic entity, eliminating intra-group transactions." },
+            { term: "Subsidiary", definition: "An entity controlled by the parent. Must be included in consolidated financial statements under IFRS 10." },
+            { term: "Investment in Subsidiary (Solo Accounts)", definition: "In the parent's individual financial statements, the investment is carried at cost or fair value. This is eliminated on consolidation." },
+            { term: "Group Structure", definition: "The arrangement of parent, subsidiaries, sub-subsidiaries and associates. The consolidation boundary includes all entities the parent controls." },
+          ],
           explanation:
             "<h4>What is a Group?</h4>" +
             "<p>A group consists of a parent entity and all of its subsidiaries. The parent controls the subsidiaries and is required to present <strong>consolidated financial statements</strong> that present the financial position and performance of the group as a single economic entity — as if the separate legal entities were one company.</p>" +
@@ -15921,6 +17181,13 @@ const AIQ_COURSE_DATA = {
             "Measure identifiable assets acquired and liabilities assumed at fair value",
             "Explain the treatment of contingent consideration and acquisition-related costs",
           ],
+          keyTerms: [
+            { term: "Business Combination (IFRS 3)", definition: "A transaction where one entity (the acquirer) obtains control of one or more businesses. Must be accounted for using the acquisition method." },
+            { term: "Acquisition Method", definition: "The required accounting for business combinations: identify the acquirer, determine the acquisition date, recognise and measure identifiable assets/liabilities at fair value, and recognise goodwill." },
+            { term: "Fair Value at Acquisition", definition: "All identifiable assets acquired and liabilities assumed are measured at fair value at the acquisition date under IFRS 3." },
+            { term: "Goodwill (IFRS 3)", definition: "Consideration paid + NCI − Fair value of identifiable net assets at acquisition. Reflects the premium paid for expected synergies, market position, and other intangibles." },
+            { term: "Acquisition Date", definition: "The date on which the acquirer obtains control of the acquiree. Goodwill and fair values are measured at this date." },
+          ],
           explanation:
             "<h4>Overview</h4>" +
             "<p>IFRS 3 <em>Business Combinations</em> governs how an acquirer accounts for the purchase of a controlling interest in another entity. The <strong>acquisition method</strong> is mandatory — there is no longer a choice between acquisition and pooling.</p>" +
@@ -15993,6 +17260,13 @@ const AIQ_COURSE_DATA = {
             "Calculate goodwill using the full goodwill method (NCI at fair value)",
             "Calculate goodwill using the proportionate method (NCI at share of net assets)",
             "Account for the subsequent impairment of goodwill",
+          ],
+          keyTerms: [
+            { term: "Full Goodwill Method", definition: "NCI is measured at fair value (its share of the acquiree's fair value) at acquisition. Both the parent's and NCI's share of goodwill are recognised." },
+            { term: "Proportionate Method", definition: "NCI is measured at its proportionate share of identifiable net assets (not including NCI's share of goodwill). Only the parent's goodwill is recognised." },
+            { term: "NCI Calculation", definition: "Full goodwill NCI = NCI% × Fair value of subsidiary. Proportionate NCI = NCI% × Fair value of identifiable net assets." },
+            { term: "Goodwill Impairment", definition: "Goodwill is not amortised but is tested for impairment annually at the CGU level. Impairment losses are not reversed. Allocated first to goodwill, then to other assets." },
+            { term: "Excess of Net Assets over Consideration (Bargain Purchase)", definition: "A 'negative goodwill' situation: where the fair value of net assets exceeds consideration. Recognised immediately as a gain in profit or loss under IFRS 3." },
           ],
           explanation:
             "<h4>Two Methods of Measuring NCI and Goodwill</h4>" +
@@ -16076,6 +17350,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the non-controlling interest (NCI) balance at the reporting date",
             "Eliminate the investment in subsidiary against the parent's share of net assets",
           ],
+          keyTerms: [
+            { term: "Investment Elimination", definition: "The consolidation journal entry cancelling the parent's investment in subsidiary against the subsidiary's share capital and pre-acquisition reserves." },
+            { term: "Pre-Acquisition Reserves", definition: "The subsidiary's retained earnings and other reserves at the acquisition date. Included in the goodwill calculation; not included in consolidated retained earnings." },
+            { term: "Post-Acquisition Reserves", definition: "The subsidiary's retained earnings and OCI arising after acquisition. The group's share is included in consolidated equity." },
+            { term: "Goodwill on Consolidation", definition: "Consideration + NCI at acquisition − Fair value of identifiable net assets at acquisition. Carried at cost less impairment on the consolidated balance sheet." },
+            { term: "Non-Controlling Interest (Consolidated SoFP)", definition: "NCI at acquisition ± NCI's share of post-acquisition profit/loss and OCI movements. Presented as a separate component of equity in the consolidated balance sheet." },
+          ],
           explanation:
             "<h4>The Consolidation Process — Conceptual Basis</h4>" +
             "<p>Consolidated financial statements present the group as a single economic entity. The parent and all subsidiaries' assets, liabilities, income and expenses are added together line by line — then intra-group eliminations are made to remove transactions and balances between group companies.</p>" +
@@ -16147,6 +17428,13 @@ const AIQ_COURSE_DATA = {
             "Account for pre-acquisition and post-acquisition reserves",
             "Allocate retained earnings and net assets between parent and NCI",
           ],
+          keyTerms: [
+            { term: "Step-by-Step Consolidation", definition: "The five-step approach: (1) calculate goodwill; (2) calculate NCI; (3) calculate group retained earnings; (4) complete the consolidated balance sheet; (5) check: total equity = net assets." },
+            { term: "NCI in Consolidated SoFP", definition: "NCI at acquisition + NCI's share of post-acquisition retained earnings + NCI's share of post-acquisition OCI movements." },
+            { term: "Group Retained Earnings", definition: "Parent's retained earnings + Group's share of subsidiary's post-acquisition retained earnings." },
+            { term: "Fair Value Uplift Depreciation", definition: "If subsidiary assets were revalued to fair value at acquisition, the additional depreciation on the uplift reduces group retained earnings each year." },
+            { term: "Intra-Group Balances", definition: "Intercompany receivables and payables, loans and current accounts are eliminated on consolidation as they represent internal group balances." },
+          ],
           explanation:
             "<h4>Comprehensive Worked Approach</h4>" +
             "<p>This lesson walks through a complete consolidated SoFP preparation. The standard approach is:</p>" +
@@ -16216,6 +17504,13 @@ const AIQ_COURSE_DATA = {
             "Prepare a consolidated statement of profit or loss and other comprehensive income",
             "Allocate profit for the year between equity holders of the parent and NCI",
             "Apply the acquisition date rule when a subsidiary is acquired during the year",
+          ],
+          keyTerms: [
+            { term: "Consolidated Income Statement", definition: "Adds 100% of the subsidiary's revenue and expenses to the parent's. Intra-group revenues and costs are eliminated. NCI's share of profit is then deducted." },
+            { term: "NCI Share of Profit", definition: "NCI% × Subsidiary's profit after tax for the period. Deducted from group profit to show the split between profit attributable to the parent and to NCI." },
+            { term: "Intra-Group Revenue Elimination", definition: "Sales from one group entity to another are eliminated from both revenue and cost of sales to avoid double-counting transactions that are internal to the group." },
+            { term: "Time-Weighting of Subsidiary Income", definition: "If a subsidiary is acquired part-way through the year, only the post-acquisition portion of its revenue and costs is included in the consolidated income statement." },
+            { term: "Profit Attributable to Parent", definition: "Group profit minus NCI's share of profit. This is the amount attributable to the parent's shareholders and drives EPS calculations." },
           ],
           explanation:
             "<h4>Consolidating the Income Statement</h4>" +
@@ -16294,6 +17589,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the provision for unrealised profit (PUP) on inventory transfers",
             "Adjust for unrealised profits on PPE transfers between group companies",
           ],
+          keyTerms: [
+            { term: "Unrealised Profit (URP)", definition: "Profit made on intra-group sales that is still held in the buyer's inventory at the year end. Must be eliminated from group profit and inventory." },
+            { term: "PUP (Provision for Unrealised Profit)", definition: "The adjustment to eliminate unrealised profit from group inventory: Dr Retained earnings (seller's), Cr Inventory." },
+            { term: "PUP in PPE", definition: "If one group company sells a non-current asset to another at a profit, the URP is deducted from PPE and from the seller's retained earnings. Depreciation is also adjusted." },
+            { term: "Downstream Sale", definition: "A sale from the parent to a subsidiary. The URP adjustment reduces the parent's retained earnings." },
+            { term: "Upstream Sale", definition: "A sale from a subsidiary to the parent. The URP adjustment reduces the subsidiary's retained earnings and is shared between the parent's group earnings and NCI." },
+          ],
           explanation:
             "<h4>Why Eliminate Intra-Group Transactions?</h4>" +
             "<p>The consolidated financial statements present the group as a single entity. A sale from the parent to a subsidiary is not a sale to an external third party — it is an internal transfer. From the group's perspective, no profit has been made on this transaction until the goods are sold to an external customer. Including such 'profits' would overstate group revenue and group profit.</p>" +
@@ -16357,6 +17659,13 @@ const AIQ_COURSE_DATA = {
             "Define an associate using the significant influence criterion (typically 20–50%)",
             "Apply the equity method: recognise share of associate's profit and adjust carrying amount",
             "Distinguish the equity method from full consolidation and simple investment accounting",
+          ],
+          keyTerms: [
+            { term: "Associate", definition: "An entity over which the investor has significant influence but not control. Presumed when the investor holds 20–50% of voting rights." },
+            { term: "Significant Influence", definition: "The power to participate in (not control) the financial and operating policy decisions of an investee. Evidenced by board representation, participation in policy decisions, or material transactions." },
+            { term: "Equity Method (IAS 28)", definition: "The associate is initially recognised at cost and subsequently adjusted for the investor's share of the associate's profits/losses and OCI." },
+            { term: "Investment in Associate (Consolidated SoFP)", definition: "Shown as a single line: cost + group's share of post-acquisition retained earnings − any impairment. Not consolidated line-by-line." },
+            { term: "Share of Associate Profit", definition: "The investor's percentage share of the associate's profit after tax, recognised in the consolidated income statement." },
           ],
           explanation:
             "<h4>Associates — Definition</h4>" +
@@ -16423,6 +17732,13 @@ const AIQ_COURSE_DATA = {
             "Time-apportion the subsidiary's revenue and profits from the acquisition date",
             "Adjust the subsidiary's opening net assets to the acquisition date for goodwill calculation",
           ],
+          keyTerms: [
+            { term: "Mid-Year Acquisition", definition: "When a subsidiary is acquired during the accounting year, only the post-acquisition revenue and expenses are included in the consolidated income statement." },
+            { term: "Time-Apportioning", definition: "Post-acquisition results are calculated as: Subsidiary's annual results × (months post-acquisition / 12)." },
+            { term: "Goodwill (Mid-Year)", definition: "Goodwill is calculated at the acquisition date using the subsidiary's fair value of net assets at that date, not at the year end." },
+            { term: "NCI in Income Statement (Mid-Year)", definition: "NCI's share of profit is based on the subsidiary's post-acquisition profit only, time-apportioned to the acquisition date." },
+            { term: "Opening Retained Earnings (Mid-Year)", definition: "The subsidiary's retained earnings at the acquisition date are treated as pre-acquisition and included in the goodwill calculation — not in group retained earnings." },
+          ],
           explanation:
             "<h4>The Acquisition Date Rule</h4>" +
             "<p>The group only 'owns' the subsidiary from the <strong>acquisition date</strong>. For income statement purposes, only the subsidiary's results from that date to the year end are included in the consolidated P&L. For balance sheet purposes, the subsidiary's net assets at the <strong>acquisition date</strong> are used to calculate goodwill.</p>" +
@@ -16486,6 +17802,13 @@ const AIQ_COURSE_DATA = {
             "Calculate the gain or loss on disposal of a subsidiary in the parent's financial statements",
             "Prepare the consolidated financial statements in the year of disposal",
             "Explain the difference between full disposal and partial disposal retaining control",
+          ],
+          keyTerms: [
+            { term: "Gain/Loss on Disposal of Subsidiary", definition: "Proceeds − (Carrying amount of net assets derecognised + NCI derecognised − Goodwill derecognised). Recognised in group profit or loss." },
+            { term: "Derecognition", definition: "On disposal, all assets and liabilities of the subsidiary are removed from the consolidated balance sheet." },
+            { term: "Retained Interest", definition: "If the parent retains a stake after disposal (e.g. 15%), it is recognised at fair value on the date control is lost. May become an associate or financial asset." },
+            { term: "Reclassification of OCI", definition: "On disposal of a subsidiary, any OCI balances related to that subsidiary (e.g. foreign currency translation reserve) are reclassified to profit or loss." },
+            { term: "Control Loss Date", definition: "The date the parent ceases to control the subsidiary. Results for the year are time-apportioned to this date; the disposal gain is calculated at this date." },
           ],
           explanation:
             "<h4>Full Disposal — Parent's Own Financial Statements</h4>" +
@@ -16554,6 +17877,13 @@ const AIQ_COURSE_DATA = {
             "Calculate and interpret gross margin, operating margin and net margin",
             "Calculate return on capital employed (ROCE) and return on equity (ROE)",
             "Apply the DuPont decomposition to diagnose drivers of ROCE performance",
+          ],
+          keyTerms: [
+            { term: "Gross Profit Margin", definition: "Gross profit / Revenue × 100%. Measures production and purchasing efficiency. A falling margin indicates rising direct costs relative to revenue." },
+            { term: "Operating Profit Margin (EBIT Margin)", definition: "Operating profit / Revenue × 100%. Reflects overall cost control including overheads. Declining margin suggests overhead cost growth outpacing revenue." },
+            { term: "Return on Capital Employed (ROCE)", definition: "EBIT / Capital employed × 100%. The primary overall profitability measure. Capital employed = Total assets − Current liabilities (or: Equity + Long-term debt)." },
+            { term: "Asset Turnover", definition: "Revenue / Capital employed. Measures efficiency of asset utilisation. ROCE = EBIT Margin × Asset Turnover (DuPont decomposition)." },
+            { term: "Return on Equity (ROE)", definition: "Profit after tax / Shareholders' equity × 100%. Impacted by both operational performance and financial leverage. Higher gearing amplifies ROE if ROCE > cost of debt." },
           ],
           explanation:
             "<h3>Why Ratio Analysis?</h3>" +
@@ -16675,6 +18005,13 @@ const AIQ_COURSE_DATA = {
             "Calculate and interpret receivables days, payables days and inventory days",
             "Calculate gearing ratios and interest cover and assess financial risk",
           ],
+          keyTerms: [
+            { term: "Current Ratio", definition: "Current assets / Current liabilities. Measures short-term liquidity. A ratio significantly below 1 may indicate inability to meet short-term obligations." },
+            { term: "Quick Ratio (Acid Test)", definition: "(Current assets − Inventory) / Current liabilities. Excludes inventory as less liquid. More stringent test of short-term liquidity than the current ratio." },
+            { term: "Receivables Days", definition: "(Trade receivables / Revenue) × 365. Average collection period. A rising trend may indicate deteriorating credit control or more generous customer terms." },
+            { term: "Payables Days", definition: "(Trade payables / Cost of sales) × 365. Average payment period. High days may indicate cash conservation but can signal financial stress to suppliers." },
+            { term: "Gearing Ratio", definition: "Debt / (Debt + Equity) × 100% or Net debt / Equity × 100%. Measures reliance on debt financing. High gearing increases financial risk and interest burden." },
+          ],
           explanation:
             "<h3>Liquidity Ratios</h3>" +
             "<p>Liquidity ratios assess a company's ability to meet short-term obligations as they fall due.</p>" +
@@ -16784,6 +18121,13 @@ const AIQ_COURSE_DATA = {
             "Calculate basic earnings per share under IAS 33",
             "Adjust the weighted average number of shares for rights issues and bonus issues",
             "Calculate diluted EPS for convertible debt, options and warrants",
+          ],
+          keyTerms: [
+            { term: "Basic EPS", definition: "Profit attributable to ordinary shareholders / Weighted average ordinary shares in issue. Measures earnings per share on the basis of shares currently in issue." },
+            { term: "Diluted EPS", definition: "EPS adjusted for the potential dilutive effect of options, warrants and convertible instruments. Always ≤ basic EPS. Required by IAS 33." },
+            { term: "Weighted Average Shares", definition: "Shares are weighted by the proportion of the year they were in issue. A rights issue requires both a bonus fraction (for the discount) and a time fraction." },
+            { term: "Bonus Issue Adjustment", definition: "A bonus issue (capitalisation issue) increases shares with no cash inflow. Prior period EPS is restated as if the bonus shares were always in issue." },
+            { term: "Rights Issue (EPS)", definition: "A rights issue at below market price has both a bonus element (discount to market) and a new cash element. Basic EPS is adjusted using the theoretical ex-rights price (TERP)." },
           ],
           explanation:
             "<h3>Purpose of IAS 33</h3>" +
@@ -16895,6 +18239,13 @@ const AIQ_COURSE_DATA = {
             "Explain the management approach to identifying reportable segments",
             "Apply the quantitative thresholds for reportable segments (10% and 75% tests)",
             "Describe the disclosure requirements for segment revenue, profit and assets",
+          ],
+          keyTerms: [
+            { term: "Operating Segment (IFRS 8)", definition: "A component of an entity that engages in business activities from which it earns revenues, has operating results reviewed by the Chief Operating Decision Maker (CODM), and has discrete financial information available." },
+            { term: "Chief Operating Decision Maker (CODM)", definition: "The individual(s) responsible for allocating resources and assessing performance of operating segments. Often the CEO or the board." },
+            { term: "Reportable Segment", definition: "A segment is reportable if it meets one of the quantitative thresholds: revenue ≥ 10% of total, absolute profit/loss ≥ 10% of combined, or assets ≥ 10% of total assets." },
+            { term: "Aggregation", definition: "Two or more segments may be aggregated if they have similar economic characteristics and are similar across criteria including products, production processes and customers." },
+            { term: "Reconciliation (IFRS 8)", definition: "Segment information must be reconciled to the financial statement totals, allowing users to tie segment disclosures to the primary statements." },
           ],
           explanation:
             "<h3>Scope and Purpose of IFRS 8</h3>" +
@@ -17013,6 +18364,13 @@ const AIQ_COURSE_DATA = {
             "Adjust accounting profit to taxable profit using capital allowances and disallowable items",
             "Calculate corporation tax payable at current UK rates",
             "Explain the payment timing rules for large and small companies",
+          ],
+          keyTerms: [
+            { term: "Corporation Tax", definition: "The UK tax on the taxable profits of companies. The rate is set by the government (currently 25% main rate for profits above £250,000)." },
+            { term: "Taxable Trading Profit", definition: "Accounting profit adjusted for disallowed expenses (entertaining, depreciation) and other tax adjustments. The starting point for the corporation tax computation." },
+            { term: "Capital Allowances", definition: "Tax relief for capital expenditure, replacing accounting depreciation in the tax computation. The main allowances are the Annual Investment Allowance (AIA) and writing down allowances (WDA)." },
+            { term: "Adjusted Profit", definition: "Accounting profit with non-allowable deductions added back (e.g. depreciation, entertaining) and tax-deductible items not in the accounts subtracted." },
+            { term: "Tax Payable (Due Date)", definition: "For large companies, corporation tax is paid by quarterly instalments; for smaller companies, it is due 9 months and 1 day after the year end." },
           ],
           explanation:
             "<h3>The Corporation Tax Framework</h3>" +
@@ -17143,6 +18501,13 @@ const AIQ_COURSE_DATA = {
             "Calculate deferred tax liabilities and assets arising from timing differences",
             "Account for changes in deferred tax balances in the income statement and in OCI",
           ],
+          keyTerms: [
+            { term: "Deferred Tax", definition: "A tax balance arising from temporary differences between accounting carrying amounts and the corresponding tax base. Represents future tax consequences of present transactions." },
+            { term: "Temporary Difference", definition: "The difference between the carrying amount of an asset or liability in the financial statements and its tax base. Taxable temporary differences give rise to deferred tax liabilities." },
+            { term: "Deferred Tax Liability", definition: "Tax payable in future periods due to a taxable temporary difference (e.g. accounting depreciation faster than tax capital allowances in early years of asset life)." },
+            { term: "Deferred Tax Asset", definition: "Tax recoverable in future periods due to a deductible temporary difference (e.g. warranty provisions recognised in accounts before deductible for tax)." },
+            { term: "Tax Base", definition: "The amount attributed to an asset or liability for tax purposes. The difference between carrying amount and tax base gives rise to a temporary difference." },
+          ],
           explanation:
             "<h3>Why Deferred Tax Exists</h3>" +
             "<p>Accounting profit and taxable profit can differ in <em>timing</em> — income or expense is recognised in different periods for accounting vs. tax purposes. Without deferred tax, the income statement tax charge would be inconsistent with accounting profit, violating the matching principle. IAS 12 requires entities to recognise the future tax consequences of transactions and events already recognised in the financial statements.</p>" +
@@ -17257,6 +18622,13 @@ const AIQ_COURSE_DATA = {
             "Explain the principle of VAT as a consumption tax collected at each stage of production",
             "Calculate output tax, input tax and the net VAT payable to HMRC",
             "Describe the VAT registration thresholds, returns and compliance obligations",
+          ],
+          keyTerms: [
+            { term: "Output Tax", definition: "VAT charged by a VAT-registered business on its standard-rated and reduced-rated sales to customers." },
+            { term: "Input Tax", definition: "VAT paid by a VAT-registered business on its purchases and expenses from other VAT-registered suppliers." },
+            { term: "Net VAT Payable/Reclaimable", definition: "Output tax minus input tax. Positive: pay to HMRC. Negative: HMRC repays the business." },
+            { term: "Zero-Rated Supply", definition: "A taxable supply charged at 0% VAT. The business can still register for VAT and reclaim input tax on costs — unlike exempt supplies." },
+            { term: "Exempt Supply", definition: "A supply that is outside the VAT regime entirely. No output tax is charged and related input tax cannot be recovered. Examples: financial services, education, healthcare." },
           ],
           explanation:
             "<h3>What is VAT?</h3>" +
