@@ -1180,35 +1180,93 @@ const AIQ_COURSE_DATA = {
             "Use the cost equation to predict costs at different activity levels",
           ],
           explanation:
-            "<p>The <strong>high-low method</strong> uses the highest and lowest observed activity " +
-            "levels to separate fixed and variable cost elements.</p>" +
-            "<p style='text-align:center'><code>Variable cost per unit = (Cost at high − Cost at low) ÷ (High units − Low units)</code></p>" +
-            "<p>Fixed cost = Total cost at either level − (Variable cost per unit × Units at that level).</p>",
+            "<h4>Why Separate Fixed and Variable Costs?</h4>" +
+            "<p>Many costs are semi-variable — they have a fixed element (incurred even at zero output) and a variable element (proportional to activity). To use these costs in budgeting, break-even analysis, or marginal costing, you must split them into their two components. The <strong>high-low method</strong> does this using historical cost data.</p>" +
+            "<h4>The High-Low Method — Step by Step</h4>" +
+            "<ol>" +
+            "<li>Identify the <strong>highest</strong> and <strong>lowest</strong> activity levels from the data (not the highest/lowest costs — use activity level as the selector).</li>" +
+            "<li>Calculate the variable cost per unit:<br>" +
+            "<p style='text-align:center'><code>Variable cost per unit = (Cost at high activity − Cost at low activity) ÷ (High activity − Low activity)</code></p>" +
+            "The fixed cost does not change between the two levels, so it cancels out in the numerator — you are left with the pure variable change.</li>" +
+            "<li>Calculate the fixed cost by substituting back into either observation:<br>" +
+            "<p style='text-align:center'><code>Fixed cost = Total cost at any level − (Variable cost per unit × Activity at that level)</code></p></li>" +
+            "<li>Write the <strong>cost equation</strong>: Total cost = Fixed cost + (Variable cost per unit × Activity)</li>" +
+            "<li>Use the equation to predict costs at any activity level within the relevant range.</li>" +
+            "</ol>" +
+            "<h4>Detecting and Excluding Abnormal Points</h4>" +
+            "<p>The high-low method can produce misleading results if either extreme data point is <em>abnormal</em> — for example, a month with unusually high maintenance costs due to a one-off machine overhaul, or a month with exceptionally low activity due to a factory shutdown.</p>" +
+            "<p>If an abnormal point is suspected:</p>" +
+            "<ul>" +
+            "<li>Exclude that data point and use the next highest/lowest instead.</li>" +
+            "<li>Alternatively, adjust the abnormal cost to remove the exceptional element before applying the high-low method.</li>" +
+            "</ul>" +
+            "<p>Always use the highest and lowest <em>activity levels</em>, not the highest and lowest costs. High activity does not always coincide with highest cost if abnormalities are present.</p>" +
+            "<h4>Limitations of the High-Low Method</h4>" +
+            "<ul>" +
+            "<li><strong>Only two data points used:</strong> the result depends entirely on the two extreme observations and ignores all other data. This makes it sensitive to outliers and abnormal periods.</li>" +
+            "<li><strong>Assumes linearity:</strong> the method assumes costs are perfectly linear within the relevant range — step costs and economies of scale are not captured.</li>" +
+            "<li><strong>Relevant range:</strong> predictions are only reliable within the range of activity for which data was observed. Extrapolating outside this range can be dangerously inaccurate.</li>" +
+            "<li><strong>Better alternative:</strong> regression analysis (least-squares method) uses all available data points to find the best-fit cost line. It is more accurate but more complex. BA2 focuses on the high-low method.</li>" +
+            "</ul>",
           workedExample: {
-            setup: "Activity: High = 8,000 units, cost = £46,000. Low = 4,000 units, cost = £30,000.",
+            setup:
+              "LogiTrans has the following monthly distribution costs over six months. " +
+              "Month 1: 3,200 deliveries, £18,400. Month 2: 4,800 deliveries, £24,800. " +
+              "Month 3: 2,600 deliveries, £15,800. Month 4: 5,200 deliveries, £27,200. " +
+              "Month 5: 3,800 deliveries, £21,200. Month 6: 4,400 deliveries, £23,600. " +
+              "(a) Use the high-low method to identify fixed and variable elements. " +
+              "(b) Predict the cost at 6,000 deliveries. " +
+              "(c) Identify a potential limitation in this data set.",
             steps: [
-              "Variable cost per unit = (£46,000 − £30,000) / (8,000 − 4,000) = £16,000 / 4,000 = £4.",
-              "Fixed cost = £46,000 − (£4 × 8,000) = £46,000 − £32,000 = £14,000.",
-              "Cost equation: Total cost = £14,000 + £4 × units.",
+              "(a) Identify high and low by ACTIVITY (not cost). High = Month 4: 5,200 deliveries at £27,200. Low = Month 3: 2,600 deliveries at £15,800.",
+              "Variable cost per delivery = (£27,200 − £15,800) / (5,200 − 2,600) = £11,400 / 2,600 = £4.385 per delivery.",
+              "Round to sensible precision: £4.39/delivery (or keep as £4.385 for accuracy).",
+              "Fixed cost = £27,200 − (£4.385 × 5,200) = £27,200 − £22,800 = £4,400. Check with low: £15,800 − (£4.385 × 2,600) = £15,800 − £11,400 = £4,400. ✓",
+              "Cost equation: Total cost = £4,400 + £4.385 × deliveries.",
+              "(b) Predicted cost at 6,000 deliveries = £4,400 + (£4.385 × 6,000) = £4,400 + £26,310 = £30,710.",
+              "(c) Limitation: Month 4 (5,200 deliveries, £27,200) is the high point used. If this month had an abnormal event (e.g., emergency deliveries at double cost, or fuel surcharge), using it will overstate the variable rate. Also, 6,000 deliveries is outside the observed range (2,600–5,200), so the prediction at step (b) involves extrapolation — less reliable than interpolation.",
             ],
-            answer: "Variable cost = £4/unit; Fixed cost = £14,000.",
+            answer:
+              "Variable cost = £4.385/delivery; Fixed cost = £4,400/month. " +
+              "Predicted cost at 6,000 deliveries = £30,710. " +
+              "The method works well within the observed range but becomes unreliable outside it, and is sensitive to abnormal data points at the extremes.",
           },
           summary: [
-            "High-low separates costs using just two data points — the highest and lowest activity levels.",
-            "Variable cost per unit = cost change ÷ activity change.",
-            "Fixed cost = total cost − (variable rate × activity).",
-            "Limitation: may not be representative if extreme values are abnormal.",
+            "High-low method: uses the highest and lowest activity observations to separate fixed and variable cost elements.",
+            "Variable cost per unit = (Cost change) ÷ (Activity change) between high and low points.",
+            "Fixed cost = Total cost − (Variable rate × Activity level) — calculated at either the high or low point as a check.",
+            "Cost equation: Total cost = Fixed cost + (Variable rate × Activity) — used to predict costs within the relevant range.",
+            "Limitations: only two data points, sensitive to abnormal values, assumes linearity, unreliable outside the observed range.",
           ],
           practiceQuestions: [
             {
               question:
                 "High: 10,000 units, cost £52,000. Low: 6,000 units, cost £36,000. " +
-                "What is the variable cost per unit?",
-              options: ["£2", "£4", "£6", "£8"],
-              correct: 1,
+                "What is the variable cost per unit and the fixed cost?",
+              options: [
+                "Variable £4/unit; fixed £12,000",
+                "Variable £4/unit; fixed £2,000 (? needs checking)",
+                "Variable £4/unit; fixed £16,000",
+                "Variable £3/unit; fixed £22,000",
+              ],
+              correct: 0,
               explanation:
-                "Variable cost per unit = (£52,000 − £36,000) / (10,000 − 6,000) = £16,000 / 4,000 = £4.",
+                "Variable cost = (£52,000 − £36,000) / (10,000 − 6,000) = £16,000 / 4,000 = £4/unit. " +
+                "Fixed cost = £52,000 − (£4 × 10,000) = £52,000 − £40,000 = £12,000. " +
+                "Check: £36,000 − (£4 × 6,000) = £36,000 − £24,000 = £12,000. ✓",
               topic: "High-low method",
+            },
+            {
+              question:
+                "A cost at 5,000 units is £35,000 and at 8,000 units is £47,000. " +
+                "Using the high-low method, what is the predicted cost at 7,000 units?",
+              options: ["£43,000", "£41,000", "£45,000", "£39,000"],
+              correct: 0,
+              explanation:
+                "Variable rate = (£47,000 − £35,000) / (8,000 − 5,000) = £12,000 / 3,000 = £4/unit. " +
+                "Fixed cost = £47,000 − (£4 × 8,000) = £47,000 − £32,000 = £15,000. " +
+                "Cost at 7,000 units = £15,000 + (£4 × 7,000) = £15,000 + £28,000 = £43,000.",
+              topic: "High-low prediction",
             },
           ],
         },
@@ -1223,27 +1281,92 @@ const AIQ_COURSE_DATA = {
             "Explain the concept of a flexed budget",
           ],
           explanation:
-            "<p>A <strong>budget</strong> is a quantified plan expressed in financial terms, covering a future period. Purposes: planning, co-ordination, communication, motivation, control, and performance evaluation.</p>" +
-            "<p>The <strong>master budget</strong> consists of a budgeted income statement, balance sheet, and cash flow statement, derived from functional budgets (sales, production, materials, labour, overheads).</p>" +
-            "<p>The <strong>principal budget factor</strong> (or limiting factor) is the constraint that limits the organisation's activities — typically sales demand. Budgets must be built around it.</p>" +
-            "<p>A <strong>flexed budget</strong> recalculates the original budget at the actual level of activity, allowing a fair comparison with actual results. Fixed costs remain unchanged; variable costs are flexed in line with actual output.</p>" +
-            "<p style='text-align:center'><code>Flexed budget variance = Flexed budget cost − Actual cost</code></p>",
+            "<h4>What Is a Budget?</h4>" +
+            "<p>A <strong>budget</strong> is a detailed quantitative plan, expressed in financial terms, covering a defined future period (usually one year, divided into monthly or quarterly periods). Budgets serve multiple purposes:</p>" +
+            "<ul>" +
+            "<li><strong>Planning:</strong> forces management to think ahead, identify resource requirements, and set targets before the period begins.</li>" +
+            "<li><strong>Coordination:</strong> ensures all departments' plans are consistent — the production budget must align with the sales budget; the materials budget must align with production.</li>" +
+            "<li><strong>Communication:</strong> informs employees and departments of their targets and resource allocations.</li>" +
+            "<li><strong>Motivation:</strong> gives managers a clear target to work towards — but only if the budget is seen as fair and achievable.</li>" +
+            "<li><strong>Control:</strong> actual results are compared to the budget, and variances are investigated.</li>" +
+            "<li><strong>Performance evaluation:</strong> how well did the manager control their costs and revenues versus the plan?</li>" +
+            "</ul>" +
+            "<h4>The Principal Budget Factor</h4>" +
+            "<p>The <strong>principal budget factor</strong> (also called the key budget factor or limiting factor) is the constraint that limits the organisation's activity level. All other budgets are built around it.</p>" +
+            "<p>In most businesses the principal budget factor is <em>sales demand</em> — you can only produce and sell what customers will buy. When it is a production constraint (machine hours, materials, skilled labour), the production budget leads and the sales budget follows.</p>" +
+            "<h4>The Budget Hierarchy</h4>" +
+            "<p>Functional budgets feed into the master budget:</p>" +
+            "<ul>" +
+            "<li><strong>Sales budget</strong> (volume and revenue) → drives everything downstream.</li>" +
+            "<li><strong>Production budget</strong> = Sales volume + Required closing inventory − Opening inventory.</li>" +
+            "<li><strong>Materials usage budget</strong> → <strong>Materials purchase budget</strong> (adjusted for inventory).</li>" +
+            "<li><strong>Labour budget, overheads budget.</strong></li>" +
+            "<li><strong>Capital expenditure budget.</strong></li>" +
+            "<li><strong>Master budget</strong> = Budgeted income statement + Budgeted SOFP + <strong>Cash budget</strong>.</li>" +
+            "</ul>" +
+            "<h4>The Cash Budget</h4>" +
+            "<p>The cash budget (cash flow forecast) shows the expected timing of cash inflows and outflows. A business can be profitable but run out of cash if receipts lag behind payments. The cash budget is critical for liquidity management.</p>" +
+            "<p>Cash budget format for each period:</p>" +
+            "<table><thead><tr><th>Item</th><th>Jan £</th><th>Feb £</th></tr></thead><tbody>" +
+            "<tr><td>Opening cash balance</td><td>X</td><td>X</td></tr>" +
+            "<tr><td><strong>Receipts:</strong></td><td></td><td></td></tr>" +
+            "<tr><td>Collections from credit customers (lagged from sales)</td><td>X</td><td>X</td></tr>" +
+            "<tr><td>Cash sales</td><td>X</td><td>X</td></tr>" +
+            "<tr><td><strong>Total receipts</strong></td><td>X</td><td>X</td></tr>" +
+            "<tr><td><strong>Payments:</strong></td><td></td><td></td></tr>" +
+            "<tr><td>Payments to suppliers (lagged from purchases)</td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td>Wages (usually current month)</td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td>Overheads (current month, excluding non-cash items)</td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td>Capital expenditure</td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td>Loan repayments</td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Total payments</strong></td><td>(X)</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Net cash flow</strong></td><td>X/(X)</td><td>X/(X)</td></tr>" +
+            "<tr><td><strong>Closing cash balance</strong></td><td><strong>X</strong></td><td><strong>X</strong></td></tr>" +
+            "</tbody></table>" +
+            "<p>Key exam points: depreciation is NOT a cash payment — exclude from cash budget. Receipts are lagged (e.g., if 30-day credit terms, January sales are received in February). Purchases are also lagged by the credit terms agreed with suppliers.</p>" +
+            "<h4>Types of Budget</h4>" +
+            "<ul>" +
+            "<li><strong>Incremental budget:</strong> last year's budget is the starting point, adjusted for known changes (inflation, volume growth). Simple to prepare but perpetuates inefficiency and past spending patterns ('budget padding' and 'use it or lose it' behaviour).</li>" +
+            "<li><strong>Zero-based budget (ZBB):</strong> every cost must be justified from scratch each period — no automatic rollover. Eliminates inefficiency but time-consuming and resisted by managers.</li>" +
+            "<li><strong>Rolling budget (continuous budget):</strong> a budget for a fixed forward period (e.g., 12 months) that is updated monthly by adding a new month and dropping the oldest. More current and responsive but resource-intensive.</li>" +
+            "<li><strong>Activity-based budget:</strong> uses activity drivers from ABC to build cost budgets based on planned activity volumes — more accurate for overhead budgeting.</li>" +
+            "</ul>" +
+            "<h4>Flexed Budgets and Variance Analysis</h4>" +
+            "<p>The <strong>original budget</strong> is set at the beginning of the period for one planned output level. When actual output differs, comparing actual costs to the original budget produces a <em>volume effect</em> that misleads cost control analysis.</p>" +
+            "<p>A <strong>flexed budget</strong> recalculates the original budget at the <em>actual activity level</em>:</p>" +
+            "<ul>" +
+            "<li>Variable costs are re-calculated proportionally to actual output.</li>" +
+            "<li>Fixed costs remain unchanged.</li>" +
+            "</ul>" +
+            "<p style='text-align:center'><code>Flexed budget variance = Flexed budget cost − Actual cost</code></p>" +
+            "<p>The flexed budget variance tells you how well costs were controlled at the actual level of activity — eliminating the distortion from producing more or fewer units than planned.</p>",
           workedExample: {
-            setup: "Budgeted production: 5,000 units. Actual production: 6,000 units. Variable cost per unit: £4. Fixed overheads: £10,000. Actual total cost: £36,000. Prepare a flexed budget comparison.",
+            setup:
+              "Coastal Foods budgets for 2,000 units in July. Variable cost = £6/unit. Fixed overhead = £8,000. " +
+              "Actual July: 2,500 units produced. Actual variable costs = £16,500. Actual fixed overhead = £8,400. " +
+              "Sales: all on 1-month credit at £20/unit. August sales budget = 3,000 units. " +
+              "(a) Prepare a flexed budget comparison for July. " +
+              "(b) Calculate the cash collected in August from July credit sales.",
             steps: [
-              "Original budget: (5,000 × £4) + £10,000 = £30,000.",
-              "Flexed budget at 6,000 units: (6,000 × £4) + £10,000 = £34,000.",
-              "Comparing original budget to actual (£30,000 vs £36,000) shows a £6,000 adverse variance — but this is misleading because output increased.",
-              "Comparing flexed budget to actual: £34,000 vs £36,000 = £2,000 adverse.",
-              "The flexed budget reveals that the real cost overrun is only £2,000, not £6,000.",
+              "(a) ORIGINAL BUDGET (2,000 units): Variable costs 2,000 × £6 = £12,000. Fixed overhead £8,000. Total £20,000.",
+              "FLEXED BUDGET (2,500 units): Variable costs 2,500 × £6 = £15,000. Fixed overhead £8,000 (unchanged). Total £23,000.",
+              "COMPARISON: Original vs Actual — Variable: £12,000 vs £16,500 = £4,500 adverse (but misleading — we made 500 more units). Fixed: £8,000 vs £8,400 = £400 adverse.",
+              "Flexed vs Actual — Variable: £15,000 vs £16,500 = £1,500 adverse (real cost overrun at this output level). Fixed: £8,000 vs £8,400 = £400 adverse (small overspend on fixed costs).",
+              "CONCLUSION: The original vs actual comparison exaggerated the variable cost problem (£4,500 vs the real £1,500). The flexed budget reveals that most of the extra variable cost was justified by higher output — the real controllable overrun is only £1,500.",
+              "(b) CASH BUDGET: July sales = 2,500 × £20 = £50,000. With 1-month credit, July's sales are collected in August. Cash receipts in August from July sales = £50,000.",
             ],
-            answer: "Flexed budget variance = £2,000 adverse. The flexed budget removes the volume effect and gives a fairer assessment of cost control.",
+            answer:
+              "Flexed budget variances: Variable costs £1,500 adverse (controllable); Fixed overhead £400 adverse (minor overspend). " +
+              "The flexed budget shows only £1,900 of controllable variance — not £4,900 as the original budget comparison implied. " +
+              "Cash collected in August = £50,000 (July credit sales, 1-month lag).",
           },
           summary: [
-            "Budgets are quantified plans for a future period — used for planning, control, and motivation.",
-            "The principal budget factor is the binding constraint around which all other budgets are built.",
-            "A flexed budget adjusts the original budget to the actual activity level, allowing fair variance analysis.",
-            "Fixed costs stay the same in a flexed budget; variable costs are re-calculated at actual output.",
+            "Budget purposes: planning, coordination, communication, motivation, control, performance evaluation.",
+            "Principal budget factor: the key constraint (usually sales demand) that drives all other budgets.",
+            "Budget hierarchy: Sales → Production → Materials/Labour/Overheads → Capital expenditure → Cash budget → Master budget.",
+            "Cash budget excludes non-cash items (depreciation). Receipts and payments are lagged by credit terms.",
+            "Types of budget: incremental (simple, perpetuates waste), ZBB (rigorous, time-consuming), rolling (always current), activity-based (overhead precision).",
+            "Flexed budget: recalculate variable costs at actual output; keep fixed costs unchanged. Flexed variance = genuine cost control performance.",
           ],
           practiceQuestions: [
             {
@@ -1643,29 +1766,78 @@ const AIQ_COURSE_DATA = {
             "Identify the elements of financial statements",
           ],
           explanation:
-            "<p>The IASB's <strong>Conceptual Framework</strong> sets out the objective of general purpose financial reporting: to provide <em>useful financial information</em> to existing and potential investors, lenders, and other creditors for making decisions.</p>" +
-            "<p>The two <strong>fundamental qualitative characteristics</strong> of useful information:</p>" +
+            "<h4>What Is the Conceptual Framework?</h4>" +
+            "<p>The IASB's <strong>Conceptual Framework for Financial Reporting</strong> is not an accounting standard — it cannot override any specific standard. Instead, it provides the theoretical foundation on which all accounting standards are built. It answers the question: <em>what should financial reporting aim to achieve, and how should it achieve it?</em></p>" +
+            "<p>The Framework is important for BA3 because exam questions ask you to apply its principles to recognition and measurement scenarios — not just to recite them.</p>" +
+            "<h4>The Objective of Financial Reporting</h4>" +
+            "<p>The primary objective is to provide <strong>useful financial information</strong> to existing and potential <em>investors, lenders, and other creditors</em> to help them make decisions about providing resources to the entity (buying/selling shares, lending, extending credit).</p>" +
+            "<p>Note: the Framework focuses on <em>capital providers</em> as the primary users, not management (who have other sources of information) or tax authorities (who have specific tax legislation).</p>" +
+            "<h4>Qualitative Characteristics of Useful Information</h4>" +
+            "<p>The Framework identifies <strong>two fundamental</strong> characteristics and <strong>four enhancing</strong> characteristics:</p>" +
+            "<p><strong>Fundamental Characteristics:</strong></p>" +
+            "<ol>" +
+            "<li><strong>Relevance:</strong> information that is capable of making a difference to users' decisions. Information is relevant if it has <em>predictive value</em> (helps forecast future outcomes) or <em>confirmatory value</em> (confirms or corrects past assessments). <strong>Materiality</strong> is an entity-specific aspect of relevance: information is material if omitting or misstating it could influence decisions. The materiality threshold varies by entity size and context.</li>" +
+            "<li><strong>Faithful representation:</strong> information that faithfully represents the economic phenomena it purports to represent. Three attributes: <em>complete</em> (nothing significant missing), <em>neutral</em> (not biased toward a particular outcome), and <em>free from error</em> (accurate description and application of process, not necessarily exact because estimates are required).</li>" +
+            "</ol>" +
+            "<p><strong>Enhancing Characteristics</strong> (improve but cannot compensate for a lack of fundamental characteristics):</p>" +
             "<ul>" +
-            "<li><strong>Relevance</strong> — capable of making a difference to decisions (includes materiality).</li>" +
-            "<li><strong>Faithful representation</strong> — complete, neutral, and free from error.</li>" +
+            "<li><strong>Comparability:</strong> users can compare information across periods and across different entities. Requires consistent accounting policies — if changed, disclose and restate prior periods.</li>" +
+            "<li><strong>Verifiability:</strong> independent knowledgeable observers could reach consensus that the information faithfully represents what it purports to represent. Can be direct (counting cash) or indirect (checking inputs to a model).</li>" +
+            "<li><strong>Timeliness:</strong> information is available to decision-makers before it loses its capacity to influence decisions.</li>" +
+            "<li><strong>Understandability:</strong> information is clearly classified, characterised, and presented. Users are assumed to have a reasonable knowledge of business and financial reporting — preparers do not need to simplify for a complete novice.</li>" +
             "</ul>" +
-            "<p>Four <strong>enhancing characteristics</strong>: comparability, verifiability, timeliness, and understandability.</p>" +
-            "<p>The <strong>elements of financial statements</strong>: asset, liability, equity, income, and expense. An asset is a present economic resource controlled by the entity. A liability is a present obligation to transfer an economic resource.</p>",
+            "<h4>The Underlying Assumptions</h4>" +
+            "<ul>" +
+            "<li><strong>Going concern:</strong> financial statements are prepared on the assumption that the entity will continue in operation for the foreseeable future. If this is not the case, a different basis (e.g., break-up values) must be used and disclosed.</li>" +
+            "<li><strong>Accrual basis:</strong> effects of transactions are recognised when they occur, not when cash is received or paid. This gives a more accurate picture of financial performance and position.</li>" +
+            "</ul>" +
+            "<h4>The Elements of Financial Statements</h4>" +
+            "<p>The Framework defines five elements:</p>" +
+            "<table><thead><tr><th>Element</th><th>Definition</th><th>Where it appears</th></tr></thead><tbody>" +
+            "<tr><td><strong>Asset</strong></td><td>A present economic resource controlled by the entity as a result of past events</td><td>Statement of financial position</td></tr>" +
+            "<tr><td><strong>Liability</strong></td><td>A present obligation of the entity to transfer an economic resource as a result of past events</td><td>Statement of financial position</td></tr>" +
+            "<tr><td><strong>Equity</strong></td><td>The residual interest in the assets after deducting all liabilities</td><td>Statement of financial position</td></tr>" +
+            "<tr><td><strong>Income</strong></td><td>Increases in assets or decreases in liabilities that result in increases in equity (other than contributions from equity holders)</td><td>Income statement</td></tr>" +
+            "<tr><td><strong>Expense</strong></td><td>Decreases in assets or increases in liabilities that result in decreases in equity (other than distributions to equity holders)</td><td>Income statement</td></tr>" +
+            "</tbody></table>" +
+            "<h4>Recognition and Measurement</h4>" +
+            "<p>An element is <strong>recognised</strong> (shown in the financial statements) when:</p>" +
+            "<ul>" +
+            "<li>It meets the definition of the element, AND</li>" +
+            "<li>Recognising it will provide relevant and faithful information (i.e., the benefits outweigh the cost).</li>" +
+            "</ul>" +
+            "<p>Common <strong>measurement bases</strong> used in financial statements:</p>" +
+            "<ul>" +
+            "<li><strong>Historical cost:</strong> the amount paid to acquire the asset — simple, verifiable, but may not reflect current value.</li>" +
+            "<li><strong>Current value:</strong> reflects current conditions — includes fair value, value in use, and current cost.</li>" +
+            "<li><strong>Fair value:</strong> the price that would be received to sell an asset (or paid to transfer a liability) in an orderly transaction between market participants.</li>" +
+            "</ul>",
           workedExample: {
-            setup: "A company is unsure whether to recognise a legal claim as a liability. Apply the Conceptual Framework to the decision.",
+            setup:
+              "Three scenarios to apply the Framework: " +
+              "(A) A retailer has £1m of inventory that can normally be sold for £1.5m. Due to new regulations, " +
+              "this specific batch will require an additional £600,000 of modifications before it can be sold for £1.5m. " +
+              "(B) A company completed a significant R&D project. The outcome is uncertain but legal costs to date are £200,000. " +
+              "(C) A property company values its investment properties at £2m on 1 January. By 31 December the market value is £2.4m. " +
+              "Apply the Conceptual Framework to determine the appropriate accounting treatment.",
             steps: [
-              "Does a present obligation exist as a result of a past event? — a lawsuit was filed following an incident last year, so yes.",
-              "Is it probable that an outflow of economic benefits will occur? — legal advice suggests a 70% chance of losing.",
-              "Can the amount be estimated reliably? — lawyers estimate £500,000.",
-              "All three criteria are met: recognise a provision of £500,000 as a liability.",
+              "(A) INVENTORY: Under IAS 2, inventory is stated at the lower of cost (£1m) and NRV. NRV = £1.5m − £600,000 = £900,000. NRV < cost → write inventory down to £900,000. A £100,000 write-down is recognised as an expense. This reflects faithful representation: the balance sheet should not overstate assets.",
+              "(B) R&D: The £200,000 legal costs are sunk costs. The question is whether to capitalise future development expenditure or expense it. Under IAS 38, internally generated research costs are expensed (too uncertain to meet asset recognition criteria — no reliably measurable future economic benefit). If development criteria are met (IAS 38 PIRATE criteria), costs may be capitalised. The Framework test: can we reliably measure the future economic resource? If not, no asset recognition. Expense the £200,000 in the income statement.",
+              "(C) INVESTMENT PROPERTY: Under IAS 40, investment properties may be carried at fair value. The £400,000 gain (£2.4m − £2m) meets the definition of income (increases in assets that increase equity). Under the fair value model, this gain is recognised in the income statement. This is relevant (reflects current market value) and faithfully represents economic reality (the property is genuinely worth more).",
             ],
-            answer: "A provision should be recognised. The Framework's definition of a liability is met: there is a present obligation (the lawsuit) arising from a past event (the incident) that is expected to result in an outflow of resources.",
+            answer:
+              "(A) Inventory written down to NRV £900,000 — the carrying amount must not exceed what the asset will generate. " +
+              "(B) R&D legal costs expensed — no reliable measure of future economic benefit at research stage. " +
+              "(C) Investment property revalued to £2.4m; £400,000 gain recognised in profit. " +
+              "Each scenario requires applying the Framework's definitions and recognition criteria — not just following a rule mechanically.",
           },
           summary: [
-            "Objective of financial reporting: provide useful information to investors, lenders, and creditors.",
-            "Fundamental qualitative characteristics: relevance and faithful representation.",
-            "Enhancing characteristics: comparability, verifiability, timeliness, understandability.",
-            "Elements: asset (economic resource controlled), liability (obligation to transfer resource), equity, income, expense.",
+            "Primary objective: provide useful information to investors, lenders, and other creditors to support resource allocation decisions.",
+            "Fundamental characteristics: relevance (makes a difference, includes materiality) and faithful representation (complete, neutral, free from error).",
+            "Enhancing characteristics: comparability, verifiability, timeliness, understandability. These enhance but cannot substitute for the fundamentals.",
+            "Underlying assumptions: going concern (entity will continue) and accrual basis (recognise when earned/incurred, not when cash flows).",
+            "Five elements: asset (economic resource controlled), liability (obligation to transfer resource), equity (residual), income (asset increases/liability decreases), expense (asset decreases/liability increases).",
+            "Recognition: meets element definition AND recognition would provide relevant, faithfully represented information.",
           ],
           practiceQuestions: [
             {
@@ -1837,32 +2009,84 @@ const AIQ_COURSE_DATA = {
             "Account for accruals, prepayments, and depreciation in the income statement",
           ],
           explanation:
-            "<p>The <strong>income statement</strong> (also called the profit and loss account) shows a business's financial performance over a period — its revenues, costs, and resulting profit or loss.</p>" +
-            "<p><strong>Gross profit</strong> = Revenue − Cost of goods sold (COGS)<br>" +
-            "<strong>Operating profit</strong> = Gross profit − Operating expenses (admin, selling, distribution)<br>" +
-            "<strong>Profit before tax</strong> = Operating profit ± Finance items (interest receivable/payable)<br>" +
-            "<strong>Profit for the period</strong> = Profit before tax − Income tax expense</p>" +
-            "<p>Key adjustments required under the accruals concept:</p>" +
+            "<h4>Purpose and Structure</h4>" +
+            "<p>The <strong>income statement</strong> (also called the statement of profit or loss, or P&amp;L account) shows a business's financial performance over a period — its revenues earned and costs incurred. Under the accruals concept, income and expenses are recognised in the period to which they relate, not simply when cash changes hands.</p>" +
+            "<p>The standard multi-step format:</p>" +
+            "<table><thead><tr><th>Item</th><th>£</th></tr></thead><tbody>" +
+            "<tr><td>Revenue (net of returns inward)</td><td>X</td></tr>" +
+            "<tr><td>Less: Cost of goods sold (COGS)</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Gross profit</strong></td><td><strong>X</strong></td></tr>" +
+            "<tr><td>Less: Distribution costs</td><td>(X)</td></tr>" +
+            "<tr><td>Less: Administrative expenses</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Operating profit</strong></td><td><strong>X</strong></td></tr>" +
+            "<tr><td>Add: Finance income (interest receivable)</td><td>X</td></tr>" +
+            "<tr><td>Less: Finance costs (interest payable)</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Profit before tax</strong></td><td><strong>X</strong></td></tr>" +
+            "<tr><td>Less: Income tax expense</td><td>(X)</td></tr>" +
+            "<tr><td><strong>Profit for the period</strong></td><td><strong>X</strong></td></tr>" +
+            "</tbody></table>" +
+            "<h4>Calculating Cost of Goods Sold (COGS)</h4>" +
+            "<p>For a trading business, COGS is calculated as:</p>" +
+            "<p style='text-align:center'><code>COGS = Opening inventory + Purchases − Returns outward − Closing inventory</code></p>" +
+            "<p>If there are returns inward (goods returned by customers), these reduce revenue. If there are returns outward (goods returned to suppliers), these reduce purchases.</p>" +
+            "<p>For a manufacturing business, COGS = Cost of goods manufactured (opening WIP + manufacturing costs − closing WIP) + Opening finished goods − Closing finished goods.</p>" +
+            "<h4>Accruals (Expenses Incurred but Not Yet Paid)</h4>" +
+            "<p>Under the accruals concept, an expense is recognised when it is <em>incurred</em>, not when cash is paid. If a bill arrives (or relates to the period) but is unpaid at year end:</p>" +
             "<ul>" +
-            "<li><strong>Accruals:</strong> expenses incurred but not yet paid — add to the expense; create a liability.</li>" +
-            "<li><strong>Prepayments:</strong> expenses paid in advance for a future period — remove from current period expense; create an asset.</li>" +
-            "<li><strong>Depreciation:</strong> systematic allocation of a non-current asset's cost over its useful life — charged as an expense each period.</li>" +
-            "</ul>",
+            "<li>The expense is charged in the income statement for the current period.</li>" +
+            "<li>A <strong>current liability (accrual)</strong> is created on the SOFP: Dr Expense / Cr Accruals.</li>" +
+            "<li>When the bill is subsequently paid: Dr Accruals / Cr Cash.</li>" +
+            "</ul>" +
+            "<h4>Prepayments (Expenses Paid in Advance)</h4>" +
+            "<p>When a payment covers a future period, only the portion relating to <em>this</em> year is an expense. The remainder is a <strong>prepayment</strong> — a current asset:</p>" +
+            "<ul>" +
+            "<li>Reduce the expense to the portion relating to the current period.</li>" +
+            "<li>Show the excess as a prepayment (current asset) on the SOFP: Dr Prepayments / Cr Expense account.</li>" +
+            "</ul>" +
+            "<p style='text-align:center'><code>Expense for the period = Payment × (months in current period ÷ total months covered)</code></p>" +
+            "<h4>Depreciation</h4>" +
+            "<p>Depreciation is the systematic allocation of a non-current asset's cost over its useful life, matching the cost of the asset to the periods that benefit from it. It is a non-cash expense: no cash leaves the business when depreciation is charged.</p>" +
+            "<ul>" +
+            "<li>Dr Depreciation expense (income statement)</li>" +
+            "<li>Cr Accumulated depreciation (SOFP — reduces the carrying amount of the asset)</li>" +
+            "</ul>" +
+            "<h4>The Extended Trial Balance</h4>" +
+            "<p>In practice, accountants prepare an <strong>extended trial balance (ETB)</strong> to adjust the trial balance for accruals, prepayments, and depreciation before extracting the income statement and SOFP. Adjustments are entered in the adjustments columns and extended to the appropriate financial statement column.</p>",
           workedExample: {
-            setup: "Year end 31 Dec. Rent £24,000 paid — covers 12 months to 31 Mar next year. Insurance £6,000 paid for the year to 31 Dec. Electricity bill of £800 for Dec received but unpaid. Prepare the relevant adjustments.",
+            setup:
+              "Marble Traders — year end 31 December. Trial balance extracts: " +
+              "Sales revenue £320,000; Returns inward £8,000; Purchases £180,000; Returns outward £5,000; " +
+              "Opening inventory 1 Jan: £22,000; Closing inventory 31 Dec: £28,000. " +
+              "Administrative expenses per trial balance: £35,000. Distribution costs: £18,000. " +
+              "Adjustments required: " +
+              "(1) Office rent of £12,000 was paid on 1 October covering 6 months to 31 March. " +
+              "(2) An electricity bill of £900 for December arrived but is unpaid. " +
+              "(3) Depreciation on equipment: straight-line, cost £40,000, residual value £4,000, 6-year life. " +
+              "Prepare the income statement for the year.",
             steps: [
-              "Rent: 9 months (Jan–Sep) belong to this year = 9/12 × £24,000 = £18,000 expense.",
-              "Rent prepayment (Oct–Dec, next year) = 3/12 × £24,000 = £6,000 — deduct from expense, add to current assets.",
-              "Insurance £6,000 — all relates to current year, so full amount is an expense.",
-              "Electricity accrual: £800 not yet paid — add to expense (Dr Electricity £800) and create accrued liability (Cr Accruals £800).",
+              "NET REVENUE: Sales £320,000 − Returns inward £8,000 = £312,000.",
+              "COST OF GOODS SOLD: Opening inventory £22,000 + Purchases £180,000 − Returns outward £5,000 − Closing inventory £28,000 = £169,000.",
+              "GROSS PROFIT: £312,000 − £169,000 = £143,000.",
+              "ADJUSTMENT 1 — Rent prepayment: £12,000 paid covers 6 months (Oct–Mar). Current year portion (Oct–Dec) = 3/6 × £12,000 = £6,000 expense. Prepayment (Jan–Mar next year) = £6,000 asset. Admin expenses include the full £12,000 from trial balance; reduce by £6,000 to get £6,000 rent expense for the year.",
+              "ADJUSTMENT 2 — Electricity accrual: add £900 to distribution or admin costs. Accrued liability £900 on SOFP.",
+              "ADJUSTMENT 3 — Depreciation: (£40,000 − £4,000) / 6 = £6,000/year. Added to admin expenses.",
+              "ADMIN EXPENSES (revised): Per trial balance £35,000 − Rent prepayment adjustment £6,000 + Depreciation £6,000 + Electricity accrual £900 = £35,900.",
+              "DISTRIBUTION COSTS: £18,000 (no adjustments assumed).",
+              "OPERATING PROFIT: £143,000 − £35,900 − £18,000 = £89,100.",
+              "PROFIT FOR THE YEAR (assuming no finance items or tax): £89,100.",
             ],
-            answer: "Income statement charges: Rent £18,000; Insurance £6,000; Electricity £800. Balance sheet: Prepayment (asset) £6,000; Accrual (liability) £800.",
+            answer:
+              "Income statement: Net revenue £312,000. COGS £169,000. Gross profit £143,000. " +
+              "Admin expenses £35,900. Distribution £18,000. Operating profit £89,100. " +
+              "SOFP effects: Prepayment (asset) £6,000; Accrual (liability) £900; " +
+              "Closing inventory (asset) £28,000; Accumulated depreciation increases by £6,000.",
           },
           summary: [
-            "Income statement shows revenue less expenses = profit or loss for the period.",
-            "Gross profit = revenue − cost of goods sold; operating profit deducts operating expenses.",
-            "Accruals: expenses owed but unpaid are added to the income statement and create a liability.",
-            "Prepayments: amounts paid in advance are removed from current period expense and shown as an asset.",
+            "Income statement: Revenue − COGS = Gross profit. Gross profit − Operating expenses = Operating profit. Operating profit ± Finance items − Tax = Profit for the period.",
+            "COGS = Opening inventory + Purchases − Returns outward − Closing inventory.",
+            "Accrual: expense incurred but unpaid → charge to income statement, create current liability on SOFP.",
+            "Prepayment: paid in advance → charge only the current-period portion to income statement, show remainder as current asset.",
+            "Depreciation: non-cash systematic allocation of asset cost — charged to income statement, accumulated depreciation reduces carrying value on SOFP.",
           ],
           practiceQuestions: [
             {
