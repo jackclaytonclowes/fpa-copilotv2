@@ -6,7 +6,7 @@
  * Receives { paperId, lessonId } via props (passed from App aiqContext).
  * All lesson content lives in the LESSONS catalogue in AIQCourseData.js.
  */
-const { useState: useLsnState } = React;
+const { useState: useLsnState, useEffect: useLsnEffect, useRef: useLsnRef } = React;
 
 /* ── Section renderer ────────────────────────────────────────────────────── */
 function LsnSection({ icon, title, children, tone }) {
@@ -120,6 +120,16 @@ function AIQLessons({ paperId, lessonId, onNavigate }) {
       </div>
     );
   }
+
+  // Track time spent on this lesson; record on unmount
+  const openedAt = useLsnRef(Date.now());
+  useLsnEffect(() => {
+    openedAt.current = Date.now();
+    return () => {
+      const minutes = Math.round((Date.now() - openedAt.current) / 60000);
+      if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
+    };
+  }, [lesson.id]);
 
   const handleAnswer = (correct) => {
     setScore((s) => ({ correct: s.correct + (correct ? 1 : 0), total: s.total + 1 }));

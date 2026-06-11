@@ -413,10 +413,10 @@ function Courses({ onNavigate }) {
         {/* ── 2. Stats Row ────────────────────────────────────────────── */}
         <div className="crs-stats-row">
           <CrsStatCard
-            icon="clock"
+            icon={dailyPct >= 1 ? "check-circle" : "clock"}
             tone="green"
             label="Daily Study Goal"
-            value={`${todayMinutes} / ${dailyGoalMinutes} min`}
+            value={dailyPct >= 1 ? "Goal reached!" : `${todayMinutes} / ${dailyGoalMinutes} min`}
           >
             <CrsProgressBar value={dailyPct} height={4} color="var(--favourable)" />
           </CrsStatCard>
