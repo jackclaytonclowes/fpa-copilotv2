@@ -400,6 +400,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
   const [sectionIdx, setSectionIdx] = useLsnState(0);
   const [expPage, setExpPage]       = useLsnState(0);
+  const [slideDir, setSlideDir]     = useLsnState("fwd");
   const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps] = useLsnState(1);
 
@@ -466,6 +467,11 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const safeExpPage = Math.min(expPage, Math.max(0, totalExp - 1));
   const isLastExpPage = safeExpPage >= totalExp - 1;
 
+  // Overall lesson progress (explanation counts as N sub-steps)
+  const totalSteps   = availSections.reduce((a, s) => a + (s.id === "explanation" ? Math.max(totalExp, 1) : 1), 0);
+  const currentStep  = availSections.slice(0, safeSectionIdx).reduce((a, s) => a + (s.id === "explanation" ? Math.max(totalExp, 1) : 1), 0)
+                     + (curSectionId === "explanation" ? safeExpPage + 1 : 1);
+
   const handleAnswer = (correct) => {
     setScore((s) => ({ correct: s.correct + (correct ? 1 : 0), total: s.total + 1 }));
   };
@@ -475,6 +481,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
 
   const goNext = () => {
+    setSlideDir("fwd");
     if (curSectionId === "explanation" && !isLastExpPage) {
       setExpPage(p => p + 1);
       return;
@@ -489,6 +496,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   };
 
   const goPrev = () => {
+    setSlideDir("back");
     if (curSectionId === "explanation" && safeExpPage > 0) {
       setExpPage(p => p - 1);
       return;
@@ -516,6 +524,11 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
         {/* Lesson header */}
         <div className="lsn-header card">
+          {/* Progress bar — fills as steps are completed */}
+          <div className="lsn-lesson-progress">
+            <div className="lsn-lesson-progress-fill" style={{ width: `${Math.round((currentStep / totalSteps) * 100)}%` }} />
+          </div>
+
           <div className="lsn-header-body">
             <div className="lsn-header-meta">
               <span className="crs-course-badge">{paper.title}</span>
@@ -534,31 +547,39 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
               <div className="lsn-header-time">
                 <Icon name="clock" size={13} color="var(--fg-3)" />
                 ~{lesson.estimatedMinutes} min
+                <span className="lsn-step-counter">{currentStep} / {totalSteps} steps</span>
               </div>
             )}
           </div>
 
-          {/* Section tab strip */}
-          <div className="lsn-section-tabs">
-            {availSections.map((s, i) => (
-              <button
-                key={s.id}
-                className={`lsn-section-tab${i === safeSectionIdx ? " active" : ""}${i < safeSectionIdx ? " done" : ""}`}
-                onClick={() => setSectionIdx(i)}
-              >
-                <Icon
-                  name={i < safeSectionIdx ? "check" : s.icon}
-                  size={11}
-                  color={i === safeSectionIdx ? "var(--primary)" : i < safeSectionIdx ? "var(--favourable)" : "var(--fg-3)"}
-                />
-                {s.label}
-              </button>
-            ))}
+          {/* Step-dot progress (replaces pill tabs) */}
+          <div className="lsn-step-progress">
+            {availSections.map((s, i) => {
+              const isDone   = i < safeSectionIdx;
+              const isActive = i === safeSectionIdx;
+              return (
+                <React.Fragment key={s.id}>
+                  <button
+                    className={`lsn-step-dot${isActive ? " active" : isDone ? " done" : ""}`}
+                    onClick={() => { setSlideDir(i > safeSectionIdx ? "fwd" : "back"); setSectionIdx(i); }}
+                    title={s.label}
+                  >
+                    {isDone
+                      ? <Icon name="check" size={10} color="#fff" />
+                      : <span className="lsn-step-num">{i + 1}</span>
+                    }
+                  </button>
+                  {i < availSections.length - 1 && (
+                    <div className={`lsn-step-line${isDone ? " done" : ""}`} />
+                  )}
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
 
         {/* Section panels — all stay mounted so state (quiz answers, step reveal) persists */}
-        <div className="lsn-section-panels">
+        <div className={`lsn-section-panels lsn-slide-${slideDir}`}>
 
           {/* Intro: objectives + key terms */}
           <div className={`lsn-section-panel${curSectionId === "intro" ? " active" : ""}`}>
@@ -604,7 +625,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
                     <span className="lsn-exp-count">{safeExpPage + 1} of {totalExp}</span>
                   </div>
                 )}
-                <div className="lsn-prose" dangerouslySetInnerHTML={{ __html: expPages[safeExpPage] || "" }} />
+                <div key={safeExpPage} className="lsn-prose" dangerouslySetInnerHTML={{ __html: expPages[safeExpPage] || "" }} />
               </LsnSection>
             )}
           </div>
@@ -669,23 +690,32 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
                     <LsnPracticeQ key={i} q={q} index={i} onAnswer={handleAnswer} />
                   ))}
                 </div>
-                {score.total > 0 && (
+                {score.total === lesson.practiceQuestions.length ? (
+                  <div className="lsn-quiz-complete">
+                    <div className="lsn-quiz-complete-emoji">
+                      {score.correct === score.total ? "🎉" : score.correct >= Math.ceil(score.total * 0.6) ? "👍" : "💪"}
+                    </div>
+                    <div className="lsn-quiz-complete-title">
+                      {score.correct === score.total ? "Perfect score!" : `${score.correct} / ${score.total} correct`}
+                    </div>
+                    <p className="lsn-quiz-complete-sub">
+                      {score.correct === score.total
+                        ? "You nailed every question — ready for the full quiz?"
+                        : score.correct >= Math.ceil(score.total * 0.6)
+                          ? "Good effort — review the explanation then take the full quiz."
+                          : "Keep reviewing — the full quiz will help lock it in."}
+                    </p>
+                    <Button variant="primary" size="sm" iconRight="arrow-right"
+                      onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}>
+                      Take full quiz
+                    </Button>
+                  </div>
+                ) : score.total > 0 ? (
                   <div className="lsn-score">
                     <Icon name="zap" size={14} color="var(--primary)" />
-                    {score.correct} / {score.total} correct
-                    {score.total === lesson.practiceQuestions.length && (
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        icon="arrow-right"
-                        style={{ marginLeft: "auto" }}
-                        onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}
-                      >
-                        Take full quiz
-                      </Button>
-                    )}
+                    {score.correct} / {score.total} correct so far
                   </div>
-                )}
+                ) : null}
               </LsnSection>
             )}
           </div>

@@ -2911,3 +2911,177 @@
   font-size: 11px;
   white-space: nowrap;
 }
+
+/* ── Panel slide transitions ─────────────────────────────────────────────── */
+@keyframes panelInFwd {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes panelInBack {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.lsn-slide-fwd  .lsn-section-panel.active { animation: panelInFwd  0.22s ease both; }
+.lsn-slide-back .lsn-section-panel.active { animation: panelInBack 0.22s ease both; }
+
+/* Explanation prose re-animates on page change (key= causes remount) */
+.lsn-prose { animation: fadeUp 0.2s ease both; }
+
+/* ── Lesson-level progress bar ───────────────────────────────────────────── */
+.lsn-lesson-progress {
+  height: 5px;
+  background: var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.lsn-lesson-progress-fill {
+  height: 100%;
+  background: #D4F04A;
+  border-radius: inherit;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lsn-step-counter {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+  font: var(--text-caption);
+  color: var(--fg-3);
+  font-size: 11px;
+}
+
+/* ── Step dot progress (replaces pill tabs) ──────────────────────────────── */
+.lsn-step-progress {
+  display: flex;
+  align-items: center;
+  padding: 0 24px 18px;
+}
+.lsn-step-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-strong);
+  background: var(--surface-2);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.lsn-step-dot.active {
+  border-color: #D4F04A;
+  background: #D4F04A;
+  box-shadow: 0 0 0 4px rgba(212, 240, 74, .22);
+}
+.lsn-step-dot.done {
+  border-color: var(--favourable);
+  background: var(--favourable);
+}
+.lsn-step-num {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fg-3);
+  line-height: 1;
+  font-family: var(--font-display);
+}
+.lsn-step-dot.active .lsn-step-num { color: #0C0E1A; }
+.lsn-step-line {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: background .3s ease;
+  min-width: 8px;
+}
+.lsn-step-line.done { background: var(--favourable); }
+
+/* ── Prose h3 — styled as a labelled section heading ────────────────────── */
+.lsn-prose h3 {
+  font: var(--text-h3);
+  font-size: 13px;
+  color: var(--ink);
+  margin: 18px 0 8px;
+  padding-left: 10px;
+  border-left: 3px solid #D4F04A;
+  line-height: 1.4;
+}
+.lsn-prose h3:first-child { margin-top: 0; }
+.lsn-prose strong, .lsn-prose b { color: var(--ink); font-weight: 700; }
+
+/* ── Enhanced correct-answer pop ─────────────────────────────────────────── */
+@keyframes correctPop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.045); }
+  60%  { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+@keyframes correctGlow {
+  0%   { box-shadow: 0 0 0 0   rgba(34, 197, 94, .45); }
+  60%  { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); }
+  100% { box-shadow: none; }
+}
+.lsn-pq-opt.correct { animation: correctPop 0.4s ease, correctGlow 0.55s ease; }
+
+/* ── Quiz completion celebration card ───────────────────────────────────── */
+@keyframes celebrationPop {
+  from { opacity: 0; transform: scale(0.88) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.lsn-quiz-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 20px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--primary-soft) 0%, var(--favourable-soft) 100%);
+  border: 1px solid var(--primary-soft-2);
+  border-radius: var(--radius-md);
+  text-align: center;
+  animation: celebrationPop 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+.lsn-quiz-complete-emoji {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.lsn-quiz-complete-title {
+  font: var(--text-h3);
+  color: var(--ink);
+}
+.lsn-quiz-complete-sub {
+  font: var(--text-body);
+  font-size: 13px;
+  color: var(--fg-2);
+  margin: 0 0 8px;
+  max-width: 320px;
+}
+
+/* ── Sticky nav row on mobile ────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .lsn-nav-row {
+    position: sticky;
+    bottom: calc(72px + env(safe-area-inset-bottom, 0));
+    background: var(--canvas);
+    border-top: 1px solid var(--border);
+    padding: 10px 0 4px;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    z-index: 10;
+  }
+}
+
+/* Reduced-motion: disable new animations */
+@media (prefers-reduced-motion: reduce) {
+  .lsn-slide-fwd  .lsn-section-panel.active,
+  .lsn-slide-back .lsn-section-panel.active,
+  .lsn-lesson-progress-fill,
+  .lsn-quiz-complete,
+  .lsn-prose {
+    animation: none;
+    transition: none;
+  }
+}
