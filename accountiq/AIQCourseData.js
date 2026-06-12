@@ -51,6 +51,9 @@ const AIQ_COURSE_DATA = {
             "<p>An <strong>economic system</strong> is the mechanism by which a society decides what to produce, how to produce it, and for whom. Three main types:</p>" +
             "<ul>" +
             "<li><strong>Market (free) economy:</strong> resources are allocated through the <em>price mechanism</em>. The interaction of supply and demand signals what to produce and at what price. Businesses respond to profit opportunities; consumers signal preferences through spending. Advantages: efficiency, innovation, consumer choice. Disadvantages: market failures (externalities, public goods, monopoly power), inequality.</li>" +
+            "</ul>" +
+            "<h4>Planned and Mixed Economies</h4>" +
+            "<ul>" +
             "<li><strong>Planned (command) economy:</strong> the government makes all production decisions centrally — what to produce, how, and for whom. Advantages: can direct resources to national priorities, reduce inequality. Disadvantages: information problem (planners cannot know all preferences), inefficiency, lack of innovation.</li>" +
             "<li><strong>Mixed economy:</strong> a combination — markets allocate most resources, but government intervenes to correct market failures, provide public goods (defence, police), and redistribute income. The UK, US, and most developed economies are mixed economies with varying degrees of government involvement.</li>" +
             "</ul>" +
@@ -154,7 +157,9 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Substitution effect:</strong> a price rise makes the good more expensive relative to substitutes, so consumers switch away from it.</li>" +
             "<li><strong>Income effect:</strong> a price rise reduces consumers' real purchasing power, so they buy less of most goods.</li>" +
             "</ul>" +
-            "<p><strong>Movement along vs shift of the demand curve:</strong> a change in the good's own price causes a movement along the existing curve. A change in anything else causes a <em>shift</em> of the entire curve. Non-price determinants of demand (shift factors):</p>" +
+            "<h4>What Shifts the Demand Curve?</h4>" +
+            "<p><strong>Movement along vs shift of the demand curve:</strong> a change in the good's own price causes a movement along the existing curve. A change in anything else causes a <em>shift</em> of the entire curve.</p>" +
+            "<h4>Non-Price Determinants of Demand</h4>" +
             "<ul>" +
             "<li><strong>Income:</strong> rising income increases demand for <em>normal goods</em> (shift right) but reduces demand for <em>inferior goods</em> (shift left). A normal good is one consumers buy more of as they become wealthier (new cars, restaurant meals). An inferior good is one consumers buy less of when income rises because they can now afford better alternatives (own-brand foods, budget travel).</li>" +
             "<li><strong>Prices of related goods:</strong> a rise in the price of a <em>substitute</em> (e.g., tea becoming more expensive) increases demand for the original good (e.g., coffee) — shift right. A rise in the price of a <em>complement</em> (e.g., printers becoming more expensive) reduces demand for the paired good (e.g., ink cartridges) — shift left.</li>" +
@@ -164,7 +169,7 @@ const AIQ_COURSE_DATA = {
             "</ul>" +
             "<h4>The Supply Curve</h4>" +
             "<p>The <strong>law of supply</strong> states that, ceteris paribus, as price rises, producers are willing to supply more. The supply curve slopes upward because higher prices both cover higher marginal costs and attract new producers seeking profit.</p>" +
-            "<p><strong>Non-price determinants of supply (shift factors):</strong></p>" +
+            "<h4>Non-price determinants of supply (shift factors)</h4>" +
             "<ul>" +
             "<li><strong>Input costs:</strong> rising raw material or labour costs shift supply left (supply decreases — firms offer less at any given price).</li>" +
             "<li><strong>Technology:</strong> improved technology reduces production costs, shifting supply right.</li>" +
@@ -271,15 +276,15 @@ const AIQ_COURSE_DATA = {
             "<h4>1. Price Elasticity of Demand (PED)</h4>" +
             "<p style='text-align:center'><code>PED = % change in quantity demanded ÷ % change in price</code></p>" +
             "<p>PED is always negative for normal goods (price and quantity demanded move in opposite directions — the law of demand). In practice, we often discuss the <em>absolute value</em> |PED|.</p>" +
-            "<p><strong>Interpreting PED:</strong></p>" +
+            "<h4>Interpreting PED</h4>" +
             "<ul><li><strong>|PED| > 1:</strong> Elastic / % change in Qd &gt; % change in price. Consumers are price-sensitive. A small price rise causes a large fall in demand.</li><li><strong>|PED| = 1:</strong> Unit elastic / % change in Qd = % change in price. Total revenue unchanged.</li><li><strong>|PED| < 1:</strong> Inelastic / % change in Qd &lt; % change in price. Consumers are price-insensitive. A large price rise causes only a small fall in demand.</li><li><strong>|PED| = 0:</strong> Perfectly inelastic / Demand is completely unresponsive to price (theoretical).</li><li><strong>|PED| = ∞:</strong> Perfectly elastic / Demand collapses to zero at any price above the going rate (e.g., perfect competition).</li></ul>" +
-            "<p><strong>Revenue implications of PED:</strong></p>" +
+            "<h4>Revenue implications of PED</h4>" +
             "<ul>" +
             "<li><strong>Elastic demand (|PED| > 1):</strong> cutting the price raises total revenue (volume increase more than compensates for lower price per unit). Raising the price reduces total revenue.</li>" +
             "<li><strong>Inelastic demand (|PED| < 1):</strong> raising the price increases total revenue (volume falls but not by enough to offset the higher unit price). Cutting price reduces total revenue.</li>" +
             "<li><strong>Unit elastic:</strong> price changes leave total revenue unchanged.</li>" +
             "</ul>" +
-            "<p><strong>Determinants of PED:</strong></p>" +
+            "<h4>Determinants of PED</h4>" +
             "<ul>" +
             "<li>Number and closeness of substitutes — more substitutes = more elastic (consumers switch).</li>" +
             "<li>Necessity vs luxury — necessities tend to be inelastic (you still buy them even when expensive); luxuries are more elastic.</li>" +
@@ -383,6 +388,7 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>The Spectrum of Market Structures</h4>" +
             "<p>A <strong>market structure</strong> describes the key characteristics of a market — the number of firms, product homogeneity, and barriers to entry — which together determine pricing power and competitive behaviour. Real-world markets fall along a spectrum from perfect competition to pure monopoly.</p>" +
+            "<h4>Key Comparisons</h4>" +
             "<ul><li><strong>Number of sellers</strong><ul><li><strong>Perfect competition:</strong> Very many</li><li><strong>Monopolistic competition:</strong> Many</li><li><strong>Oligopoly:</strong> Few (3–10 dominant)</li><li><strong>Monopoly:</strong> One</li></ul></li><li><strong>Product</strong><ul><li><strong>Perfect competition:</strong> Identical (homogeneous)</li><li><strong>Monopolistic competition:</strong> Differentiated</li><li><strong>Oligopoly:</strong> Differentiated or homogeneous</li><li><strong>Monopoly:</strong> Unique (no close substitute)</li></ul></li><li><strong>Pricing power</strong><ul><li><strong>Perfect competition:</strong> None (price taker)</li><li><strong>Monopolistic competition:</strong> Some (downward-sloping demand)</li><li><strong>Oligopoly:</strong> Significant (interdependent)</li><li><strong>Monopoly:</strong> Full (price maker)</li></ul></li><li><strong>Barriers to entry</strong><ul><li><strong>Perfect competition:</strong> None</li><li><strong>Monopolistic competition:</strong> Low</li><li><strong>Oligopoly:</strong> High</li><li><strong>Monopoly:</strong> Very high (absolute)</li></ul></li><li><strong>Long-run profit</strong><ul><li><strong>Perfect competition:</strong> Normal profit only</li><li><strong>Monopolistic competition:</strong> Normal profit only</li><li><strong>Oligopoly:</strong> Abnormal (supernormal) profit possible</li><li><strong>Monopoly:</strong> Supernormal profit maintained</li></ul></li><li><strong>Real example</strong><ul><li><strong>Perfect competition:</strong> Commodity trading, wheat farming</li><li><strong>Monopolistic competition:</strong> Restaurants, hairdressers</li><li><strong>Oligopoly:</strong> Mobile networks, supermarkets</li><li><strong>Monopoly:</strong> National Grid, water utilities</li></ul></li></ul>" +
             "<h4>Perfect Competition</h4>" +
             "<p>In a perfectly competitive market, each firm is a <strong>price taker</strong> — it sells at whatever the market price happens to be (the price equals marginal revenue for each unit sold). The firm maximises profit by producing where P = MC.</p>" +
@@ -397,6 +403,7 @@ const AIQ_COURSE_DATA = {
             "<li>If a firm cuts its price, rivals WILL match the cut (to avoid losing share) → demand is relatively inelastic below the current price.</li>" +
             "</ul>" +
             "<p>The result is a kinked demand curve — steep below the going price, shallow above it. This creates a range of marginal costs over which the firm will not change output or price, explaining the observed price stability in many oligopoly markets.</p>" +
+            "<h4>Game Theory and the Prisoner's Dilemma</h4>" +
             "<p><strong>Game theory and the Prisoner's Dilemma</strong> provide another lens on oligopoly behaviour. Two rival firms (A and B) each choose whether to charge a high price or cut price. The dominant strategy for each firm is to cut price — regardless of what the other does, cutting price either increases market share or avoids losing it. The Nash Equilibrium is both firms cutting, earning lower profits than if they had colluded — but any attempt to fix prices above the competitive level is unstable (and illegal).</p>" +
             "<p><strong>Collusion</strong> (explicit or tacit agreement to fix prices) allows oligopolists to act as a joint monopoly and maximise collective profit. Formal price-fixing cartels (e.g., OPEC) are illegal in most jurisdictions. Tacit collusion (parallel pricing) is harder to prosecute. The CMA (Competition and Markets Authority in the UK) investigates suspected anti-competitive behaviour.</p>" +
             "<h4>Monopoly</h4>" +
@@ -654,6 +661,7 @@ const AIQ_COURSE_DATA = {
             "<h4>The Phillips Curve</h4>" +
             "<p>A.W. Phillips (1958) observed an empirical relationship in UK data: years with low unemployment tended to have high wage inflation, and vice versa. The <strong>short-run Phillips Curve</strong> (SRPC) shows this inverse relationship between unemployment and inflation. The mechanism: when unemployment is low, workers have bargaining power → wages rise → firms raise prices → inflation rises.</p>" +
             "<p>Policymakers saw this as a stable menu of choices: accept 3% unemployment and 4% inflation, or accept 6% unemployment and 1% inflation.</p>" +
+            "<h4>Stagflation and the Long-Run Phillips Curve</h4>" +
             "<p><strong>The long-run breakdown:</strong> Friedman and Phelps (1968) challenged this view. They argued the trade-off only holds in the short run when inflation is <em>unexpected</em>. Once workers form expectations of inflation and demand compensating wage rises, the economy returns to the <strong>Natural Rate of Unemployment (NRU)</strong> — or NAIRU (Non-Accelerating Inflation Rate of Unemployment) — at a higher inflation level. The long-run Phillips Curve (LRPC) is therefore <strong>vertical</strong> at the NAIRU: any level of inflation is compatible with the natural rate in the long run. Demand stimulus can only temporarily reduce unemployment below NAIRU before inflation accelerates.</p>",
           workedExample: {
             setup: "CPI basket prices: food £200 → £210; transport £150 → £162; housing £300 → £306. Weights: food 30%, transport 25%, housing 45%. Calculate the CPI inflation rate.",
@@ -743,14 +751,17 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Expansionary fiscal policy:</strong> increase government spending (G) and/or cut taxes (T) → higher household disposable income and public investment → higher AD → stimulates growth and reduces cyclical unemployment. Typically used in recession.</li>" +
             "<li><strong>Contractionary (restrictive) fiscal policy:</strong> cut government spending and/or raise taxes → reduces AD → used to reduce inflation or cut budget deficits (austerity).</li>" +
             "</ul>" +
+            "<h4>The Fiscal Multiplier and Crowding Out</h4>" +
             "<p><strong>The fiscal multiplier:</strong> an initial rise in government spending generates additional rounds of spending as recipients of that income spend a portion of it. The size of the multiplier depends on the <em>marginal propensity to consume (MPC)</em> — how much of each additional £ of income households spend rather than save. A higher MPC → larger multiplier. The simple formula: <code>Multiplier = 1 / (1 − MPC)</code>. If MPC = 0.8, multiplier = 1 / 0.2 = 5. So a £1bn spending increase raises GDP by £5bn. In practice, multipliers are smaller due to taxes, savings, and import leakages.</p>" +
             "<p><strong>Crowding out:</strong> when government finances borrowing by issuing bonds (gilts), it competes with private sector for funds, potentially driving up interest rates. Higher rates choke off private investment (I ↓), offsetting some or all of the fiscal stimulus. The degree of crowding out depends on whether the economy is near full capacity and on monetary policy (if the central bank keeps rates low, crowding out is limited).</p>" +
+            "<h4>Automatic Stabilisers and Limitations</h4>" +
             "<p><strong>Automatic stabilisers:</strong> government spending and tax receipts that automatically adjust with the economic cycle without any policy change. In recession: tax revenues fall (incomes fall), welfare spending rises → fiscal deficit rises automatically, partially cushioning the downturn. In a boom: tax revenues rise, welfare spending falls → fiscal surplus, automatically damping inflationary pressure.</p>" +
             "<h4>Monetary Policy</h4>" +
             "<p><strong>Monetary policy</strong> is the use of interest rates, money supply, and credit conditions to achieve macroeconomic objectives (primarily inflation control). In the UK, the <strong>Bank of England's Monetary Policy Committee (MPC)</strong> sets the base interest rate independently of government (operational independence since 1997).</p>" +
-            "<p><strong>Interest rate transmission mechanism:</strong></p>" +
+            "<h4>Interest rate transmission mechanism</h4>" +
             "<ul><li><strong>Cut (lower)</strong><ul><li><strong>Effect on borrowing:</strong> Cheaper mortgages, loans, business finance</li><li><strong>Effect on spending:</strong> Consumer spending ↑, Investment ↑, Weaker £ → Exports ↑</li><li><strong>Objective:</strong> Stimulate growth; fight recession</li></ul></li><li><strong>Rise (higher)</strong><ul><li><strong>Effect on borrowing:</strong> Dearer mortgages, credit cards, overdrafts</li><li><strong>Effect on spending:</strong> Consumer spending ↓, Investment ↓, Stronger £ → Exports ↓</li><li><strong>Objective:</strong> Reduce inflation; cool boom</li></ul></li></ul>" +
             "<p><strong>Quantitative Easing (QE):</strong> when the base rate is at or near zero (the <em>zero lower bound</em>) and cutting it further is impossible, the central bank can create electronic money and use it to buy financial assets (mainly government bonds) from banks. This injects money into the financial system, pushing asset prices up, bond yields down, and increasing banks' ability to lend. QE was deployed by the Bank of England after the 2008 financial crisis and again during COVID-19. Its effectiveness is debated — it inflated asset prices and benefited wealthier asset holders disproportionately.</p>" +
+            "<h4>Limitations of Monetary Policy</h4>" +
             "<p><strong>Liquidity trap:</strong> a theoretical scenario where interest rates are already very low and further cuts fail to stimulate borrowing and spending, because individuals and firms prefer to hold cash (they expect low returns on investment or economic uncertainty). Standard monetary policy becomes ineffective — the economy is trapped at low output. The Great Depression and Japan's post-1990s stagnation are often cited examples.</p>" +
             "<h4>Supply-Side Policy</h4>" +
             "<p><strong>Supply-side policies</strong> aim to increase the productive capacity (long-run aggregate supply, LRAS) of the economy, rather than managing demand. Unlike demand-side policies, they target sustainable non-inflationary growth. Examples:</p>" +
@@ -860,7 +871,9 @@ const AIQ_COURSE_DATA = {
             "<p><strong>Absolute advantage</strong> is the simpler idea: a country has an absolute advantage if it can produce a good using fewer resources. Comparative advantage is the more powerful concept — it shows gains from trade exist even when one country is more efficient at producing everything (as in the classic worked example).</p>" +
             "<h4>Trade Barriers</h4>" +
             "<p>Despite the theoretical gains from free trade, governments frequently restrict imports. Common <strong>protectionist measures:</strong></p>" +
-            "<ul><li><strong>Tariff</strong>: Tax levied on imported goods / Raises import price → domestic producers protected; consumers pay more; government collects revenue</li><li><strong>Quota</strong>: Physical limit on import volume / Reduces supply from abroad → domestic price rises; domestic producers protected; no government revenue</li><li><strong>Subsidy</strong>: Government payment to domestic producers / Lowers domestic producers' costs → they can undercut imports; cost borne by taxpayers</li><li><strong>Embargo</strong>: Outright ban on imports of a good or from a country / Used for political/security reasons (sanctions); eliminates trade entirely for targeted goods</li><li><strong>Non-tariff barriers</strong>: Regulations, standards, customs procedures / Raise the compliance cost of exporting; effectively restrict trade without explicit tariffs</li></ul>" +
+            "<ul><li><strong>Tariff</strong>: Tax levied on imported goods / Raises import price → domestic producers protected; consumers pay more; government collects revenue</li><li><strong>Quota</strong>: Physical limit on import volume / Reduces supply from abroad → domestic price rises; domestic producers protected; no government revenue</li><li><strong>Subsidy</strong>: Government payment to domestic producers / Lowers domestic producers' costs → they can undercut imports; cost borne by taxpayers</li><li><strong>Embargo</strong>: Outright ban on imports of a good or from a country / Used for political/security reasons (sanctions); eliminates trade entirely for targeted goods</li></ul>" +
+            "<h4>Non-Tariff Barriers</h4>" +
+            "<ul><li><strong>Non-tariff barriers</strong>: Regulations, standards, customs procedures / Raise the compliance cost of exporting; effectively restrict trade without explicit tariffs</li></ul>" +
             "<p><strong>Arguments for protectionism:</strong> protect infant industries (allow them to develop before facing global competition); protect jobs in strategic industries; national security; retaliate against unfair foreign subsidies. <strong>Arguments against:</strong> reduces global efficiency; invites retaliation; raises consumer prices; protects inefficient producers at consumers' expense.</p>" +
             "<h4>Trade Agreements and Trading Blocs</h4>" +
             "<ul>" +
@@ -881,9 +894,10 @@ const AIQ_COURSE_DATA = {
             "<p>The <strong>exchange rate</strong> is the price of one currency expressed in terms of another. Like any price, it is determined by supply and demand for the currency in the foreign exchange (forex) market.</p>" +
             "<p><strong>Demand for sterling (£):</strong> comes from overseas buyers of UK goods, services, and assets — to buy UK exports or invest in the UK, foreigners need £.</p>" +
             "<p><strong>Supply of sterling:</strong> comes from UK residents buying foreign goods, services, and assets — they supply £ to get foreign currency.</p>" +
-            "<p><strong>Effect of exchange rate changes:</strong></p>" +
+            "<h4>Effect of exchange rate changes</h4>" +
             "<ul><li><strong>UK exports:</strong> More expensive for foreign buyers → export volume ↓ / Cheaper for foreign buyers → export volume ↑</li><li><strong>UK imports:</strong> Cheaper for UK buyers → import volume ↑ / More expensive for UK buyers → import volume ↓</li><li><strong>UK inflation:</strong> Reduced (cheaper imports) / Increased (dearer imports — 'imported inflation')</li><li><strong>Current account:</strong> Worsens (deficit widens) / Improves (deficit narrows) — depends on Marshall-Lerner</li></ul>" +
             "<p><strong>Fixed vs floating exchange rates:</strong> A <em>floating</em> rate is determined freely by market forces (UK, US, eurozone). A <em>fixed</em> rate is pegged to another currency or basket (e.g., some developing economies peg to the US dollar). A fixed rate provides certainty for trade but requires the central bank to hold reserves to defend the peg.</p>" +
+            "<h4>Marshall-Lerner Condition and J-Curve</h4>" +
             "<p><strong>The J-curve effect:</strong> when the exchange rate depreciates, the current account may initially <em>worsen</em> before improving. In the short run, import prices rise but volumes are sticky (existing contracts), so import spending rises. Over time, volumes adjust — export demand rises (cheaper UK goods), import demand falls. The deficit first deepens then improves — tracing a J-shape over time. The improvement materialises only if the Marshall-Lerner condition is met (the sum of price elasticities of demand for exports and imports exceeds 1).</p>",
           workedExample: {
             setup: "Country A can produce: 1 hour = 10 cars or 20 tonnes of wheat. Country B: 1 hour = 6 cars or 18 tonnes of wheat. Should they specialise and trade?",
@@ -974,7 +988,7 @@ const AIQ_COURSE_DATA = {
             { term: "Limited Liability", definition: "Shareholders' financial exposure is capped at the value of their shares. Personal assets cannot be seized to settle company debts." },
           ],
           explanation:
-            "<h4>Types of Business Organisation</h4>" +"<p>When individuals set up in business they must choose a <strong>legal form</strong>. The choice affects liability, taxation, access to finance, and regulatory obligations.</p>" +"<ul><li><strong>Sole trader</strong><ul><li><strong>Ownership:</strong> One owner</li><li><strong>Liability:</strong> Unlimited</li><li><strong>Key feature:</strong> Simple to set up; owner keeps all profit but bears all risk</li></ul></li><li><strong>Partnership</strong><ul><li><strong>Ownership:</strong> 2–20 partners</li><li><strong>Liability:</strong> Unlimited (joint and several)</li><li><strong>Key feature:</strong> Governed by Partnership Act 1890 unless deed exists; profits shared per agreement</li></ul></li><li><strong>Limited Liability Partnership (LLP)</strong><ul><li><strong>Ownership:</strong> 2+ partners</li><li><strong>Liability:</strong> Limited to capital contributed</li><li><strong>Key feature:</strong> Partners have limited liability; used by professional firms (law, accounting)</li></ul></li><li><strong>Private Limited Company (Ltd)</strong><ul><li><strong>Ownership:</strong> Shareholders</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Separate legal personality; cannot offer shares to public; managed by directors</li></ul></li><li><strong>Public Limited Company (PLC)</strong><ul><li><strong>Ownership:</strong> Shareholders</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Shares traded on stock exchange; minimum share capital £50,000; greater disclosure</li></ul></li><li><strong>Co-operative</strong><ul><li><strong>Ownership:</strong> Members</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Profit distributed to members/customers; one member one vote</li></ul></li></ul>" +"<h4>Limited Liability</h4>" +"<p><strong>Limited liability</strong> means shareholders can only lose the amount they invested — personal assets are protected from business creditors. This is the key advantage of incorporation and why most businesses of any scale choose the company structure. The trade-off is greater regulatory burden: companies must file accounts at Companies House and comply with the Companies Act 2006.</p>" +"<h4>Separate Legal Personality</h4>" +"<p>A company is a distinct legal entity, separate from its owners (established in <em>Salomon v Salomon</em> [1897]). It can own property, enter contracts, and be sued in its own name. The <strong>veil of incorporation</strong> separates the company from shareholders — though courts can 'pierce the veil' in cases of fraud.</p>" +"<h4>Public Sector Organisations</h4>" +"<p>Not all organisations aim to make a profit. Public sector bodies (government departments, NHS trusts, local councils) are funded by taxation and aim to provide public services. <strong>Social enterprises</strong> pursue social objectives but trade commercially. <strong>Charities</strong> are governed by the Charities Act and regulated by the Charity Commission.</p>",
+            "<h4>Types of Business Organisation</h4>" +"<p>When individuals set up in business they must choose a <strong>legal form</strong>. The choice affects liability, taxation, access to finance, and regulatory obligations.</p>" +"<ul><li><strong>Sole trader</strong><ul><li><strong>Ownership:</strong> One owner</li><li><strong>Liability:</strong> Unlimited</li><li><strong>Key feature:</strong> Simple to set up; owner keeps all profit but bears all risk</li></ul></li><li><strong>Partnership</strong><ul><li><strong>Ownership:</strong> 2–20 partners</li><li><strong>Liability:</strong> Unlimited (joint and several)</li><li><strong>Key feature:</strong> Governed by Partnership Act 1890 unless deed exists; profits shared per agreement</li></ul></li><li><strong>Limited Liability Partnership (LLP)</strong><ul><li><strong>Ownership:</strong> 2+ partners</li><li><strong>Liability:</strong> Limited to capital contributed</li><li><strong>Key feature:</strong> Partners have limited liability; used by professional firms (law, accounting)</li></ul></li></ul>" +"<h4>Limited Companies</h4>" +"<ul><li><strong>Private Limited Company (Ltd)</strong><ul><li><strong>Ownership:</strong> Shareholders</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Separate legal personality; cannot offer shares to public; managed by directors</li></ul></li><li><strong>Public Limited Company (PLC)</strong><ul><li><strong>Ownership:</strong> Shareholders</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Shares traded on stock exchange; minimum share capital £50,000; greater disclosure</li></ul></li><li><strong>Co-operative</strong><ul><li><strong>Ownership:</strong> Members</li><li><strong>Liability:</strong> Limited</li><li><strong>Key feature:</strong> Profit distributed to members/customers; one member one vote</li></ul></li></ul>" +"<h4>Limited Liability</h4>" +"<p><strong>Limited liability</strong> means shareholders can only lose the amount they invested — personal assets are protected from business creditors. This is the key advantage of incorporation and why most businesses of any scale choose the company structure. The trade-off is greater regulatory burden: companies must file accounts at Companies House and comply with the Companies Act 2006.</p>" +"<h4>Separate Legal Personality</h4>" +"<p>A company is a distinct legal entity, separate from its owners (established in <em>Salomon v Salomon</em> [1897]). It can own property, enter contracts, and be sued in its own name. The <strong>veil of incorporation</strong> separates the company from shareholders — though courts can 'pierce the veil' in cases of fraud.</p>" +"<h4>Public Sector Organisations</h4>" +"<p>Not all organisations aim to make a profit. Public sector bodies (government departments, NHS trusts, local councils) are funded by taxation and aim to provide public services. <strong>Social enterprises</strong> pursue social objectives but trade commercially. <strong>Charities</strong> are governed by the Charities Act and regulated by the Charity Commission.</p>",
           workedExample: {
             setup: "A sole trader running a consultancy practice is concerned about personal liability after taking on a large client contract. Advise on whether to incorporate as a Ltd company.",
             steps: [
@@ -1062,7 +1076,7 @@ const AIQ_COURSE_DATA = {
             { term: "Outsourcing", definition: "Contracting a business function to an external third-party provider, either domestically or internationally." },
           ],
           explanation:
-            "<h4>What is Globalisation?</h4>" +"<p><strong>Globalisation</strong> describes the increasing integration of the world's economies through the movement of goods, services, capital, people, and information across national borders. It has accelerated since the 1980s, driven by trade liberalisation, falling transport costs, and digital technology.</p>" +"<p><strong>Key drivers of globalisation:</strong></p>" +"<ul>" +"<li><strong>Trade liberalisation:</strong> reduction of tariffs and quotas through WTO agreements and regional trade blocs</li>" +"<li><strong>Technology:</strong> the internet, containerisation, and falling communication costs</li>" +"<li><strong>Foreign Direct Investment (FDI):</strong> companies investing in production facilities abroad</li>" +"<li><strong>Deregulation:</strong> financial market opening allows capital to flow freely</li>" +"<li><strong>Emerging markets:</strong> rapid growth in Asia, Latin America, and Africa creates new consumer bases</li>" +"</ul>" +"<h4>Trade Blocs and the WTO</h4>" +"<p>Countries form <strong>trade blocs</strong> to reduce barriers among members:</p>" +"<ul>" +"<li><strong>Free Trade Area</strong> (e.g., CPTPP): no tariffs between members; each keeps own external tariffs</li>" +"<li><strong>Customs Union</strong> (e.g., EU customs union): free trade plus common external tariff</li>" +"<li><strong>Single/Common Market</strong> (e.g., EU internal market): free movement of goods, services, capital, and labour</li>" +"<li><strong>Economic/Monetary Union</strong> (e.g., Eurozone): single currency plus coordinated economic policy</li>" +"</ul>" +"<p>The <strong>World Trade Organization (WTO)</strong> sets multilateral rules for international trade, resolves disputes between members, and promotes Most Favoured Nation (MFN) treatment — any trade concession given to one member must be given to all.</p>" +"<h4>Multinational Enterprises (MNEs)</h4>" +"<p>An MNE owns or controls production in more than one country. Motivations include:</p>" +"<ul>" +"<li><strong>Market seeking:</strong> access to new customers</li>" +"<li><strong>Resource seeking:</strong> access to raw materials or cheap labour</li>" +"<li><strong>Efficiency seeking:</strong> exploit economies of scale across operations</li>" +"<li><strong>Strategic asset seeking:</strong> acquire brands, technology, or distribution networks</li>" +"</ul>" +"<p><strong>Benefits of MNEs to host countries:</strong> employment, technology transfer, tax revenues, infrastructure development.<br>" +"<strong>Drawbacks:</strong> profit repatriation, transfer pricing manipulation (reducing host-country tax), environmental concerns, crowding out of local firms.</p>" +"<h4>Comparative Advantage</h4>" +"<p>The theory of <strong>comparative advantage</strong> (Ricardo) holds that countries benefit from specialising in goods they produce at the lowest <em>opportunity cost</em> and trading for others — even if one country is absolutely better at producing everything. This is the theoretical foundation for the gains from international trade.</p>",
+            "<h4>What is Globalisation?</h4>" +"<p><strong>Globalisation</strong> describes the increasing integration of the world's economies through the movement of goods, services, capital, people, and information across national borders. It has accelerated since the 1980s, driven by trade liberalisation, falling transport costs, and digital technology.</p>" +"<h4>Key drivers of globalisation</h4>" +"<ul>" +"<li><strong>Trade liberalisation:</strong> reduction of tariffs and quotas through WTO agreements and regional trade blocs</li>" +"<li><strong>Technology:</strong> the internet, containerisation, and falling communication costs</li>" +"<li><strong>Foreign Direct Investment (FDI):</strong> companies investing in production facilities abroad</li>" +"<li><strong>Deregulation:</strong> financial market opening allows capital to flow freely</li>" +"<li><strong>Emerging markets:</strong> rapid growth in Asia, Latin America, and Africa creates new consumer bases</li>" +"</ul>" +"<h4>Trade Blocs and the WTO</h4>" +"<p>Countries form <strong>trade blocs</strong> to reduce barriers among members:</p>" +"<ul>" +"<li><strong>Free Trade Area</strong> (e.g., CPTPP): no tariffs between members; each keeps own external tariffs</li>" +"<li><strong>Customs Union</strong> (e.g., EU customs union): free trade plus common external tariff</li>" +"<li><strong>Single/Common Market</strong> (e.g., EU internal market): free movement of goods, services, capital, and labour</li>" +"<li><strong>Economic/Monetary Union</strong> (e.g., Eurozone): single currency plus coordinated economic policy</li>" +"</ul>" +"<p>The <strong>World Trade Organization (WTO)</strong> sets multilateral rules for international trade, resolves disputes between members, and promotes Most Favoured Nation (MFN) treatment — any trade concession given to one member must be given to all.</p>" +"<h4>Multinational Enterprises (MNEs)</h4>" +"<p>An MNE owns or controls production in more than one country. Motivations include:</p>" +"<ul>" +"<li><strong>Market seeking:</strong> access to new customers</li>" +"<li><strong>Resource seeking:</strong> access to raw materials or cheap labour</li>" +"<li><strong>Efficiency seeking:</strong> exploit economies of scale across operations</li>" +"<li><strong>Strategic asset seeking:</strong> acquire brands, technology, or distribution networks</li>" +"</ul>" +"<p><strong>Benefits of MNEs to host countries:</strong> employment, technology transfer, tax revenues, infrastructure development.<br>" +"<strong>Drawbacks:</strong> profit repatriation, transfer pricing manipulation (reducing host-country tax), environmental concerns, crowding out of local firms.</p>" +"<h4>Comparative Advantage</h4>" +"<p>The theory of <strong>comparative advantage</strong> (Ricardo) holds that countries benefit from specialising in goods they produce at the lowest <em>opportunity cost</em> and trading for others — even if one country is absolutely better at producing everything. This is the theoretical foundation for the gains from international trade.</p>",
           workedExample: {
             setup: "A UK manufacturing firm is considering relocating part of its production to Vietnam to reduce labour costs. Analyse the key economic factors it should consider.",
             steps: [
@@ -1150,7 +1164,7 @@ const AIQ_COURSE_DATA = {
             { term: "Indifference Curve", definition: "A curve showing all combinations of two goods that give a consumer equal utility. Consumer optimum is where the budget constraint is tangent to an indifference curve." },
           ],
           explanation:
-            "<h4>Utility and Consumer Choice</h4>" +"<p><strong>Utility</strong> is the satisfaction or benefit a consumer derives from consuming a good or service. Economists assume consumers act rationally to <em>maximise total utility</em> subject to a budget constraint.</p>" +"<p><strong>Marginal utility (MU)</strong> is the additional satisfaction from consuming one more unit. The <strong>law of diminishing marginal utility</strong> states that, beyond some point, each additional unit consumed adds less utility than the previous one — the first coffee of the morning is more satisfying than the fifth.</p>" +"<h4>Consumer Equilibrium</h4>" +"<p>A rational consumer allocates spending so that the last pound spent on each good yields equal marginal utility. The equilibrium condition is:</p>" +"<p style='text-align:center'><strong>MU<sub>X</sub> / P<sub>X</sub> = MU<sub>Y</sub> / P<sub>Y</sub></strong></p>" +"<p>If MU<sub>X</sub>/P<sub>X</sub> &gt; MU<sub>Y</sub>/P<sub>Y</sub>, the consumer gains more utility per pound from X and should buy more X (and less Y) until the ratio equalises. This condition underpins the downward-sloping individual demand curve: as price rises, the ratio MU/P falls, so the consumer buys less.</p>" +"<h4>Income and Substitution Effects</h4>" +"<p>When the price of a good falls, two effects occur simultaneously:</p>" +"<ul>" +"<li><strong>Substitution effect:</strong> the good becomes relatively cheaper than alternatives → consumers substitute towards it. Always negative (price ↓ → quantity demanded ↑).</li>" +"<li><strong>Income effect:</strong> the real purchasing power of the consumer's income rises (prices are lower) → the consumer can afford more of all goods. For <strong>normal goods</strong>, this reinforces the substitution effect. For <strong>inferior goods</strong>, the income effect is negative (consumers buy less as real income rises).</li>" +"</ul>" +"<p><strong>Giffen goods</strong> are a theoretical extreme case of inferior good where the negative income effect is so large it outweighs the substitution effect — demand rises as price rises (upward-sloping demand curve). Historical example: staple foods like bread during famines.</p>" +"<ul><li><strong>Normal good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↑</li><li><strong>Net demand response to price fall:</strong> Quantity ↑ (demand curve slopes down)</li></ul></li><li><strong>Inferior good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↓</li><li><strong>Net demand response to price fall:</strong> Quantity ↑ (substitution effect dominates)</li></ul></li><li><strong>Giffen good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↓↓</li><li><strong>Net demand response to price fall:</strong> Quantity ↓ (income effect dominates)</li></ul></li></ul>" +"<h4>Indifference Curves and Budget Lines</h4>" +"<p>An <strong>indifference curve</strong> shows all combinations of two goods that give equal total utility. Curves are downward-sloping (more of one good requires less of the other to maintain utility) and convex (reflecting diminishing MRS). The <strong>budget line</strong> shows all combinations affordable at given prices and income. Consumer equilibrium is where the budget line is tangent to the highest attainable indifference curve.</p>",
+            "<h4>Utility and Consumer Choice</h4>" +"<p><strong>Utility</strong> is the satisfaction or benefit a consumer derives from consuming a good or service. Economists assume consumers act rationally to <em>maximise total utility</em> subject to a budget constraint.</p>" +"<p><strong>Marginal utility (MU)</strong> is the additional satisfaction from consuming one more unit. The <strong>law of diminishing marginal utility</strong> states that, beyond some point, each additional unit consumed adds less utility than the previous one — the first coffee of the morning is more satisfying than the fifth.</p>" +"<h4>Consumer Equilibrium</h4>" +"<p>A rational consumer allocates spending so that the last pound spent on each good yields equal marginal utility. The equilibrium condition is:</p>" +"<p style='text-align:center'><strong>MU<sub>X</sub> / P<sub>X</sub> = MU<sub>Y</sub> / P<sub>Y</sub></strong></p>" +"<p>If MU<sub>X</sub>/P<sub>X</sub> &gt; MU<sub>Y</sub>/P<sub>Y</sub>, the consumer gains more utility per pound from X and should buy more X (and less Y) until the ratio equalises. This condition underpins the downward-sloping individual demand curve: as price rises, the ratio MU/P falls, so the consumer buys less.</p>" +"<h4>Income and Substitution Effects</h4>" +"<p>When the price of a good falls, two effects occur simultaneously:</p>" +"<ul>" +"<li><strong>Substitution effect:</strong> the good becomes relatively cheaper than alternatives → consumers substitute towards it. Always negative (price ↓ → quantity demanded ↑).</li>" +"<li><strong>Income effect:</strong> the real purchasing power of the consumer's income rises (prices are lower) → the consumer can afford more of all goods. For <strong>normal goods</strong>, this reinforces the substitution effect. For <strong>inferior goods</strong>, the income effect is negative (consumers buy less as real income rises).</li>" +"</ul>" +"<h4>Giffen Goods and Indifference Curves</h4>" +"<p><strong>Giffen goods</strong> are a theoretical extreme case of inferior good where the negative income effect is so large it outweighs the substitution effect — demand rises as price rises (upward-sloping demand curve). Historical example: staple foods like bread during famines.</p>" +"<ul><li><strong>Normal good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↑</li><li><strong>Net demand response to price fall:</strong> Quantity ↑ (demand curve slopes down)</li></ul></li><li><strong>Inferior good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↓</li><li><strong>Net demand response to price fall:</strong> Quantity ↑ (substitution effect dominates)</li></ul></li><li><strong>Giffen good</strong><ul><li><strong>Substitution effect:</strong> Quantity ↑</li><li><strong>Income effect:</strong> Quantity ↓↓</li><li><strong>Net demand response to price fall:</strong> Quantity ↓ (income effect dominates)</li></ul></li></ul>" +"<h4>Indifference Curves and Budget Lines</h4>" +"<p>An <strong>indifference curve</strong> shows all combinations of two goods that give equal total utility. Curves are downward-sloping (more of one good requires less of the other to maintain utility) and convex (reflecting diminishing MRS). The <strong>budget line</strong> shows all combinations affordable at given prices and income. Consumer equilibrium is where the budget line is tangent to the highest attainable indifference curve.</p>",
           workedExample: {
             setup: "A student has £10 to spend on coffees (£2 each) and snacks (£1 each). The marginal utility from the first three coffees is 12, 8, 4 utils; for snacks it is 5, 4, 3 utils. Find the utility-maximising combination.",
             steps: [
@@ -1238,7 +1252,7 @@ const AIQ_COURSE_DATA = {
             { term: "Minimum Efficient Scale (MES)", definition: "The lowest level of output at which a firm achieves minimum long-run average cost. Below MES, the firm is not fully exploiting economies of scale." },
           ],
           explanation:
-            "<h4>Short Run vs Long Run</h4>" +"<p>In economics, the <strong>short run</strong> is a period in which at least one factor of production is fixed (typically capital — buildings and machinery). The <strong>long run</strong> is a period long enough for all factors to be varied. The distinction drives fundamental differences in cost behaviour.</p>" +"<h4>The Law of Diminishing Returns (Short Run)</h4>" +"<p>As more units of a variable factor (labour) are added to a fixed factor (capital), beyond some point the <strong>marginal product</strong> of the variable factor falls. This is the <strong>law of diminishing (marginal) returns</strong> — not to be confused with economies of scale, which operate in the long run.</p>" +"<p>Consequences for short-run costs:</p>" +"<ul>" +"<li><strong>Marginal cost (MC)</strong> rises once diminishing returns set in</li>" +"<li><strong>Average variable cost (AVC)</strong> is U-shaped; it falls while MR &gt; AVC, rises when MC &gt; AVC</li>" +"<li><strong>MC always intersects AVC and ATC at their minimum points</strong></li>" +"</ul>" +"<h4>Short-Run Cost Relationships</h4>" +"<ul><li><strong>Total Fixed Cost (TFC):</strong> Does not vary with output / Constant</li><li><strong>Total Variable Cost (TVC):</strong> Changes with output / Rises with output</li><li><strong>Total Cost (TC):</strong> Sum of fixed and variable / TC = TFC + TVC</li><li><strong>Average Fixed Cost (AFC):</strong> Fixed cost per unit / TFC / Q → always falls</li><li><strong>Average Variable Cost (AVC):</strong> Variable cost per unit / TVC / Q → U-shaped</li><li><strong>Average Total Cost (ATC):</strong> Total cost per unit / TC / Q = AFC + AVC</li><li><strong>Marginal Cost (MC):</strong> Cost of one more unit / ΔTC / ΔQ</li></ul>" +"<h4>Economies of Scale (Long Run)</h4>" +"<p>In the long run all costs are variable. <strong>Economies of scale</strong> occur when long-run average cost (LRAC) falls as output rises. <strong>Diseconomies of scale</strong> occur when LRAC rises. The LRAC curve is the <em>envelope</em> of all possible short-run ATC curves.</p>" +"<p><strong>Internal economies of scale</strong> arise within the firm:</p>" +"<ul>" +"<li><strong>Technical:</strong> larger, more specialised machinery; indivisibilities</li>" +"<li><strong>Managerial:</strong> division of labour among specialist managers</li>" +"<li><strong>Financial:</strong> larger firms borrow at lower interest rates</li>" +"<li><strong>Purchasing:</strong> bulk-buying discounts on inputs</li>" +"<li><strong>Marketing:</strong> spreading advertising costs over more units</li>" +"<li><strong>Risk-bearing:</strong> diversified product range reduces exposure to any single market</li>" +"</ul>" +"<p><strong>External economies of scale</strong> benefit all firms in an industry as the industry grows: skilled local labour pool, specialised suppliers, knowledge spillovers (e.g., Silicon Valley, the City of London).</p>" +"<p><strong>Diseconomies of scale:</strong> as firms grow very large, coordination difficulties, communication breakdowns, and management layers push LRAC upward. The <strong>minimum efficient scale (MES)</strong> is the lowest output at which LRAC is minimised.</p>",
+            "<h4>Short Run vs Long Run</h4>" +"<p>In economics, the <strong>short run</strong> is a period in which at least one factor of production is fixed (typically capital — buildings and machinery). The <strong>long run</strong> is a period long enough for all factors to be varied. The distinction drives fundamental differences in cost behaviour.</p>" +"<h4>The Law of Diminishing Returns (Short Run)</h4>" +"<p>As more units of a variable factor (labour) are added to a fixed factor (capital), beyond some point the <strong>marginal product</strong> of the variable factor falls. This is the <strong>law of diminishing (marginal) returns</strong> — not to be confused with economies of scale, which operate in the long run.</p>" +"<p>Consequences for short-run costs:</p>" +"<ul>" +"<li><strong>Marginal cost (MC)</strong> rises once diminishing returns set in</li>" +"<li><strong>Average variable cost (AVC)</strong> is U-shaped; it falls while MR &gt; AVC, rises when MC &gt; AVC</li>" +"<li><strong>MC always intersects AVC and ATC at their minimum points</strong></li>" +"</ul>" +"<h4>Short-Run Cost Relationships</h4>" +"<ul><li><strong>Total Fixed Cost (TFC):</strong> Does not vary with output / Constant</li><li><strong>Total Variable Cost (TVC):</strong> Changes with output / Rises with output</li><li><strong>Total Cost (TC):</strong> Sum of fixed and variable / TC = TFC + TVC</li><li><strong>Average Fixed Cost (AFC):</strong> Fixed cost per unit / TFC / Q → always falls</li><li><strong>Average Variable Cost (AVC):</strong> Variable cost per unit / TVC / Q → U-shaped</li><li><strong>Average Total Cost (ATC):</strong> Total cost per unit / TC / Q = AFC + AVC</li><li><strong>Marginal Cost (MC):</strong> Cost of one more unit / ΔTC / ΔQ</li></ul>" +"<h4>Economies of Scale (Long Run)</h4>" +"<p>In the long run all costs are variable. <strong>Economies of scale</strong> occur when long-run average cost (LRAC) falls as output rises. <strong>Diseconomies of scale</strong> occur when LRAC rises. The LRAC curve is the <em>envelope</em> of all possible short-run ATC curves.</p>" +"<p><strong>Internal economies of scale</strong> arise within the firm:</p>" +"<ul>" +"<li><strong>Technical:</strong> larger, more specialised machinery; indivisibilities</li>" +"<li><strong>Managerial:</strong> division of labour among specialist managers</li>" +"<li><strong>Financial:</strong> larger firms borrow at lower interest rates</li>" +"<li><strong>Purchasing:</strong> bulk-buying discounts on inputs</li>" +"<li><strong>Marketing:</strong> spreading advertising costs over more units</li>" +"<li><strong>Risk-bearing:</strong> diversified product range reduces exposure to any single market</li>" +"</ul>" +"<p><strong>External economies of scale</strong> benefit all firms in an industry as the industry grows: skilled local labour pool, specialised suppliers, knowledge spillovers (e.g., Silicon Valley, the City of London).</p>" +"<h4>Diseconomies of Scale</h4>" +"<p><strong>Diseconomies of scale:</strong> as firms grow very large, coordination difficulties, communication breakdowns, and management layers push LRAC upward. The <strong>minimum efficient scale (MES)</strong> is the lowest output at which LRAC is minimised.</p>",
           workedExample: {
             setup: "A bakery has fixed costs of £500/week and variable costs shown below. Calculate TC, ATC, AVC, and MC at each output level, and identify where diminishing returns set in.",
             steps: [
@@ -1766,7 +1780,7 @@ const AIQ_COURSE_DATA = {
             { term: "Output Gap", definition: "The difference between actual GDP and potential GDP. A positive output gap indicates the economy is overheating; a negative gap indicates spare capacity." },
           ],
           explanation:
-            "<h4>The Business Cycle</h4>" +"<p>The <strong>business cycle</strong> (or economic cycle) describes the recurring pattern of expansion and contraction in real GDP around its long-run trend. All market economies experience cycles, though their timing, amplitude, and causes vary.</p>" +"<p><strong>The four phases:</strong></p>" +"<ul><li><strong>Recovery (upturn)</strong><ul><li><strong>GDP:</strong> Rising from trough</li><li><strong>Unemployment:</strong> Falling</li><li><strong>Inflation:</strong> Low, stable</li><li><strong>Business conditions:</strong> Consumer confidence recovering; investment cautiously rising</li></ul></li><li><strong>Boom (peak)</strong><ul><li><strong>GDP:</strong> Above trend; high growth</li><li><strong>Unemployment:</strong> Low</li><li><strong>Inflation:</strong> Rising (demand-pull)</li><li><strong>Business conditions:</strong> High investment; capacity constraints; labour shortages</li></ul></li><li><strong>Downturn (recession risk)</strong><ul><li><strong>GDP:</strong> Slowing</li><li><strong>Unemployment:</strong> Rising</li><li><strong>Inflation:</strong> Moderating</li><li><strong>Business conditions:</strong> Consumer and business confidence falling; destocking</li></ul></li><li><strong>Recession (trough)</strong><ul><li><strong>GDP:</strong> Falling (two consecutive quarters of negative growth)</li><li><strong>Unemployment:</strong> High and rising</li><li><strong>Inflation:</strong> Low or falling</li><li><strong>Business conditions:</strong> Business failures; reduced investment; credit tightening</li></ul></li></ul>" +"<h4>Economic Indicators</h4>" +"<p>Indicators are classified by their timing relative to the cycle:</p>" +"<ul>" +"<li><strong>Leading indicators:</strong> move <em>before</em> the economy — useful for forecasting. Examples: consumer confidence surveys, new housing starts, stock market indices, PMI (Purchasing Managers' Index), order books.</li>" +"<li><strong>Lagging indicators:</strong> move <em>after</em> the economy has changed direction — confirm trends already underway. Examples: unemployment rate, business investment levels, average loan rates.</li>" +"<li><strong>Coincident indicators:</strong> move <em>with</em> the economy in real time. Examples: retail sales, industrial production, GDP itself.</li>" +"</ul>" +"<h4>Business Implications</h4>" +"<p>Firms use cycle awareness for strategic planning:</p>" +"<ul>" +"<li><strong>Boom:</strong> expand capacity, invest, recruit; but watch for overheating (inflation, wage pressure)</li>" +"<li><strong>Downturn/recession:</strong> conserve cash, reduce inventory, review staffing; countercyclical opportunities (acquire distressed assets, gain market share from failing rivals)</li>" +"<li><strong>Recovery:</strong> cautiously expand; first movers gain advantage as competitors lag</li>" +"</ul>" +"<p><strong>Cyclical vs defensive industries:</strong> consumer discretionary (cars, restaurants, holidays) are highly cyclical; utilities, food retailers, healthcare, and tobacco are more defensive (demand relatively stable across the cycle).</p>",
+            "<h4>The Business Cycle</h4>" +"<p>The <strong>business cycle</strong> (or economic cycle) describes the recurring pattern of expansion and contraction in real GDP around its long-run trend. All market economies experience cycles, though their timing, amplitude, and causes vary.</p>" +"<h4>The four phases</h4>" +"<ul><li><strong>Recovery (upturn)</strong><ul><li><strong>GDP:</strong> Rising from trough</li><li><strong>Unemployment:</strong> Falling</li><li><strong>Inflation:</strong> Low, stable</li><li><strong>Business conditions:</strong> Consumer confidence recovering; investment cautiously rising</li></ul></li><li><strong>Boom (peak)</strong><ul><li><strong>GDP:</strong> Above trend; high growth</li><li><strong>Unemployment:</strong> Low</li><li><strong>Inflation:</strong> Rising (demand-pull)</li><li><strong>Business conditions:</strong> High investment; capacity constraints; labour shortages</li></ul></li><li><strong>Downturn (recession risk)</strong><ul><li><strong>GDP:</strong> Slowing</li><li><strong>Unemployment:</strong> Rising</li><li><strong>Inflation:</strong> Moderating</li><li><strong>Business conditions:</strong> Consumer and business confidence falling; destocking</li></ul></li><li><strong>Recession (trough)</strong><ul><li><strong>GDP:</strong> Falling (two consecutive quarters of negative growth)</li><li><strong>Unemployment:</strong> High and rising</li><li><strong>Inflation:</strong> Low or falling</li><li><strong>Business conditions:</strong> Business failures; reduced investment; credit tightening</li></ul></li></ul>" +"<h4>Economic Indicators</h4>" +"<p>Indicators are classified by their timing relative to the cycle:</p>" +"<ul>" +"<li><strong>Leading indicators:</strong> move <em>before</em> the economy — useful for forecasting. Examples: consumer confidence surveys, new housing starts, stock market indices, PMI (Purchasing Managers' Index), order books.</li>" +"<li><strong>Lagging indicators:</strong> move <em>after</em> the economy has changed direction — confirm trends already underway. Examples: unemployment rate, business investment levels, average loan rates.</li>" +"<li><strong>Coincident indicators:</strong> move <em>with</em> the economy in real time. Examples: retail sales, industrial production, GDP itself.</li>" +"</ul>" +"<h4>Business Implications</h4>" +"<p>Firms use cycle awareness for strategic planning:</p>" +"<ul>" +"<li><strong>Boom:</strong> expand capacity, invest, recruit; but watch for overheating (inflation, wage pressure)</li>" +"<li><strong>Downturn/recession:</strong> conserve cash, reduce inventory, review staffing; countercyclical opportunities (acquire distressed assets, gain market share from failing rivals)</li>" +"<li><strong>Recovery:</strong> cautiously expand; first movers gain advantage as competitors lag</li>" +"</ul>" +"<p><strong>Cyclical vs defensive industries:</strong> consumer discretionary (cars, restaurants, holidays) are highly cyclical; utilities, food retailers, healthcare, and tobacco are more defensive (demand relatively stable across the cycle).</p>",
           workedExample: {
             setup: "A finance director is reviewing the following data for the UK economy: PMI falls to 47.5 (below 50 = contraction); consumer confidence index falls to its lowest in two years; GDP growth slows to 0.1%. Advise management on the business cycle phase and how the firm should respond.",
             steps: [
@@ -2467,7 +2481,7 @@ const AIQ_COURSE_DATA = {
             { term: "Ceteris Paribus", definition: "A Latin term meaning 'all else being equal'. Used in economics to isolate the effect of one variable while holding all others constant." },
           ],
           explanation:
-            "<h4>Mock Exam: BA1 Fundamentals of Business Economics</h4>" +"<p>This mock exam contains <strong>10 practice questions</strong> drawn from across the BA1 syllabus. The real BA1 exam has 60 questions (computer-based, multiple-choice) with a 2-hour time limit.</p>" +"<p><strong>Time guidance for this practice set:</strong> allow 20 minutes. Review all answers — including the ones you get right — using the explanations provided.</p>" +"<p><strong>Exam technique reminders:</strong></p>" +"<ul>" +"<li>Read each question twice — identify the <em>key verb</em> (calculate, explain, identify, which of the following)</li>" +"<li>Eliminate obviously wrong answers first</li>" +"<li>For calculation questions: write out the formula before substituting numbers</li>" +"<li>For 'which of the following' questions: test each option against the economic theory, not intuition</li>" +"<li>Do not leave blanks — there is no negative marking in BA1</li>" +"</ul>",
+            "<h4>Mock Exam: BA1 Fundamentals of Business Economics</h4>" +"<p>This mock exam contains <strong>10 practice questions</strong> drawn from across the BA1 syllabus. The real BA1 exam has 60 questions (computer-based, multiple-choice) with a 2-hour time limit.</p>" +"<p><strong>Time guidance for this practice set:</strong> allow 20 minutes. Review all answers — including the ones you get right — using the explanations provided.</p>" +"<h4>Exam technique reminders</h4>" +"<ul>" +"<li>Read each question twice — identify the <em>key verb</em> (calculate, explain, identify, which of the following)</li>" +"<li>Eliminate obviously wrong answers first</li>" +"<li>For calculation questions: write out the formula before substituting numbers</li>" +"<li>For 'which of the following' questions: test each option against the economic theory, not intuition</li>" +"<li>Do not leave blanks — there is no negative marking in BA1</li>" +"</ul>",
           workedExample: {
             setup: "Before attempting the practice questions, complete this pre-flight checklist:",
             steps: [
@@ -3111,12 +3125,12 @@ const AIQ_COURSE_DATA = {
             "</ul>" +
             "<h4>Why Marginal ≠ Absorption Profit (When Inventory Changes)</h4>" +
             "<p>When production volume equals sales volume (i.e., no change in inventory), the two methods give <em>identical</em> profit. When inventory levels change, they diverge.</p>" +
-            "<p><strong>Production &gt; Sales (closing inventory increases):</strong></p>" +
+            "<h4>Production &gt; Sales (closing inventory increases)</h4>" +
             "<ul>" +
             "<li>Absorption: some fixed overhead is carried into closing inventory — not all fixed cost hits the income statement this period. Absorption profit &gt; Marginal profit.</li>" +
             "<li>Marginal: all fixed overhead is charged in full this period regardless of inventory build-up. Marginal profit &lt; Absorption profit.</li>" +
             "</ul>" +
-            "<p><strong>Production &lt; Sales (closing inventory decreases):</strong></p>" +
+            "<h4>Production &lt; Sales (closing inventory decreases)</h4>" +
             "<ul>" +
             "<li>Absorption: opening inventory contains fixed overhead from last period, which now hits cost of sales. Absorption profit &lt; Marginal profit.</li>" +
             "<li>Marginal: only this period's fixed costs hit the income statement. Marginal profit &gt; Absorption profit.</li>" +
@@ -3126,13 +3140,13 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>= (Closing inventory units − Opening inventory units) × Fixed overhead per unit</code></p>" +
             "<p>Where: Fixed overhead per unit (absorption) = Total fixed overhead ÷ Budgeted production volume</p>" +
             "<h4>Which Method Is Better?</h4>" +
-            "<p><strong>Marginal costing wins on:</strong></p>" +
+            "<h4>Marginal costing wins on</h4>" +
             "<ul>" +
             "<li><strong>Decision-making:</strong> contribution is stable; fixed costs are not distorted by inventory levels</li>" +
             "<li><strong>Profit manipulation:</strong> harder — managers cannot inflate profit by overproducing</li>" +
             "<li><strong>Break-even analysis:</strong> direct and intuitive with contribution</li>" +
             "</ul>" +
-            "<p><strong>Absorption costing wins on:</strong></p>" +
+            "<h4>Absorption costing wins on</h4>" +
             "<ul>" +
             "<li><strong>External reporting:</strong> required by IAS 2 — marginal costing is not permitted for inventory valuation</li>" +
             "<li><strong>Price-setting:</strong> ensures fixed overheads are included in the selling price to achieve full cost recovery</li>" +
@@ -3639,14 +3653,14 @@ const AIQ_COURSE_DATA = {
             "<h4>1. Materials Variances</h4>" +
             "<p>The two materials variances together explain the <strong>total materials cost variance</strong>:</p>" +
             "<p style='text-align:center'><code>Total materials variance = Standard material cost for actual output − Actual material cost</code></p>" +
-            "<p><strong>Materials Price Variance (MPV)</strong></p>" +
+            "<h4>Materials Price Variance (MPV)</h4>" +
             "<p style='text-align:center'><code>MPV = (Standard price − Actual price) × Actual quantity purchased</code></p>" +
             "<p>This asks: did we pay the right price per unit of material?</p>" +
             "<ul>" +
             "<li><em>Favourable MPV:</em> paid less per unit than standard. Possible causes: bulk discount, cheaper supplier, lower quality material, or a favourable movement in exchange rates for imported materials.</li>" +
             "<li><em>Adverse MPV:</em> paid more per unit. Possible causes: commodity price inflation, emergency purchase from a non-preferred supplier, quality upgrade, or supply shortage.</li>" +
             "</ul>" +
-            "<p><strong>Materials Usage Variance (MUV)</strong></p>" +
+            "<h4>Materials Usage Variance (MUV)</h4>" +
             "<p style='text-align:center'><code>MUV = (Standard quantity for actual output − Actual quantity used) × Standard price</code></p>" +
             "<p>Standard quantity for actual output = Standard kg per unit × Actual units produced.</p>" +
             "<p>This asks: did we use the right amount of material to make the actual output?</p>" +
@@ -3658,13 +3672,13 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>Check: MPV + MUV = Total materials variance</code></p>" +
             "<h4>2. Labour Variances</h4>" +
             "<p style='text-align:center'><code>Total labour variance = Standard labour cost for actual output − Actual labour cost</code></p>" +
-            "<p><strong>Labour Rate Variance (LRV)</strong></p>" +
+            "<h4>Labour Rate Variance (LRV)</h4>" +
             "<p style='text-align:center'><code>LRV = (Standard rate − Actual rate) × Actual hours paid</code></p>" +
             "<ul>" +
             "<li><em>Adverse LRV:</em> paid more per hour than standard — overtime premiums, a wage rise, or using higher-grade (more expensive) workers to cover for absentees.</li>" +
             "<li><em>Favourable LRV:</em> paid less per hour — using lower-grade workers or an agreed rate that came in below budget.</li>" +
             "</ul>" +
-            "<p><strong>Labour Efficiency Variance (LEV)</strong></p>" +
+            "<h4>Labour Efficiency Variance (LEV)</h4>" +
             "<p style='text-align:center'><code>LEV = (Standard hours for actual output − Actual hours worked) × Standard rate</code></p>" +
             "<p>Standard hours for actual output = Standard hours per unit × Actual units produced.</p>" +
             "<ul>" +
@@ -3679,10 +3693,10 @@ const AIQ_COURSE_DATA = {
             "<h4>3. Variable Overhead Variances</h4>" +
             "<p>Variable overheads (power, consumables) are absorbed using a rate per hour:</p>" +
             "<p style='text-align:center'><code>Standard variable overhead rate (SVOR) = Budgeted variable overhead ÷ Budgeted hours</code></p>" +
-            "<p><strong>Variable Overhead Expenditure Variance:</strong></p>" +
+            "<h4>Variable Overhead Expenditure Variance</h4>" +
             "<p style='text-align:center'><code>= (Actual hours worked × SVOR) − Actual variable overhead incurred</code></p>" +
             "<p>Did we spend the expected amount on variable overheads per hour worked? Adverse if actual variable overhead spend exceeded the standard rate for those hours.</p>" +
-            "<p><strong>Variable Overhead Efficiency Variance:</strong></p>" +
+            "<h4>Variable Overhead Efficiency Variance</h4>" +
             "<p style='text-align:center'><code>= (Standard hours for actual output − Actual hours worked) × SVOR</code></p>" +
             "<p>Same driver as the labour efficiency variance: if more hours were worked than standard, additional variable overheads were consumed. The variance measures that extra time at the standard overhead rate.</p>" +
             "<h4>4. Fixed Overhead Variances (Absorption Costing)</h4>" +
@@ -3690,10 +3704,10 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>Fixed Overhead Absorption Rate (FOAR) = Budgeted fixed overhead ÷ Budgeted hours</code></p>" +
             "<p>The total fixed overhead variance is the over- or under-absorption of fixed overhead:</p>" +
             "<p style='text-align:center'><code>Total fixed overhead variance = Fixed overhead absorbed − Actual fixed overhead</code></p>" +
-            "<p><strong>Fixed Overhead Expenditure Variance:</strong></p>" +
+            "<h4>Fixed Overhead Expenditure Variance</h4>" +
             "<p style='text-align:center'><code>= Budgeted fixed overhead − Actual fixed overhead</code></p>" +
             "<p>Simply: did fixed overhead spending match the budget? Adverse if actual spend exceeded budget (unexpected rent increase, new maintenance contract).</p>" +
-            "<p><strong>Fixed Overhead Volume Variance:</strong></p>" +
+            "<h4>Fixed Overhead Volume Variance</h4>" +
             "<p style='text-align:center'><code>= (Actual output in standard hours − Budgeted hours) × FOAR</code></p>" +
             "<p>Did we produce as much output as planned? If output was below budget, fixed overhead is under-absorbed (adverse). The volume variance splits further into:</p>" +
             "<ul>" +
@@ -3703,10 +3717,10 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>Expenditure variance + Volume variance = Total fixed overhead variance</code></p>" +
             "<p style='text-align:center'><code>Capacity variance + Efficiency variance = Volume variance</code></p>" +
             "<h4>5. Sales Variances</h4>" +
-            "<p><strong>Sales Price Variance:</strong></p>" +
+            "<h4>Sales Price Variance</h4>" +
             "<p style='text-align:center'><code>= (Actual price − Standard price) × Actual units sold</code></p>" +
             "<p>Favourable if we sold above the standard price; adverse if discounts were given or market prices fell below standard.</p>" +
-            "<p><strong>Sales Volume Variance (marginal costing):</strong></p>" +
+            "<h4>Sales Volume Variance (marginal costing)</h4>" +
             "<p style='text-align:center'><code>= (Actual units sold − Budgeted units) × Standard contribution per unit</code></p>" +
             "<p>Under absorption costing, use standard profit per unit instead of contribution. Favourable if more units were sold than budgeted.</p>" +
             "<p><strong>Typical exam interrelationship:</strong> raising the selling price above standard causes a favourable sales price variance — but customers buy fewer units, creating an adverse sales volume variance. Both variances are reported separately so management can see both effects.</p>" +
@@ -4168,7 +4182,7 @@ const AIQ_COURSE_DATA = {
             { term: "Overhead Distortion", definition: "The mis-allocation of overhead to products under traditional absorption costing, typically over-costing high-volume simple products and under-costing low-volume complex products." },
           ],
           explanation:
-            "<h4>The Problem with Traditional Absorption Costing</h4>" +"<p>Traditional absorption costing allocates overheads using volume-based bases (machine hours, direct labour hours). When overhead is driven by activities that are not volume-related — set-up costs, purchase orders, quality inspections — high-volume products are over-costed and low-volume products are under-costed, distorting pricing and profitability decisions.</p>" +"<h4>Activity-Based Costing (ABC)</h4>" +"<p><strong>ABC</strong> traces overhead costs to products via the activities that cause them (cost drivers), giving a more accurate picture of the true cost of producing each product. Developed by Cooper and Kaplan (Harvard, 1988).</p>" +"<p><strong>Key ABC concepts:</strong></p>" +"<ul>" +"<li><strong>Cost pool:</strong> a group of overhead costs that are driven by the same activity (e.g., all machine set-up costs in one pool)</li>" +"<li><strong>Cost driver:</strong> the factor that causes the costs in a pool to be incurred (e.g., number of set-ups, number of purchase orders, number of inspections)</li>" +"<li><strong>Cost driver rate:</strong> Cost pool total ÷ Total cost driver units</li>" +"</ul>" +"<h4>ABC Procedure</h4>" +"<ol>" +"<li>Identify the main overhead activities (set-ups, procurement, inspection, dispatch)</li>" +"<li>Group overhead costs into cost pools by activity</li>" +"<li>Identify the cost driver for each pool</li>" +"<li>Calculate the cost driver rate for each pool</li>" +"<li>Charge costs to products based on each product's usage of each cost driver</li>" +"</ol>" +"<h4>Advantages vs Limitations of ABC</h4>" +"<ul><li><strong>More accurate product costs when overhead is diverse:</strong> Complex and costly to implement and maintain</li><li><strong>Better pricing and mix decisions:</strong> Choice of cost drivers is subjective</li><li><strong>Identifies non-value-adding activities for elimination:</strong> Still uses arbitrary allocation for some shared costs</li><li><strong>Supports activity-based management (ABM):</strong> May not improve decisions if overhead is small relative to direct costs</li></ul>",
+            "<h4>The Problem with Traditional Absorption Costing</h4>" +"<p>Traditional absorption costing allocates overheads using volume-based bases (machine hours, direct labour hours). When overhead is driven by activities that are not volume-related — set-up costs, purchase orders, quality inspections — high-volume products are over-costed and low-volume products are under-costed, distorting pricing and profitability decisions.</p>" +"<h4>Activity-Based Costing (ABC)</h4>" +"<p><strong>ABC</strong> traces overhead costs to products via the activities that cause them (cost drivers), giving a more accurate picture of the true cost of producing each product. Developed by Cooper and Kaplan (Harvard, 1988).</p>" +"<h4>Key ABC concepts</h4>" +"<ul>" +"<li><strong>Cost pool:</strong> a group of overhead costs that are driven by the same activity (e.g., all machine set-up costs in one pool)</li>" +"<li><strong>Cost driver:</strong> the factor that causes the costs in a pool to be incurred (e.g., number of set-ups, number of purchase orders, number of inspections)</li>" +"<li><strong>Cost driver rate:</strong> Cost pool total ÷ Total cost driver units</li>" +"</ul>" +"<h4>ABC Procedure</h4>" +"<ol>" +"<li>Identify the main overhead activities (set-ups, procurement, inspection, dispatch)</li>" +"<li>Group overhead costs into cost pools by activity</li>" +"<li>Identify the cost driver for each pool</li>" +"<li>Calculate the cost driver rate for each pool</li>" +"<li>Charge costs to products based on each product's usage of each cost driver</li>" +"</ol>" +"<h4>Advantages vs Limitations of ABC</h4>" +"<ul><li><strong>More accurate product costs when overhead is diverse:</strong> Complex and costly to implement and maintain</li><li><strong>Better pricing and mix decisions:</strong> Choice of cost drivers is subjective</li><li><strong>Identifies non-value-adding activities for elimination:</strong> Still uses arbitrary allocation for some shared costs</li><li><strong>Supports activity-based management (ABM):</strong> May not improve decisions if overhead is small relative to direct costs</li></ul>",
           workedExample: {
             setup: "A company makes two products: Alpha (5,000 units/year, simple) and Beta (500 units/year, complex). Overheads: Machine set-ups £120,000 (driven by number of set-ups), Quality inspections £60,000 (driven by inspection hours), Purchasing £40,000 (driven by purchase orders). Data: Alpha uses 20 set-ups, 500 inspection hours, 80 orders; Beta uses 80 set-ups, 1,500 inspection hours, 120 orders. Traditional OAR based on machine hours: Alpha 2 hrs/unit, Beta 6 hrs/unit, total machine hours 16,000.",
             steps: [
@@ -4523,7 +4537,7 @@ const AIQ_COURSE_DATA = {
             { term: "Feasible Region", definition: "The set of all combinations of products that satisfy all the constraints in a linear programming problem. The optimal solution lies on the boundary." },
           ],
           explanation:
-            "<h4>Limiting Factor Analysis</h4>" +"<p>When a business faces a <strong>binding constraint</strong> (a resource that is insufficient to meet all demand), it must decide which products to prioritise. The decision rule:</p>" +"<p style='text-align:center'><strong>Rank products by contribution per unit of limiting factor</strong></p>" +"<p>Steps: (1) Identify the limiting factor (e.g., machine hours, labour hours, kg of scarce material). (2) Calculate contribution per unit of limiting factor for each product. (3) Rank products and produce in order of highest to lowest ratio. (4) Produce as much of the highest-ranked product as demand allows, then next, until the resource is exhausted.</p>" +"<h4>Linear Programming (LP)</h4>" +"<p>When there are <strong>two or more scarce resources</strong> simultaneously, simple ranking fails — we need <strong>linear programming</strong>.</p>" +"<p><strong>Formulating an LP problem:</strong></p>" +"<ol>" +"<li>Define decision variables: let x = units of Product X, y = units of Product Y</li>" +"<li>Write the <strong>objective function</strong>: Maximise C = cₓx + cᵧy (where c = contribution per unit)</li>" +"<li>Write <strong>constraints</strong> for each scarce resource: aₓx + aᵧy ≤ capacity (where a = resource usage per unit)</li>" +"<li>Add non-negativity constraints: x ≥ 0, y ≥ 0</li>" +"</ol>" +"<p><strong>Graphical solution (for two variables):</strong></p>" +"<ol>" +"<li>Plot each constraint line (treat as equality and find x- and y-intercepts)</li>" +"<li>Shade the <em>feasible region</em> — the area satisfying all constraints simultaneously</li>" +"<li>Identify corner points of the feasible region</li>" +"<li>Calculate total contribution at each corner point; the highest is the optimal solution</li>" +"</ol>" +"<p>Alternatively, use the <strong>iso-contribution line</strong> method: draw a profit line and slide it away from the origin until it just touches the feasible region — that corner is optimal.</p>" +"<h4>Shadow Price</h4>" +"<p>The <strong>shadow price</strong> of a binding constraint is the increase in total contribution from relaxing the constraint by one unit (e.g., one extra machine hour). It represents the maximum premium a firm should pay to obtain more of the scarce resource. Non-binding constraints have a shadow price of zero.</p>",
+            "<h4>Limiting Factor Analysis</h4>" +"<p>When a business faces a <strong>binding constraint</strong> (a resource that is insufficient to meet all demand), it must decide which products to prioritise. The decision rule:</p>" +"<h4>Rank products by contribution per unit of limiting factor</h4>" +"<p>Steps: (1) Identify the limiting factor (e.g., machine hours, labour hours, kg of scarce material). (2) Calculate contribution per unit of limiting factor for each product. (3) Rank products and produce in order of highest to lowest ratio. (4) Produce as much of the highest-ranked product as demand allows, then next, until the resource is exhausted.</p>" +"<h4>Linear Programming (LP)</h4>" +"<p>When there are <strong>two or more scarce resources</strong> simultaneously, simple ranking fails — we need <strong>linear programming</strong>.</p>" +"<h4>Formulating an LP problem</h4>" +"<ol>" +"<li>Define decision variables: let x = units of Product X, y = units of Product Y</li>" +"<li>Write the <strong>objective function</strong>: Maximise C = cₓx + cᵧy (where c = contribution per unit)</li>" +"<li>Write <strong>constraints</strong> for each scarce resource: aₓx + aᵧy ≤ capacity (where a = resource usage per unit)</li>" +"<li>Add non-negativity constraints: x ≥ 0, y ≥ 0</li>" +"</ol>" +"<h4>Graphical solution (for two variables)</h4>" +"<ol>" +"<li>Plot each constraint line (treat as equality and find x- and y-intercepts)</li>" +"<li>Shade the <em>feasible region</em> — the area satisfying all constraints simultaneously</li>" +"<li>Identify corner points of the feasible region</li>" +"<li>Calculate total contribution at each corner point; the highest is the optimal solution</li>" +"</ol>" +"<p>Alternatively, use the <strong>iso-contribution line</strong> method: draw a profit line and slide it away from the origin until it just touches the feasible region — that corner is optimal.</p>" +"<h4>Shadow Price</h4>" +"<p>The <strong>shadow price</strong> of a binding constraint is the increase in total contribution from relaxing the constraint by one unit (e.g., one extra machine hour). It represents the maximum premium a firm should pay to obtain more of the scarce resource. Non-binding constraints have a shadow price of zero.</p>",
           workedExample: {
             setup: "A company makes two products: X and Y. Contributions: X = £8/unit, Y = £12/unit. Resource constraints: Machine hours — X needs 2hrs, Y needs 4hrs, available 160hrs. Labour hours — X needs 3hrs, Y needs 2hrs, available 150hrs. Maximum demand: X = 50 units, Y = 40 units. Find the profit-maximising production plan.",
             steps: [
@@ -4704,7 +4718,7 @@ const AIQ_COURSE_DATA = {
             { term: "Annuity", definition: "A series of equal cash flows occurring at regular intervals. The present value of an annuity is calculated using the annuity factor (from tables or formulae)." },
           ],
           explanation:
-            "<h4>Net Present Value (NPV)</h4>" +"<p>NPV is the theoretically correct method of capital investment appraisal. It discounts all future cash flows back to their <strong>present value (PV)</strong> using the <strong>cost of capital</strong> (discount rate), then subtracts the initial investment.</p>" +"<p style='text-align:center'><code>NPV = Σ [Cash flow_t ÷ (1 + r)^t] − Initial investment</code></p>" +"<p>Or using present value tables: <code>PV = Cash flow × Discount factor (from tables)</code></p>" +"<p><strong>Decision rule:</strong> Accept if NPV ≥ 0 (the project increases shareholder wealth). Reject if NPV &lt; 0. Where projects compete, choose the highest positive NPV.</p>" +"<p><strong>Advantages:</strong> accounts for time value of money; uses cash flows not profit; directly measures wealth creation; theoretically superior to all other methods.</p>" +"<p><strong>Disadvantage:</strong> requires estimation of discount rate; difficult to explain to non-financial managers; sensitive to assumptions about terminal value.</p>" +"<h4>Annuities and Perpetuities</h4>" +"<p>If cash flows are <strong>equal each year</strong> (an annuity), use the cumulative discount factor (annuity factor):</p>" +"<p style='text-align:center'><code>PV of annuity = Annual cash flow × Annuity factor (from tables)</code></p>" +"<p>A <strong>perpetuity</strong> is an annuity that lasts forever: PV = Cash flow ÷ r</p>" +"<h4>Internal Rate of Return (IRR)</h4>" +"<p>The <strong>IRR</strong> is the discount rate at which NPV = 0. It is the 'break-even' return of the project.</p>" +"<p><strong>Decision rule:</strong> Accept if IRR ≥ cost of capital. Reject if IRR &lt; cost of capital.</p>" +"<p><strong>Interpolation formula:</strong></p>" +"<p style='text-align:center'><code>IRR ≈ L + [NPV_L ÷ (NPV_L − NPV_H)] × (H − L)</code></p>" +"<p>Where L = lower rate (positive NPV), H = higher rate (negative NPV). Use two trial rates that straddle the IRR.</p>" +"<p><strong>Limitations of IRR:</strong> can give multiple solutions for non-conventional cash flows; assumes reinvestment at the IRR (unrealistic); ranking by IRR can conflict with NPV for mutually exclusive projects (NPV is preferred for ranking).</p>",
+            "<h4>Net Present Value (NPV)</h4>" +"<p>NPV is the theoretically correct method of capital investment appraisal. It discounts all future cash flows back to their <strong>present value (PV)</strong> using the <strong>cost of capital</strong> (discount rate), then subtracts the initial investment.</p>" +"<p style='text-align:center'><code>NPV = Σ [Cash flow_t ÷ (1 + r)^t] − Initial investment</code></p>" +"<p>Or using present value tables: <code>PV = Cash flow × Discount factor (from tables)</code></p>" +"<p><strong>Decision rule:</strong> Accept if NPV ≥ 0 (the project increases shareholder wealth). Reject if NPV &lt; 0. Where projects compete, choose the highest positive NPV.</p>" +"<p><strong>Advantages:</strong> accounts for time value of money; uses cash flows not profit; directly measures wealth creation; theoretically superior to all other methods.</p>" +"<p><strong>Disadvantage:</strong> requires estimation of discount rate; difficult to explain to non-financial managers; sensitive to assumptions about terminal value.</p>" +"<h4>Annuities and Perpetuities</h4>" +"<p>If cash flows are <strong>equal each year</strong> (an annuity), use the cumulative discount factor (annuity factor):</p>" +"<p style='text-align:center'><code>PV of annuity = Annual cash flow × Annuity factor (from tables)</code></p>" +"<p>A <strong>perpetuity</strong> is an annuity that lasts forever: PV = Cash flow ÷ r</p>" +"<h4>Internal Rate of Return (IRR)</h4>" +"<p>The <strong>IRR</strong> is the discount rate at which NPV = 0. It is the 'break-even' return of the project.</p>" +"<p><strong>Decision rule:</strong> Accept if IRR ≥ cost of capital. Reject if IRR &lt; cost of capital.</p>" +"<h4>Interpolation formula</h4>" +"<p style='text-align:center'><code>IRR ≈ L + [NPV_L ÷ (NPV_L − NPV_H)] × (H − L)</code></p>" +"<p>Where L = lower rate (positive NPV), H = higher rate (negative NPV). Use two trial rates that straddle the IRR.</p>" +"<p><strong>Limitations of IRR:</strong> can give multiple solutions for non-conventional cash flows; assumes reinvestment at the IRR (unrealistic); ranking by IRR can conflict with NPV for mutually exclusive projects (NPV is preferred for ranking).</p>",
           workedExample: {
             setup: "A project requires an initial investment of £50,000. Cash inflows: Year 1 £18,000; Year 2 £22,000; Year 3 £20,000; Year 4 £15,000. Cost of capital = 10%. Present value factors at 10%: Y1=0.909, Y2=0.826, Y3=0.751, Y4=0.683. Calculate (a) NPV at 10%, and (b) estimate IRR using interpolation at 20% (PV factors: Y1=0.833, Y2=0.694, Y3=0.579, Y4=0.482).",
             steps: [
@@ -4792,7 +4806,7 @@ const AIQ_COURSE_DATA = {
             { term: "Extrapolation", definition: "Using a regression line to forecast beyond the range of observed data. Less reliable than interpolation and should be used with caution." },
           ],
           explanation:
-            "<h4>Regression Analysis</h4>" +"<p><strong>Regression analysis</strong> finds the line of best fit through a set of data points, expressing the relationship between a dependent variable (e.g., total cost) and an independent variable (e.g., output). In management accounting, it is used to separate fixed and variable cost components more accurately than the high-low method.</p>" +"<p>The least-squares regression line: <strong>y = a + bx</strong></p>" +"<p>Where: y = total cost, x = activity level, a = fixed cost estimate, b = variable cost per unit.</p>" +"<p><strong>Formulas:</strong></p>" +"<p><code>b = (nΣxy − ΣxΣy) ÷ (nΣx² − (Σx)²)</code></p>" +"<p><code>a = (Σy ÷ n) − b(Σx ÷ n) = ȳ − bx̄</code></p>" +"<p>Where n = number of data pairs.</p>" +"<h4>Coefficient of Determination (r²)</h4>" +"<p>r² measures how well the regression line fits the data (the proportion of variation in y explained by x). Range: 0 to 1.</p>" +"<ul>" +"<li>r² = 1.0: perfect fit — all data points lie exactly on the line</li>" +"<li>r² = 0.9: 90% of variation in cost is explained by the activity variable — strong relationship</li>" +"<li>r² &lt; 0.7: weak relationship — the model may not be reliable for forecasting</li>" +"</ul>" +"<p>The correlation coefficient r = √r². If r is close to +1, strong positive correlation; close to −1, strong negative correlation; close to 0, weak/no linear relationship.</p>" +"<h4>Using Regression for Forecasting</h4>" +"<p>To forecast costs at a given activity level, substitute x into y = a + bx. The forecast is only reliable within the <strong>range of observed data</strong> (interpolation); extrapolation beyond observed data is unreliable.</p>" +"<p><strong>Limitations:</strong> assumes a linear relationship; past data may not reflect future conditions; ignores non-quantifiable cost drivers; time lags between data collection and use can reduce relevance.</p>",
+            "<h4>Regression Analysis</h4>" +"<p><strong>Regression analysis</strong> finds the line of best fit through a set of data points, expressing the relationship between a dependent variable (e.g., total cost) and an independent variable (e.g., output). In management accounting, it is used to separate fixed and variable cost components more accurately than the high-low method.</p>" +"<p>The least-squares regression line: <strong>y = a + bx</strong></p>" +"<p>Where: y = total cost, x = activity level, a = fixed cost estimate, b = variable cost per unit.</p>" +"<h4>Formulas</h4>" +"<p><code>b = (nΣxy − ΣxΣy) ÷ (nΣx² − (Σx)²)</code></p>" +"<p><code>a = (Σy ÷ n) − b(Σx ÷ n) = ȳ − bx̄</code></p>" +"<p>Where n = number of data pairs.</p>" +"<h4>Coefficient of Determination (r²)</h4>" +"<p>r² measures how well the regression line fits the data (the proportion of variation in y explained by x). Range: 0 to 1.</p>" +"<ul>" +"<li>r² = 1.0: perfect fit — all data points lie exactly on the line</li>" +"<li>r² = 0.9: 90% of variation in cost is explained by the activity variable — strong relationship</li>" +"<li>r² &lt; 0.7: weak relationship — the model may not be reliable for forecasting</li>" +"</ul>" +"<p>The correlation coefficient r = √r². If r is close to +1, strong positive correlation; close to −1, strong negative correlation; close to 0, weak/no linear relationship.</p>" +"<h4>Using Regression for Forecasting</h4>" +"<p>To forecast costs at a given activity level, substitute x into y = a + bx. The forecast is only reliable within the <strong>range of observed data</strong> (interpolation); extrapolation beyond observed data is unreliable.</p>" +"<p><strong>Limitations:</strong> assumes a linear relationship; past data may not reflect future conditions; ignores non-quantifiable cost drivers; time lags between data collection and use can reduce relevance.</p>",
           workedExample: {
             setup: "Five months of cost and output data: Output (x): 10, 14, 12, 16, 18 (000 units). Total cost (y): £52k, £64k, £58k, £72k, £78k. Calculate the regression line y = a + bx and forecast cost at output of 20,000 units.",
             steps: [
@@ -5409,7 +5423,7 @@ const AIQ_COURSE_DATA = {
             { term: "Activity-Based Costing", definition: "Overhead is assigned to products based on the activities that cause costs (using cost drivers), producing more accurate product costs than volume-based absorption." },
           ],
           explanation:
-            "<h4>Mock Exam: BA2 Fundamentals of Management Accounting</h4>" +"<p>This mock contains <strong>10 exam-standard questions</strong> across the BA2 syllabus. The real BA2 exam has 60 MCQs over 2 hours.</p>" +"<p><strong>Topics covered:</strong> cost behaviour, absorption costing, process costing, decision-making (relevant costs, LP), investment appraisal, performance measurement.</p>" +"<p><strong>Exam technique:</strong></p>" +"<ul>" +"<li>For calculation questions, always write out the formula first</li>" +"<li>Check whether the question asks for profit (deduct depreciation) or cash flow (do not deduct depreciation)</li>" +"<li>For relevant cost questions, explicitly identify and exclude sunk costs and apportioned overheads</li>" +"<li>For investment appraisal, confirm whether Year 0 has been excluded from discounting</li>" +"</ul>",
+            "<h4>Mock Exam: BA2 Fundamentals of Management Accounting</h4>" +"<p>This mock contains <strong>10 exam-standard questions</strong> across the BA2 syllabus. The real BA2 exam has 60 MCQs over 2 hours.</p>" +"<p><strong>Topics covered:</strong> cost behaviour, absorption costing, process costing, decision-making (relevant costs, LP), investment appraisal, performance measurement.</p>" +"<h4>Exam technique</h4>" +"<ul>" +"<li>For calculation questions, always write out the formula first</li>" +"<li>Check whether the question asks for profit (deduct depreciation) or cash flow (do not deduct depreciation)</li>" +"<li>For relevant cost questions, explicitly identify and exclude sunk costs and apportioned overheads</li>" +"<li>For investment appraisal, confirm whether Year 0 has been excluded from discounting</li>" +"</ul>",
           workedExample: {
             setup: "Pre-exam checklist — confirm you can do each of the following without referring to notes:",
             steps: [
@@ -5594,11 +5608,12 @@ const AIQ_COURSE_DATA = {
             "<p>Note: the Framework focuses on <em>capital providers</em> as the primary users, not management (who have other sources of information) or tax authorities (who have specific tax legislation).</p>" +
             "<h4>Qualitative Characteristics of Useful Information</h4>" +
             "<p>The Framework identifies <strong>two fundamental</strong> characteristics and <strong>four enhancing</strong> characteristics:</p>" +
-            "<p><strong>Fundamental Characteristics:</strong></p>" +
+            "<h4>Fundamental Characteristics</h4>" +
             "<ol>" +
             "<li><strong>Relevance:</strong> information that is capable of making a difference to users' decisions. Information is relevant if it has <em>predictive value</em> (helps forecast future outcomes) or <em>confirmatory value</em> (confirms or corrects past assessments). <strong>Materiality</strong> is an entity-specific aspect of relevance: information is material if omitting or misstating it could influence decisions. The materiality threshold varies by entity size and context.</li>" +
             "<li><strong>Faithful representation:</strong> information that faithfully represents the economic phenomena it purports to represent. Three attributes: <em>complete</em> (nothing significant missing), <em>neutral</em> (not biased toward a particular outcome), and <em>free from error</em> (accurate description and application of process, not necessarily exact because estimates are required).</li>" +
             "</ol>" +
+            "<h4>Enhancing Qualitative Characteristics</h4>" +
             "<p><strong>Enhancing Characteristics</strong> (improve but cannot compensate for a lack of fundamental characteristics):</p>" +
             "<ul>" +
             "<li><strong>Comparability:</strong> users can compare information across periods and across different entities. Requires consistent accounting policies — if changed, disclose and restate prior periods.</li>" +
@@ -6386,11 +6401,11 @@ const AIQ_COURSE_DATA = {
             "<code>Dr Cash / Cr Trade receivables</code></p>" +
             "<h4>2. Allowance for Receivables</h4>" +
             "<p>Rather than waiting for specific defaults, a business estimates how much of its total outstanding receivables will not be collected. This estimate is the <strong>allowance for receivables</strong> (sometimes called provision for doubtful debts).</p>" +
-            "<p><strong>Creating or increasing the allowance:</strong></p>" +
+            "<h4>Creating or increasing the allowance</h4>" +
             "<p><code>Dr Allowance for receivables expense / Cr Allowance for receivables (SOFP liability deduction)</code></p>" +
             "<p>On the SOFP, the allowance is netted against gross receivables:</p>" +
             "<p style='text-align:center'><code>Net receivables = Gross trade receivables − Irrecoverable debts already written off − Allowance for receivables</code></p>" +
-            "<p><strong>Adjusting the allowance each year:</strong></p>" +
+            "<h4>Adjusting the allowance each year</h4>" +
             "<ul>" +
             "<li>If the required allowance <em>increases</em>: Dr Allowance for receivables expense / Cr Allowance for receivables (for the <em>increase only</em>).</li>" +
             "<li>If the required allowance <em>decreases</em>: Dr Allowance for receivables / Cr Allowance for receivables expense (i.e., the expense is <em>reduced</em>, boosting profit).</li>" +
@@ -6414,7 +6429,7 @@ const AIQ_COURSE_DATA = {
             "— Direct credits (e.g., BACS receipts) credited by the bank but not yet in the cash book.<br>" +
             "— Dishonoured cheques returned by the bank.</li>" +
             "</ul>" +
-            "<p><strong>Reconciliation approach:</strong></p>" +
+            "<h4>Reconciliation approach</h4>" +
             "<ol>" +
             "<li>Update the cash book for all items shown on the bank statement that are not yet in the cash book (bank charges, direct credits, dishonoured cheques). This gives the <strong>adjusted cash book balance</strong>.</li>" +
             "<li>Reconcile the bank statement balance to the adjusted cash book balance by adjusting for timing differences only:<br>" +
@@ -6557,6 +6572,9 @@ const AIQ_COURSE_DATA = {
             "<ol>" +
             "<li>Start with <strong>profit before tax</strong> from the income statement.</li>" +
             "<li>Add back non-cash charges that were deducted to arrive at profit (primarily depreciation and amortisation — these reduce profit but involve no cash outflow).</li>" +
+            "</ol>" +
+            "<h4>Adjustments to Operating Profit</h4>" +
+            "<ol start=\"3\">" +
             "<li>Adjust for <strong>working capital changes</strong>:<br>" +
             "— Increase in trade receivables = cash outflow (we earned revenue but haven't collected it yet) → <strong>deduct</strong>.<br>" +
             "— Decrease in trade receivables = cash inflow (we collected more than we earned this year) → <strong>add</strong>.<br>" +
@@ -8534,6 +8552,9 @@ const AIQ_COURSE_DATA = {
             "<ol>" +
             "<li><strong>Integrity:</strong> be straightforward and honest in all professional and business relationships. Do not associate with information you believe is false, misleading, or negligently prepared. If asked to misstate figures or manipulate results, the principle of integrity requires refusal.</li>" +
             "<li><strong>Objectivity:</strong> do not allow bias, conflict of interest, or undue influence by others to override professional judgements. Maintain impartiality when reviewing, analysing, or reporting.</li>" +
+            "</ol>" +
+            "<h4>Competence, Confidentiality and Professional Behaviour</h4>" +
+            "<ol start=\"3\">" +
             "<li><strong>Professional competence and due care:</strong> maintain the knowledge and skills required for the work undertaken (CPD obligation). Act diligently and in accordance with applicable standards and legislation. Do not undertake work you are not qualified to do without appropriate support.</li>" +
             "<li><strong>Confidentiality:</strong> do not disclose information acquired in a professional context to third parties without proper authority, unless there is a legal or professional right or duty to do so. Confidentiality also means not using information for personal advantage.</li>" +
             "<li><strong>Professional behaviour:</strong> comply with relevant laws and regulations. Avoid any action that discredits the profession. This includes social media conduct, personal behaviour in public contexts, and how you represent CIMA membership.</li>" +
@@ -8658,6 +8679,9 @@ const AIQ_COURSE_DATA = {
             "<ol>" +
             "<li><strong>Board leadership and purpose:</strong> the board should establish the company's purpose, values, and strategy, and satisfy itself that these are aligned with the culture. An effective, entrepreneurial board promotes the long-term sustainable success of the company, generating value for shareholders and contributing to wider society.</li>" +
             "<li><strong>Division of responsibilities:</strong> the Chair leads the board; the CEO runs the business. These roles must not be held by the same person. There should be a clear division between non-executive oversight and executive management. The board should include a sufficient number of independent non-executive directors (NEDs) to prevent any one individual or group dominating decision-making.</li>" +
+            "</ol>" +
+            "<h4>Board Composition and Independence</h4>" +
+            "<ol start=\"3\">" +
             "<li><strong>Composition, succession, and evaluation:</strong> appointments should be based on merit, with due regard to diversity (gender, ethnicity, skills, experience). The Nomination Committee oversees board composition and succession planning. Annual board performance evaluation is required.</li>" +
             "<li><strong>Audit, risk, and internal control:</strong> the board is responsible for the integrity of financial reporting and the effectiveness of internal controls. The Audit Committee (independent NEDs) oversees these functions. A risk committee (or board as a whole) oversees the risk management framework.</li>" +
             "<li><strong>Remuneration:</strong> executive pay should be aligned with long-term company performance and employee interests. The Remuneration Committee (independent NEDs) determines executive pay. Excessive pay packages that are not linked to performance have been a focus of shareholder activism.</li>" +
@@ -8772,12 +8796,18 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>Forms of Business Entity</h4>" +
             "<p>Before choosing how to structure a business, it is essential to understand the legal implications of different business forms. The key distinction is between <em>incorporated</em> and <em>unincorporated</em> structures:</p>" +
-            "<ul><li><strong>Sole trader</strong><ul><li><strong>Incorporation:</strong> No</li><li><strong>Liability:</strong> Unlimited personal</li><li><strong>Legal personality:</strong> None (owner IS the business)</li><li><strong>Key features:</strong> Simple, low cost; owner bears all risk</li></ul></li><li><strong>General partnership</strong><ul><li><strong>Incorporation:</strong> No</li><li><strong>Liability:</strong> Unlimited (joint and several)</li><li><strong>Legal personality:</strong> None</li><li><strong>Key features:</strong> Governed by Partnership Act 1890; each partner liable for all debts</li></ul></li><li><strong>Limited Liability Partnership (LLP)</strong><ul><li><strong>Incorporation:</strong> Yes (registered at Companies House)</li><li><strong>Liability:</strong> Limited to contribution</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Flexibility of partnership + limited liability; common for professional firms</li></ul></li><li><strong>Private limited company (Ltd)</strong><ul><li><strong>Incorporation:</strong> Yes</li><li><strong>Liability:</strong> Limited to amount invested</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Cannot offer shares to public; most common business form in UK</li></ul></li><li><strong>Public limited company (plc)</strong><ul><li><strong>Incorporation:</strong> Yes</li><li><strong>Liability:</strong> Limited to amount invested</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Can offer shares publicly; must have ≥£50,000 allotted share capital; subject to stricter disclosure rules</li></ul></li></ul>" +
+            "<ul><li><strong>Sole trader</strong><ul><li><strong>Incorporation:</strong> No</li><li><strong>Liability:</strong> Unlimited personal</li><li><strong>Legal personality:</strong> None (owner IS the business)</li><li><strong>Key features:</strong> Simple, low cost; owner bears all risk</li></ul></li><li><strong>General partnership</strong><ul><li><strong>Incorporation:</strong> No</li><li><strong>Liability:</strong> Unlimited (joint and several)</li><li><strong>Legal personality:</strong> None</li><li><strong>Key features:</strong> Governed by Partnership Act 1890; each partner liable for all debts</li></ul></li></ul>" +
+            "<h4>Choosing the Right Structure</h4>" +
+            "<ul><li><strong>Limited Liability Partnership (LLP)</strong><ul><li><strong>Incorporation:</strong> Yes (registered at Companies House)</li><li><strong>Liability:</strong> Limited to contribution</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Flexibility of partnership + limited liability; common for professional firms</li></ul></li><li><strong>Private limited company (Ltd)</strong><ul><li><strong>Incorporation:</strong> Yes</li><li><strong>Liability:</strong> Limited to amount invested</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Cannot offer shares to public; most common business form in UK</li></ul></li><li><strong>Public limited company (plc)</strong><ul><li><strong>Incorporation:</strong> Yes</li><li><strong>Liability:</strong> Limited to amount invested</li><li><strong>Legal personality:</strong> Separate</li><li><strong>Key features:</strong> Can offer shares publicly; must have ≥£50,000 allotted share capital; subject to stricter disclosure rules</li></ul></li></ul>" +
             "<h4>Incorporation and Its Consequences</h4>" +
             "<p>Incorporation is the process of forming a company recognised by law as a separate legal entity. Key consequences:</p>" +
+            "<h4>Separate Legal Personality</h4>" +
             "<ul>" +
             "<li><strong>Separate legal personality:</strong> established in <em>Salomon v Salomon &amp; Co Ltd</em> [1897]. The company is distinct from its shareholders — it owns assets, incurs liabilities, and enters contracts in its own name. Salomon operated a shoe business as a sole trader, then incorporated. When the company failed, the House of Lords confirmed his personal assets were shielded from the company's creditors.</li>" +
             "<li><strong>Limited liability:</strong> shareholders can lose at most the amount they paid for their shares. They cannot be required to contribute further to meet company debts.</li>" +
+            "</ul>" +
+            "<h4>Perpetual Succession and Legal Capacity</h4>" +
+            "<ul>" +
             "<li><strong>Perpetual succession:</strong> the company continues to exist regardless of changes in shareholders or directors — it does not 'die' when an owner leaves or dies.</li>" +
             "<li><strong>Capacity to sue and be sued:</strong> the company can take legal action and can be the defendant in proceedings in its own right.</li>" +
             "</ul>" +
@@ -8803,6 +8833,9 @@ const AIQ_COURSE_DATA = {
             "<li><strong>s.172 — Promote the success of the company:</strong> act in the way a director considers, in good faith, would be most likely to promote the success of the company for the benefit of its members as a whole, having regard to the long-term, employees, suppliers, community, and environment.</li>" +
             "<li><strong>s.173 — Exercise independent judgement:</strong> not to be unduly influenced by third parties.</li>" +
             "<li><strong>s.174 — Exercise reasonable care, skill, and diligence:</strong> objective standard (reasonably diligent director with general knowledge, skill, and experience expected of someone in that role) plus subjective standard (the director's actual knowledge and skill).</li>" +
+            "</ol>" +
+            "<h4>Consequences of Breach</h4>" +
+            "<ol start=\"5\">" +
             "<li><strong>s.175 — Avoid conflicts of interest:</strong> do not exploit for personal gain opportunities that belong to the company.</li>" +
             "<li><strong>s.176 — Not accept benefits from third parties:</strong> do not accept benefits (bribes) from outsiders.</li>" +
             "<li><strong>s.177 — Declare interest in proposed transaction:</strong> disclose any personal interest in a transaction the company is considering.</li>" +
@@ -8904,8 +8937,14 @@ const AIQ_COURSE_DATA = {
             "<p>A <strong>legally binding contract</strong> is formed when five elements are present. If any element is missing, there is no contract — only a void agreement.</p>" +
             "<ol>" +
             "<li><strong>Offer:</strong> a clear, definite, and unconditional statement of willingness to be bound on specific terms. An offer must be communicated to the offeree. It can be made to one person, a class of persons, or the whole world (Carlill v Carbolic Smoke Ball Co — a reward notice held to be an offer to the world). An offer can be revoked at any time before acceptance, but revocation must be communicated.</li>" +
+            "</ol>" +
+            "<h4>Acceptance and Consideration</h4>" +
+            "<ol start=\"2\">" +
             "<li><strong>Acceptance:</strong> unconditional agreement to all terms of the offer. Acceptance must mirror the offer exactly — a purported acceptance that varies any term is a <strong>counter-offer</strong>, not acceptance (Hyde v Wrench). The counter-offer terminates the original offer. A mere <strong>enquiry</strong> (asking for more information) does not constitute a counter-offer and does not kill the offer.</li>" +
             "<li><strong>Consideration:</strong> something of value exchanged by each party — the 'price' paid for the other's promise. Consideration must be sufficient (of some economic value) but need not be adequate (the courts will not inquire into the fairness of the bargain). Past consideration (something already done before the contract) is not valid consideration (<em>Roscorla v Thomas</em>). An existing contractual duty is generally not good consideration for a new promise.</li>" +
+            "</ol>" +
+            "<h4>Intention and Capacity</h4>" +
+            "<ol start=\"4\">" +
             "<li><strong>Intention to create legal relations:</strong> courts presume commercial agreements are intended to be legally binding. Social and domestic arrangements are presumed <em>not</em> to be legally binding (Balfour v Balfour — husband's promise to pay wife's allowance not enforceable). This presumption can be rebutted by clear evidence of contrary intention.</li>" +
             "<li><strong>Capacity:</strong> parties must be legally capable of contracting. Minors (under 18) cannot be bound by most contracts. Companies have capacity within their constitution. Persons lacking mental capacity may be able to avoid contracts.</li>" +
             "</ol>" +
@@ -8937,6 +8976,9 @@ const AIQ_COURSE_DATA = {
             "<p>Breach occurs when a party fails to perform their obligations. The innocent party's available remedies:</p>" +
             "<ul>" +
             "<li><strong>Damages:</strong> the primary remedy. Aim to put the claimant in the position they would have been in had the contract been performed (<em>expectation loss</em> / 'loss of bargain'). Key rules: the defendant is only liable for <em>reasonably foreseeable</em> losses at the time of contracting (<em>Hadley v Baxendale</em>). The claimant has a duty to <strong>mitigate</strong> their loss — they cannot recover for losses they could reasonably have avoided.</li>" +
+            "</ul>" +
+            "<h4>Equitable Remedies</h4>" +
+            "<ul>" +
             "<li><strong>Specific performance:</strong> an equitable remedy — a court order compelling the defendant to perform their contractual obligation. Awarded only where damages are inadequate (e.g., contracts for unique items like a specific painting or land). Not available for personal service contracts.</li>" +
             "<li><strong>Injunction:</strong> a court order restraining a party from doing something (e.g., preventing use of confidential information, preventing breach of a restrictive covenant). An equitable remedy granted at the court's discretion.</li>" +
             "<li><strong>Repudiation and termination:</strong> where a party breaches a condition, the innocent party can accept the repudiation (treat the contract as ended) and sue for loss of bargain, or affirm the contract (insist on performance) and sue for any breach damages.</li>" +
@@ -9023,7 +9065,8 @@ const AIQ_COURSE_DATA = {
           ],
           explanation:
             "<h4>Employee vs Independent Contractor</h4>" +
-            "<p>The distinction between an employee (contract <em>of</em> service) and an independent contractor (contract <em>for</em> services) is fundamental — it determines which statutory rights apply and the employer's obligations regarding tax, National Insurance, and vicarious liability. Courts apply several tests:</p>" +
+            "<p>The distinction between an employee (contract <em>of</em> service) and an independent contractor (contract <em>for</em> services) is fundamental — it determines which statutory rights apply and the employer's obligations regarding tax, National Insurance, and vicarious liability.</p>" +
+            "<h4>Employment Tests Used by Courts</h4>" +
             "<ul>" +
             "<li><strong>Control test:</strong> can the employer control not just what the worker does, but <em>how</em> they do it? A high degree of control suggests employment.</li>" +
             "<li><strong>Integration test:</strong> is the worker integrated into the organisation — part of the core workforce rather than an accessory? Integration suggests employment.</li>" +
@@ -9037,11 +9080,15 @@ const AIQ_COURSE_DATA = {
             "<ol>" +
             "<li><strong>Capability or qualifications:</strong> the employee lacks the skill, health, or qualification to do the job.</li>" +
             "<li><strong>Conduct:</strong> misconduct (e.g., persistent lateness, dishonesty). Gross misconduct (e.g., theft, violence) may justify summary dismissal without notice.</li>" +
+            "</ol>" +
+            "<h4>Further Statutory Fair Reasons for Dismissal</h4>" +
+            "<ol start=\"3\">" +
             "<li><strong>Redundancy:</strong> the role ceases to exist.</li>" +
             "<li><strong>Statutory restriction:</strong> it would be illegal for the employee to continue working (e.g., a driver losing their licence).</li>" +
             "<li><strong>Some other substantial reason (SOSR):</strong> other legitimate business reasons (e.g., end of a fixed-term contract, incompatibility).</li>" +
             "</ol>" +
             "<p>Even where one of these reasons applies, the employer must follow a <strong>fair procedure</strong> (Acas Code of Practice on Disciplinary and Grievance Procedures): investigate, inform the employee, hold a hearing, allow a companion (colleague or union representative), and give the right of appeal. Failure to follow the Acas Code does not automatically make a dismissal unfair but can increase any compensation award by up to 25%.</p>" +
+            "<h4>Redundancy and Constructive Dismissal</h4>" +
             "<p><strong>Constructive dismissal:</strong> the employee resigns because the employer has fundamentally breached the employment contract (e.g., demoting the employee, cutting pay without consent, creating an intolerable working environment). The employee treats the employer's conduct as repudiatory and can claim unfair dismissal.</p>" +
             "<h4>Redundancy</h4>" +
             "<p>Redundancy arises when a role genuinely ceases to exist or significantly diminishes. The employer must:</p>" +
@@ -9056,7 +9103,7 @@ const AIQ_COURSE_DATA = {
             "<ul>" +
             "<li>Age, disability, gender reassignment, marriage and civil partnership, pregnancy and maternity, race, religion or belief, sex, and sexual orientation.</li>" +
             "</ul>" +
-            "<p><strong>Types of discrimination:</strong></p>" +
+            "<h4>Types of discrimination</h4>" +
             "<ul>" +
             "<li><strong>Direct discrimination:</strong> treating a person less favourably because of a protected characteristic (e.g., refusing to hire a woman because she might become pregnant). Generally cannot be justified.</li>" +
             "<li><strong>Indirect discrimination:</strong> a provision, criterion, or practice (PCP) that applies equally to all but puts those with a protected characteristic at a particular disadvantage — unless it is a proportionate means of achieving a legitimate aim (e.g., requiring all employees to work Saturdays may indirectly discriminate against Jews).</li>" +
@@ -10522,7 +10569,9 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>The Historical Journey of Finance</h4>" +
             "<p>The finance function has undergone a fundamental transformation over the past four decades. Understanding this evolution is central to E1 because it explains <em>why</em> organisations are investing in digital tools and why the skills profile of finance professionals has changed so dramatically.</p>" +
-            "<ul><li><strong>1980s–1990s</strong><ul><li><strong>Role:</strong> Scorekeeper / Historian</li><li><strong>Focus:</strong> Accurate recording of past transactions; preparing statutory accounts; ensuring compliance</li><li><strong>Tools:</strong> Paper ledgers, early PC-based accounting software (Sage, QuickBooks)</li></ul></li><li><strong>2000s</strong><ul><li><strong>Role:</strong> Controller / Gatekeeper</li><li><strong>Focus:</strong> Internal controls, risk management, month-end reporting cycles; finance as a cost centre</li><li><strong>Tools:</strong> ERP systems (SAP, Oracle), spreadsheets</li></ul></li><li><strong>2010s</strong><ul><li><strong>Role:</strong> Business Partner</li><li><strong>Focus:</strong> Forward-looking analysis; supporting operational decisions; connecting financial insight to strategy</li><li><strong>Tools:</strong> Business intelligence tools, dashboards, self-service analytics</li></ul></li><li><strong>2020s onwards</strong><ul><li><strong>Role:</strong> Strategic Value Creator</li><li><strong>Focus:</strong> Real-time data, predictive analytics, ESG integration, technology stewardship; finance as a driver of competitive advantage</li><li><strong>Tools:</strong> AI, RPA, cloud ERP, advanced analytics, integrated reporting platforms</li></ul></li></ul>" +
+            "<ul><li><strong>1980s–1990s</strong><ul><li><strong>Role:</strong> Scorekeeper / Historian</li><li><strong>Focus:</strong> Accurate recording of past transactions; preparing statutory accounts; ensuring compliance</li><li><strong>Tools:</strong> Paper ledgers, early PC-based accounting software (Sage, QuickBooks)</li></ul></li><li><strong>2000s</strong><ul><li><strong>Role:</strong> Controller / Gatekeeper</li><li><strong>Focus:</strong> Internal controls, risk management, month-end reporting cycles; finance as a cost centre</li><li><strong>Tools:</strong> ERP systems (SAP, Oracle), spreadsheets</li></ul></li></ul>" +
+            "<h4>Finance's Evolution: 2010s to Present</h4>" +
+            "<ul><li><strong>2010s</strong><ul><li><strong>Role:</strong> Business Partner</li><li><strong>Focus:</strong> Forward-looking analysis; supporting operational decisions; connecting financial insight to strategy</li><li><strong>Tools:</strong> Business intelligence tools, dashboards, self-service analytics</li></ul></li><li><strong>2020s onwards</strong><ul><li><strong>Role:</strong> Strategic Value Creator</li><li><strong>Focus:</strong> Real-time data, predictive analytics, ESG integration, technology stewardship; finance as a driver of competitive advantage</li><li><strong>Tools:</strong> AI, RPA, cloud ERP, advanced analytics, integrated reporting platforms</li></ul></li></ul>" +
             "<h4>What is Digital Transformation?</h4>" +
             "<p><strong>Digitalisation</strong> (not to be confused with mere digitisation) means fundamentally redesigning processes, business models and culture using digital technology. In finance, this means moving from:</p>" +
             "<ul>" +
@@ -10745,7 +10794,7 @@ const AIQ_COURSE_DATA = {
             "<p>Organisations face a fundamental choice about <em>how</em> to deliver finance services: build and run them internally, centralise them into a shared service centre, or transfer them to an external provider. This decision affects cost, control, quality and the strategic positioning of the finance function.</p>" +
             "<h4>Shared Service Centres (SSCs)</h4>" +
             "<p>A <strong>shared service centre</strong> is an internal unit that consolidates the delivery of transactional finance processes (accounts payable, accounts receivable, payroll, general ledger, management reporting) from multiple business units into a single standardised operation, usually located in a low-cost geography.</p>" +
-            "<p><strong>Advantages of SSCs:</strong></p>" +
+            "<h4>Advantages of SSCs</h4>" +
             "<ul>" +
             "<li><strong>Cost reduction:</strong> Economies of scale — processing 10,000 invoices in one location is cheaper per unit than 1,000 in ten locations. Staff costs are lower in SSC locations (e.g., India, Poland, Philippines).</li>" +
             "<li><strong>Standardisation:</strong> Consistent processes and controls across the group, reducing variation and error rates. Easier to implement best practices when everyone uses the same process.</li>" +
@@ -10753,7 +10802,7 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Focus:</strong> Business units are freed from managing transactional finance, allowing local finance teams to focus on business partnering.</li>" +
             "<li><strong>Quality improvement:</strong> Dedicated teams develop expertise and process maturity that decentralised teams cannot match.</li>" +
             "</ul>" +
-            "<p><strong>Limitations of SSCs:</strong></p>" +
+            "<h4>Limitations of SSCs</h4>" +
             "<ul>" +
             "<li>High implementation cost and complexity — migrating processes requires significant change management</li>" +
             "<li>Risk of losing local knowledge and responsiveness — a centralised SSC may be slower to handle unusual local transactions</li>" +
@@ -10855,6 +10904,7 @@ const AIQ_COURSE_DATA = {
             "<h4>What is a Digital Finance Operating Model?</h4>" +
             "<p>A <strong>digital finance operating model</strong> describes how the finance function organises people, processes, data and technology to deliver its outputs efficiently and at scale. The 'digital' qualifier signals that automation, data analytics and cloud technology are foundational — not peripheral additions — to how work gets done.</p>" +
             "<p>The digital finance model contrasts with the traditional model in almost every dimension:</p>" +
+            "<h4>Traditional vs Digital Finance</h4>" +
             "<ul><li><strong>Close cycle</strong>: 15–20 working days (monthly) / 3–5 days or continuous close</li><li><strong>Data</strong>: Manual aggregation from multiple systems; often inconsistent / Single source of truth; real-time data from integrated ERP/cloud</li><li><strong>Reporting</strong>: Fixed monthly reports distributed by email / Self-service dashboards; role-based views; exception alerts</li><li><strong>Planning</strong>: Annual budget; quarterly forecasts built in spreadsheets / Rolling 12-month driver-based forecast; scenario modelling; AI-assisted planning</li><li><strong>Controls</strong>: Periodic manual checking / Continuous automated control monitoring; real-time audit trails</li><li><strong>Headcount</strong>: Large transactional teams; small analytical team / Lean transactional layer (automated); larger analytical and partnering team</li></ul>" +
             "<h4>Process Automation — The Core Engine</h4>" +
             "<p>Automation is the foundation of the digital finance model. Three key automation technologies for finance:</p>" +
@@ -10956,7 +11006,8 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>The Modern CFO</h4>" +
             "<p>The Chief Financial Officer (CFO) has been transformed from a financial steward and compliance guardian into one of the most strategically influential roles in the C-suite. Research by McKinsey, Deloitte and CIMA consistently shows that CFOs are now the CEO's primary strategic partner, often leading or co-leading digital transformation, capital allocation strategy, M&amp;A decisions and investor relations.</p>" +
-            "<p>The modern CFO agenda typically spans four areas, sometimes called the 'four faces of the CFO':</p>" +
+            "<h4>The Four Faces of the CFO</h4>" +
+            "<p>The modern CFO agenda spans four areas:</p>" +
             "<ul><li><strong>Steward</strong>: Protecting assets and ensuring compliance / Financial controls, audit, regulatory compliance, tax, treasury</li><li><strong>Operator</strong>: Running an efficient finance function / Finance transformation, SSC/BPO, ERP implementation, cost reduction</li><li><strong>Strategist</strong>: Shaping company direction / M&amp;A, capital allocation, business model design, long-range planning</li><li><strong>Catalyst</strong>: Driving change across the organisation / Digital transformation leadership, cultural change, performance improvement, ESG</li></ul>" +
             "<p>The balance between these four roles has shifted: CFOs spend more time on Strategist and Catalyst roles than ever before. A Deloitte survey found that 70% of CFOs believe their role has become significantly more strategic over the past five years.</p>" +
             "<h4>The CFO's Digital Agenda</h4>" +
@@ -10975,7 +11026,7 @@ const AIQ_COURSE_DATA = {
             "</ul>" +
             "<h4>Finance Talent in the Digital Age</h4>" +
             "<p>The skills required of finance professionals have shifted materially. The 'T-shaped' professional model describes this well: deep technical accounting knowledge (the vertical bar) combined with broad skills across commercial acumen, digital literacy, leadership and communication (the horizontal bar).</p>" +
-            "<p><strong>Digital skills now required in the modern finance team:</strong></p>" +
+            "<h4>Digital skills now required in the modern finance team</h4>" +
             "<ul>" +
             "<li><strong>Data analysis:</strong> Excel (advanced), Power BI, Tableau, SQL basics — the ability to query, visualise and interpret large datasets</li>" +
             "<li><strong>Process automation literacy:</strong> Understanding RPA (even if not coding it directly); being able to design process maps suitable for automation</li>" +
@@ -11076,7 +11127,7 @@ const AIQ_COURSE_DATA = {
             "</ol>" +
             "<h4>Integrated Reporting — The &lt;IR&gt; Framework</h4>" +
             "<p>The <strong>International Integrated Reporting Council (IIRC)</strong>, now merged into the <strong>IFRS Foundation</strong>, developed the &lt;IR&gt; Framework. An integrated report explains how an organisation's strategy, governance and performance in the context of its external environment lead to the creation, preservation or erosion of value over the short, medium and long term.</p>" +
-            "<p>The framework is built around the <strong>Six Capitals</strong>:</p>" +
+            "<h4>The Six Capitals</h4>" +
             "<ul><li><strong>Financial capital</strong>: Pool of funds available to the organisation / Equity, debt, retained earnings</li><li><strong>Manufactured capital</strong>: Physical infrastructure used in production / Plant, machinery, buildings, IT systems</li><li><strong>Intellectual capital</strong>: Knowledge, patents, brand, reputation / R&amp;D pipeline, software, customer relationships</li><li><strong>Human capital</strong>: Competence, capability and experience of people / Skills, training, retention rates, culture</li><li><strong>Social &amp; relationship capital</strong>: Relationships with stakeholders and communities / Customer trust, supplier partnerships, community licence to operate</li><li><strong>Natural capital</strong>: Environmental resources and ecosystem services / Carbon emissions, water use, biodiversity impact</li></ul>" +
             "<p>The &lt;IR&gt; Framework requires organisations to report on how they use and affect each capital in creating value. This requires non-financial measurement and disclosure alongside traditional financial statements.</p>" +
             "<h4>Guiding Principles of &lt;IR&gt;</h4>" +
@@ -11190,7 +11241,7 @@ const AIQ_COURSE_DATA = {
             "<h4>The Four Industrial Revolutions</h4>" +
             "<p>The term <strong>Fourth Industrial Revolution (4IR)</strong> was coined by Klaus Schwab (founder of the World Economic Forum) in 2016. It describes the current wave of technological change, which is distinct from previous industrial revolutions in its <em>speed</em>, <em>scope</em> and <em>systemic impact</em>.</p>" +
             "<ul><li><strong>First (1IR)</strong><ul><li><strong>Period:</strong> 1760s–1840s</li><li><strong>Key Technology:</strong> Steam engine, mechanisation</li><li><strong>Economic Impact:</strong> Factory production replacing cottage industries; urbanisation</li></ul></li><li><strong>Second (2IR)</strong><ul><li><strong>Period:</strong> 1870s–1920s</li><li><strong>Key Technology:</strong> Electricity, mass production</li><li><strong>Economic Impact:</strong> Assembly lines (Ford), steel, chemicals, telecommunications</li></ul></li><li><strong>Third (3IR)</strong><ul><li><strong>Period:</strong> 1960s–2000s</li><li><strong>Key Technology:</strong> Electronics, computers, the internet</li><li><strong>Economic Impact:</strong> Automation of production; global information sharing; e-commerce</li></ul></li><li><strong>Fourth (4IR)</strong><ul><li><strong>Period:</strong> 2010s–present</li><li><strong>Key Technology:</strong> AI, robotics, IoT, big data, blockchain, biotechnology</li><li><strong>Economic Impact:</strong> Fusion of physical, digital and biological worlds; human-machine collaboration; exponential change</li></ul></li></ul>" +
-            "<p><strong>Key characteristics of 4IR (Schwab):</strong></p>" +
+            "<h4>Key characteristics of 4IR (Schwab)</h4>" +
             "<ul>" +
             "<li><strong>Velocity:</strong> Change is happening faster than any previous revolution — months, not decades</li>" +
             "<li><strong>Breadth and depth:</strong> Disrupting virtually every industry, not just manufacturing — finance, healthcare, education, agriculture, legal services</li>" +
@@ -11199,7 +11250,9 @@ const AIQ_COURSE_DATA = {
             "</ul>" +
             "<h4>Key Digital Technologies in 4IR</h4>" +
             "<p>CIMA E1 covers eight key digital technologies. This lesson introduces them; subsequent lessons examine each in depth:</p>" +
-            "<ul><li><strong>Cloud computing</strong>: Delivering computing services over the internet / Cloud ERP; scalable infrastructure; remote working</li><li><strong>Artificial Intelligence (AI)</strong>: Systems that perform tasks requiring human-like intelligence / Predictive analytics; anomaly detection; forecasting; NLP for reporting</li><li><strong>Robotic Process Automation (RPA)</strong>: Software bots replicating rule-based human tasks / Invoice processing; reconciliations; journal posting</li><li><strong>Blockchain</strong>: Distributed ledger technology with cryptographic security / Smart contracts; audit trails; cryptocurrency; supply chain finance</li><li><strong>Big data</strong>: Extremely large datasets analysed for patterns and insight / Customer analytics; risk modelling; market analysis</li><li><strong>Internet of Things (IoT)</strong>: Physical devices connected to the internet, generating data / Real-time operational data; predictive maintenance cost management</li><li><strong>Cybersecurity</strong>: Protecting digital systems, data and networks from attack / Protecting financial data; fraud prevention; regulatory compliance</li><li><strong>Data analytics</strong>: Techniques for examining datasets to identify patterns and conclusions / FP&amp;A; performance management; risk analysis; audit analytics</li></ul>" +
+            "<ul><li><strong>Cloud computing</strong>: Delivering computing services over the internet / Cloud ERP; scalable infrastructure; remote working</li><li><strong>Artificial Intelligence (AI)</strong>: Systems that perform tasks requiring human-like intelligence / Predictive analytics; anomaly detection; forecasting; NLP for reporting</li><li><strong>Robotic Process Automation (RPA)</strong>: Software bots replicating rule-based human tasks / Invoice processing; reconciliations; journal posting</li><li><strong>Blockchain</strong>: Distributed ledger technology with cryptographic security / Smart contracts; audit trails; cryptocurrency; supply chain finance</li></ul>" +
+            "<h4>Big Data, IoT, Cybersecurity and Analytics</h4>" +
+            "<ul><li><strong>Big data</strong>: Extremely large datasets analysed for patterns and insight / Customer analytics; risk modelling; market analysis</li><li><strong>Internet of Things (IoT)</strong>: Physical devices connected to the internet, generating data / Real-time operational data; predictive maintenance cost management</li><li><strong>Cybersecurity</strong>: Protecting digital systems, data and networks from attack / Protecting financial data; fraud prevention; regulatory compliance</li><li><strong>Data analytics</strong>: Techniques for examining datasets to identify patterns and conclusions / FP&amp;A; performance management; risk analysis; audit analytics</li></ul>" +
             "<h4>The Technology Adoption Life Cycle</h4>" +
             "<p>Everett Rogers' <strong>diffusion of innovations</strong> model describes how new technologies spread through populations over time: Innovators → Early Adopters → Early Majority → Late Majority → Laggards. Finance professionals need to understand where specific technologies sit on this curve — early adoption can confer competitive advantage but carries higher risk; late adoption reduces risk but may mean falling behind competitors.</p>",
           workedExample: {
@@ -11390,18 +11443,23 @@ const AIQ_COURSE_DATA = {
             "<li>Sentiment analysis of earnings calls, news, and social media for investment decisions</li>" +
             "<li>AI chatbots for finance queries (expense management, budget queries)</li>" +
             "</ul>" +
-            "<p><strong>4. Audit Analytics</strong><br/>External auditors use ML to analyse 100% of transactions (not just samples), identifying anomalies, duplicate payments, and unusual journal entries. KPMG, Deloitte and PwC all have proprietary AI audit tools.</p>" +
-            "<p><strong>5. Treasury and Risk Management</strong><br/>AI models optimise cash positioning across global bank accounts, predict foreign exchange exposure, and dynamically hedge risks.</p>" +
+            "<h4>AI for Audit, Treasury and Risk</h4>" +
+            "<p><strong>Audit Analytics:</strong> External auditors use ML to analyse 100% of transactions (not just samples), identifying anomalies, duplicate payments, and unusual journal entries. KPMG, Deloitte and PwC all have proprietary AI audit tools.</p>" +
+            "<p><strong>Treasury and Risk Management:</strong> AI models optimise cash positioning across global bank accounts, predict foreign exchange exposure, and dynamically hedge risks.</p>" +
             "<h4>Ethical and Governance Implications of AI in Finance</h4>" +
             "<p>AI in financial decision-making raises significant ethical and governance concerns:</p>" +
             "<ul>" +
             "<li><strong>Bias and discrimination:</strong> If ML models are trained on historically biased data, they perpetuate and amplify that bias. Example: a credit scoring model trained on data where minority groups were historically denied credit may continue to discriminate, even without explicit racial categories in the model.</li>" +
             "<li><strong>Explainability ('black box'):</strong> Deep learning models may make decisions that cannot be explained to a human — they identify patterns in thousands of variables simultaneously. This is problematic for regulated financial decisions (credit, insurance pricing) where customers have the right to an explanation.</li>" +
+            "</ul>" +
+            "<h4>Accountability, Privacy and Over-Reliance</h4>" +
+            "<ul>" +
             "<li><strong>Accountability:</strong> When an AI system makes a wrong decision (incorrect fraud flag, unfair credit denial), who is accountable? The model developer? The deploying organisation? The regulator? Governance frameworks must assign clear accountability.</li>" +
             "<li><strong>Data privacy:</strong> Training ML models requires vast amounts of data, much of it personal. GDPR imposes consent and purpose limitation requirements that constrain how personal financial data can be used for AI training.</li>" +
             "<li><strong>Over-reliance:</strong> Finance professionals must retain the ability to challenge AI outputs — the risk that AI becomes an authority rather than a tool is real.</li>" +
             "</ul>" +
-            "<p>Regulatory response: The EU AI Act (2024) classifies AI systems by risk level. High-risk AI (credit scoring, insurance pricing) requires transparency, human oversight, and registration. Finance organisations must embed AI governance into their risk management frameworks.</p>",
+            "<h4>Regulatory Response — EU AI Act</h4>" +
+            "<p>The EU AI Act (2024) classifies AI systems by risk level. High-risk AI (credit scoring, insurance pricing) requires transparency, human oversight, and registration. Finance organisations must embed AI governance into their risk management frameworks.</p>",
           workedExample: {
             setup: "RetailBank plc is implementing an AI model for small business credit decisions. The model uses ML trained on 500,000 historical loan applications. Identify the key governance requirements before deploying this AI credit model.",
             steps: [
@@ -11499,7 +11557,7 @@ const AIQ_COURSE_DATA = {
             "<li>Tax return data assembly: gathering trial balance data and formatting for tax return software</li>" +
             "</ul>" +
             "<h4>Costs, Benefits and Implementation Risks</h4>" +
-            "<p><strong>Benefits:</strong></p>" +
+            "<h4>Benefits</h4>" +
             "<ul>" +
             "<li><strong>Speed:</strong> Bots work 24/7 at computer speed — a bot can process in hours what takes a human days</li>" +
             "<li><strong>Accuracy:</strong> Eliminates human transcription errors; a bot that is programmed correctly never makes a typo</li>" +
@@ -11508,7 +11566,7 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Scalability:</strong> Adding more volume just means running more bot instances — no hiring required</li>" +
             "<li><strong>Staff morale:</strong> Freeing finance staff from repetitive data entry improves job satisfaction and retention</li>" +
             "</ul>" +
-            "<p><strong>Implementation risks:</strong></p>" +
+            "<h4>Implementation risks</h4>" +
             "<ul>" +
             "<li><strong>Process fragility:</strong> If the underlying system changes its interface (screen layout update, ERP upgrade), the bot breaks — requires maintenance</li>" +
             "<li><strong>Error propagation at scale:</strong> A logic error in the bot can process thousands of incorrect transactions before detection — controls over bot testing are critical</li>" +
@@ -11605,7 +11663,7 @@ const AIQ_COURSE_DATA = {
             "<h4>Smart Contracts</h4>" +
             "<p>A <strong>smart contract</strong> is a self-executing computer programme stored on a blockchain that automatically executes the terms of an agreement when predefined conditions are met — without requiring human intervention or a trusted third party.</p>" +
             "<p>Example: A trade finance smart contract that automatically releases payment to the supplier when the IoT sensor confirms that goods were delivered (confirmed by GPS data on the blockchain). The bank's involvement in releasing payment is automated — no manual processing required.</p>" +
-            "<p><strong>Finance applications of smart contracts:</strong></p>" +
+            "<h4>Finance applications of smart contracts</h4>" +
             "<ul>" +
             "<li><strong>Trade finance:</strong> Letters of credit auto-executed when shipping documents and delivery confirmation are uploaded to blockchain</li>" +
             "<li><strong>Insurance:</strong> Parametric insurance — automatically pays out when predefined event occurs (e.g., rainfall below threshold for crop insurance)</li>" +
@@ -11613,14 +11671,14 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Intercompany transactions:</strong> Intragroup payments and loans automated between group entities on a private blockchain</li>" +
             "</ul>" +
             "<h4>Blockchain in Accounting and Audit — Potential and Limitations</h4>" +
-            "<p><strong>Potential:</strong></p>" +
+            "<h4>Potential</h4>" +
             "<ul>" +
             "<li>Immutable audit trail: every transaction permanently recorded — reduces audit sample testing and fraud risk</li>" +
             "<li>Real-time reconciliation: intercompany and inter-party reconciliations eliminated — both parties see the same ledger</li>" +
             "<li>Continuous audit: auditors can access blockchain records in real time, rather than periodic sample testing</li>" +
             "<li>Supply chain transparency: finance can trace the cost and authenticity of every component in a product's supply chain</li>" +
             "</ul>" +
-            "<p><strong>Limitations:</strong></p>" +
+            "<h4>Limitations</h4>" +
             "<ul>" +
             "<li><strong>Scalability:</strong> Public blockchains are slow — Bitcoin processes ~7 transactions per second vs Visa's 24,000. Not suitable for high-volume transaction processing yet.</li>" +
             "<li><strong>Energy consumption:</strong> Proof of Work blockchains (Bitcoin) consume enormous amounts of electricity — sustainability concern.</li>" +
@@ -11704,7 +11762,9 @@ const AIQ_COURSE_DATA = {
             "<h4>What is Big Data?</h4>" +
             "<p><strong>Big data</strong> refers to datasets so large, fast-moving, or diverse that traditional data processing tools (spreadsheets, standard databases) cannot handle them effectively. Big data is not just about volume — it is about the combination of characteristics that make it both challenging and valuable.</p>" +
             "<h4>The Five Vs of Big Data</h4>" +
-            "<ul><li><strong>Volume</strong>: Scale of data — petabytes to exabytes; billions of records / A bank processes 50 million transactions per day across millions of customers</li><li><strong>Velocity</strong>: Speed at which data is generated and must be processed — often real-time or near-real-time / Stock exchange trade data: millions of trades per second requiring real-time analysis</li><li><strong>Variety</strong>: Different types and formats: structured (databases), semi-structured (JSON, XML), unstructured (text, images, video, audio) / Financial analysis combining ERP data (structured), customer emails (unstructured text), and satellite images of competitor car parks (unstructured images)</li><li><strong>Veracity</strong>: Accuracy, reliability and trustworthiness of the data — big data sources are often noisy and inconsistent / Social media sentiment data is unreliable (bots, sarcasm); customer address data may be incomplete or outdated</li><li><strong>Value</strong>: The insights and decisions that can be derived from the data — data has no value unless it leads to action / Customer churn prediction model that identifies high-risk customers — value only if the business acts on the predictions to retain them</li></ul>" +
+            "<ul><li><strong>Volume</strong>: Scale of data — petabytes to exabytes; billions of records / A bank processes 50 million transactions per day across millions of customers</li><li><strong>Velocity</strong>: Speed at which data is generated and must be processed — often real-time or near-real-time / Stock exchange trade data: millions of trades per second requiring real-time analysis</li><li><strong>Variety</strong>: Different types and formats: structured (databases), semi-structured (JSON, XML), unstructured (text, images, video, audio) / Financial analysis combining ERP data (structured), customer emails (unstructured text), and satellite images of competitor car parks (unstructured images)</li></ul>" +
+            "<h4>Veracity and Value — The Quality Dimensions</h4>" +
+            "<ul><li><strong>Veracity</strong>: Accuracy, reliability and trustworthiness of the data — big data sources are often noisy and inconsistent / Social media sentiment data is unreliable (bots, sarcasm); customer address data may be incomplete or outdated</li><li><strong>Value</strong>: The insights and decisions that can be derived from the data — data has no value unless it leads to action / Customer churn prediction model that identifies high-risk customers — value only if the business acts on the predictions to retain them</li></ul>" +
             "<h4>Sources of Big Data Relevant to Finance</h4>" +
             "<ul>" +
             "<li><strong>Internal transactional data:</strong> ERP systems, CRM, point-of-sale, manufacturing operations, supply chain — the highest quality and most structured source</li>" +
@@ -11798,7 +11858,7 @@ const AIQ_COURSE_DATA = {
             "<p>Finance functions hold the organisation's most sensitive data: bank account details, payroll records, supplier payment credentials, financial forecasts, M&A plans, and personal data of customers and employees. Finance systems are a prime target for cybercriminals, state-sponsored attackers, and fraudsters. A successful attack can cause direct financial loss (fraudulent payments), regulatory fines (GDPR breach), reputational damage, and operational disruption.</p>" +
             "<p>High-profile finance-related cyber incidents include: the Bangladesh Bank SWIFT heist (2016, $81m stolen), the Tesco Bank fraud (2016, £2.5m taken from 9,000 accounts), and numerous ransomware attacks on manufacturing and healthcare finance systems.</p>" +
             "<h4>Main Categories of Cybersecurity Threat</h4>" +
-            "<ul><li><strong>Phishing</strong>: Deceptive emails/messages that trick users into revealing credentials or clicking malicious links. Spear phishing: targeted at specific individuals (CFO, AP manager). / AP fraud — 'CEO fraud' or 'BEC (Business Email Compromise)': attacker impersonates the CEO and emails AP team to urgently transfer funds to a new supplier account</li><li><strong>Ransomware</strong>: Malware that encrypts systems and demands payment for the decryption key. Increasingly combined with data exfiltration ('double extortion'). / Finance systems encrypted — month-end close impossible; payroll cannot run; financial data exfiltrated and threatened for public release</li><li><strong>Insider threats</strong>: Malicious or negligent actions by employees, contractors or former employees with legitimate system access / A disgruntled accountant exfiltrating financial data before resignation; an employee clicking a phishing link that opens the network to external attack</li><li><strong>Supply chain attack</strong>: Attacking a third-party supplier to gain access to their customers' systems (e.g., SolarWinds attack 2020) / A payroll software provider is compromised; attacker accesses all client payroll data through the provider's legitimate system access</li><li><strong>SQL injection / system vulnerabilities</strong>: Exploiting weaknesses in software code to gain unauthorised access to databases / Financial database accessed through a vulnerability in the ERP web interface</li><li><strong>Distributed Denial of Service (DDoS)</strong>: Flooding a system with traffic to make it unavailable / Online banking or payment system made unavailable; not typically targeting financial data but disrupting operations</li></ul>" +
+            "<ul><li><strong>Phishing</strong>: Deceptive emails/messages that trick users into revealing credentials or clicking malicious links. Spear phishing: targeted at specific individuals (CFO, AP manager). / AP fraud — 'CEO fraud' or 'BEC (Business Email Compromise)': attacker impersonates the CEO and emails AP team to urgently transfer funds to a new supplier account</li><li><strong>Ransomware</strong>: Malware that encrypts systems and demands payment for the decryption key. Increasingly combined with data exfiltration ('double extortion'). / Finance systems encrypted — month-end close impossible; payroll cannot run; financial data exfiltrated and threatened for public release</li></ul><h4>Structural and Technical Attack Vectors</h4><ul><li><strong>Insider threats</strong>: Malicious or negligent actions by employees, contractors or former employees with legitimate system access / A disgruntled accountant exfiltrating financial data before resignation; an employee clicking a phishing link that opens the network to external attack</li><li><strong>Supply chain attack</strong>: Attacking a third-party supplier to gain access to their customers' systems (e.g., SolarWinds attack 2020) / A payroll software provider is compromised; attacker accesses all client payroll data through the provider's legitimate system access</li><li><strong>SQL injection / system vulnerabilities</strong>: Exploiting weaknesses in software code to gain unauthorised access to databases / Financial database accessed through a vulnerability in the ERP web interface</li><li><strong>Distributed Denial of Service (DDoS)</strong>: Flooding a system with traffic to make it unavailable / Online banking or payment system made unavailable; not typically targeting financial data but disrupting operations</li></ul>" +
             "<h4>Technical Controls</h4>" +
             "<ul>" +
             "<li><strong>Multi-factor authentication (MFA):</strong> Requiring a second proof of identity (mobile code, biometric) in addition to password — prevents access even if password is compromised</li>" +
@@ -11904,7 +11964,7 @@ const AIQ_COURSE_DATA = {
             "<p>The scale is extraordinary: by 2025, there were an estimated 15+ billion connected IoT devices globally. Each device continuously generates data — creating a massive stream of real-time operational intelligence.</p>" +
             "<h4>Industry 4.0 — The Smart Factory</h4>" +
             "<p><strong>Industry 4.0</strong> describes the integration of IoT, AI, robotics, cloud computing and big data analytics into manufacturing and industrial operations — creating the 'smart factory' or 'cyber-physical production system.'</p>" +
-            "<p>Key components of Industry 4.0:</p>" +
+            "<h4>Key Components of Industry 4.0</h4>" +
             "<ul>" +
             "<li><strong>Connected machines:</strong> Every machine on the factory floor has sensors that continuously report performance, temperature, vibration, output rate, and energy consumption to a central system</li>" +
             "<li><strong>Predictive maintenance:</strong> ML models analyse sensor data to predict when a machine is about to fail — maintenance is scheduled before failure, not after. This eliminates unplanned downtime (one of the highest-cost events in manufacturing).</li>" +
@@ -11917,6 +11977,7 @@ const AIQ_COURSE_DATA = {
             "<p><strong>2. Asset management:</strong> IoT enables precise tracking of asset utilisation and condition. Finance can make better-informed depreciation, impairment and capital investment decisions based on actual usage data rather than estimates.</p>" +
             "<p><strong>3. Predictive maintenance cost savings:</strong> Unplanned downtime in manufacturing can cost thousands of pounds per hour. IoT-based predictive maintenance reduces unplanned downtime significantly — a direct cost saving that finance can model in the business case for IoT investment.</p>" +
             "<p><strong>4. Inventory optimisation:</strong> Real-time stock monitoring via RFID (radio frequency identification) and IoT sensors enables just-in-time inventory management with much greater precision — reducing working capital tied up in inventory.</p>" +
+            "<h4>Cost Structures and New Business Models</h4>" +
             "<p><strong>5. Changing cost structures:</strong> Industry 4.0 shifts cost structure from variable (labour) to fixed (technology investment). A smart factory has lower variable labour costs but higher fixed costs from technology investment, maintenance and cybersecurity. Finance must adapt costing and pricing models accordingly.</p>" +
             "<p><strong>6. New business models — 'servitisation':</strong> IoT enables manufacturers to sell outcomes rather than products. Example: Rolls-Royce no longer sells aircraft engines — it sells 'power by the hour' (guaranteed thrust hours). IoT sensors on engines allow Rolls-Royce to monitor engine health in real time and bill by actual usage. This shifts revenue from one-off product sales to long-term service contracts — with major implications for revenue recognition (IFRS 15) and financial planning.</p>" +
             "<h4>IoT Risks</h4>" +
@@ -12006,12 +12067,17 @@ const AIQ_COURSE_DATA = {
             "<p>Data governance is increasingly critical as organisations use data for AI models, financial forecasting, and regulatory reporting — all of which require trustworthy, well-defined data.</p>" +
             "<h4>The DAMA-DMBOK Framework</h4>" +
             "<p>The <strong>Data Management Body of Knowledge (DAMA-DMBOK)</strong> is the leading international framework for data management. It organises data management into 11 knowledge areas:</p>" +
-            "<ul><li><strong>Data Governance</strong>: Oversight and control of data management / Policies for who owns financial data definitions</li><li><strong>Data Architecture</strong>: Structure of data assets and flows / How ERP data flows to data warehouse and reporting</li><li><strong>Data Modelling & Design</strong>: Defining data structures / Chart of accounts design; financial data models</li><li><strong>Data Storage & Operations</strong>: Database management and performance / ERP database management; backup/recovery</li><li><strong>Data Security</strong>: Access controls and data protection / Restricting payroll data access; encryption</li><li><strong>Data Integration & Interoperability</strong>: Moving and consolidating data across systems / ERP-to-consolidation system data extraction</li><li><strong>Document & Content Management</strong>: Managing unstructured data and documents / Contract management; invoice document storage</li><li><strong>Reference & Master Data</strong>: Managing shared reference data / Customer master data; GL account codes</li><li><strong>Data Warehousing & BI</strong>: Analytical data stores and reporting / Finance data warehouse; Power BI dashboards</li><li><strong>Metadata Management</strong>: Data about data — definitions, lineage, context / Defining what 'Gross Profit' means in each context</li><li><strong>Data Quality</strong>: Ensuring data is fit for purpose / Customer data completeness; transactional accuracy</li></ul>" +
+            "<ul><li><strong>Data Governance</strong>: Oversight and control of data management / Policies for who owns financial data definitions</li><li><strong>Data Architecture</strong>: Structure of data assets and flows / How ERP data flows to data warehouse and reporting</li><li><strong>Data Modelling & Design</strong>: Defining data structures / Chart of accounts design; financial data models</li><li><strong>Data Storage & Operations</strong>: Database management and performance / ERP database management; backup/recovery</li><li><strong>Data Security</strong>: Access controls and data protection / Restricting payroll data access; encryption</li><li><strong>Data Integration & Interoperability</strong>: Moving and consolidating data across systems / ERP-to-consolidation system data extraction</li></ul>" +
+            "<h4>Further DAMA-DMBOK Knowledge Areas</h4>" +
+            "<ul><li><strong>Document & Content Management</strong>: Managing unstructured data and documents / Contract management; invoice document storage</li><li><strong>Reference & Master Data</strong>: Managing shared reference data / Customer master data; GL account codes</li><li><strong>Data Warehousing & BI</strong>: Analytical data stores and reporting / Finance data warehouse; Power BI dashboards</li><li><strong>Metadata Management</strong>: Data about data — definitions, lineage, context / Defining what 'Gross Profit' means in each context</li><li><strong>Data Quality</strong>: Ensuring data is fit for purpose / Customer data completeness; transactional accuracy</li></ul>" +
             "<h4>Data Governance Roles and Accountability</h4>" +
             "<p>Effective data governance requires clear accountability structures:</p>" +
             "<ul>" +
             "<li><strong>Data Owner:</strong> A senior business leader (e.g., CFO for financial data; CHRO for HR data) who is accountable for the quality, integrity and appropriate use of a specific data domain. They define access policies and approve data definitions. This is a business role, not IT.</li>" +
             "<li><strong>Data Steward:</strong> A subject matter expert who implements the data owner's policies day-to-day. They maintain data definitions (the business glossary), monitor data quality, resolve data issues, and act as the business's point of contact for data about a specific domain (e.g., 'customer data steward').</li>" +
+            "</ul>" +
+            "<h4>Data Custodian and Governance Council</h4>" +
+            "<ul>" +
             "<li><strong>Data Custodian:</strong> A technical role (typically IT) responsible for the physical management of data — storage, backup, access controls implementation, database administration. They implement what the data owner and steward define.</li>" +
             "<li><strong>Data Governance Council:</strong> A cross-functional committee that sets policy, resolves disputes between data owners, and oversees the data governance programme. Usually chaired by the CDO (Chief Data Officer) or CIO.</li>" +
             "</ul>" +
@@ -12117,20 +12183,20 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Validation:</strong> Checking values against reference data or business rules and flagging or correcting errors</li>" +
             "</ol>" +
             "<h4>Consequences of Poor Data Quality</h4>" +
-            "<p><strong>Financial consequences:</strong></p>" +
+            "<h4>Financial consequences</h4>" +
             "<ul>" +
             "<li>Duplicate supplier payments (poor uniqueness in supplier master) — direct cash loss</li>" +
             "<li>Incorrect financial statements — audit qualifications, regulatory investigations, restatements</li>" +
             "<li>Poor management decisions based on incorrect data — investment in the wrong products/markets</li>" +
             "<li>Failed system implementations — ERP go-lives fail when data migration quality is poor</li>" +
             "</ul>" +
-            "<p><strong>Regulatory consequences:</strong></p>" +
+            "<h4>Regulatory consequences</h4>" +
             "<ul>" +
             "<li>GDPR: Inaccurate personal data = breach of accuracy principle → ICO investigation and fines</li>" +
             "<li>MiFID II (financial services): Inaccurate transaction reporting = regulatory fine</li>" +
             "<li>HMRC: Incorrect VAT data → penalties and interest</li>" +
             "</ul>" +
-            "<p><strong>Operational consequences:</strong></p>" +
+            "<h4>Operational consequences</h4>" +
             "<ul>" +
             "<li>Manual rework — finance teams spend significant time fixing data rather than analysing it</li>" +
             "<li>System failures — invalid data causes automated processes to fail</li>" +
@@ -12328,7 +12394,9 @@ const AIQ_COURSE_DATA = {
             "<p>The <strong>UK General Data Protection Regulation (UK GDPR)</strong> is the primary data protection legislation in the UK, retained from EU GDPR after Brexit and supplemented by the Data Protection Act 2018. It applies to any organisation that processes personal data of individuals in the UK.</p>" +
             "<p><strong>Personal data</strong> = any information relating to an identified or identifiable natural person. In finance: names, addresses, NI numbers, bank account details, salary data, payment histories — all are personal data.</p>" +
             "<h4>The Six Data Protection Principles (UK GDPR Article 5)</h4>" +
-            "<ul><li><strong>1:</strong> <strong>Lawfulness, fairness and transparency:</strong> Must have a legal basis; individuals must be informed / Employee payroll data processed on 'contractual necessity' basis; employees informed via privacy notice</li><li><strong>2:</strong> <strong>Purpose limitation:</strong> Data collected for specified, explicit purposes; not used beyond those purposes / Customer payment data collected for billing cannot be used for marketing without separate consent</li><li><strong>3:</strong> <strong>Data minimisation:</strong> Only collect what is necessary / AP team does not need to collect supplier employees' personal social media profiles</li><li><strong>4:</strong> <strong>Accuracy:</strong> Data must be accurate and kept up to date / Employee bank account details must be current — inaccurate data = incorrect salary payment</li><li><strong>5:</strong> <strong>Storage limitation:</strong> Not kept longer than necessary / Former employee salary data: retain for 6 years (legal/tax requirement) then securely delete</li><li><strong>6:</strong> <strong>Integrity and confidentiality:</strong> Appropriate security to protect data / Payroll data encrypted at rest and in transit; access limited to payroll team only</li></ul>" +
+            "<ul><li><strong>1:</strong> <strong>Lawfulness, fairness and transparency:</strong> Must have a legal basis; individuals must be informed / Employee payroll data processed on 'contractual necessity' basis; employees informed via privacy notice</li><li><strong>2:</strong> <strong>Purpose limitation:</strong> Data collected for specified, explicit purposes; not used beyond those purposes / Customer payment data collected for billing cannot be used for marketing without separate consent</li><li><strong>3:</strong> <strong>Data minimisation:</strong> Only collect what is necessary / AP team does not need to collect supplier employees' personal social media profiles</li></ul>" +
+            "<h4>Accuracy, Storage Limitation and Security</h4>" +
+            "<ul><li><strong>4:</strong> <strong>Accuracy:</strong> Data must be accurate and kept up to date / Employee bank account details must be current — inaccurate data = incorrect salary payment</li><li><strong>5:</strong> <strong>Storage limitation:</strong> Not kept longer than necessary / Former employee salary data: retain for 6 years (legal/tax requirement) then securely delete</li><li><strong>6:</strong> <strong>Integrity and confidentiality:</strong> Appropriate security to protect data / Payroll data encrypted at rest and in transit; access limited to payroll team only</li></ul>" +
             "<p><strong>Accountability:</strong> UK GDPR adds a seventh requirement — organisations must be able to demonstrate compliance (not just be compliant). This means documented policies, DPIAs (Data Protection Impact Assessments), and records of processing activities.</p>" +
             "<h4>Lawful Bases for Processing (Article 6)</h4>" +
             "<p>Processing personal data requires a lawful basis. The six bases relevant to finance:</p>" +
@@ -12433,7 +12501,7 @@ const AIQ_COURSE_DATA = {
             "<p><strong>Master data</strong> is the core reference data that an organisation depends on to run its business — customers, suppliers, employees, products, chart of accounts, cost centres, legal entities. Unlike transactional data (which changes constantly), master data changes infrequently but is used in every transaction.</p>" +
             "<p>Poor master data = poor financial data. If the chart of accounts has duplicate GL codes, if a customer exists in three different formats across three systems, or if a cost centre code is different in the HR system and the ERP, then every transaction using that data is potentially incorrect or incomparable.</p>" +
             "<p><strong>Master Data Management (MDM)</strong> is the discipline of creating and maintaining a single, authoritative, consistent definition of key business data across the enterprise.</p>" +
-            "<p>Key master data domains in finance:</p>" +
+            "<h4>Key Master Data Domains in Finance</h4>" +
             "<ul>" +
             "<li><strong>Customer master:</strong> Name, address, credit terms, VAT number, payment terms, contact details — used in sales, billing, credit management, AR</li>" +
             "<li><strong>Supplier/vendor master:</strong> Name, address, bank account, payment terms, VAT number, commodity code — used in procurement, AP, treasury</li>" +
@@ -12531,11 +12599,13 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>Regulatory Environment for Data Management in Finance</h4>" +
             "<p>Finance functions operate within an extensive regulatory framework governing how financial and personal data must be managed, stored, reported and protected. Key regulations by category:</p>" +
-            "<ul><li><strong>UK GDPR / Data Protection Act 2018</strong>: Personal data of UK individuals / Lawful basis; data minimisation; security; 72-hour breach notification; individual rights</li><li><strong>Companies Act 2006</strong>: UK companies / Financial records retained for 6 years; must provide accurate financial statements</li><li><strong>HMRC requirements</strong>: UK taxpayers / VAT records: 6 years; payroll records: 6 years; corporate tax: 6 years</li><li><strong>FCA regulations (financial services)</strong>: FCA-authorised firms / MiFID II: transaction records for 5 years; CASS: client asset records; SM&CR: individual conduct records</li><li><strong>Sarbanes-Oxley (SOX)</strong>: US-listed companies (including UK subsidiaries) / Internal control over financial reporting (ICFR); CEO/CFO certification; auditor access to all records</li><li><strong>Payment Card Industry DSS (PCI-DSS)</strong>: Any organisation accepting card payments / Cardholder data encryption; access controls; quarterly vulnerability scans; annual penetration testing</li></ul>" +
+            "<ul><li><strong>UK GDPR / Data Protection Act 2018</strong>: Personal data of UK individuals / Lawful basis; data minimisation; security; 72-hour breach notification; individual rights</li><li><strong>Companies Act 2006</strong>: UK companies / Financial records retained for 6 years; must provide accurate financial statements</li><li><strong>HMRC requirements</strong>: UK taxpayers / VAT records: 6 years; payroll records: 6 years; corporate tax: 6 years</li></ul>" +
+            "<h4>Financial Services and Compliance Regulations</h4>" +
+            "<ul><li><strong>FCA regulations (financial services)</strong>: FCA-authorised firms / MiFID II: transaction records for 5 years; CASS: client asset records; SM&CR: individual conduct records</li><li><strong>Sarbanes-Oxley (SOX)</strong>: US-listed companies (including UK subsidiaries) / Internal control over financial reporting (ICFR); CEO/CFO certification; auditor access to all records</li><li><strong>Payment Card Industry DSS (PCI-DSS)</strong>: Any organisation accepting card payments / Cardholder data encryption; access controls; quarterly vulnerability scans; annual penetration testing</li></ul>" +
             "<h4>Information Risk Management</h4>" +
             "<p><strong>Information risk</strong> is the risk that an organisation's information assets are compromised — through loss, theft, corruption, unauthorised access or regulatory breach — resulting in financial, operational or reputational harm.</p>" +
             "<p>Information risk is a component of <strong>operational risk</strong> (the risk of loss from failed processes, people, systems or external events). Under Basel III (banking) and Solvency II (insurance), firms must maintain capital against operational risk — and data/systems failures are a significant operational risk category.</p>" +
-            "<p>Information risk management involves:</p>" +
+            "<h4>The Information Risk Management Process</h4>" +
             "<ol>" +
             "<li><strong>Asset inventory:</strong> Identify all information assets (data stores, systems, processes) and their owners</li>" +
             "<li><strong>Risk assessment:</strong> Assess the likelihood and impact of threats to each asset (confidentiality, integrity, availability)</li>" +
@@ -12863,6 +12933,7 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Direct (same-side) network effects:</strong> More users on the same side make the platform more valuable for existing users. Example: WhatsApp — every additional user makes WhatsApp more valuable to all existing users, because there are more people to contact.</li>" +
             "<li><strong>Indirect (cross-side) network effects:</strong> More users on one side make the platform more valuable for users on the other side. Example: Uber — more drivers reduce waiting times for riders (good for riders), and more riders mean more income for drivers (good for drivers). This creates a self-reinforcing positive feedback loop.</li>" +
             "</ul>" +
+            "<h4>Network Effects and Market Dynamics</h4>" +
             "<p>Network effects create <strong>winner-takes-all</strong> or <strong>winner-takes-most</strong> dynamics in many platform markets. Once a platform achieves critical mass, challengers face an almost impossible task — to compete they must simultaneously attract both sides of the market.</p>" +
             "<h4>Platform Economics — Unit Economics</h4>" +
             "<p>Platform businesses have distinctive economics:</p>" +
@@ -12951,13 +13022,18 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>PESTEL Analysis in a Digital Context</h4>" +
             "<p>PESTEL analysis maps the macro-environment. In a digital context, each factor has specific digital dimensions:</p>" +
-            "<ul><li><strong>Political</strong>: Government digital strategies; data localisation laws; regulation of platform businesses (EU Digital Markets Act); geopolitical tech tensions (US-China tech decoupling)</li><li><strong>Economic</strong>: Investment in digital infrastructure; venture capital availability for startups; customer digital purchasing power; economic cycles affecting tech investment budgets</li><li><strong>Social</strong>: Digital literacy of target customers; social media influence; trust in digital services; remote working norms; generational differences in technology adoption</li><li><strong>Technological</strong>: Speed of AI/ML development; cloud capability; 5G rollout; quantum computing; API economy enabling new integrations; cybersecurity threat landscape</li><li><strong>Environmental</strong>: Carbon footprint of data centres; sustainable technology; green cloud commitments; ESG data requirements driving technology investment</li><li><strong>Legal</strong>: GDPR; AI regulation (EU AI Act); competition law for platform dominance; IP law; consumer digital protection; open banking regulation (PSD2)</li></ul>" +
+            "<ul><li><strong>Political</strong>: Government digital strategies; data localisation laws; regulation of platform businesses (EU Digital Markets Act); geopolitical tech tensions (US-China tech decoupling)</li><li><strong>Economic</strong>: Investment in digital infrastructure; venture capital availability for startups; customer digital purchasing power; economic cycles affecting tech investment budgets</li><li><strong>Social</strong>: Digital literacy of target customers; social media influence; trust in digital services; remote working norms; generational differences in technology adoption</li></ul>" +
+            "<h4>Technological, Environmental and Legal Factors</h4>" +
+            "<ul><li><strong>Technological</strong>: Speed of AI/ML development; cloud capability; 5G rollout; quantum computing; API economy enabling new integrations; cybersecurity threat landscape</li><li><strong>Environmental</strong>: Carbon footprint of data centres; sustainable technology; green cloud commitments; ESG data requirements driving technology investment</li><li><strong>Legal</strong>: GDPR; AI regulation (EU AI Act); competition law for platform dominance; IP law; consumer digital protection; open banking regulation (PSD2)</li></ul>" +
             "<h4>Porter's Five Forces in Digital Markets</h4>" +
             "<p>Digital transformation changes the intensity of each force:</p>" +
             "<ul>" +
             "<li><strong>Threat of new entrants:</strong> Digital businesses have lower barriers to entry (no physical stores, no manufacturing) but strong network effects create barriers to challenger platforms. Cloud technology means even startups can access enterprise-grade computing — INCREASED threat in early stages, DECREASED once platform reaches scale.</li>" +
             "<li><strong>Bargaining power of buyers:</strong> Digital markets increase buyer information (price comparison sites, reviews) and switching ease (low transaction costs) — INCREASED buyer power. However, strong network effects and data lock-in reduce switching — DECREASED for entrenched platforms.</li>" +
             "<li><strong>Bargaining power of suppliers:</strong> Digital platforms often fragment and atomise supply (many small suppliers/creators competing on a marketplace) — DECREASED supplier power. But key technology suppliers (AWS, Microsoft) have significant power over companies dependent on their platforms.</li>" +
+            "</ul>" +
+            "<h4>Substitution and Competitive Rivalry</h4>" +
+            "<ul>" +
             "<li><strong>Threat of substitutes:</strong> Digital businesses create powerful substitutes for traditional offerings (streaming vs physical DVD, digital banking vs branch banking). INCREASED threat to traditional businesses.</li>" +
             "<li><strong>Competitive rivalry:</strong> Global competition (digital businesses face global rivals, not just local ones); winner-takes-all dynamics in platform markets; rapid innovation cycles — INCREASED intensity.</li>" +
             "</ul>" +
@@ -13172,7 +13248,7 @@ const AIQ_COURSE_DATA = {
             "</ol>" +
             "<h4>Kotter's 8-Step Model for Leading Change</h4>" +
             "<p>John Kotter's model (1996, updated 2014) provides a more detailed roadmap for large-scale organisational change:</p>" +
-            "<ul><li><strong>1. Create urgency:</strong> Make the case that change is necessary NOW — not optional / CFO presents: 'Our close cycle is 18 days; best-in-class is 3 days. Our competitors make decisions on data we are still assembling.'</li><li><strong>2. Build a guiding coalition:</strong> Assemble a group of influential leaders committed to the change / Appoint a digital finance steering committee: CFO, CIO, business unit FDs, key business partners</li><li><strong>3. Form a strategic vision:</strong> Create a clear, inspiring vision of the destination / 'By 2027, our finance function will close in 3 days, forecast in real time, and every business unit will have a dedicated analytics partner.'</li><li><strong>4. Enlist a volunteer army:</strong> Engage a large group of change agents at all levels / Identify enthusiastic early adopters ('digital champions') in each finance team who become peer advocates</li><li><strong>5. Enable action by removing barriers:</strong> Remove obstacles — structural, procedural, attitudinal / Eliminate manual report requests that consume finance team time; provide technology access; simplify approval processes</li><li><strong>6. Generate short-term wins:</strong> Create and celebrate visible early successes / Automate the first bank reconciliation; cut close from day 18 to day 10 in month 3 — publicise the achievement</li><li><strong>7. Sustain acceleration:</strong> Keep pressing forward; use early wins to drive further change / After close improvement, tackle FP&amp;A transformation; reinvest savings into further automation</li><li><strong>8. Institute change:</strong> Anchor change in culture; connect it to organisational identity / 'Digital excellence' becomes a stated finance team value; digital skills included in all job descriptions and appraisal criteria</li></ul>" +
+            "<ul><li><strong>1. Create urgency:</strong> Make the case that change is necessary NOW — not optional / CFO presents: 'Our close cycle is 18 days; best-in-class is 3 days. Our competitors make decisions on data we are still assembling.'</li><li><strong>2. Build a guiding coalition:</strong> Assemble a group of influential leaders committed to the change / Appoint a digital finance steering committee: CFO, CIO, business unit FDs, key business partners</li><li><strong>3. Form a strategic vision:</strong> Create a clear, inspiring vision of the destination / 'By 2027, our finance function will close in 3 days, forecast in real time, and every business unit will have a dedicated analytics partner.'</li><li><strong>4. Enlist a volunteer army:</strong> Engage a large group of change agents at all levels / Identify enthusiastic early adopters ('digital champions') in each finance team who become peer advocates</li></ul><h4>Implementing and Embedding Change (Steps 5–8)</h4><ul><li><strong>5. Enable action by removing barriers:</strong> Remove obstacles — structural, procedural, attitudinal / Eliminate manual report requests that consume finance team time; provide technology access; simplify approval processes</li><li><strong>6. Generate short-term wins:</strong> Create and celebrate visible early successes / Automate the first bank reconciliation; cut close from day 18 to day 10 in month 3 — publicise the achievement</li><li><strong>7. Sustain acceleration:</strong> Keep pressing forward; use early wins to drive further change / After close improvement, tackle FP&amp;A transformation; reinvest savings into further automation</li><li><strong>8. Institute change:</strong> Anchor change in culture; connect it to organisational identity / 'Digital excellence' becomes a stated finance team value; digital skills included in all job descriptions and appraisal criteria</li></ul>" +
             "<h4>Barriers to Change and Overcoming Resistance</h4>" +
             "<p>Common barriers in finance digital transformation:</p>" +
             "<ul>" +
@@ -13265,31 +13341,39 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>Situational Leadership</h4>" +
             "<p>The <strong>Situational Leadership</strong> model (Hersey and Blanchard) proposes that there is no single 'best' leadership style — effective leaders adapt their style to match the needs of the individual or team in each specific situation. The appropriate style depends on the follower's <strong>development level</strong> — their combination of competence (skills, knowledge) and commitment (motivation, confidence).</p>" +
-            "<ul><li><strong>D1 — Enthusiastic Beginner</strong>: Low competence, high commitment (excited but inexperienced) / <strong>Directing</strong>: High task, low relationship — tell them exactly what to do; provide clear structure and instructions</li><li><strong>D2 — Disillusioned Learner</strong>: Some competence, lower commitment (has tried, found it harder than expected) / <strong>Coaching</strong>: High task, high relationship — explain the why; develop skills while rebuilding confidence</li><li><strong>D3 — Capable but Cautious</strong>: High competence, variable commitment (can do it, but unsure) / <strong>Supporting</strong>: Low task, high relationship — encourage; draw out their expertise; provide reassurance</li><li><strong>D4 — Self-Reliant Achiever</strong>: High competence, high commitment / <strong>Delegating</strong>: Low task, low relationship — assign the task; trust them to deliver; check in occasionally</li></ul>" +
-            "<p>Application in digital finance: A finance manager rolling out a new analytics tool must adapt their style: Directing for junior analysts who are new to Power BI (D1); Coaching for analysts who have tried and struggled (D2); Supporting for experienced analysts who lack confidence using the new tool (D3); Delegating to the senior FP&amp;A analyst who already has strong data skills (D4).</p>" +
-            "<h4>Motivation Theories for Finance Professionals</h4>" +
-            "<p><strong>Maslow's Hierarchy of Needs</strong> proposes that human needs are arranged in a hierarchy from basic (physiological) to transcendent (self-actualisation). Finance professionals typically have their lower-level needs satisfied — motivation works at the higher levels:</p>" +
+            "<ul><li><strong>D1 — Enthusiastic Beginner</strong>: Low competence, high commitment (excited but inexperienced) / <strong>Directing</strong>: High task, low relationship — tell them exactly what to do; provide clear structure and instructions</li><li><strong>D2 — Disillusioned Learner</strong>: Some competence, lower commitment (has tried, found it harder than expected) / <strong>Coaching</strong>: High task, high relationship — explain the why; develop skills while rebuilding confidence</li></ul>" +
+            "<h4>Supporting and Delegating Styles</h4>" +
+            "<ul><li><strong>D3 — Capable but Cautious</strong>: High competence, variable commitment (can do it, but unsure) / <strong>Supporting</strong>: Low task, high relationship — encourage; draw out their expertise; provide reassurance</li><li><strong>D4 — Self-Reliant Achiever</strong>: High competence, high commitment / <strong>Delegating</strong>: Low task, low relationship — assign the task; trust them to deliver; check in occasionally</li></ul>" +
+            "<h4>Applying Situational Leadership in Finance</h4>" +
+            "<p>A finance manager rolling out a new analytics tool must adapt their style: Directing for junior analysts who are new to Power BI (D1); Coaching for analysts who have tried and struggled (D2); Supporting for experienced analysts who lack confidence using the new tool (D3); Delegating to the senior FP&amp;A analyst who already has strong data skills (D4).</p>" +
+            "<h4>Maslow's Hierarchy of Needs</h4>" +
+            "<p>Maslow proposes needs are arranged in a hierarchy from basic (physiological) to transcendent (self-actualisation). Finance professionals typically have lower-level needs satisfied — motivation works at the higher levels:</p>" +
             "<ul>" +
             "<li><strong>Social needs:</strong> Belonging to a respected team; collaborative culture; team success</li>" +
             "<li><strong>Esteem needs:</strong> Recognition for analytical insight; promotion; being asked for strategic input; professional qualifications (CIMA)</li>" +
             "<li><strong>Self-actualisation:</strong> Doing meaningful, challenging work that uses full capabilities; contributing to organisational strategy; personal growth through digital skills development</li>" +
             "</ul>" +
-            "<p><strong>Herzberg's Two-Factor Theory</strong> distinguishes between <em>hygiene factors</em> (prevent dissatisfaction but don't motivate) and <em>motivators</em> (actually drive positive motivation and performance):</p>" +
+            "<h4>Herzberg's Two-Factor Theory</h4>" +
+            "<p>Herzberg distinguishes between <em>hygiene factors</em> (prevent dissatisfaction but don't motivate) and <em>motivators</em> (actually drive positive motivation):</p>" +
             "<ul>" +
-            "<li><strong>Hygiene factors:</strong> Salary, working conditions, company policy, supervision, job security. If inadequate → dissatisfaction. If adequate → neutral (not satisfied, not dissatisfied). Finance organisations must get these right to avoid turnover.</li>" +
-            "<li><strong>Motivators:</strong> Achievement, recognition, responsibility, advancement, growth, the work itself. These are what genuinely motivate finance professionals to excel. Digital transformation can be a powerful motivator if framed as a growth opportunity.</li>" +
+            "<li><strong>Hygiene factors:</strong> Salary, working conditions, company policy, supervision, job security. If inadequate → dissatisfaction. If adequate → neutral. Finance organisations must get these right to avoid turnover.</li>" +
+            "<li><strong>Motivators:</strong> Achievement, recognition, responsibility, advancement, growth, the work itself. Digital transformation can be a powerful motivator if framed as a growth opportunity.</li>" +
             "</ul>" +
-            "<p><strong>McClelland's Achievement Motivation Theory</strong> identifies three learned needs that vary in strength between individuals:</p>" +
+            "<h4>McClelland's Achievement Motivation</h4>" +
+            "<p>McClelland identifies three learned needs that vary in strength between individuals:</p>" +
             "<ul>" +
-            "<li><strong>Need for Achievement (nAch):</strong> Desire to succeed and excel; sets challenging but achievable goals. Many CIMA-qualified finance professionals have high nAch — they are attracted to difficult analyses and problem-solving.</li>" +
-            "<li><strong>Need for Affiliation (nAff):</strong> Desire for friendly, collaborative relationships. High nAff individuals excel in finance business partnering roles — relationship-building is natural to them.</li>" +
-            "<li><strong>Need for Power (nPow):</strong> Desire to influence and lead others. Healthy nPow (socialised power) drives CFO and finance leadership roles; unhealthy nPow (personal power) can lead to control-seeking behaviour that resists automation.</li>" +
+            "<li><strong>Need for Achievement (nAch):</strong> Desire to succeed and excel. Many CIMA-qualified professionals have high nAch — attracted to difficult analyses and problem-solving.</li>" +
+            "<li><strong>Need for Affiliation (nAff):</strong> Desire for friendly, collaborative relationships. High nAff individuals excel in finance business partnering roles.</li>" +
+            "<li><strong>Need for Power (nPow):</strong> Desire to influence and lead. Healthy nPow drives CFO roles; unhealthy nPow can lead to resistance to automation.</li>" +
             "</ul>" +
             "<h4>Virtual and Cross-Functional Team Challenges</h4>" +
             "<p>Digital organisations increasingly use <strong>virtual teams</strong> (geographically dispersed, working remotely) and <strong>cross-functional teams</strong> (members from finance, IT, operations, sales working together). These create specific management challenges:</p>" +
             "<ul>" +
             "<li><strong>Communication:</strong> Loss of informal communication (corridor conversations); risk of misunderstanding in text-based communication; need for explicit, frequent structured communication</li>" +
             "<li><strong>Trust:</strong> Trust must be built virtually — harder without physical interaction. Regular video calls, clear expectations, and reliable follow-through are essential.</li>" +
+            "</ul>" +
+            "<h4>Coordination Challenges in Virtual Teams</h4>" +
+            "<ul>" +
             "<li><strong>Time zones:</strong> Global teams face coordination challenges — rotating meeting times; asynchronous working; over-reliance on email.</li>" +
             "<li><strong>Cross-functional tension:</strong> Finance and IT teams have different cultures, terminology, and priorities. Finance values accuracy and control; IT values speed and iteration. Shared objectives and regular joint meetings help bridge this.</li>" +
             "<li><strong>Accountability:</strong> In cross-functional teams, it can be unclear who is accountable for what. RACI matrices (Responsible, Accountable, Consulted, Informed) help clarify roles.</li>" +
@@ -13374,6 +13458,7 @@ const AIQ_COURSE_DATA = {
             "<p><strong>Society:</strong> Consumers, employees and communities increasingly evaluate organisations on ESG criteria. Employer brand and talent attraction are significantly affected by ESG reputation. Younger workforce entrants (Gen Z) report ESG performance as a major factor in employer choice.</p>" +
             "<h4>Sustainability Reporting Frameworks</h4>" +
             "<p><strong>GRI Standards (Global Reporting Initiative):</strong> The most widely used sustainability reporting framework globally. Provides standards for reporting on economic, environmental and social topics. GRI uses a stakeholder-inclusive approach — reporting on what matters to all stakeholders, not just investors. GRI standards include universal standards (applicable to all) and topic standards (specific environmental, social and economic topics).</p>" +
+            "<h4>TCFD and ISSB Standards</h4>" +
             "<p><strong>TCFD (Task Force on Climate-related Financial Disclosures):</strong> Developed by the Financial Stability Board (FSB), TCFD provides recommendations for disclosing climate-related financial risks and opportunities. Structured around four pillars: <strong>Governance</strong> (board oversight of climate risk), <strong>Strategy</strong> (climate risk impacts on strategy), <strong>Risk Management</strong> (processes for identifying climate risks), and <strong>Metrics &amp; Targets</strong> (KPIs including Scope 1/2/3 emissions, net zero target). TCFD is mandatory for UK premium-listed companies and large private companies.</p>" +
             "<p><strong>ISSB/IFRS Sustainability Disclosure Standards:</strong> The International Sustainability Standards Board (ISSB), established by the IFRS Foundation in 2021, issued its first standards in 2023:</p>" +
             "<ul>" +
@@ -13909,6 +13994,7 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>The Problem with Traditional Absorption Costing</h4>" +
             "<p>Traditional absorption costing (TAC) absorbs overheads using a single volume-based rate (typically direct labour hours or machine hours). This was appropriate when most costs were labour-related and product variety was low. In modern manufacturing and service environments, overheads are large and diverse — driven by many different activities, not just volume.</p>" +
+            "<h4>Cross-Subsidisation — The Core Problem</h4>" +
             "<p>The core problem: TAC assumes all overhead costs are driven by production volume. In reality, many overhead costs are driven by transactions or activities that do not vary with volume:</p>" +
             "<ul>" +
             "<li>A complex, low-volume product may require many production set-ups, quality inspections, procurement orders and design changes — all expensive but not captured by a volume-based OAR</li>" +
@@ -14040,6 +14126,7 @@ const AIQ_COURSE_DATA = {
             "<li>Products that were <em>over-costed</em> under TAC (typically high-volume, standard products) are more profitable than thought — opportunity to reduce prices to increase market share</li>" +
             "</ul>" +
             "<p><strong>Product mix decisions:</strong> ABC gives a more accurate picture of each product's profitability. Contribution per unit of bottleneck resource is the key short-run criterion; ABC profitability is the key long-run criterion for portfolio decisions.</p>" +
+            "<h4>Cost Reduction and Customer Profitability</h4>" +
             "<p><strong>Cost reduction:</strong> ABC highlights which activities are most expensive per driver unit — directing management attention to process improvement opportunities. Reducing the number of set-ups (by improving batch scheduling) reduces set-up costs; reducing product complexity reduces inspection and engineering costs.</p>" +
             "<p><strong>Customer profitability analysis:</strong> ABC can be extended to customers — some customers generate many small orders, require extensive aftersales support, and demand frequent price negotiations, all of which have costs. ABC customer analysis reveals which customers are truly profitable.</p>" +
             "<h4>Limitations of ABC</h4>" +
@@ -14260,6 +14347,9 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Determine the market price:</strong> Research what customers will pay for the product — market research, competitive benchmarking</li>" +
             "<li><strong>Set the target profit margin:</strong> What profit margin does the organisation require on this product? (linked to ROCE, NPV, or strategic objectives)</li>" +
             "<li><strong>Calculate the target cost:</strong> Target cost = Market price − Target profit margin</li>" +
+            "</ol>" +
+            "<h4>Estimating Costs and Closing the Gap</h4>" +
+            "<ol start=\"4\">" +
             "<li><strong>Estimate the current cost:</strong> What would it actually cost to produce this product with current processes and designs?</li>" +
             "<li><strong>Calculate the cost gap:</strong> Cost gap = Estimated current cost − Target cost. A positive gap means costs are too high and must be reduced.</li>" +
             "<li><strong>Close the cost gap:</strong> Use value engineering, value analysis and process improvement to reduce costs to the target level before launch</li>" +
@@ -14280,7 +14370,7 @@ const AIQ_COURSE_DATA = {
             "<p><strong>Lifecycle costing</strong> (also called whole life costing) accumulates all costs associated with a product over its entire life — from initial design through to end-of-life disposal. This is in contrast to traditional costing, which focuses only on the manufacturing period.</p>" +
             "<p>Product lifecycle stages and associated costs:</p>" +
             "<ul><li><strong>R&amp;D / Design</strong>: Market research, product design, prototyping, testing, tooling set-up</li><li><strong>Introduction / Launch</strong>: Marketing/advertising, distribution set-up, training</li><li><strong>Growth</strong>: Scaling production, additional marketing, customer support</li><li><strong>Maturity</strong>: Production at full scale; competitive pricing pressure; process improvement</li><li><strong>Decline / Withdrawal</strong>: Inventory clearance, product modification or withdrawal, service/warranty commitments</li><li><strong>End-of-life</strong>: Disposal costs, decommissioning, environmental remediation</li></ul>" +
-            "<p>Why lifecycle costing matters:</p>" +
+            "<h4>Why Lifecycle Costing Matters</h4>" +
             "<ul>" +
             "<li>Products may appear profitable in the manufacturing phase but incur significant committed future costs (warranty claims, disposal)</li>" +
             "<li>Early investment in R&amp;D may be justified if it locks in cost savings over the product's lifetime</li>" +
@@ -14473,7 +14563,7 @@ const AIQ_COURSE_DATA = {
             "<h4>The Demand Function — P = a − bQ</h4>" +
             "<p>In CIMA P1, a simple linear demand function is used: <strong>P = a − bQ</strong></p>" +
             "<p>Where: P = price; Q = quantity demanded; a = price when Q = 0 (maximum price); b = rate at which price falls as Q increases (slope).</p>" +
-            "<p><strong>Deriving the demand function from two data points:</strong></p>" +
+            "<h4>Deriving the demand function from two data points</h4>" +
             "<ol>" +
             "<li>b = Change in price / Change in quantity (or ΔP/ΔQ)</li>" +
             "<li>Substitute one data point into P = a − bQ to find 'a'</li>" +
@@ -15226,7 +15316,7 @@ const AIQ_COURSE_DATA = {
             "<p>Traditional incremental budgeting starts with last year's budget and adjusts it upward for inflation and known changes. While quick to prepare, it has serious weaknesses: it perpetuates inefficiencies, rewards departments that overspend (to protect next year's allocation), ignores changing activity levels, and provides little incentive to challenge existing spending patterns. Three advanced techniques address these failings.</p>" +
             "<h4>Activity-Based Budgeting (ABB)</h4>" +
             "<p>ABB is the natural extension of Activity-Based Costing into the budgeting process. Rather than asking 'how much did we spend last year?', ABB asks 'what activities do we need to perform and what will they cost?'</p>" +
-            "<p><strong>The ABB process:</strong></p>" +
+            "<h4>The ABB process</h4>" +
             "<ol><li>Identify the <strong>output</strong> required (budgeted sales volume/product mix).</li>" +
             "<li>Determine the <strong>activities</strong> needed to produce that output (setups, purchase orders, inspections).</li>" +
             "<li>Calculate the <strong>volume of each activity</strong> (number of setups, orders, etc.).</li>" +
@@ -15239,11 +15329,12 @@ const AIQ_COURSE_DATA = {
             "<p>Rolling budgets are particularly well-suited to organisations in volatile industries (e.g., technology, retail) where a 12-month-old plan quickly becomes irrelevant.</p>" +
             "<h4>Zero-Based Budgeting (ZBB)</h4>" +
             "<p>ZBB requires every item of expenditure to be justified from scratch each period — there is no automatic carry-forward from the prior year. The burden of proof lies with the budget holder to justify why each activity should be funded at all.</p>" +
-            "<p><strong>The ZBB process involves three steps:</strong></p>" +
+            "<h4>The ZBB process involves three steps</h4>" +
             "<ol><li><strong>Decision packages:</strong> Each activity or programme is documented as a 'decision package' showing its purpose, costs, benefits and consequences of not funding it.</li>" +
             "<li><strong>Ranking:</strong> Senior management rank all decision packages in priority order of cost-effectiveness and strategic value.</li>" +
             "<li><strong>Funding:</strong> Resources are allocated down the ranked list until the budget is exhausted — lower-priority packages are cut.</li></ol>" +
             "<p>ZBB is highly effective at eliminating waste and challenging assumptions, but it is enormously time-consuming. It is most appropriate for <strong>discretionary cost centres</strong> (marketing, R&D, administration) where outputs are hard to measure, or in organisations under severe cost pressure. Many organisations use ZBB selectively rather than applying it to every department every year.</p>" +
+            "<h4>Budget Types Compared</h4>" +
             "<ul><li><strong>Incremental</strong><ul><li><strong>Starting Point:</strong> Prior year actuals</li><li><strong>Best For:</strong> Stable environments, low admin cost</li><li><strong>Key Weakness:</strong> Perpetuates inefficiency</li></ul></li><li><strong>ABB</strong><ul><li><strong>Starting Point:</strong> Planned output + cost drivers</li><li><strong>Best For:</strong> High overhead environments (ABC users)</li><li><strong>Key Weakness:</strong> Complex to set up</li></ul></li><li><strong>Rolling</strong><ul><li><strong>Starting Point:</strong> Fresh 12-month window each period</li><li><strong>Best For:</strong> Volatile/seasonal industries</li><li><strong>Key Weakness:</strong> Resource-intensive, budget fatigue</li></ul></li><li><strong>ZBB</strong><ul><li><strong>Starting Point:</strong> Zero — everything justified afresh</li><li><strong>Best For:</strong> Discretionary cost centres, cost-cutting</li><li><strong>Key Weakness:</strong> Very time-consuming</li></ul></li></ul>",
           workedExample: {
             setup:
@@ -15328,14 +15419,14 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Centralisation:</strong> Budgets concentrate control at the top, reducing empowerment and entrepreneurial behaviour at the front line.</li></ul>" +
             "<h4>The Beyond Budgeting Framework</h4>" +
             "<p>Developed by Jeremy Hope and Robin Fraser through the Beyond Budgeting Round Table (BBRT) in the early 2000s, Beyond Budgeting is not simply 'no budget' — it is a comprehensive management model built on <strong>twelve principles</strong> grouped into two sets:</p>" +
-            "<p><strong>Leadership Principles (Culture and Values):</strong></p>" +
+            "<h4>Leadership Principles (Culture and Values)</h4>" +
             "<ol><li>Values — govern through shared values, not detailed rules</li>" +
             "<li>Governance — devolve governance to front-line teams</li>" +
             "<li>Transparency — make information open to all, not just the top</li>" +
             "<li>Teams — organise around accountable customer-focused teams</li>" +
             "<li>Trust — trust people to act in the organisation's interest</li>" +
             "<li>Customers — connect everyone's work to customer needs</li></ol>" +
-            "<p><strong>Management Processes (Performance and Planning):</strong></p>" +
+            "<h4>Management Processes (Performance and Planning)</h4>" +
             "<ol start='7'><li>Goals — set ambitious, aspirational goals (not fixed negotiated targets)</li>" +
             "<li>Rewards — reward relative improvement, not fixed-budget achievement</li>" +
             "<li>Planning — make planning a continuous, inclusive process</li>" +
@@ -15647,11 +15738,11 @@ const AIQ_COURSE_DATA = {
             "<p>Together they reconcile to the total materials usage variance: Mix + Yield = Usage variance.</p>" +
             "<h4>The Basic Formulae</h4>" +
             "<p>Let AQ = actual total quantity of all materials used, SQ = standard total quantity for actual output, and let subscripts denote each material ingredient.</p>" +
-            "<p><strong>Materials Mix Variance</strong></p>" +
+            "<h4>Materials Mix Variance</h4>" +
             "<p>For each material: <strong>(Standard proportion × AQ total) − Actual quantity of that material</strong>, then multiply by the <strong>standard price</strong> of that material.</p>" +
             "<p>Sum across all materials = Total Mix Variance.</p>" +
             "<p>Interpretation: If a cheaper material is substituted in excess of the standard mix (increasing its proportion), this reduces cost → favourable mix variance. But it may also reduce yield if the cheaper material is less effective.</p>" +
-            "<p><strong>Materials Yield Variance</strong></p>" +
+            "<h4>Materials Yield Variance</h4>" +
             "<p>= (Actual yield − Standard yield from actual input) × Standard cost per unit of output</p>" +
             "<p>Or equivalently: (Actual output − Standard output for actual input) × Standard material cost per unit output</p>" +
             "<p>Interpretation: If 1,000 kg of input should yield 800 kg of output (20% normal loss) but actually yields only 750 kg, the yield is adverse — we 'lost' 50 kg more than expected.</p>" +
@@ -15756,10 +15847,10 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Quantity variance:</strong> Profit effect of selling a different total volume than budgeted (at the standard/budgeted mix).</li></ul>" +
             "<h4>The Formulae (Contribution Approach)</h4>" +
             "<p>Under marginal costing, variances are expressed in terms of standard contribution per unit (not profit) since fixed costs do not change with volume.</p>" +
-            "<p><strong>Sales Mix Variance (per product):</strong></p>" +
+            "<h4>Sales Mix Variance (per product)</h4>" +
             "<p>= (Actual units sold − <em>Budgeted proportion × actual total units</em>) × Standard contribution per unit</p>" +
             "<p>Summed across all products = Total sales mix variance.</p>" +
-            "<p><strong>Sales Quantity Variance (per product):</strong></p>" +
+            "<h4>Sales Quantity Variance (per product)</h4>" +
             "<p>= (Budgeted proportion × actual total units − Budgeted units) × Standard contribution per unit</p>" +
             "<p>Alternatively: (Total actual units − Total budgeted units) × Budgeted average standard contribution per unit</p>" +
             "<p>The mix + quantity variances reconcile to the sales volume variance (which = (Actual units − Budgeted units) × Standard contribution per unit, per product).</p>" +
@@ -16301,11 +16392,11 @@ const AIQ_COURSE_DATA = {
             "<p><strong>ROI = (Divisional profit / Divisional net assets) × 100</strong></p>" +
             "<p>Or: ROI = Asset turnover × Profit margin (the DuPont decomposition)</p>" +
             "<p>Where: Asset turnover = Revenue / Net assets; Profit margin = Profit / Revenue</p>" +
-            "<p><strong>Advantages of ROI:</strong></p>" +
+            "<h4>Advantages of ROI</h4>" +
             "<ul><li>Intuitive — links profit to the investment base, showing the return generated per £ of assets.</li>" +
             "<li>Enables inter-divisional and inter-company comparisons (as a percentage, not an absolute figure).</li>" +
             "<li>Widely understood by shareholders and board members.</li></ul>" +
-            "<p><strong>Limitations of ROI:</strong></p>" +
+            "<h4>Limitations of ROI</h4>" +
             "<ul><li><strong>Goal incongruence — the key problem:</strong> A manager with an existing ROI of 25% may reject a new project earning 18% (above the cost of capital of 12%) because accepting it would dilute the division's ROI. This is dysfunctional — the project adds value for shareholders but the manager declines it.</li>" +
             "<li><strong>Asset valuation:</strong> ROI rises automatically as assets age and depreciate (net book value falls), encouraging managers to retain old assets rather than replace them with more productive ones.</li>" +
             "<li><strong>Short-termism:</strong> Managers may cut investment to boost short-run ROI.</li></ul>" +
@@ -16313,11 +16404,11 @@ const AIQ_COURSE_DATA = {
             "<p>RI directly solves the goal incongruence problem by expressing performance as an absolute £ figure rather than a ratio:</p>" +
             "<p><strong>RI = Divisional profit − (Cost of capital % × Net assets)</strong></p>" +
             "<p>The 'imputed capital charge' (cost of capital × net assets) deducts the minimum return required by the organisation. Any profit above this charge is 'residual' — positive RI means the division is creating value above the cost of capital.</p>" +
-            "<p><strong>Advantages of RI:</strong></p>" +
+            "<h4>Advantages of RI</h4>" +
             "<ul><li><strong>Goal congruence:</strong> A manager will accept any project with RI > 0 (i.e., return > cost of capital), which aligns with shareholder value maximisation.</li>" +
             "<li>Encourages investment in value-creating projects that would be rejected under ROI.</li>" +
             "<li>Can use different cost of capital rates for different risk levels.</li></ul>" +
-            "<p><strong>Limitations of RI:</strong></p>" +
+            "<h4>Limitations of RI</h4>" +
             "<ul><li>Absolute £ figure — cannot easily compare divisions of different sizes (a large division will always have higher RI than a small one even if both are equally efficient).</li>" +
             "<li>Still subject to asset valuation problems (NBV issue).</li>" +
             "<li>Does not automatically account for risk differences between projects.</li></ul>" +
@@ -16524,16 +16615,16 @@ const AIQ_COURSE_DATA = {
             "<li>The <strong>tax liability</strong> of the group in different jurisdictions (internationally).</li>" +
             "<li><strong>Goal congruence</strong> — whether divisional decisions align with group profit maximisation.</li></ul>" +
             "<h4>Methods of Setting Transfer Prices</h4>" +
-            "<p><strong>1. Market Price</strong></p>" +
+            "<h4>1. Market Price</h4>" +
             "<p>The transfer price equals the external market price for the product. This is theoretically ideal when a competitive external market exists — both divisions make profit/loss decisions as if they were dealing with external parties.</p>" +
             "<p><em>Advantages:</em> Objective; maintains divisional autonomy; goal congruent when no spare capacity exists.</p>" +
             "<p><em>Disadvantages:</em> No external market may exist (unique/intermediate goods); internal transfers may save costs (no sales commission, packaging) that market price does not reflect; adverse for the group if market price includes a competitor's profit.</p>" +
-            "<p><strong>2. Cost-Based Transfer Prices</strong></p>" +
+            "<h4>2. Cost-Based Transfer Prices</h4>" +
             "<p>Three variants exist:</p>" +
             "<ul><li><strong>Marginal/variable cost:</strong> Encourages the buying division to make efficient decisions (only variable costs are relevant) but leaves the selling division with no contribution toward fixed costs — demotivating.</li>" +
             "<li><strong>Full cost (absorption cost):</strong> Covers all costs but gives the selling division no profit — again demotivating for the selling division.</li>" +
             "<li><strong>Cost plus mark-up:</strong> Full cost + a profit margin. Gives the selling division a profit but the mark-up is arbitrary; the buying division bears a cost that partly reflects the selling division's inefficiency.</li></ul>" +
-            "<p><strong>3. Negotiated Transfer Price</strong></p>" +
+            "<h4>3. Negotiated Transfer Price</h4>" +
             "<p>Divisional managers agree a price through negotiation, typically between marginal cost (minimum the selling division will accept) and market price (maximum the buying division will pay). Preserves divisional autonomy but is time-consuming and may be distorted by negotiating power imbalances.</p>" +
             "<h4>The General Transfer Pricing Rule</h4>" +
             "<p>The minimum transfer price acceptable to the selling division is:</p>" +
@@ -16637,17 +16728,17 @@ const AIQ_COURSE_DATA = {
             "<ul><li><strong>Quality</strong>: Defect rate (parts per million), customer returns/complaints, first-pass yield, warranty claims</li><li><strong>Delivery/Speed</strong>: On-time delivery %, order-to-delivery cycle time, machine utilisation rate, downtime</li><li><strong>Flexibility</strong>: Range of products/variants, time to introduce new product, changeover time</li><li><strong>Innovation</strong>: Number of new products launched, R&D spend as % of revenue, patents filed</li><li><strong>People</strong>: Staff turnover rate, absenteeism, engagement score, training hours per employee</li><li><strong>Customer</strong>: Net Promoter Score (NPS), customer retention rate, market share, mystery shopper scores</li></ul>" +
             "<h4>Sustainability and ESG Metrics</h4>" +
             "<p>Environmental, Social and Governance (ESG) metrics have become a major component of non-financial reporting. Investors, regulators and other stakeholders increasingly require organisations to measure and disclose their performance across three dimensions:</p>" +
-            "<p><strong>Environmental (E):</strong></p>" +
+            "<h4>Environmental (E)</h4>" +
             "<ul><li>Scope 1, 2 and 3 greenhouse gas (GHG) emissions (CO₂e tonnes)</li>" +
             "<li>Energy consumption and renewable energy mix (%)</li>" +
             "<li>Water usage and waste generated/recycled</li>" +
             "<li>Biodiversity impact, land use</li></ul>" +
-            "<p><strong>Social (S):</strong></p>" +
+            "<h4>Social (S)</h4>" +
             "<ul><li>Employee diversity metrics (gender pay gap, % underrepresented groups in leadership)</li>" +
             "<li>Health and safety (injury rate, lost-time accidents)</li>" +
             "<li>Community investment (£ donated, volunteer hours)</li>" +
             "<li>Supply chain labour standards (% of suppliers audited)</li></ul>" +
-            "<p><strong>Governance (G):</strong></p>" +
+            "<h4>Governance (G)</h4>" +
             "<ul><li>Board independence (% independent non-executive directors)</li>" +
             "<li>Executive pay ratio (CEO pay vs median employee pay)</li>" +
             "<li>Anti-corruption policies, whistleblower mechanisms</li>" +
@@ -16879,7 +16970,8 @@ const AIQ_COURSE_DATA = {
             "<p><strong>Fundamental Characteristics</strong> (must be present for information to be useful):</p>" +
             "<ul><li><strong>Relevance:</strong> Information is relevant if it can make a difference to a decision — either by confirming or changing a user's expectation. It must have <em>predictive value</em> (helps forecast future outcomes) or <em>confirmatory value</em> (provides feedback on past decisions). Materiality is an entity-specific aspect of relevance.</li>" +
             "<li><strong>Faithful Representation:</strong> Information must faithfully represent what it purports to represent. It must be <em>complete</em> (nothing material omitted), <em>neutral</em> (no bias), and <em>free from material error</em>. Note: accuracy is not the same as certainty — estimates can be faithfully represented if they are clearly identified as estimates and described with appropriate ranges.</li></ul>" +
-            "<p><strong>Enhancing Characteristics</strong> (improve usefulness but cannot make useless information useful):</p>" +
+            "<h4>Enhancing Qualitative Characteristics</h4>" +
+            "<p>Enhancing characteristics improve usefulness but cannot make useless information useful:</p>" +
             "<ul><li><strong>Comparability:</strong> Users can compare across periods and across companies — requires consistent application of policies.</li>" +
             "<li><strong>Verifiability:</strong> Different knowledgeable, independent observers could agree the information faithfully represents what it claims to represent.</li>" +
             "<li><strong>Timeliness:</strong> Information is available before it loses its capacity to influence decisions.</li>" +
@@ -17094,13 +17186,13 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Import duties and non-recoverable purchase taxes</strong></li>" +
             "<li><strong>Directly attributable costs</strong> of bringing the asset to the location and condition for its intended use</li>" +
             "<li><strong>Initial estimate of dismantling and restoration costs</strong> (IAS 37 — decommissioning provision)</li></ul>" +
-            "<p><strong>Directly attributable costs include:</strong></p>" +
+            "<h4>Directly attributable costs include</h4>" +
             "<ul><li>Site preparation costs</li>" +
             "<li>Delivery and handling costs</li>" +
             "<li>Installation and assembly costs</li>" +
             "<li>Testing costs (net of proceeds from test production)</li>" +
             "<li>Professional fees (architect, surveyor) directly related to the asset</li></ul>" +
-            "<p><strong>Costs NOT included in PPE cost (expensed as incurred):</strong></p>" +
+            "<h4>Costs NOT included in PPE cost (expensed as incurred)</h4>" +
             "<ul><li>Staff training costs (even if needed to operate the new asset)</li>" +
             "<li>Administration and general overhead</li>" +
             "<li>Advertising and promotion of new facility</li>" +
@@ -17209,17 +17301,17 @@ const AIQ_COURSE_DATA = {
             "<li>Depreciation begins when an asset is <strong>available for use</strong>, not when it is placed in use</li>" +
             "<li>Depreciation ceases when the asset is <strong>derecognised or classified as held for sale</strong> (IFRS 5)</li>" +
             "<li><strong>Land</strong> is not depreciated (indefinite life)</li></ul>" +
-            "<p><strong>Straight-Line Method:</strong></p>" +
+            "<h4>Straight-Line Method</h4>" +
             "<p>Annual depreciation = (Cost − Residual value) / Useful life in years</p>" +
             "<p>Gives equal charge each year — appropriate when benefits are consumed evenly.</p>" +
-            "<p><strong>Reducing Balance Method:</strong></p>" +
+            "<h4>Reducing Balance Method</h4>" +
             "<p>Annual depreciation = Carrying amount at start of year × Depreciation %</p>" +
             "<p>Front-loads the depreciation charge — appropriate when benefits are consumed faster in early years (e.g., vehicles, technology assets).</p>" +
             "<h4>Revaluation Model (IAS 16)</h4>" +
             "<p>As an alternative to the cost model, an entity may use the revaluation model for a class of PPE, carrying assets at <strong>fair value less subsequent accumulated depreciation and impairment</strong>. Revaluations must be carried out with sufficient regularity that carrying amount does not differ materially from fair value.</p>" +
-            "<p><strong>Accounting for revaluation increases:</strong></p>" +
+            "<h4>Accounting for revaluation increases</h4>" +
             "<ul><li>The increase is credited to <strong>OCI</strong> and accumulates in <strong>revaluation surplus</strong> (equity), UNLESS it reverses a previous revaluation decrease recognised in profit or loss — in which case, the reversal goes to profit or loss first.</li></ul>" +
-            "<p><strong>Accounting for revaluation decreases:</strong></p>" +
+            "<h4>Accounting for revaluation decreases</h4>" +
             "<ul><li>The decrease is recognised in <strong>profit or loss</strong>, UNLESS there is an existing revaluation surplus for that asset — in which case the decrease is first charged against the surplus in OCI.</li></ul>" +
             "<p>When a revalued asset is depreciated, the depreciation charge is based on the revalued amount. The 'excess depreciation' (depreciation on the revaluation increment) can be transferred from the revaluation surplus to retained earnings each period — this is optional but represents the realisation of the surplus.</p>" +
             "<h4>Disposal</h4>" +
@@ -17229,7 +17321,7 @@ const AIQ_COURSE_DATA = {
             "<li>Calculate <strong>gain or loss = Proceeds − Carrying amount at disposal date</strong>.</li>" +
             "<li>Recognise the gain/loss in <strong>profit or loss</strong>.</li>" +
             "<li>If the asset was revalued, transfer any remaining revaluation surplus for that asset directly to <strong>retained earnings</strong> (NOT through profit or loss).</li></ol>" +
-            "<p><strong>Journal entries for disposal:</strong></p>" +
+            "<h4>Journal entries for disposal</h4>" +
             "<pre>Dr Bank/Receivable (proceeds)\nDr Accumulated Depreciation\nDr Loss on disposal (if applicable)\n  Cr PPE — Cost\n  Cr Gain on disposal (if applicable)</pre>",
           workedExample: {
             setup:
@@ -17322,16 +17414,16 @@ const AIQ_COURSE_DATA = {
             "<p>The impairment charge = Carrying amount − Recoverable amount, recognised in profit or loss.</p>" +
             "<h4>When to Test for Impairment</h4>" +
             "<p>At each reporting date, entities must assess whether there is any <strong>indicator of impairment</strong>. If an indicator exists, a formal impairment test (recoverable amount calculation) must be performed.</p>" +
-            "<p><strong>External indicators:</strong></p>" +
+            "<h4>External indicators</h4>" +
             "<ul><li>Significant decline in market value beyond normal wear</li>" +
             "<li>Significant adverse changes in technology, market, economy or law</li>" +
             "<li>Increased market interest rates (affecting discount rate for value in use)</li>" +
             "<li>Carrying amount of net assets exceeds market capitalisation</li></ul>" +
-            "<p><strong>Internal indicators:</strong></p>" +
+            "<h4>Internal indicators</h4>" +
             "<ul><li>Evidence of obsolescence or physical damage</li>" +
             "<li>Significant adverse changes in how the asset is used or intended to be used</li>" +
             "<li>Economic performance of the asset is worse than expected</li></ul>" +
-            "<p><strong>Annual mandatory testing (regardless of indicators):</strong></p>" +
+            "<h4>Annual mandatory testing (regardless of indicators)</h4>" +
             "<ul><li>Goodwill acquired in a business combination</li>" +
             "<li>Intangible assets with indefinite useful life</li>" +
             "<li>Intangible assets not yet available for use</li></ul>" +
@@ -17553,12 +17645,12 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>What is Investment Property?</h4>" +
             "<p>IAS 40 <em>Investment Property</em> defines investment property as property (land or building, or part of a building) held <strong>to earn rentals, for capital appreciation, or both</strong> — rather than for use in production/supply of goods or services (owner-occupied, IAS 16) or for sale in the ordinary course of business (inventory, IAS 2).</p>" +
-            "<p><strong>Examples of investment property:</strong></p>" +
+            "<h4>Examples of investment property</h4>" +
             "<ul><li>Land held for long-term capital appreciation</li>" +
             "<li>Buildings leased out under operating leases</li>" +
             "<li>Vacant property held to be leased out under operating leases</li>" +
             "<li>Buildings under construction/development for future use as investment property</li></ul>" +
-            "<p><strong>NOT investment property:</strong></p>" +
+            "<h4>NOT investment property</h4>" +
             "<ul><li>Property intended for sale in the near term (inventory — IAS 2)</li>" +
             "<li>Property occupied by employees (even if at market rent)</li>" +
             "<li>Owner-occupied property awaiting disposal</li></ul>" +
@@ -17673,7 +17765,7 @@ const AIQ_COURSE_DATA = {
             "<ul><li>Its <strong>carrying amount</strong> (immediately before reclassification — apply any required revaluation or impairment at that point); OR</li>" +
             "<li><strong>Fair value less costs to sell</strong> (FVLCTS)</li></ul>" +
             "<p>If FVLCTS < carrying amount → write down to FVLCTS; recognise impairment loss in P&L.</p>" +
-            "<p><strong>Once classified as held for sale:</strong></p>" +
+            "<h4>Once classified as held for sale</h4>" +
             "<ul><li><strong>Depreciation stops</strong> immediately.</li>" +
             "<li>Subsequent changes in FVLCTS are recognised as gains (up to cumulative impairment previously recognised) or losses in P&L.</li></ul>" +
             "<h4>Presentation — Held for Sale</h4>" +
@@ -17877,24 +17969,24 @@ const AIQ_COURSE_DATA = {
             "<h4>Why IFRS 15?</h4>" +
             "<p>IFRS 15 <em>Revenue from Contracts with Customers</em> replaced IAS 18 and IAS 11 with a single, comprehensive framework. The old standards contained multiple models and were inconsistent across industries. IFRS 15 provides a single five-step model applicable to almost all revenue transactions.</p>" +
             "<h4>The Five-Step Model</h4>" +
-            "<p><strong>Step 1 — Identify the contract(s) with the customer</strong></p>" +
+            "<h4>Step 1 — Identify the contract(s) with the customer</h4>" +
             "<p>A contract must be approved by both parties, create enforceable rights and obligations, have commercial substance, and it must be probable that the entity will collect the consideration. Contracts can be written, oral or implied.</p>" +
-            "<p><strong>Step 2 — Identify the performance obligations</strong></p>" +
+            "<h4>Step 2 — Identify the performance obligations</h4>" +
             "<p>A performance obligation (PO) is a promise to transfer a <em>distinct</em> good or service to the customer. A good/service is distinct if: (a) the customer can benefit from it on its own or with readily available resources, AND (b) it is separately identifiable from other promises in the contract (not highly interdependent or interrelated).</p>" +
             "<p>Example: A software contract bundling software licence + 12 months' support. These are likely two separate POs — the customer benefits from each independently and they are not highly integrated.</p>" +
-            "<p><strong>Step 3 — Determine the transaction price</strong></p>" +
+            "<h4>Step 3 — Determine the transaction price</h4>" +
             "<p>The transaction price is the amount of consideration the entity expects to be entitled to. It includes fixed and variable elements. Variable consideration (discounts, rebates, returns, penalties) is estimated using the expected value or most likely amount method — subject to a constraint (recognise only to the extent that a significant reversal is not highly probable).</p>" +
-            "<p><strong>Step 4 — Allocate the transaction price to performance obligations</strong></p>" +
+            "<h4>Step 4 — Allocate the transaction price to performance obligations</h4>" +
             "<p>The transaction price is allocated to each PO based on the <strong>relative standalone selling price (SSP)</strong> of each distinct good/service. If the SSP is not directly observable, it is estimated (adjusted market assessment, expected cost plus margin, or residual approach).</p>" +
-            "<p><strong>Step 5 — Recognise revenue when (or as) performance obligations are satisfied</strong></p>" +
+            "<h4>Step 5 — Recognise revenue when (or as) performance obligations are satisfied</h4>" +
             "<p>Revenue is recognised when control of the good/service is transferred to the customer:</p>" +
             "<ul><li><strong>At a point in time:</strong> When control passes — typically on delivery, acceptance, or a specific event. Indicators: right to payment, transferred legal title, transferred physical possession, significant risks and rewards transferred, customer accepted the asset.</li>" +
             "<li><strong>Over time:</strong> If any of three criteria are met: (i) customer simultaneously receives and consumes benefits as the entity performs (e.g., cleaning services); (ii) entity creates/enhances an asset the customer controls (e.g., construction on customer's land); (iii) asset has no alternative use to the entity and entity has right to payment for work done to date (e.g., bespoke software).</li></ul>" +
             "<h4>Key Application Topics</h4>" +
-            "<p><strong>Warranties:</strong></p>" +
+            "<h4>Warranties</h4>" +
             "<ul><li><em>Assurance warranty</em> (guarantees the product performs as specified) → NOT a separate PO; accounted for under IAS 37 as a provision.</li>" +
             "<li><em>Service warranty</em> (additional service beyond assurance of specification) → Separate PO; allocate part of the transaction price to it.</li></ul>" +
-            "<p><strong>Principal vs Agent:</strong></p>" +
+            "<h4>Principal vs Agent</h4>" +
             "<ul><li><em>Principal</em> → Recognises revenue gross (entity controls the good/service before transfer to customer).</li>" +
             "<li><em>Agent</em> → Recognises only the net fee/commission (entity arranges for another to provide the good/service).</li></ul>",
           workedExample: {
@@ -17985,7 +18077,7 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>Variable Consideration</h4>" +
             "<p>Variable consideration exists when the amount a customer pays depends on uncertain future events — volume discounts, rebates, refunds, performance bonuses, penalties, price concessions. Under IFRS 15, variable consideration is <strong>estimated</strong> and included in the transaction price.</p>" +
-            "<p><strong>Two estimation methods:</strong></p>" +
+            "<h4>Two estimation methods</h4>" +
             "<ul><li><strong>Expected value:</strong> Probability-weighted sum of all possible outcomes. Best when there are many possible outcomes. Example: if there are three rebate scenarios (£0, £500, £1,000 with probabilities 30%, 50%, 20%), EV = 0×0.3 + 500×0.5 + 1,000×0.2 = £450 rebate.</li>" +
             "<li><strong>Most likely amount:</strong> Single most probable outcome from a range. Best when the contract has two outcomes only. Example: performance bonus — either £0 or £10,000 depending on delivery date. If delivery on time is 70% likely, most likely amount = £10,000.</li></ul>" +
             "<h4>The Constraint on Variable Consideration</h4>" +
@@ -18090,7 +18182,7 @@ const AIQ_COURSE_DATA = {
             "<p>Under IFRS 16, a lessee recognises:</p>" +
             "<ul><li>A <strong>Right-of-Use (ROU) asset</strong> — representing the lessee's right to use the underlying asset during the lease term.</li>" +
             "<li>A <strong>Lease liability</strong> — representing the obligation to make future lease payments.</li></ul>" +
-            "<p><strong>Exemptions (optional short-cut recognition):</strong></p>" +
+            "<h4>Exemptions (optional short-cut recognition)</h4>" +
             "<ul><li><strong>Short-term leases:</strong> Lease term ≤ 12 months (including options to extend). Expense payments straight-line.</li>" +
             "<li><strong>Low-value assets:</strong> Underlying asset has low value when new (IASB illustrative threshold ~US$5,000). Expense payments straight-line.</li></ul>" +
             "<h4>Initial Measurement</h4>" +
@@ -18203,6 +18295,7 @@ const AIQ_COURSE_DATA = {
             "<li><em>Hold to collect and sell</em> (HTCAS) — collect cash flows AND sell assets</li>" +
             "<li><em>Other</em> — held for trading or other purpose</li></ul>" +
             "<p><strong>Test 2 — Contractual Cash Flow Characteristics (SPPI Test):</strong> Do the contractual cash flows represent solely payments of principal and interest (SPPI)?</p>" +
+            "<h4>Classification Decision Matrix</h4>" +
             "<ul><li><strong>Hold to collect</strong><ul><li><strong>SPPI?:</strong> Yes</li><li><strong>Classification:</strong> <strong>Amortised Cost</strong></li><li><strong>Gains/Losses:</strong> Effective interest in P&L; gains/losses on disposal in P&L</li></ul></li><li><strong>Hold to collect and sell</strong><ul><li><strong>SPPI?:</strong> Yes</li><li><strong>Classification:</strong> <strong>FVOCI (debt)</strong></li><li><strong>Gains/Losses:</strong> Fair value changes in OCI; reclassify to P&L on disposal (recycling)</li></ul></li><li><strong>Other / held for trading</strong><ul><li><strong>SPPI?:</strong> Any</li><li><strong>Classification:</strong> <strong>FVTPL</strong></li><li><strong>Gains/Losses:</strong> All fair value changes in P&L</li></ul></li><li><strong>Any</strong><ul><li><strong>SPPI?:</strong> No</li><li><strong>Classification:</strong> <strong>FVTPL</strong></li><li><strong>Gains/Losses:</strong> All fair value changes in P&L</li></ul></li></ul>" +
             "<p><strong>Equity instruments:</strong> Always FVTPL by default. However, entities may irrevocably elect to classify a non-trading equity instrument at <strong>FVOCI (equity)</strong> — gains/losses go to OCI and are NEVER recycled to P&L (no recycling on disposal).</p>" +
             "<h4>Effective Interest Method</h4>" +
@@ -18319,7 +18412,7 @@ const AIQ_COURSE_DATA = {
             "<ul><li>Restate comparative amounts for prior periods where the error occurred.</li>" +
             "<li>Adjust the opening balance of retained earnings for the earliest period presented.</li></ul>" +
             "<p>Immaterial errors can be corrected in the current period without restatement.</p>" +
-            "<p><strong>Key difference:</strong></p>" +
+            "<h4>Key difference</h4>" +
             "<ul><li><strong>Change in policy:</strong> Retrospective (restate) / New standard or more reliable information</li><li><strong>Change in estimate:</strong> Prospective (current + future) / New information about existing estimate</li><li><strong>Correction of error:</strong> Retrospective (restate) / Error identified in prior period statements</li></ul>",
           workedExample: {
             setup:
@@ -18409,6 +18502,7 @@ const AIQ_COURSE_DATA = {
             "<h4>Two Types of Post-Reporting Events</h4>" +
             "<p><strong>Adjusting events:</strong> Events that provide evidence of conditions that existed at the reporting date. The financial statements must be adjusted to reflect these events because they confirm or refine our understanding of the year-end position.</p>" +
             "<p><strong>Non-adjusting events:</strong> Events that arise after the reporting date (new conditions that did not exist at year end). These are NOT adjusted in the financial statements but are disclosed in the notes if material.</p>" +
+            "<h4>Examples: Adjusting vs Non-Adjusting</h4>" +
             "<ul><li><strong>Customer goes bankrupt after year end, confirming a debtor was uncollectable at year end:</strong> Adjusting / Confirms debtor's financial difficulty existed at year end → adjust receivables provision</li><li><strong>Sale of inventory after year end at below cost price:</strong> Adjusting / Confirms NRV was below cost at year end → write down inventory</li><li><strong>Fraud discovered after year end relating to year-end balances:</strong> Adjusting / Confirms financial statements were misstated at year end</li><li><strong>Major fire destroying a factory after year end:</strong> Non-adjusting / New event — conditions at year end were fine; disclose if material</li><li><strong>Acquisition of a subsidiary after year end:</strong> Non-adjusting / New event — does not change year-end position; disclose</li><li><strong>Announcement of a restructuring after year end (no plan at year end):</strong> Non-adjusting / New event — unless a constructive obligation existed at year end</li><li><strong>Ordinary dividends declared after year end:</strong> Non-adjusting / Dividend declared after year end → not a liability at year end; disclose only</li></ul>" +
             "<h4>Going Concern</h4>" +
             "<p>If management decides after the reporting date that the entity is no longer a going concern, IAS 10 requires the financial statements to be prepared on a different basis (break-up basis). This is an extreme adjusting event — it changes the entire basis of preparation.</p>" +
@@ -18510,8 +18604,9 @@ const AIQ_COURSE_DATA = {
             "<p><strong>1. Operating Activities</strong> — cash generated from the principal revenue-producing activities. Two methods:</p>" +
             "<ul><li><strong>Direct method:</strong> Lists actual cash received from customers, paid to suppliers, paid to employees.</li>" +
             "<li><strong>Indirect method (most common):</strong> Starts with profit before tax, reverses non-cash items (depreciation, amortisation, impairment), adjusts for working capital changes (increase in receivables = cash absorbed; increase in payables = cash generated), then deducts tax paid. IAS 7 encourages the direct method but permits indirect.</li></ul>" +
-            "<p><strong>Indirect Method Framework:</strong></p>" +
+            "<h4>Indirect Method Framework</h4>" +
             "<pre>Profit before tax                        £X\nAdjust for non-cash items:\n  Add: Depreciation                       +X\n  Add: Amortisation                       +X\n  Add: Impairment                         +X\n  Add: Loss on disposal (deduct: gain)    ±X\n  Add: Finance cost                       +X\n  Less: Investment income                 −X\nAdjust for working capital:\n  Increase in inventories                 −X\n  Decrease in receivables                 +X\n  Increase in payables                    +X\nCash generated from operations            X\nIncome tax paid                          −X\nNet cash from operating activities        X</pre>" +
+            "<h4>Investing and Financing Activities</h4>" +
             "<p><strong>2. Investing Activities</strong> — acquisition and disposal of long-term assets and investments:</p>" +
             "<ul><li>Cash paid to acquire PPE, intangibles, investments</li>" +
             "<li>Cash received from disposal of PPE, intangibles, investments</li>" +
@@ -19133,7 +19228,7 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h4>Comprehensive Worked Approach</h4>" +
             "<p>This lesson walks through a complete consolidated SoFP preparation. The standard approach is:</p>" +
-            "<p><strong>Key workings needed:</strong></p>" +
+            "<h4>Key workings needed</h4>" +
             "<ol><li>W1: Group structure (ownership %, acquisition date)</li>" +
             "<li>W2: Net assets of subsidiary at acquisition date and reporting date</li>" +
             "<li>W3: Goodwill</li>" +
@@ -20292,7 +20387,7 @@ const AIQ_COURSE_DATA = {
             "<p>UK corporation tax is charged on the <strong>taxable total profits</strong> of UK companies. The starting point is accounting profit (profit before tax per the financial statements), which is then adjusted to arrive at taxable trading profit. The key principle: accounting profit ≠ taxable profit because accounting and tax rules treat certain items differently.</p>" +
             "<h3>From Accounting Profit to Taxable Trading Profit</h3>" +
             "<p>The adjustment process:</p>" +
-            "<p><strong>Accounting profit (PBT)</strong></p>" +
+            "<h4>Accounting profit (PBT)</h4>" +
             "<p><em>Add back disallowable expenditure:</em></p>" +
             "<ul><li>Depreciation (always disallowed — replaced by capital allowances)</li>" +
             "<li>Entertaining customers (disallowed; entertaining employees is allowed)</li>" +
@@ -20967,7 +21062,7 @@ const AIQ_COURSE_DATA = {
             "<li><strong>Motivators</strong> (achievement, recognition, responsibility, growth) — create positive engagement. Prescription: job enrichment.</li></ul>" +
             "<p><strong>McClelland:</strong> Three acquired needs — achievement (nAch), affiliation (nAff), power (nPow). High-nAch individuals prefer challenging goals with clear feedback.</p>" +
             "<h3>Process Theories</h3>" +
-            "<p><strong>Vroom's Expectancy (VIE):</strong></p>" +
+            "<h4>Vroom's Expectancy (VIE)</h4>" +
             "<ul><li>Expectancy: Will effort → required performance?</li>" +
             "<li>Instrumentality: Will performance → promised reward?</li>" +
             "<li>Valence: How much is the reward valued?</li></ul>" +
@@ -21292,7 +21387,7 @@ const AIQ_COURSE_DATA = {
             "<p>McKinsey research suggests 70% of change programmes fail to achieve their objectives. Most failures are people-related: resistance, poor communication, insufficient leadership commitment and underestimating the cultural dimension.</p>" +
             "<h3>Lewin's Models</h3>" +
             "<p><strong>Force field analysis:</strong> Organisations exist in quasi-stationary equilibrium between driving and restraining forces. To change: increase drivers, reduce restrainers, or both.</p>" +
-            "<p><strong>Unfreeze-Change-Refreeze:</strong></p>" +
+            "<h4>Unfreeze-Change-Refreeze</h4>" +
             "<ul><li><em>Unfreeze:</em> Disrupt the status quo — create urgency, challenge assumptions, make people ready to change.</li>" +
             "<li><em>Change:</em> Implement the new state through training, communication and support.</li>" +
             "<li><em>Refreeze:</em> Embed the change in processes, culture, norms and reward systems.</li></ul>" +
@@ -22059,7 +22154,7 @@ const AIQ_COURSE_DATA = {
           explanation:
             "<h3>Porter's Value Chain</h3>" +
             "<p>Porter argued competitive advantage comes from performing value activities more cheaply or better than rivals. The value chain decomposes the firm into strategically relevant activities:</p>" +
-            "<p><strong>Primary activities:</strong></p>" +
+            "<h4>Primary activities</h4>" +
             "<ul><li>Inbound logistics (receiving, warehousing materials)</li><li>Operations (converting inputs to outputs)</li>" +
             "<li>Outbound logistics (distributing finished products)</li><li>Marketing and sales</li><li>Service (after-sales support)</li></ul>" +
             "<p><strong>Support activities</strong> (cut across all primary activities):</p>" +
@@ -24460,7 +24555,7 @@ const AIQ_COURSE_DATA = {
             "<p>TERP = [(Cum-rights price × existing shares) + (Issue price × new shares)] / Total shares after rights<br>" +
             "Bonus fraction = Cum-rights price / TERP</p>" +
             "<h4>Diluted EPS</h4>" +
-            "<p><strong>Options and warrants (treasury stock method):</strong></p>" +
+            "<h4>Options and warrants (treasury stock method)</h4>" +
             "<ul><li>Assume all options exercised; proceeds used to buy back shares at average market price</li>" +
             "<li>Net dilutive shares = shares issued on exercise − shares bought back</li>" +
             "<li>Add net dilutive shares to denominator; numerator unchanged</li></ul>" +
