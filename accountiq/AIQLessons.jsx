@@ -403,6 +403,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const [slideDir, setSlideDir]     = useLsnState("fwd");
   const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps] = useLsnState(1);
+  const swipeOrigin = useLsnRef(null);
 
   const store        = window.aiqStore ? window.aiqStore.get() : {};
   const completedSet = (store.completedLessons || {})[paperId] || [];
@@ -508,6 +509,21 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     }
   };
 
+  const onSwipeStart = (e) => {
+    const t = e.touches[0];
+    swipeOrigin.current = { x: t.clientX, y: t.clientY };
+  };
+  const onSwipeEnd = (e) => {
+    if (!swipeOrigin.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - swipeOrigin.current.x;
+    const dy = t.clientY - swipeOrigin.current.y;
+    swipeOrigin.current = null;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  };
+
   return (
     <div className="content">
       <div className="lsn-page">
@@ -579,7 +595,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
         </div>
 
         {/* Section panels — all stay mounted so state (quiz answers, step reveal) persists */}
-        <div className={`lsn-section-panels lsn-slide-${slideDir}`}>
+        <div className={`lsn-section-panels lsn-slide-${slideDir}`} onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
 
           {/* Intro: objectives + key terms */}
           <div className={`lsn-section-panel${curSectionId === "intro" ? " active" : ""}`}>
