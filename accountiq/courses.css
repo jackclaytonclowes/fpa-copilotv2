@@ -955,11 +955,11 @@
 .lsn-list--summary li { color: var(--favourable-text); }
 .lsn-prose {
   font: var(--text-body);
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--fg-1);
-  line-height: 1.65;
+  line-height: 1.72;
 }
-.lsn-prose p { margin: 0 0 12px; }
+.lsn-prose p { margin: 0 0 14px; }
 .lsn-prose p:last-child { margin-bottom: 0; }
 .lsn-prose code {
   font-family: var(--font-mono);
@@ -969,8 +969,8 @@
   padding: 2px 6px;
   border-radius: var(--radius-xs);
 }
-.lsn-prose ul, .lsn-prose ol { margin: 0 0 12px; padding-left: 20px; }
-.lsn-prose li { margin-bottom: 6px; }
+.lsn-prose ul, .lsn-prose ol { margin: 0 0 14px; padding-left: 22px; }
+.lsn-prose li { margin-bottom: 8px; }
 .lsn-example { display: flex; flex-direction: column; gap: 12px; }
 .lsn-example-setup {
   font: var(--text-body-strong);
@@ -3001,9 +3001,9 @@
 .lsn-prose h3,
 .lsn-prose h4 {
   font: var(--text-h3);
-  font-size: 13px;
+  font-size: 15.5px;
   color: var(--ink);
-  margin: 18px 0 8px;
+  margin: 20px 0 10px;
   padding-left: 10px;
   border-left: 3px solid #D4F04A;
   line-height: 1.4;
