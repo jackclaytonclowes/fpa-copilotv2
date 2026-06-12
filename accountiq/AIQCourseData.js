@@ -2815,54 +2815,49 @@ const AIQ_COURSE_DATA = {
           ],
           explanation:
             "<h4>Why Classify Costs?</h4>" +
-            "<p>Cost classification is the foundation of management accounting. How you classify a cost determines how you treat it in budgets, in product costing, and in decisions. The same cost (e.g., a supervisor's wage) can be classified differently depending on the purpose of the analysis.</p>" +
-            "<h4>1. Classification by Nature</h4>" +
-            "<p>This is the most fundamental classification — what the cost <em>is</em>:</p>" +
+            "<p>How you classify a cost determines how you treat it in budgets, product costing, and decisions. The same cost — a supervisor's wage — can be classified differently depending on the purpose.</p>" +
+            "<h4>1. By Nature — What Is the Cost?</h4>" +
             "<ul>" +
-            "<li><strong>Materials:</strong> raw materials, components, consumables used in production or service delivery.</li>" +
-            "<li><strong>Labour:</strong> wages, salaries, employer NIC, pension contributions of employees.</li>" +
-            "<li><strong>Overheads (expenses):</strong> all other costs — rent, rates, power, depreciation, insurance, professional fees.</li>" +
+            "<li><strong>Materials:</strong> raw materials, components, consumables used in production or delivery.</li>" +
+            "<li><strong>Labour:</strong> wages, salaries, employer NIC, pension contributions.</li>" +
+            "<li><strong>Overheads:</strong> everything else — rent, rates, power, depreciation, insurance.</li>" +
             "</ul>" +
-            "<h4>2. Classification by Function</h4>" +
-            "<p>Costs grouped by the department or activity they relate to:</p>" +
+            "<h4>2. By Function — Which Department?</h4>" +
             "<ul>" +
-            "<li><strong>Production costs:</strong> all costs incurred in making the product — direct materials, direct labour, factory overheads.</li>" +
-            "<li><strong>Selling and distribution costs:</strong> advertising, sales commissions, delivery, warehousing of finished goods.</li>" +
-            "<li><strong>Administration costs:</strong> head office, IT, HR, finance team.</li>" +
-            "<li><strong>Finance costs:</strong> interest on loans, bank charges.</li>" +
+            "<li><strong>Production:</strong> direct materials, direct labour, factory overheads.</li>" +
+            "<li><strong>Selling and distribution:</strong> advertising, commissions, delivery, warehousing.</li>" +
+            "<li><strong>Administration:</strong> head office, IT, HR, finance team.</li>" +
+            "<li><strong>Finance:</strong> interest on loans, bank charges.</li>" +
             "</ul>" +
             "<h4>3. Direct vs Indirect Costs</h4>" +
-            "<p>This classification is critical for product costing:</p>" +
             "<ul>" +
-            "<li><strong>Direct costs</strong> can be traced specifically and economically to a <em>cost unit</em> (a product, job, or service). Examples: timber in a chair, hours a painter spends on a specific contract, royalty per book printed. Direct costs are always variable in relation to output.</li>" +
-            "<li><strong>Indirect costs (overheads)</strong> cannot be traced directly to a single cost unit. They must be <em>allocated or absorbed</em> using some basis. Examples: factory manager's salary, rent, machine depreciation.</li>" +
+            "<li><strong>Direct costs</strong> can be traced to a cost unit (product, job). Examples: timber per chair, labour on a specific contract. Always variable in relation to output.</li>" +
+            "<li><strong>Indirect costs (overheads)</strong> cannot be traced to one unit — must be allocated. Examples: factory rent, manager's salary, machine depreciation.</li>" +
             "</ul>" +
-            "<p><strong>Prime cost</strong> = all direct costs (direct materials + direct labour + direct expenses)</p>" +
+            "<p><strong>Prime cost</strong> = Direct materials + Direct labour + Direct expenses</p>" +
             "<p><strong>Full production cost</strong> = Prime cost + Production overheads</p>" +
-            "<h4>4. Classification by Behaviour (Fixed, Variable, Semi-Variable)</h4>" +
-            "<p>Cost behaviour describes how a cost responds to changes in the level of activity (output or volume). This is essential for budgeting, break-even analysis, and marginal costing.</p>" +
-            "<p><strong>Fixed costs</strong> remain constant in total over a relevant range of output:</p>" +
+            "<h4>4. Fixed Costs</h4>" +
+            "<p>Total fixed cost stays constant regardless of output (within the relevant range):</p>" +
             "<ul>" +
-            "<li>Examples: factory rent, business rates, annual insurance premium, management salaries.</li>" +
-            "<li>As output increases, fixed cost <em>per unit</em> falls (the cost is spread over more units).</li>" +
-            "<li>Graphs: horizontal line when plotted against activity; downward-sloping curve for cost per unit.</li>" +
-            "<li><strong>Stepped fixed costs:</strong> remain constant up to a threshold, then jump to a new higher level (e.g., a second factory is needed above 10,000 units). The step is a one-time increase, not a continuous variable cost.</li>" +
+            "<li>Examples: factory rent, business rates, management salaries.</li>" +
+            "<li>Fixed cost <em>per unit</em> falls as output rises — same total spread over more units.</li>" +
+            "<li><strong>Stepped fixed costs:</strong> constant up to a threshold, then jump (e.g., second factory needed above 10,000 units).</li>" +
             "</ul>" +
+            "<h4>5. Variable and Semi-Variable Costs</h4>" +
             "<p><strong>Variable costs</strong> change in direct proportion to output:</p>" +
             "<ul>" +
-            "<li>Examples: direct materials (more units = more materials), direct labour paid by the piece, sales commission as % of revenue.</li>" +
-            "<li>Variable cost per unit remains constant; total variable cost increases linearly with output.</li>" +
-            "<li>Graph: straight line through the origin when plotted against activity.</li>" +
+            "<li>Examples: direct materials, piece-rate labour, sales commission as % of revenue.</li>" +
+            "<li>Variable cost per unit is constant; total variable cost rises linearly.</li>" +
             "</ul>" +
-            "<p><strong>Semi-variable (semi-fixed) costs</strong> have both a fixed element and a variable element:</p>" +
+            "<p><strong>Semi-variable costs</strong> have a fixed element and a variable element:</p>" +
             "<ul>" +
-            "<li>Examples: telephone — fixed line rental + variable per-minute charges; electricity — standing charge + units consumed; a salesperson — fixed base salary + variable commission.</li>" +
-            "<li>Total semi-variable cost = Fixed element + (Variable rate × Activity level)</li>" +
-            "<li>Separating the two elements: use the <strong>high-low method</strong> (covered in the next lesson).</li>" +
+            "<li>Examples: telephone (fixed rental + per-minute charges); electricity (standing charge + units consumed).</li>" +
+            "<li>Total = Fixed element + (Variable rate × Activity level)</li>" +
+            "<li>Separate the elements using the <strong>high-low method</strong> (next lesson).</li>" +
             "</ul>" +
             "<h4>Product Costs vs Period Costs</h4>" +
-            "<p><strong>Product costs</strong> attach to the unit of inventory — they flow through the SOFP as inventory until the goods are sold, then hit the income statement as cost of goods sold. Under absorption costing, production overheads are included in product cost.</p>" +
-            "<p><strong>Period costs</strong> are written off to the income statement in the period they are incurred, regardless of whether goods are sold. Selling, distribution, and administration overheads are period costs under both marginal and absorption costing.</p>",
+            "<p><strong>Product costs</strong> attach to inventory — they sit on the balance sheet until goods are sold, then flow to cost of sales.</p>" +
+            "<p><strong>Period costs</strong> hit the income statement in the period incurred, regardless of sales. Selling, distribution, and admin overheads are always period costs.</p>",
           workedExample: {
             setup:
               "A furniture manufacturer's costs for a month: " +
@@ -2980,14 +2975,14 @@ const AIQ_COURSE_DATA = {
             "<h4>Step 1 – Allocation and Apportionment</h4>" +
             "<p>A factory typically has multiple <strong>cost centres</strong>: some are <em>production cost centres</em> (machining, assembly, finishing) and some are <em>service cost centres</em> (maintenance, canteen, stores) that support production but do not directly work on products.</p>" +
             "<p>Common apportionment bases:</p>" +
-            "<table><thead><tr><th>Overhead</th><th>Typical apportionment basis</th></tr></thead><tbody>" +
-            "<tr><td>Factory rent and rates</td><td>Floor area (m²)</td></tr>" +
-            "<tr><td>Building insurance</td><td>Floor area (m²)</td></tr>" +
-            "<tr><td>Depreciation of machinery</td><td>Asset value (NBV or cost) of machinery</td></tr>" +
-            "<tr><td>Canteen / welfare</td><td>Number of employees (headcount)</td></tr>" +
-            "<tr><td>Heating and lighting</td><td>Floor area or volume (m³)</td></tr>" +
-            "<tr><td>Supervision</td><td>Number of employees or labour hours</td></tr>" +
-            "</tbody></table>" +
+            "<ul>" +
+            "<li><strong>Factory rent and rates:</strong> floor area (m²)</li>" +
+            "<li><strong>Building insurance:</strong> floor area (m²)</li>" +
+            "<li><strong>Depreciation of machinery:</strong> asset value (NBV or cost)</li>" +
+            "<li><strong>Canteen / welfare:</strong> number of employees (headcount)</li>" +
+            "<li><strong>Heating and lighting:</strong> floor area or volume (m³)</li>" +
+            "<li><strong>Supervision:</strong> number of employees or labour hours</li>" +
+            "</ul>" +
             "<h4>Step 2 – Service Cost Centre Reapportionment</h4>" +
             "<p>After primary apportionment, service cost centres have accumulated overhead. Since products only pass through production cost centres, service overhead must be <strong>reapportioned</strong> to production cost centres before OARs can be calculated.</p>" +
             "<p>Three methods:</p>" +
@@ -3149,13 +3144,13 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>C/S ratio = Contribution per unit ÷ Selling price per unit (expressed as a % or decimal)</code></p>" +
             "<p>The C/S ratio tells you how many pence of every £1 of revenue becomes contribution. It is especially useful when comparing products or calculating break-even revenue.</p>" +
             "<h4>Marginal Cost Income Statement Format</h4>" +
-            "<table><thead><tr><th></th><th>£</th></tr></thead><tbody>" +
-            "<tr><td>Revenue (units sold × selling price)</td><td>X</td></tr>" +
-            "<tr><td>Less: Variable cost of sales</td><td>(X)</td></tr>" +
-            "<tr><td><strong>Contribution</strong></td><td><strong>X</strong></td></tr>" +
-            "<tr><td>Less: Fixed costs (all fixed costs in the period)</td><td>(X)</td></tr>" +
-            "<tr><td><strong>Profit</strong></td><td><strong>X</strong></td></tr>" +
-            "</tbody></table>" +
+            "<ul>" +
+            "<li>Revenue (units sold × selling price) → <strong>X</strong></li>" +
+            "<li>Less: Variable cost of sales → <strong>(X)</strong></li>" +
+            "<li><strong>= Contribution: X</strong></li>" +
+            "<li>Less: Fixed costs (all costs in the period) → <strong>(X)</strong></li>" +
+            "<li><strong>= Profit: X</strong></li>" +
+            "</ul>" +
             "<h4>Why Marginal ≠ Absorption Profit (When Inventory Changes)</h4>" +
             "<p>When production volume equals sales volume (i.e., no change in inventory), the two methods give <em>identical</em> profit. When inventory levels change, they diverge.</p>" +
             "<p><strong>Production &gt; Sales (closing inventory increases):</strong></p>" +
@@ -3173,12 +3168,17 @@ const AIQ_COURSE_DATA = {
             "<p style='text-align:center'><code>= (Closing inventory units − Opening inventory units) × Fixed overhead per unit</code></p>" +
             "<p>Where: Fixed overhead per unit (absorption) = Total fixed overhead ÷ Budgeted production volume</p>" +
             "<h4>Which Method Is Better?</h4>" +
-            "<table><thead><tr><th>Advantage</th><th>Marginal costing</th><th>Absorption costing</th></tr></thead><tbody>" +
-            "<tr><td>Decision-making</td><td>Better — contribution is stable; fixed costs not distorted by inventory</td><td>Less useful — fixed cost per unit changes with volume</td></tr>" +
-            "<tr><td>External reporting / inventory valuation</td><td>Not permitted (IAS 2)</td><td>Required by IAS 2</td></tr>" +
-            "<tr><td>Profit manipulation</td><td>Harder — managers cannot boost profit by producing excess inventory</td><td>Possible — produce more than you sell to defer fixed costs</td></tr>" +
-            "<tr><td>Break-even and contribution analysis</td><td>Direct and intuitive</td><td>More complex</td></tr>" +
-            "</tbody></table>",
+            "<p><strong>Marginal costing wins on:</strong></p>" +
+            "<ul>" +
+            "<li><strong>Decision-making:</strong> contribution is stable; fixed costs are not distorted by inventory levels</li>" +
+            "<li><strong>Profit manipulation:</strong> harder — managers cannot inflate profit by overproducing</li>" +
+            "<li><strong>Break-even analysis:</strong> direct and intuitive with contribution</li>" +
+            "</ul>" +
+            "<p><strong>Absorption costing wins on:</strong></p>" +
+            "<ul>" +
+            "<li><strong>External reporting:</strong> required by IAS 2 — marginal costing is not permitted for inventory valuation</li>" +
+            "<li><strong>Price-setting:</strong> ensures fixed overheads are included in the selling price to achieve full cost recovery</li>" +
+            "</ul>",
           workedExample: {
             setup:
               "Shield Co makes a single product. Selling price = £60/unit. Direct materials = £12/unit. " +
