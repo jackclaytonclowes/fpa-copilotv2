@@ -366,6 +366,13 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   );
 }
 
+/* ── Explanation page splitter ───────────────────────────────────────────── */
+function splitExplanation(html) {
+  if (!html) return [];
+  const pages = html.split(/(?=<h3[\s>])/i).filter(p => p.trim());
+  return pages.length > 1 ? pages : [html];
+}
+
 /* ── Section definitions ─────────────────────────────────────────────────── */
 const LSN_SECTIONS = [
   { id: "intro",       label: "Intro",       icon: "target" },
@@ -392,6 +399,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     : lessons[0];
 
   const [sectionIdx, setSectionIdx] = useLsnState(0);
+  const [expPage, setExpPage]       = useLsnState(0);
   const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps] = useLsnState(1);
 
@@ -446,11 +454,17 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   useLsnEffect(() => {
     openedAt.current = Date.now();
     setSectionIdx(0);
+    setExpPage(0);
     return () => {
       const minutes = Math.round((Date.now() - openedAt.current) / 60000);
       if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
     };
   }, [lesson.id]);
+
+  const expPages    = lesson.explanation ? splitExplanation(lesson.explanation) : [];
+  const totalExp    = expPages.length;
+  const safeExpPage = Math.min(expPage, Math.max(0, totalExp - 1));
+  const isLastExpPage = safeExpPage >= totalExp - 1;
 
   const handleAnswer = (correct) => {
     setScore((s) => ({ correct: s.correct + (correct ? 1 : 0), total: s.total + 1 }));
@@ -461,12 +475,28 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
 
   const goNext = () => {
+    if (curSectionId === "explanation" && !isLastExpPage) {
+      setExpPage(p => p + 1);
+      return;
+    }
     if (!isLastSection) {
       setSectionIdx(safeSectionIdx + 1);
     } else if (nextLesson) {
       onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "deep" });
     } else {
       onNavigate && onNavigate(isTrack ? "skillslab" : "coursedetail", isTrack ? undefined : { paperId, mode: "deep" });
+    }
+  };
+
+  const goPrev = () => {
+    if (curSectionId === "explanation" && safeExpPage > 0) {
+      setExpPage(p => p - 1);
+      return;
+    }
+    if (!isFirstSection) {
+      setSectionIdx(safeSectionIdx - 1);
+    } else if (prevLesson) {
+      onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "deep" });
     }
   };
 
@@ -555,11 +585,26 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
             )}
           </div>
 
-          {/* Explanation */}
+          {/* Explanation — split into pages at <h3> boundaries */}
           <div className={`lsn-section-panel${curSectionId === "explanation" ? " active" : ""}`}>
             {lesson.explanation && (
               <LsnSection icon="book-open" title="Explanation" tone="neutral">
-                <div className="lsn-prose" dangerouslySetInnerHTML={{ __html: lesson.explanation }} />
+                {totalExp > 1 && (
+                  <div className="lsn-exp-pager">
+                    <div className="lsn-exp-dots">
+                      {expPages.map((_, i) => (
+                        <button
+                          key={i}
+                          className={`lsn-exp-dot${i === safeExpPage ? " active" : i < safeExpPage ? " done" : ""}`}
+                          onClick={() => setExpPage(i)}
+                          aria-label={`Page ${i + 1} of ${totalExp}`}
+                        />
+                      ))}
+                    </div>
+                    <span className="lsn-exp-count">{safeExpPage + 1} of {totalExp}</span>
+                  </div>
+                )}
+                <div className="lsn-prose" dangerouslySetInnerHTML={{ __html: expPages[safeExpPage] || "" }} />
               </LsnSection>
             )}
           </div>
@@ -649,14 +694,11 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
         {/* Section navigation */}
         <div className="lsn-nav-row">
-          {!isFirstSection ? (
-            <Button variant="secondary" icon="arrow-left" onClick={() => setSectionIdx(safeSectionIdx - 1)}>
-              Previous
-            </Button>
-          ) : prevLesson ? (
-            <Button variant="secondary" icon="arrow-left"
-              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "deep" })}>
-              {prevLesson.title}
+          {(curSectionId === "explanation" && safeExpPage > 0) || !isFirstSection || prevLesson ? (
+            <Button variant="secondary" icon="arrow-left" onClick={goPrev}>
+              {(!isFirstSection || (curSectionId === "explanation" && safeExpPage > 0))
+                ? "Previous"
+                : prevLesson ? prevLesson.title : "Previous"}
             </Button>
           ) : <div />}
 
@@ -665,9 +707,11 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
             iconRight="arrow-right"
             onClick={goNext}
           >
-            {isLastSection
-              ? (nextLesson ? nextLesson.title : "Back to course")
-              : (availSections[safeSectionIdx + 1]?.label || "Next")}
+            {curSectionId === "explanation" && !isLastExpPage
+              ? "Continue"
+              : isLastSection
+                ? (nextLesson ? nextLesson.title : "Back to course")
+                : (availSections[safeSectionIdx + 1]?.label || "Next")}
           </Button>
         </div>
 

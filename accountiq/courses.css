@@ -2872,3 +2872,42 @@
   .cdt-mode-toggle { flex-wrap: wrap; }
   .rev-formula-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Explanation pagination ──────────────────────────────────────────────── */
+.lsn-exp-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.lsn-exp-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.lsn-exp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border-strong);
+  cursor: pointer;
+  padding: 0;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+}
+.lsn-exp-dot.active {
+  background: var(--primary);
+  transform: scale(1.35);
+}
+.lsn-exp-dot.done {
+  background: var(--favourable);
+}
+.lsn-exp-count {
+  font: var(--text-caption);
+  color: var(--fg-3);
+  font-size: 11px;
+  white-space: nowrap;
+}
