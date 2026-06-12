@@ -369,7 +369,7 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
 /* ── Explanation page splitter ───────────────────────────────────────────── */
 function splitExplanation(html) {
   if (!html) return [];
-  const pages = html.split(/(?=<h3[\s>])/i).filter(p => p.trim());
+  const pages = html.split(/(?=<h[34][\s>])/i).filter(p => p.trim());
   return pages.length > 1 ? pages : [html];
 }
 

@@ -2998,7 +2998,8 @@
 .lsn-step-line.done { background: var(--favourable); }
 
 /* ── Prose h3 — styled as a labelled section heading ────────────────────── */
-.lsn-prose h3 {
+.lsn-prose h3,
+.lsn-prose h4 {
   font: var(--text-h3);
   font-size: 13px;
   color: var(--ink);
@@ -3007,7 +3008,8 @@
   border-left: 3px solid #D4F04A;
   line-height: 1.4;
 }
-.lsn-prose h3:first-child { margin-top: 0; }
+.lsn-prose h3:first-child,
+.lsn-prose h4:first-child { margin-top: 0; }
 .lsn-prose strong, .lsn-prose b { color: var(--ink); font-weight: 700; }
 
 /* ── Enhanced correct-answer pop ─────────────────────────────────────────── */

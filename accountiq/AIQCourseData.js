@@ -2686,44 +2686,49 @@ const AIQ_COURSE_DATA = {
             { term: "Decision-Making", definition: "The process of selecting the best course of action from available alternatives, supported by relevant cost and revenue analysis." },
           ],
           explanation:
-            "<h4>Management Accounting vs Financial Accounting</h4>" +
-            "<p><strong>Management accounting</strong> provides financial and non-financial information to help internal managers plan, control, and make decisions. It differs from financial accounting in several fundamental ways:</p>" +
-            "<table><thead><tr><th>Feature</th><th>Management accounting</th><th>Financial accounting</th></tr></thead><tbody>" +
-            "<tr><td>Primary users</td><td>Internal managers at all levels</td><td>External stakeholders: shareholders, lenders, HMRC</td></tr>" +
-            "<tr><td>Legal requirement</td><td>Not legally required</td><td>Required by law (Companies Act)</td></tr>" +
-            "<tr><td>Format</td><td>Any format useful to management</td><td>Prescribed formats (IAS/IFRS)</td></tr>" +
-            "<tr><td>Time horizon</td><td>Future-oriented (budgets, forecasts)</td><td>Primarily historical (last year's results)</td></tr>" +
-            "<tr><td>Frequency</td><td>Daily, weekly, monthly — as needed</td><td>Annually (sometimes quarterly)</td></tr>" +
-            "<tr><td>Level of detail</td><td>Product, department, cost centre</td><td>Whole entity level</td></tr>" +
-            "<tr><td>Audit requirement</td><td>Not audited</td><td>Audited (listed companies)</td></tr>" +
-            "</tbody></table>" +
-            "<h4>The Purpose of Management Accounting</h4>" +
-            "<p>Management accounting serves three core purposes:</p>" +
+            "<h4>Two Different Audiences</h4>" +
+            "<p><strong>Management accounting</strong> gives financial and non-financial information to <strong>internal managers</strong> — to help them plan, control operations, and make decisions.</p>" +
+            "<p><strong>Financial accounting</strong> produces formal reports for <strong>external stakeholders</strong> — shareholders, lenders, and HMRC.</p>" +
+            "<p>They are produced differently, serve different users, and follow different rules.</p>" +
+            "<h4>Key Differences at a Glance</h4>" +
             "<ul>" +
-            "<li><strong>Planning:</strong> setting budgets, forecasts, and targets. A production budget tells managers how many units to make; a cash flow forecast shows when the business might run short of funds.</li>" +
-            "<li><strong>Control:</strong> comparing actual results to the plan and investigating significant differences (variances). This is the feedback loop that keeps performance on track.</li>" +
-            "<li><strong>Decision-making:</strong> providing relevant cost and revenue information to support choices — whether to launch a product, discontinue a division, accept a special order, or make vs buy a component.</li>" +
+            "<li><strong>Legal requirement:</strong> Management — voluntary. Financial — required by law (Companies Act).</li>" +
+            "<li><strong>Format:</strong> Management — any format that helps. Financial — prescribed (IAS/IFRS).</li>" +
+            "<li><strong>Time focus:</strong> Management — future-looking (budgets, forecasts). Financial — historical (last year).</li>" +
+            "<li><strong>Frequency:</strong> Management — daily, weekly, monthly as needed. Financial — annually.</li>" +
+            "<li><strong>Detail:</strong> Management — by product, department, cost centre. Financial — whole entity only.</li>" +
+            "<li><strong>Audit:</strong> Management — not audited. Financial — audited (listed companies).</li>" +
             "</ul>" +
-            "<h4>Qualities of Useful Management Information</h4>" +
-            "<p>Management accounting information is only valuable if it is actually useful. The key qualities (sometimes remembered as the <strong>ACCURATE</strong> mnemonic) are:</p>" +
+            "<h4>The Three Purposes</h4>" +
             "<ul>" +
-            "<li><strong>Accurate:</strong> free from material error — wrong data leads to wrong decisions.</li>" +
-            "<li><strong>Complete:</strong> includes all relevant information without significant omissions.</li>" +
-            "<li><strong>Cost-effective:</strong> the cost of producing the information should not exceed its value.</li>" +
-            "<li><strong>Understandable:</strong> presented in a format that the intended user can interpret.</li>" +
-            "<li><strong>Relevant:</strong> addresses the specific decision or problem at hand.</li>" +
-            "<li><strong>Authoritative:</strong> from a reliable source; consistent calculation methods.</li>" +
-            "<li><strong>Timely:</strong> available when the decision needs to be made — late information has reduced value.</li>" +
-            "<li><strong>Easy to use:</strong> accessible and presented clearly.</li>" +
+            "<li><strong>Planning:</strong> setting budgets, forecasts, and targets so managers know where the business is heading and what resources are needed.</li>" +
+            "<li><strong>Control:</strong> comparing actual results to the plan, then investigating variances — the feedback loop that keeps performance on track.</li>" +
+            "<li><strong>Decision-making:</strong> relevant cost and revenue information to answer questions like: make or buy? Launch or discontinue? Accept a special order?</li>" +
             "</ul>" +
-            "<h4>Management Accounting in Practice</h4>" +
-            "<p>In a typical manufacturing business, management accounting provides:</p>" +
+            "<h4>The ACCURATE Mnemonic — A to U</h4>" +
+            "<p>Management information is only useful if it has the right qualities. First four letters:</p>" +
             "<ul>" +
-            "<li><strong>Cost cards:</strong> the standard cost breakdown (materials, labour, overhead) for each product.</li>" +
-            "<li><strong>Monthly management accounts:</strong> profit and loss by product, department, or region compared to budget.</li>" +
-            "<li><strong>Variance reports:</strong> highlights where actual costs or revenues deviated from plan and by how much.</li>" +
-            "<li><strong>Cash flow forecasts:</strong> 13-week rolling forecasts to manage liquidity.</li>" +
-            "<li><strong>Capital investment appraisals:</strong> NPV/IRR analysis to evaluate major spending decisions.</li>" +
+            "<li><strong>Accurate</strong> — free from material error. Wrong data leads to wrong decisions.</li>" +
+            "<li><strong>Complete</strong> — no significant omissions. Missing data creates blind spots.</li>" +
+            "<li><strong>Cost-effective</strong> — worth more than it costs to produce. Don't spend £10k to save £1k.</li>" +
+            "<li><strong>Understandable</strong> — in a format the intended user can interpret.</li>" +
+            "</ul>" +
+            "<h4>The ACCURATE Mnemonic — R to E</h4>" +
+            "<p>Last four letters of the mnemonic:</p>" +
+            "<ul>" +
+            "<li><strong>Relevant</strong> — addresses the specific decision or problem at hand.</li>" +
+            "<li><strong>Authoritative</strong> — from a reliable source with consistent calculation methods.</li>" +
+            "<li><strong>Timely</strong> — available when the decision needs to be made. Late information loses value.</li>" +
+            "<li><strong>Easy to use</strong> — accessible and clearly presented.</li>" +
+            "</ul>" +
+            "<h4>What Does Management Accounting Produce?</h4>" +
+            "<p>In a typical business, management accounting delivers:</p>" +
+            "<ul>" +
+            "<li><strong>Cost cards</strong> — standard cost breakdown (materials, labour, overhead) per product.</li>" +
+            "<li><strong>Management accounts</strong> — P&amp;L by product, department, or region vs budget.</li>" +
+            "<li><strong>Variance reports</strong> — where actuals deviated from plan and by how much.</li>" +
+            "<li><strong>Cash flow forecasts</strong> — rolling 13-week forecasts to manage liquidity.</li>" +
+            "<li><strong>Investment appraisals</strong> — NPV/IRR analysis to evaluate major spending decisions.</li>" +
             "</ul>",
           workedExample: {
             setup:
