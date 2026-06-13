@@ -1,6 +1,119 @@
 /* FP&A Copilot — main variance dashboard (real API data) */
 const { useState: useStateDash, useEffect: useEffectDash, useRef: useRefDash } = React;
 
+/* ── ForecastPanel ──────────────────────────────────────────────────────── */
+function ForecastPanel({ sessionId, periodMode }) {
+  const { Icon, Card, Chip, TrendChart } = window;
+  const [fcData,   setFcData]   = React.useState(null);
+  const [lookback, setLookback] = React.useState(3);
+  const [loading,  setLoading]  = React.useState(false);
+  const [error,    setError]    = React.useState(null);
+
+  React.useEffect(() => {
+    if (!sessionId || periodMode === "ytd") return;
+    setLoading(true);
+    setError(null);
+    fetch(apiUrl(`/api/forecast/${sessionId}?lookback=${lookback}&mode=${periodMode}`))
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(setFcData)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, [sessionId, lookback, periodMode]);
+
+  const fmtGBP = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    return (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
+  };
+
+  const combined     = fcData?.combined || [];
+  const forecastFrom = fcData ? (fcData.actuals || []).length : 0;
+  const hasProjection = (fcData?.forecast || []).length > 0;
+
+  return (
+    <Card
+      title="Rolling forecast"
+      sub={loading ? "Loading…" : fcData ? `${fcData.lookback_used}-period trailing average · ${(fcData.forecast||[]).length} periods projected` : ""}
+      action={<Chip tone="info" icon="trending-up">Forecast</Chip>}
+    >
+      {/* Lookback selector */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+        <span style={{ font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--fg-2)" }}>
+          Trailing average:
+        </span>
+        {[3, 6, 12].map((n) => (
+          <button key={n} onClick={() => setLookback(n)}
+            style={{
+              padding: "4px 12px", borderRadius: "var(--radius-pill)",
+              border: lookback === n ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+              background: lookback === n ? "var(--primary-soft)" : "var(--surface-2)",
+              color: lookback === n ? "var(--primary)" : "var(--fg-2)",
+              font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer",
+            }}>
+            {n}m
+          </button>
+        ))}
+        <span style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginLeft: 4 }}>
+          {loading ? "Loading…" : error ? "Error — is the session still active?" : ""}
+        </span>
+      </div>
+
+      {/* Chart */}
+      {!loading && combined.length > 1 && (
+        <TrendChart
+          data={combined}
+          series={[
+            { key: "revenue", label: "Revenue", color: "var(--c-1)" },
+            { key: "costs",   label: "Costs",   color: "var(--c-6)" },
+            { key: "profit",  label: "Profit",  color: "var(--c-5)" },
+          ]}
+          forecastFrom={forecastFrom}
+        />
+      )}
+
+      {/* Projection summary table */}
+      {!loading && hasProjection && (
+        <div style={{ marginTop: 16, overflowX: "auto" }}>
+          <div style={{
+            font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
+            letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 8,
+          }}>Projected periods (trailing {lookback}m avg)</div>
+          <table className="var">
+            <thead>
+              <tr>
+                <th className="l">Period</th>
+                <th>Revenue</th>
+                <th>Costs</th>
+                <th>Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(fcData.forecast || []).map((r, i) => (
+                <tr key={i}>
+                  <td className="l" style={{ color: "var(--fg-2)", fontStyle: "italic" }}>{r.full}</td>
+                  <td>{fmtGBP(r.revenue)}</td>
+                  <td>{fmtGBP(r.costs)}</td>
+                  <td style={{ color: r.profit >= 0 ? "var(--favourable-text)" : "var(--adverse-text)" }}>
+                    {fmtGBP(r.profit)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={{ marginTop: 8, font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+            * Projections use a simple trailing average — not a statistical model. Review assumptions before using in management packs.
+          </div>
+        </div>
+      )}
+
+      {!loading && !hasProjection && combined.length > 0 && (
+        <div style={{ textAlign: "center", padding: "12px 0", font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+          All months in the current year already have actuals — no forecast periods needed.
+        </div>
+      )}
+    </Card>
+  );
+}
+
 const CHART_COLORS = ["var(--c-1)","var(--c-2)","var(--c-3)","var(--c-4)","var(--c-5)","var(--c-6)","var(--c-7)","var(--c-8)"];
 
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
@@ -675,6 +788,11 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           </ul>
         )}
       </Card>
+
+      {/* ── Rolling Forecast ─────────────────────────────────── */}
+      {!isBvA && periodMode !== "ytd" && (trend || []).length > 2 && (
+        <ForecastPanel sessionId={sessionId} periodMode={periodMode} />
+      )}
     </div>
   );
 }

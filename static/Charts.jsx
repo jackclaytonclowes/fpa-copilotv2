@@ -1,7 +1,7 @@
 /* FP&A Copilot — SVG charts: TrendChart + Donut */
 const { useState: useStateChart, useEffect: useEffectChart } = React;
 
-function TrendChart({ data, series }) {
+function TrendChart({ data, series, forecastFrom }) {
   const W = 640, H = 230, padL = 8, padR = 12, padT = 14, padB = 26;
   const innerW = W - padL - padR, innerH = H - padT - padB;
   const all = data.flatMap((d) => series.map((s) => d[s.key] || 0));
@@ -9,6 +9,8 @@ function TrendChart({ data, series }) {
   const min = Math.min(...all, 0) * 0.9;
   const x = (i) => padL + (innerW * i) / Math.max(data.length - 1, 1);
   const y = (v) => padT + innerH - (innerH * (v - min)) / (max - min || 1);
+
+  const hasForecast = forecastFrom != null && forecastFrom < data.length;
 
   const [grow, setGrow] = useStateChart(0);
   useEffectChart(() => {
@@ -32,19 +34,40 @@ function TrendChart({ data, series }) {
         const gy = padT + (innerH * i) / gridY;
         return <line key={i} x1={padL} x2={W - padR} y1={gy} y2={gy} stroke="var(--border)" strokeWidth="1" />;
       })}
+      {/* Forecast boundary */}
+      {hasForecast && (
+        <g>
+          <line
+            x1={x(forecastFrom)} x2={x(forecastFrom)} y1={padT} y2={padT + innerH}
+            stroke="var(--fg-3)" strokeWidth="1" strokeDasharray="4 3" opacity="0.5"
+          />
+          <text x={x(forecastFrom) + 5} y={padT + 10}
+            style={{ font: "500 10px var(--font-sans)", fill: "var(--fg-3)" }}>Forecast →</text>
+        </g>
+      )}
       {data.map((d, i) => (
         <text key={i} x={x(i)} y={H - 8} textAnchor="middle"
-          style={{ font: "500 11px var(--font-mono)", fill: "var(--fg-3)" }}>{d.m}</text>
+          style={{ font: "500 11px var(--font-mono)", fill: "var(--fg-3)", opacity: hasForecast && i >= forecastFrom ? 0.6 : 1 }}>{d.m}</text>
       ))}
       {series.map((s) => {
         const pts = data.map((d, i) => [x(i), y(d[s.key] || 0)]);
         const shown = Math.max(1, Math.round((data.length - 1) * grow));
-        const path = pts.slice(0, shown + 1).map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+        // Actual segment (solid)
+        const actualPts  = pts.slice(0, hasForecast ? forecastFrom + 1 : pts.length);
+        const forecastPts = hasForecast ? pts.slice(forecastFrom) : [];
+        const mkPath = (arr) => arr.slice(0, shown + 1).map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
         return (
           <g key={s.key}>
-            <path d={path} fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d={mkPath(actualPts)} fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            {forecastPts.length > 1 && (
+              <path d={mkPath(forecastPts)} fill="none" stroke={s.color} strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+            )}
             {grow > 0.98 && pts.map((p, i) => (
-              <circle key={i} cx={p[0]} cy={p[1]} r="4" fill={s.color} stroke="var(--surface)" strokeWidth="2" />
+              <circle key={i} cx={p[0]} cy={p[1]} r={hasForecast && i >= forecastFrom ? 3 : 4}
+                fill={hasForecast && i >= forecastFrom ? "none" : s.color}
+                stroke={s.color}
+                strokeWidth={hasForecast && i >= forecastFrom ? 2 : 2}
+                opacity={hasForecast && i >= forecastFrom ? 0.7 : 1} />
             ))}
           </g>
         );

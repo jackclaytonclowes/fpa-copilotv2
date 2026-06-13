@@ -203,6 +203,77 @@ def consolidate_sessions(body: ConsolidateBody):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ROLLING FORECAST
+# ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/forecast/{session_id}")
+def get_forecast(session_id: str, lookback: int = 3, mode: str = "monthly"):
+    """
+    Compute a rolling average forecast for Revenue, Costs and Profit.
+    Uses the last `lookback` actuals periods to project forward until year-end
+    (monthly mode) or the next 2 quarters (quarterly mode).
+    """
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+    if s.get("analysis_type") == "budget_vs_actual":
+        raise HTTPException(400, "Forecast not available for Budget vs Actual sessions.")
+
+    analysis    = s["analysis_m"] if mode != "quarterly" else s["analysis_q"]
+    kpi_accts   = s["kpi_accounts"]
+    sort_key    = (lambda p: pd.Timestamp(p)) if mode != "quarterly" else quarter_sort_key
+    periods     = sorted(analysis["Period"].unique(), key=sort_key)
+
+    if not periods:
+        return {"actuals": [], "forecast": [], "combined": [], "lookback_used": 0}
+
+    def kpi_val(p, name):
+        if not name:
+            return 0.0
+        m = analysis[(analysis["Period"] == p) & (analysis["Account"].str.strip() == name.strip())]
+        return float(m.iloc[0]["Value"]) if not m.empty and pd.notna(m.iloc[0]["Value"]) else 0.0
+
+    actuals = []
+    for p in periods:
+        lbl   = period_label(p, mode)
+        short = pd.Timestamp(p).strftime("%b") if mode == "monthly" else str(p)[-5:]
+        actuals.append({
+            "m": short, "full": lbl, "is_forecast": False,
+            "revenue": kpi_val(p, kpi_accts["revenue"]),
+            "costs":   kpi_val(p, kpi_accts["costs"]),
+            "profit":  kpi_val(p, kpi_accts["profit"]),
+        })
+
+    lb   = max(1, min(lookback, len(actuals)))
+    tail = actuals[-lb:]
+    avg  = {k: round(sum(t[k] for t in tail) / lb, 2) for k in ("revenue", "costs", "profit")}
+
+    # Future periods: remainder of the current calendar year (monthly), next 2 qtrs (quarterly)
+    last_p = periods[-1]
+    if mode == "monthly":
+        last_ts      = pd.Timestamp(last_p)
+        year_end     = pd.Timestamp(last_ts.year, 12, 1)
+        future_dates = pd.date_range(last_ts + pd.DateOffset(months=1), year_end, freq="MS")
+    else:
+        future_dates = []
+
+    forecast = []
+    for fp in list(future_dates)[:6]:
+        forecast.append({
+            "m": fp.strftime("%b") + "*",
+            "full": fp.strftime("%B %Y") + " (forecast)",
+            "is_forecast": True,
+            **avg,
+        })
+
+    return {
+        "actuals":      actuals,
+        "forecast":     forecast,
+        "combined":     actuals + forecast,
+        "lookback_used": lb,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # DEMO
 # ─────────────────────────────────────────────────────────────────────────────
 @app.get("/api/demo")
