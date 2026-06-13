@@ -70,12 +70,14 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     } catch (_) { return p; }
   };
 
-  const momLabel = periodMode === "monthly" ? "MoM" : "QoQ";
+  const momLabel = periodMode === "monthly" ? "MoM" : periodMode === "quarterly" ? "QoQ" : "YTD";
 
   const subtitle = hasData && period
     ? (analysisType === "budget_vs_actual"
         ? "Actual vs Budget"
-        : "Month-on-Month Variance")
+        : periodMode === "ytd"
+          ? "Year-to-Date"
+          : "Month-on-Month Variance")
     : "Upload a P&L to begin";
 
   const titles = {
@@ -100,7 +102,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
       {/* Right controls — only when data is loaded on dashboard view */}
       {hasData && view === "dashboard" && analysisType !== "budget_vs_actual" && (
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          {/* Monthly / Quarterly toggle */}
+          {/* Monthly / Quarterly / YTD toggle */}
           <div className="seg">
             <button
               className={periodMode === "monthly" ? "on" : ""}
@@ -111,6 +113,11 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
               className={periodMode === "quarterly" ? "on" : ""}
               onClick={() => onMode("quarterly")}>
               Quarterly
+            </button>
+            <button
+              className={periodMode === "ytd" ? "on" : ""}
+              onClick={() => onMode("ytd")}>
+              YTD
             </button>
           </div>
 

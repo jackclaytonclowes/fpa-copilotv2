@@ -25,7 +25,8 @@ from pydantic import BaseModel
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
-    get_period_data, load_bva_from_sheets, load_file, make_pdf, make_xlsx, make_zip,
+    get_period_data, get_ytd_data, load_bva_from_sheets, load_file,
+    make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 
@@ -579,6 +580,29 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         return data
 
     # ── Month-on-Month ────────────────────────────────────────────────────
+    # ── YTD ──────────────────────────────────────────────────────────────────
+    if mode == "ytd":
+        analysis_m   = s["analysis_m"]
+        kpi_accounts = s["kpi_accounts"]
+        periods_m    = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        if not periods_m:
+            raise HTTPException(400, "No periods found.")
+        selected_ytd = None
+        if period:
+            for p in periods_m:
+                if str(p)[:10] == str(period)[:10] or period_label(p, "monthly") == period:
+                    selected_ytd = p
+                    break
+        if selected_ytd is None:
+            selected_ytd = periods_m[-1]
+        data = get_ytd_data(analysis_m, selected_ytd, kpi_accounts)
+        data["analysis_type"]   = "month_on_month"
+        data["session_id"]      = session_id
+        data["file_name"]       = s["filename"]
+        data["periods"]         = [str(p) for p in periods_m]
+        data["selected_period"] = str(selected_ytd)
+        return data
+
     analysis = s["analysis_m"] if mode == "monthly" else s["analysis_q"]
     df_long  = s["df_long_m"]  if mode == "monthly" else s["df_long_q"]
     kpi_accounts = s["kpi_accounts"]

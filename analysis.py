@@ -871,6 +871,130 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
     }
 
 
+def get_ytd_data(analysis_df: pd.DataFrame, selected_period, kpi_accounts: dict) -> dict:
+    """
+    Year-to-date aggregate: sum from Jan (or first available month of the year)
+    to selected_period.  Prior = same month range of the immediately preceding
+    calendar year in the dataset (empty DataFrame if not available).
+    Returns the same data dict structure as get_period_data().
+    """
+    all_periods = sorted(analysis_df["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    sel_ts = next((p for p in all_periods if str(p)[:10] == str(selected_period)[:10]), all_periods[-1])
+    sel_dt = pd.Timestamp(sel_ts)
+
+    ytd_curr  = [p for p in all_periods
+                 if pd.Timestamp(p).year == sel_dt.year and pd.Timestamp(p) <= sel_ts]
+    prior_year = sel_dt.year - 1
+    ytd_prior  = [p for p in all_periods
+                  if pd.Timestamp(p).year == prior_year and pd.Timestamp(p).month <= sel_dt.month]
+
+    has_prior = len(ytd_prior) > 0
+
+    def _agg(periods):
+        if not periods:
+            return pd.DataFrame(columns=["Account","Category","Is Subtotal","Value"])
+        return (analysis_df[analysis_df["Period"].isin(periods)]
+                .groupby(["Account","Category","Is Subtotal"], as_index=False)["Value"].sum())
+
+    curr_agg  = _agg(ytd_curr)
+    prior_agg = _agg(ytd_prior)
+
+    merged = curr_agg.merge(
+        prior_agg.rename(columns={"Value": "Prior Value"})[["Account","Category","Prior Value"]],
+        on=["Account","Category"], how="left",
+    )
+    merged["Prior Value"]  = merged.get("Prior Value", pd.Series(0, index=merged.index)).fillna(0)
+    merged["Variance"]     = merged["Value"] - merged["Prior Value"]
+    merged["Variance %"]   = merged.apply(
+        lambda r: r["Variance"] / r["Prior Value"] * 100 if r["Prior Value"] != 0 else None, axis=1)
+    merged["Abs Variance"] = merged["Variance"].abs()
+
+    driver_df = merged[~merged["Is Subtotal"]].copy()
+
+    # ── KPIs ──────────────────────────────────────────────────────────────────
+    def kpi_row(name, fav_when_up, icon):
+        if not name:
+            return None
+        m = merged[merged["Account"].str.strip() == name.strip()]
+        if m.empty:
+            return None
+        r = m.iloc[0]
+        variance = float(r["Variance"]) if pd.notna(r["Variance"]) else None
+        prior    = float(r["Prior Value"]) if pd.notna(r["Prior Value"]) else None
+        value    = float(r["Value"]) if pd.notna(r["Value"]) else None
+        pct      = float(r["Variance %"]) if pd.notna(r["Variance %"]) else None
+        is_fav   = (fav_when_up and variance >= 0) or (not fav_when_up and variance <= 0) if variance is not None else None
+        return {"label": name, "value": value, "variance": variance if has_prior else None,
+                "prior": prior if has_prior else None, "pct": pct if has_prior else None,
+                "is_fav": is_fav, "icon": icon, "pct_only": False}
+
+    rev_kpi  = kpi_row(kpi_accounts.get("revenue"), True,  "trending-up")
+    cost_kpi = kpi_row(kpi_accounts.get("costs"),   False, "receipt")
+    prof_kpi = kpi_row(kpi_accounts.get("profit"),  True,  "wallet")
+    kpis     = [k for k in [rev_kpi, cost_kpi, prof_kpi] if k]
+    if prof_kpi and prof_kpi.get("pct") is not None:
+        kpis.append({"label": "Profit YoY", "value": None,
+                     "variance": prof_kpi["variance"], "pct": prof_kpi["pct"],
+                     "is_fav": prof_kpi["is_fav"], "icon": "bar-chart-2", "pct_only": True})
+
+    # ── Movements ──────────────────────────────────────────────────────────────
+    top_mov = (driver_df[driver_df["Abs Variance"] > 0]
+               .sort_values("Abs Variance", ascending=False).head(15))
+    movements = []
+    for _, row in top_mov.iterrows():
+        variance = float(row["Variance"]) if pd.notna(row["Variance"]) else None
+        cat      = row["Category"]
+        fav_when_up = cat == "Revenue"
+        is_fav   = (fav_when_up and variance >= 0) or (not fav_when_up and variance <= 0) if variance is not None else None
+        movements.append({
+            "account":      row["Account"],
+            "category":     cat,
+            "value":        float(row["Value"]) if pd.notna(row["Value"]) else None,
+            "prior_value":  float(row["Prior Value"]) if pd.notna(row["Prior Value"]) else None,
+            "variance":     variance if has_prior else None,
+            "variance_pct": float(row["Variance %"]) if pd.notna(row["Variance %"]) else None,
+            "is_fav":       is_fav,
+            "history":      [],
+        })
+
+    # ── Commentary ─────────────────────────────────────────────────────────────
+    commentary = []
+    if prof_kpi and prof_kpi.get("variance") is not None:
+        word = "ahead of" if prof_kpi["variance"] > 0 else "behind"
+        fav  = prof_kpi["variance"] > 0
+        commentary.append({"icon": "trending-up" if fav else "trending-down", "fav": fav,
+            "html": f"<b>{kpi_accounts.get('profit','Operating Profit')} YTD</b> is "
+                    f"{fmt_gbp(abs(prof_kpi['variance']))} {word} prior year YTD."})
+    for _, row in (driver_df[driver_df["Abs Variance"] > 0]
+                   .sort_values("Abs Variance", ascending=False).head(3).iterrows()):
+        d   = "increased" if row["Variance"] > 0 else "decreased"
+        cat = row["Category"]
+        fav = (cat == "Revenue" and row["Variance"] > 0) or (cat != "Revenue" and row["Variance"] < 0)
+        pct_str = f" ({fmt_pct(abs(row['Variance %']))})" if pd.notna(row["Variance %"]) else ""
+        commentary.append({
+            "icon": "arrow-up-right" if row["Variance"] > 0 else "arrow-down-right", "fav": fav,
+            "html": f"<b>{row['Account']}</b> YTD {d} by {fmt_gbp(abs(row['Variance']))}{pct_str} vs prior year.",
+        })
+
+    months_n  = len(ytd_curr)
+    end_month = sel_dt.strftime("%b %Y")
+    ytd_label = f"YTD {end_month} ({months_n} month{'s' if months_n != 1 else ''})"
+    prior_lbl = f"YTD {prior_year}" if has_prior else "No prior year data"
+
+    return {
+        "kpis":            kpis,
+        "trend":           [],
+        "revenue_split":   [],
+        "expense_split":   [],
+        "movements":       movements,
+        "commentary":      commentary,
+        "waterfall":       None,
+        "period":          {"label": ytd_label, "prior": prior_lbl},
+        "selected_period": str(sel_ts),
+        "periods":         [str(p) for p in all_periods],
+    }
+
+
 # ─────────────────────────────────────────────
 # BUDGET VS ACTUAL — SHEET & COLUMN DETECTION
 # ─────────────────────────────────────────────
