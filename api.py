@@ -925,6 +925,83 @@ def chat_save(session_id: str, body: ChatSaveBody):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# AI NARRATIVE COMMENTARY
+# ─────────────────────────────────────────────────────────────────────────────
+COMMENTARY_PROMPT = """You are MonthEndIQ, writing a board-ready management pack narrative for a Finance Director.
+
+Write a concise but complete narrative commentary covering the financial period below.
+
+Structure (use exactly these HTML tags):
+- <h4>Executive Summary</h4> followed by a <p> with 2–3 sentences giving the overall picture
+- <h4>Revenue</h4> followed by a <p> with key revenue observations (2–3 sentences)
+- <h4>Costs</h4> followed by a <p> with key cost movements and pressures (2–3 sentences)
+- <h4>Profitability</h4> followed by a <p> with the operating profit outcome and main drivers (2–3 sentences)
+- <h4>Recommended Actions</h4> followed by a <ul> with exactly 3 <li> items — specific, prioritised, actionable
+
+Requirements:
+- Professional board-pack language suitable for a Finance Director or CFO audience
+- Format all currency as £X,XXX (pound sterling, UK convention)
+- Be specific: cite actual figures from the data — do not be vague or generic
+- Highlight both favourable and adverse variances explicitly
+- Do NOT use meta-language like "based on the data" or "according to the analysis"
+- Do NOT add any preamble or sign-off — start directly with <h4>Executive Summary</h4>
+
+FINANCIAL DATA:
+{context}"""
+
+
+class CommentaryBody(BaseModel):
+    period: str | None = None
+    mode:   str        = "monthly"
+
+
+@app.post("/api/commentary/{session_id}")
+async def generate_commentary(session_id: str, body: CommentaryBody):
+    """Generate a board-ready AI narrative commentary for the current period."""
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found. Please re-upload your file.")
+
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise HTTPException(503, "OpenAI API key not configured.")
+
+    # Resolve period (mirrors logic in /api/ask)
+    if s.get("analysis_type") == "budget_vs_actual":
+        selected = body.period if body.period else "full_year"
+    else:
+        analysis = s["analysis_m"] if body.mode == "monthly" else s["analysis_q"]
+        sort_key = (lambda p: pd.Timestamp(p)) if body.mode == "monthly" else quarter_sort_key
+        periods  = sorted(analysis["Period"].unique(), key=sort_key)
+        selected = periods[-1]
+        if body.period:
+            for p in periods:
+                if period_label(p, body.mode) == body.period or str(p) == body.period:
+                    selected = p
+                    break
+
+    context = _build_financial_context(s, selected, body.mode)
+
+    try:
+        from openai import OpenAI
+        ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+        client   = OpenAI(api_key=api_key)
+        resp     = client.chat.completions.create(
+            model=ai_model,
+            messages=[
+                {"role": "system", "content": COMMENTARY_PROMPT.format(context=context)},
+                {"role": "user",   "content": "Write the management pack narrative commentary for this period."},
+            ],
+            temperature=0.4,
+            max_tokens=900,
+        )
+        narrative = resp.choices[0].message.content.strip()
+        return {"narrative": narrative}
+    except Exception as e:
+        raise HTTPException(500, f"Commentary generation failed: {str(e)}")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Q&A COPILOT — OpenAI-powered
 # ─────────────────────────────────────────────────────────────────────────────
 SYSTEM_PROMPT = """You are MonthEndIQ, an FP&A copilot specialising in P&L variance analysis.

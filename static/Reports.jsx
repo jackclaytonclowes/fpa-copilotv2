@@ -177,6 +177,126 @@ function ReportKpiSummary({ model }) {
   );
 }
 
+/* ── AI Narrative Commentary ─────────────────────────────────────────────── */
+function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
+  const { Icon, Button } = window;
+  const [status,    setStatus]    = React.useState("idle"); // idle | loading | done | error
+  const [narrative, setNarrative] = React.useState(null);
+  const [copied,    setCopied]    = React.useState(false);
+
+  const generate = async () => {
+    setStatus("loading");
+    try {
+      const isBvA = analysisType === "budget_vs_actual";
+      const periodParam = isBvA
+        ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
+        : (period?.label || null);
+      const res = await fetch(apiUrl(`/api/commentary/${sessionId}`), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly" }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      setNarrative(data.narrative);
+      setStatus("done");
+    } catch (e) {
+      console.error("[Commentary]", e);
+      setStatus("error");
+    }
+  };
+
+  const copy = () => {
+    const div = document.createElement("div");
+    div.innerHTML = narrative;
+    const text = div.innerText || div.textContent || "";
+    navigator.clipboard.writeText(text).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <ReportSection id="ai-narrative" title="AI Narrative Commentary" icon="sparkles">
+      {status === "idle" && (
+        <div style={{
+          padding: "28px 24px", textAlign: "center",
+          background: "var(--surface)", borderRadius: "var(--radius-sm)",
+          border: "1px dashed var(--border-strong)",
+        }}>
+          <div style={{ marginBottom: 8 }}>
+            <Icon name="sparkles" size={28} color="var(--primary)" />
+          </div>
+          <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)", marginBottom: 4 }}>
+            Generate board-ready narrative commentary
+          </div>
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)", marginBottom: 16 }}>
+            AI writes a full management pack narrative — revenue, costs, profitability and recommended actions.
+          </div>
+          <Button variant="primary" icon="sparkles" onClick={generate}>
+            Generate Commentary
+          </Button>
+        </div>
+      )}
+
+      {status === "loading" && (
+        <div style={{
+          padding: "32px 24px", textAlign: "center",
+          background: "var(--surface)", borderRadius: "var(--radius-sm)",
+        }}>
+          <div className="spinner" style={{ margin: "0 auto 14px" }} />
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
+            Writing board-ready commentary…
+          </div>
+        </div>
+      )}
+
+      {status === "error" && (
+        <div style={{
+          padding: "20px 24px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
+          border: "1px solid var(--adverse)",
+        }}>
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--adverse-text)", marginBottom: 12 }}>
+            Failed to generate commentary. Check your OpenAI API key and try again.
+          </div>
+          <Button variant="secondary" icon="refresh-cw" onClick={generate}>
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {status === "done" && narrative && (
+        <div>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 12 }}>
+            <Button variant="secondary" icon={copied ? "check" : "copy"} onClick={copy}>
+              {copied ? "Copied" : "Copy"}
+            </Button>
+            <Button variant="secondary" icon="refresh-cw" onClick={generate}>
+              Regenerate
+            </Button>
+          </div>
+          <div style={{
+            padding: "20px 24px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
+            font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-2)", lineHeight: 1.75,
+          }}
+            className="ai-narrative"
+            dangerouslySetInnerHTML={{ __html: narrative }}
+          />
+          <div style={{
+            marginTop: 10, display: "flex", alignItems: "center", gap: 6,
+            font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)",
+          }}>
+            <Icon name="sparkles" size={11} color="var(--primary)" />
+            AI-generated — review before use in board packs
+          </div>
+        </div>
+      )}
+    </ReportSection>
+  );
+}
+
 /* ── Board Pack Commentary ───────────────────────────────────────────────── */
 function ReportBoardCommentary({ model }) {
   const { Icon } = window;
@@ -539,11 +659,12 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
   if (!data) return <div className="loading"><div className="spinner" />Loading...</div>;
 
   const sections = [
-    { id: "executive-summary", label: "Executive Summary" },
-    { id: "kpi-summary",       label: "KPI Summary" },
-    { id: "board-commentary",  label: "Board Commentary" },
-    { id: "key-findings",      label: "Key Findings" },
-    { id: "variance-table",    label: "Variance Analysis" },
+    { id: "executive-summary",  label: "Executive Summary" },
+    { id: "kpi-summary",        label: "KPI Summary" },
+    { id: "ai-narrative",       label: "AI Narrative" },
+    { id: "board-commentary",   label: "Board Commentary" },
+    { id: "key-findings",       label: "Key Findings" },
+    { id: "variance-table",     label: "Variance Analysis" },
     { id: "recommended-actions",label: "Recommended Actions" },
   ];
 
@@ -611,6 +732,12 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
         {/* Report sections */}
         <ReportExecutiveSummary model={model} />
         <ReportKpiSummary model={model} />
+        <ReportAINarrative
+          sessionId={sessionId}
+          period={period}
+          periodMode={periodMode}
+          analysisType={analysisType}
+        />
         <ReportBoardCommentary model={model} />
         <ReportKeyFindings model={model} />
         <ReportVarianceTable model={model} />
@@ -636,6 +763,7 @@ Object.assign(window, {
   buildReportModel,
   ReportExecutiveSummary,
   ReportKpiSummary,
+  ReportAINarrative,
   ReportBoardCommentary,
   ReportKeyFindings,
   ReportRecommendedActions,
