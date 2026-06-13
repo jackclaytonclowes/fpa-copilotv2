@@ -67,6 +67,142 @@ def view_shared(session_id: str):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# MULTI-ENTITY CONSOLIDATION
+# ─────────────────────────────────────────────────────────────────────────────
+class ConsolidateBody(BaseModel):
+    session_ids: list[str]
+    period:      str | None = None
+    mode:        str        = "monthly"
+
+
+@app.post("/api/consolidate")
+def consolidate_sessions(body: ConsolidateBody):
+    """
+    Merge two or more MoM sessions into a single group P&L.
+    Accounts are matched by name; unmatched accounts appear only for their entity.
+    Returns the same data envelope as /api/data so all existing views work.
+    """
+    if len(body.session_ids) < 2:
+        raise HTTPException(400, "Provide at least two session IDs.")
+
+    sessions = [SESSIONS.get(sid) for sid in body.session_ids]
+    missing  = [sid for sid, s in zip(body.session_ids, sessions) if not s]
+    if missing:
+        raise HTTPException(404, f"Sessions not found: {', '.join(missing[:3])}")
+
+    if any(s.get("analysis_type") == "budget_vs_actual" for s in sessions):
+        raise HTTPException(400, "Consolidation of Budget vs Actual sessions is not yet supported.")
+
+    entity_data = []
+    for s in sessions:
+        analysis = s["analysis_m"] if body.mode in ("monthly", "ytd") else s["analysis_q"]
+        df_long  = s["df_long_m"]  if body.mode in ("monthly", "ytd") else s["df_long_q"]
+        sort_key = (lambda p: pd.Timestamp(p)) if body.mode != "quarterly" else quarter_sort_key
+        periods  = sorted(analysis["Period"].unique(), key=sort_key)
+        if not periods:
+            continue
+        selected = periods[-1]
+        if body.period:
+            for p in periods:
+                if str(p)[:10] == str(body.period)[:10] or period_label(p, body.mode) == body.period:
+                    selected = p
+                    break
+        d = get_period_data(analysis, df_long, selected, s["kpi_accounts"], body.mode)
+        d["_entity_name"] = s["filename"]
+        entity_data.append(d)
+
+    if not entity_data:
+        raise HTTPException(400, "No data found for any of the provided sessions.")
+
+    # ── Merge movements: sum values for matching accounts ──────────────────
+    from collections import defaultdict
+    acc_map: dict[str, dict] = defaultdict(lambda: {
+        "value": 0.0, "prior_value": 0.0, "category": "", "entities": []
+    })
+    for d in entity_data:
+        for m in d.get("movements", []):
+            k = m["account"].strip()
+            acc_map[k]["value"]       += m.get("value")       or 0
+            acc_map[k]["prior_value"] += m.get("prior_value") or 0
+            acc_map[k]["category"]    = m.get("category", "")
+            acc_map[k]["entities"].append(d["_entity_name"])
+
+    movements = []
+    for account, v in acc_map.items():
+        variance = v["value"] - v["prior_value"]
+        cat      = v["category"]
+        is_fav   = (cat == "Revenue" and variance >= 0) or (cat != "Revenue" and variance <= 0)
+        vp       = v["prior_value"]
+        movements.append({
+            "account":      account,
+            "category":     cat,
+            "value":        round(v["value"], 2),
+            "prior_value":  round(vp, 2),
+            "variance":     round(variance, 2),
+            "variance_pct": round(variance / vp * 100, 1) if vp != 0 else None,
+            "is_fav":       is_fav,
+            "history":      [],
+        })
+    movements.sort(key=lambda m: abs(m["variance"] or 0), reverse=True)
+
+    # ── Merge KPIs: sum value and prior across matching labels ─────────────
+    kpi_acc: dict[str, dict] = {}
+    for d in entity_data:
+        for k in d.get("kpis", []):
+            lbl = k["label"]
+            if lbl not in kpi_acc:
+                kpi_acc[lbl] = {**k, "value": 0.0, "prior": 0.0}
+            if k.get("value") is not None:
+                kpi_acc[lbl]["value"] = (kpi_acc[lbl]["value"] or 0) + k["value"]
+            if k.get("prior") is not None:
+                kpi_acc[lbl]["prior"] = (kpi_acc[lbl]["prior"] or 0) + k["prior"]
+
+    kpis = []
+    for k in kpi_acc.values():
+        if k.get("pct_only"):
+            continue  # recompute from merged profit kpi below
+        v, p = k.get("value") or 0, k.get("prior") or 0
+        var  = v - p
+        pct  = var / abs(p) * 100 if p != 0 else None
+        fav_when_up = k.get("icon") in ("trending-up", "wallet")
+        kpis.append({**k,
+            "value":    round(v, 2),
+            "prior":    round(p, 2),
+            "variance": round(var, 2),
+            "pct":      round(pct, 1) if pct is not None else None,
+            "is_fav":   (fav_when_up and var >= 0) or (not fav_when_up and var <= 0),
+        })
+    prof_kpi = next((k for k in kpis if k.get("icon") == "wallet"), None)
+    if prof_kpi and prof_kpi.get("pct") is not None:
+        kpis.append({
+            "label": "Profit Variance", "value": None,
+            "variance": prof_kpi["variance"], "pct": prof_kpi["pct"],
+            "is_fav": prof_kpi["is_fav"], "icon": "bar-chart-2", "pct_only": True,
+        })
+
+    # ── Commentary: aggregate from first entity for now ───────────────────
+    commentary = entity_data[0].get("commentary", []) if entity_data else []
+
+    period_obj = entity_data[0].get("period", {"label": "Consolidated", "prior": "Prior"})
+
+    return {
+        "analysis_type":   "month_on_month",
+        "kpis":            kpis,
+        "movements":       movements[:20],
+        "commentary":      commentary,
+        "waterfall":       None,
+        "trend":           [],
+        "revenue_split":   [],
+        "expense_split":   [],
+        "period":          period_obj,
+        "selected_period": str(entity_data[0].get("selected_period", "")),
+        "periods":         entity_data[0].get("periods", []),
+        "entity_count":    len(entity_data),
+        "entity_names":    [d["_entity_name"] for d in entity_data],
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # DEMO
 # ─────────────────────────────────────────────────────────────────────────────
 @app.get("/api/demo")

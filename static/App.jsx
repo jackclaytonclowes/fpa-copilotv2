@@ -54,7 +54,8 @@ function formatPeriod(p, mode) {
 /* ── TopBar ─────────────────────────────────────────────── */
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
-                  bvaPeriods, bvaPeriod, onBvaPeriodChange, sessionId, onShareToast }) {
+                  bvaPeriods, bvaPeriod, onBvaPeriodChange, sessionId, onShareToast,
+                  isConsolidated, entityCount }) {
   const { Icon, Button } = window;
 
   const [shareCopied, setShareCopied] = useStateApp(false);
@@ -90,11 +91,13 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
   const momLabel = periodMode === "monthly" ? "MoM" : periodMode === "quarterly" ? "QoQ" : "YTD";
 
   const subtitle = hasData && period
-    ? (analysisType === "budget_vs_actual"
-        ? "Actual vs Budget"
-        : periodMode === "ytd"
-          ? "Year-to-Date"
-          : "Month-on-Month Variance")
+    ? (isConsolidated
+        ? `Consolidated group · ${entityCount || 2} entities`
+        : analysisType === "budget_vs_actual"
+          ? "Actual vs Budget"
+          : periodMode === "ytd"
+            ? "Year-to-Date"
+            : "Month-on-Month Variance")
     : "Upload a P&L to begin";
 
   const titles = {
@@ -119,6 +122,18 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
       {/* Right controls — only when data is loaded on dashboard view */}
       {hasData && view === "dashboard" && analysisType !== "budget_vs_actual" && (
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {/* Consolidated badge */}
+          {isConsolidated && (
+            <span style={{
+              font: "var(--text-label)", fontSize: 12, padding: "4px 12px",
+              borderRadius: "var(--radius-pill)",
+              background: "var(--primary-soft)", color: "var(--primary)",
+              display: "inline-flex", alignItems: "center", gap: 6,
+            }}>
+              <Icon name="layers" size={13} />
+              Group · {entityCount} entities
+            </span>
+          )}
           {/* Monthly / Quarterly / YTD toggle */}
           <div className="seg">
             <button
@@ -264,6 +279,12 @@ function App() {
   const [restoring, setRestoring]         = useStateApp(true);
   const staleSessionRef                   = useRefApp(null);
 
+  // Multi-entity consolidation
+  const [entities, setEntities]               = useStateApp([]);
+  const [consolidatedData, setConsolidatedData] = useStateApp(null);
+  const [isConsolidated, setIsConsolidated]   = useStateApp(false);
+  const [consolidating, setConsolidating]     = useStateApp(false);
+
   // Period control state — lifted from Dashboard so TopBar can render selectors
   const [availablePeriods, setAvailablePeriods] = useStateApp([]);
   const [selectedPeriod, setSelectedPeriod]     = useStateApp(null);
@@ -325,8 +346,60 @@ function App() {
     setCurrentPeriodObj(data.period || null);
     setBvaPeriods(data.available_bva_periods || []);
     setBvaPeriod(data.selected_bva_period   || "full_year");
+    setEntities([{ sessionId: data.session_id, fileName: data.file_name }]);
+    setConsolidatedData(null);
+    setIsConsolidated(false);
     setView("dashboard");
     fireToast(`Analysed ${data.file_name}`);
+  };
+
+  const onAddEntity = (data) => {
+    const newEntity = { sessionId: data.session_id, fileName: data.file_name };
+    setEntities((prev) => {
+      if (prev.some((e) => e.sessionId === data.session_id)) return prev;
+      return [...prev, newEntity];
+    });
+    setConsolidatedData(null);
+    setIsConsolidated(false);
+  };
+
+  const onConsolidate = async (entityList) => {
+    const list = entityList || entities;
+    if (list.length < 2) return;
+    setConsolidating(true);
+    try {
+      const res = await fetch(apiUrl("/api/consolidate"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_ids: list.map((e) => e.sessionId),
+          period: selectedPeriod || null,
+          mode: periodMode,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "Consolidation failed" }));
+        throw new Error(err.detail || "Consolidation failed");
+      }
+      const data = await res.json();
+      data.session_id = list[0].sessionId;
+      data.file_name  = `Consolidated (${list.length} entities)`;
+      setConsolidatedData(data);
+      setIsConsolidated(true);
+      onDataChange(data);
+      setView("dashboard");
+      fireToast(`Consolidated ${list.length} entities`);
+    } catch (e) {
+      fireToast(e.message);
+    } finally {
+      setConsolidating(false);
+    }
+  };
+
+  const onExitConsolidated = () => {
+    setIsConsolidated(false);
+    setConsolidatedData(null);
+    onDataChange(sessionData);
   };
 
   // Called by Dashboard whenever it loads new data (period or mode change)
@@ -338,9 +411,10 @@ function App() {
     if (data.selected_bva_period  ) setBvaPeriod(data.selected_bva_period);
   };
 
-  const hasData      = !!sessionData;
-  const sessionId    = sessionData?.session_id;
-  const analysisType = sessionData?.analysis_type || "month_on_month";
+  const effectiveData  = isConsolidated && consolidatedData ? consolidatedData : sessionData;
+  const hasData        = !!sessionData;
+  const sessionId      = effectiveData?.session_id || sessionData?.session_id;
+  const analysisType   = effectiveData?.analysis_type || "month_on_month";
 
   // Pre-filled question for copilot (set by Movements "Explain this variance")
   const [copilotQuestion, setCopilotQuestion] = useStateApp(null);
@@ -356,7 +430,7 @@ function App() {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
     body = <QnaCopilot
-        sessionId={sessionId}
+        sessionId={sessionData?.session_id}
         fileName={sessionData?.file_name}
         period={currentPeriodObj}
         periodMode={periodMode}
@@ -369,7 +443,7 @@ function App() {
     body = (
       <Reports
         sessionId={sessionId}
-        initialData={sessionData}
+        initialData={effectiveData}
         periodMode={periodMode}
         controlledPeriod={selectedPeriod}
         onDataChange={onDataChange}
@@ -381,7 +455,7 @@ function App() {
     body = (
       <Movements
         sessionId={sessionId}
-        initialData={sessionData}
+        initialData={effectiveData}
         periodMode={periodMode}
         controlledPeriod={selectedPeriod}
         onDataChange={onDataChange}
@@ -395,6 +469,12 @@ function App() {
         sessionData={sessionData}
         availablePeriods={availablePeriods}
         onLoad={onLoad}
+        entities={entities}
+        onAddEntity={onAddEntity}
+        onConsolidate={onConsolidate}
+        consolidating={consolidating}
+        isConsolidated={isConsolidated}
+        onExitConsolidated={onExitConsolidated}
       />
     );
   } else {
@@ -402,7 +482,7 @@ function App() {
       <div className="content">
         <Dashboard
           sessionId={sessionId}
-          initialData={sessionData}
+          initialData={effectiveData}
           periodMode={periodMode}
           controlledPeriod={selectedPeriod}
           onDataChange={onDataChange}
@@ -433,6 +513,8 @@ function App() {
           onBvaPeriodChange={(p) => { setBvaPeriod(p); setSelectedPeriod(p); }}
           sessionId={sessionId}
           onShareToast={fireToast}
+          isConsolidated={isConsolidated}
+          entityCount={entities.length}
         />
         {body}
       </div>

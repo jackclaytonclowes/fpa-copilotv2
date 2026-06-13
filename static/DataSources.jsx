@@ -1,16 +1,22 @@
 /* FP&A Copilot — Data sources view */
 const { useState: useStateDS, useRef: useRefDS } = React;
 
-function DataSources({ sessionData, availablePeriods, onLoad }) {
-  const { Icon, MethodCard, DemoCard } = window;
+function DataSources({ sessionData, availablePeriods, onLoad,
+                       entities, onAddEntity, onConsolidate,
+                       consolidating, isConsolidated, onExitConsolidated }) {
+  const { Icon, MethodCard, DemoCard, Button } = window;
 
-  const [importMethod, setImportMethod] = useStateDS("upload");
-  const [mode,         setMode]         = useStateDS(sessionData?.analysis_type === "budget_vs_actual" ? "budget_vs_actual" : "month_on_month");
-  const [dragging,     setDragging]     = useStateDS(false);
-  const [loading,      setLoading]      = useStateDS(false);
-  const [demoLoading,  setDemoLoading]  = useStateDS(null);
-  const [error,        setError]        = useStateDS(null);
-  const inputRef = useRefDS(null);
+  const [importMethod,      setImportMethod]      = useStateDS("upload");
+  const [mode,              setMode]              = useStateDS(sessionData?.analysis_type === "budget_vs_actual" ? "budget_vs_actual" : "month_on_month");
+  const [dragging,          setDragging]          = useStateDS(false);
+  const [loading,           setLoading]           = useStateDS(false);
+  const [demoLoading,       setDemoLoading]       = useStateDS(null);
+  const [error,             setError]             = useStateDS(null);
+  const [entityDragging,    setEntityDragging]    = useStateDS(false);
+  const [entityLoading,     setEntityLoading]     = useStateDS(false);
+  const [entityError,       setEntityError]       = useStateDS(null);
+  const inputRef       = useRefDS(null);
+  const entityInputRef = useRefDS(null);
 
   /* ── helpers ── */
   const fmtPeriod = (p) => {
@@ -89,7 +95,33 @@ function DataSources({ sessionData, availablePeriods, onLoad }) {
     }
   };
 
-  const switchMethod = (m) => { setImportMethod(m); setError(null); };
+  const uploadEntity = async (file) => {
+    if (!file) return;
+    const ext = file.name.split(".").pop().toLowerCase();
+    if (!["csv", "xlsx", "xls"].includes(ext)) {
+      setEntityError("Please upload a CSV or Excel file (.csv, .xlsx).");
+      return;
+    }
+    setEntityLoading(true);
+    setEntityError(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch(apiUrl("/api/upload?mode=month_on_month"), { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: "Upload failed." }));
+        throw new Error(err.detail || "Upload failed.");
+      }
+      onAddEntity(await res.json());
+      setImportMethod("upload");
+    } catch (e) {
+      setEntityError(e.message);
+    } finally {
+      setEntityLoading(false);
+    }
+  };
+
+  const switchMethod = (m) => { setImportMethod(m); setError(null); setEntityError(null); };
 
   /* ── shared section-label style ── */
   const secLabel = {
@@ -162,18 +194,92 @@ function DataSources({ sessionData, availablePeriods, onLoad }) {
         </div>
       </div>
 
+      {/* ── MULTI-ENTITY SECTION ── */}
+      {entities && entities.length >= 1 && (
+        <div style={{ marginBottom: 28 }}>
+          <div style={secLabel}>
+            {entities.length >= 2 ? `Group entities (${entities.length})` : "Entity"}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
+            {entities.map((e, i) => (
+              <div key={e.sessionId} style={{
+                ...card, padding: "10px 14px",
+                display: "flex", alignItems: "center", gap: 10,
+                background: i === 0 ? "var(--surface)" : "var(--surface-2)",
+              }}>
+                <div style={{
+                  width: 26, height: 26, borderRadius: "50%", flexShrink: 0,
+                  background: "var(--primary-soft)", color: "var(--primary)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  font: "var(--text-label)", fontSize: 11, fontWeight: 700,
+                }}>
+                  {i + 1}
+                </div>
+                <span style={{ flex: 1, font: "var(--text-body)", fontSize: 13, color: "var(--fg-1)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {e.fileName}
+                </span>
+                {i === 0 && (
+                  <span style={{
+                    font: "var(--text-label)", fontSize: 9.5, textTransform: "uppercase",
+                    letterSpacing: ".06em", padding: "2px 6px", borderRadius: 20,
+                    background: "var(--primary-soft-2)", color: "var(--primary)", whiteSpace: "nowrap",
+                  }}>Primary</span>
+                )}
+              </div>
+            ))}
+          </div>
+          {entities.length >= 2 && (
+            <div style={{ display: "flex", gap: 8 }}>
+              {isConsolidated ? (
+                <button
+                  onClick={onExitConsolidated}
+                  style={{
+                    flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                    padding: "9px 16px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+                    border: "1px solid var(--border-strong)", background: "var(--surface-2)",
+                    color: "var(--fg-2)", font: "var(--text-body-strong)", fontSize: 13,
+                  }}
+                >
+                  <Icon name="layers" size={14} /> Exit consolidated view
+                </button>
+              ) : (
+                <button
+                  onClick={() => onConsolidate(entities)}
+                  disabled={consolidating}
+                  style={{
+                    flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                    padding: "9px 16px", borderRadius: "var(--radius-sm)", cursor: consolidating ? "default" : "pointer",
+                    border: "1.5px solid var(--primary)", background: "var(--primary-soft)",
+                    color: "var(--primary)", font: "var(--text-body-strong)", fontSize: 13,
+                    opacity: consolidating ? 0.7 : 1,
+                  }}
+                >
+                  {consolidating
+                    ? <React.Fragment><div className="spinner" style={{ width: 13, height: 13, borderWidth: 2 }} /> Consolidating…</React.Fragment>
+                    : <React.Fragment><Icon name="layers" size={14} /> Consolidate {entities.length} entities</React.Fragment>
+                  }
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── DIVIDER ── */}
       <div style={{ height: 1, background: "var(--border)", marginBottom: 28 }} />
 
-      {/* ── REPLACE DATASET ── */}
+      {/* ── REPLACE / ADD DATASET ── */}
       <div>
-        <div style={secLabel}>Load a different dataset</div>
+        <div style={secLabel}>{entities && entities.length >= 1 ? "Load a different dataset" : "Import data"}</div>
 
         {/* Method selector */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-          <MethodCard icon="upload-cloud" label="Upload file"  active={importMethod === "upload"} onClick={() => switchMethod("upload")} />
-          <MethodCard icon="play-circle"  label="Demo data"    active={importMethod === "demo"}   onClick={() => switchMethod("demo")}   />
-          <MethodCard icon="link"         label="Connect Xero" active={importMethod === "xero"}   onClick={() => switchMethod("xero")}   />
+        <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+          <MethodCard icon="upload-cloud" label="Upload file"  active={importMethod === "upload"}     onClick={() => switchMethod("upload")}     />
+          <MethodCard icon="play-circle"  label="Demo data"    active={importMethod === "demo"}       onClick={() => switchMethod("demo")}       />
+          <MethodCard icon="link"         label="Connect Xero" active={importMethod === "xero"}       onClick={() => switchMethod("xero")}       />
+          {sessionData && (
+            <MethodCard icon="layers"     label="Add entity"   active={importMethod === "add-entity"} onClick={() => switchMethod("add-entity")} />
+          )}
         </div>
 
         {/* Upload */}
@@ -332,6 +438,49 @@ function DataSources({ sessionData, availablePeriods, onLoad }) {
               </button>
             </div>
           </div>
+        )}
+
+        {/* Add entity */}
+        {importMethod === "add-entity" && (
+          <React.Fragment>
+            <div style={{ ...card, marginBottom: 14, padding: "12px 16px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                <Icon name="layers" size={16} color="var(--primary)" />
+                <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>
+                  Add another P&amp;L entity
+                </span>
+              </div>
+              <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)" }}>
+                Upload a second entity's P&amp;L (month-on-month). Once two or more entities are loaded you can consolidate them into a group view.
+              </div>
+            </div>
+            <div
+              className={`dropzone${entityDragging ? " drag" : ""}`}
+              onClick={() => !entityLoading && entityInputRef.current.click()}
+              onDragOver={(e) => { e.preventDefault(); setEntityDragging(true); }}
+              onDragLeave={() => setEntityDragging(false)}
+              onDrop={(e) => { e.preventDefault(); setEntityDragging(false); uploadEntity(e.dataTransfer.files[0]); }}
+            >
+              {entityLoading ? (
+                <React.Fragment>
+                  <div className="spinner" style={{ margin: "0 auto 12px" }} />
+                  <div className="dz-t">Analysing entity P&amp;L…</div>
+                  <div className="dz-s">Building variance analysis for the new entity</div>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <div className="dz-ic"><Icon name="layers" size={34} /></div>
+                  <div className="dz-t">Drag &amp; drop entity P&amp;L</div>
+                  <div className="dz-s">CSV or XLSX · must be month-on-month format</div>
+                </React.Fragment>
+              )}
+            </div>
+            <input ref={entityInputRef} type="file" accept=".csv,.xlsx,.xls" style={{ display: "none" }}
+              onChange={(e) => uploadEntity(e.target.files[0])} />
+            {entityError && (
+              <div className="upload-err" style={{ marginTop: 12 }}>{entityError}</div>
+            )}
+          </React.Fragment>
         )}
 
         {/* Error */}
