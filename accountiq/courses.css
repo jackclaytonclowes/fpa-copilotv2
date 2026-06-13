@@ -3074,9 +3074,25 @@
     padding-right: 16px;
     z-index: 10;
   }
-  /* Push section content above the sticky nav row so nothing is covered */
+
+  /* Card fills available viewport height */
+  .lsn-page {
+    min-height: 100%;
+  }
   .lsn-section-panels {
+    flex: 1;
     padding-bottom: 80px;
+  }
+  .lsn-section-panel.active {
+    flex: 1;
+  }
+  .lsn-section-panel.active > .lsn-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .lsn-section-panel.active .lsn-section-body {
+    flex: 1;
   }
 }
 
