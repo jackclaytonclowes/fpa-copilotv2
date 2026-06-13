@@ -25,7 +25,7 @@ from pydantic import BaseModel
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
-    get_period_data, load_bva_from_sheets, load_file, make_pdf, make_zip,
+    get_period_data, load_bva_from_sheets, load_file, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 
@@ -1209,6 +1209,14 @@ def export(session_id: str, period: str = "", fmt: str = "pdf"):
                            analysis_type=analysis_type, waterfall=data.get("waterfall"))
         return Response(content, media_type="application/pdf",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.pdf"'})
+    elif fmt == "xlsx":
+        content = make_xlsx(lbl, data["movements"], data["commentary"], data["kpis"],
+                            analysis_type=analysis_type)
+        return Response(
+            content,
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": f'attachment; filename="variance_analysis_{safe_lbl}.xlsx"'},
+        )
     else:
         content = make_zip(lbl, data["movements"], data["commentary"], data["kpis"])
         return Response(content, media_type="application/zip",

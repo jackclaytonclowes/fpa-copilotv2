@@ -7,8 +7,9 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
   const [loading, setLoading] = useStateExport(false);
 
   const opts = [
-    { id: "pdf", icon: "file-text",    t: "PDF management pack",   s: "Board-ready: summary, commentary, tables" },
-    { id: "zip", icon: "file-archive", t: "CSV pack (.zip)",        s: "Category summary, variance detail, movements" },
+    { id: "pdf",  icon: "file-text",    t: "PDF management pack",        s: "Board-ready: summary, commentary, tables" },
+    { id: "xlsx", icon: "table-2",      t: "Excel workbook (.xlsx)",      s: "Variance, KPIs and commentary — 3 sheets, colour-coded" },
+    { id: "zip",  icon: "file-archive", t: "CSV pack (.zip)",             s: "Category summary, variance detail, movements" },
   ];
 
   const download = async () => {
@@ -29,7 +30,8 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `management_pack_${(period?.label || "export").replace(/ /g, "_")}.${fmt === "pdf" ? "pdf" : "zip"}`;
+      const ext = fmt === "pdf" ? "pdf" : fmt === "xlsx" ? "xlsx" : "zip";
+      a.download = `management_pack_${(period?.label || "export").replace(/ /g, "_")}.${ext}`;
       a.click();
       URL.revokeObjectURL(url);
       onClose();
@@ -74,7 +76,7 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
         <div className="modal-f">
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
           <Button variant="primary" icon={loading ? "loader" : "download"} onClick={download} disabled={loading}>
-            {loading ? "Generating…" : `Download ${fmt === "pdf" ? "PDF" : "ZIP"}`}
+            {loading ? "Generating…" : `Download ${fmt === "pdf" ? "PDF" : fmt === "xlsx" ? "Excel" : "ZIP"}`}
           </Button>
         </div>
       </div>

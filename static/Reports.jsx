@@ -705,6 +705,11 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
               disabled={!!exporting}>
               {exporting === "zip" ? "Exporting..." : "CSV Pack"}
             </Button>
+            <Button variant="secondary" icon="table-2"
+              onClick={() => doExport("xlsx")}
+              disabled={!!exporting}>
+              {exporting === "xlsx" ? "Exporting..." : "Excel"}
+            </Button>
             <Button variant="primary" icon={exporting === "pdf" ? "loader" : "download"}
               onClick={() => doExport("pdf")}
               disabled={!!exporting}>

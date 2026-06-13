@@ -2073,3 +2073,192 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
     doc.build(story)
     buf.seek(0)
     return buf.read()
+
+
+def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: list,
+              analysis_type: str = "month_on_month") -> bytes:
+    """Generate a formatted Excel workbook with three sheets: Variance, KPIs, Commentary."""
+    import openpyxl
+    from openpyxl.styles import (
+        Font, PatternFill, Alignment, Border, Side, numbers as xl_numbers
+    )
+    from openpyxl.utils import get_column_letter
+
+    is_bva    = analysis_type == "budget_vs_actual"
+    prior_word = "Budget" if is_bva else "Prior"
+
+    wb = openpyxl.Workbook()
+
+    # ── Colour palette ────────────────────────────────────────────────────────
+    C_HEADER    = "1A2B4C"   # navy header
+    C_FAV_BG    = "ECFDF5"   # green tint
+    C_ADV_BG    = "FEF2F2"   # red tint
+    C_FAV_FG    = "065F46"
+    C_ADV_FG    = "991B1B"
+    C_SUBHEAD   = "F1F5F9"   # light grey for sub-header rows
+    C_WHITE     = "FFFFFF"
+
+    def hdr_font(bold=True): return Font(name="Calibri", bold=bold, color="FFFFFF", size=10)
+    def body_font(bold=False, color="1A1A1A"): return Font(name="Calibri", bold=bold, color=color, size=10)
+    def fill(hex_color): return PatternFill("solid", fgColor=hex_color)
+    def thin_border():
+        s = Side(style="thin", color="D1D5DB")
+        return Border(left=s, right=s, top=s, bottom=s)
+    def gbp_fmt(v):
+        if v is None or (isinstance(v, float) and pd.isna(v)): return ""
+        return v
+    def pct_fmt(v):
+        if v is None or (isinstance(v, float) and pd.isna(v)): return ""
+        return round(v, 1)
+
+    GBP_FMT   = '#,##0;[Red]-#,##0'
+    GBP_SFMT  = '+#,##0;-#,##0;"-"'
+    PCT_FMT   = '+0.0%;-0.0%;"-"'
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SHEET 1 — Variance Analysis
+    # ══════════════════════════════════════════════════════════════════════════
+    ws1 = wb.active
+    ws1.title = "Variance Analysis"
+
+    # Title row
+    ws1.merge_cells("A1:G1")
+    t = ws1["A1"]
+    t.value = f"Variance Analysis — {period_label_str}"
+    t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+    t.alignment = Alignment(horizontal="left", vertical="center")
+    ws1.row_dimensions[1].height = 24
+
+    # Column headers
+    headers = ["Account", "Category", "Current" if not is_bva else "Actual",
+               prior_word, "Variance", "Var %", "Impact"]
+    for col, h in enumerate(headers, start=1):
+        c = ws1.cell(row=2, column=col, value=h)
+        c.font      = hdr_font()
+        c.fill      = fill(C_HEADER)
+        c.alignment = Alignment(horizontal="center" if col > 2 else "left", vertical="center")
+        c.border    = thin_border()
+    ws1.row_dimensions[2].height = 18
+
+    # Data rows
+    for row_i, m in enumerate(movements, start=3):
+        is_fav = m.get("is_fav", False)
+        var    = m.get("variance", 0) or 0
+        is_zero = var == 0
+
+        row_bg = C_FAV_BG if is_fav else (C_ADV_BG if not is_zero else C_WHITE)
+        impact_txt = "Favourable" if is_fav else ("Adverse" if not is_zero else "—")
+        impact_col = C_FAV_FG if is_fav else (C_ADV_FG if not is_zero else "6B7280")
+
+        vals = [
+            m.get("account", ""),
+            m.get("category", ""),
+            gbp_fmt(m.get("value")),
+            gbp_fmt(m.get("prior_value")),
+            gbp_fmt(var),
+            pct_fmt(m.get("variance_pct")),
+            impact_txt,
+        ]
+        fmts = [None, None, GBP_FMT, GBP_FMT, GBP_SFMT, PCT_FMT, None]
+        for col, (v, f) in enumerate(zip(vals, fmts), start=1):
+            c = ws1.cell(row=row_i, column=col, value=v)
+            c.fill      = fill(row_bg)
+            c.border    = thin_border()
+            c.alignment = Alignment(
+                horizontal="left" if col <= 2 else "right",
+                vertical="center",
+            )
+            if col == 7:  # Impact badge column
+                c.font = body_font(bold=True, color=impact_col)
+            elif col in (5, 6):
+                fav_c = C_FAV_FG if is_fav else (C_ADV_FG if not is_zero else "6B7280")
+                c.font = body_font(bold=True, color=fav_c)
+                if f: c.number_format = f
+            else:
+                c.font = body_font()
+                if f: c.number_format = f
+
+    # Column widths
+    col_widths = [34, 22, 14, 14, 14, 10, 13]
+    for i, w in enumerate(col_widths, start=1):
+        ws1.column_dimensions[get_column_letter(i)].width = w
+
+    ws1.freeze_panes = "A3"
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SHEET 2 — KPI Summary
+    # ══════════════════════════════════════════════════════════════════════════
+    ws2 = wb.create_sheet("KPI Summary")
+    ws2.merge_cells("A1:E1")
+    t2 = ws2["A1"]
+    t2.value = f"KPI Summary — {period_label_str}"
+    t2.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+    t2.alignment = Alignment(horizontal="left", vertical="center")
+    ws2.row_dimensions[1].height = 24
+
+    kpi_headers = ["Metric", "Value", prior_word, "Variance", "Var %"]
+    for col, h in enumerate(kpi_headers, start=1):
+        c = ws2.cell(row=2, column=col, value=h)
+        c.font      = hdr_font()
+        c.fill      = fill(C_HEADER)
+        c.alignment = Alignment(horizontal="center" if col > 1 else "left", vertical="center")
+        c.border    = thin_border()
+    ws2.row_dimensions[2].height = 18
+
+    for row_i, k in enumerate([k for k in kpis if not k.get("pct_only")], start=3):
+        is_fav  = k.get("is_fav", False)
+        var     = k.get("variance", 0) or 0
+        row_bg  = C_FAV_BG if is_fav else (C_ADV_BG if var != 0 else C_WHITE)
+        kpi_vals = [k.get("label",""), gbp_fmt(k.get("value")), gbp_fmt(k.get("prior")),
+                    gbp_fmt(var), pct_fmt(k.get("pct"))]
+        kpi_fmts = [None, GBP_FMT, GBP_FMT, GBP_SFMT, PCT_FMT]
+        for col, (v, f) in enumerate(zip(kpi_vals, kpi_fmts), start=1):
+            c = ws2.cell(row=row_i, column=col, value=v)
+            c.fill   = fill(row_bg)
+            c.border = thin_border()
+            c.alignment = Alignment(horizontal="left" if col == 1 else "right", vertical="center")
+            c.font   = body_font(bold=(col in (4, 5)), color=(C_FAV_FG if (is_fav and col in (4,5)) else (C_ADV_FG if (not is_fav and var != 0 and col in (4,5)) else "1A1A1A")))
+            if f: c.number_format = f
+
+    for i, w in enumerate([28, 16, 16, 16, 12], start=1):
+        ws2.column_dimensions[get_column_letter(i)].width = w
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SHEET 3 — Commentary
+    # ══════════════════════════════════════════════════════════════════════════
+    ws3 = wb.create_sheet("Commentary")
+    ws3.merge_cells("A1:B1")
+    t3 = ws3["A1"]
+    t3.value = f"Management Commentary — {period_label_str}"
+    t3.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+    t3.alignment = Alignment(horizontal="left", vertical="center")
+    ws3.row_dimensions[1].height = 24
+
+    import html as html_lib
+    for row_i, c_item in enumerate(commentary, start=2):
+        raw = html_lib.unescape(
+            c_item.get("html", "").replace("<b>", "").replace("</b>", "")
+            .replace("<br>", "\n").replace("<br/>", "\n")
+        )
+        import re as _re
+        raw = _re.sub(r"<[^>]+>", "", raw).strip()
+
+        icon_col = "065F46" if c_item.get("fav") else "991B1B"
+        bullet = ws3.cell(row=row_i, column=1, value="●")
+        bullet.font = Font(name="Calibri", size=10, color=icon_col, bold=True)
+        bullet.alignment = Alignment(horizontal="center", vertical="top")
+        bullet.border = thin_border()
+
+        txt = ws3.cell(row=row_i, column=2, value=raw)
+        txt.font = body_font()
+        txt.alignment = Alignment(wrap_text=True, vertical="top")
+        txt.border = thin_border()
+        ws3.row_dimensions[row_i].height = max(15, len(raw) // 6)
+
+    ws3.column_dimensions["A"].width = 4
+    ws3.column_dimensions["B"].width = 90
+
+    buf = BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return buf.getvalue()
