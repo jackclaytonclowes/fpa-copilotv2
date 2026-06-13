@@ -790,6 +790,15 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
     revenue_split = revenue_split_fn()
     expense_split = expense_split_fn(EXPENSE_CATEGORIES)
 
+    # Per-account value history for sparklines (up to last 12 periods, in order)
+    spark_history: dict[str, list] = {}
+    for p in sorted_periods[-12:]:
+        p_df = analysis_df[analysis_df["Period"] == p]
+        for _, srow in p_df[~p_df["Is Subtotal"]].iterrows():
+            acc = srow["Account"].strip()
+            v = float(srow["Value"]) if pd.notna(srow["Value"]) else None
+            spark_history.setdefault(acc, []).append(v)
+
     # Top movements
     top_mov = (driver_df[driver_df["Variance"].notna() & (driver_df["Variance"] != 0)]
                .sort_values("Abs Variance", ascending=False).head(15))
@@ -807,6 +816,7 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
             "variance":    variance,
             "variance_pct": float(row["Variance %"]) if pd.notna(row["Variance %"]) else None,
             "is_fav":      is_fav,
+            "history":     spark_history.get(row["Account"].strip(), []),
         })
 
     # Commentary

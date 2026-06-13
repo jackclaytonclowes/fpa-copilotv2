@@ -1,6 +1,33 @@
 /* MonthEndIQ — Variance Movements page */
 const { useState: useStateM, useEffect: useEffectM, useRef: useRefM, useMemo: useMemoM } = React;
 
+/* ── Inline SVG sparkline ────────────────────────────────────────────────── */
+function Sparkline({ values, isFav }) {
+  if (!values || values.length < 2) return null;
+  const clean = values.filter(v => v != null);
+  if (clean.length < 2) return null;
+  const W = 56, H = 20, PAD = 2;
+  const min = Math.min(...clean);
+  const max = Math.max(...clean);
+  const range = max === min ? 1 : max - min;
+  const n = values.length;
+  const pts = values
+    .map((v, i) => {
+      const x = PAD + (i / (n - 1)) * (W - 2 * PAD);
+      const y = H - PAD - ((v ?? min) - min) / range * (H - 2 * PAD);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  const colour = isFav ? "var(--favourable)" : "var(--adverse)";
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`}
+      style={{ display: "block", flexShrink: 0 }}>
+      <polyline points={pts} fill="none" stroke={colour}
+        strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot }) {
   const { Icon, Card, Button, Delta, Chip } = window;
   const [data, setData]               = useStateM(initialData);
@@ -323,6 +350,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 <tr>
                   <SortHeader col="account" label="Account" align="l" />
                   <SortHeader col="category" label="Category" align="l" />
+                  {!isBvA && <th style={{ width: 64 }}>Trend</th>}
                   <SortHeader col="actual" label={isBvA ? "Actual" : "Current"} />
                   <SortHeader col="budget" label={isBvA ? "Budget" : "Prior"} />
                   <SortHeader col="variance" label="Variance" />
@@ -340,6 +368,11 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                         style={{ cursor: "pointer", background: isExpanded ? "var(--surface-2)" : undefined }}>
                         <td className="l">{m.account}</td>
                         <td className="l">{m.category}</td>
+                        {!isBvA && (
+                          <td style={{ padding: "6px 8px" }}>
+                            <Sparkline values={m.history} isFav={m.is_fav} />
+                          </td>
+                        )}
                         <td>{fmtGBP(m.value)}</td>
                         <td>{fmtGBP(m.prior_value)}</td>
                         <td className={m.is_fav ? "fav" : m.variance !== 0 ? "adv" : ""}>{fmtSignedGBP(m.variance)}</td>
@@ -360,7 +393,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                       </tr>
                       {isExpanded && (
                         <tr>
-                          <td colSpan={8} style={{ padding: 0, border: "none" }}>
+                          <td colSpan={isBvA ? 8 : 9} style={{ padding: 0, border: "none" }}>
                             <div style={{
                               padding: "16px 20px", background: "var(--surface)",
                               borderBottom: "1px solid var(--border)",
