@@ -315,6 +315,7 @@ function App() {
   } else if (view === "copilot") {
     body = <QnaCopilot
         sessionId={sessionId}
+        fileName={sessionData?.file_name}
         period={currentPeriodObj}
         periodMode={periodMode}
         selectedPeriod={selectedPeriod}

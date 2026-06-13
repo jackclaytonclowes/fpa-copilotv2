@@ -1,28 +1,23 @@
 /* MonthEndIQ — Q&A Copilot  (localStorage-persisted chat history)
  *
  * Storage design:
- *   Key:   monthendiq_chat_<sessionId>   (one key per uploaded analysis)
- *   Value: JSON array of {who, html} objects  (conversation turns only, no welcome msg)
+ *   Primary key:  monthendiq_chat_f_<encoded-filename>   (stable across session IDs)
+ *   Legacy key:   monthendiq_chat_<sessionId>            (migrated on first load)
+ *
+ *   Keying by filename (not sessionId) means chat history survives backend
+ *   restarts (Render free tier) and re-uploads of the same file — the session
+ *   ID changes but the filename key stays the same.
  *
  * Lifecycle:
  *   LOAD  — useState lazy initialiser reads localStorage on every mount.
- *            This fires once per component instance, before the first render.
- *            Because QnaCopilot fully unmounts on navigation (App.jsx renders it
- *            conditionally), the lazy init reliably reloads history on return.
+ *            Tries the filename key first; if empty, checks the legacy session
+ *            key and migrates it across.
  *
- *   SAVE  — useEffect([msgs]) writes after every message update.
- *            Only writes; never deletes unless the user explicitly clears.
+ *   SAVE  — useEffect([msgs]) writes after every message update (filename key).
+ *            Also fires a best-effort POST /api/chat/{sessionId} for in-session
+ *            server persistence (silent failure — localStorage is the source of truth).
  *
- *   CLEAR — clearChat() deletes the key and resets to the welcome message.
- *
- *   NEW SESSION — when sessionId changes (new file uploaded), the key changes,
- *            so the new session starts with empty history automatically.
- *
- * Previous bug (now fixed):
- *   A redundant useEffect([sessionId]) was also calling setMsgs on every mount.
- *   Combined with saveTurns() auto-deleting when turns.length === 0, this could
- *   race with the lazy init and permanently delete stored history.
- *   Both causes are removed: the redundant effect and the auto-delete.
+ *   CLEAR — clearChat() removes both keys and resets to the welcome message.
  */
 const { useState: useStateQna, useRef: useRefQna, useEffect: useEffectQna } = React;
 
@@ -48,45 +43,61 @@ const SUGGESTIONS_BVA = [
 ];
 
 /* ── Storage helpers ─────────────────────────────────────────────────────── */
-const CHAT_STORAGE_KEY = (sid) => `monthendiq_chat_${sid}`;
+const CHAT_KEY_BY_FILE    = (name) => `monthendiq_chat_f_${encodeURIComponent((name || "").trim())}`;
+const CHAT_KEY_BY_SESSION = (sid)  => `monthendiq_chat_${sid}`;  // legacy
 
-function chatLoad(sessionId) {
-  const key = CHAT_STORAGE_KEY(sessionId);
+function _tryReadKey(key) {
   try {
-    const raw = localStorage.getItem(key);
-    if (!raw) {
-      console.log("[MonthEndIQ Chat] LOAD  key=" + key + "  result=empty (no history)");
-      return [];
-    }
+    const raw = key && localStorage.getItem(key);
+    if (!raw) return null;
     const turns = JSON.parse(raw);
-    console.log("[MonthEndIQ Chat] LOAD  key=" + key + "  result=" + turns.length + " turns restored");
-    return Array.isArray(turns) ? turns : [];
-  } catch (err) {
-    console.warn("[MonthEndIQ Chat] LOAD  key=" + key + "  parse error:", err);
-    return [];
-  }
+    return Array.isArray(turns) ? turns : null;
+  } catch { return null; }
 }
 
-function chatSave(sessionId, msgs) {
-  const key  = CHAT_STORAGE_KEY(sessionId);
-  const turns = msgs.slice(1);   // index 0 is always the welcome message — never stored
+function chatLoad(sessionId, fileName) {
+  const fileKey    = fileName ? CHAT_KEY_BY_FILE(fileName) : null;
+  const sessionKey = CHAT_KEY_BY_SESSION(sessionId);
+
+  // Prefer filename-keyed (stable across sessions)
+  const fromFile = fileKey ? _tryReadKey(fileKey) : null;
+  if (fromFile && fromFile.length > 0) {
+    console.log("[Chat] LOAD  file-key  turns=" + fromFile.length);
+    return fromFile;
+  }
+
+  // Fall back to legacy session key and migrate
+  const fromSession = _tryReadKey(sessionKey);
+  if (fromSession && fromSession.length > 0) {
+    console.log("[Chat] LOAD  legacy session-key  turns=" + fromSession.length + "  migrating…");
+    if (fileKey) {
+      try { localStorage.setItem(fileKey, JSON.stringify(fromSession)); } catch {}
+    }
+    try { localStorage.removeItem(sessionKey); } catch {}
+    return fromSession;
+  }
+
+  console.log("[Chat] LOAD  empty (no history)");
+  return [];
+}
+
+function chatSave(sessionId, fileName, msgs) {
+  const turns = msgs.slice(1);  // index 0 is always the welcome message — never stored
+  const key   = fileName ? CHAT_KEY_BY_FILE(fileName) : CHAT_KEY_BY_SESSION(sessionId);
   try {
-    // Always write; never auto-delete (deletion is only ever done by clearChat)
     localStorage.setItem(key, JSON.stringify(turns));
-    console.log("[MonthEndIQ Chat] SAVE  key=" + key + "  turns=" + turns.length);
+    console.log("[Chat] SAVE  key=" + key + "  turns=" + turns.length);
   } catch (err) {
-    console.warn("[MonthEndIQ Chat] SAVE  key=" + key + "  failed (quota?):", err);
+    console.warn("[Chat] SAVE  failed (quota?):", err);
   }
 }
 
-function chatClear(sessionId) {
-  const key = CHAT_STORAGE_KEY(sessionId);
+function chatClear(sessionId, fileName) {
   try {
-    localStorage.removeItem(key);
-    console.log("[MonthEndIQ Chat] CLEAR key=" + key);
-  } catch (err) {
-    console.warn("[MonthEndIQ Chat] CLEAR key=" + key + "  failed:", err);
-  }
+    if (fileName) localStorage.removeItem(CHAT_KEY_BY_FILE(fileName));
+    localStorage.removeItem(CHAT_KEY_BY_SESSION(sessionId));
+    console.log("[Chat] CLEAR");
+  } catch {}
 }
 
 /* ── Misc helpers ────────────────────────────────────────────────────────── */
@@ -106,7 +117,7 @@ function makeWelcome(periodLabel) {
 }
 
 /* ── Component ───────────────────────────────────────────────────────────── */
-function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisType, prefillQuestion, onPrefillConsumed }) {
+function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, analysisType, prefillQuestion, onPrefillConsumed }) {
   const { Icon } = window;
 
   /*
@@ -122,8 +133,8 @@ function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisTyp
    * every mount which, combined with the saveTurns auto-delete, could wipe history.
    */
   const [msgs, setMsgs] = useStateQna(() => {
-    console.log("[MonthEndIQ Chat] MOUNT sessionId=" + sessionId);
-    const saved = chatLoad(sessionId);
+    console.log("[Chat] MOUNT sessionId=" + sessionId + " fileName=" + fileName);
+    const saved = chatLoad(sessionId, fileName);
     return [makeWelcome(period?.label), ...saved];
   });
 
@@ -143,7 +154,7 @@ function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisTyp
   useEffectQna(() => {
     if (!sessionId) return;
     if (!mountedRef.current) { mountedRef.current = true; return; }
-    chatSave(sessionId, msgs);
+    chatSave(sessionId, fileName, msgs);
   }, [msgs, sessionId]);
 
   /* Scroll to bottom after each message */
@@ -154,8 +165,14 @@ function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisTyp
 
   /* ── Clear chat ──────────────────────────────────────────────────────── */
   const clearChat = () => {
-    chatClear(sessionId);
+    chatClear(sessionId, fileName);
     setMsgs([makeWelcome(period?.label)]);
+    // Clear server-side history too (best-effort)
+    fetch(apiUrl("/api/chat/" + sessionId), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ turns: [] }),
+    }).catch(() => {});
   };
 
   /* ── Send question ───────────────────────────────────────────────────── */
@@ -186,10 +203,16 @@ function QnaCopilot({ sessionId, period, periodMode, selectedPeriod, analysisTyp
         }),
       });
       const data = await res.json();
-      setMsgs((m) => [
-        ...m,
-        { who: "ai", html: data.answer || "I couldn't generate an answer. Please try again." },
-      ]);
+      const aiMsg = { who: "ai", html: data.answer || "I couldn't generate an answer. Please try again." };
+      setMsgs((m) => [...m, aiMsg]);
+
+      // Best-effort server sync — silent failure, localStorage is source of truth
+      const allTurns = [...msgs.slice(1), { who: "user", html: q }, aiMsg];
+      fetch(apiUrl("/api/chat/" + sessionId), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ turns: allTurns }),
+      }).catch(() => {});
     } catch {
       setMsgs((m) => [
         ...m,
