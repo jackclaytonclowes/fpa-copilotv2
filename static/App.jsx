@@ -57,12 +57,16 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   bvaPeriods, bvaPeriod, onBvaPeriodChange }) {
   const { Icon, Button } = window;
 
-  // Format a BvA period ISO string as a short month label ("Apr") or "Full Year"
+  const BVA_QUARTER_LABELS = { q1: "Q1 (Jan–Mar)", q2: "Q2 (Apr–Jun)", q3: "Q3 (Jul–Sep)", q4: "Q4 (Oct–Dec)" };
+  const BVA_QUARTER_MONTHS = { q1: [1,2,3], q2: [4,5,6], q3: [7,8,9], q4: [10,11,12] };
+
+  // Format a BvA period value for display
   const fmtBvaPeriod = (p) => {
     if (!p || p === "full_year") return "Full Year";
+    if (BVA_QUARTER_LABELS[p]) return BVA_QUARTER_LABELS[p];
     try {
       const d = new Date(p + "T00:00:00");
-      return d.toLocaleDateString("en-GB", { month: "short" });
+      return d.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
     } catch (_) { return p; }
   };
 
@@ -164,12 +168,30 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                 style={{
                   font: "var(--text-body-strong)", fontSize: 13, color: "var(--ink)",
                   background: "transparent", border: "none", outline: "none",
-                  cursor: "pointer", padding: "0 2px", minWidth: 110,
+                  cursor: "pointer", padding: "0 2px", minWidth: 140,
                 }}>
                 <option value="full_year">Full Year</option>
-                {(bvaPeriods || []).map((p) => (
-                  <option key={p} value={p}>{fmtBvaPeriod(p)}</option>
-                ))}
+                {/* Quarter groups — only show quarters that have at least one month in the data */}
+                {(() => {
+                  const periodMonths = new Set(
+                    (bvaPeriods || []).map(p => new Date(p + "T00:00:00").getMonth() + 1)
+                  );
+                  const activeQs = ["q1","q2","q3","q4"].filter(q =>
+                    BVA_QUARTER_MONTHS[q].some(m => periodMonths.has(m))
+                  );
+                  return activeQs.length > 0 ? (
+                    <optgroup label="Quarters">
+                      {activeQs.map(q => (
+                        <option key={q} value={q}>{BVA_QUARTER_LABELS[q]}</option>
+                      ))}
+                    </optgroup>
+                  ) : null;
+                })()}
+                <optgroup label="Months">
+                  {(bvaPeriods || []).map((p) => (
+                    <option key={p} value={p}>{fmtBvaPeriod(p)}</option>
+                  ))}
+                </optgroup>
               </select>
             </div>
           )}

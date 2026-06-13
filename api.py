@@ -494,6 +494,48 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
 # ─────────────────────────────────────────────────────────────────────────────
 # DATA (period change)
 # ─────────────────────────────────────────────────────────────────────────────
+_QUARTER_MONTHS: dict[str, set[int]] = {
+    "q1": {1, 2, 3},
+    "q2": {4, 5, 6},
+    "q3": {7, 8, 9},
+    "q4": {10, 11, 12},
+}
+_QUARTER_LABELS: dict[str, str] = {
+    "q1": "Q1 (Jan–Mar)",
+    "q2": "Q2 (Apr–Jun)",
+    "q3": "Q3 (Jul–Sep)",
+    "q4": "Q4 (Oct–Dec)",
+}
+
+
+def _agg_bva_df(df_periods: pd.DataFrame) -> pd.DataFrame:
+    """Sum Actual/Budget across multiple BvA periods and recompute derived columns."""
+    agg = (
+        df_periods
+        .groupby(["Account", "Section", "Category", "Is Subtotal"], as_index=False)
+        [["Actual", "Budget"]].sum()
+    )
+    agg["Variance"]     = agg["Actual"] - agg["Budget"]
+    agg["Variance %"]   = agg.apply(
+        lambda r: (r["Variance"] / r["Budget"] * 100) if r["Budget"] != 0 else None,
+        axis=1,
+    )
+    agg["Abs Variance"] = agg["Variance"].abs()
+    return agg
+
+
+def _resolve_bva_period_label(period: str) -> str:
+    """Return a human-readable label for a BvA period string."""
+    if not period or period in ("full_year", "budget_vs_actual"):
+        return "Full Year"
+    if period in _QUARTER_LABELS:
+        return _QUARTER_LABELS[period]
+    try:
+        return pd.Timestamp(period).strftime("%B %Y")
+    except Exception:
+        return str(period)
+
+
 @app.get("/api/data/{session_id}")
 def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
     s = SESSIONS.get(session_id)
@@ -507,17 +549,27 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         df_to_use   = s["bva_data"]          # default: full-year aggregate
         sel_period  = "full_year"
 
-        # Per-period filtering when a specific period is requested
         if period and period != "full_year" and bva_long is not None:
-            target_ts = next(
-                (ts for ts in bva_periods if str(ts)[:10] == period[:10]),
-                None,
-            )
-            if target_ts is not None:
-                df_filt = bva_long[bva_long["Period"] == target_ts].drop(columns=["Period"]).copy()
-                df_filt["Abs Variance"] = df_filt["Variance"].abs()
-                df_to_use  = df_filt
-                sel_period = period
+            if period in _QUARTER_MONTHS:
+                # Quarter: aggregate all months in this calendar quarter
+                months = _QUARTER_MONTHS[period]
+                matching = [ts for ts in bva_periods if pd.Timestamp(ts).month in months]
+                if matching:
+                    df_to_use  = _agg_bva_df(
+                        bva_long[bva_long["Period"].isin(matching)].drop(columns=["Period"])
+                    )
+                    sel_period = period
+            else:
+                # Single month
+                target_ts = next(
+                    (ts for ts in bva_periods if str(ts)[:10] == period[:10]),
+                    None,
+                )
+                if target_ts is not None:
+                    df_filt = bva_long[bva_long["Period"] == target_ts].drop(columns=["Period"]).copy()
+                    df_filt["Abs Variance"] = df_filt["Variance"].abs()
+                    df_to_use  = df_filt
+                    sel_period = period
 
         data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"])
         data["session_id"]            = session_id
@@ -602,13 +654,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
             prefix = "+" if fv >= 0 else ""
             return f"{prefix}£{fv:,.0f}" if fv >= 0 else f"-£{abs(fv):,.0f}"
 
-        # Resolve a human-readable period label for BvA context
-        bva_period_label = "Full Year"
-        if selected_period and selected_period != "budget_vs_actual" and selected_period != "full_year":
-            try:
-                bva_period_label = pd.Timestamp(selected_period).strftime("%B %Y")
-            except Exception:
-                bva_period_label = str(selected_period)
+        bva_period_label = _resolve_bva_period_label(selected_period)
 
         lines = [
             "ANALYSIS CONTEXT:",
@@ -1045,18 +1091,24 @@ def export(session_id: str, period: str = "", fmt: str = "pdf"):
         sel_label   = "Full Year"
 
         if period and period != "full_year" and bva_long is not None:
-            target_ts = next(
-                (ts for ts in bva_periods if str(ts)[:10] == period[:10]),
-                None,
-            )
-            if target_ts is not None:
-                df_filt = bva_long[bva_long["Period"] == target_ts].drop(columns=["Period"]).copy()
-                df_filt["Abs Variance"] = df_filt["Variance"].abs()
-                df_to_use = df_filt
-                try:
-                    sel_label = pd.Timestamp(period).strftime("%B %Y")
-                except Exception:
-                    sel_label = period
+            if period in _QUARTER_MONTHS:
+                months = _QUARTER_MONTHS[period]
+                matching = [ts for ts in bva_periods if pd.Timestamp(ts).month in months]
+                if matching:
+                    df_to_use = _agg_bva_df(
+                        bva_long[bva_long["Period"].isin(matching)].drop(columns=["Period"])
+                    )
+                    sel_label = _resolve_bva_period_label(period)
+            else:
+                target_ts = next(
+                    (ts for ts in bva_periods if str(ts)[:10] == period[:10]),
+                    None,
+                )
+                if target_ts is not None:
+                    df_filt = bva_long[bva_long["Period"] == target_ts].drop(columns=["Period"]).copy()
+                    df_filt["Abs Variance"] = df_filt["Variance"].abs()
+                    df_to_use = df_filt
+                    sel_label = _resolve_bva_period_label(period)
 
         data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"])
         lbl  = f"Budget vs Actual - {sel_label}"
