@@ -3,6 +3,7 @@
   "buildCommand": "node scripts/inject-config.js",
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/", "destination": "/static/index.html" }
+    { "source": "/view/:session", "destination": "/static/index.html" },
+    { "source": "/",             "destination": "/static/index.html" }
   ]
 }

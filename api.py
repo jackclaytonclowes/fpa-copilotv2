@@ -60,6 +60,12 @@ def root():
     return FileResponse(STATIC / "index.html")
 
 
+@app.get("/view/{session_id}")
+def view_shared(session_id: str):
+    """Serve the SPA for a shareable session link — the frontend reads the ID from the URL."""
+    return FileResponse(STATIC / "index.html")
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DEMO
 # ─────────────────────────────────────────────────────────────────────────────

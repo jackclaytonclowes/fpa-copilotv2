@@ -54,8 +54,25 @@ function formatPeriod(p, mode) {
 /* ── TopBar ─────────────────────────────────────────────── */
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
-                  bvaPeriods, bvaPeriod, onBvaPeriodChange }) {
+                  bvaPeriods, bvaPeriod, onBvaPeriodChange, sessionId, onShareToast }) {
   const { Icon, Button } = window;
+
+  const [shareCopied, setShareCopied] = useStateApp(false);
+  const shareSession = () => {
+    if (!sessionId) return;
+    const url = `${window.location.origin}/view/${sessionId}`;
+    navigator.clipboard.writeText(url).catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    });
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2500);
+    onShareToast && onShareToast("Share link copied — valid while session is active");
+  };
 
   const BVA_QUARTER_LABELS = { q1: "Q1 (Jan–Mar)", q2: "Q2 (Apr–Jun)", q3: "Q3 (Jul–Sep)", q4: "Q4 (Oct–Dec)" };
   const BVA_QUARTER_MONTHS = { q1: [1,2,3], q2: [4,5,6], q3: [7,8,9], q4: [10,11,12] };
@@ -142,6 +159,11 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
             </select>
           </div>
 
+          {/* Share */}
+          <Button variant="secondary" icon={shareCopied ? "check" : "share-2"} onClick={shareSession}>
+            {shareCopied ? "Copied!" : "Share"}
+          </Button>
+
           {/* Export */}
           <Button variant="primary" icon="download" onClick={onExport}>
             Export pack
@@ -203,6 +225,11 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
             </div>
           )}
 
+          {/* Share */}
+          <Button variant="secondary" icon={shareCopied ? "check" : "share-2"} onClick={shareSession}>
+            {shareCopied ? "Copied!" : "Share"}
+          </Button>
+
           <Button variant="primary" icon="download" onClick={onExport}>
             Export pack
           </Button>
@@ -251,15 +278,23 @@ function App() {
     window.__toastTimer = setTimeout(() => setToast(null), 3200);
   };
 
-  // Restore previous session on mount (if backend is still alive)
+  // Restore previous session on mount (if backend is still alive).
+  // Also handles shared /view/{session_id} URLs.
   useEffectApp(() => {
-    const saved = loadSessionPointer();
-    if (!saved) { setRestoring(false); return; }
-    fetch(apiUrl("/api/data/" + saved.sessionId + "?period=&mode=monthly"))
+    // Check for shared view URL: /view/{session_id}
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    const sharedId = pathParts[0] === "view" && pathParts[1] ? pathParts[1] : null;
+
+    const sessionId = sharedId || loadSessionPointer()?.sessionId;
+    const saved     = sharedId ? null : loadSessionPointer();
+
+    if (!sessionId) { setRestoring(false); return; }
+
+    fetch(apiUrl("/api/data/" + sessionId + "?period=&mode=monthly"))
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then((data) => {
-        data.session_id = saved.sessionId;
-        data.file_name  = saved.filename;
+        data.session_id = sessionId;
+        if (!data.file_name && saved) data.file_name = saved.filename;
         setSessionData(data);
         setAvailablePeriods(data.periods || []);
         setSelectedPeriod(data.selected_period || null);
@@ -267,10 +302,10 @@ function App() {
         setBvaPeriods(data.available_bva_periods || []);
         setBvaPeriod(data.selected_bva_period   || "full_year");
         setView("dashboard");
-        fireToast("Session restored");
+        fireToast(sharedId ? "Viewing shared session" : "Session restored");
       })
       .catch(() => {
-        staleSessionRef.current = saved;
+        if (saved) staleSessionRef.current = saved;
       })
       .finally(() => setRestoring(false));
   }, []);
@@ -396,6 +431,8 @@ function App() {
           bvaPeriods={bvaPeriods}
           bvaPeriod={bvaPeriod}
           onBvaPeriodChange={(p) => { setBvaPeriod(p); setSelectedPeriod(p); }}
+          sessionId={sessionId}
+          onShareToast={fireToast}
         />
         {body}
       </div>
