@@ -103,3 +103,57 @@
   font: var(--text-body);
   -webkit-font-smoothing: antialiased;
 }
+
+/* ── Dark theme ──────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --ink:        #E8EFF8;
+  --fg-1:       #DDE6F2;
+  --fg-2:       #9BB0C8;
+  --fg-3:       #607A98;
+  --fg-on-dark: #EAF0F6;
+  --fg-on-dark-2: #9DB0C4;
+
+  --canvas:    #0D1828;
+  --surface:   #132035;
+  --surface-2: #192B42;
+  --surface-3: #203550;
+
+  --border:        #263C58;
+  --border-strong: #35506E;
+
+  /* Navy sidebar stays the same — just slightly deeper */
+  --navy-900: #090E18;
+  --navy-800: #0F1C30;
+  --navy-700: #172840;
+  --navy-600: #1F3552;
+
+  /* Primary slightly brighter on dark */
+  --primary:        #4C7CF0;
+  --primary-hover:  #6690F4;
+  --primary-press:  #3567E0;
+  --primary-soft:   #162448;
+  --primary-soft-2: #1D3060;
+  --primary-ring:   rgba(76, 124, 240, 0.4);
+
+  /* Semantic — softer backgrounds on dark */
+  --favourable:        #22C47E;
+  --favourable-text:   #4DDBA0;
+  --favourable-soft:   #0C2E1C;
+  --favourable-border: #1B5436;
+
+  --adverse:        #F05064;
+  --adverse-text:   #F7788A;
+  --adverse-soft:   #2E1018;
+  --adverse-border: #5A2030;
+
+  --caution:        #E0973A;
+  --caution-text:   #F0B860;
+  --caution-soft:   #2C1E08;
+  --caution-border: #503410;
+
+  /* Shadows — deeper on dark */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.35);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 36px rgba(0,0,0,0.5);
+}
