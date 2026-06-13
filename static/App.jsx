@@ -461,6 +461,7 @@ function App() {
         onDataChange={onDataChange}
         analysisType={analysisType}
         onNavigateCopilot={navigateToCopilot}
+        fileName={sessionData?.file_name}
       />
     );
   } else if (view === "data") {

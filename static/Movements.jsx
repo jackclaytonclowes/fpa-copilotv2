@@ -1,6 +1,8 @@
 /* MonthEndIQ — Variance Movements page */
 const { useState: useStateM, useEffect: useEffectM, useRef: useRefM, useMemo: useMemoM } = React;
 
+const NOTES_KEY = (f) => `monthendiq_notes_f_${encodeURIComponent((f || "").trim())}`;
+
 /* ── Inline SVG sparkline ────────────────────────────────────────────────── */
 function Sparkline({ values, isFav }) {
   if (!values || values.length < 2) return null;
@@ -28,7 +30,7 @@ function Sparkline({ values, isFav }) {
   );
 }
 
-function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot }) {
+function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot, fileName }) {
   const { Icon, Card, Button, Delta, Chip } = window;
   const [data, setData]               = useStateM(initialData);
   const [loading, setLoading]         = useStateM(false);
@@ -40,6 +42,8 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [categories, setCategories]       = useStateM([]);
   const [reclassState, setReclassState]   = useStateM({});
   const [alertThreshold, setAlertThreshold] = useStateM(null); // null = off, number = %
+  const [notes, setNotes]           = useStateM({});
+  const [noteEditing, setNoteEditing] = useStateM({}); // account → draft text
   const lastFetched = useRefM({ period: initialData?.selected_period, mode: periodMode });
 
   // Load available categories once on mount
@@ -49,6 +53,27 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
       .then(d => setCategories(d.categories || []))
       .catch(() => {});
   }, []);
+
+  // Load notes from localStorage when fileName is available
+  useEffectM(() => {
+    if (!fileName) return;
+    try {
+      const raw = localStorage.getItem(NOTES_KEY(fileName));
+      if (raw) setNotes(JSON.parse(raw));
+    } catch {}
+  }, [fileName]);
+
+  const saveNote = (account, text) => {
+    const next = { ...notes };
+    if (text.trim()) {
+      next[account] = text.trim();
+    } else {
+      delete next[account];
+    }
+    setNotes(next);
+    setNoteEditing((prev) => { const n = { ...prev }; delete n[account]; return n; });
+    try { if (fileName) localStorage.setItem(NOTES_KEY(fileName), JSON.stringify(next)); } catch {}
+  };
 
   const fmtGBP = (v) => {
     if (v == null || isNaN(v)) return "—";
@@ -428,6 +453,11 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                               <Icon name="bell" size={13} color="var(--adverse)" />
                             </span>
                           )}
+                          {notes[m.account] && (
+                            <span title={notes[m.account]} style={{ opacity: 0.65, flexShrink: 0 }}>
+                              <Icon name="sticky-note" size={12} color="var(--caution)" />
+                            </span>
+                          )}
                           {m.account}
                         </td>
                         <td className="l">{m.category}</td>
@@ -562,6 +592,68 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                                   )}
                                 </div>
                               )}
+
+                              {/* ── Variance annotation note ── */}
+                              <div
+                                onClick={e => e.stopPropagation()}
+                                style={{
+                                  marginBottom: 12, padding: "12px 14px",
+                                  background: "var(--surface)", border: "1px solid var(--border)",
+                                  borderRadius: "var(--radius-sm)",
+                                }}
+                              >
+                                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                                  <Icon name="sticky-note" size={13} color="var(--caution)" />
+                                  <span style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)" }}>
+                                    Annotation
+                                  </span>
+                                  {notes[m.account] && noteEditing[m.account] === undefined && (
+                                    <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--favourable-text)", marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
+                                      <Icon name="check" size={11} color="var(--favourable)" /> Saved
+                                    </span>
+                                  )}
+                                </div>
+                                <textarea
+                                  placeholder="Add a note explaining this variance…"
+                                  value={noteEditing[m.account] !== undefined ? noteEditing[m.account] : (notes[m.account] || "")}
+                                  onChange={e => setNoteEditing(prev => ({ ...prev, [m.account]: e.target.value }))}
+                                  style={{
+                                    width: "100%", minHeight: 60, resize: "vertical",
+                                    padding: "7px 10px", boxSizing: "border-box",
+                                    font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
+                                    background: "var(--surface-2)", border: "1px solid var(--border)",
+                                    borderRadius: "var(--radius-sm)", outline: "none",
+                                  }}
+                                />
+                                {noteEditing[m.account] !== undefined && (
+                                  <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                                    <button
+                                      onClick={() => saveNote(m.account, noteEditing[m.account])}
+                                      style={{
+                                        display: "inline-flex", alignItems: "center", gap: 5,
+                                        padding: "5px 12px", borderRadius: "var(--radius-sm)",
+                                        border: "1.5px solid var(--primary)", background: "var(--primary-soft)",
+                                        color: "var(--primary)", font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer",
+                                      }}>
+                                      <Icon name="save" size={13} /> Save note
+                                    </button>
+                                    <button
+                                      onClick={() => setNoteEditing(prev => { const n = {...prev}; delete n[m.account]; return n; })}
+                                      style={{
+                                        padding: "5px 12px", borderRadius: "var(--radius-sm)",
+                                        border: "1px solid var(--border)", background: "transparent",
+                                        font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)", cursor: "pointer",
+                                      }}>
+                                      Cancel
+                                    </button>
+                                    {noteEditing[m.account] === "" && notes[m.account] && (
+                                      <span style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--caution-text)", alignSelf: "center" }}>
+                                        Saving empty text will delete the note
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
 
                               <button onClick={(e) => { e.stopPropagation(); handleExplainVariance(m); }}
                                 style={{
