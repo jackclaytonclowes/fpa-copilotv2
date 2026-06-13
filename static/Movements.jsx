@@ -36,9 +36,10 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [search, setSearch]           = useStateM("");
   const [sortCol, setSortCol]         = useStateM("abs_variance");
   const [sortAsc, setSortAsc]         = useStateM(false);
-  const [expandedRow, setExpandedRow] = useStateM(null);
-  const [categories, setCategories]   = useStateM([]);
-  const [reclassState, setReclassState] = useStateM({});
+  const [expandedRow, setExpandedRow]     = useStateM(null);
+  const [categories, setCategories]       = useStateM([]);
+  const [reclassState, setReclassState]   = useStateM({});
+  const [alertThreshold, setAlertThreshold] = useStateM(null); // null = off, number = %
   const lastFetched = useRefM({ period: initialData?.selected_period, mode: periodMode });
 
   // Load available categories once on mount
@@ -326,6 +327,32 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 </button>
               ))}
             </div>
+            {/* Alert threshold toggle */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 6,
+              background: alertThreshold != null ? "var(--adverse-soft)" : "var(--surface)",
+              border: `1px solid ${alertThreshold != null ? "var(--adverse)" : "var(--border)"}`,
+              borderRadius: "var(--radius-sm)", padding: "0 10px", height: 34, cursor: "pointer",
+            }}
+              title="Flag rows where |Var %| exceeds this threshold"
+            >
+              <Icon name="bell" size={13} color={alertThreshold != null ? "var(--adverse)" : "var(--fg-3)"} />
+              <select
+                value={alertThreshold ?? ""}
+                onChange={e => setAlertThreshold(e.target.value === "" ? null : Number(e.target.value))}
+                style={{
+                  font: "var(--text-body)", fontSize: 13,
+                  color: alertThreshold != null ? "var(--adverse-text)" : "var(--fg-2)",
+                  background: "transparent", border: "none", outline: "none", cursor: "pointer",
+                }}>
+                <option value="">Alerts off</option>
+                <option value={5}>Flag &gt;5%</option>
+                <option value={10}>Flag &gt;10%</option>
+                <option value={20}>Flag &gt;20%</option>
+                <option value={50}>Flag &gt;50%</option>
+              </select>
+            </div>
+
             <div style={{
               display: "flex", alignItems: "center", gap: 6,
               background: "var(--surface)", border: "1px solid var(--border)",
@@ -342,6 +369,32 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
               />
             </div>
           </div>
+
+          {/* Alert count banner */}
+          {alertThreshold != null && (() => {
+            const count = sorted.filter(m => m.variance_pct != null && Math.abs(m.variance_pct) >= alertThreshold).length;
+            return count > 0 ? (
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8, marginBottom: 10,
+                padding: "8px 14px", borderRadius: "var(--radius-sm)",
+                background: "var(--adverse-soft)", border: "1px solid var(--adverse)",
+                font: "var(--text-body-strong)", fontSize: 13, color: "var(--adverse-text)",
+              }}>
+                <Icon name="bell" size={14} color="var(--adverse)" />
+                {count} account{count !== 1 ? "s" : ""} flagged with variance &gt;{alertThreshold}%
+              </div>
+            ) : (
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8, marginBottom: 10,
+                padding: "8px 14px", borderRadius: "var(--radius-sm)",
+                background: "var(--favourable-soft)", border: "1px solid var(--favourable)",
+                font: "var(--text-body-strong)", fontSize: 13, color: "var(--favourable-text)",
+              }}>
+                <Icon name="check-circle" size={14} color="var(--favourable)" />
+                No accounts exceed the {alertThreshold}% threshold
+              </div>
+            );
+          })()}
 
           {/* Table */}
           <div style={{ overflowX: "auto" }}>
@@ -362,11 +415,21 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
               <tbody>
                 {sorted.map((m, i) => {
                   const isExpanded = expandedRow === i;
+                  const isAlert = alertThreshold != null
+                    && m.variance_pct != null
+                    && Math.abs(m.variance_pct) >= alertThreshold;
                   return (
                     <React.Fragment key={i}>
                       <tr onClick={() => setExpandedRow(isExpanded ? null : i)}
-                        style={{ cursor: "pointer", background: isExpanded ? "var(--surface-2)" : undefined }}>
-                        <td className="l">{m.account}</td>
+                        style={{ cursor: "pointer", background: isExpanded ? "var(--surface-2)" : (isAlert ? "var(--adverse-soft)" : undefined) }}>
+                        <td className="l" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                          {isAlert && (
+                            <span title={`Variance ${Math.abs(m.variance_pct).toFixed(1)}% exceeds ${alertThreshold}% threshold`}>
+                              <Icon name="bell" size={13} color="var(--adverse)" />
+                            </span>
+                          )}
+                          {m.account}
+                        </td>
                         <td className="l">{m.category}</td>
                         {!isBvA && (
                           <td style={{ padding: "6px 8px" }}>
