@@ -237,11 +237,14 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
   const totalLessons = lessons.length;
 
-  const [marked, setMarked] = useLsnState(revDone);
+  const [marked,   setMarked]   = useLsnState(revDone);
+  const [xpBurst,  setXpBurst]  = useLsnState(false);
 
   const handleComplete = () => {
     if (window.aiqStore) window.aiqStore.markRevisionComplete(paperId, lesson.id, totalLessons);
     setMarked(true);
+    setXpBurst(true);
+    setTimeout(() => setXpBurst(false), 750);
   };
 
   const openedAt = useLsnRef(Date.now());
@@ -429,7 +432,8 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
         )}
 
         {/* Complete / navigation row */}
-        <div className="lsn-nav-row">
+        <div className="lsn-nav-row" style={{ position: "relative" }}>
+          {xpBurst && <span className="lsn-xp-burst">+25 XP 🎉</span>}
           {prevLesson ? (
             <Button variant="secondary" icon="arrow-left"
               onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "revision" })}>

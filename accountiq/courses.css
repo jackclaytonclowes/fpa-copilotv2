@@ -1015,9 +1015,15 @@
   background: var(--border);
   transition: background 0.25s;
 }
+@keyframes dotPop {
+  0%   { transform: scaleX(1)   scaleY(1); }
+  40%  { transform: scaleX(1.5) scaleY(1.8); }
+  70%  { transform: scaleX(0.9) scaleY(0.85); }
+  100% { transform: scaleX(1)   scaleY(1); }
+}
 .lsn-quiz-pdot.active  { background: var(--primary); opacity: 0.4; }
-.lsn-quiz-pdot.correct { background: var(--favourable); opacity: 1; }
-.lsn-quiz-pdot.wrong   { background: var(--adverse);    opacity: 1; }
+.lsn-quiz-pdot.correct { background: var(--favourable); opacity: 1; animation: dotPop 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
+.lsn-quiz-pdot.wrong   { background: var(--adverse);    opacity: 1; animation: dotPop 0.32s cubic-bezier(0.22, 1, 0.36, 1); }
 .lsn-quiz-next-btn {
   display: flex;
   align-items: center;
@@ -2945,11 +2951,11 @@
 
 /* ── Panel slide transitions ─────────────────────────────────────────────── */
 @keyframes panelInFwd {
-  from { opacity: 0; transform: translateX(18px); }
+  from { opacity: 0; transform: translateX(32px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes panelInBack {
-  from { opacity: 0; transform: translateX(-18px); }
+  from { opacity: 0; transform: translateX(-32px); }
   to   { opacity: 1; transform: translateX(0); }
 }
 .lsn-slide-fwd  .lsn-section-panel.active { animation: panelInFwd  0.22s ease both; }
@@ -3090,6 +3096,24 @@
   color: var(--fg-2);
   margin: 0 0 8px;
   max-width: 320px;
+}
+
+/* ── XP burst on lesson completion ──────────────────────────────────────── */
+@keyframes xpFloat {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1); }
+  50%  { opacity: 1; transform: translateX(-50%) translateY(-28px) scale(1.2); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-52px) scale(0.85); }
+}
+.lsn-xp-burst {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 0;
+  font: var(--text-body-strong);
+  font-size: 20px;
+  color: var(--primary);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: xpFloat 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* ── Sticky nav row on mobile ────────────────────────────────────────────── */
