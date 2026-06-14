@@ -229,9 +229,8 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const { Icon, Button } = window;
   const revData = (window.AIQ_REVISION_DATA || {})[lesson.id];
 
-  const store    = window.aiqStore ? window.aiqStore.get() : {};
-  const revDone  = ((store.revisionLessons || {})[paperId] || []).includes(lesson.id);
-
+  const store       = window.aiqStore ? window.aiqStore.get() : {};
+  const revDone     = ((store.revisionLessons || {})[paperId] || []).includes(lesson.id);
   const lessonIndex = lessons.findIndex((l) => l.id === lesson.id);
   const prevLesson  = lessonIndex > 0 ? lessons[lessonIndex - 1] : null;
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
@@ -239,6 +238,9 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
 
   const [marked,   setMarked]   = useLsnState(revDone);
   const [xpBurst,  setXpBurst]  = useLsnState(false);
+  const [pageIdx,  setPageIdx]  = useLsnState(0);
+  const [slideDir, setSlideDir] = useLsnState("fwd");
+  const swipeX = useLsnRef(null);
 
   const handleComplete = () => {
     if (window.aiqStore) window.aiqStore.markRevisionComplete(paperId, lesson.id, totalLessons);
@@ -250,13 +252,15 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const openedAt = useLsnRef(Date.now());
   useLsnEffect(() => {
     openedAt.current = Date.now();
+    setPageIdx(0);
+    setSlideDir("fwd");
     return () => {
       const minutes = Math.round((Date.now() - openedAt.current) / 60000);
       if (minutes > 0 && window.aiqStore) window.aiqStore.recordActivity({ minutes });
     };
   }, [lesson.id]);
 
-  /* No revision data for this lesson */
+  /* No revision data */
   if (!revData) {
     return (
       <div className="content">
@@ -287,6 +291,112 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
     );
   }
 
+  /* Build ordered page list from available data */
+  const pages = [
+    revData.keyPoints?.length    > 0 && "keyPoints",
+    revData.formulaSheet?.length > 0 && "formulaSheet",
+    revData.examTraps?.length    > 0 && "examTraps",
+    revData.memoryAids?.length   > 0 && "memoryAids",
+    revData.quickExample                && "quickExample",
+    revData.quickChecks?.length  > 0 && "quickChecks",
+  ].filter(Boolean);
+
+  const totalPages = pages.length;
+  const safeIdx    = Math.min(pageIdx, totalPages - 1);
+  const isFirst    = safeIdx === 0;
+  const isLast     = safeIdx >= totalPages - 1;
+  const progress   = totalPages > 0 ? (safeIdx + 1) / totalPages : 1;
+
+  const goNext = () => { if (!isLast) { setSlideDir("fwd");  setPageIdx(i => i + 1); } };
+  const goPrev = () => { if (!isFirst) { setSlideDir("back"); setPageIdx(i => i - 1); } };
+
+  const onSwipeStart = (e) => { swipeX.current = e.touches[0].clientX; };
+  const onSwipeEnd   = (e) => {
+    if (swipeX.current === null) return;
+    const dx = e.changedTouches[0].clientX - swipeX.current;
+    swipeX.current = null;
+    if (Math.abs(dx) < 40) return;
+    if (dx < 0) goNext(); else goPrev();
+  };
+
+  /* Page content definitions */
+  const PAGE = {
+    keyPoints: {
+      icon: "list-checks", title: "Key Points",
+      bg: "var(--primary-soft)", border: "var(--primary-soft-2)", ic: "var(--primary)",
+      body: () => (
+        <ul className="lsn-list">
+          {revData.keyPoints.map((pt, i) => (
+            <li key={i}><Icon name="check" size={12} color="var(--primary)" />{pt}</li>
+          ))}
+        </ul>
+      ),
+    },
+    formulaSheet: {
+      icon: "function-square", title: "Formula Sheet",
+      bg: "var(--caution-soft)", border: "var(--caution-border)", ic: "var(--caution)",
+      body: () => (
+        <div className="rev-formula-grid">
+          {revData.formulaSheet.map((f, i) => (
+            <div key={i} className="rev-formula-card">
+              <div className="rev-formula-name">{f.name}</div>
+              <div className="rev-formula-expr">{f.formula}</div>
+              {f.example && <div className="rev-formula-example">{f.example}</div>}
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    examTraps: {
+      icon: "alert-triangle", title: "Exam Traps",
+      bg: "var(--adverse-soft)", border: "var(--adverse-border)", ic: "var(--adverse)",
+      body: () => (
+        <ul className="lsn-list">
+          {revData.examTraps.map((trap, i) => (
+            <li key={i}><Icon name="alert-circle" size={12} color="var(--adverse)" />{trap}</li>
+          ))}
+        </ul>
+      ),
+    },
+    memoryAids: {
+      icon: "lightbulb", title: "Memory Aids",
+      bg: "var(--favourable-soft)", border: "var(--favourable-border)", ic: "var(--favourable)",
+      body: () => (
+        <ul className="lsn-list">
+          {revData.memoryAids.map((aid, i) => (
+            <li key={i}><Icon name="zap" size={12} color="var(--favourable)" />{aid}</li>
+          ))}
+        </ul>
+      ),
+    },
+    quickExample: {
+      icon: "pencil-ruler", title: "Quick Example",
+      bg: "var(--surface-2)", border: "var(--border)", ic: "var(--fg-3)",
+      body: () => (
+        <div className="lsn-example">
+          <div className="lsn-example-setup">{revData.quickExample.setup}</div>
+          <div className="lsn-example-answer">
+            <Icon name="check-circle" size={14} color="var(--favourable)" />
+            <strong>Answer:</strong> {revData.quickExample.answer}
+          </div>
+        </div>
+      ),
+    },
+    quickChecks: {
+      icon: "help-circle", title: "Quick Checks",
+      bg: "var(--primary-soft)", border: "var(--primary-soft-2)", ic: "var(--primary)",
+      body: () => (
+        <LsnQuizFlow
+          questions={revData.quickChecks}
+          paperId={paperId}
+          lessonId={lesson.id}
+        />
+      ),
+    },
+  };
+
+  const cfg = PAGE[pages[safeIdx]];
+
   return (
     <div className="content">
       <div className="lsn-page">
@@ -301,147 +411,66 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
           <span className="lsn-breadcrumb-current">{lesson.title}</span>
         </div>
 
-        {/* Header */}
+        {/* Compact header */}
         <div className="rev-header card">
-          <div className="rev-header-top">
+          <div className="lsn-lesson-progress">
+            <div className="lsn-lesson-progress-fill" style={{ width: `${Math.round(progress * 100)}%` }} />
+          </div>
+          <div className="rev-header-top" style={{ marginTop: 14 }}>
             <span className="crs-course-badge">{paper.title}</span>
             <span className="rev-mode-badge">⚡ Revision Mode</span>
             {marked && <span className="chip fav"><Icon name="check-circle" size={11} />Complete</span>}
+            <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--fg-3)", fontWeight: 500 }}>
+              {safeIdx + 1} / {totalPages}
+            </span>
           </div>
-          <h1 className="lsn-header-title" style={{ marginTop: 10 }}>{lesson.title}</h1>
+          <h1 className="lsn-header-title" style={{ marginTop: 8 }}>{lesson.title}</h1>
           <div className="lsn-header-time">
             <Icon name="clock" size={13} color="var(--fg-3)" />
             ~{revData.estimatedMinutes} min
             <span style={{ margin: "0 8px", color: "var(--border)" }}>·</span>
-            <button
-              className="rev-switch-link"
-              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: lesson.id, mode: "deep" })}
-            >
+            <button className="rev-switch-link"
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: lesson.id, mode: "deep" })}>
               <Icon name="book-open" size={12} />
               Switch to Deep Learning
             </button>
           </div>
         </div>
 
-        {/* Key Points */}
-        {revData.keyPoints && revData.keyPoints.length > 0 && (
-          <div className="lsn-section" style={{ background: "var(--primary-soft)", borderColor: "var(--primary-soft-2)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--primary)" }}><Icon name="list-checks" size={16} /></div>
-              <h3 className="lsn-section-title">Key Points</h3>
-            </div>
-            <div className="lsn-section-body">
-              <ul className="lsn-list">
-                {revData.keyPoints.map((pt, i) => (
-                  <li key={i}><Icon name="check" size={12} color="var(--primary)" />{pt}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Formula Sheet */}
-        {revData.formulaSheet && revData.formulaSheet.length > 0 && (
-          <div className="lsn-section" style={{ background: "var(--caution-soft)", borderColor: "var(--caution-border)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--caution)" }}><Icon name="function-square" size={16} /></div>
-              <h3 className="lsn-section-title">Formula Sheet</h3>
-            </div>
-            <div className="lsn-section-body">
-              <div className="rev-formula-grid">
-                {revData.formulaSheet.map((f, i) => (
-                  <div key={i} className="rev-formula-card">
-                    <div className="rev-formula-name">{f.name}</div>
-                    <div className="rev-formula-expr">{f.formula}</div>
-                    {f.example && <div className="rev-formula-example">{f.example}</div>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Exam Traps */}
-        {revData.examTraps && revData.examTraps.length > 0 && (
-          <div className="lsn-section" style={{ background: "var(--adverse-soft)", borderColor: "var(--adverse-border)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--adverse)" }}><Icon name="alert-triangle" size={16} /></div>
-              <h3 className="lsn-section-title">Exam Traps</h3>
-            </div>
-            <div className="lsn-section-body">
-              <ul className="lsn-list">
-                {revData.examTraps.map((trap, i) => (
-                  <li key={i}><Icon name="alert-circle" size={12} color="var(--adverse)" />{trap}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Memory Aids */}
-        {revData.memoryAids && revData.memoryAids.length > 0 && (
-          <div className="lsn-section" style={{ background: "var(--favourable-soft)", borderColor: "var(--favourable-border)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--favourable)" }}><Icon name="lightbulb" size={16} /></div>
-              <h3 className="lsn-section-title">Memory Aids</h3>
-            </div>
-            <div className="lsn-section-body">
-              <ul className="lsn-list">
-                {revData.memoryAids.map((aid, i) => (
-                  <li key={i}><Icon name="zap" size={12} color="var(--favourable)" />{aid}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* Quick Example */}
-        {revData.quickExample && (
-          <div className="lsn-section" style={{ background: "var(--surface-2)", borderColor: "var(--border)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--fg-3)" }}><Icon name="pencil-ruler" size={16} /></div>
-              <h3 className="lsn-section-title">Quick Example</h3>
-            </div>
-            <div className="lsn-section-body">
-              <div className="lsn-example">
-                <div className="lsn-example-setup">{revData.quickExample.setup}</div>
-                <div className="lsn-example-answer">
-                  <Icon name="check-circle" size={14} color="var(--favourable)" />
-                  <strong>Answer:</strong> {revData.quickExample.answer}
+        {/* Animated page panel */}
+        <div className={`lsn-section-panels lsn-slide-${slideDir}`}
+          onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
+          <div key={safeIdx} className="lsn-section-panel active">
+            <div className="lsn-section" style={{ background: cfg.bg, borderColor: cfg.border }}>
+              <div className="lsn-section-header">
+                <div className="lsn-section-icon" style={{ color: cfg.ic }}>
+                  <Icon name={cfg.icon} size={16} />
                 </div>
+                <h3 className="lsn-section-title">{cfg.title}</h3>
               </div>
+              <div className="lsn-section-body">{cfg.body()}</div>
             </div>
           </div>
-        )}
+        </div>
 
-        {/* Quick Checks */}
-        {revData.quickChecks && revData.quickChecks.length > 0 && (
-          <div className="lsn-section" style={{ background: "var(--primary-soft)", borderColor: "var(--primary-soft-2)" }}>
-            <div className="lsn-section-header">
-              <div className="lsn-section-icon" style={{ color: "var(--primary)" }}><Icon name="help-circle" size={16} /></div>
-              <h3 className="lsn-section-title">Quick Checks</h3>
-            </div>
-            <div className="lsn-section-body">
-              <div className="lsn-pq-list">
-                {revData.quickChecks.map((q, i) => (
-                  <RevQuickCheck key={i} q={q} index={i} />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Complete / navigation row */}
+        {/* Nav row */}
         <div className="lsn-nav-row" style={{ position: "relative" }}>
           {xpBurst && <span className="lsn-xp-burst">+25 XP 🎉</span>}
-          {prevLesson ? (
+
+          {/* Left: back through pages, then prev lesson */}
+          {!isFirst ? (
+            <Button variant="secondary" icon="arrow-left" onClick={goPrev}>Back</Button>
+          ) : prevLesson ? (
             <Button variant="secondary" icon="arrow-left"
               onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: prevLesson.id, mode: "revision" })}>
               {prevLesson.title}
             </Button>
           ) : <div />}
 
-          {marked ? (
+          {/* Right: next page → mark complete → next lesson */}
+          {!isLast ? (
+            <Button variant="primary" iconRight="arrow-right" onClick={goNext}>Continue</Button>
+          ) : marked ? (
             nextLesson ? (
               <Button variant="primary" iconRight="arrow-right"
                 onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "revision" })}>
