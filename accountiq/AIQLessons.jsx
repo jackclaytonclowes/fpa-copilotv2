@@ -527,6 +527,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     : lessons[0];
 
   const [sectionIdx, setSectionIdx] = useLsnState(0);
+  const [introPage, setIntroPage]   = useLsnState(0);
   const [expPage, setExpPage]       = useLsnState(0);
   const [slideDir, setSlideDir]     = useLsnState("fwd");
   const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
@@ -584,6 +585,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   useLsnEffect(() => {
     openedAt.current = Date.now();
     setSectionIdx(0);
+    setIntroPage(0);
     setExpPage(0);
     return () => {
       const minutes = Math.round((Date.now() - openedAt.current) / 60000);
@@ -596,10 +598,29 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const safeExpPage = Math.min(expPage, Math.max(0, totalExp - 1));
   const isLastExpPage = safeExpPage >= totalExp - 1;
 
-  // Overall lesson progress (explanation counts as N sub-steps)
-  const totalSteps   = availSections.reduce((a, s) => a + (s.id === "explanation" ? Math.max(totalExp, 1) : 1), 0);
-  const currentStep  = availSections.slice(0, safeSectionIdx).reduce((a, s) => a + (s.id === "explanation" ? Math.max(totalExp, 1) : 1), 0)
-                     + (curSectionId === "explanation" ? safeExpPage + 1 : 1);
+  // Intro sub-pages: objectives first, then one page per key term
+  const introPages = [
+    lesson.objectives ? "objectives" : null,
+    ...(lesson.keyTerms || []).map((_, i) => `term-${i}`),
+  ].filter(Boolean);
+  const totalIntro     = introPages.length;
+  const safeIntroPage  = Math.min(introPage, Math.max(0, totalIntro - 1));
+  const isLastIntroPage = safeIntroPage >= totalIntro - 1;
+
+  // Overall lesson progress
+  const totalSteps = availSections.reduce((a, s) => {
+    if (s.id === "intro")        return a + Math.max(totalIntro, 1);
+    if (s.id === "explanation")  return a + Math.max(totalExp, 1);
+    return a + 1;
+  }, 0);
+  const currentStep = availSections.slice(0, safeSectionIdx).reduce((a, s) => {
+    if (s.id === "intro")        return a + Math.max(totalIntro, 1);
+    if (s.id === "explanation")  return a + Math.max(totalExp, 1);
+    return a + 1;
+  }, 0) + (
+    curSectionId === "intro"        ? safeIntroPage + 1 :
+    curSectionId === "explanation"  ? safeExpPage + 1   : 1
+  );
 
   const handleAnswer = (correct) => {
     setScore((s) => ({ correct: s.correct + (correct ? 1 : 0), total: s.total + 1 }));
@@ -611,6 +632,10 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
   const goNext = () => {
     setSlideDir("fwd");
+    if (curSectionId === "intro" && !isLastIntroPage) {
+      setIntroPage(p => p + 1);
+      return;
+    }
     if (curSectionId === "explanation" && !isLastExpPage) {
       setExpPage(p => p + 1);
       return;
@@ -626,6 +651,10 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
   const goPrev = () => {
     setSlideDir("back");
+    if (curSectionId === "intro" && safeIntroPage > 0) {
+      setIntroPage(p => p - 1);
+      return;
+    }
     if (curSectionId === "explanation" && safeExpPage > 0) {
       setExpPage(p => p - 1);
       return;
@@ -725,29 +754,31 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
         {/* Section panels — all stay mounted so state (quiz answers, step reveal) persists */}
         <div className={`lsn-section-panels lsn-slide-${slideDir}`} onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
 
-          {/* Intro: objectives + key terms */}
+          {/* Intro: objectives page, then one flashcard per key term */}
           <div className={`lsn-section-panel${curSectionId === "intro" ? " active" : ""}`}>
-            {lesson.objectives && (
-              <LsnSection icon="target" title="Learning Objectives" tone="primary">
-                <ul className="lsn-list">
-                  {lesson.objectives.map((o, i) => (
-                    <li key={i}><Icon name="check" size={12} color="var(--primary)" />{o}</li>
-                  ))}
-                </ul>
-              </LsnSection>
-            )}
-            {lesson.keyTerms && lesson.keyTerms.length > 0 && (
-              <LsnSection icon="bookmark" title="Key Terms" tone="primary">
-                <div className="lsn-key-terms">
-                  {lesson.keyTerms.map((kt, i) => (
-                    <div key={i} className="lsn-key-term-card">
-                      <div className="lsn-key-term-name">{kt.term}</div>
-                      <div className="lsn-key-term-def">{kt.definition}</div>
-                    </div>
-                  ))}
+            {introPages[safeIntroPage] === "objectives" ? (
+              <div key="objectives" className="lsn-intro-page">
+                <LsnSection icon="target" title="Learning Objectives" tone="primary">
+                  <ul className="lsn-list">
+                    {(lesson.objectives || []).map((o, i) => (
+                      <li key={i}><Icon name="check" size={12} color="var(--primary)" />{o}</li>
+                    ))}
+                  </ul>
+                </LsnSection>
+              </div>
+            ) : (() => {
+              const termIdx = parseInt((introPages[safeIntroPage] || "term-0").replace("term-", "")) || 0;
+              const kt = (lesson.keyTerms || [])[termIdx];
+              return kt ? (
+                <div key={introPages[safeIntroPage]} className="lsn-term-flashcard">
+                  <div className="lsn-term-fc-eyebrow">
+                    Key Term · {termIdx + 1} of {(lesson.keyTerms || []).length}
+                  </div>
+                  <div className="lsn-term-fc-name">{kt.term}</div>
+                  <div className="lsn-term-fc-def">{kt.definition}</div>
                 </div>
-              </LsnSection>
-            )}
+              ) : null;
+            })()}
           </div>
 
           {/* Explanation — split into pages at <h3> boundaries */}

@@ -1358,34 +1358,49 @@
 }
 
 /* ── Key terms cards ─────────────────────────────────────────────────────────── */
-.lsn-key-terms {
+/* Old list-style key terms (kept for reference, no longer used) */
+.lsn-key-terms { display: flex; flex-direction: column; gap: 10px; }
+.lsn-key-term-card { padding: 13px 16px; background: var(--primary-soft); border: 1px solid var(--primary-soft-2); border-radius: var(--radius-sm); }
+.lsn-key-term-name { font: var(--text-body-strong); font-size: 13.5px; color: var(--ink); margin-bottom: 5px; }
+.lsn-key-term-def  { font: var(--text-caption); color: var(--fg-2); line-height: 1.6; }
+
+/* ── Key-term flashcard (one per page, Duolingo-style) ─────────────────────── */
+.lsn-intro-page {
+  animation: fadeUp 0.22s ease both;
+}
+.lsn-term-flashcard {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-.lsn-key-term-card {
-  padding: 13px 16px;
+  align-items: center;
+  text-align: center;
+  padding: 44px 28px 40px;
   background: var(--primary-soft);
   border: 1px solid var(--primary-soft-2);
-  border-radius: var(--radius-sm);
-  animation: fadeUp 0.3s ease both;
+  border-radius: var(--radius-md);
+  gap: 18px;
+  animation: fadeUp 0.22s ease both;
+  min-height: 260px;
+  justify-content: center;
 }
-.lsn-key-term-card:nth-child(1) { animation-delay: 0.02s; }
-.lsn-key-term-card:nth-child(2) { animation-delay: 0.07s; }
-.lsn-key-term-card:nth-child(3) { animation-delay: 0.12s; }
-.lsn-key-term-card:nth-child(4) { animation-delay: 0.17s; }
-.lsn-key-term-card:nth-child(5) { animation-delay: 0.22s; }
-.lsn-key-term-card:nth-child(6) { animation-delay: 0.27s; }
-.lsn-key-term-name {
-  font: var(--text-body-strong);
-  font-size: 13.5px;
+.lsn-term-fc-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.lsn-term-fc-name {
+  font-size: 30px;
+  font-weight: 800;
   color: var(--ink);
-  margin-bottom: 5px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
-.lsn-key-term-def {
-  font: var(--text-caption);
-  color: var(--fg-2);
+.lsn-term-fc-def {
+  font-size: 15px;
   line-height: 1.6;
+  color: var(--fg-2);
+  max-width: 340px;
 }
 
 /* ── lsn-prose table ─────────────────────────────────────────────────────────── */
