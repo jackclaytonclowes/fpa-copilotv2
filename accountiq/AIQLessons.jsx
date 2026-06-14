@@ -86,6 +86,101 @@ function LsnPracticeQ({ q, index, onAnswer }) {
   );
 }
 
+/* ── Key-term question builder ───────────────────────────────────────────── */
+function buildKeyTermQuestions(lesson, allLessons) {
+  if (!lesson.keyTerms || !lesson.keyTerms.length) return [];
+  const pool = [];
+  for (const l of allLessons) {
+    if (l.id === lesson.id || !l.keyTerms) continue;
+    for (const kt of l.keyTerms) pool.push(kt.definition);
+  }
+  const seed = lesson.id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  function seededShuffle(arr, s) {
+    const a = [...arr]; let n = s;
+    for (let i = a.length - 1; i > 0; i--) {
+      n = (n * 1664525 + 1013904223) & 0xffffffff;
+      const j = Math.abs(n) % (i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  const trunc = (s) => s.length > 110 ? s.slice(0, 110) + "…" : s;
+  return lesson.keyTerms.map((kt, ki) => {
+    const correctDef = kt.definition;
+    const wrong = seededShuffle(pool.filter(d => d !== correctDef), seed + ki).slice(0, 3);
+    const opts  = seededShuffle([trunc(correctDef), ...wrong.map(trunc)], seed + ki + 77);
+    return {
+      question: `Which best describes "${kt.term}"?`,
+      options: opts,
+      correct: opts.indexOf(trunc(correctDef)),
+      explanation: correctDef,
+    };
+  });
+}
+
+/* ── One-at-a-time quiz ──────────────────────────────────────────────────── */
+function LsnQuiz({ lesson, allLessons }) {
+  const { Icon } = window;
+  const questions = React.useMemo(
+    () => [...buildKeyTermQuestions(lesson, allLessons), ...(lesson.practiceQuestions || [])],
+    [lesson.id]
+  );
+  const [qIdx, setQIdx]         = useLsnState(0);
+  const [results, setResults]   = useLsnState([]);
+  const [showNext, setShowNext] = useLsnState(false);
+
+  const total   = questions.length;
+  const isDone  = results.length === total;
+  const correct = results.filter(Boolean).length;
+
+  const handleAnswer = (isCorrect) => {
+    setResults(r => [...r, isCorrect]);
+    setShowNext(true);
+  };
+  const advance = () => { setShowNext(false); setQIdx(i => i + 1); };
+
+  if (isDone) {
+    return (
+      <div className="lsn-quiz-complete">
+        <div className="lsn-quiz-complete-emoji">
+          {correct === total ? "🎉" : correct >= Math.ceil(total * 0.6) ? "👍" : "💪"}
+        </div>
+        <div className="lsn-quiz-complete-title">
+          {correct === total ? "Perfect score!" : `${correct} / ${total} correct`}
+        </div>
+        <p className="lsn-quiz-complete-sub">
+          {correct === total
+            ? "You nailed every question — ready for the full quiz?"
+            : correct >= Math.ceil(total * 0.6)
+              ? "Good effort — review the explanation then take the full quiz."
+              : "Keep reviewing — the full quiz will help lock it in."}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="lsn-quiz-flow">
+      <div className="lsn-quiz-progress">
+        {questions.map((_, i) => (
+          <div key={i} className={
+            `lsn-quiz-pdot${
+              i < results.length ? (results[i] ? " correct" : " wrong") :
+              i === qIdx ? " active" : ""
+            }`
+          } />
+        ))}
+      </div>
+      <LsnPracticeQ key={qIdx} q={questions[qIdx]} index={qIdx} onAnswer={handleAnswer} />
+      {showNext && qIdx < total - 1 && (
+        <button className="lsn-quiz-next-btn" onClick={advance}>
+          Next <Icon name="arrow-right" size={14} />
+        </button>
+      )}
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    REVISION MODE renderer — reads from AIQ_REVISION_DATA, never from AIQCourseData
    ══════════════════════════════════════════════════════════════════════════ */
@@ -441,7 +536,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     if (s.id === "explanation") return !!lesson.explanation;
     if (s.id === "example")     return !!lesson.workedExample;
     if (s.id === "summary")     return !!lesson.summary;
-    if (s.id === "quiz")        return !!(lesson.practiceQuestions && lesson.practiceQuestions.length > 0);
+    if (s.id === "quiz")        return !!(lesson.practiceQuestions?.length || lesson.keyTerms?.length);
     return false;
   });
 
@@ -699,41 +794,11 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
 
           {/* Quiz / practice questions */}
           <div className={`lsn-section-panel${curSectionId === "quiz" ? " active" : ""}`}>
-            {lesson.practiceQuestions && lesson.practiceQuestions.length > 0 && (
+            {(lesson.practiceQuestions?.length || lesson.keyTerms?.length) ? (
               <LsnSection icon="help-circle" title="Practice Questions" tone="primary">
-                <div className="lsn-pq-list">
-                  {lesson.practiceQuestions.map((q, i) => (
-                    <LsnPracticeQ key={i} q={q} index={i} onAnswer={handleAnswer} />
-                  ))}
-                </div>
-                {score.total === lesson.practiceQuestions.length ? (
-                  <div className="lsn-quiz-complete">
-                    <div className="lsn-quiz-complete-emoji">
-                      {score.correct === score.total ? "🎉" : score.correct >= Math.ceil(score.total * 0.6) ? "👍" : "💪"}
-                    </div>
-                    <div className="lsn-quiz-complete-title">
-                      {score.correct === score.total ? "Perfect score!" : `${score.correct} / ${score.total} correct`}
-                    </div>
-                    <p className="lsn-quiz-complete-sub">
-                      {score.correct === score.total
-                        ? "You nailed every question — ready for the full quiz?"
-                        : score.correct >= Math.ceil(score.total * 0.6)
-                          ? "Good effort — review the explanation then take the full quiz."
-                          : "Keep reviewing — the full quiz will help lock it in."}
-                    </p>
-                    <Button variant="primary" size="sm" iconRight="arrow-right"
-                      onClick={() => onNavigate && onNavigate("quizengine", { paperId, lessonId: lesson.id })}>
-                      Take full quiz
-                    </Button>
-                  </div>
-                ) : score.total > 0 ? (
-                  <div className="lsn-score">
-                    <Icon name="zap" size={14} color="var(--primary)" />
-                    {score.correct} / {score.total} correct so far
-                  </div>
-                ) : null}
+                <LsnQuiz lesson={lesson} allLessons={lessons} />
               </LsnSection>
-            )}
+            ) : null}
           </div>
 
         </div>

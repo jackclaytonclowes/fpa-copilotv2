@@ -1005,6 +1005,37 @@
   color: var(--favourable-text);
 }
 /* Practice questions */
+/* ── One-at-a-time quiz ──────────────────────────────────────────────────── */
+.lsn-quiz-flow { display: flex; flex-direction: column; gap: 16px; }
+.lsn-quiz-progress { display: flex; gap: 5px; margin-bottom: 4px; }
+.lsn-quiz-pdot {
+  height: 5px;
+  flex: 1;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.25s;
+}
+.lsn-quiz-pdot.active  { background: var(--primary); opacity: 0.4; }
+.lsn-quiz-pdot.correct { background: var(--favourable); opacity: 1; }
+.lsn-quiz-pdot.wrong   { background: var(--adverse);    opacity: 1; }
+.lsn-quiz-next-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius-sm);
+  font: var(--text-body-strong);
+  font-size: 14px;
+  cursor: pointer;
+  animation: fadeUp 0.18s ease both;
+}
+.lsn-quiz-next-btn:hover { opacity: 0.88; }
+
 .lsn-pq-list { display: flex; flex-direction: column; gap: 16px; }
 .lsn-pq { display: flex; gap: 12px; }
 .lsn-pq-num {
