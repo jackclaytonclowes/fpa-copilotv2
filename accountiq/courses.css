@@ -192,6 +192,100 @@
   color: var(--fg-2);
 }
 
+/* ── Today card ────────────────────────────────────────────────────────────── */
+.crs-today {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px 8px;
+  gap: 0;
+}
+.crs-today-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.crs-today-sep {
+  width: 1px;
+  height: 56px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.crs-today-streak-num {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.crs-today-xp-num {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.crs-today-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.crs-today-sub {
+  font-size: 11px;
+  color: var(--fg-3);
+  text-align: center;
+}
+.crs-today-ring-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+.crs-today-ring-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.crs-today-ring-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.crs-today-ring-unit {
+  font-size: 10px;
+  color: var(--fg-3);
+  font-weight: 600;
+}
+
+/* ── Streak milestone banner ───────────────────────────────────────────────── */
+@keyframes milestoneIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+.crs-streak-milestone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, var(--caution-soft) 0%, var(--primary-soft) 100%);
+  border: 1px solid var(--caution-border);
+  border-radius: var(--radius-sm);
+  font: var(--text-body-strong);
+  font-size: 14px;
+  color: var(--ink);
+  animation: milestoneIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* ── Section ───────────────────────────────────────────────────────────────── */
 .crs-section {
   display: flex;

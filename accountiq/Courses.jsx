@@ -392,6 +392,74 @@ function CrsOperationalSection({ certCourses, certComplete, paperProgress, onNav
   );
 }
 
+/* ── Today Card ──────────────────────────────────────────────────────────── */
+function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
+  const pct        = Math.min(1, todayMinutes / (dailyGoalMinutes || 30));
+  const goalReached = pct >= 1;
+  const R          = 30;
+  const circ       = 2 * Math.PI * R;
+  const offset     = circ * (1 - pct);
+
+  const streakColor = streak >= 30 ? "#FF6B00" : streak >= 7 ? "#FF9500" : "var(--caution)";
+  const MILESTONES  = [3, 7, 14, 30, 60, 100, 200, 365];
+  const isMilestone = streak > 0 && MILESTONES.includes(streak);
+
+  return (
+    <>
+      <div className="crs-today card">
+        {/* Streak */}
+        <div className="crs-today-cell">
+          <div className="crs-today-streak-num" style={{ color: streakColor }}>
+            🔥 {streak}
+          </div>
+          <div className="crs-today-label">day streak</div>
+          {streak === 0 && <div className="crs-today-sub">Start today</div>}
+        </div>
+
+        <div className="crs-today-sep" />
+
+        {/* Daily goal ring */}
+        <div className="crs-today-cell">
+          <div className="crs-today-ring-wrap">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r={R} fill="none" stroke="var(--border)" strokeWidth="6" />
+              <circle cx="40" cy="40" r={R} fill="none"
+                stroke={goalReached ? "var(--favourable)" : "var(--primary)"}
+                strokeWidth="6"
+                strokeLinecap="round"
+                strokeDasharray={circ}
+                strokeDashoffset={offset}
+                transform="rotate(-90 40 40)"
+                style={{ transition: "stroke-dashoffset 0.65s cubic-bezier(0.4,0,0.2,1), stroke 0.3s" }}
+              />
+            </svg>
+            <div className="crs-today-ring-inner">
+              <span className="crs-today-ring-val">{goalReached ? "✓" : todayMinutes}</span>
+              {!goalReached && <span className="crs-today-ring-unit">min</span>}
+            </div>
+          </div>
+          <div className="crs-today-label">{goalReached ? "Goal reached!" : `of ${dailyGoalMinutes}m goal`}</div>
+        </div>
+
+        <div className="crs-today-sep" />
+
+        {/* XP */}
+        <div className="crs-today-cell">
+          <div className="crs-today-xp-num">⚡{xp.toLocaleString()}</div>
+          <div className="crs-today-label">total XP</div>
+        </div>
+      </div>
+
+      {isMilestone && (
+        <div className="crs-streak-milestone">
+          <span>🎉</span>
+          <span>{streak}-day streak milestone — keep going!</span>
+        </div>
+      )}
+    </>
+  );
+}
+
 /* ── Stat Card ───────────────────────────────────────────────────────────── */
 function CrsStatCard({ icon, tone, label, value, children }) {
   const { Icon } = window;
@@ -712,15 +780,6 @@ function Courses({ onNavigate }) {
   const certComplete  = certCourses.every((c) => c.progress >= 1);
   const opsComplete   = opsCourses.every((c) => c.progress >= 1);
   const mgmtComplete  = mgmtCourses.every((c) => c.progress >= 1);
-  const dailyPct    = Math.min(1, todayMinutes / dailyGoalMinutes);
-
-  /* Derive streak label */
-  const streakLabel = streak === 1 ? "1 day" : `${streak} days`;
-  const streakSub   = streak === 0
-    ? "Start studying to begin your streak"
-    : streak >= 7
-    ? "Amazing streak — keep it up!"
-    : "Keep it going!";
 
   return (
     <div className="content">
@@ -729,25 +788,13 @@ function Courses({ onNavigate }) {
         {/* ── 1. Continue Learning Hero ───────────────────────────────── */}
         <CrsHero courses={certCourses} onNavigate={onNavigate} />
 
-        {/* ── 2. Stats Row ────────────────────────────────────────────── */}
-        <div className="crs-stats-row">
-          <CrsStatCard
-            icon={dailyPct >= 1 ? "check-circle" : "clock"}
-            tone="green"
-            label="Daily Study Goal"
-            value={dailyPct >= 1 ? "Goal reached!" : `${todayMinutes} / ${dailyGoalMinutes} min`}
-          >
-            <CrsProgressBar value={dailyPct} height={4} color="var(--favourable)" />
-          </CrsStatCard>
-
-          <CrsStatCard icon="flame" tone="amber" label="Current Streak" value={streakLabel}>
-            {streakSub}
-          </CrsStatCard>
-
-          <CrsStatCard icon="zap" tone="blue" label="XP Points" value={xp.toLocaleString()}>
-            Total earned
-          </CrsStatCard>
-        </div>
+        {/* ── 2. Today card ───────────────────────────────────────────── */}
+        <CrsToday
+          streak={streak}
+          xp={xp}
+          todayMinutes={todayMinutes}
+          dailyGoalMinutes={dailyGoalMinutes}
+        />
 
         {/* ── 3. Certificate Level Courses ────────────────────────────── */}
         <div className="crs-section">
