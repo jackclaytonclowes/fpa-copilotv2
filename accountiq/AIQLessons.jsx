@@ -186,10 +186,10 @@ function LsnQuiz({ lesson, allLessons }) {
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* Quick check question (revision mode) */
-function RevQuickCheck({ q, index }) {
+function RevQuickCheck({ q, index, onAnswer }) {
   const { Icon } = window;
   const [chosen, setChosen] = useLsnState(null);
-  const pick = (i) => { if (chosen !== null) return; setChosen(i); };
+  const pick = (i) => { if (chosen !== null) return; setChosen(i); onAnswer && onAnswer(i === q.correct); };
   return (
     <div className="lsn-pq">
       <div className="lsn-pq-num">Q{index + 1}</div>
@@ -224,6 +224,122 @@ function RevQuickCheck({ q, index }) {
   );
 }
 
+/* ── One-at-a-time quiz flow (used by revision quickChecks) ─────────────── */
+function LsnQuizFlow({ questions }) {
+  const { Icon } = window;
+  const [idx,     setIdx]     = useLsnState(0);
+  const [results, setResults] = useLsnState([]);
+  const [showed,  setShowed]  = useLsnState(false);
+
+  const total   = questions.length;
+  const isDone  = results.length >= total;
+  const correct = results.filter(Boolean).length;
+
+  const handleAnswer = (isCorrect) => {
+    setResults(r => [...r, isCorrect]);
+    setShowed(true);
+  };
+  const advance = () => { setShowed(false); setIdx(i => i + 1); };
+
+  if (isDone) {
+    return (
+      <div className="lsn-quiz-complete">
+        <div className="lsn-quiz-complete-emoji">
+          {correct === total ? "🎉" : correct >= Math.ceil(total * 0.6) ? "👍" : "💪"}
+        </div>
+        <div className="lsn-quiz-complete-title">
+          {correct === total ? "Perfect score!" : `${correct} / ${total} correct`}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="lsn-quiz-flow">
+      <div className="lsn-quiz-progress">
+        {questions.map((_, i) => (
+          <div key={i} className={`lsn-quiz-pdot${
+            i < results.length ? (results[i] ? " correct" : " wrong") :
+            i === idx ? " active" : ""}`} />
+        ))}
+      </div>
+      <RevQuickCheck key={idx} q={questions[idx]} index={idx} onAnswer={handleAnswer} />
+      {showed && idx < total - 1 && (
+        <button className="lsn-quiz-next-btn" onClick={advance}>
+          Next <Icon name="arrow-right" size={14} />
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ── Lesson celebration overlay ──────────────────────────────────────────── */
+function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, onNavigate, onDismiss }) {
+  const { Button } = window;
+  const store   = window.aiqStore ? window.aiqStore.get() : {};
+  const streak  = store.streak || 0;
+  const totalXp = store.xp    || 0;
+
+  const COLORS = ["#D4F04A","#4CAF50","#FF9800","#2196F3","#E91E63","#9C27B0","#00BCD4","#FF5722"];
+  const pieces = Array.from({ length: 20 }, (_, i) => ({
+    color:    COLORS[i % COLORS.length],
+    left:     `${4 + (i * 4.8) % 92}%`,
+    delay:    `${(i * 0.055).toFixed(2)}s`,
+    duration: `${0.85 + (i % 5) * 0.12}s`,
+    w:        i % 3 === 0 ? 10 : i % 3 === 1 ? 7 : 5,
+    rot:      `${(i * 53) % 360}deg`,
+  }));
+
+  return (
+    <div className="lsn-celebration">
+      <div className="lsn-confetti-wrap" aria-hidden="true">
+        {pieces.map((p, i) => (
+          <div key={i} className="lsn-confetti-piece" style={{
+            left: p.left, width: p.w, height: Math.round(p.w * 1.5),
+            background: p.color, transform: `rotate(${p.rot})`,
+            animationDelay: p.delay, animationDuration: p.duration,
+          }} />
+        ))}
+      </div>
+      <div className="lsn-celebration-card">
+        <div className="lsn-cel-emoji">🎉</div>
+        <div className="lsn-cel-title">Lesson complete!</div>
+        <div className="lsn-cel-lesson">{lessonTitle}</div>
+        <div className="lsn-cel-stats">
+          <div className="lsn-cel-stat">
+            <div className="lsn-cel-stat-val xp">+{xpEarned}</div>
+            <div className="lsn-cel-stat-label">XP earned</div>
+          </div>
+          <div className="lsn-cel-sep" />
+          <div className="lsn-cel-stat">
+            <div className="lsn-cel-stat-val">{streak}</div>
+            <div className="lsn-cel-stat-label">Day streak 🔥</div>
+          </div>
+          <div className="lsn-cel-sep" />
+          <div className="lsn-cel-stat">
+            <div className="lsn-cel-stat-val">{totalXp}</div>
+            <div className="lsn-cel-stat-label">Total XP</div>
+          </div>
+        </div>
+        <div className="lsn-cel-actions">
+          {nextLesson ? (
+            <Button variant="primary" iconRight="arrow-right"
+              onClick={() => onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode })}>
+              Next lesson
+            </Button>
+          ) : (
+            <Button variant="primary" icon="graduation-cap"
+              onClick={() => onNavigate && onNavigate("coursedetail", { paperId, mode })}>
+              Back to course
+            </Button>
+          )}
+          <button className="lsn-cel-dismiss" onClick={onDismiss}>Stay here</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* Main revision lesson renderer */
 function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const { Icon, Button } = window;
@@ -236,10 +352,11 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const nextLesson  = lessonIndex < lessons.length - 1 ? lessons[lessonIndex + 1] : null;
   const totalLessons = lessons.length;
 
-  const [marked,   setMarked]   = useLsnState(revDone);
-  const [xpBurst,  setXpBurst]  = useLsnState(false);
-  const [pageIdx,  setPageIdx]  = useLsnState(0);
-  const [slideDir, setSlideDir] = useLsnState("fwd");
+  const [marked,          setMarked]          = useLsnState(revDone);
+  const [xpBurst,         setXpBurst]         = useLsnState(false);
+  const [pageIdx,         setPageIdx]         = useLsnState(0);
+  const [slideDir,        setSlideDir]        = useLsnState("fwd");
+  const [showCelebration, setShowCelebration] = useLsnState(false);
   const swipeX = useLsnRef(null);
 
   const handleComplete = () => {
@@ -247,6 +364,7 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
     setMarked(true);
     setXpBurst(true);
     setTimeout(() => setXpBurst(false), 750);
+    setTimeout(() => setShowCelebration(true), 400);
   };
 
   const openedAt = useLsnRef(Date.now());
@@ -397,6 +515,20 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
 
   const cfg = PAGE[pages[safeIdx]];
 
+  if (showCelebration) {
+    return (
+      <LsnCelebration
+        xpEarned={25}
+        lessonTitle={lesson.title}
+        nextLesson={nextLesson}
+        paperId={paperId}
+        mode="revision"
+        onNavigate={onNavigate}
+        onDismiss={() => setShowCelebration(false)}
+      />
+    );
+  }
+
   return (
     <div className="content">
       <div className="lsn-page">
@@ -526,12 +658,13 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     ? lessons.find((l) => l.id === lessonId) || lessons[0]
     : lessons[0];
 
-  const [sectionIdx, setSectionIdx] = useLsnState(0);
-  const [introPage, setIntroPage]   = useLsnState(0);
-  const [expPage, setExpPage]       = useLsnState(0);
-  const [slideDir, setSlideDir]     = useLsnState("fwd");
-  const [score, setScore]           = useLsnState({ correct: 0, total: 0 });
-  const [revealedSteps, setRevealedSteps] = useLsnState(1);
+  const [sectionIdx, setSectionIdx]         = useLsnState(0);
+  const [introPage, setIntroPage]           = useLsnState(0);
+  const [expPage, setExpPage]               = useLsnState(0);
+  const [slideDir, setSlideDir]             = useLsnState("fwd");
+  const [score, setScore]                   = useLsnState({ correct: 0, total: 0 });
+  const [revealedSteps, setRevealedSteps]   = useLsnState(1);
+  const [showCelebration, setShowCelebration] = useLsnState(false);
   const swipeOrigin = useLsnRef(null);
 
   const store        = window.aiqStore ? window.aiqStore.get() : {};
@@ -642,10 +775,18 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     }
     if (!isLastSection) {
       setSectionIdx(safeSectionIdx + 1);
-    } else if (nextLesson) {
-      onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "deep" });
     } else {
-      onNavigate && onNavigate(isTrack ? "skillslab" : "coursedetail", isTrack ? undefined : { paperId, mode: "deep" });
+      /* Last step — mark complete and celebrate (if not already done) */
+      if (!isComplete && window.aiqStore) {
+        window.aiqStore.markLessonComplete(paperId, lesson.id, lessons.length);
+      }
+      if (!isComplete) {
+        setShowCelebration(true);
+      } else if (nextLesson) {
+        onNavigate && onNavigate("lessons", { paperId, lessonId: nextLesson.id, mode: "deep" });
+      } else {
+        onNavigate && onNavigate(isTrack ? "skillslab" : "coursedetail", isTrack ? undefined : { paperId, mode: "deep" });
+      }
     }
   };
 
@@ -680,6 +821,20 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     if (dx < 0) goNext();
     else goPrev();
   };
+
+  if (showCelebration) {
+    return (
+      <LsnCelebration
+        xpEarned={100}
+        lessonTitle={lesson.title}
+        nextLesson={nextLesson}
+        paperId={paperId}
+        mode="deep"
+        onNavigate={onNavigate}
+        onDismiss={() => setShowCelebration(false)}
+      />
+    );
+  }
 
   return (
     <div className="content">

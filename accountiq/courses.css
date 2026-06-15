@@ -3353,6 +3353,130 @@
   }
 }
 
+/* ── Lesson celebration overlay ──────────────────────────────────────────── */
+@keyframes confettiFall {
+  0%   { transform: translateY(-24px) rotate(0deg);   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(280px) rotate(540deg); opacity: 0; }
+}
+@keyframes celCardIn {
+  0%   { opacity: 0; transform: scale(0.82) translateY(24px); }
+  100% { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes celEmojiPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.lsn-celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+.lsn-confetti-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.lsn-confetti-piece {
+  position: absolute;
+  top: -16px;
+  border-radius: 2px;
+  animation: confettiFall 1s ease-in forwards;
+}
+.lsn-celebration-card {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px 28px 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+  animation: celCardIn 0.42s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.lsn-cel-emoji {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 12px;
+  display: block;
+  animation: celEmojiPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+}
+.lsn-cel-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.lsn-cel-lesson {
+  font-size: 13px;
+  color: var(--fg-2);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.lsn-cel-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 12px;
+  margin-bottom: 20px;
+}
+.lsn-cel-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.lsn-cel-stat-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.lsn-cel-stat-val.xp { color: var(--caution); }
+.lsn-cel-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.lsn-cel-sep {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.lsn-cel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lsn-cel-dismiss {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--fg-3);
+  cursor: pointer;
+  padding: 4px 0;
+  font-weight: 500;
+}
+.lsn-cel-dismiss:hover { color: var(--ink); }
+
 /* Reduced-motion: disable new animations */
 @media (prefers-reduced-motion: reduce) {
   .lsn-slide-fwd  .lsn-section-panel.active,
