@@ -1743,6 +1743,16 @@
 }
 .onb-edit-link:hover { color: var(--primary); }
 
+/* Step slide animation */
+@keyframes onbSlideInFwd  { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes onbSlideInBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+.onb-step-anim--fwd  { animation: onbSlideInFwd  0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.onb-step-anim--back { animation: onbSlideInBack 0.22s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Study path option */
+.onb-option--path { align-items: flex-start; padding: 16px 14px; gap: 14px; }
+.onb-path-emoji   { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+
 /* ── Quiz engine ───────────────────────────────────────────────────────────── */
 .qe-page {
   max-width: 640px;

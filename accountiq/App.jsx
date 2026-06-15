@@ -212,6 +212,15 @@ function App() {
     setView(v);
   };
 
+  // Auto-show onboarding for new users once auth is resolved
+  useEffectApp(() => {
+    if (!authReady) return;
+    const store = window.aiqStore && window.aiqStore.get();
+    if (store && !store.onboardingComplete) {
+      setShowOnboarding(true);
+    }
+  }, [authReady]);
+
   // Splash while initialising
   if (!authReady) {
     return (
@@ -279,7 +288,13 @@ function App() {
         {body}
       </div>
       {showOnboarding && (
-        <AIQOnboarding onComplete={() => setShowOnboarding(false)} />
+        <AIQOnboarding onComplete={(paperId, studyPath) => {
+          setShowOnboarding(false);
+          if (paperId) {
+            const defaultMode = studyPath === "accelerated" ? "revision" : "deep";
+            navigateToAiq("coursedetail", { paperId, mode: defaultMode });
+          }
+        }} />
       )}
       <BottomNav active={view} onNav={handleNav} />
     </div>

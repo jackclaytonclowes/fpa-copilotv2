@@ -187,17 +187,60 @@ function OnbStep4({ value, onChange }) {
   );
 }
 
+/* ── Step 5: Study path ────────────────────────────────────────────────────── */
+function OnbStep5({ value, onChange }) {
+  const { Icon } = window;
+  return (
+    <div className="onb-step">
+      <div className="onb-step-icon onb-step-icon--amber">
+        <Icon name="map" size={24} />
+      </div>
+      <h2 className="onb-step-title">Which approach suits you?</h2>
+      <p className="onb-step-sub">
+        You can switch between modes at any time — this just sets your starting point.
+      </p>
+      <div className="onb-options">
+        <button
+          className={`onb-option onb-option--path${value === "foundation" ? " selected" : ""}`}
+          onClick={() => onChange("foundation")}
+        >
+          <span className="onb-path-emoji">📚</span>
+          <div style={{ flex: 1 }}>
+            <div className="onb-option-label">Deep Learning</div>
+            <div className="onb-option-sub">Full explanations, worked examples and quizzes. Best if you're building from scratch.</div>
+          </div>
+          {value === "foundation" && <Icon name="check-circle" size={16} color="var(--primary)" style={{ flexShrink: 0 }} />}
+        </button>
+        <button
+          className={`onb-option onb-option--path${value === "accelerated" ? " selected" : ""}`}
+          onClick={() => onChange("accelerated")}
+        >
+          <span className="onb-path-emoji">⚡</span>
+          <div style={{ flex: 1 }}>
+            <div className="onb-option-label">Revision Mode</div>
+            <div className="onb-option-sub">Key points, formulas and exam traps. Best if you've seen the content before.</div>
+          </div>
+          {value === "accelerated" && <Icon name="check-circle" size={16} color="var(--primary)" style={{ flexShrink: 0 }} />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ── Summary confirmation ─────────────────────────────────────────────────── */
 function OnbSummary({ inputs, goalMinutes, onEdit }) {
   const { Icon } = window;
   const paper = PAPERS.find((p) => p.id === inputs.targetPaper);
   const confLabel = CONFIDENCE_OPTIONS.find((c) => c.id === inputs.confidenceLevel)?.label;
 
+  const pathLabel = inputs.studyPath === "accelerated" ? "⚡ Revision Mode" : "📚 Deep Learning";
+
   const rows = [
     { icon: "target",       label: "Target paper",    value: paper ? `${paper.label} — ${paper.sub}` : "—" },
     { icon: "calendar",     label: "Exam sitting",    value: inputs.targetSitting || "—" },
     { icon: "clock",        label: "Weekly study",    value: `${inputs.weeklyHours} hour${inputs.weeklyHours !== 1 ? "s" : ""}` },
     { icon: "bar-chart-2",  label: "Confidence",      value: confLabel || "—" },
+    { icon: "map",          label: "Study approach",  value: pathLabel },
   ];
 
   return (
@@ -235,14 +278,16 @@ function OnbSummary({ inputs, goalMinutes, onEdit }) {
 /* ── Main Onboarding component ───────────────────────────────────────────── */
 function AIQOnboarding({ onComplete }) {
   const { Button } = window;
-  const TOTAL_STEPS = 4;
+  const TOTAL_STEPS = 5;
 
-  const [step, setStep]     = useOnbState(0); // 0–3 = inputs; 4 = summary
+  const [step, setStep]     = useOnbState(0); // 0–4 = inputs; 5 = summary
+  const [dir,  setDir]      = useOnbState("fwd");
   const [inputs, setInputs] = useOnbState({
     targetPaper:      null,
     targetSitting:    null,
     weeklyHours:      null,
     confidenceLevel:  null,
+    studyPath:        null,
   });
 
   const patch = (key, val) => setInputs((prev) => ({ ...prev, [key]: val }));
@@ -252,6 +297,7 @@ function AIQOnboarding({ onComplete }) {
     !!inputs.targetSitting,
     !!inputs.weeklyHours,
     !!inputs.confidenceLevel,
+    !!inputs.studyPath,
   ][step] ?? true;
 
   const goalMinutes = inputs.weeklyHours && inputs.confidenceLevel
@@ -263,19 +309,24 @@ function AIQOnboarding({ onComplete }) {
       onboardingComplete: true,
       targetPaper:        inputs.targetPaper,
       targetSitting:      inputs.targetSitting,
-      targetExamDate:     null, // TODO: derive from sitting string when real exam dates are available
+      targetExamDate:     null,
       weeklyHours:        inputs.weeklyHours,
       confidenceLevel:    inputs.confidenceLevel,
       dailyGoalMinutes:   goalMinutes,
+      studyPath:          inputs.studyPath,
     });
-    onComplete && onComplete();
+    onComplete && onComplete(inputs.targetPaper, inputs.studyPath);
   };
+
+  const goNext = () => { setDir("fwd");  setStep((s) => s + 1); };
+  const goBack = () => { setDir("back"); setStep((s) => s - 1); };
 
   const stepContent = [
     <OnbStep1 key="s1" value={inputs.targetPaper}     onChange={(v) => patch("targetPaper", v)} />,
     <OnbStep2 key="s2" value={inputs.targetSitting}   onChange={(v) => patch("targetSitting", v)} />,
     <OnbStep3 key="s3" value={inputs.weeklyHours}     onChange={(v) => patch("weeklyHours", v)} />,
     <OnbStep4 key="s4" value={inputs.confidenceLevel} onChange={(v) => patch("confidenceLevel", v)} />,
+    <OnbStep5 key="s5" value={inputs.studyPath}       onChange={(v) => patch("studyPath", v)} />,
   ];
 
   const isSummary = step === TOTAL_STEPS;
@@ -289,17 +340,17 @@ function AIQOnboarding({ onComplete }) {
         </div>
 
         <div className="onb-body">
-          {isSummary
-            ? <OnbSummary inputs={inputs} goalMinutes={goalMinutes} onEdit={() => setStep(0)} />
-            : stepContent[step]
-          }
+          <div key={isSummary ? "summary" : step} className={`onb-step-anim onb-step-anim--${dir}`}>
+            {isSummary
+              ? <OnbSummary inputs={inputs} goalMinutes={goalMinutes} onEdit={() => { setDir("back"); setStep(0); }} />
+              : stepContent[step]
+            }
+          </div>
         </div>
 
         <div className="onb-footer">
           {step > 0 && !isSummary && (
-            <Button variant="secondary" onClick={() => setStep((s) => s - 1)}>
-              Back
-            </Button>
+            <Button variant="secondary" onClick={goBack}>Back</Button>
           )}
           <div style={{ flex: 1 }} />
           {isSummary ? (
@@ -310,7 +361,7 @@ function AIQOnboarding({ onComplete }) {
             <Button
               variant="primary"
               iconRight="arrow-right"
-              onClick={() => setStep((s) => s + 1)}
+              onClick={goNext}
               disabled={!canAdvance}
             >
               {step === TOTAL_STEPS - 1 ? "Review plan" : "Continue"}
