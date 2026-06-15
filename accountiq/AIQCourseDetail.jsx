@@ -112,6 +112,102 @@ function CdtRevisionComingSoon({ paper }) {
   );
 }
 
+/* ── Duolingo-style winding lesson path ─────────────────────────────────── */
+function CdtLessonPath({ lessons, mode, paperId, completedSet, revisionData, onNavigate }) {
+  const { Icon } = window;
+  const isRevision = mode === "revision";
+
+  /* Zigzag X positions as % from left (bubble center) */
+  const ZIGZAG  = [20, 35, 50, 65, 80, 65, 50, 35];
+  const BUBBLE_D = 56;
+  const BUBBLE_R = BUBBLE_D / 2;
+  const LABEL_W  = 88;
+
+  const firstIncompleteIdx = lessons.findIndex((l) =>
+    isRevision
+      ? !completedSet.includes(l.id) && !!revisionData[l.id]
+      : !completedSet.includes(l.id)
+  );
+
+  /* Group consecutive lessons by topic for section banners */
+  const groups = [];
+  lessons.forEach((lesson, i) => {
+    const last = groups[groups.length - 1];
+    if (!last || last.topic !== lesson.topic) {
+      groups.push({ topic: lesson.topic, startIdx: i, lessons: [lesson] });
+    } else {
+      last.lessons.push(lesson);
+    }
+  });
+
+  /* Render flat list of nodes, inserting a banner before each topic group */
+  const rows = [];
+  let globalIdx = 0;
+
+  groups.forEach((group) => {
+    rows.push({ type: "banner", topic: group.topic, key: `banner-${group.topic}` });
+    group.lessons.forEach((lesson) => {
+      rows.push({ type: "node", lesson, globalIdx });
+      globalIdx++;
+    });
+  });
+
+  return (
+    <div className="cdt-path">
+      {rows.map((row) => {
+        if (row.type === "banner") {
+          return (
+            <div key={row.key} className="cdt-path-banner">
+              {row.topic}
+            </div>
+          );
+        }
+
+        const { lesson, globalIdx: idx } = row;
+        const isDone    = completedSet.includes(lesson.id);
+        const isCurrent = idx === firstIncompleteIdx;
+        const isLocked  = isRevision && !revisionData[lesson.id];
+        const canTap    = !isLocked;
+
+        const pct = ZIGZAG[idx % ZIGZAG.length];
+        const bubbleML = `calc(${pct}% - ${BUBBLE_R}px)`;
+        const labelML  = `calc(${pct}% - ${LABEL_W / 2}px)`;
+
+        let bubbleMod = isDone ? "done" : isCurrent ? "current" : "future";
+        if (isLocked) bubbleMod = "locked";
+
+        return (
+          <div key={lesson.id} className="cdt-path-node">
+            <button
+              className={`cdt-path-bubble cdt-path-bubble--${bubbleMod}`}
+              style={{ marginLeft: bubbleML }}
+              disabled={!canTap}
+              onClick={() => canTap && onNavigate && onNavigate("lessons", { paperId, lessonId: lesson.id, mode })}
+              title={lesson.title}
+            >
+              {isDone ? (
+                <Icon name="check" size={22} color="#fff" />
+              ) : isCurrent ? (
+                <Icon name="star" size={22} color="#fff" />
+              ) : isLocked ? (
+                <Icon name="lock" size={18} color="var(--fg-3)" />
+              ) : (
+                <span className="cdt-path-num">{String(idx + 1).padStart(2, "0")}</span>
+              )}
+            </button>
+            <div
+              className={`cdt-path-label${isDone ? " cdt-path-label--done" : isCurrent ? " cdt-path-label--current" : ""}`}
+              style={{ marginLeft: labelML, width: LABEL_W }}
+            >
+              {lesson.title}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ── Level badge ─────────────────────────────────────────────────────────── */
 function levelBadge(paperId) {
   if (["ba1","ba2","ba3","ba4"].includes(paperId)) return "Certificate Level";
@@ -271,31 +367,18 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
             </div>
           </div>
 
-          <div className="card-b">
+          <div className="card-b cdt-card-path">
             {mode === "revision" && !hasAnyRevisionContent ? (
               <CdtRevisionComingSoon paper={paper} />
             ) : (
-              <div className="cdt-lesson-list">
-                {lessons.map((lesson, i) => {
-                  const isDone = mode === "revision"
-                    ? completedRevision.includes(lesson.id)
-                    : completedDeep.includes(lesson.id);
-                  const hasRevContent = !!revisionData[lesson.id];
-
-                  return (
-                    <CdtLessonRow
-                      key={lesson.id}
-                      lesson={lesson}
-                      index={i}
-                      mode={mode}
-                      paperId={paperId}
-                      isComplete={isDone}
-                      hasRevisionContent={hasRevContent}
-                      onNavigate={onNavigate}
-                    />
-                  );
-                })}
-              </div>
+              <CdtLessonPath
+                lessons={lessons}
+                mode={mode}
+                paperId={paperId}
+                completedSet={mode === "revision" ? completedRevision : completedDeep}
+                revisionData={revisionData}
+                onNavigate={onNavigate}
+              />
             )}
           </div>
         </div>
