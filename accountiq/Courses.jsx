@@ -394,6 +394,7 @@ function CrsOperationalSection({ certCourses, certComplete, paperProgress, onNav
 
 /* ── Today Card ──────────────────────────────────────────────────────────── */
 function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
+  const { Icon } = window;
   const pct        = Math.min(1, todayMinutes / (dailyGoalMinutes || 30));
   const goalReached = pct >= 1;
   const R          = 30;
@@ -403,6 +404,7 @@ function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
   const streakColor = streak >= 30 ? "#FF6B00" : streak >= 7 ? "#FF9500" : "var(--caution)";
   const MILESTONES  = [3, 7, 14, 30, 60, 100, 200, 365];
   const isMilestone = streak > 0 && MILESTONES.includes(streak);
+  const streakAtRisk = streak > 0 && todayMinutes === 0;
 
   return (
     <>
@@ -454,6 +456,13 @@ function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
         <div className="crs-streak-milestone">
           <span>🎉</span>
           <span>{streak}-day streak milestone — keep going!</span>
+        </div>
+      )}
+
+      {!isMilestone && streakAtRisk && (
+        <div className="crs-streak-risk">
+          <Icon name="alert-triangle" size={13} color="var(--caution)" />
+          <span>Study today to keep your {streak}-day streak alive!</span>
         </div>
       )}
     </>

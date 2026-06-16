@@ -7,7 +7,7 @@
  * Navigation:
  *   Courses → coursedetail → lessons (with mode: "revision" | "deep")
  */
-const { useState: useCdtState, useEffect: useCdtEffect } = React;
+const { useState: useCdtState, useEffect: useCdtEffect, useRef: useCdtRef } = React;
 
 /* ── Dual progress card ──────────────────────────────────────────────────── */
 function CdtProgressCard({ mode, completed, total, onSelect, isActive }) {
@@ -116,6 +116,7 @@ function CdtRevisionComingSoon({ paper }) {
 function CdtLessonPath({ lessons, mode, paperId, completedSet, revisionData, onNavigate }) {
   const { Icon } = window;
   const isRevision = mode === "revision";
+  const currentRef = useCdtRef(null);
 
   /* Zigzag X positions as % from left (bubble center) */
   const ZIGZAG  = [20, 35, 50, 65, 80, 65, 50, 35];
@@ -128,6 +129,13 @@ function CdtLessonPath({ lessons, mode, paperId, completedSet, revisionData, onN
       ? !completedSet.includes(l.id) && !!revisionData[l.id]
       : !completedSet.includes(l.id)
   );
+
+  /* Auto-scroll so the current lesson bubble is in view on mount */
+  useCdtEffect(() => {
+    if (currentRef.current) {
+      currentRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
 
   /* Group consecutive lessons by topic for section banners */
   const groups = [];
@@ -177,7 +185,7 @@ function CdtLessonPath({ lessons, mode, paperId, completedSet, revisionData, onN
         if (isLocked) bubbleMod = "locked";
 
         return (
-          <div key={lesson.id} className="cdt-path-node">
+          <div key={lesson.id} className="cdt-path-node" ref={isCurrent ? currentRef : undefined}>
             <button
               className={`cdt-path-bubble cdt-path-bubble--${bubbleMod}`}
               style={{ marginLeft: bubbleML }}

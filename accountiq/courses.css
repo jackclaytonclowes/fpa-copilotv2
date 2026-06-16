@@ -285,6 +285,19 @@
   color: var(--ink);
   animation: milestoneIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+.crs-streak-risk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--caution-soft);
+  border: 1px solid var(--caution-border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  animation: milestoneIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
 
 /* ── Section ───────────────────────────────────────────────────────────────── */
 .crs-section {
@@ -3432,6 +3445,32 @@
   color: var(--fg-2);
   margin-bottom: 24px;
   font-weight: 500;
+}
+@keyframes celStreakToastIn {
+  0%   { opacity: 0; transform: translateY(-6px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0)    scale(1); }
+}
+.lsn-cel-streak-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: -14px auto 18px;
+  padding: 5px 14px;
+  background: var(--caution-soft);
+  border: 1px solid var(--caution-border);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--caution);
+  animation: celStreakToastIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+.lsn-cel-streak-badge {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--favourable);
+  vertical-align: middle;
 }
 .lsn-cel-stats {
   display: flex;

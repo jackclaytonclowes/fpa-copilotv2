@@ -274,7 +274,7 @@ function LsnQuizFlow({ questions }) {
 }
 
 /* ── Lesson celebration overlay ──────────────────────────────────────────── */
-function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, onNavigate, onDismiss }) {
+function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, streakUp, onNavigate, onDismiss }) {
   const { Button } = window;
   const store   = window.aiqStore ? window.aiqStore.get() : {};
   const streak  = store.streak || 0;
@@ -305,6 +305,9 @@ function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, onNa
         <div className="lsn-cel-emoji">🎉</div>
         <div className="lsn-cel-title">Lesson complete!</div>
         <div className="lsn-cel-lesson">{lessonTitle}</div>
+        {streakUp && (
+          <div className="lsn-cel-streak-toast">🔥 {streak === 1 ? "Streak started!" : "Streak saved!"}</div>
+        )}
         <div className="lsn-cel-stats">
           <div className="lsn-cel-stat">
             <div className="lsn-cel-stat-val xp">+{xpEarned}</div>
@@ -312,7 +315,10 @@ function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, onNa
           </div>
           <div className="lsn-cel-sep" />
           <div className="lsn-cel-stat">
-            <div className="lsn-cel-stat-val">{streak}</div>
+            <div className="lsn-cel-stat-val">
+              {streak}
+              {streakUp && <span className="lsn-cel-streak-badge">+1</span>}
+            </div>
             <div className="lsn-cel-stat-label">Day streak 🔥</div>
           </div>
           <div className="lsn-cel-sep" />
@@ -359,8 +365,15 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
   const [showCelebration, setShowCelebration] = useLsnState(false);
   const swipeX = useLsnRef(null);
 
+  const [streakUp, setStreakUp] = useLsnState(false);
+
   const handleComplete = () => {
-    if (window.aiqStore) window.aiqStore.markRevisionComplete(paperId, lesson.id, totalLessons);
+    if (window.aiqStore) {
+      const before = window.aiqStore.get();
+      window.aiqStore.markRevisionComplete(paperId, lesson.id, totalLessons);
+      const after = window.aiqStore.get();
+      setStreakUp(after.streak > (before.streak || 0));
+    }
     setMarked(true);
     setXpBurst(true);
     setTimeout(() => setXpBurst(false), 750);
@@ -523,6 +536,7 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
         nextLesson={nextLesson}
         paperId={paperId}
         mode="revision"
+        streakUp={streakUp}
         onNavigate={onNavigate}
         onDismiss={() => setShowCelebration(false)}
       />
@@ -665,6 +679,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
   const [score, setScore]                   = useLsnState({ correct: 0, total: 0 });
   const [revealedSteps, setRevealedSteps]   = useLsnState(1);
   const [showCelebration, setShowCelebration] = useLsnState(false);
+  const [streakUp, setStreakUp]               = useLsnState(false);
   const swipeOrigin = useLsnRef(null);
 
   const store        = window.aiqStore ? window.aiqStore.get() : {};
@@ -778,7 +793,10 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
     } else {
       /* Last step — mark complete and celebrate (if not already done) */
       if (!isComplete && window.aiqStore) {
+        const before = window.aiqStore.get();
         window.aiqStore.markLessonComplete(paperId, lesson.id, lessons.length);
+        const after = window.aiqStore.get();
+        setStreakUp(after.streak > (before.streak || 0));
       }
       if (!isComplete) {
         setShowCelebration(true);
@@ -830,6 +848,7 @@ function AIQLessons({ paperId, lessonId, mode = "deep", onNavigate }) {
         nextLesson={nextLesson}
         paperId={paperId}
         mode="deep"
+        streakUp={streakUp}
         onNavigate={onNavigate}
         onDismiss={() => setShowCelebration(false)}
       />
