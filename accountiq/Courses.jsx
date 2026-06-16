@@ -411,8 +411,9 @@ function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
       <div className="crs-today card">
         {/* Streak */}
         <div className="crs-today-cell">
-          <div className="crs-today-streak-num" style={{ color: streakColor }}>
-            🔥 {streak}
+          <div className="crs-today-streak-num" style={{ color: streakColor, display: "inline-flex", alignItems: "center", gap: 5 }}>
+            <Icon name="flame" size={20} color={streakColor} />
+            {streak}
           </div>
           <div className="crs-today-label">day streak</div>
           {streak === 0 && <div className="crs-today-sub">Start today</div>}
@@ -447,14 +448,17 @@ function CrsToday({ streak, xp, todayMinutes, dailyGoalMinutes }) {
 
         {/* XP */}
         <div className="crs-today-cell">
-          <div className="crs-today-xp-num">⚡{xp.toLocaleString()}</div>
+          <div className="crs-today-xp-num" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+            <Icon name="zap" size={16} color="var(--ink)" />
+            {xp.toLocaleString()}
+          </div>
           <div className="crs-today-label">total XP</div>
         </div>
       </div>
 
       {isMilestone && (
         <div className="crs-streak-milestone">
-          <span>🎉</span>
+          <Icon name="trophy" size={16} color="var(--caution)" />
           <span>{streak}-day streak milestone — keep going!</span>
         </div>
       )}
@@ -521,12 +525,16 @@ function CrsCourseCard({ course, onNavigate, availableQuestions }) {
         {/* Dual progress display */}
         <div className="crs-dual-progress">
           <div className="crs-dual-row">
-            <span className="crs-dual-label">📚 Deep Learning</span>
+            <span className="crs-dual-label" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+              <Icon name="book-open" size={11} />Deep Learning
+            </span>
             <span className="crs-dual-pct">{deepPct}%</span>
           </div>
           <CrsProgressBar value={course.progress} height={4} />
           <div className="crs-dual-row" style={{ marginTop: 8 }}>
-            <span className="crs-dual-label">⚡ Revision</span>
+            <span className="crs-dual-label" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+              <Icon name="zap" size={11} />Revision
+            </span>
             <span className="crs-dual-pct">{revPct}%</span>
           </div>
           <CrsProgressBar value={revProgress} height={4} color="var(--caution)" />

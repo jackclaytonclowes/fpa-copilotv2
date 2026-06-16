@@ -2,7 +2,7 @@
  *
  * Intermediate view between the course list and individual lessons.
  * Shows two learning paths per paper with independent progress, and a lesson
- * list that toggles between ⚡ Revision Mode and 📚 Deep Learning.
+ * list that toggles between Revision Mode and Deep Learning.
  *
  * Navigation:
  *   Courses → coursedetail → lessons (with mode: "revision" | "deep")
@@ -22,7 +22,9 @@ function CdtProgressCard({ mode, completed, total, onSelect, isActive }) {
       onClick={onSelect}
     >
       <div className="cdt-progress-card-header">
-        <span className="cdt-mode-icon">{isRevision ? "⚡" : "📚"}</span>
+        <span className="cdt-mode-icon">
+          <Icon name={isRevision ? "zap" : "book-open"} size={15} color={isRevision ? "var(--caution)" : "var(--primary)"} />
+        </span>
         <span className="cdt-progress-card-label">{isRevision ? "Revision Mode" : "Deep Learning"}</span>
         {isActive && <span className="cdt-active-dot" />}
       </div>
@@ -105,8 +107,8 @@ function CdtRevisionComingSoon({ paper }) {
       </div>
       <h3>Revision Mode coming soon for {paper.title}</h3>
       <p>
-        We're building ⚡ Revision lessons for {paper.fullTitle}.
-        In the meantime, use 📚 Deep Learning to study the full content.
+        We're building Revision lessons for {paper.fullTitle}.
+        In the meantime, use Deep Learning to study the full content.
       </p>
     </div>
   );
@@ -321,8 +323,9 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
                 >
                   {activeCompleted > 0 ? "Continue" : "Start"}
                 </Button>
-                <div className="cdt-cta-mode">
-                  {mode === "revision" ? "⚡ Revision Mode" : "📚 Deep Learning"}
+                <div className="cdt-cta-mode" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <Icon name={mode === "revision" ? "zap" : "book-open"} size={11} />
+                  {mode === "revision" ? "Revision Mode" : "Deep Learning"}
                 </div>
               </div>
             )}
@@ -354,8 +357,8 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
               <h3>Lessons</h3>
               <div className="sub">
                 {mode === "revision"
-                  ? "⚡ Revision — key concepts, formulas and exam traps"
-                  : "📚 Deep Learning — full explanations with worked examples"}
+                  ? "Revision — key concepts, formulas and exam traps"
+                  : "Deep Learning — full explanations with worked examples"}
               </div>
             </div>
             {/* Inline toggle */}
@@ -363,14 +366,16 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
               <button
                 className={`cdt-mode-btn${mode === "revision" ? " cdt-mode-btn--active cdt-mode-btn--rev" : ""}`}
                 onClick={() => setMode("revision")}
+                style={{ display: "inline-flex", alignItems: "center", gap: 5 }}
               >
-                ⚡ Revision
+                <Icon name="zap" size={12} /> Revision
               </button>
               <button
                 className={`cdt-mode-btn${mode === "deep" ? " cdt-mode-btn--active cdt-mode-btn--deep" : ""}`}
                 onClick={() => setMode("deep")}
+                style={{ display: "inline-flex", alignItems: "center", gap: 5 }}
               >
-                📚 Deep Learning
+                <Icon name="book-open" size={12} /> Deep Learning
               </button>
             </div>
           </div>

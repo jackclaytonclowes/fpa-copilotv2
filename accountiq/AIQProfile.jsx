@@ -166,15 +166,15 @@ function AIQProfile({ onNavigate }) {
           <div className="prf-hero-stats">
             <div className="prf-hero-stat">
               <span className="prf-hero-stat-val">{streak}</span>
-              <span className="prf-hero-stat-label">Day streak 🔥</span>
+              <span className="prf-hero-stat-label">Day streak</span>
             </div>
             <div className="prf-hero-stat prf-hero-stat--citron">
               <span className="prf-hero-stat-val">{xp.toLocaleString()}</span>
-              <span className="prf-hero-stat-label">Total XP ⭐</span>
+              <span className="prf-hero-stat-label">Total XP</span>
             </div>
             <div className="prf-hero-stat">
               <span className="prf-hero-stat-val">{mocksTaken}</span>
-              <span className="prf-hero-stat-label">Mocks taken 🏆</span>
+              <span className="prf-hero-stat-label">Mocks taken</span>
             </div>
           </div>
         </div>

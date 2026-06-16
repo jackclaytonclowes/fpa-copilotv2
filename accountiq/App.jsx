@@ -38,6 +38,7 @@ function Sidebar({ active, onNav, onSignOut }) {
 
 /* ── TopBar ──────────────────────────────────────────────── */
 function TopBar({ view, aiqStats }) {
+  const { Icon } = window;
   const titles = {
     courses:      "Courses",
     coursedetail: "Course",
@@ -66,12 +67,12 @@ function TopBar({ view, aiqStats }) {
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           {aiqStats.streak > 0 && (
             <div className="tb-stat-pill tb-stat-pill--flame">
-              <span style={{ fontSize: 13, lineHeight: 1 }}>🔥</span>
+              <Icon name="flame" size={13} color="#E65100" />
               <span className="tb-stat-num">{aiqStats.streak}</span>
             </div>
           )}
           <div className="tb-stat-pill tb-stat-pill--xp">
-            <span style={{ fontSize: 13, lineHeight: 1 }}>⭐</span>
+            <Icon name="zap" size={13} color="var(--ink)" />
             <span className="tb-stat-num">{aiqStats.xp.toLocaleString()}</span>
           </div>
         </div>

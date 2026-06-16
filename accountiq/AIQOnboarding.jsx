@@ -204,7 +204,7 @@ function OnbStep5({ value, onChange }) {
           className={`onb-option onb-option--path${value === "foundation" ? " selected" : ""}`}
           onClick={() => onChange("foundation")}
         >
-          <span className="onb-path-emoji">📚</span>
+          <span className="onb-path-emoji"><Icon name="book-open" size={22} color="var(--primary)" /></span>
           <div style={{ flex: 1 }}>
             <div className="onb-option-label">Deep Learning</div>
             <div className="onb-option-sub">Full explanations, worked examples and quizzes. Best if you're building from scratch.</div>
@@ -215,7 +215,7 @@ function OnbStep5({ value, onChange }) {
           className={`onb-option onb-option--path${value === "accelerated" ? " selected" : ""}`}
           onClick={() => onChange("accelerated")}
         >
-          <span className="onb-path-emoji">⚡</span>
+          <span className="onb-path-emoji"><Icon name="zap" size={22} color="var(--caution)" /></span>
           <div style={{ flex: 1 }}>
             <div className="onb-option-label">Revision Mode</div>
             <div className="onb-option-sub">Key points, formulas and exam traps. Best if you've seen the content before.</div>
@@ -233,7 +233,7 @@ function OnbSummary({ inputs, goalMinutes, onEdit }) {
   const paper = PAPERS.find((p) => p.id === inputs.targetPaper);
   const confLabel = CONFIDENCE_OPTIONS.find((c) => c.id === inputs.confidenceLevel)?.label;
 
-  const pathLabel = inputs.studyPath === "accelerated" ? "⚡ Revision Mode" : "📚 Deep Learning";
+  const pathLabel = inputs.studyPath === "accelerated" ? "Revision Mode" : "Deep Learning";
 
   const rows = [
     { icon: "target",       label: "Target paper",    value: paper ? `${paper.label} — ${paper.sub}` : "—" },

@@ -140,18 +140,24 @@ function LsnQuiz({ lesson, allLessons }) {
   const advance = () => { setShowNext(false); setQIdx(i => i + 1); };
 
   if (isDone) {
+    const allCorrect = correct === total;
+    const mostlyCorrect = correct >= Math.ceil(total * 0.6);
     return (
       <div className="lsn-quiz-complete">
-        <div className="lsn-quiz-complete-emoji">
-          {correct === total ? "🎉" : correct >= Math.ceil(total * 0.6) ? "👍" : "💪"}
+        <div className="lsn-quiz-complete-icon">
+          <Icon
+            name={allCorrect ? "check-circle" : mostlyCorrect ? "thumbs-up" : "rotate-ccw"}
+            size={22}
+            color={allCorrect ? "var(--favourable)" : mostlyCorrect ? "var(--primary)" : "var(--caution)"}
+          />
         </div>
         <div className="lsn-quiz-complete-title">
-          {correct === total ? "Perfect score!" : `${correct} / ${total} correct`}
+          {allCorrect ? "Perfect score!" : `${correct} / ${total} correct`}
         </div>
         <p className="lsn-quiz-complete-sub">
-          {correct === total
+          {allCorrect
             ? "You nailed every question — ready for the full quiz?"
-            : correct >= Math.ceil(total * 0.6)
+            : mostlyCorrect
               ? "Good effort — review the explanation then take the full quiz."
               : "Keep reviewing — the full quiz will help lock it in."}
         </p>
@@ -242,13 +248,19 @@ function LsnQuizFlow({ questions }) {
   const advance = () => { setShowed(false); setIdx(i => i + 1); };
 
   if (isDone) {
+    const allCorrect = correct === total;
+    const mostlyCorrect = correct >= Math.ceil(total * 0.6);
     return (
       <div className="lsn-quiz-complete">
-        <div className="lsn-quiz-complete-emoji">
-          {correct === total ? "🎉" : correct >= Math.ceil(total * 0.6) ? "👍" : "💪"}
+        <div className="lsn-quiz-complete-icon">
+          <Icon
+            name={allCorrect ? "check-circle" : mostlyCorrect ? "thumbs-up" : "rotate-ccw"}
+            size={22}
+            color={allCorrect ? "var(--favourable)" : mostlyCorrect ? "var(--primary)" : "var(--caution)"}
+          />
         </div>
         <div className="lsn-quiz-complete-title">
-          {correct === total ? "Perfect score!" : `${correct} / ${total} correct`}
+          {allCorrect ? "Perfect score!" : `${correct} / ${total} correct`}
         </div>
       </div>
     );
@@ -275,18 +287,18 @@ function LsnQuizFlow({ questions }) {
 
 /* ── Lesson celebration overlay ──────────────────────────────────────────── */
 function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, streakUp, onNavigate, onDismiss }) {
-  const { Button } = window;
+  const { Button, Icon } = window;
   const store   = window.aiqStore ? window.aiqStore.get() : {};
   const streak  = store.streak || 0;
   const totalXp = store.xp    || 0;
 
-  const COLORS = ["#D4F04A","#4CAF50","#FF9800","#2196F3","#E91E63","#9C27B0","#00BCD4","#FF5722"];
-  const pieces = Array.from({ length: 20 }, (_, i) => ({
+  const COLORS = ["var(--primary)", "var(--favourable)", "var(--caution)", "var(--fg-3)"];
+  const pieces = Array.from({ length: 10 }, (_, i) => ({
     color:    COLORS[i % COLORS.length],
-    left:     `${4 + (i * 4.8) % 92}%`,
-    delay:    `${(i * 0.055).toFixed(2)}s`,
+    left:     `${8 + (i * 9.2) % 84}%`,
+    delay:    `${(i * 0.06).toFixed(2)}s`,
     duration: `${0.85 + (i % 5) * 0.12}s`,
-    w:        i % 3 === 0 ? 10 : i % 3 === 1 ? 7 : 5,
+    w:        i % 3 === 0 ? 8 : i % 3 === 1 ? 6 : 5,
     rot:      `${(i * 53) % 360}deg`,
   }));
 
@@ -302,12 +314,11 @@ function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, stre
         ))}
       </div>
       <div className="lsn-celebration-card">
-        <div className="lsn-cel-emoji">🎉</div>
+        <div className="lsn-cel-icon">
+          <Icon name="check-circle" size={30} color="var(--favourable)" />
+        </div>
         <div className="lsn-cel-title">Lesson complete!</div>
         <div className="lsn-cel-lesson">{lessonTitle}</div>
-        {streakUp && (
-          <div className="lsn-cel-streak-toast">🔥 {streak === 1 ? "Streak started!" : "Streak saved!"}</div>
-        )}
         <div className="lsn-cel-stats">
           <div className="lsn-cel-stat">
             <div className="lsn-cel-stat-val xp">+{xpEarned}</div>
@@ -319,7 +330,7 @@ function LsnCelebration({ xpEarned, lessonTitle, nextLesson, paperId, mode, stre
               {streak}
               {streakUp && <span className="lsn-cel-streak-badge">+1</span>}
             </div>
-            <div className="lsn-cel-stat-label">Day streak 🔥</div>
+            <div className="lsn-cel-stat-label">Day streak</div>
           </div>
           <div className="lsn-cel-sep" />
           <div className="lsn-cel-stat">
@@ -564,7 +575,7 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
           </div>
           <div className="rev-header-top" style={{ marginTop: 14 }}>
             <span className="crs-course-badge">{paper.title}</span>
-            <span className="rev-mode-badge">⚡ Revision Mode</span>
+            <span className="rev-mode-badge"><Icon name="zap" size={11} />Revision Mode</span>
             {marked && <span className="chip fav"><Icon name="check-circle" size={11} />Complete</span>}
             <span style={{ marginLeft: "auto", fontSize: 12, color: "var(--fg-3)", fontWeight: 500 }}>
               {safeIdx + 1} / {totalPages}
@@ -601,7 +612,7 @@ function RevisionLesson({ paperId, lesson, paper, onNavigate, lessons }) {
 
         {/* Nav row */}
         <div className="lsn-nav-row" style={{ position: "relative" }}>
-          {xpBurst && <span className="lsn-xp-burst">+25 XP 🎉</span>}
+          {xpBurst && <span className="lsn-xp-burst">+25 XP</span>}
 
           {/* Left: back through pages, then prev lesson */}
           {!isFirst ? (
