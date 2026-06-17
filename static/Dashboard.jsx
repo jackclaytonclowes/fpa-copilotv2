@@ -1,6 +1,165 @@
 /* FP&A Copilot — main variance dashboard (real API data) */
 const { useState: useStateDash, useEffect: useEffectDash, useRef: useRefDash } = React;
 
+/* ── AnomalyPanel ───────────────────────────────────────────────────────── */
+function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
+  const { Icon } = window;
+  const [result,   setResult]   = React.useState(null);
+  const [loading,  setLoading]  = React.useState(true);
+  const [sigma,    setSigma]    = React.useState(1.5);
+  const [expanded, setExpanded] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!sessionId) return;
+    setLoading(true);
+    const params = new URLSearchParams({
+      period: selectedPeriod || "",
+      mode:   periodMode || "monthly",
+      sigma,
+    });
+    fetch(apiUrl(`/api/anomalies/${sessionId}?${params}`))
+      .then((r) => r.json())
+      .then(setResult)
+      .catch(() => setResult(null))
+      .finally(() => setLoading(false));
+  }, [sessionId, selectedPeriod, periodMode, sigma]);
+
+  const fmtGBP = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const abs = Math.abs(v), sign = v < 0 ? "-" : "";
+    if (abs >= 1_000_000) return `${sign}£${(abs / 1_000_000).toFixed(2)}m`;
+    if (abs >= 1_000)     return `${sign}£${(abs / 1_000).toFixed(0)}k`;
+    return `${sign}£${Math.round(abs).toLocaleString("en-GB")}`;
+  };
+
+  const anomalies = result?.anomalies || [];
+  const note      = result?.note;
+
+  if (note || (!loading && anomalies.length === 0)) return null;
+
+  const visible = expanded ? anomalies : anomalies.slice(0, 3);
+  const sigmaColor = (z) =>
+    z >= 3 ? "var(--adverse)" : z >= 2 ? "var(--caution)" : "var(--fg-3)";
+  const sigmaLabel = (z) =>
+    z >= 3 ? "High" : z >= 2 ? "Moderate" : "Low";
+
+  return (
+    <div style={{
+      marginBottom: 20,
+      borderRadius: "var(--radius-md)",
+      border: "1px solid var(--border)",
+      background: "var(--surface)",
+      overflow: "hidden",
+    }}>
+      {/* Header */}
+      <div style={{
+        display: "flex", alignItems: "center", gap: 10, padding: "14px 18px",
+        borderBottom: loading || !anomalies.length ? "none" : "1px solid var(--border)",
+        background: "var(--surface-2)",
+      }}>
+        <span style={{
+          width: 30, height: 30, borderRadius: "50%", flexShrink: 0,
+          background: anomalies.length ? "var(--caution-soft)" : "var(--surface-3)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <Icon name="zap" size={15} color={anomalies.length ? "var(--caution)" : "var(--fg-3)"} />
+        </span>
+        <div style={{ flex: 1 }}>
+          <span style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)" }}>
+            Statistical anomalies
+          </span>
+          <span style={{ marginLeft: 10, font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+            {loading ? "Scanning…"
+              : anomalies.length
+                ? `${anomalies.length} account${anomalies.length > 1 ? "s" : ""} deviate from historical pattern · ${result?.period}`
+                : `No unusual movements detected · ${result?.period}`}
+          </span>
+        </div>
+        {/* Sensitivity selector */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+          <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>Sensitivity</span>
+          {[[1.5, "High"], [2.0, "Med"], [2.5, "Low"]].map(([s, lbl]) => (
+            <button key={s} onClick={() => setSigma(s)}
+              style={{
+                padding: "3px 9px", borderRadius: "var(--radius-pill)", cursor: "pointer",
+                border: sigma === s ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+                background: sigma === s ? "var(--primary-soft)" : "transparent",
+                color: sigma === s ? "var(--primary)" : "var(--fg-3)",
+                font: "var(--text-label)", fontSize: 10.5,
+              }}>{lbl}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Anomaly cards */}
+      {!loading && anomalies.length > 0 && (
+        <div style={{ padding: "12px 18px", display: "flex", flexDirection: "column", gap: 8 }}>
+          {visible.map((a, i) => (
+            <div key={i} style={{
+              display: "flex", alignItems: "center", gap: 12, padding: "10px 14px",
+              borderRadius: "var(--radius-sm)",
+              background: a.is_fav ? "var(--favourable-soft)" : "var(--adverse-soft)",
+              border: `1px solid ${a.is_fav ? "var(--favourable-border)" : "var(--adverse-border)"}`,
+            }}>
+              {/* Sigma badge */}
+              <div style={{
+                flexShrink: 0, textAlign: "center", minWidth: 44,
+                padding: "4px 8px", borderRadius: "var(--radius-sm)",
+                background: "rgba(0,0,0,0.06)",
+              }}>
+                <div style={{ font: "700 13px var(--font-mono)", color: sigmaColor(a.z_score) }}>
+                  {a.z_score.toFixed(1)}σ
+                </div>
+                <div style={{ font: "var(--text-label)", fontSize: 9, textTransform: "uppercase", color: sigmaColor(a.z_score) }}>
+                  {sigmaLabel(a.z_score)}
+                </div>
+              </div>
+
+              {/* Account info */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {a.account}
+                </div>
+                <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 2 }}>
+                  {a.category} ·{" "}
+                  {a.change_pct != null
+                    ? `${a.change_pct > 0 ? "+" : ""}${a.change_pct.toFixed(1)}% vs avg`
+                    : "unusual value"}
+                  {" "}· avg {fmtGBP(a.historical_mean)}
+                </div>
+              </div>
+
+              {/* Current vs mean */}
+              <div style={{ textAlign: "right", flexShrink: 0 }}>
+                <div style={{ font: "600 13px var(--font-mono)", color: a.is_fav ? "var(--favourable-text)" : "var(--adverse-text)", fontVariantNumeric: "tabular-nums" }}>
+                  {fmtGBP(a.current_value)}
+                </div>
+                <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 2 }}>
+                  {a.is_fav ? "Favourable" : "Adverse"}
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {anomalies.length > 3 && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              style={{
+                alignSelf: "flex-start", padding: "4px 12px", borderRadius: "var(--radius-pill)",
+                border: "1px solid var(--border-strong)", background: "transparent",
+                color: "var(--fg-3)", font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer",
+              }}>
+              {expanded
+                ? "Show fewer"
+                : `Show ${anomalies.length - 3} more anomal${anomalies.length - 3 > 1 ? "ies" : "y"}`}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── ForecastPanel ──────────────────────────────────────────────────────── */
 function ForecastPanel({ sessionId, periodMode }) {
   const { Icon, Card, Chip, TrendChart } = window;
@@ -348,6 +507,15 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
             </div>
           ))}
         </div>
+      )}
+
+      {/* Statistical anomaly detection */}
+      {!isBvA && periodMode !== "ytd" && (
+        <AnomalyPanel
+          sessionId={sessionId}
+          selectedPeriod={selected_period}
+          periodMode={periodMode}
+        />
       )}
 
       {/* Trend + AI commentary */}

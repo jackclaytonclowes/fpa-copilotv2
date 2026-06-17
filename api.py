@@ -1492,8 +1492,187 @@ async def ask(session_id: str, body: AskBody):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# EXPORT
+# Q&A COPILOT — STREAMING (SSE)
 # ─────────────────────────────────────────────────────────────────────────────
+@app.post("/api/ask-stream/{session_id}")
+def ask_stream(session_id: str, body: AskBody):
+    """
+    Streaming version of /api/ask.
+    Returns a Server-Sent Events stream of JSON deltas: {"delta": "token"}.
+    Terminated with the literal string "data: [DONE]\n\n".
+    """
+    import json as _json
+
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+
+    def _no_key():
+        msg = (
+            "<b>⚠️ OpenAI API key not configured.</b><br>"
+            "Set the <code>OPENAI_API_KEY</code> environment variable and restart."
+        )
+        yield f"data: {_json.dumps({'delta': msg})}\n\n"
+        yield "data: [DONE]\n\n"
+
+    if not api_key:
+        return StreamingResponse(_no_key(), media_type="text/event-stream")
+
+    # ── Resolve period ────────────────────────────────────────────────────────
+    selected = None
+    if s.get("analysis_type") == "budget_vs_actual":
+        selected = body.period if body.period else "full_year"
+    else:
+        analysis = s["analysis_m"] if body.mode == "monthly" else s["analysis_q"]
+        sort_key = (lambda p: pd.Timestamp(p)) if body.mode == "monthly" else quarter_sort_key
+        periods  = sorted(analysis["Period"].unique(), key=sort_key)
+        selected = periods[-1]
+        if body.period:
+            for p in periods:
+                if period_label(p, body.mode) == body.period or str(p) == body.period:
+                    selected = p
+                    break
+
+    context  = _build_financial_context(s, selected, body.mode)
+    messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT.format(context=context)}]
+    if body.history:
+        for msg in body.history[-12:]:
+            role    = msg.get("role", "")
+            content = str(msg.get("content", "")).strip()
+            if role in ("user", "assistant") and content:
+                messages.append({"role": role, "content": content[:1200]})
+    messages.append({"role": "user", "content": body.question})
+
+    model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+
+    def generate():
+        try:
+            from openai import OpenAI
+            cl     = OpenAI(api_key=api_key)
+            stream = cl.chat.completions.create(
+                model=model, messages=messages,
+                temperature=0.15, max_tokens=700, stream=True,
+            )
+            for chunk in stream:
+                delta = (chunk.choices[0].delta.content or "") if chunk.choices else ""
+                if delta:
+                    yield f"data: {_json.dumps({'delta': delta})}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as exc:
+            err_html = f"<b>⚠️ AI error:</b> {str(exc)[:200]}"
+            yield f"data: {_json.dumps({'delta': err_html})}\n\n"
+            yield "data: [DONE]\n\n"
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STATISTICAL ANOMALY DETECTION
+# ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/anomalies/{session_id}")
+def get_anomalies(
+    session_id: str,
+    period:     str   = "",
+    mode:       str   = "monthly",
+    sigma:      float = 1.5,
+):
+    """
+    Detect statistically unusual account movements using Z-score analysis.
+    Returns accounts where the current period value deviates from its own
+    historical distribution by more than `sigma` standard deviations.
+    """
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+    if s.get("analysis_type") == "budget_vs_actual":
+        return {"anomalies": [], "period": "", "note": "Not applicable for Budget vs Actual."}
+
+    analysis = s["analysis_m"] if mode != "quarterly" else s["analysis_q"]
+    sort_key = (lambda p: pd.Timestamp(p)) if mode != "quarterly" else quarter_sort_key
+    periods  = sorted(analysis["Period"].unique(), key=sort_key)
+
+    if len(periods) < 4:
+        return {"anomalies": [], "period": "", "note": "Needs ≥ 4 periods for reliable detection."}
+
+    selected = periods[-1]
+    if period:
+        for p in periods:
+            if str(p)[:10] == str(period)[:10] or period_label(p, mode) == period:
+                selected = p
+                break
+
+    selected_lbl = period_label(selected, mode)
+    non_sub = analysis[~analysis["Is Subtotal"]].copy()
+
+    anomalies = []
+    for acc_name in non_sub["Account"].unique():
+        acc_strip = acc_name.strip()
+
+        curr_rows = non_sub[
+            (non_sub["Account"].str.strip() == acc_strip) &
+            (non_sub["Period"] == selected)
+        ]
+        if curr_rows.empty:
+            continue
+        curr_raw = curr_rows.iloc[0]["Value"]
+        if pd.isna(curr_raw):
+            continue
+        curr_val = float(curr_raw)
+
+        hist_vals = non_sub[
+            (non_sub["Account"].str.strip() == acc_strip) &
+            (non_sub["Period"] != selected)
+        ]["Value"].dropna().astype(float)
+
+        if len(hist_vals) < 3:
+            continue
+
+        hmean = float(hist_vals.mean())
+        hstd  = float(hist_vals.std())
+
+        if hstd < 1 or abs(hmean) < 1:
+            continue
+
+        z = abs(curr_val - hmean) / hstd
+        if z < sigma:
+            continue
+
+        cat_mode = non_sub[non_sub["Account"].str.strip() == acc_strip]["Category"].mode()
+        cat      = str(cat_mode.iloc[0]) if not cat_mode.empty else "Other"
+
+        change  = curr_val - hmean
+        is_rev  = cat == "Revenue"
+        is_fav  = (is_rev and change > 0) or (not is_rev and change < 0)
+        chg_pct = round(change / abs(hmean) * 100, 1) if hmean != 0 else None
+
+        anomalies.append({
+            "account":         acc_strip,
+            "category":        cat,
+            "current_value":   round(curr_val, 2),
+            "historical_mean": round(hmean, 2),
+            "std_dev":         round(hstd, 2),
+            "z_score":         round(z, 2),
+            "change":          round(change, 2),
+            "change_pct":      chg_pct,
+            "is_fav":          is_fav,
+        })
+
+    anomalies.sort(key=lambda a: a["z_score"], reverse=True)
+    return {
+        "anomalies":    anomalies[:8],
+        "period":       selected_lbl,
+        "threshold":    sigma,
+        "total_found":  len(anomalies),
+    }
+
+
+
 @app.get("/api/export/{session_id}")
 def export(session_id: str, period: str = "", fmt: str = "pdf"):
     s = SESSIONS.get(session_id)

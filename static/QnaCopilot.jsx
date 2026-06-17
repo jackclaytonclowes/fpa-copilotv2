@@ -175,7 +175,15 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
     }).catch(() => {});
   };
 
-  /* ── Send question ───────────────────────────────────────────────────── */
+  /* ── Markdown → HTML (applied once stream is complete) ──────────────── */
+  const mdToHtml = (raw) =>
+    raw
+      .replace(/\*\*(.+?)\*\*/gs, "<b>$1</b>")
+      .replace(/\*(.+?)\*/gs,     "<i>$1</i>")
+      .replace(/\n\n/g, "<br><br>")
+      .replace(/\n/g,   "<br>");
+
+  /* ── Send question (streaming via SSE) ──────────────────────────────── */
   const ask = async (q) => {
     if (!q.trim() || loading) return;
     setMsgs((m) => [...m, { who: "user", html: q }]);
@@ -191,8 +199,11 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
         content: m.who === "user" ? m.html : stripHtml(m.html),
       }));
 
+    /* Add an empty streaming placeholder immediately */
+    setMsgs((m) => [...m, { who: "ai", html: "", streaming: true }]);
+
     try {
-      const res = await fetch(apiUrl("/api/ask/" + sessionId), {
+      const res = await fetch(apiUrl("/api/ask-stream/" + sessionId), {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({
@@ -202,11 +213,52 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
           history,
         }),
       });
-      const data = await res.json();
-      const aiMsg = { who: "ai", html: data.answer || "I couldn't generate an answer. Please try again." };
-      setMsgs((m) => [...m, aiMsg]);
 
-      // Best-effort server sync — silent failure, localStorage is source of truth
+      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+
+      const reader  = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "", rawText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const raw = line.slice(6).trim();
+          if (raw === "[DONE]") break;
+          try {
+            const { delta } = JSON.parse(raw);
+            if (delta) {
+              rawText += delta;
+              const partialHtml = rawText
+                .replace(/\n\n/g, "<br><br>")
+                .replace(/\n/g,   "<br>");
+              setMsgs((m) => {
+                const next = [...m];
+                next[next.length - 1] = { who: "ai", html: partialHtml, streaming: true };
+                return next;
+              });
+            }
+          } catch { /* skip malformed SSE line */ }
+        }
+      }
+
+      /* Apply full markdown conversion once stream ends */
+      const finalHtml = mdToHtml(rawText) ||
+        "I couldn't generate an answer — please try again.";
+      const aiMsg = { who: "ai", html: finalHtml, streaming: false };
+      setMsgs((m) => {
+        const next = [...m];
+        next[next.length - 1] = aiMsg;
+        return next;
+      });
+
+      /* Best-effort server sync */
       const allTurns = [...msgs.slice(1), { who: "user", html: q }, aiMsg];
       fetch(apiUrl("/api/chat/" + sessionId), {
         method: "POST",
@@ -214,10 +266,15 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
         body: JSON.stringify({ turns: allTurns }),
       }).catch(() => {});
     } catch {
-      setMsgs((m) => [
-        ...m,
-        { who: "ai", html: "Sorry, there was a network error. Please check the server is running and try again." },
-      ]);
+      setMsgs((m) => {
+        const next = [...m];
+        next[next.length - 1] = {
+          who: "ai",
+          html: "Sorry, there was a network error. Please check the server is running and try again.",
+          streaming: false,
+        };
+        return next;
+      });
     } finally {
       setLoading(false);
     }
@@ -265,16 +322,27 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
 
         {/* Message thread */}
         <div className="qna-scroll" ref={scrollRef}>
-          {msgs.map((m, i) => (
-            <div key={i} className={"msg " + m.who}>
-              <div className="av">
-                {m.who === "ai" ? <Icon name="sparkles" size={16} /> : "FP"}
+          {msgs.map((m, i) => {
+            const isLiveStream = m.streaming && i === msgs.length - 1;
+            return (
+              <div key={i} className={"msg " + m.who}>
+                <div className="av">
+                  {m.who === "ai" ? <Icon name="sparkles" size={16} /> : "FP"}
+                </div>
+                <div
+                  className="bubble"
+                  dangerouslySetInnerHTML={{
+                    __html: m.html + (isLiveStream
+                      ? '<span class="stream-cursor">▍</span>'
+                      : ""),
+                  }}
+                />
               </div>
-              <div className="bubble" dangerouslySetInnerHTML={{ __html: m.html }} />
-            </div>
-          ))}
+            );
+          })}
 
-          {loading && (
+          {/* Spinner only shown while waiting for the first token */}
+          {loading && !msgs[msgs.length - 1]?.streaming && (
             <div className="msg ai">
               <div className="av"><Icon name="sparkles" size={16} /></div>
               <div className="bubble" style={{ display: "flex", gap: 8, alignItems: "center", color: "var(--fg-3)" }}>

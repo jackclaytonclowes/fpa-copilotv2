@@ -180,6 +180,8 @@ table.var tbody tr:hover{background:var(--surface-2);}
 .loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--fg-3);font:var(--text-body);gap:10px;}
 .spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.stream-cursor{display:inline-block;color:var(--primary);animation:blink .7s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 @media (prefers-reduced-motion:no-preference){
   .reveal{animation:rise .42s cubic-bezier(.2,.7,.3,1);}
 }
