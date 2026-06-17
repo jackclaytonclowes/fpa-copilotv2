@@ -105,6 +105,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     copilot:   "Q&A Copilot",
     movements: "Movements",
     reports:   "Reports",
+    scenarios: "Scenario Analysis",
     data:      "Data sources",
     settings:  "Settings",
   };
@@ -268,7 +269,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -463,6 +464,16 @@ function App() {
         onNavigateCopilot={navigateToCopilot}
         fileName={sessionData?.file_name}
       />
+    );
+  } else if (view === "scenarios") {
+    body = (
+      <div className="content">
+        <Scenarios
+          initialData={effectiveData}
+          fileName={sessionData?.file_name}
+          analysisType={analysisType}
+        />
+      </div>
     );
   } else if (view === "data") {
     body = (

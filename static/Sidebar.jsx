@@ -24,10 +24,11 @@ function Sidebar({ active, onNav, hasData }) {
     setIsDark(document.documentElement.dataset.theme === "dark");
   };
   const nav = [
-    { id: "dashboard", icon: "layout-dashboard", label: "Dashboard" },
-    { id: "copilot",   icon: "sparkles",          label: "Q&A Copilot" },
-    { id: "movements", icon: "list-tree",          label: "Movements" },
-    { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
+    { id: "dashboard", icon: "layout-dashboard",   label: "Dashboard" },
+    { id: "copilot",   icon: "sparkles",            label: "Q&A Copilot" },
+    { id: "movements", icon: "list-tree",           label: "Movements" },
+    { id: "reports",   icon: "file-bar-chart",      label: "Reports" },
+    { id: "scenarios", icon: "sliders-horizontal",  label: "Scenarios" },
   ];
   const tools = [
     { id: "data",     icon: "database", label: "Data sources" },
