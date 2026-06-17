@@ -240,10 +240,50 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   };
 
   const tabs = [
-    { id: "top", label: "Top Movements" },
-    { id: "revenue", label: "Revenue" },
-    { id: "costs", label: "Costs" },
+    { id: "top",    label: "Top Movements" },
+    { id: "revenue",label: "Revenue" },
+    { id: "costs",  label: "Costs" },
+    { id: "matrix", label: "Heatmap" },
   ];
+
+  /* ── Heatmap helpers ─────────────────────────────────────── */
+  const [matrixMode, setMatrixMode] = useStateM("change"); // "change" | "value"
+
+  const allPeriods  = data?.periods || [];
+  const histLen     = Math.max(0, ...allRows.map(r => (r.history || []).length));
+  const heatPeriods = allPeriods.slice(-histLen).map((p) => {
+    try { return new Date(String(p)).toLocaleDateString("en-GB", { month: "short", year: "2-digit" }); }
+    catch (_) { return String(p).slice(0, 7); }
+  });
+
+  const pctChange = (values, idx) => {
+    if (!values || idx === 0 || values[idx] == null || values[idx - 1] == null || values[idx - 1] === 0) return null;
+    return ((values[idx] - values[idx - 1]) / Math.abs(values[idx - 1])) * 100;
+  };
+
+  const heatBg = (pct, isRev) => {
+    if (pct == null) return "transparent";
+    const fav   = isRev ? pct >= 0 : pct <= 0;
+    const alpha = Math.min(Math.abs(pct) / 20, 1) * 0.65;
+    return fav
+      ? `rgba(14,138,87,${0.07 + alpha})`
+      : `rgba(208,43,69,${0.07 + alpha})`;
+  };
+
+  const fmtCompact = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const abs = Math.abs(v);
+    const sign = v < 0 ? "-" : "";
+    if (abs >= 1_000_000) return `${sign}£${(abs / 1_000_000).toFixed(1)}m`;
+    if (abs >= 1_000)     return `${sign}£${(abs / 1_000).toFixed(0)}k`;
+    return `${sign}£${Math.round(abs)}`;
+  };
+
+  const heatRows = useMemoM(() => {
+    if (activeTab === "revenue") return allRows.filter(m => m.category === "Revenue");
+    if (activeTab === "costs")   return allRows.filter(m => m.category !== "Revenue");
+    return allRows;
+  }, [allRows, activeTab]);
 
   return (
     <div className="content">
@@ -421,8 +461,8 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
             );
           })()}
 
-          {/* Table */}
-          <div style={{ overflowX: "auto" }}>
+          {/* Table — hidden when matrix tab is active */}
+          {activeTab !== "matrix" && <div style={{ overflowX: "auto" }}>
             <table className="var">
               <thead>
                 <tr>
@@ -679,6 +719,124 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
               </tbody>
             </table>
           </div>
+        )}
+
+        {/* ── Heatmap / Matrix view ─────────────────────────── */}
+        {activeTab === "matrix" && !isBvA && (
+          <div>
+            {/* Mode toggle + legend */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
+              <div className="seg" style={{ display: "inline-flex" }}>
+                <button className={matrixMode === "change" ? "on" : ""} onClick={() => setMatrixMode("change")}>
+                  MoM % change
+                </button>
+                <button className={matrixMode === "value" ? "on" : ""} onClick={() => setMatrixMode("value")}>
+                  Absolute value
+                </button>
+              </div>
+              {matrixMode === "change" && (
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  {[
+                    { label: "Favourable", bg: "rgba(14,138,87,0.55)", color: "var(--favourable-text)" },
+                    { label: "Adverse",    bg: "rgba(208,43,69,0.55)",  color: "var(--adverse-text)" },
+                    { label: "No change",  bg: "var(--surface-2)",       color: "var(--fg-3)" },
+                  ].map((l) => (
+                    <span key={l.label} style={{ display: "inline-flex", alignItems: "center", gap: 5, font: "var(--text-caption)", fontSize: 11, color: l.color }}>
+                      <span style={{ width: 12, height: 12, borderRadius: 3, background: l.bg, display: "inline-block" }} />
+                      {l.label}
+                    </span>
+                  ))}
+                  <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                    · intensity = magnitude (full at ±20%)
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {heatPeriods.length < 2 ? (
+              <div style={{ textAlign: "center", padding: "24px 0", color: "var(--fg-3)", font: "var(--text-body)", fontSize: 13 }}>
+                Not enough periods for a heatmap — upload a dataset with at least 2 months.
+              </div>
+            ) : (
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ borderCollapse: "collapse", minWidth: "100%", tableLayout: "fixed" }}>
+                  <colgroup>
+                    <col style={{ width: 160 }} />
+                    {heatPeriods.map((_, i) => <col key={i} style={{ width: Math.max(64, Math.floor(500 / heatPeriods.length)) }} />)}
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th style={{
+                        textAlign: "left", padding: "6px 10px",
+                        font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
+                        letterSpacing: ".06em", color: "var(--fg-3)",
+                        borderBottom: "1px solid var(--border)",
+                        position: "sticky", left: 0, background: "var(--surface)", zIndex: 1,
+                      }}>Account</th>
+                      {heatPeriods.map((p, i) => (
+                        <th key={i} style={{
+                          textAlign: "center", padding: "6px 4px",
+                          font: "var(--text-label)", fontSize: 10, textTransform: "uppercase",
+                          letterSpacing: ".05em", color: "var(--fg-3)",
+                          borderBottom: "1px solid var(--border)", whiteSpace: "nowrap",
+                        }}>{p}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {heatRows.map((m, ri) => {
+                      const hist = m.history || [];
+                      const isRev = m.category === "Revenue";
+                      return (
+                        <tr key={ri} style={{ borderBottom: "1px solid var(--border)" }}>
+                          <td style={{
+                            padding: "5px 10px", font: "var(--text-body)", fontSize: 12,
+                            color: "var(--fg-1)", overflow: "hidden", textOverflow: "ellipsis",
+                            whiteSpace: "nowrap", maxWidth: 160,
+                            position: "sticky", left: 0, background: "var(--surface)", zIndex: 1,
+                          }} title={m.account}>
+                            {m.account}
+                          </td>
+                          {Array.from({ length: histLen }).map((_, pi) => {
+                            const v   = hist[pi] ?? null;
+                            const pct = pctChange(hist, pi);
+                            const bg  = matrixMode === "change" ? heatBg(pct, isRev) : "transparent";
+                            const txt = matrixMode === "change"
+                              ? (pct == null ? (pi === 0 ? "base" : "—") : (pct >= 0 ? "+" : "") + pct.toFixed(1) + "%")
+                              : fmtCompact(v);
+                            const textColor = matrixMode === "change" && pct != null
+                              ? (isRev ? (pct >= 0 ? "var(--favourable-text)" : "var(--adverse-text)") : (pct <= 0 ? "var(--favourable-text)" : "var(--adverse-text)"))
+                              : "var(--fg-2)";
+                            return (
+                              <td key={pi} style={{
+                                textAlign: "center", padding: "5px 4px",
+                                background: bg, transition: "background .15s",
+                                font: "500 11px var(--font-mono)", fontVariantNumeric: "tabular-nums",
+                                color: pi === 0 && matrixMode === "change" ? "var(--fg-3)" : textColor,
+                                fontSize: 10.5,
+                              }}>
+                                {txt}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      );
+                    })}
+                    {heatRows.length === 0 && (
+                      <tr><td colSpan={histLen + 1} style={{ textAlign: "center", padding: 24, color: "var(--fg-3)" }}>No accounts to display</td></tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "matrix" && isBvA && (
+          <div style={{ textAlign: "center", padding: "24px 0", color: "var(--fg-3)", font: "var(--text-body)", fontSize: 13 }}>
+            Heatmap is not available for Budget vs Actual datasets.
+          </div>
+        )}
         </Card>
       </div>
     </div>
