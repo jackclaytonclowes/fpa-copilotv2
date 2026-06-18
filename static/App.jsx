@@ -120,6 +120,32 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 
       <div className="tb-spacer" />
 
+      {/* ⌘K trigger — always visible when data is loaded */}
+      {hasData && (
+        <button
+          onClick={() => window.__openPalette?.()}
+          title="Command palette (⌘K / Ctrl+K)"
+          style={{
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "5px 10px", borderRadius: "var(--radius-sm)",
+            border: "1px solid var(--border-strong)",
+            background: "var(--surface)", color: "var(--fg-3)",
+            font: "var(--text-body)", fontSize: 12.5, cursor: "pointer",
+            flexShrink: 0,
+          }}
+          onMouseOver={(e) => { e.currentTarget.style.borderColor = "var(--primary)"; e.currentTarget.style.color = "var(--primary)"; }}
+          onMouseOut={(e)  => { e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.color = "var(--fg-3)"; }}
+        >
+          <Icon name="search" size={13} />
+          <span>Search</span>
+          <kbd style={{
+            font: "var(--text-label)", fontSize: 10, color: "var(--fg-3)",
+            padding: "1px 5px", borderRadius: "var(--radius-sm)",
+            border: "1px solid var(--border-strong)", background: "var(--surface-2)",
+          }}>⌘K</kbd>
+        </button>
+      )}
+
       {/* Right controls — only when data is loaded on dashboard view */}
       {hasData && view === "dashboard" && analysisType !== "budget_vs_actual" && (
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
@@ -269,7 +295,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette } = window;
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -540,6 +566,19 @@ function App() {
         />
       )}
       <Toast message={toast} />
+
+      <CommandPalette
+        onNav={setView}
+        hasData={hasData}
+        movements={effectiveData?.movements}
+        onAsk={navigateToCopilot}
+        onExport={() => setShowExport(true)}
+        onThemeToggle={() => {
+          const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+          document.documentElement.dataset.theme = next;
+          try { localStorage.setItem("monthendiq_theme", next); } catch {}
+        }}
+      />
     </div>
   );
 }
