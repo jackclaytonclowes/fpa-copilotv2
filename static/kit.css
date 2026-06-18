@@ -66,7 +66,7 @@ button{font-family:inherit;cursor:pointer;}
 .kpi{padding:17px 19px;}
 .kpi .lbl{font:var(--text-label);text-transform:uppercase;letter-spacing:.05em;color:var(--fg-3);display:flex;align-items:center;gap:7px;}
 .kpi .lbl .ic{color:var(--primary);display:inline-flex;}
-.kpi .val{font:var(--text-metric);color:var(--ink);font-variant-numeric:tabular-nums;margin:13px 0 9px;}
+.kpi .val{font:var(--text-metric);color:var(--ink);font-variant-numeric:tabular-nums;margin:13px 0 9px;word-break:break-all;}
 .delta{display:inline-flex;align-items:center;gap:5px;font:var(--text-data);font-size:12px;padding:3px 9px;border-radius:var(--radius-pill);}
 .delta.fav{background:var(--favourable-soft);color:var(--favourable-text);}
 .delta.adv{background:var(--adverse-soft);color:var(--adverse-text);}

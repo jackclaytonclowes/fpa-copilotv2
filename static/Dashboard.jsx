@@ -469,7 +469,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
       {/* ── BvA Revenue & Profit summary cards ────────────────────── */}
       {isBvA && (bvaRevKpi || bvaProfKpi) && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
           {[
             bvaRevKpi  && { label: "Actual Revenue",  value: bvaRevKpi.value,    isVar: false },
             bvaRevKpi  && { label: "Budget Revenue",  value: bvaRevKpi.prior,    isVar: false },
