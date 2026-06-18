@@ -634,12 +634,13 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {/* Revenue + Expense splits */}
       <div className="grid-2b">
         <Card title="Revenue split" sub={period?.label || selected_period}>
-          <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
+          <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Donut data={revSplit} total={"£" + Math.round(revTotal / 1000) + "k"} label="revenue" />
-            <div className="legend" style={{ flex: 1 }}>
+            <div className="legend" style={{ flex: 1, minWidth: 0 }}>
               {revSplit.map((it) => (
                 <div className="lg" key={it.name}>
-                  <span className="sw" style={{ background: it.c }} />{it.name}
+                  <span className="sw" style={{ background: it.c }} />
+                  <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{it.name}</span>
                   <span className="v">{fmtGBP(it.value)}</span>
                   <span className="pct">{revTotal > 0 ? ((it.value / revTotal) * 100).toFixed(0) : 0}%</span>
                 </div>
@@ -648,12 +649,13 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           </div>
         </Card>
         <Card title="Expense split" sub={period?.label || selected_period}>
-          <div style={{ display: "flex", gap: 22, alignItems: "center" }}>
+          <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Donut data={expSplit} total={"£" + Math.round(expTotal / 1000) + "k"} label="costs" />
-            <div className="legend" style={{ flex: 1 }}>
+            <div className="legend" style={{ flex: 1, minWidth: 0 }}>
               {expSplit.map((it) => (
                 <div className="lg" key={it.name}>
-                  <span className="sw" style={{ background: it.c }} />{it.name}
+                  <span className="sw" style={{ background: it.c }} />
+                  <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{it.name}</span>
                   <span className="v">{fmtGBP(it.value)}</span>
                   <span className="pct">{expTotal > 0 ? ((it.value / expTotal) * 100).toFixed(0) : 0}%</span>
                 </div>

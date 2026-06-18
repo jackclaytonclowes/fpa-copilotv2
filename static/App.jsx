@@ -120,11 +120,12 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 
       <div className="tb-spacer" />
 
-      {/* ⌘K trigger — always visible when data is loaded */}
+      {/* ⌘K trigger — hidden on mobile (bottom nav handles navigation there) */}
       {hasData && (
         <button
           onClick={() => window.__openPalette?.()}
           title="Command palette (⌘K / Ctrl+K)"
+          className="tb-controls-hide"
           style={{
             display: "flex", alignItems: "center", gap: 6,
             padding: "5px 10px", borderRadius: "var(--radius-sm)",
@@ -146,9 +147,9 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
         </button>
       )}
 
-      {/* Right controls — only when data is loaded on dashboard view */}
+      {/* Right controls — hidden on mobile (bottom nav + full-screen views handle it) */}
       {hasData && view === "dashboard" && analysisType !== "budget_vs_actual" && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <div className="tb-controls-hide" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           {/* Consolidated badge */}
           {isConsolidated && (
             <span style={{
@@ -213,7 +214,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
         </div>
       )}
       {hasData && view === "dashboard" && analysisType === "budget_vs_actual" && (
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <div className="tb-controls-hide" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           {/* Mode badge */}
           <span style={{
             font: "var(--text-body-strong)", fontSize: 12, padding: "4px 12px",
@@ -278,6 +279,33 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
         </div>
       )}
     </div>
+  );
+}
+
+/* ── Mobile bottom nav ──────────────────────────────────── */
+function MobileNav({ active, onNav, hasData }) {
+  const { Icon } = window;
+  const items = [
+    { id: "dashboard", icon: "layout-dashboard", label: "Home" },
+    { id: "copilot",   icon: "sparkles",          label: "Copilot" },
+    { id: "movements", icon: "list-tree",          label: "Movements" },
+    { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
+    { id: "data",      icon: "database",           label: "Data" },
+  ];
+  return (
+    <nav className="mobile-nav">
+      {items.map((it) => (
+        <button
+          key={it.id}
+          className={`mobile-nav-item${active === it.id ? " on" : ""}${!hasData && !["data"].includes(it.id) ? " disabled" : ""}`}
+          onClick={() => (hasData || it.id === "data") && onNav(it.id)}
+          style={!hasData && it.id !== "data" ? { opacity: 0.35 } : {}}
+        >
+          <Icon name={it.icon} size={20} />
+          <span>{it.label}</span>
+        </button>
+      ))}
+    </nav>
   );
 }
 
@@ -565,6 +593,7 @@ function App() {
           analysisType={analysisType}
         />
       )}
+      <MobileNav active={view} onNav={setView} hasData={hasData} />
       <Toast message={toast} />
 
       <CommandPalette
