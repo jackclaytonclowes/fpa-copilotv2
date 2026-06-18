@@ -206,11 +206,13 @@ table.var tbody tr:hover{background:var(--surface-2);}
   /* Donut: stack chart above legend */
   .donut-wrap{flex-direction:column !important;align-items:center !important;}
   .donut-wrap .legend{width:100%;margin-top:10px;}
-  /* Table scroll hint */
-  .table-scroll-wrap::before{
-    content:"← scroll →";display:block;text-align:center;
-    font-size:10px;color:var(--fg-3);padding-bottom:6px;letter-spacing:.04em;
-  }
+  /* Movements table — hide low-priority columns, let card width breathe */
+  .col-prior{display:none;}
+  .col-varpct{display:none;}
+  .col-sparkline{display:none;}
+  /* Tab strip: allow horizontal scroll so tabs don't clip */
+  .tab-strip{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap !important;}
+  .tab-strip button{flex-shrink:0;}
 }
 /* Mobile bottom navigation */
 .mobile-nav{

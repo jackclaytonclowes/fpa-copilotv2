@@ -151,10 +151,11 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
     else { setSortCol(col); setSortAsc(col === "account" || col === "category"); }
   };
 
-  const SortHeader = ({ col, label, align }) => {
+  const SortHeader = ({ col, label, align, className }) => {
     const active = sortCol === col;
+    const cls = [align || "", className || ""].filter(Boolean).join(" ");
     return (
-      <th className={align || ""} onClick={() => handleSort(col)}
+      <th className={cls || undefined} onClick={() => handleSort(col)}
         style={{ cursor: "pointer", userSelect: "none", whiteSpace: "nowrap" }}>
         {label}
         <span style={{ marginLeft: 4, opacity: active ? 1 : 0.3, fontSize: 10 }}>
@@ -375,7 +376,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
         {/* Tabs + search */}
         <Card title="" style={{ padding: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
-            <div style={{
+            <div className="tab-strip" style={{
               display: "flex", gap: 4,
               borderBottom: "1px solid var(--border)", paddingBottom: 0, flex: 1,
             }}>
@@ -468,11 +469,11 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 <tr>
                   <SortHeader col="account" label="Account" align="l" />
                   <SortHeader col="category" label="Category" align="l" />
-                  {!isBvA && <th style={{ width: 64 }}>Trend</th>}
+                  {!isBvA && <th className="col-sparkline" style={{ width: 64 }}>Trend</th>}
                   <SortHeader col="actual" label={isBvA ? "Actual" : "Current"} />
-                  <SortHeader col="budget" label={isBvA ? "Budget" : "Prior"} />
+                  <SortHeader col="budget" label={isBvA ? "Budget" : "Prior"} className="col-prior" />
                   <SortHeader col="variance" label="Variance" />
-                  <SortHeader col="variance_pct" label="Var %" />
+                  <SortHeader col="variance_pct" label="Var %" className="col-varpct" />
                   <th>Impact</th>
                   <th style={{ width: 40 }}></th>
                 </tr>
@@ -502,14 +503,14 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                         </td>
                         <td className="l">{m.category}</td>
                         {!isBvA && (
-                          <td style={{ padding: "6px 8px" }}>
+                          <td className="col-sparkline" style={{ padding: "6px 8px" }}>
                             <Sparkline values={m.history} isFav={m.is_fav} />
                           </td>
                         )}
                         <td>{fmtGBP(m.value)}</td>
-                        <td>{fmtGBP(m.prior_value)}</td>
+                        <td className="col-prior">{fmtGBP(m.prior_value)}</td>
                         <td className={m.is_fav ? "fav" : m.variance !== 0 ? "adv" : ""}>{fmtSignedGBP(m.variance)}</td>
-                        <td className={m.is_fav ? "fav" : m.variance !== 0 ? "adv" : ""}>{fmtPct(m.variance_pct)}</td>
+                        <td className={`col-varpct${m.is_fav ? " fav" : m.variance !== 0 ? " adv" : ""}`}>{fmtPct(m.variance_pct)}</td>
                         <td>
                           <span style={{
                             font: "var(--text-body-strong)", fontSize: 11, padding: "2px 8px",
