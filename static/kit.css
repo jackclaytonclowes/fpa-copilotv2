@@ -213,6 +213,8 @@ table.var tbody tr:hover{background:var(--surface-2);}
   /* Tab strip: allow horizontal scroll so tabs don't clip */
   .tab-strip{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap !important;}
   .tab-strip button{flex-shrink:0;}
+  /* BvA: hide the 6-card Actual/Budget/Variance grid — KPI row already has the same numbers */
+  .bva-summary-grid{display:none;}
 }
 /* Mobile bottom navigation */
 .mobile-nav{
