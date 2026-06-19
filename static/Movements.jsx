@@ -31,6 +31,7 @@ function Sparkline({ values, isFav }) {
 }
 
 function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot, fileName }) {
+  console.log("[Movements] render, initialData:", !!initialData, "sessionId:", sessionId);
   const { Icon, Card, Button, Delta, Chip } = window;
   const [data, setData]               = useStateM(initialData);
   const [loading, setLoading]         = useStateM(false);
@@ -285,6 +286,10 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
     if (activeTab === "costs")   return allRows.filter(m => m.category !== "Revenue");
     return allRows;
   }, [allRows, activeTab]);
+
+  try { void allRows.length; void sorted.length; void heatRows.length; } catch(__e) {
+    return <div className="content" style={{padding:"40px 32px"}}><b>Movements render error:</b><pre style={{marginTop:8,fontSize:12,color:"red"}}>{String(__e)}</pre></div>;
+  }
 
   return (
     <div className="content">
