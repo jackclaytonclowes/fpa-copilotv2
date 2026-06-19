@@ -321,43 +321,17 @@ function Toast({ message }) {
   );
 }
 
-/* ── Error boundary ─────────────────────────────────────── */
-class ViewErrorBoundary extends React.Component {
-  constructor(props) { super(props); this.state = { error: null }; }
-  static getDerivedStateFromError(e) { return { error: e }; }
-  componentDidCatch(e, info) { console.error("[MonthEndIQ] View render error:", e, info); }
-  render() {
-    if (this.state.error) {
-      return (
-        <div style={{ padding: "40px 32px", color: "var(--ink)" }}>
-          <h2 style={{ font: "var(--text-h2)", marginBottom: 8 }}>Something went wrong</h2>
-          <p style={{ font: "var(--text-body)", color: "var(--fg-2)", marginBottom: 16 }}>
-            There was an error rendering this view. Open the browser console (F12) to see details.
-          </p>
-          <pre style={{
-            font: "var(--text-data)", fontSize: 12, background: "var(--surface-2)",
-            border: "1px solid var(--border)", borderRadius: "var(--radius-md)",
-            padding: "14px 18px", overflowX: "auto", color: "var(--adverse-text)",
-          }}>
-            {String(this.state.error)}
-          </pre>
-          <button
-            style={{ marginTop: 16, font: "var(--text-body-strong)", padding: "8px 16px",
-              borderRadius: "var(--radius-sm)", border: "1px solid var(--border-strong)",
-              background: "var(--surface)", cursor: "pointer" }}
-            onClick={() => this.setState({ error: null })}>
-            Try again
-          </button>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 /* ── App ────────────────────────────────────────────────── */
 function App() {
   const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette } = window;
+
+  // Diagnostic: log any undefined components so we can spot load failures
+  React.useEffect(() => {
+    const check = { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette };
+    const missing = Object.entries(check).filter(([, v]) => !v).map(([k]) => k);
+    if (missing.length) console.error("[MonthEndIQ] Missing window components:", missing);
+    else console.log("[MonthEndIQ] All components loaded OK");
+  }, []);
 
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
@@ -541,7 +515,9 @@ function App() {
       />
     );
   } else if (view === "movements") {
-    body = (
+    body = !Movements
+      ? <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Movements failed to load — check the browser console (F12) for errors.</div></div>
+      : (
       <Movements
         sessionId={sessionId}
         initialData={effectiveData}
@@ -616,9 +592,7 @@ function App() {
           isConsolidated={isConsolidated}
           entityCount={entities.length}
         />
-        <ViewErrorBoundary key={view}>
-          {body}
-        </ViewErrorBoundary>
+        {body}
       </div>
 
       {showExport && (
