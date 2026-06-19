@@ -30,16 +30,7 @@ function DemoCard({ icon, title, badge, description, detail, endpoint, demoKey, 
     <button
       onClick={() => onDemo(endpoint, demoKey)}
       disabled={demoLoading !== null || loading}
-      style={{
-        width: "100%", display: "flex", alignItems: "flex-start", gap: 12,
-        padding: "14px 16px", marginBottom: 10,
-        borderRadius: "var(--radius-sm)",
-        border: isLoading ? "1.5px solid var(--primary)" : "1.5px solid var(--border)",
-        background: isLoading ? "var(--primary-soft)" : "var(--surface)",
-        cursor: demoLoading !== null || loading ? "default" : "pointer",
-        textAlign: "left", transition: "border-color .15s, background .15s",
-        opacity: (demoLoading !== null && !isLoading) ? 0.5 : 1,
-      }}
+      className={`demo-card${isLoading ? " active" : ""}`}
     >
       <div style={{
         width: 36, height: 36, borderRadius: "var(--radius-sm)",
@@ -59,7 +50,7 @@ function DemoCard({ icon, title, badge, description, detail, endpoint, demoKey, 
           <span style={{
             font: "var(--text-label)", fontSize: 10, textTransform: "uppercase",
             letterSpacing: ".06em", padding: "2px 6px",
-            borderRadius: 20, background: "var(--primary-soft)", color: "var(--primary)",
+            borderRadius: "var(--radius-pill)", background: "var(--primary-soft)", color: "var(--primary)",
             whiteSpace: "nowrap",
           }}>
             {badge}
@@ -333,9 +324,9 @@ function UploadScreen({ onLoad, onLoadDemo }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
               <div style={{
                 width: 40, height: 40, borderRadius: "var(--radius-sm)",
-                background: "#13B5EA22", display: "flex", alignItems: "center", justifyContent: "center",
+                background: "var(--primary-soft)", display: "flex", alignItems: "center", justifyContent: "center",
               }}>
-                <Icon name="link" size={20} color="#13B5EA" />
+                <Icon name="link" size={20} color="var(--primary)" />
               </div>
               <div>
                 <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--fg-1)" }}>
@@ -348,7 +339,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
               <span style={{
                 marginLeft: "auto", font: "var(--text-label)", fontSize: 10,
                 textTransform: "uppercase", letterSpacing: ".06em",
-                padding: "3px 8px", borderRadius: 20,
+                padding: "3px 8px", borderRadius: "var(--radius-pill)",
                 background: "var(--surface-2)", color: "var(--fg-3)",
                 border: "1px solid var(--border)", whiteSpace: "nowrap",
               }}>

@@ -291,7 +291,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
 
   /* ── Render ──────────────────────────────────────────────────────────── */
   return (
-    <div className="content-inner" style={{ height: "calc(100vh - 62px)", display: "flex", flexDirection: "column" }}>
+    <div className="content-inner" style={{ height: "calc(100vh - 64px)", display: "flex", flexDirection: "column" }}>
       <div className="qna" style={{ flex: 1 }}>
 
         {/* Clear chat — only visible once conversation has started */}
