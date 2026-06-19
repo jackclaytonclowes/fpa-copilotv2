@@ -109,12 +109,12 @@ function BottomNav({ active, onNav }) {
               <Icon
                 name={it.icon}
                 size={21}
-                color={isActive ? "#0C0E1A" : "var(--sand-400)"}
+                color={isActive ? "var(--primary)" : "var(--sand-400)"}
                 stroke={isActive ? 2.25 : 1.75}
               />
               <span
                 className="aiq-bnav-label"
-                style={{ color: isActive ? "#0C0E1A" : "var(--sand-400)", fontWeight: isActive ? 700 : 500 }}
+                style={{ color: isActive ? "var(--primary)" : "var(--sand-400)", fontWeight: isActive ? 700 : 500 }}
               >
                 {it.label}
               </span>

@@ -1,29 +1,30 @@
 /* ============================================================================
-   FP&A Copilot — Colors & Type Foundations
+   AccountIQ — Colors & Type Foundations
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --font-display: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif;
+  /* Editorial serif for hero numbers and screen titles; Hanken for all UI text */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans:    'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
   --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Neutrals */
-  --ink:        #0F1B2D;
-  --fg-1:       #0F1B2D;
-  --fg-2:       #4B5A6B;
-  --fg-3:       #8794A2;
+  --ink:        #111827;
+  --fg-1:       #111827;
+  --fg-2:       #4B5563;
+  --fg-3:       #9CA3AF;
   --fg-on-dark: #EAF0F6;
   --fg-on-dark-2:#9DB0C4;
 
-  --canvas:    #F7F3ED;
+  --canvas:    #F4F6F8;
   --surface:   #FFFFFF;
-  --surface-2: #F0EBE3;
-  --surface-3: #E8E0D4;
+  --surface-2: #EDEEF0;
+  --surface-3: #E5E7EA;
 
-  --border:        #E8E0D4;
-  --border-strong: #D0C8BC;
+  --border:        #E5E7EB;
+  --border-strong: #D1D5DB;
 
   /* AccountIQ brand */
   --citron:        #D4F04A;
@@ -32,43 +33,59 @@
   --citron-border: #CBED6E;
   --citron-text:   #3A5200;
 
-  --mint:        #7EEBC7;
-  --mint-soft:   #E8FAF4;
-  --mint-border: #A8F2E0;
-  --mint-text:   #0D7D74;
+  /* Mint — vibrant emerald green */
+  --mint:        #57d9a3;
+  --mint-soft:   #d8f6e8;
+  --mint-border: #a3f0cc;
+  --mint-text:   #0f7a52;
 
   --sand-400: #AFA090;
   --sand-500: #9A8A78;
 
-  /* Navy */
+  /* Ink — signature near-black for hero surfaces */
+  --ink-900: #16181d;
+  --ink-800: #1f2229;
+  --ink-700: #2a2e37;
+
+  /* Navy (kept for sidebar) */
   --navy-900: #0C1726;
   --navy-800: #122036;
   --navy-700: #1B2F49;
   --navy-600: #26405E;
 
-  /* Brand — Copilot Blue */
-  --primary:        #2F62E8;
-  --primary-hover:  #2654CC;
-  --primary-press:  #1E45A8;
-  --primary-soft:   #EAF1FE;
-  --primary-soft-2: #D7E4FD;
-  --primary-ring:   rgba(47, 98, 232, 0.35);
+  /* Brand — AccountIQ Teal */
+  --primary:        #0d9488;
+  --primary-hover:  #0f766e;
+  --primary-press:  #115e59;
+  --primary-soft:   #f0fdfa;
+  --primary-soft-2: #ccfbf1;
+  --primary-ring:   rgba(45, 212, 191, 0.45);
+
+  /* CIMA paper accents */
+  --ba1-blue:   #1d4ed8;
+  --ba1-tint:   #eaf0fe;
+  --ba2-purple: #7c3aed;
+  --ba2-tint:   #f3edfe;
+  --ba3-teal:   #0d9488;
+  --ba3-tint:   #e6f6f4;
+  --ba4-amber:  #d97706;
+  --ba4-tint:   #fdf1e3;
 
   /* Semantic */
-  --favourable:        #0E8A57;
-  --favourable-text:   #0A6F46;
-  --favourable-soft:   #E3F4EC;
-  --favourable-border: #B7E2CC;
+  --favourable:        #16a34a;
+  --favourable-text:   #15803d;
+  --favourable-soft:   #dcfce7;
+  --favourable-border: #bbf7d0;
 
-  --adverse:        #D02B45;
-  --adverse-text:   #B11E38;
-  --adverse-soft:   #FCE8EC;
-  --adverse-border: #F4C2CC;
+  --adverse:        #dc2626;
+  --adverse-text:   #b91c1c;
+  --adverse-soft:   #fee2e2;
+  --adverse-border: #fecaca;
 
-  --caution:        #C77D11;
-  --caution-text:   #9A5F09;
-  --caution-soft:   #FBF0DC;
-  --caution-border: #F0D9A8;
+  --caution:        #d97706;
+  --caution-text:   #b45309;
+  --caution-soft:   #fef3c7;
+  --caution-border: #fde68a;
 
   /* Chart palette — muted categorical */
   --c-1: #5C7FC0;
@@ -80,18 +97,20 @@
   --c-7: #C0788C;
   --c-8: #8895A4;
 
-  /* Radii */
+  /* Radii — generous rounding to match editorial aesthetic */
   --radius-xs:   6px;
-  --radius-sm:   8px;
-  --radius-md:  12px;
+  --radius-sm:  10px;
+  --radius-md:  14px;
   --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-2xl: 24px;
   --radius-pill: 999px;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(15,27,45,0.06);
-  --shadow-sm: 0 1px 3px rgba(15,27,45,0.08), 0 1px 2px rgba(15,27,45,0.04);
-  --shadow-md: 0 4px 12px rgba(15,27,45,0.09);
-  --shadow-lg: 0 12px 32px rgba(15,27,45,0.12);
+  /* Shadows — soft, light-surface */
+  --shadow-xs: 0 1px 2px rgba(17,24,39,0.05);
+  --shadow-sm: 0 1px 3px rgba(17,24,39,0.07), 0 1px 2px rgba(17,24,39,0.04);
+  --shadow-md: 0 4px 12px rgba(17,24,39,0.08);
+  --shadow-lg: 0 12px 28px rgba(17,24,39,0.10);
   --shadow-focus: 0 0 0 3px var(--primary-ring);
 
   /* Spacing */
@@ -99,16 +118,16 @@
   --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
   --space-12:48px; --space-16:64px;
 
-  /* Type scale */
-  --text-display:      700 34px/1.12 var(--font-display);
-  --text-h1:           700 26px/1.18 var(--font-display);
-  --text-h2:           600 20px/1.25 var(--font-display);
-  --text-h3:           600 16px/1.35 var(--font-display);
+  /* Type scale — display uses editorial serif (Playfair); UI text uses Hanken */
+  --text-display:      700 34px/1.10 var(--font-display);
+  --text-h1:           600 26px/1.15 var(--font-display);
+  --text-h2:           600 20px/1.22 var(--font-display);
+  --text-h3:           600 16px/1.35 var(--font-sans);
   --text-body:         400 14px/1.55 var(--font-sans);
   --text-body-strong:  600 14px/1.55 var(--font-sans);
   --text-label:        600 12px/1.3  var(--font-sans);
   --text-caption:      400 12.5px/1.4 var(--font-sans);
-  --text-metric:       600 32px/1.05 var(--font-mono);
+  --text-metric:       600 32px/1.05 var(--font-display);
   --text-data:         500 13.5px/1.4 var(--font-mono);
 }
 

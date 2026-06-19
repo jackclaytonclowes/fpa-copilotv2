@@ -199,7 +199,7 @@ table.var tbody tr:hover{background:var(--surface-2);}
 }
 
 /* Top bar: mobile brand */
-.tb-mobile-brand{display:none;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink);}
+.tb-mobile-brand{display:none;font-family:var(--font-sans);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--ink);}
 .tb-mobile-iq{color:#D4F04A;font-weight:800;}
 .tb-page-info{display:block;}
 .tb-stat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--radius-pill);font:var(--text-body-strong);font-size:12px;white-space:nowrap;}
