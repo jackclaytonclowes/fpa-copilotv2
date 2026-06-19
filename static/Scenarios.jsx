@@ -136,6 +136,18 @@ function Scenarios({ initialData, fileName, analysisType }) {
   return (
     <div className="content-inner reveal">
 
+      {/* ── Page header ── */}
+      <div className="editorial-header">
+        <div className="editorial-eyebrow">
+          <span className="e-label">Scenarios</span>
+          <span className="e-sep" />
+          <span className="e-period">What-if modeling</span>
+        </div>
+        <h1 className="editorial-h1" style={{ fontSize: "clamp(20px, 2.6vw, 32px)" }}>
+          Model assumptions &amp; explore outcomes
+        </h1>
+      </div>
+
       {/* ── KPI summary row ── */}
       <div className="grid-kpi" style={{ marginBottom: 20 }}>
         {[

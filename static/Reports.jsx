@@ -65,26 +65,25 @@ const rfmtPct = (v) => {
 };
 
 /* ── Section wrapper ─────────────────────────────────────────────────────── */
-function ReportSection({ id, title, icon, children }) {
+function ReportSection({ id, title, sub, icon, children, className, action }) {
   const { Icon } = window;
   return (
-    <div id={`report-${id}`} style={{ marginBottom: 28 }}>
-      <div style={{
-        display: "flex", alignItems: "center", gap: 8, marginBottom: 14,
-        paddingBottom: 10, borderBottom: "1px solid var(--border)",
-      }}>
-        <span style={{
-          width: 28, height: 28, borderRadius: "var(--radius-sm)",
-          background: "var(--primary-soft)", display: "inline-flex",
-          alignItems: "center", justifyContent: "center", flexShrink: 0,
-        }}>
-          <Icon name={icon} size={14} color="var(--primary)" />
-        </span>
-        <h3 style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)", margin: 0 }}>
-          {title}
-        </h3>
+    <div id={`report-${id}`} style={{ marginBottom: 18 }}>
+      <div className={`card${className ? " " + className : ""}`}>
+        <div className="card-h">
+          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+            <Icon name={icon} size={15} color="var(--primary)" style={{ flexShrink: 0 }} />
+            <div>
+              <h3 style={{ margin: 0 }}>{title}</h3>
+              {sub && <div className="sub">{sub}</div>}
+            </div>
+          </div>
+          {action}
+        </div>
+        <div className="card-b">
+          {children}
+        </div>
       </div>
-      {children}
     </div>
   );
 }
@@ -119,7 +118,7 @@ function ReportExecutiveSummary({ model }) {
   return (
     <ReportSection id="executive-summary" title="Executive Summary" icon="file-text">
       <div style={{
-        padding: "16px 20px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
+        padding: "12px 14px", background: "var(--surface-2)", borderRadius: "var(--radius-sm)",
         font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-2)", lineHeight: 1.7,
       }}>
         <p style={{ margin: "0 0 8px" }}><strong>Period:</strong> {periodLabel}{isBvA ? " — Actual vs Budget" : ` vs ${priorLabel}`}</p>
@@ -150,20 +149,18 @@ function ReportKpiSummary({ model }) {
 
   return (
     <ReportSection id="kpi-summary" title="KPI Summary" icon="bar-chart-2">
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
         {model.kpis.filter(k => !k.pct_only).map(k => (
-          <div key={k.label} className="card" style={{ padding: "14px 16px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-              <Icon name={k.icon} size={14} color="var(--fg-3)" />
-              <span style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)" }}>
-                {k.label}
-              </span>
+          <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`} style={{ padding: "16px 18px" }}>
+            <div className="kpi-top">
+              <span className="lbl">{k.label}</span>
+              <div className="kpi-ic"><Icon name={k.icon} size={16} /></div>
             </div>
-            <div style={{ font: "var(--text-metric)", fontSize: 20, fontVariantNumeric: "tabular-nums", color: "var(--ink)" }}>
+            <div className="val" style={{ fontSize: 22, margin: "10px 0 8px" }}>
               {rfmtGBP(k.value)}
             </div>
-            <div style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+              <span style={{ font: "var(--text-caption)", fontSize: 11, color: k.icon === "wallet" ? "var(--fg-on-dark-2)" : "var(--fg-3)" }}>
                 {model.isBvA ? "Budget" : "Prior"}: {rfmtGBP(k.prior)}
               </span>
               <Delta fav={k.is_fav} up={k.variance >= 0}>
@@ -219,12 +216,13 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
   };
 
   return (
-    <ReportSection id="ai-narrative" title="AI Narrative Commentary" icon="sparkles">
+    <ReportSection id="ai-narrative" title="AI Narrative Commentary" icon="sparkles" className="card-ai"
+      action={<span className="ai-badge"><Icon name="sparkles" size={11} />AI</span>}>
       {status === "idle" && (
         <div style={{
-          padding: "28px 24px", textAlign: "center",
-          background: "var(--surface)", borderRadius: "var(--radius-sm)",
-          border: "1px dashed var(--border-strong)",
+          padding: "20px 16px", textAlign: "center",
+          background: "rgba(255,255,255,0.5)", borderRadius: "var(--radius-sm)",
+          border: "1px dashed var(--primary-soft-2)",
         }}>
           <div style={{ marginBottom: 8 }}>
             <Icon name="sparkles" size={28} color="var(--primary)" />
@@ -232,7 +230,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
           <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)", marginBottom: 4 }}>
             Generate board-ready narrative commentary
           </div>
-          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)", marginBottom: 16 }}>
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-2)", marginBottom: 16 }}>
             AI writes a full management pack narrative — revenue, costs, profitability and recommended actions.
           </div>
           <Button variant="primary" icon="sparkles" onClick={generate}>
@@ -242,12 +240,9 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       )}
 
       {status === "loading" && (
-        <div style={{
-          padding: "32px 24px", textAlign: "center",
-          background: "var(--surface)", borderRadius: "var(--radius-sm)",
-        }}>
+        <div style={{ padding: "24px", textAlign: "center" }}>
           <div className="spinner" style={{ margin: "0 auto 14px" }} />
-          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-2)" }}>
             Writing board-ready commentary…
           </div>
         </div>
@@ -255,8 +250,8 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
 
       {status === "error" && (
         <div style={{
-          padding: "20px 24px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
-          border: "1px solid var(--adverse)",
+          padding: "16px 18px", background: "var(--adverse-soft)", borderRadius: "var(--radius-sm)",
+          border: "1px solid var(--adverse-border)",
         }}>
           <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--adverse-text)", marginBottom: 12 }}>
             Failed to generate commentary. Check your OpenAI API key and try again.
@@ -278,7 +273,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
             </Button>
           </div>
           <div style={{
-            padding: "20px 24px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
+            padding: "16px 18px", background: "rgba(255,255,255,0.6)", borderRadius: "var(--radius-sm)",
             font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-2)", lineHeight: 1.75,
           }}
             className="ai-narrative"
@@ -286,7 +281,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
           />
           <div style={{
             marginTop: 10, display: "flex", alignItems: "center", gap: 6,
-            font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)",
+            font: "var(--text-caption)", fontSize: 11, color: "var(--primary-press)",
           }}>
             <Icon name="sparkles" size={11} color="var(--primary)" />
             AI-generated — review before use in board packs
@@ -303,30 +298,18 @@ function ReportBoardCommentary({ model }) {
   if (!model || !model.commentary.length) return null;
 
   return (
-    <ReportSection id="board-commentary" title="Board Pack Commentary" icon="message-square">
-      <div style={{
-        padding: "16px 20px", background: "var(--surface)", borderRadius: "var(--radius-sm)",
-      }}>
-        <div style={{
-          display: "flex", alignItems: "center", gap: 6, marginBottom: 12,
-          font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
-          letterSpacing: ".05em", color: "var(--fg-3)",
-        }}>
-          <Icon name="sparkles" size={12} color="var(--primary)" />
-          AI-generated commentary
-        </div>
-        <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
-          {model.commentary.map((c, i) => (
-            <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-              <span style={{ flexShrink: 0, marginTop: 2 }}>
-                <Icon name={c.icon} size={15} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
-              </span>
-              <span style={{ font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-2)", lineHeight: 1.6 }}
-                dangerouslySetInnerHTML={{ __html: c.html }} />
-            </li>
-          ))}
-        </ul>
-      </div>
+    <ReportSection id="board-commentary" title="Board Pack Commentary" icon="message-square" className="card-ai"
+      action={<span className="ai-badge"><Icon name="sparkles" size={11} />AI</span>}>
+      <ul className="ai-list">
+        {model.commentary.map((c, i) => (
+          <li key={i}>
+            <span className="ic">
+              <Icon name={c.icon} size={15} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
+            </span>
+            <span dangerouslySetInnerHTML={{ __html: c.html }} />
+          </li>
+        ))}
+      </ul>
     </ReportSection>
   );
 }
@@ -678,32 +661,25 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
       <div className="content-inner reveal" style={{ opacity: loading ? 0.6 : 1, transition: "opacity .2s" }}>
 
         {/* Page header */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
-          <div>
-            <h2 style={{ font: "var(--text-metric)", fontSize: 22, color: "var(--ink)", margin: 0 }}>
-              Management Report
-            </h2>
-            <p style={{ font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-3)", margin: "4px 0 0" }}>
-              {model?.isBvA ? "Budget vs Actual" : "Period-on-Period"} · {model?.periodLabel || ""}
-            </p>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              padding: "6px 14px", borderRadius: "var(--radius-sm)",
-              background: "var(--surface)", border: "1px solid var(--border)",
-              font: "var(--text-body)", fontSize: 12, color: "var(--fg-3)",
-            }}>
-              <Icon name="eye" size={13} />
-              Report Preview
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 28 }}>
+          <div className="editorial-header" style={{ marginBottom: 0 }}>
+            <div className="editorial-eyebrow">
+              <span className="e-label">Management Report</span>
+              <span className="e-sep" />
+              <span className="e-period">{model?.isBvA ? "Budget vs Actual" : "Period on Period"}</span>
             </div>
+            <h1 className="editorial-h1" style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}>
+              {model?.periodLabel || "Financial Summary"}
+            </h1>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, paddingTop: 4 }}>
             <Button variant="secondary" icon="copy" onClick={copyFullReport}>
-              Copy Report
+              Copy
             </Button>
             <Button variant="secondary" icon="file-archive"
               onClick={() => doExport("zip")}
               disabled={!!exporting}>
-              {exporting === "zip" ? "Exporting..." : "CSV Pack"}
+              {exporting === "zip" ? "Exporting..." : "CSV"}
             </Button>
             <Button variant="secondary" icon="table-2"
               onClick={() => doExport("xlsx")}
@@ -719,16 +695,9 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
         </div>
 
         {/* Section quick-nav */}
-        <div style={{
-          display: "flex", gap: 6, marginBottom: 24, flexWrap: "wrap",
-        }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 24, flexWrap: "wrap" }}>
           {sections.map(s => (
-            <button key={s.id} onClick={() => scrollTo(s.id)}
-              style={{
-                font: "var(--text-body)", fontSize: 12, padding: "5px 12px",
-                borderRadius: "var(--radius-pill)", border: "1px solid var(--border)",
-                background: "var(--surface)", color: "var(--fg-2)", cursor: "pointer",
-              }}>
+            <button key={s.id} onClick={() => scrollTo(s.id)} className="suggest">
               {s.label}
             </button>
           ))}
@@ -751,7 +720,8 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
         {/* Footer */}
         <div style={{
           marginTop: 12, padding: "14px 18px",
-          background: "var(--primary-soft)", borderRadius: "var(--radius-sm)",
+          background: "var(--primary-soft)", borderRadius: "var(--radius-md)",
+          border: "1px solid var(--primary-soft-2)",
           display: "flex", alignItems: "center", gap: 10,
           font: "var(--text-body)", fontSize: 12.5, color: "var(--primary)",
         }}>
