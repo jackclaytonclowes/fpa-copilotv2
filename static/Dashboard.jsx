@@ -283,6 +283,114 @@ function ForecastPanel({ sessionId, periodMode }) {
 
 const CHART_COLORS = ["var(--c-1)","var(--c-2)","var(--c-3)","var(--c-4)","var(--c-5)","var(--c-6)","var(--c-7)","var(--c-8)"];
 
+/* ── SmartInsights — auto-computed data highlights (no API call) ───────────── */
+function SmartInsights({ movements, kpis, isBvA }) {
+  const { Icon } = window;
+  const all  = movements || [];
+  const favM = all.filter(m => m.is_fav  && m.variance !== 0);
+  const advM = all.filter(m => !m.is_fav && m.variance !== 0);
+  const revM = all.filter(m => m.category === "Revenue");
+
+  const fmt = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const abs = Math.abs(v), s = v < 0 ? "-£" : "£";
+    return abs >= 1e6 ? `${s}${(abs/1e6).toFixed(1)}m` : abs >= 1e3 ? `${s}${Math.round(abs/1e3)}k` : `${s}${Math.round(abs)}`;
+  };
+  const fmtS = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const abs = Math.abs(v), s = v > 0 ? "+£" : v < 0 ? "-£" : "£";
+    return abs >= 1e6 ? `${s}${(abs/1e6).toFixed(1)}m` : abs >= 1e3 ? `${s}${Math.round(abs/1e3)}k` : `${s}${Math.round(abs)}`;
+  };
+
+  const items = [];
+
+  const profKpi = (kpis || []).find(k => k.icon === "wallet");
+  if (profKpi?.variance != null) {
+    items.push({
+      icon: profKpi.is_fav ? "trending-up" : "trending-down", tone: profKpi.is_fav ? "fav" : "adv",
+      label: "Operating profit",
+      text: `${fmtS(profKpi.variance)} vs ${isBvA ? "budget" : "prior"}`,
+    });
+  }
+
+  if (favM.length + advM.length > 0) {
+    const more = favM.length >= advM.length;
+    items.push({
+      icon: more ? "check-circle" : "alert-circle", tone: more ? "fav" : "adv",
+      label: "Movement split",
+      text: `${favM.length} favourable · ${advM.length} adverse`,
+    });
+  }
+
+  if (all.length > 0) {
+    const top = all.reduce((a, b) => Math.abs(a.variance||0) > Math.abs(b.variance||0) ? a : b);
+    if (Math.abs(top.variance||0) > 0) {
+      const nm = top.account.length > 26 ? top.account.slice(0, 24) + "…" : top.account;
+      items.push({
+        icon: "zap", tone: top.is_fav ? "fav" : "adv",
+        label: "Biggest movement",
+        text: `${nm}: ${fmtS(top.variance)}`,
+      });
+    }
+  }
+
+  const catAdv = {};
+  advM.filter(m => m.category !== "Revenue").forEach(m => {
+    catAdv[m.category] = (catAdv[m.category] || 0) + Math.abs(m.variance || 0);
+  });
+  const [topCat, topAmt] = Object.entries(catAdv).sort((a, b) => b[1] - a[1])[0] || [];
+  if (topCat) {
+    items.push({
+      icon: "alert-triangle", tone: "adv",
+      label: "Most pressure",
+      text: `${topCat}: ${fmt(topAmt)} adverse`,
+    });
+  }
+
+  if (!isBvA && revM.length >= 3) {
+    const total = revM.reduce((s, m) => s + Math.abs(m.value || 0), 0);
+    if (total > 0) {
+      const top3pct = Math.round(
+        [...revM].sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).slice(0, 3)
+          .reduce((s, m) => s + Math.abs(m.value || 0), 0) / total * 100
+      );
+      items.push({
+        icon: "pie-chart", tone: "info",
+        label: "Revenue concentration",
+        text: `Top 3 accounts: ${top3pct}% of total`,
+      });
+    }
+  }
+
+  if (items.length === 0) return null;
+
+  const toneCol = (t) => t === "fav" ? "var(--favourable-text)" : t === "adv" ? "var(--adverse-text)" : "var(--primary)";
+  const toneBg  = (t) => t === "fav" ? "var(--favourable-soft)" : t === "adv" ? "var(--adverse-soft)" : "var(--primary-soft)";
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(195px, 1fr))", gap: 12, marginBottom: 20 }}>
+      {items.map((item, i) => (
+        <div key={i} className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: "var(--radius-sm)", flexShrink: 0,
+            background: toneBg(item.tone), display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <Icon name={item.icon} size={15} color={toneCol(item.tone)} />
+          </div>
+          <div>
+            <div style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 3 }}>
+              {item.label}
+            </div>
+            <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)", lineHeight: 1.3 }}>
+              {item.text}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
   const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
   const [data, setData]       = useStateDash(initialData);
@@ -547,6 +655,9 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           periodMode={periodMode}
         />
       )}
+
+      {/* Smart highlights */}
+      <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
 
       {/* Trend + AI commentary */}
       <div className="grid-2">

@@ -540,7 +540,8 @@ function App() {
       />
     );
   } else if (view === "movements") {
-    body = !Movements
+    const { ViewErrorBoundary } = window;
+    const movEl = !Movements
       ? <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Movements failed to load — check the browser console (F12) for errors.</div></div>
       : (
       <Movements
@@ -554,6 +555,7 @@ function App() {
         fileName={sessionData?.file_name}
       />
     );
+    body = ViewErrorBoundary ? <ViewErrorBoundary key="movements-boundary">{movEl}</ViewErrorBoundary> : movEl;
   } else if (view === "scenarios") {
     body = (
       <div className="content">
