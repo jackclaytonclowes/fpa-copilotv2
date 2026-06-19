@@ -221,7 +221,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       {status === "idle" && (
         <div style={{
           padding: "20px 16px", textAlign: "center",
-          background: "rgba(255,255,255,0.5)", borderRadius: "var(--radius-sm)",
+          background: "var(--surface-2)", borderRadius: "var(--radius-sm)",
           border: "1px dashed var(--primary-soft-2)",
         }}>
           <div style={{ marginBottom: 8 }}>
@@ -273,7 +273,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
             </Button>
           </div>
           <div style={{
-            padding: "16px 18px", background: "rgba(255,255,255,0.6)", borderRadius: "var(--radius-sm)",
+            padding: "16px 18px", background: "var(--surface-2)", borderRadius: "var(--radius-sm)",
             font: "var(--text-body)", fontSize: 13.5, color: "var(--fg-2)", lineHeight: 1.75,
           }}
             className="ai-narrative"
@@ -477,7 +477,6 @@ function ReportRecommendedActions({ model }) {
   }
 
   const priorityColor = { high: "var(--adverse)", medium: "var(--c-4)", low: "var(--favourable)" };
-  const priorityBg    = { high: "var(--adverse-soft)", medium: "rgba(var(--c-4-rgb, 245, 158, 11), 0.1)", low: "var(--favourable-soft)" };
   const priorityLabel = { high: "High", medium: "Medium", low: "Low" };
 
   return (

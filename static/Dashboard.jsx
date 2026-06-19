@@ -113,7 +113,7 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
               <div style={{
                 flexShrink: 0, textAlign: "center", minWidth: 44,
                 padding: "4px 8px", borderRadius: "var(--radius-sm)",
-                background: "rgba(0,0,0,0.06)",
+                background: "var(--surface-3)",
               }}>
                 <div style={{ font: "700 13px var(--font-mono)", color: sigmaColor(a.z_score) }}>
                   {a.z_score.toFixed(1)}σ
