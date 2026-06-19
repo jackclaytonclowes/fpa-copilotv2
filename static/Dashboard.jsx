@@ -444,13 +444,35 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         </div>
       )}
 
+      {/* Editorial headline — MoM view only */}
+      {!isBvA && (() => {
+        const profKpi = (kpis || []).find(k => k.icon === "wallet");
+        if (!profKpi || profKpi.variance == null) return null;
+        return (
+          <div className="editorial-header">
+            <div className="editorial-eyebrow">
+              <span className="e-label">Variance report</span>
+              <span className="e-sep" />
+              <span className="e-period">{period?.label || selected_period}</span>
+            </div>
+            <h1 className="editorial-h1">
+              Operating profit {profKpi.is_fav ? "up" : "down"}{" "}
+              <span style={{ color: profKpi.is_fav ? "var(--favourable-text)" : "var(--adverse-text)" }}>
+                {fmtSignedGBP(profKpi.variance)}
+              </span>
+              {" "}this period.
+            </h1>
+          </div>
+        );
+      })()}
+
       {/* KPI row */}
       <div className="grid-kpi">
         {(kpis || []).map((k) => (
-          <div key={k.label} className="card kpi">
-            <div className="lbl">
-              <span className="ic"><Icon name={k.icon} size={15} /></span>
-              {k.label}
+          <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`}>
+            <div className="kpi-top">
+              <div className="lbl">{k.label}</div>
+              <span className="kpi-ic"><Icon name={k.icon} size={16} /></span>
             </div>
             <div className="val">{k.pct_only ? fmtPct(k.pct) : fmtGBP(k.value)}</div>
             {!k.pct_only && k.variance !== null && (
@@ -538,6 +560,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         )}
         <Card
           title="AI commentary"
+          className="card-ai"
           sub={isBvA ? "Budget vs Actual · key variances" : `${period?.label || selected_period} · vs prior period`}
           action={<span className="ai-badge"><Icon name="sparkles" size={13} />AI</span>}>
           <ul className="ai-list">
