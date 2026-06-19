@@ -35,7 +35,8 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
   const anomalies = result?.anomalies || [];
   const note      = result?.note;
 
-  if (note || (!loading && anomalies.length === 0)) return null;
+  // Hide only when the API says there's not enough history, or when the first load failed entirely
+  if (note || (result === null && !loading)) return null;
 
   const visible = expanded ? anomalies : anomalies.slice(0, 3);
   const sigmaColor = (z) =>
@@ -90,6 +91,13 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
           ))}
         </div>
       </div>
+
+      {/* Empty state — no anomalies at this sensitivity */}
+      {!loading && anomalies.length === 0 && (
+        <div style={{ padding: "14px 18px", font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
+          No unusual movements detected at this sensitivity level.
+        </div>
+      )}
 
       {/* Anomaly cards */}
       {!loading && anomalies.length > 0 && (
