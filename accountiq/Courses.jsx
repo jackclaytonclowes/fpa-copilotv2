@@ -187,6 +187,17 @@ const CRS_STRAT_PAPERS = [
   },
 ];
 
+/* ── Per-paper colour palette ─────────────────────────────────────────────── */
+const PAPER_ACCENT = {
+  ba1: { color: "var(--ba1-blue)",   tint: "var(--ba1-tint)" },
+  ba2: { color: "var(--ba2-purple)", tint: "var(--ba2-tint)" },
+  ba3: { color: "var(--ba3-teal)",   tint: "var(--ba3-tint)" },
+  ba4: { color: "var(--ba4-amber)",  tint: "var(--ba4-tint)" },
+};
+function paperAccent(id) {
+  return PAPER_ACCENT[id] || { color: "var(--primary)", tint: "var(--primary-soft)" };
+}
+
 /* ── ProgressBar ─────────────────────────────────────────────────────────── */
 function CrsProgressBar({ value, height = 6, color }) {
   const pct = Math.min(100, Math.max(0, (value || 0) * 100));
@@ -248,7 +259,7 @@ function CrsHero({ courses, onNavigate }) {
               : (isStarted ? "Next: pick up from your last lesson" : "Start with lesson 1")}
           </div>
           <div className="crs-hero-progress">
-            <CrsProgressBar value={course.progress} height={10} />
+            <CrsProgressBar value={course.progress} height={10} color={paperAccent(course.id).color} />
             <div className="crs-hero-pct">
               {pct}% complete &middot; ~{remainingHrs}h remaining
             </div>
@@ -499,17 +510,18 @@ function CrsCourseCard({ course, onNavigate, availableQuestions }) {
   const revPct = Math.round(revProgress * 100);
   const started = course.progress > 0 || revProgress > 0;
   const done = deepPct >= 100;
+  const accent = paperAccent(course.id);
 
   const openCourse = (mode) => onNavigate && onNavigate("coursedetail", { paperId: course.id, mode });
 
   return (
     <div className={`crs-course-card card${started ? " crs-course-card--active" : ""}`}>
       <div className="crs-course-card-header">
-        <div className="crs-course-icon-wrap">
-          <Icon name={course.icon} size={22} color="var(--primary)" />
+        <div className="crs-course-icon-wrap" style={{ background: accent.tint }}>
+          <Icon name={course.icon} size={22} color={accent.color} />
         </div>
         <div className="crs-course-code">
-          <span className="crs-course-badge">{course.title}</span>
+          <span className="crs-course-badge" style={{ background: accent.tint, color: accent.color }}>{course.title}</span>
           {done && (
             <span className="chip fav" style={{ fontSize: 11, gap: 4 }}>
               <Icon name="check-circle" size={11} />
@@ -530,7 +542,7 @@ function CrsCourseCard({ course, onNavigate, availableQuestions }) {
             </span>
             <span className="crs-dual-pct">{deepPct}%</span>
           </div>
-          <CrsProgressBar value={course.progress} height={4} />
+          <CrsProgressBar value={course.progress} height={4} color={accent.color} />
           <div className="crs-dual-row" style={{ marginTop: 8 }}>
             <span className="crs-dual-label" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
               <Icon name="zap" size={11} />Revision
@@ -859,4 +871,4 @@ function Courses({ onNavigate }) {
   );
 }
 
-Object.assign(window, { Courses, CrsProgressBar, CrsStatCard, CrsLockedCard, CrsComingSoonCard });
+Object.assign(window, { Courses, CrsProgressBar, CrsStatCard, CrsLockedCard, CrsComingSoonCard, paperAccent });

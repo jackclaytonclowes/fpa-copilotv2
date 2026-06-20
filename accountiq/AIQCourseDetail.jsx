@@ -10,11 +10,12 @@
 const { useState: useCdtState, useEffect: useCdtEffect, useRef: useCdtRef } = React;
 
 /* ── Dual progress card ──────────────────────────────────────────────────── */
-function CdtProgressCard({ mode, completed, total, onSelect, isActive }) {
+function CdtProgressCard({ mode, completed, total, onSelect, isActive, accentColor }) {
   const { Icon } = window;
   const { CrsProgressBar } = window;
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
   const isRevision = mode === "revision";
+  const barColor = isRevision ? "var(--caution)" : (accentColor || "var(--primary)");
 
   return (
     <button
@@ -23,7 +24,7 @@ function CdtProgressCard({ mode, completed, total, onSelect, isActive }) {
     >
       <div className="cdt-progress-card-header">
         <span className="cdt-mode-icon">
-          <Icon name={isRevision ? "zap" : "book-open"} size={15} color={isRevision ? "var(--caution)" : "var(--primary)"} />
+          <Icon name={isRevision ? "zap" : "book-open"} size={15} color={isRevision ? "var(--caution)" : (accentColor || "var(--primary)")} />
         </span>
         <span className="cdt-progress-card-label">{isRevision ? "Revision Mode" : "Deep Learning"}</span>
         {isActive && <span className="cdt-active-dot" />}
@@ -32,7 +33,7 @@ function CdtProgressCard({ mode, completed, total, onSelect, isActive }) {
       <CrsProgressBar
         value={pct / 100}
         height={5}
-        color={isRevision ? "var(--caution)" : "var(--primary)"}
+        color={barColor}
       />
       <div className="cdt-progress-count">{completed} of {total} complete</div>
     </button>
@@ -282,6 +283,8 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
   const activeCompleted = mode === "revision" ? completedRevision.length : completedDeep.length;
   const isAllDone = activeCompleted >= total;
 
+  const accent = window.paperAccent ? window.paperAccent(paperId) : { color: "var(--primary)", tint: "var(--primary-soft)" };
+
   return (
     <div className="content">
       <div className="cdt-page">
@@ -299,12 +302,12 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
         {/* Paper header card */}
         <div className="cdt-header card">
           <div className="cdt-header-body">
-            <div className="cdt-header-icon">
-              <Icon name={paper.icon} size={24} color="var(--primary)" />
+            <div className="cdt-header-icon" style={{ background: accent.tint }}>
+              <Icon name={paper.icon} size={24} color={accent.color} />
             </div>
             <div className="cdt-header-text">
               <div className="cdt-header-meta">
-                <span className="crs-course-badge">{paper.title}</span>
+                <span className="crs-course-badge" style={{ background: accent.tint, color: accent.color }}>{paper.title}</span>
                 <span className="chip info">{levelBadge(paperId)}</span>
               </div>
               <h1 className="cdt-header-title">{paper.fullTitle}</h1>
@@ -347,6 +350,7 @@ function AIQCourseDetail({ paperId, mode: initialMode, onNavigate }) {
             total={total}
             isActive={mode === "deep"}
             onSelect={() => setMode("deep")}
+            accentColor={accent.color}
           />
         </div>
 
