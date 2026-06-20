@@ -193,6 +193,15 @@ const PAPER_ACCENT = {
   ba2: { color: "var(--ba2-purple)", tint: "var(--ba2-tint)" },
   ba3: { color: "var(--ba3-teal)",   tint: "var(--ba3-tint)" },
   ba4: { color: "var(--ba4-amber)",  tint: "var(--ba4-tint)" },
+  e1:  { color: "var(--e-cyan)",     tint: "var(--e-tint)" },
+  e2:  { color: "var(--e-cyan)",     tint: "var(--e-tint)" },
+  e3:  { color: "var(--e-cyan)",     tint: "var(--e-tint)" },
+  p1:  { color: "var(--p-orange)",   tint: "var(--p-tint)" },
+  p2:  { color: "var(--p-orange)",   tint: "var(--p-tint)" },
+  p3:  { color: "var(--p-orange)",   tint: "var(--p-tint)" },
+  f1:  { color: "var(--f-rose)",     tint: "var(--f-tint)" },
+  f2:  { color: "var(--f-rose)",     tint: "var(--f-tint)" },
+  f3:  { color: "var(--f-rose)",     tint: "var(--f-tint)" },
 };
 function paperAccent(id) {
   return PAPER_ACCENT[id] || { color: "var(--primary)", tint: "var(--primary-soft)" };

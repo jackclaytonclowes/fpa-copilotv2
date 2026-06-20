@@ -61,7 +61,7 @@
   --primary-soft-2: #ccfbf1;
   --primary-ring:   rgba(45, 212, 191, 0.45);
 
-  /* CIMA paper accents */
+  /* CIMA paper accents — Certificate Level */
   --ba1-blue:   #1d4ed8;
   --ba1-tint:   #eaf0fe;
   --ba2-purple: #7c3aed;
@@ -70,6 +70,14 @@
   --ba3-tint:   #e6f6f4;
   --ba4-amber:  #d97706;
   --ba4-tint:   #fdf1e3;
+
+  /* CIMA paper accents — Operational / Management / Strategic (E/P/F series) */
+  --e-cyan:   #0891b2;
+  --e-tint:   #ecfeff;
+  --p-orange: #c2410c;
+  --p-tint:   #fff7ed;
+  --f-rose:   #9d174d;
+  --f-tint:   #fff1f2;
 
   /* Semantic */
   --favourable:        #16a34a;
