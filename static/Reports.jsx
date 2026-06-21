@@ -293,22 +293,176 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
 }
 
 /* ── Board Pack Commentary ───────────────────────────────────────────────── */
-function ReportBoardCommentary({ model }) {
+function ReportBoardCommentary({ model, sessionId, periodLabel }) {
   const { Icon } = window;
+
+  const storageKey = `monthendiq_cedit_${sessionId}_${(periodLabel || "").replace(/\s/g, "_")}`;
+
+  const [edits,      setEdits]      = React.useState(() => {
+    try { return JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch { return {}; }
+  });
+  const [editingIdx, setEditingIdx] = React.useState(null);
+  const [draftText,  setDraftText]  = React.useState("");
+  const [hoveredIdx, setHoveredIdx] = React.useState(null);
+
+  React.useEffect(() => {
+    try { setEdits(JSON.parse(localStorage.getItem(storageKey) || "{}")); } catch { setEdits({}); }
+    setEditingIdx(null);
+    setDraftText("");
+  }, [storageKey]);
+
+  const persistEdits = (next) => {
+    setEdits(next);
+    try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch {}
+  };
+
+  const startEdit = (i, html) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    setDraftText(div.innerText || div.textContent || "");
+    setEditingIdx(i);
+  };
+
+  const saveEdit = () => {
+    const trimmed = draftText.trim();
+    if (trimmed && editingIdx !== null) {
+      persistEdits({ ...edits, [editingIdx]: trimmed });
+    }
+    setEditingIdx(null);
+    setDraftText("");
+  };
+
+  const cancelEdit = () => { setEditingIdx(null); setDraftText(""); };
+
+  const clearEdit = (i) => {
+    const next = { ...edits };
+    delete next[i];
+    persistEdits(next);
+  };
+
+  const clearAll = () => persistEdits({});
+
+  const hasEdits = Object.keys(edits).length > 0;
+
   if (!model || !model.commentary.length) return null;
 
+  const action = (
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      {hasEdits && (
+        <button onClick={clearAll} style={{
+          background: "none", border: "none", cursor: "pointer", padding: "3px 8px",
+          font: "var(--text-label)", fontSize: 11, color: "var(--fg-2)",
+          borderRadius: "var(--radius-xs)", display: "flex", alignItems: "center", gap: 5,
+        }}
+          title="Reset all edits to AI originals">
+          <Icon name="rotate-ccw" size={11} />Reset all
+        </button>
+      )}
+      <span className="ai-badge"><Icon name="sparkles" size={11} />AI</span>
+    </div>
+  );
+
   return (
-    <ReportSection id="board-commentary" title="Board Pack Commentary" icon="message-square" className="card-ai"
-      action={<span className="ai-badge"><Icon name="sparkles" size={11} />AI</span>}>
-      <ul className="ai-list">
-        {model.commentary.map((c, i) => (
-          <li key={i}>
-            <span className="ic">
-              <Icon name={c.icon} size={15} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
-            </span>
-            <span dangerouslySetInnerHTML={{ __html: c.html }} />
-          </li>
-        ))}
+    <ReportSection id="board-commentary" title="Board Pack Commentary" icon="message-square"
+      className="card-ai" action={action}>
+      <ul className="ai-list" style={{ margin: 0 }}>
+        {model.commentary.map((c, i) => {
+          const isEditing = editingIdx === i;
+          const editedText = edits[i];
+          const isEdited = editedText != null;
+          const isHovered = hoveredIdx === i;
+
+          return (
+            <li key={i}
+              onMouseEnter={() => !isEditing && setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+              style={{ position: "relative", paddingRight: 28 }}>
+              <span className="ic">
+                <Icon name={c.icon} size={15} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
+              </span>
+
+              {isEditing ? (
+                <div style={{ flex: 1 }}>
+                  <textarea
+                    autoFocus
+                    value={draftText}
+                    onChange={e => setDraftText(e.target.value)}
+                    onKeyDown={e => {
+                      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); saveEdit(); }
+                      if (e.key === "Escape") cancelEdit();
+                    }}
+                    rows={3}
+                    style={{
+                      width: "100%", boxSizing: "border-box", resize: "vertical",
+                      font: "var(--text-body)", fontSize: 13.5, lineHeight: 1.55,
+                      color: "var(--ink)", background: "var(--surface)",
+                      border: "1.5px solid var(--primary)", borderRadius: "var(--radius-xs)",
+                      padding: "8px 10px", outline: "none",
+                    }}
+                  />
+                  <div style={{ display: "flex", gap: 8, marginTop: 6, alignItems: "center" }}>
+                    <button onClick={saveEdit} style={{
+                      padding: "4px 12px", borderRadius: "var(--radius-xs)",
+                      background: "var(--primary)", color: "#fff", border: "none",
+                      font: "var(--text-label)", fontSize: 12, cursor: "pointer",
+                    }}>Save</button>
+                    <button onClick={cancelEdit} style={{
+                      padding: "4px 12px", borderRadius: "var(--radius-xs)",
+                      background: "none", color: "var(--fg-2)", border: "1px solid var(--border-strong)",
+                      font: "var(--text-label)", fontSize: 12, cursor: "pointer",
+                    }}>Cancel</button>
+                    <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                      Cmd+Enter to save · Esc to cancel
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <span style={{ flex: 1, position: "relative" }}>
+                  {isEdited
+                    ? <span>{editedText}</span>
+                    : <span dangerouslySetInnerHTML={{ __html: c.html }} />
+                  }
+                  {isEdited && (
+                    <span style={{
+                      marginLeft: 8, padding: "1px 6px",
+                      background: "var(--primary-soft-2)", color: "var(--primary)",
+                      borderRadius: "var(--radius-pill)", font: "var(--text-label)", fontSize: 10,
+                    }}>edited</span>
+                  )}
+                </span>
+              )}
+
+              {/* hover controls */}
+              {!isEditing && (
+                <div style={{
+                  position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)",
+                  display: "flex", gap: 4,
+                  opacity: isHovered ? 1 : 0, transition: "opacity 0.15s",
+                  pointerEvents: isHovered ? "auto" : "none",
+                }}>
+                  <button onClick={() => startEdit(i, isEdited ? editedText : c.html)} title="Edit"
+                    style={{
+                      background: "none", border: "none", cursor: "pointer", padding: 4,
+                      color: "var(--fg-2)", borderRadius: "var(--radius-xs)",
+                      display: "flex", alignItems: "center",
+                    }}>
+                    <Icon name="pencil" size={13} />
+                  </button>
+                  {isEdited && (
+                    <button onClick={() => clearEdit(i)} title="Reset to original"
+                      style={{
+                        background: "none", border: "none", cursor: "pointer", padding: 4,
+                        color: "var(--fg-3)", borderRadius: "var(--radius-xs)",
+                        display: "flex", alignItems: "center",
+                      }}>
+                      <Icon name="rotate-ccw" size={13} />
+                    </button>
+                  )}
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </ReportSection>
   );
@@ -711,7 +865,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
           periodMode={periodMode}
           analysisType={analysisType}
         />
-        <ReportBoardCommentary model={model} />
+        <ReportBoardCommentary model={model} sessionId={sessionId} periodLabel={model?.periodLabel} />
         <ReportKeyFindings model={model} />
         <ReportVarianceTable model={model} />
         <ReportRecommendedActions model={model} />
