@@ -1,7 +1,7 @@
 /* FP&A Copilot — SVG charts: TrendChart + Donut */
 const { useState: useStateChart, useEffect: useEffectChart } = React;
 
-function TrendChart({ data, series, forecastFrom }) {
+function TrendChart({ data, series, forecastFrom, onPointClick }) {
   const W = 640, H = 230, padL = 8, padR = 12, padT = 14, padB = 26;
   const innerW = W - padL - padR, innerH = H - padT - padB;
   const all = data.flatMap((d) => series.map((s) => d[s.key] || 0));
@@ -13,6 +13,7 @@ function TrendChart({ data, series, forecastFrom }) {
   const hasForecast = forecastFrom != null && forecastFrom < data.length;
 
   const [grow, setGrow] = useStateChart(0);
+  const [hoverIdx, setHoverIdx] = useStateChart(null);
   useEffectChart(() => {
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduce) { setGrow(1); return; }
@@ -63,11 +64,13 @@ function TrendChart({ data, series, forecastFrom }) {
               <path d={mkPath(forecastPts)} fill="none" stroke={s.color} strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
             )}
             {grow > 0.98 && pts.map((p, i) => (
-              <circle key={i} cx={p[0]} cy={p[1]} r={hasForecast && i >= forecastFrom ? 3 : 4}
+              <circle key={i} cx={p[0]} cy={p[1]}
+                r={onPointClick && hoverIdx === i ? 6 : (hasForecast && i >= forecastFrom ? 3 : 4)}
                 fill={hasForecast && i >= forecastFrom ? "none" : s.color}
                 stroke={s.color}
-                strokeWidth={hasForecast && i >= forecastFrom ? 2 : 2}
-                opacity={hasForecast && i >= forecastFrom ? 0.7 : 1} />
+                strokeWidth={2}
+                opacity={hasForecast && i >= forecastFrom ? 0.7 : 1}
+                style={{ transition: "r 0.1s ease" }} />
             ))}
           </g>
         );
@@ -80,6 +83,30 @@ function TrendChart({ data, series, forecastFrom }) {
           </g>
         ))}
       </g>
+
+      {/* ── Trend spotlight: hover crosshair + click interaction ── */}
+      {onPointClick && grow > 0.98 && hoverIdx !== null && (
+        <>
+          <line x1={x(hoverIdx)} y1={padT} x2={x(hoverIdx)} y2={padT + innerH}
+            stroke="var(--border-strong)" strokeWidth="1" strokeDasharray="3 2" opacity="0.7"
+            pointerEvents="none" />
+          <text x={W - padR} y={padT - 2} textAnchor="end" pointerEvents="none"
+            style={{ font: "600 10.5px var(--font-sans)", fill: "var(--primary)" }}>
+            {data[hoverIdx].full}
+          </text>
+        </>
+      )}
+      {onPointClick && data.map((d, i) => {
+        const x0 = i === 0 ? padL : (x(i - 1) + x(i)) / 2;
+        const x1 = i === data.length - 1 ? padL + innerW : (x(i) + x(i + 1)) / 2;
+        return (
+          <rect key={`ht-${i}`} x={x0} y={padT} width={x1 - x0} height={innerH}
+            fill="transparent" style={{ cursor: "pointer" }}
+            onMouseEnter={() => setHoverIdx(i)}
+            onMouseLeave={() => setHoverIdx(null)}
+            onClick={() => onPointClick(d)} />
+        );
+      })}
     </svg>
   );
 }

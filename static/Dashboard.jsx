@@ -391,11 +391,152 @@ function SmartInsights({ movements, kpis, isBvA }) {
   );
 }
 
+/* ── SpotlightModal ─────────────────────────────────────────────────────── */
+function SpotlightModal({ spotlight, onClose }) {
+  const { Icon, Delta } = window;
+  const { period, loading, data, error } = spotlight;
+
+  React.useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
+
+  const fmt = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const a = Math.abs(v), s = v < 0 ? "-" : "";
+    if (a >= 1e6) return `${s}£${(a / 1e6).toFixed(2)}m`;
+    if (a >= 1e3) return `${s}£${(a / 1e3).toFixed(0)}k`;
+    return `${s}£${Math.round(a).toLocaleString("en-GB")}`;
+  };
+  const fmtS = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    return (v > 0 ? "+" : v < 0 ? "-" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
+  };
+  const fmtPct = (v) => (v == null || isNaN(v)) ? "—"
+    : (v > 0 ? "+" : v < 0 ? "-" : "") + Math.abs(v).toFixed(1) + "%";
+
+  const movements = data?.movements || [];
+  const kpis      = (data?.kpis || []).filter(k => !k.pct_only);
+  const favRows   = movements.filter(m =>  m.is_fav && m.variance !== 0)
+    .sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
+  const advRows   = movements.filter(m => !m.is_fav && m.variance !== 0)
+    .sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
+
+  const movCol = (rows, tone) => {
+    const fav = tone === "fav";
+    return (
+      <div>
+        <div style={{
+          font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
+          letterSpacing: ".06em", marginBottom: 8,
+          color: fav ? "var(--favourable-text)" : "var(--adverse-text)",
+          display: "flex", alignItems: "center", gap: 6,
+        }}>
+          <Icon name={fav ? "trending-up" : "trending-down"} size={12}
+            color={fav ? "var(--favourable)" : "var(--adverse)"} />
+          {fav ? "Top favourable" : "Top adverse"}
+        </div>
+        {rows.length === 0 && (
+          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)", padding: "4px 0" }}>None</div>
+        )}
+        {rows.map((m, i) => (
+          <div key={i} style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "7px 10px", marginBottom: 4, borderRadius: "var(--radius-sm)",
+            background: fav ? "var(--favourable-soft)" : "var(--adverse-soft)",
+          }}>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)",
+                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {m.account}
+              </div>
+              <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                {m.category}
+              </div>
+            </div>
+            <span style={{ font: "600 12px var(--font-mono)", fontVariantNumeric: "tabular-nums",
+              color: fav ? "var(--favourable-text)" : "var(--adverse-text)",
+              flexShrink: 0, marginLeft: 8 }}>
+              {fmtS(m.variance)}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <div className="scrim" onClick={onClose}>
+      <div className="modal" style={{ width: 680, maxWidth: "calc(100vw - 48px)" }}
+        onClick={e => e.stopPropagation()}>
+        <div className="modal-h">
+          <div>
+            <h3>{period}</h3>
+            <div className="sub">Period spotlight · movements vs prior period</div>
+          </div>
+          <button className="x" onClick={onClose}><Icon name="x" size={18} /></button>
+        </div>
+
+        <div className="modal-b" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+          {loading && (
+            <div className="loading" style={{ height: 160 }}>
+              <div className="spinner" />Loading {period}…
+            </div>
+          )}
+          {error && (
+            <div style={{ color: "var(--adverse-text)", font: "var(--text-body)", fontSize: 13 }}>
+              {error}
+            </div>
+          )}
+          {data && !loading && (
+            <>
+              {/* KPI row */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginBottom: 20 }}>
+                {kpis.map(k => (
+                  <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`}
+                    style={{ padding: "14px 16px" }}>
+                    <div className="kpi-top">
+                      <span className="lbl">{k.label}</span>
+                      <div className="kpi-ic"><Icon name={k.icon} size={16} /></div>
+                    </div>
+                    <div className="val" style={{ fontSize: 20, margin: "8px 0 6px" }}>{fmt(k.value)}</div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+                      <span style={{ font: "var(--text-caption)", fontSize: 11,
+                        color: k.icon === "wallet" ? "var(--fg-on-dark-2)" : "var(--fg-3)" }}>
+                        Prior: {fmt(k.prior)}
+                      </span>
+                      <Delta fav={k.is_fav} up={k.variance >= 0}>
+                        {fmtS(k.variance)} · {fmtPct(k.pct)}
+                      </Delta>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Top movements */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                {movCol(favRows, "fav")}
+                {movCol(advRows, "adv")}
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="modal-f">
+          <button className="btn secondary" onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
   const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
   const [data, setData]       = useStateDash(initialData);
   const [loading, setLoading] = useStateDash(false);
   const [activeTab, setActiveTab] = useStateDash("movements");
+  const [spotlight, setSpotlight] = useStateDash(null);
 
   // Track what we last fetched so we don't re-fetch on initial mount
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
@@ -428,6 +569,21 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  /* ── trend spotlight ── */
+  const openSpotlight = async (trendPoint) => {
+    const period = trendPoint.full;
+    setSpotlight({ period, loading: true, data: null, error: null });
+    try {
+      const params = new URLSearchParams({ period, mode: periodMode || "monthly" });
+      const res = await fetch(apiUrl(`/api/data/${sessionId}?${params}`));
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const d = await res.json();
+      setSpotlight({ period, loading: false, data: d, error: null });
+    } catch (e) {
+      setSpotlight(prev => ({ ...prev, loading: false, error: e.message }));
     }
   };
 
@@ -671,7 +827,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 { key: "revenue", label: "Revenue", color: "var(--c-1)" },
                 { key: "costs",   label: "Costs",   color: "var(--c-6)" },
                 { key: "profit",  label: "Profit",  color: "var(--c-5)" },
-              ]} />
+              ]} onPointClick={openSpotlight} />
             ) : (
               <div className="loading">Not enough periods for a trend chart</div>
             )}
@@ -1104,6 +1260,11 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {/* ── Rolling Forecast ─────────────────────────────────── */}
       {!isBvA && periodMode !== "ytd" && (trend || []).length > 2 && (
         <ForecastPanel sessionId={sessionId} periodMode={periodMode} />
+      )}
+
+      {/* ── Period spotlight modal ── */}
+      {spotlight && (
+        <SpotlightModal spotlight={spotlight} onClose={() => setSpotlight(null)} />
       )}
     </div>
   );
