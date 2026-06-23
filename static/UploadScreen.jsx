@@ -81,6 +81,69 @@ function UploadScreen({ onLoad, onLoadDemo }) {
   const [showGuide,    setShowGuide]    = useStateUpload(false);
   const inputRef = useRefUpload(null);
 
+  // Xero OAuth state
+  const [xeroStatus,    setXeroStatus]    = useStateUpload("idle");
+  const [xeroState,     setXeroState]     = useStateUpload(null);
+  const [xeroTenants,   setXeroTenants]   = useStateUpload([]);
+  const [xeroTenant,    setXeroTenant]    = useStateUpload("");
+  const [xeroError,     setXeroError]     = useStateUpload(null);
+  const [xeroFromDate,  setXeroFromDate]  = useStateUpload("");
+  const [xeroToDate,    setXeroToDate]    = useStateUpload("");
+
+  React.useEffect(() => {
+    if (importMethod !== "xero" || xeroStatus !== "idle") return;
+    setXeroStatus("checking");
+    fetch(apiUrl("/api/xero/status"))
+      .then(r => r.json())
+      .then(d => setXeroStatus(d.configured ? "ready" : "unconfigured"))
+      .catch(() => setXeroStatus("unconfigured"));
+  }, [importMethod]);
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === "xero_connected" && e.data.state) {
+        setXeroState(e.data.state);
+        setXeroStatus("connected");
+        fetch(apiUrl(`/api/xero/tenants?state=${e.data.state}`))
+          .then(r => r.json())
+          .then(d => {
+            setXeroTenants(d.tenants || []);
+            if (d.tenants?.length === 1) setXeroTenant(d.tenants[0].id);
+          })
+          .catch(() => setXeroError("Failed to fetch organisations."));
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
+  const startXeroAuth = async () => {
+    setXeroStatus("connecting");
+    setXeroError(null);
+    try {
+      const resp = await fetch(apiUrl("/api/xero/auth"));
+      if (!resp.ok) { const err = await resp.json().catch(() => ({})); throw new Error(err.detail || `HTTP ${resp.status}`); }
+      const { auth_url, state } = await resp.json();
+      setXeroState(state);
+      window.open(auth_url, "xero_auth", "width=600,height=700,popup=1");
+    } catch (e) { setXeroError(e.message); setXeroStatus("ready"); }
+  };
+
+  const importFromXero = async () => {
+    if (!xeroTenant) return;
+    setXeroStatus("importing");
+    setXeroError(null);
+    try {
+      const params = new URLSearchParams({ state: xeroState, tenant_id: xeroTenant });
+      if (xeroFromDate) params.set("from_date", xeroFromDate);
+      if (xeroToDate) params.set("to_date", xeroToDate);
+      const resp = await fetch(apiUrl(`/api/xero/import?${params}`));
+      if (!resp.ok) { const err = await resp.json().catch(() => ({})); throw new Error(err.detail || `HTTP ${resp.status}`); }
+      const data = await resp.json();
+      onLoad(data);
+    } catch (e) { setXeroError(e.message); setXeroStatus("connected"); }
+  };
+
   const upload = async (file) => {
     if (!file) return;
     const ext = file.name.split(".").pop().toLowerCase();
@@ -324,61 +387,115 @@ function UploadScreen({ onLoad, onLoadDemo }) {
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
               <div style={{
                 width: 40, height: 40, borderRadius: "var(--radius-sm)",
-                background: "var(--primary-soft)", display: "flex", alignItems: "center", justifyContent: "center",
+                background: "#13B5EA22", display: "flex", alignItems: "center", justifyContent: "center",
               }}>
-                <Icon name="link" size={20} color="var(--primary)" />
+                <Icon name="link" size={20} color="#13B5EA" />
               </div>
               <div>
-                <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--fg-1)" }}>
-                  Connect to Xero
+                <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--fg-1)" }}>Connect to Xero</div>
+                <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>Import your P&amp;L directly from Xero</div>
+              </div>
+              {xeroStatus === "connected" && (
+                <span style={{
+                  marginLeft: "auto", font: "var(--text-label)", fontSize: 10, textTransform: "uppercase",
+                  letterSpacing: ".06em", padding: "3px 8px", borderRadius: 20,
+                  background: "var(--favourable-soft)", color: "var(--favourable-text)",
+                  border: "1px solid var(--favourable)", whiteSpace: "nowrap",
+                  display: "inline-flex", alignItems: "center", gap: 4,
+                }}><Icon name="check-circle" size={11} />Connected</span>
+              )}
+            </div>
+
+            {xeroError && (
+              <div style={{
+                padding: "10px 14px", marginBottom: 12, borderRadius: "var(--radius-sm)",
+                background: "var(--adverse-soft)", border: "1px solid var(--adverse-border)",
+                font: "var(--text-body)", fontSize: 12.5, color: "var(--adverse-text)",
+              }}>{xeroError}</div>
+            )}
+
+            {xeroStatus === "unconfigured" && (
+              <div style={{
+                padding: "14px 16px", borderRadius: "var(--radius-sm)", marginBottom: 14,
+                background: "var(--surface-2)", border: "1px solid var(--border)",
+                font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)", lineHeight: 1.55,
+              }}>
+                <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)", marginBottom: 6 }}>
+                  Xero integration not configured
                 </div>
-                <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
-                  Import your P&amp;L directly from Xero
+                Set <code style={{ font: "12px var(--font-mono)" }}>XERO_CLIENT_ID</code> and{" "}
+                <code style={{ font: "12px var(--font-mono)" }}>XERO_CLIENT_SECRET</code> environment variables and restart the server.
+                <div style={{ marginTop: 6, font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)" }}>
+                  Register at{" "}
+                  <a href="https://developer.xero.com/app/manage" target="_blank" rel="noopener" style={{ color: "var(--primary)" }}>developer.xero.com</a>
                 </div>
               </div>
-              <span style={{
-                marginLeft: "auto", font: "var(--text-label)", fontSize: 10,
-                textTransform: "uppercase", letterSpacing: ".06em",
-                padding: "3px 8px", borderRadius: "var(--radius-pill)",
-                background: "var(--surface-2)", color: "var(--fg-3)",
-                border: "1px solid var(--border)", whiteSpace: "nowrap",
-              }}>
-                Coming soon
-              </span>
-            </div>
+            )}
 
-            <p style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)", margin: "0 0 14px", lineHeight: 1.6 }}>
-              Once connected, MonthEndIQ will guide you through five steps:
-            </p>
+            {(xeroStatus === "ready" || xeroStatus === "connecting") && (
+              <button
+                onClick={startXeroAuth}
+                disabled={xeroStatus === "connecting"}
+                style={{
+                  width: "100%", display: "flex", alignItems: "center",
+                  justifyContent: "center", gap: 8, padding: "11px 0", marginBottom: 14,
+                  borderRadius: "var(--radius-sm)", border: "none",
+                  background: "#13B5EA", color: "#fff",
+                  font: "var(--text-body-strong)", fontSize: 14, cursor: "pointer",
+                  opacity: xeroStatus === "connecting" ? 0.7 : 1,
+                }}
+              >
+                {xeroStatus === "connecting"
+                  ? <React.Fragment><div className="spinner" style={{ width: 14, height: 14, borderWidth: 2, borderColor: "#fff transparent #fff transparent" }} /> Waiting for Xero…</React.Fragment>
+                  : <React.Fragment><Icon name="log-in" size={16} /> Connect to Xero</React.Fragment>
+                }
+              </button>
+            )}
 
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-              {[
-                { step: "1", text: "Authenticate securely via Xero OAuth 2.0 — MonthEndIQ never stores your Xero password" },
-                { step: "2", text: "Choose your organisation from the list of connected Xero tenants" },
-                { step: "3", text: "Import the Profit & Loss report for your selected date range" },
-                { step: "4", text: "Select month-by-month, quarterly, or year-to-date comparison views" },
-                { step: "5", text: "Generate your variance dashboard, AI commentary, and management pack instantly" },
-              ].map(({ step, text }) => (
-                <div key={step} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                  <div style={{
-                    width: 24, height: 24, borderRadius: "50%",
-                    background: "var(--primary-soft)", color: "var(--primary)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    font: "var(--text-label)", fontSize: 11, fontWeight: 700,
-                    flexShrink: 0,
-                  }}>
-                    {step}
-                  </div>
-                  <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)", lineHeight: 1.5, paddingTop: 3 }}>
-                    {text}
+            {(xeroStatus === "connected" || xeroStatus === "importing") && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 14 }}>
+                <div>
+                  <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 6 }}>Organisation</div>
+                  <select value={xeroTenant} onChange={e => setXeroTenant(e.target.value)}
+                    style={{ width: "100%", padding: "8px 10px", font: "var(--text-body)", fontSize: 13, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)" }}>
+                    <option value="">Select an organisation…</option>
+                    {xeroTenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 6 }}>Date range (optional)</div>
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <input type="date" value={xeroFromDate} onChange={e => setXeroFromDate(e.target.value)}
+                      style={{ flex: 1, padding: "7px 10px", font: "var(--text-body)", fontSize: 12.5, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)" }} />
+                    <input type="date" value={xeroToDate} onChange={e => setXeroToDate(e.target.value)}
+                      style={{ flex: 1, padding: "7px 10px", font: "var(--text-body)", fontSize: 12.5, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)" }} />
                   </div>
                 </div>
-              ))}
-            </div>
+                <button onClick={importFromXero} disabled={!xeroTenant || xeroStatus === "importing"}
+                  style={{
+                    width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "11px 0",
+                    borderRadius: "var(--radius-sm)", border: "none", background: "var(--primary)", color: "#fff",
+                    font: "var(--text-body-strong)", fontSize: 14, cursor: "pointer",
+                    opacity: !xeroTenant || xeroStatus === "importing" ? 0.6 : 1,
+                  }}>
+                  {xeroStatus === "importing"
+                    ? <React.Fragment><div className="spinner" style={{ width: 14, height: 14, borderWidth: 2, borderColor: "#fff transparent #fff transparent" }} /> Importing P&amp;L…</React.Fragment>
+                    : <React.Fragment><Icon name="download" size={16} /> Import Profit &amp; Loss</React.Fragment>
+                  }
+                </button>
+              </div>
+            )}
+
+            {(xeroStatus === "idle" || xeroStatus === "checking") && (
+              <div style={{ padding: "16px 0", textAlign: "center" }}>
+                <div className="spinner" style={{ margin: "0 auto 8px" }} />
+                <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)" }}>Checking Xero configuration…</div>
+              </div>
+            )}
 
             <div style={{ borderTop: "1px solid var(--border)", paddingTop: 16 }}>
               <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 10 }}>
-                Want to see how it will look? Try a Xero-format demo dataset:
+                Try a Xero-format demo dataset:
               </div>
               <button
                 onClick={() => loadDemo("/api/demo-xero", "xero")}

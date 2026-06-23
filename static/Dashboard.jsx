@@ -35,8 +35,20 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
   const anomalies = result?.anomalies || [];
   const note      = result?.note;
 
-  // Hide only when the API says there's not enough history, or when the first load failed entirely
-  if (note || (result === null && !loading)) return null;
+  if (result === null && !loading) return null;
+
+  if (note) return (
+    <div style={{
+      marginBottom: 20, padding: "12px 18px", borderRadius: "var(--radius-md)",
+      border: "1px solid var(--border)", background: "var(--surface-2)",
+      display: "flex", alignItems: "center", gap: 10,
+    }}>
+      <Icon name="zap" size={15} color="var(--fg-3)" />
+      <span style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
+        Statistical anomalies — {note}
+      </span>
+    </div>
+  );
 
   const visible = expanded ? anomalies : anomalies.slice(0, 3);
   const sigmaColor = (z) =>
@@ -181,7 +193,17 @@ function ForecastPanel({ sessionId, periodMode }) {
     setLoading(true);
     setError(null);
     fetch(apiUrl(`/api/forecast/${sessionId}?lookback=${lookback}&mode=${periodMode}`))
-      .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then((r) => {
+        if (!r.ok) {
+          const code = r.status;
+          if (code === 401 || code === 403) throw new Error("Authentication failed — check your API key.");
+          if (code === 404) throw new Error("Session expired — please re-upload your file.");
+          if (code === 429) throw new Error("Rate limited — wait a moment and try again.");
+          if (code >= 500) throw new Error("Server error — try again shortly.");
+          throw new Error(`Request failed (HTTP ${code}).`);
+        }
+        return r.json();
+      })
       .then(setFcData)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -687,34 +709,32 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   return (
     <div className="content-inner reveal" style={{ opacity: loading ? 0.6 : 1, transition: "opacity .2s" }}>
 
-      {/* ── BvA analysis context badge ─────────────────────────────── */}
-      {isBvA && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: 5,
-            font: "var(--text-body-strong)", fontSize: 11.5,
-            padding: "3px 10px", borderRadius: "var(--radius-pill)",
-            background: "var(--primary-soft)", color: "var(--primary)",
-          }}>
-            <Icon name="target" size={12} />
-            Budget vs Actual
-          </span>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: 5,
-            font: "var(--text-body)", fontSize: 11.5,
-            padding: "3px 10px", borderRadius: "var(--radius-pill)",
-            background: "var(--surface-2)", color: "var(--fg-2)",
-          }}>
-            <Icon name="calendar" size={12} />
-            {(() => {
-              const sp = data.selected_bva_period;
-              if (!sp || sp === "full_year") return "Full Year";
-              try { return new Date(sp + "T00:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" }); }
-              catch (_) { return sp; }
-            })()}
-          </span>
-        </div>
-      )}
+      {/* ── BvA editorial headline (matches MoM style) ────────────── */}
+      {isBvA && (() => {
+        const profKpi = (kpis || []).find(k => k.icon === "wallet");
+        if (!profKpi || profKpi.variance == null) return null;
+        const bvaPeriodLabel = (() => {
+          const sp = data.selected_bva_period;
+          if (!sp || sp === "full_year") return "Full Year";
+          try { return new Date(sp + "T00:00:00").toLocaleDateString("en-GB", { month: "long", year: "numeric" }); }
+          catch (_) { return sp; }
+        })();
+        return (
+          <div className="editorial-header">
+            <div className="editorial-eyebrow">
+              <span className="e-label">Budget vs Actual</span>
+              <span className="e-sep" />
+              <span className="e-period">{bvaPeriodLabel}</span>
+            </div>
+            <h1 className="editorial-h1">
+              Operating profit {profKpi.variance >= 0 ? "above" : "below"} budget by{" "}
+              <span style={{ color: profKpi.is_fav ? "var(--favourable-text)" : "var(--adverse-text)" }}>
+                {fmtSignedGBP(Math.abs(profKpi.variance))}
+              </span>.
+            </h1>
+          </div>
+        );
+      })()}
 
       {/* Editorial headline — MoM view only */}
       {!isBvA && (() => {
@@ -817,6 +837,31 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
       {/* Trend + AI commentary */}
       <div className="grid-2">
+        {isBvA && trend && trend.length > 1 && (
+          <Card
+            title="Actual vs Budget trend"
+            sub={`${trend.length} periods · Actual (solid) vs Budget (dashed)`}
+            action={<Chip tone="info" icon="line-chart">Trend</Chip>}>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", marginBottom: 6 }}>
+                Revenue — Actual vs Budget
+              </div>
+              <TrendChart data={trend} series={[
+                { key: "actual_revenue", label: "Actual", color: "var(--c-1)" },
+                { key: "budget_revenue", label: "Budget", color: "var(--c-1)", dashed: true },
+              ]} />
+            </div>
+            <div>
+              <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", marginBottom: 6 }}>
+                Profit — Actual vs Budget
+              </div>
+              <TrendChart data={trend} series={[
+                { key: "actual_profit", label: "Actual", color: "var(--c-5)" },
+                { key: "budget_profit", label: "Budget", color: "var(--c-5)", dashed: true },
+              ]} />
+            </div>
+          </Card>
+        )}
         {!isBvA && (
           <Card
             title="Revenue vs costs vs profit"

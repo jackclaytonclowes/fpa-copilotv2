@@ -344,6 +344,13 @@ function ReportBoardCommentary({ model, sessionId, periodLabel }) {
 
   const hasEdits = Object.keys(edits).length > 0;
 
+  React.useEffect(() => {
+    if (!hasEdits) return;
+    const handler = (e) => { e.preventDefault(); e.returnValue = ""; };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [hasEdits]);
+
   if (!model || !model.commentary.length) return null;
 
   const action = (
@@ -715,7 +722,7 @@ function ReportVarianceTable({ model }) {
 /* ═══════════════════════════════════════════════════════════════════════════
  * REPORTS PAGE — assembles all sections as a management pack preview
  * ═══════════════════════════════════════════════════════════════════════════ */
-function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, period }) {
+function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, period, onToast }) {
   const { Icon, Button, Card } = window;
   const [data, setData]       = useStateR(initialData);
   const [loading, setLoading] = useStateR(false);
@@ -745,6 +752,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
       a.download = `management_pack.${fmt === "pdf" ? "pdf" : "zip"}`;
       a.click();
       URL.revokeObjectURL(url);
+      onToast && onToast(`${fmt.toUpperCase()} exported successfully`);
     } catch (e) {
       console.error("[MonthEndIQ Export] Failed:", e);
       alert("Export failed: " + e.message);

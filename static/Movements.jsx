@@ -293,7 +293,15 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
   return (
     <div className="content">
-      <div className="content-inner reveal" style={{ opacity: loading ? 0.6 : 1, transition: "opacity .2s" }}>
+      <div className="content-inner reveal" style={{ opacity: loading ? 0.6 : 1, transition: "opacity .2s", position: "relative" }}>
+        {loading && (
+          <div style={{
+            position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
+            background: "rgba(var(--surface-rgb, 255,255,255), 0.5)", zIndex: 5, borderRadius: "var(--radius-md)",
+          }}>
+            <div className="spinner" />
+          </div>
+        )}
 
         {/* Page header */}
         <div style={{ marginBottom: 20 }}>

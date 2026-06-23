@@ -59,7 +59,7 @@ function TrendChart({ data, series, forecastFrom, onPointClick }) {
         const mkPath = (arr) => arr.slice(0, shown + 1).map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
         return (
           <g key={s.key}>
-            <path d={mkPath(actualPts)} fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d={mkPath(actualPts)} fill="none" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray={s.dashed ? "6 4" : "none"} />
             {forecastPts.length > 1 && (
               <path d={mkPath(forecastPts)} fill="none" stroke={s.color} strokeWidth="2" strokeDasharray="5 3" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
             )}
@@ -78,7 +78,7 @@ function TrendChart({ data, series, forecastFrom, onPointClick }) {
       <g style={{ font: "500 11px var(--font-sans)", fill: "var(--fg-3)" }}>
         {series.map((s, si) => (
           <g key={s.key} transform={`translate(${padL + si * 110}, ${padT - 2})`}>
-            <line x1="0" x2="16" y1="0" y2="0" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="0" x2="16" y1="0" y2="0" stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeDasharray={s.dashed ? "4 3" : "none"} />
             <text x="20" y="4" style={{ fill: "var(--fg-2)" }}>{s.label}</text>
           </g>
         ))}
@@ -299,12 +299,15 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
             </text>
 
             {/* X-axis label */}
-            {lines.map((ln, li) => (
-              <text key={li} x={cx} y={H - padB + 14 + li * 12} textAnchor="middle"
-                style={{ font: "10px var(--font-sans)", fill: "var(--fg-3)" }}>
-                {ln}
-              </text>
-            ))}
+            <g>
+              {seg.label.length > 22 && <title>{seg.label}</title>}
+              {lines.map((ln, li) => (
+                <text key={li} x={cx} y={H - padB + 14 + li * 12} textAnchor="middle"
+                  style={{ font: "10px var(--font-sans)", fill: "var(--fg-3)" }}>
+                  {ln}
+                </text>
+              ))}
+            </g>
           </g>
         );
       })}

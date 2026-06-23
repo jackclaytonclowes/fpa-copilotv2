@@ -492,6 +492,19 @@ function Scenarios({ initialData, fileName, analysisType }) {
                 ))}
               </div>
 
+              {/* Comparison hint when only 1 scenario */}
+              {saved.length === 1 && (
+                <div style={{
+                  marginTop: 10, padding: "10px 14px", borderRadius: "var(--radius-sm)",
+                  background: "var(--primary-soft)", border: "1px solid var(--primary-border)",
+                  font: "var(--text-body)", fontSize: 12, color: "var(--primary)",
+                  display: "flex", alignItems: "center", gap: 8,
+                }}>
+                  <Icon name="info" size={13} color="var(--primary)" />
+                  Save a second scenario to unlock the comparison table.
+                </div>
+              )}
+
               {/* Comparison table — visible when ≥2 scenarios saved */}
               {saved.length >= 2 && (
                 <div style={{ marginTop: 14 }}>

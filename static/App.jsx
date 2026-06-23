@@ -537,6 +537,7 @@ function App() {
         onDataChange={onDataChange}
         analysisType={analysisType}
         period={currentPeriodObj}
+        onToast={fireToast}
       />
     );
   } else if (view === "movements") {

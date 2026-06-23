@@ -1445,9 +1445,45 @@ def build_bva_waterfall(df_bva: pd.DataFrame, kpi_accounts: dict) -> dict | None
 
 
 # ─────────────────────────────────────────────
+# BUDGET VS ACTUAL — TREND BUILDER
+# ─────────────────────────────────────────────
+def build_bva_trend(bva_long: pd.DataFrame, kpi_accounts: dict) -> list:
+    if bva_long is None or bva_long.empty:
+        return []
+    periods = sorted(bva_long["Period"].unique())
+    if len(periods) < 2:
+        return []
+    rev_name  = kpi_accounts.get("revenue")
+    cost_name = kpi_accounts.get("costs")
+    prof_name = kpi_accounts.get("profit")
+    trend = []
+    for ts in periods:
+        pdf = bva_long[bva_long["Period"] == ts]
+        short = pd.Timestamp(ts).strftime("%b")
+        full  = pd.Timestamp(ts).strftime("%B %Y")
+        def _val(account_name, col):
+            if not account_name:
+                return 0
+            m = pdf[pdf["Account"].str.strip() == account_name.strip()]
+            if m.empty:
+                return 0
+            v = m.iloc[0].get(col)
+            return float(v) if pd.notna(v) else 0
+        trend.append({
+            "m": short, "full": full,
+            "actual_revenue": _val(rev_name, "Actual"),
+            "budget_revenue": _val(rev_name, "Budget"),
+            "actual_costs":   _val(cost_name, "Actual"),
+            "budget_costs":   _val(cost_name, "Budget"),
+            "actual_profit":  _val(prof_name, "Actual"),
+            "budget_profit":  _val(prof_name, "Budget"),
+        })
+    return trend
+
+
 # BUDGET VS ACTUAL — PERIOD DATA FOR API
 # ─────────────────────────────────────────────
-def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str) -> dict:
+def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str, bva_long: pd.DataFrame | None = None) -> dict:
     """Return the full dashboard data dict for Budget vs Actual mode."""
     driver_df = df_bva[~df_bva["Is Subtotal"]].copy()
 
@@ -1645,7 +1681,7 @@ def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str) -> dic
     return {
         "analysis_type" : "budget_vs_actual",
         "kpis"          : kpis,
-        "trend"         : [],        # no time-series in BvA
+        "trend"         : build_bva_trend(bva_long, kpi_accounts),
         "revenue_split" : revenue_split,
         "expense_split" : expense_split,
         "movements"     : movements,

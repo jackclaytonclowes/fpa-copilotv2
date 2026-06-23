@@ -51,6 +51,14 @@ app.add_middleware(
 # In-memory session store
 SESSIONS: dict = {}
 
+# Xero OAuth 2.0 token store (in-memory, keyed by state param)
+XERO_TOKENS: dict = {}  # state_key → {access_token, refresh_token, tenant_id, ...}
+
+XERO_CLIENT_ID     = os.environ.get("XERO_CLIENT_ID", "")
+XERO_CLIENT_SECRET = os.environ.get("XERO_CLIENT_SECRET", "")
+XERO_REDIRECT_URI  = os.environ.get("XERO_REDIRECT_URI", "http://localhost:8000/api/xero/callback")
+XERO_SCOPES        = "openid profile email accounting.reports.read offline_access"
+
 STATIC = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
@@ -538,7 +546,7 @@ def demo_bva():
         "chat":          [],
     }
 
-    data = get_bva_data(bva_snapshot, kpi_accounts, filename)
+    data = get_bva_data(bva_snapshot, kpi_accounts, filename, bva_long=None)
     data["session_id"]            = session_id
     data["file_name"]             = filename
     data["available_bva_periods"] = []
@@ -638,6 +646,267 @@ def demo_xero():
     data["session_id"]    = session_id
     data["file_name"]     = filename
     return data
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# XERO OAUTH 2.0 INTEGRATION
+# ─────────────────────────────────────────────────────────────────────────────
+import secrets
+import urllib.parse
+import json
+from datetime import datetime
+
+@app.get("/api/xero/status")
+def xero_status():
+    """Check if Xero credentials are configured."""
+    return {"configured": bool(XERO_CLIENT_ID and XERO_CLIENT_SECRET)}
+
+
+@app.get("/api/xero/auth")
+def xero_auth():
+    """Start Xero OAuth 2.0 flow — returns URL to redirect the user to."""
+    if not XERO_CLIENT_ID or not XERO_CLIENT_SECRET:
+        raise HTTPException(400, "Xero integration not configured. Set XERO_CLIENT_ID and XERO_CLIENT_SECRET.")
+    state = secrets.token_urlsafe(32)
+    XERO_TOKENS[state] = {"status": "pending"}
+    params = urllib.parse.urlencode({
+        "response_type": "code",
+        "client_id":     XERO_CLIENT_ID,
+        "redirect_uri":  XERO_REDIRECT_URI,
+        "scope":         XERO_SCOPES,
+        "state":         state,
+    })
+    return {"auth_url": f"https://login.xero.com/identity/connect/authorize?{params}", "state": state}
+
+
+@app.get("/api/xero/callback")
+async def xero_callback(code: str = "", state: str = "", error: str = ""):
+    """Handle Xero OAuth callback — exchange code for tokens."""
+    import httpx
+
+    if error:
+        html = f"<html><body><h2>Xero authorisation failed</h2><p>{error}</p><script>window.close()</script></body></html>"
+        return Response(content=html, media_type="text/html")
+
+    if state not in XERO_TOKENS:
+        raise HTTPException(400, "Invalid OAuth state.")
+
+    async with httpx.AsyncClient() as client:
+        token_resp = await client.post("https://identity.xero.com/connect/token", data={
+            "grant_type":    "authorization_code",
+            "code":          code,
+            "redirect_uri":  XERO_REDIRECT_URI,
+            "client_id":     XERO_CLIENT_ID,
+            "client_secret": XERO_CLIENT_SECRET,
+        })
+        if token_resp.status_code != 200:
+            html = f"<html><body><h2>Token exchange failed</h2><p>{token_resp.text}</p><script>window.close()</script></body></html>"
+            return Response(content=html, media_type="text/html")
+
+        tokens = token_resp.json()
+
+        # Fetch connected tenants
+        conn_resp = await client.get("https://api.xero.com/connections", headers={
+            "Authorization": f"Bearer {tokens['access_token']}",
+            "Content-Type":  "application/json",
+        })
+        tenants = conn_resp.json() if conn_resp.status_code == 200 else []
+
+    XERO_TOKENS[state] = {
+        "status":        "connected",
+        "access_token":  tokens["access_token"],
+        "refresh_token": tokens.get("refresh_token"),
+        "expires_at":    datetime.utcnow().timestamp() + tokens.get("expires_in", 1800),
+        "tenants":       tenants,
+    }
+
+    html = """<html><body style="font-family:system-ui;text-align:center;padding:60px">
+    <h2 style="color:#0a7">Connected to Xero</h2>
+    <p>You can close this window and return to MonthEndIQ.</p>
+    <script>
+      if (window.opener) {
+        window.opener.postMessage({type:'xero_connected',state:'""" + state + """'},'*');
+      }
+      setTimeout(()=>window.close(), 1500);
+    </script>
+    </body></html>"""
+    return Response(content=html, media_type="text/html")
+
+
+@app.get("/api/xero/tenants")
+def xero_tenants(state: str):
+    """Return connected Xero tenants for a given auth state."""
+    tok = XERO_TOKENS.get(state)
+    if not tok or tok.get("status") != "connected":
+        raise HTTPException(400, "Not connected. Complete the OAuth flow first.")
+    return {"tenants": [{"id": t["tenantId"], "name": t["tenantName"]} for t in tok.get("tenants", [])]}
+
+
+@app.get("/api/xero/import")
+async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: str = ""):
+    """Pull Profit & Loss from Xero and create an analysis session."""
+    import httpx
+
+    tok = XERO_TOKENS.get(state)
+    if not tok or tok.get("status") != "connected":
+        raise HTTPException(400, "Not connected to Xero.")
+
+    access_token = tok["access_token"]
+
+    # Default date range: 12 months ending this month
+    if not to_date:
+        today = datetime.utcnow()
+        to_date = today.strftime("%Y-%m-%d")
+    if not from_date:
+        from datetime import timedelta
+        d = datetime.strptime(to_date, "%Y-%m-%d")
+        from_date = (d.replace(year=d.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
+
+    # Fetch monthly P&L with separate periods
+    params = {
+        "fromDate":   from_date,
+        "toDate":     to_date,
+        "periods":    12,
+        "timeframe":  "MONTH",
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(
+            "https://api.xero.com/api.xro/2.0/Reports/ProfitAndLoss",
+            params=params,
+            headers={
+                "Authorization":  f"Bearer {access_token}",
+                "Xero-Tenant-Id": tenant_id,
+                "Accept":         "application/json",
+            },
+        )
+        if resp.status_code == 401:
+            raise HTTPException(401, "Xero token expired. Please reconnect.")
+        if resp.status_code != 200:
+            raise HTTPException(resp.status_code, f"Xero API error: {resp.text[:300]}")
+
+        report = resp.json()
+
+    # Parse Xero report into a wide DataFrame
+    df = _parse_xero_pnl(report)
+    if df is None or df.empty:
+        raise HTTPException(400, "Could not parse the Xero P&L report. It may have no data for the selected period.")
+
+    # Build analysis session
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m)
+    analysis_q   = build_analysis(df_long_q)
+
+    session_id = str(uuid.uuid4())
+    tenant_name = next((t["tenantName"] for t in tok.get("tenants", []) if t["tenantId"] == tenant_id), "Xero")
+    filename = f"{tenant_name} — Xero Import"
+
+    SESSIONS[session_id] = {
+        "df":            df,
+        "df_long_m":     df_long_m,
+        "df_long_q":     df_long_q,
+        "analysis_m":    analysis_m,
+        "analysis_q":    analysis_q,
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "month_on_month",
+        "chat":          [],
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest = periods_m[-1]
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    data["analysis_type"] = "month_on_month"
+    data["session_id"]    = session_id
+    data["file_name"]     = filename
+    return data
+
+
+def _parse_xero_pnl(report_json: dict) -> pd.DataFrame | None:
+    """Convert Xero's ProfitAndLoss report JSON into a wide DataFrame
+    with columns: Account, Section, <month1>, <month2>, ...
+    """
+    reports = report_json.get("Reports", [])
+    if not reports:
+        return None
+    report = reports[0]
+    rows_out = report.get("Rows", [])
+    if not rows_out:
+        return None
+
+    # Extract period column headers from the first Header row
+    header_row = next((r for r in rows_out if r.get("RowType") == "Header"), None)
+    if not header_row:
+        return None
+    cells = header_row.get("Cells", [])
+    month_headers = []
+    for c in cells[1:]:
+        val = c.get("Value", "")
+        if val:
+            try:
+                dt = pd.to_datetime(val)
+                month_headers.append(dt.strftime("%b %Y"))
+            except Exception:
+                month_headers.append(val)
+    if not month_headers:
+        return None
+
+    records: list[dict] = []
+    current_section = ""
+
+    def _walk_rows(rows, section=""):
+        nonlocal current_section
+        for row in rows:
+            row_type = row.get("RowType", "")
+            if row_type == "Section":
+                section_title = row.get("Title", "") or section
+                if section_title:
+                    current_section = section_title
+                inner_rows = row.get("Rows", [])
+                _walk_rows(inner_rows, current_section)
+            elif row_type == "Row":
+                cells = row.get("Cells", [])
+                if not cells:
+                    continue
+                account = cells[0].get("Value", "")
+                if not account:
+                    continue
+                rec = {"Account": account, "Section": current_section}
+                for j, hdr in enumerate(month_headers):
+                    val = 0.0
+                    if j + 1 < len(cells):
+                        raw = cells[j + 1].get("Value", "0")
+                        try:
+                            val = float(str(raw).replace(",", ""))
+                        except (ValueError, TypeError):
+                            val = 0.0
+                    rec[hdr] = val
+                records.append(rec)
+            elif row_type == "SummaryRow":
+                cells = row.get("Cells", [])
+                if not cells:
+                    continue
+                account = cells[0].get("Value", "")
+                if not account:
+                    continue
+                rec = {"Account": account, "Section": current_section}
+                for j, hdr in enumerate(month_headers):
+                    val = 0.0
+                    if j + 1 < len(cells):
+                        raw = cells[j + 1].get("Value", "0")
+                        try:
+                            val = float(str(raw).replace(",", ""))
+                        except (ValueError, TypeError):
+                            val = 0.0
+                    rec[hdr] = val
+                records.append(rec)
+
+    _walk_rows(rows_out)
+    if not records:
+        return None
+    return pd.DataFrame(records)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -757,7 +1026,7 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
             "analysis_type": "budget_vs_actual",
             "chat"         : [],
         }
-        data = get_bva_data(bva_snapshot, kpi_accounts, file.filename)
+        data = get_bva_data(bva_snapshot, kpi_accounts, file.filename, bva_long=bva_long_store)
         data["session_id"]            = session_id
         data["file_name"]             = file.filename
         data["available_bva_periods"] = [str(ts)[:10] for ts in bva_periods]
@@ -889,7 +1158,7 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
                     df_to_use  = df_filt
                     sel_period = period
 
-        data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"])
+        data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"], bva_long=bva_long)
         data["session_id"]            = session_id
         data["file_name"]             = s["filename"]
         data["available_bva_periods"] = [str(ts)[:10] for ts in bva_periods]
@@ -972,7 +1241,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
                 df_filt["Abs Variance"] = df_filt["Variance"].abs()
                 bva_df = df_filt
 
-        data         = get_bva_data(bva_df, session["kpi_accounts"], session["filename"])
+        data         = get_bva_data(bva_df, session["kpi_accounts"], session["filename"], bva_long=bva_long)
         kpi_accounts = session["kpi_accounts"]
         wf           = data.get("waterfall")
 
@@ -1707,7 +1976,7 @@ def export(session_id: str, period: str = "", fmt: str = "pdf"):
                     df_to_use = df_filt
                     sel_label = _resolve_bva_period_label(period)
 
-        data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"])
+        data = get_bva_data(df_to_use, s["kpi_accounts"], s["filename"], bva_long=bva_long)
         lbl  = f"Budget vs Actual - {sel_label}"
     else:
         analysis     = s["analysis_m"] if "analysis_m" in s else s["analysis_q"]
