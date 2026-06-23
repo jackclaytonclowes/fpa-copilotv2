@@ -781,48 +781,6 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         ))}
       </div>
 
-      {/* ── BvA Revenue & Profit summary cards ────────────────────── */}
-      {isBvA && (bvaRevKpi || bvaProfKpi) && (
-        <div className="bva-summary-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
-          {[
-            bvaRevKpi  && { label: "Actual Revenue",  value: bvaRevKpi.value,    isVar: false },
-            bvaRevKpi  && { label: "Budget Revenue",  value: bvaRevKpi.prior,    isVar: false },
-            bvaRevKpi  && { label: "Revenue Variance",value: bvaRevKpi.variance, isVar: true,  isFav: bvaRevKpi.is_fav,  pct: bvaRevKpi.pct },
-            bvaProfKpi && { label: "Actual Profit",   value: bvaProfKpi.value,   isVar: false },
-            bvaProfKpi && { label: "Budget Profit",   value: bvaProfKpi.prior,   isVar: false },
-            bvaProfKpi && { label: "Profit Variance", value: bvaProfKpi.variance,isVar: true,  isFav: bvaProfKpi.is_fav, pct: bvaProfKpi.pct },
-          ].filter(Boolean).map((c) => (
-            <div key={c.label} className="card" style={{ padding: "14px 16px" }}>
-              <div style={{
-                font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase",
-                letterSpacing: ".05em", color: "var(--fg-3)", marginBottom: 6,
-              }}>{c.label}</div>
-              <div style={{
-                font: "var(--text-metric)", fontSize: 20, fontVariantNumeric: "tabular-nums",
-                color: c.isVar
-                  ? (c.isFav ? "var(--favourable-text)" : "var(--adverse-text)")
-                  : "var(--ink)",
-              }}>
-                {c.isVar ? fmtSignedGBP(c.value) : fmtGBP(c.value)}
-              </div>
-              {c.isVar && c.pct != null && (
-                <div style={{
-                  marginTop: 4, font: "var(--text-body-strong)", fontSize: 12,
-                  color: c.isFav ? "var(--favourable-text)" : "var(--adverse-text)",
-                }}>
-                  {fmtPct(c.pct)} vs budget
-                </div>
-              )}
-              {!c.isVar && (
-                <div style={{ marginTop: 4, font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
-                  {c.label.startsWith("Actual") ? "Actual performance" : "Original budget"}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Statistical anomaly detection */}
       {!isBvA && periodMode !== "ytd" && (
         <AnomalyPanel
