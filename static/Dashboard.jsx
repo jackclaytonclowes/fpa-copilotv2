@@ -122,11 +122,14 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
               border: `1px solid ${a.is_fav ? "var(--favourable-border)" : "var(--adverse-border)"}`,
             }}>
               {/* Sigma badge */}
-              <div style={{
-                flexShrink: 0, textAlign: "center", minWidth: 44,
-                padding: "4px 8px", borderRadius: "var(--radius-sm)",
-                background: "var(--surface-3)",
-              }}>
+              <div
+                title={`${a.z_score.toFixed(1)} standard deviations from the historical average${a.change_pct != null ? `\n${a.change_pct > 0 ? "+" : ""}${a.change_pct.toFixed(1)}% deviation from mean` : ""}\n\nσ (sigma) measures how unusual this value is compared to the account's typical range.`}
+                style={{
+                  flexShrink: 0, textAlign: "center", minWidth: 44,
+                  padding: "4px 8px", borderRadius: "var(--radius-sm)",
+                  background: "var(--surface-3)", cursor: "help",
+                }}
+              >
                 <div style={{ font: "700 13px var(--font-mono)", color: sigmaColor(a.z_score) }}>
                   {a.z_score.toFixed(1)}σ
                 </div>
