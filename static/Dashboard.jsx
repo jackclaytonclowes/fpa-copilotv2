@@ -941,8 +941,8 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Donut data={revSplit} total={"£" + Math.round(revTotal / 1000) + "k"} label="revenue" />
             <div className="legend" style={{ flex: 1, minWidth: 0 }}>
-              {revSplit.map((it) => (
-                <div className="lg" key={it.name}>
+              {revSplit.map((it, i) => (
+                <div className="lg" key={`${it.name}-${i}`}>
                   <span className="sw" style={{ background: it.c }} />
                   <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{it.name}</span>
                   <span className="v">{fmtGBP(it.value)}</span>
@@ -956,8 +956,8 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
             <Donut data={expSplit} total={"£" + Math.round(expTotal / 1000) + "k"} label="costs" />
             <div className="legend" style={{ flex: 1, minWidth: 0 }}>
-              {expSplit.map((it) => (
-                <div className="lg" key={it.name}>
+              {expSplit.map((it, i) => (
+                <div className="lg" key={`${it.name}-${i}`}>
                   <span className="sw" style={{ background: it.c }} />
                   <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{it.name}</span>
                   <span className="v">{fmtGBP(it.value)}</span>
