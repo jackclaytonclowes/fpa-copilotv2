@@ -68,6 +68,11 @@ def root():
     return FileResponse(STATIC / "index.html")
 
 
+@app.get("/privacy")
+def privacy_page():
+    return FileResponse(STATIC / "privacy.html")
+
+
 @app.get("/view/{session_id}")
 def view_shared(session_id: str):
     """Serve the SPA for a shareable session link — the frontend reads the ID from the URL."""

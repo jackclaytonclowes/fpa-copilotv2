@@ -524,6 +524,21 @@ function UploadScreen({ onLoad, onLoadDemo }) {
             {error}
           </div>
         )}
+
+        {/* Footer */}
+        <div style={{
+          marginTop: 32, paddingTop: 16, borderTop: "1px solid var(--border)",
+          display: "flex", justifyContent: "center", gap: 16,
+          font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)",
+        }}>
+          <a href="/privacy" target="_blank" rel="noopener" style={{ color: "var(--fg-3)", textDecoration: "none" }}>
+            Privacy Notice
+          </a>
+          <span style={{ opacity: 0.4 }}>·</span>
+          <a href="/privacy#dpia" target="_blank" rel="noopener" style={{ color: "var(--fg-3)", textDecoration: "none" }}>
+            How we use your data
+          </a>
+        </div>
       </div>
     </div>
   );
