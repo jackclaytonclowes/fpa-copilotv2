@@ -767,11 +767,14 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
         d = datetime.strptime(to_date, "%Y-%m-%d")
         from_date = (d.replace(year=d.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
 
-    # Fetch monthly P&L with separate periods
+    # Fetch monthly P&L with separate periods (Xero max periods = 11)
+    d_from = datetime.strptime(from_date, "%Y-%m-%d")
+    d_to   = datetime.strptime(to_date, "%Y-%m-%d")
+    n_months = (d_to.year - d_from.year) * 12 + (d_to.month - d_from.month)
     params = {
         "fromDate":   from_date,
         "toDate":     to_date,
-        "periods":    12,
+        "periods":    min(max(n_months, 1), 11),
         "timeframe":  "MONTH",
     }
 
