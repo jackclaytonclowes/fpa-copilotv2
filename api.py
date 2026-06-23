@@ -57,7 +57,7 @@ XERO_TOKENS: dict = {}  # state_key → {access_token, refresh_token, tenant_id,
 XERO_CLIENT_ID     = os.environ.get("XERO_CLIENT_ID", "")
 XERO_CLIENT_SECRET = os.environ.get("XERO_CLIENT_SECRET", "")
 XERO_REDIRECT_URI  = os.environ.get("XERO_REDIRECT_URI", "http://localhost:8000/api/xero/callback")
-XERO_SCOPES        = "openid profile email accounting.reports.read"
+XERO_SCOPES        = "openid profile email accounting.reports.profitandloss.read"
 
 STATIC = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
