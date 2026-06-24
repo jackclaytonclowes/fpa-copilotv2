@@ -375,6 +375,18 @@ function UploadScreen({ onLoad, onLoadDemo }) {
               loading={loading}
               onDemo={loadDemo}
             />
+            <DemoCard
+              icon="flame"
+              title="Nimbus Labs Ltd"
+              badge="Cash burn"
+              description="Seed-stage SaaS running at a loss — cash runway & burn rate"
+              detail="Jul 2024 – Jun 2025 · ~£75k/mo burn · £350k cash · ~5-month runway"
+              endpoint="/api/demo-burn"
+              demoKey="burn"
+              demoLoading={demoLoading}
+              loading={loading}
+              onDemo={loadDemo}
+            />
           </div>
         )}
 

@@ -491,6 +491,89 @@ def demo():
     return data
 
 
+@app.get("/api/demo-burn")
+def demo_burn():
+    """Loss-making seed-stage SaaS — demonstrates the Cash & Runway burn path.
+
+    Prefills xero_cash (as if pulled from a Xero balance sheet) so the runway
+    panel computes a depletion date out of the box.
+    """
+    months = [
+        "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+        "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
+    ]
+
+    rows = [
+        # ── Revenue (ramping MRR) ────────────────────────────────────────────
+        ("Subscription Revenue",      "Turnover",          [18000,20000,22000,25000,27000,30000,33000,36000,40000,44000,48000,52000]),
+        ("Setup & Onboarding",        "Turnover",          [3000,2500,3500,3000,4000,3500,4500,4000,5000,4500,5500,6000]),
+        ("Total Turnover",            "Turnover",          [21000,22500,25500,28000,31000,33500,37500,40000,45000,48500,53500,58000]),
+        # ── Cost of Sales ────────────────────────────────────────────────────
+        ("Cloud Hosting",             "Cost of Sales",     [6000,6300,6800,7200,7600,8000,8500,9000,9600,10200,10800,11400]),
+        ("Customer Support",          "Cost of Sales",     [4000,4200,4400,4600,4800,5000,5200,5400,5600,5800,6000,6200]),
+        ("Total Cost of Sales",       "Cost of Sales",     [10000,10500,11200,11800,12400,13000,13700,14400,15200,16000,16800,17600]),
+        # ── Gross Profit ─────────────────────────────────────────────────────
+        ("Gross Profit",              "Profit",            [11000,12000,14300,16200,18600,20500,23800,25600,29800,32500,36700,40400]),
+        # ── Staff Costs (over-hired engineering) ─────────────────────────────
+        ("Engineering Salaries",      "Staff Costs",       [38000,38000,40000,42000,42000,44000,46000,46000,48000,50000,50000,52000]),
+        ("Sales & Marketing Salaries","Staff Costs",       [16000,16000,18000,18000,20000,20000,22000,22000,24000,24000,26000,26000]),
+        ("Employer NI & Pension",     "Staff Costs",       [7000,7000,7500,7800,8000,8300,8800,8800,9300,9600,9900,10200]),
+        ("Total Staff Costs",         "Staff Costs",       [61000,61000,65500,67800,70000,72300,76800,76800,81300,83600,85900,88200]),
+        # ── Marketing (paid acquisition) ─────────────────────────────────────
+        ("Paid Advertising",          "Marketing",         [12000,11000,13000,14000,16000,15000,14000,13000,15000,14000,13000,12000]),
+        ("Content & Events",          "Marketing",         [3000,2500,3500,3000,4000,3500,3000,2500,3500,3000,2500,3000]),
+        ("Total Marketing",           "Marketing",         [15000,13500,16500,17000,20000,18500,17000,15500,18500,17000,15500,15000]),
+        # ── Premises & Admin ─────────────────────────────────────────────────
+        ("Office Rent",               "Premises & Admin",  [4500]*12),
+        ("Software & Tools",          "Premises & Admin",  [2200,2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300]),
+        ("Total Premises & Admin",    "Premises & Admin",  [6700,6800,6900,7000,7100,7200,7300,7400,7500,7600,7700,7800]),
+        # ── Operating Loss ───────────────────────────────────────────────────
+        ("Operating Profit",          "Profit",            [-71700,-69300,-74600,-75600,-78500,-77500,-77300,-74100,-77500,-75700,-72400,-70600]),
+    ]
+
+    data_dict: dict = {"Account": [], "Section": []}
+    for m in months:
+        data_dict[m] = []
+    for account, section, values in rows:
+        data_dict["Account"].append(account)
+        data_dict["Section"].append(section)
+        for i, m in enumerate(months):
+            data_dict[m].append(float(values[i]))
+
+    df = pd.DataFrame(data_dict)
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m)
+    analysis_q   = build_analysis(df_long_q)
+
+    session_id = str(uuid.uuid4())
+    filename   = "Nimbus Labs Ltd — Demo (cash burn)"
+    XERO_CASH  = 350000.0  # as if read from the Xero balance sheet
+    SESSIONS[session_id] = {
+        "df":            df,
+        "df_long_m":     df_long_m,
+        "df_long_q":     df_long_q,
+        "analysis_m":    analysis_m,
+        "analysis_q":    analysis_q,
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "month_on_month",
+        "xero_cash":     XERO_CASH,
+        "chat":          [],
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest    = periods_m[-1]
+
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    data["analysis_type"] = "month_on_month"
+    data["session_id"]    = session_id
+    data["file_name"]     = filename
+    data["xero_cash"]     = XERO_CASH
+    return data
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DEMO — Budget vs Actual
 # ─────────────────────────────────────────────────────────────────────────────
