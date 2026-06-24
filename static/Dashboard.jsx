@@ -556,6 +556,140 @@ function SpotlightModal({ spotlight, onClose }) {
   );
 }
 
+/* ── Cash & Runway ───────────────────────────────────────────────────────────
+   The headline SMB metric. Burn is estimated from the operating-result trend;
+   true runway needs an actual cash balance, which the user enters (persisted)
+   or — when connected — is prefilled from Xero's balance sheet. We label the
+   basis honestly rather than presenting a P&L approximation as real cash. */
+function CashRunway({ trend, periodMode, sessionId, isBvA, xeroCash }) {
+  const { Icon, Card } = window;
+  const KEY = `monthendiq_cash_${sessionId || "x"}`;
+
+  const [cash, setCash]       = React.useState(() => {
+    try { const v = localStorage.getItem(KEY); return v != null && v !== "" ? Number(v) : null; } catch { return null; }
+  });
+  const [editing, setEditing] = React.useState(false);
+  const [draft, setDraft]     = React.useState("");
+
+  // Prefill from Xero balance sheet if we have it and the user hasn't set one
+  React.useEffect(() => {
+    if (xeroCash != null && cash == null) {
+      setCash(xeroCash);
+      try { localStorage.setItem(KEY, String(xeroCash)); } catch {}
+    }
+  }, [xeroCash]);
+
+  const results = (trend || [])
+    .map(t => isBvA ? (t.actual_profit != null ? t.actual_profit : t.profit) : t.profit)
+    .filter(v => typeof v === "number" && !isNaN(v));
+
+  if (results.length < 2 || periodMode === "ytd") return null;
+
+  const avgPeriod   = results.reduce((a, b) => a + b, 0) / results.length;
+  const perMonth    = periodMode === "quarterly" ? avgPeriod / 3 : avgPeriod;
+  const burning     = perMonth < 0;
+  const monthlyBurn = Math.abs(perMonth);
+  const nPeriods    = results.length;
+
+  const fmtMoney = (v) => {
+    if (v == null || isNaN(v)) return "—";
+    const a = Math.abs(v), s = v < 0 ? "-£" : "£";
+    return a >= 1e6 ? `${s}${(a / 1e6).toFixed(2)}m` : `${s}${Math.round(a).toLocaleString("en-GB")}`;
+  };
+
+  const saveCash = () => {
+    const n = Number(String(draft).replace(/[^0-9.\-]/g, ""));
+    if (!isNaN(n) && draft.trim() !== "") { setCash(n); try { localStorage.setItem(KEY, String(n)); } catch {} }
+    else if (draft.trim() === "") { setCash(null); try { localStorage.removeItem(KEY); } catch {} }
+    setEditing(false);
+  };
+
+  const runwayMonths = (burning && cash != null && cash > 0) ? cash / monthlyBurn : null;
+  const runoutDate = runwayMonths != null ? (() => {
+    const d = new Date(); d.setMonth(d.getMonth() + Math.floor(runwayMonths));
+    return d.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+  })() : null;
+
+  const runwayTone = runwayMonths == null ? "neutral"
+    : runwayMonths < 6 ? "adv" : runwayMonths < 12 ? "caution" : "fav";
+  const toneColor = { adv: "var(--adverse-text)", caution: "var(--caution-text, #b45309)", fav: "var(--favourable-text)", neutral: "var(--fg-2)" }[runwayTone];
+
+  const startEdit = () => { setDraft(cash != null ? String(cash) : ""); setEditing(true); };
+
+  const tile = { padding: "14px 16px", background: "var(--surface-2)", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)" };
+  const tileLbl = { font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", marginBottom: 6 };
+
+  return (
+    <Card title="Cash & Runway"
+      sub={`Operating ${burning ? "burn" : "surplus"} from the last ${nPeriods} ${periodMode === "quarterly" ? "quarters" : "months"}`}
+      action={<span className="ai-badge" style={{ background: burning ? "var(--adverse-soft)" : "var(--favourable-soft)", color: burning ? "var(--adverse-text)" : "var(--favourable-text)" }}>
+        <Icon name={burning ? "trending-down" : "trending-up"} size={12} />{burning ? "Burning" : "Generative"}</span>}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        {/* Cash on hand — editable */}
+        <div style={tile}>
+          <div style={tileLbl}>Cash on hand</div>
+          {editing ? (
+            <div style={{ display: "flex", gap: 4 }}>
+              <input autoFocus type="text" value={draft}
+                onChange={e => setDraft(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") saveCash(); if (e.key === "Escape") setEditing(false); }}
+                placeholder="e.g. 250000"
+                style={{ width: "100%", padding: "5px 8px", font: "var(--text-data)", fontSize: 15, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--primary)", borderRadius: "var(--radius-xs)", outline: "none" }} />
+              <button onClick={saveCash} style={{ flexShrink: 0, padding: "0 8px", borderRadius: "var(--radius-xs)", border: "none", background: "var(--primary)", color: "#fff", cursor: "pointer" }}>
+                <Icon name="check" size={14} />
+              </button>
+            </div>
+          ) : (
+            <div onClick={startEdit} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} title="Click to edit your current cash balance">
+              <span style={{ font: "var(--text-metric)", fontSize: 22, fontVariantNumeric: "tabular-nums", color: cash != null ? "var(--ink)" : "var(--fg-3)" }}>
+                {cash != null ? fmtMoney(cash) : "Add →"}
+              </span>
+              <Icon name="pencil" size={12} color="var(--fg-3)" />
+            </div>
+          )}
+          {cash != null && xeroCash != null && Math.round(cash) === Math.round(xeroCash) && (
+            <div style={{ font: "var(--text-caption)", fontSize: 10, color: "var(--favourable-text)", marginTop: 3 }}>From Xero balance sheet</div>
+          )}
+        </div>
+
+        {/* Avg monthly result */}
+        <div style={tile}>
+          <div style={tileLbl}>Avg monthly {burning ? "burn" : "surplus"}</div>
+          <div style={{ font: "var(--text-metric)", fontSize: 22, fontVariantNumeric: "tabular-nums", color: burning ? "var(--adverse-text)" : "var(--favourable-text)" }}>
+            {burning ? "-" : "+"}{fmtMoney(monthlyBurn)}
+          </div>
+        </div>
+
+        {/* Runway */}
+        <div style={tile}>
+          <div style={tileLbl}>Cash runway</div>
+          {!burning ? (
+            <div style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--favourable-text)", paddingTop: 4 }}>
+              Cash generative
+            </div>
+          ) : runwayMonths == null ? (
+            <div onClick={startEdit} style={{ cursor: "pointer", font: "var(--text-body-strong)", fontSize: 14, color: "var(--primary)", paddingTop: 4 }}>
+              Add cash to see runway →
+            </div>
+          ) : (
+            <div>
+              <div style={{ font: "var(--text-metric)", fontSize: 22, fontVariantNumeric: "tabular-nums", color: toneColor }}>
+                {runwayMonths < 1 ? "<1" : Math.floor(runwayMonths)} mo
+              </div>
+              <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 1 }}>
+                depleted ~{runoutDate}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 10, lineHeight: 1.5 }}>
+        <Icon name="info" size={11} /> {burning ? "Burn" : "Surplus"} estimated from the operating result over the last {nPeriods} {periodMode === "quarterly" ? "quarters" : "months"} — excludes capex, financing and working-capital movements. Enter your actual cash balance for an accurate runway.
+      </div>
+    </Card>
+  );
+}
+
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
   const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
   const [data, setData]       = useStateDash(initialData);
@@ -783,6 +917,15 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           </div>
         ))}
       </div>
+
+      {/* Cash & Runway — headline SMB metric */}
+      <CashRunway
+        trend={trend}
+        periodMode={periodMode}
+        sessionId={sessionId}
+        isBvA={isBvA}
+        xeroCash={data.xero_cash}
+      />
 
       {/* Statistical anomaly detection */}
       {!isBvA && periodMode !== "ytd" && (

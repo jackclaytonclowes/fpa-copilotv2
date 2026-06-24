@@ -57,7 +57,7 @@ XERO_TOKENS: dict = {}  # state_key → {access_token, refresh_token, tenant_id,
 XERO_CLIENT_ID     = os.environ.get("XERO_CLIENT_ID", "")
 XERO_CLIENT_SECRET = os.environ.get("XERO_CLIENT_SECRET", "")
 XERO_REDIRECT_URI  = os.environ.get("XERO_REDIRECT_URI", "http://localhost:8000/api/xero/callback")
-XERO_SCOPES        = "openid profile email accounting.reports.profitandloss.read"
+XERO_SCOPES        = "openid profile email accounting.reports.profitandloss.read accounting.reports.balancesheet.read"
 
 STATIC = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
@@ -747,6 +747,65 @@ def xero_tenants(state: str):
     return {"tenants": [{"id": t["tenantId"], "name": t["tenantName"]} for t in tok.get("tenants", [])]}
 
 
+def _parse_xero_balance_cash(report_json: dict) -> float | None:
+    """Extract total cash/bank from a Xero BalanceSheet report. Best-effort."""
+    try:
+        reports = report_json.get("Reports", [])
+        if not reports:
+            return None
+        rows = reports[0].get("Rows", [])
+
+        def _num(cell_value):
+            try:
+                return float(str(cell_value).replace(",", "").replace("£", ""))
+            except (TypeError, ValueError):
+                return None
+
+        for section in rows:
+            title = (section.get("Title") or "").strip().lower()
+            if section.get("RowType") == "Section" and ("bank" in title or "cash" in title):
+                # Prefer the section's SummaryRow total (last cell)
+                for r in section.get("Rows", []):
+                    if r.get("RowType") == "SummaryRow":
+                        cells = r.get("Cells", [])
+                        if cells:
+                            v = _num(cells[-1].get("Value"))
+                            if v is not None:
+                                return v
+                # Fallback: sum the individual rows
+                total, found = 0.0, False
+                for r in section.get("Rows", []):
+                    cells = r.get("Cells", [])
+                    if len(cells) >= 2:
+                        v = _num(cells[-1].get("Value"))
+                        if v is not None:
+                            total += v; found = True
+                if found:
+                    return total
+        return None
+    except Exception:
+        return None
+
+
+async def _fetch_xero_cash(client, access_token: str, tenant_id: str, as_at: str) -> float | None:
+    """Fetch the BalanceSheet and return total cash. Never raises — returns None on any failure."""
+    try:
+        resp = await client.get(
+            "https://api.xero.com/api.xro/2.0/Reports/BalanceSheet",
+            params={"date": as_at},
+            headers={
+                "Authorization":  f"Bearer {access_token}",
+                "Xero-Tenant-Id": tenant_id,
+                "Accept":         "application/json",
+            },
+        )
+        if resp.status_code != 200:
+            return None
+        return _parse_xero_balance_cash(resp.json())
+    except Exception:
+        return None
+
+
 @app.get("/api/xero/import")
 async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: str = ""):
     """Pull Profit & Loss from Xero and create an analysis session."""
@@ -795,6 +854,9 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
 
         report = resp.json()
 
+        # Also pull the balance sheet cash position (best-effort, non-fatal)
+        xero_cash = await _fetch_xero_cash(client, access_token, tenant_id, to_date)
+
     # Parse Xero report into a wide DataFrame
     df = _parse_xero_pnl(report)
     if df is None or df.empty:
@@ -820,6 +882,7 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
         "kpi_accounts":  kpi_accounts,
         "filename":      filename,
         "analysis_type": "month_on_month",
+        "xero_cash":     xero_cash,
         "chat":          [],
     }
 
@@ -829,6 +892,7 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
+    data["xero_cash"]     = xero_cash
     return data
 
 
