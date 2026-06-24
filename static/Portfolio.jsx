@@ -649,7 +649,9 @@ function Portfolio({ onOpenClient }) {
                             <button
                               title="Copy share link"
                               onClick={() => {
-                                const url = `${window.location.origin}/view/${c.session_id}`;
+                                const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+                                const base = `${window.location.origin}/view/${c.session_id}`;
+                                const url  = firm ? `${base}?firm=${encodeURIComponent(firm)}` : base;
                                 navigator.clipboard?.writeText(url);
                                 setCopiedLink(c.session_id);
                                 setTimeout(() => setCopiedLink(null), 2000);

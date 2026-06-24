@@ -7,6 +7,10 @@ function SharedView({ sessionId }) {
   const [loading, setLoading] = useSVState(true);
   const [errMsg,  setErrMsg]  = useSVState(null);
 
+  const firmName = (() => {
+    try { return new URLSearchParams(window.location.search).get("firm") || ""; } catch { return ""; }
+  })();
+
   useSVEffect(() => {
     fetch(apiUrl(`/api/data/${sessionId}?period=&mode=monthly`))
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -226,7 +230,9 @@ function SharedView({ sessionId }) {
         {/* Footer */}
         <div style={{ textAlign: "center", borderTop: `1px solid ${BORDER}`, paddingTop: 18 }}>
           <div style={{ fontSize: 12, color: FG3, lineHeight: 1.5 }}>
-            Prepared by your accountant
+            {firmName
+              ? <span>Prepared by <span style={{ fontWeight: 600, color: NAVY }}>{firmName}</span></span>
+              : "Prepared by your accountant"}
             <span style={{ margin: "0 6px", color: BORDER }}>·</span>
             Powered by <span style={{ fontWeight: 600, color: NAVY }}>MonthEndIQ</span>
           </div>
