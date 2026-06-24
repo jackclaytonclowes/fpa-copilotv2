@@ -3,11 +3,12 @@ const { useState: useSVState, useEffect: useSVEffect } = React;
 
 function SharedView({ sessionId }) {
   const { Icon } = window;
-  const [data,     setData]     = useSVState(null);
-  const [loading,  setLoading]  = useSVState(true);  // true only on first load
-  const [fetching, setFetching] = useSVState(false); // true on period switches
-  const [errMsg,   setErrMsg]   = useSVState(null);
-  const [selPeriod, setSelPeriod] = useSVState(""); // "" = latest
+  const [data,     setData]       = useSVState(null);
+  const [loading,  setLoading]    = useSVState(true);
+  const [fetching, setFetching]   = useSVState(false);
+  const [errMsg,   setErrMsg]     = useSVState(null);
+  const [selPeriod, setSelPeriod] = useSVState("");
+  const [downloading, setDownloading] = useSVState(false);
 
   const firmName = (() => {
     try { return new URLSearchParams(window.location.search).get("firm") || ""; } catch { return ""; }
@@ -100,6 +101,26 @@ function SharedView({ sessionId }) {
   const advMvts      = movements.filter(m => !m.is_fav && m.variance !== 0)
                                 .sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
 
+  // ── PDF download ───────────────────────────────────────────────────────────
+  async function downloadPdf() {
+    setDownloading(true);
+    try {
+      const period = selPeriod || data.selected_period || "";
+      const params = new URLSearchParams({ period, fmt: "pdf" });
+      if (firmName) params.set("firm", firmName);
+      const r = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
+      if (!r.ok) throw new Error(r.status);
+      const blob = await r.blob();
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href     = url;
+      a.download = `${companyName.replace(/\s+/g, "_")}_${periodLabel}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {}
+    setDownloading(false);
+  }
+
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div style={{ minHeight: "100vh", background: BG, fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
@@ -107,22 +128,49 @@ function SharedView({ sessionId }) {
       {/* ─── Header band ─── */}
       <div style={{ background: NAVY }}>
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "22px 28px 20px" }}>
-          {/* Top row: wordmark + read-only badge */}
+          {/* Top row: wordmark + actions */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>MonthEndIQ</span>
               <span style={{ width: 1, height: 16, background: "rgba(255,255,255,0.2)" }} />
               <span style={{ fontSize: 12.5, color: "#94A3B8" }}>Management Pack</span>
             </div>
-            <span style={{
-              display: "inline-flex", alignItems: "center", gap: 5,
-              padding: "5px 11px", borderRadius: 20,
-              background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)",
-              fontSize: 11.5, fontWeight: 500, color: "#94A3B8",
-            }}>
-              <Icon name="lock" size={11} color="#94A3B8" />
-              Read-only
-            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 5,
+                padding: "5px 11px", borderRadius: 20,
+                background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)",
+                fontSize: 11.5, fontWeight: 500, color: "#94A3B8",
+              }}>
+                <Icon name="lock" size={11} color="#94A3B8" />
+                Read-only
+              </span>
+              <button
+                onClick={downloadPdf}
+                disabled={downloading}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  padding: "6px 13px", borderRadius: 20,
+                  background: downloading ? "rgba(255,255,255,0.08)" : PRIMARY,
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  fontSize: 12, fontWeight: 600, color: "#fff",
+                  cursor: downloading ? "default" : "pointer",
+                  opacity: downloading ? 0.7 : 1, transition: "opacity .15s",
+                }}
+              >
+                {downloading
+                  ? <React.Fragment>
+                      <span style={{ width: 11, height: 11, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff",
+                        borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
+                      Preparing…
+                    </React.Fragment>
+                  : <React.Fragment>
+                      <Icon name="download" size={12} color="#fff" />
+                      Download PDF
+                    </React.Fragment>
+                }
+              </button>
+            </div>
           </div>
           {/* Company + period */}
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
