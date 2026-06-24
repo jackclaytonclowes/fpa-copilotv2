@@ -17,6 +17,8 @@ function SettingsView({ onToast }) {
       } else {
         localStorage.removeItem("meiq_firm_name");
       }
+      // Notify other components in the same tab
+      window.dispatchEvent(new CustomEvent("meiq:firm-updated", { detail: firmName.trim() }));
       setFirmSaved(true);
       setTimeout(() => setFirmSaved(false), 2200);
       onToast?.("Firm name saved");
@@ -120,6 +122,54 @@ function SettingsView({ onToast }) {
             {themeBtn("light", "Light",  "sun")}
             {themeBtn("dark",  "Dark",   "moon")}
           </div>
+        </div>
+
+        {/* ── Session data ── */}
+        <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
+          <div style={sectionHdr}>Session data</div>
+          {(() => {
+            let session = null;
+            try { session = JSON.parse(localStorage.getItem("monthendiq_session") || "null"); } catch {}
+            const fileName = session?.filename;
+            const ts       = session?.timestamp ? new Date(session.timestamp) : null;
+            const tsLabel  = ts ? ts.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : null;
+            return (
+              <div>
+                {fileName ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
+                    <div style={{ display: "flex", gap: 0 }}>
+                      <span style={{ font: "var(--text-caption)", fontSize: 12.5, color: "var(--fg-3)", minWidth: 110 }}>Active file</span>
+                      <span style={{ font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)" }}>{fileName}</span>
+                    </div>
+                    {tsLabel && (
+                      <div style={{ display: "flex", gap: 0 }}>
+                        <span style={{ font: "var(--text-caption)", fontSize: 12.5, color: "var(--fg-3)", minWidth: 110 }}>Loaded</span>
+                        <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--ink)" }}>{tsLabel}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)", marginBottom: 14 }}>
+                    No session active — upload a P&amp;L file to begin.
+                  </div>
+                )}
+                <Button
+                  variant="secondary"
+                  icon="log-out"
+                  onClick={() => {
+                    try { localStorage.removeItem("monthendiq_session"); } catch {}
+                    onToast?.("Session cleared — you can now upload a new file");
+                    setTimeout(() => window.location.reload(), 1200);
+                  }}
+                >
+                  Start fresh
+                </Button>
+                <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 8, lineHeight: 1.5 }}>
+                  Clears the active session. Your firm name and theme settings are kept.
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
         {/* ── About ── */}

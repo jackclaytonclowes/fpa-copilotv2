@@ -120,6 +120,13 @@ function makeWelcome(periodLabel) {
 function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, analysisType, prefillQuestion, onPrefillConsumed }) {
   const { Icon } = window;
 
+  const userInitials = (() => {
+    try {
+      const n = localStorage.getItem("meiq_firm_name") || "";
+      return n.trim() ? n.trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join("") : "FP";
+    } catch { return "FP"; }
+  })();
+
   /*
    * LOAD on mount — lazy useState initialiser.
    *
@@ -327,7 +334,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
             return (
               <div key={i} className={"msg " + m.who}>
                 <div className="av">
-                  {m.who === "ai" ? <Icon name="sparkles" size={16} /> : "FP"}
+                  {m.who === "ai" ? <Icon name="sparkles" size={16} /> : userInitials}
                 </div>
                 <div
                   className="bubble"

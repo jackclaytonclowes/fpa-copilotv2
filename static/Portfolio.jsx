@@ -383,6 +383,14 @@ function Portfolio({ onOpenClient }) {
     catch { return ""; }
   }
 
+  function dataFreshness(iso) {
+    if (!iso) return null;
+    const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+    if (days <= 35)  return { label: "Data current", color: "var(--favourable-text)", bg: "var(--favourable-soft)", border: "var(--favourable-border, #86efac)" };
+    if (days <= 65)  return { label: "Due for update", color: "var(--caution-text, #b45309)", bg: "var(--caution-soft, #fef3c7)", border: "var(--caution-border, #fcd34d)" };
+    return { label: "Data overdue", color: "var(--adverse-text)", bg: "var(--adverse-soft)", border: "var(--adverse-border)" };
+  }
+
   const isDemo = mode === "demo";
   const hasClients = data?.clients?.length > 0;
 
@@ -564,13 +572,27 @@ function Portfolio({ onOpenClient }) {
                         <div style={{ font: "var(--text-body-strong)", fontSize: 14.5, color: "var(--fg-1)" }}>
                           {c.name}
                         </div>
-                        <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginBottom: 4 }}>
-                          {c.sector}
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+                          font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginBottom: 4 }}>
+                          <span>{c.sector}</span>
                           {c.updated_at && (
-                            <span style={{ marginLeft: 8, opacity: .7 }}>
-                              · updated {fmtDate(c.updated_at)}
-                            </span>
+                            <span style={{ opacity: .7 }}>· updated {fmtDate(c.updated_at)}</span>
                           )}
+                          {(() => {
+                            const f = dataFreshness(c.updated_at);
+                            if (!f) return null;
+                            return (
+                              <span style={{
+                                display: "inline-flex", alignItems: "center", gap: 4,
+                                font: "var(--text-label)", fontSize: 10, fontWeight: 700,
+                                textTransform: "uppercase", letterSpacing: ".04em",
+                                color: f.color, background: f.bg, border: `1px solid ${f.border}`,
+                                borderRadius: 20, padding: "2px 7px",
+                              }}>
+                                <Icon name="circle" size={7} style={{ fill: f.color }} /> {f.label}
+                              </span>
+                            );
+                          })()}
                         </div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                           {(c.reasons || []).map((r, i) => (

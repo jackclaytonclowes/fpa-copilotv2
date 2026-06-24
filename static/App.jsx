@@ -67,13 +67,16 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
   const [shareCopied, setShareCopied] = useStateApp(false);
   const shareSession = () => {
     if (!sessionId) return;
-    const url = `${window.location.origin}/view/${sessionId}`;
+    const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+    const url = `${window.location.origin}/view/${sessionId}${firm ? "?firm=" + encodeURIComponent(firm) : ""}`;
     navigator.clipboard.writeText(url).catch(() => {
       const ta = document.createElement("textarea");
       ta.value = url;
+      ta.style.cssText = "position:fixed;opacity:0;pointer-events:none;";
       document.body.appendChild(ta);
+      ta.focus();
       ta.select();
-      document.execCommand("copy");
+      try { document.execCommand("copy"); } catch {}
       document.body.removeChild(ta);
     });
     setShareCopied(true);
@@ -317,13 +320,24 @@ function MobileNav({ active, onNav, hasData }) {
 }
 
 /* ── Toast ──────────────────────────────────────────────── */
-function Toast({ message }) {
+function Toast({ message, onDismiss }) {
   const { Icon } = window;
   if (!message) return null;
   return (
     <div className="toast">
       <span className="ic"><Icon name="check-circle" size={16} /></span>
-      {message}
+      <span style={{ flex: 1 }}>{message}</span>
+      <button
+        onClick={onDismiss}
+        title="Dismiss"
+        style={{
+          display: "inline-flex", alignItems: "center",
+          background: "none", border: "none", padding: "0 0 0 8px",
+          cursor: "pointer", color: "inherit", opacity: 0.65, lineHeight: 0,
+        }}
+      >
+        <Icon name="x" size={14} />
+      </button>
     </div>
   );
 }
@@ -432,7 +446,7 @@ function App() {
         if (!data.file_name) data.file_name = clientName;
         onLoad(data);
       })
-      .catch(() => fireToast("Could not open client"));
+      .catch(() => fireToast("Session not found — re-upload the client P&L to continue"));
   };
 
   const onAddEntity = (data) => {
@@ -640,7 +654,7 @@ function App() {
         />
       )}
       <MobileNav active={view} onNav={setView} hasData={hasData} />
-      <Toast message={toast} />
+      <Toast message={toast} onDismiss={() => { clearTimeout(window.__toastTimer); setToast(null); }} />
 
       <CommandPalette
         onNav={setView}

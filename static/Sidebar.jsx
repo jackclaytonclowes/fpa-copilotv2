@@ -18,6 +18,26 @@ function Sidebar({ active, onNav, hasData }) {
   const [isDark, setIsDark] = React.useState(
     () => document.documentElement.dataset.theme === "dark"
   );
+  const [firmName, setFirmName] = React.useState(() => {
+    try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; }
+  });
+
+  // Sync firm name when Settings saves it (same tab or other tabs)
+  React.useEffect(() => {
+    const sync = () => {
+      try { setFirmName(localStorage.getItem("meiq_firm_name") || ""); } catch {}
+    };
+    window.addEventListener("meiq:firm-updated", sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener("meiq:firm-updated", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  const initials = firmName.trim()
+    ? firmName.trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join("")
+    : "FP";
 
   const handleThemeToggle = () => {
     toggleTheme();
@@ -48,7 +68,13 @@ function Sidebar({ active, onNav, hasData }) {
   );
   return (
     <aside className="sidebar">
-      <Logo />
+      <div
+        onClick={() => onNav("dashboard")}
+        style={{ cursor: "pointer" }}
+        title="Go to dashboard"
+      >
+        <Logo />
+      </div>
       <div className="sb-sec">Analyse</div>
       {nav.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-sec">Workspace</div>
@@ -72,9 +98,9 @@ function Sidebar({ active, onNav, hasData }) {
         </button>
 
         <div className="sb-user">
-          <div className="av">FP</div>
+          <div className="av">{initials}</div>
           <div>
-            <div className="nm">Finance Team</div>
+            <div className="nm">{firmName || "Finance Team"}</div>
             <div className="rl">MonthEndIQ</div>
           </div>
         </div>

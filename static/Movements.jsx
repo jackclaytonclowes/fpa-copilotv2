@@ -446,6 +446,19 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                   background: "transparent", border: "none", outline: "none", width: 180,
                 }}
               />
+              {search && (
+                <button
+                  onClick={() => setSearch("")}
+                  title="Clear search"
+                  style={{
+                    display: "inline-flex", alignItems: "center",
+                    background: "none", border: "none", padding: "0 0 0 2px",
+                    cursor: "pointer", color: "var(--fg-3)", lineHeight: 0,
+                  }}
+                >
+                  <Icon name="x" size={13} />
+                </button>
+              )}
             </div>
           </div>
 
