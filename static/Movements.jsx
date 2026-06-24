@@ -476,7 +476,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
           })()}
 
           {/* Table — hidden when matrix tab is active */}
-          {activeTab !== "matrix" && <div style={{ overflowX: "auto" }}>
+          {activeTab !== "matrix" && (<div style={{ overflowX: "auto" }}>
             <table className="var">
               <thead>
                 <tr>
