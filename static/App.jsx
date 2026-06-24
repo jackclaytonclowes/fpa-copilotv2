@@ -97,9 +97,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
         ? `Consolidated group · ${entityCount || 2} entities`
         : analysisType === "budget_vs_actual"
           ? "Actual vs Budget"
-          : periodMode === "ytd"
-            ? "Year-to-Date"
-            : "Month-on-Month Variance")
+          : "P&L Variance Analysis")
     : "Upload a P&L to begin";
 
   const titles = {

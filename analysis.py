@@ -1922,7 +1922,7 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
     s_advr   = _ps("avr", fontSize=9.5,  textColor=ADV_C,  leading=14,  fontName="Helvetica-Bold", alignment=TA_RIGHT)
     s_h2     = _ps("h2",  fontSize=12,   textColor=NAVY,   leading=16,  fontName="Helvetica-Bold",
                    spaceBefore=14, spaceAfter=8)
-    s_h3     = _ps("h3",  fontSize=9,    textColor=FG3,    leading=12,  fontName="Helvetica-Bold",
+    s_h3     = _ps("h3",  fontSize=9,    textColor=PRIMARY, leading=12,  fontName="Helvetica-Bold",
                    spaceBefore=12, spaceAfter=6)
     s_navyb  = _ps("nb",  fontSize=9.5,  textColor=NAVY,   leading=14,  fontName="Helvetica-Bold")
     s_white  = _ps("wh",  fontSize=8.5,  textColor=C.white, leading=11)
@@ -1982,7 +1982,7 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
         # Sub-line
         canvas.setFont("Helvetica", 9.5)
         canvas.setFillColor(C.HexColor("#94A3B8"))
-        analysis_lbl = "Budget vs Actual" if is_bva else "Month-on-Month Variance"
+        analysis_lbl = "Budget vs Actual" if is_bva else "P&L Variance Analysis"
         canvas.drawString(MARG, h - 2.55*cm,
                           f"{period_label_str}  ·  {analysis_lbl}  ·  {gen_date}")
         canvas.restoreState()
@@ -2087,25 +2087,28 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
         story.append(Paragraph("RECOMMENDED ACTIONS", s_h3))
         for line in report["actions"]:
             if line.startswith("[HIGH]"):
-                pill_txt, pill_c, border_c = "HIGH",   ADV_C,  ADV_C
+                pill_txt, pill_c, pill_bg, border_c = "HIGH",   ADV_C,  ADV_BG,   ADV_C
                 body_txt = line[7:].strip()
             elif line.startswith("[MEDIUM]"):
-                pill_txt, pill_c, border_c = "MEDIUM", AMBER,  AMBER
+                pill_txt, pill_c, pill_bg, border_c = "MEDIUM", AMBER,  AMBER_BG, AMBER
                 body_txt = line[9:].strip()
             else:
-                pill_txt, pill_c, border_c = "LOW",    FAV_C,  FAV_C
+                pill_txt, pill_c, pill_bg, border_c = "LOW",    FAV_C,  FAV_BG,   FAV_C
                 body_txt = line[6:].strip()
-            s_pill = _ps(f"pill_{pill_txt}", fontSize=8, fontName="Helvetica-Bold",
-                         textColor=pill_c, leading=10)
+            s_pill = _ps(f"pill_{pill_txt}", fontSize=7.5, fontName="Helvetica-Bold",
+                         textColor=pill_c, leading=10, alignment=TA_LEFT)
             row = [[Paragraph(pill_txt, s_pill), Paragraph(body_txt, s_body)]]
-            at = Table(row, colWidths=[1.2*cm, AW - 1.2*cm])
+            at = Table(row, colWidths=[2.0*cm, AW - 2.0*cm])
             at.setStyle(TableStyle([
                 ("BACKGROUND",   (0, 0), (-1, -1), SOFT),
-                ("VALIGN",       (0, 0), (-1, -1), "TOP"),
-                ("TOPPADDING",   (0, 0), (-1, -1), 6),
-                ("BOTTOMPADDING",(0, 0), (-1, -1), 6),
-                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("BACKGROUND",   (0, 0), (0,  0),  pill_bg),
+                ("VALIGN",       (0, 0), (-1, -1), "MIDDLE"),
+                ("TOPPADDING",   (0, 0), (-1, -1), 7),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 7),
+                ("LEFTPADDING",  (0, 0), (0,  0),  6),
+                ("RIGHTPADDING", (0, 0), (0,  0),  6),
+                ("LEFTPADDING",  (1, 0), (1, -1),  10),
+                ("RIGHTPADDING", (1, 0), (1, -1),  8),
                 ("LINEBEFORE",   (0, 0), (0, -1), 3, border_c),
                 ("BOX",          (0, 0), (-1, -1), 0.3, BORDER),
             ]))
