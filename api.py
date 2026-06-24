@@ -51,8 +51,91 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-memory session store
-SESSIONS: dict = {}
+# ─────────────────────────────────────────────────────────────────────────────
+# PERSISTENT STORE — SQLite for sessions + portfolio clients
+# On Render set PORTFOLIO_DB=/data/portfolio.db (persistent disk) so data
+# survives redeploys and free-tier sleeps.
+# ─────────────────────────────────────────────────────────────────────────────
+_DB_PATH = Path(os.environ.get("PORTFOLIO_DB", str(Path(__file__).parent / "portfolio.db")))
+
+
+def _db() -> sqlite3.Connection:
+    conn = sqlite3.connect(_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def _init_db():
+    with _db() as conn:
+        # Uploaded file sessions — enables share links to survive server restarts
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS sessions (
+                id            TEXT PRIMARY KEY,
+                file_bytes    BLOB NOT NULL,
+                file_name     TEXT NOT NULL,
+                analysis_type TEXT NOT NULL DEFAULT 'month_on_month',
+                xero_cash     REAL,
+                created_at    TEXT NOT NULL
+            )
+        """)
+        # Portfolio clients for accounting firm practice mode
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS portfolio_clients (
+                id           TEXT PRIMARY KEY,
+                firm_token   TEXT NOT NULL,
+                name         TEXT NOT NULL,
+                sector       TEXT NOT NULL DEFAULT 'Other',
+                file_bytes   BLOB NOT NULL,
+                file_name    TEXT NOT NULL,
+                cash_balance REAL,
+                created_at   TEXT NOT NULL,
+                updated_at   TEXT NOT NULL
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_firm ON portfolio_clients(firm_token)")
+        conn.commit()
+
+
+_init_db()
+
+
+class SessionStore(dict):
+    """
+    Drop-in replacement for `dict` that auto-rehydrates from SQLite on a cache
+    miss. Every endpoint that calls SESSIONS.get(sid) gets transparent session
+    recovery without any per-endpoint changes.
+    """
+    _miss: set = set()   # IDs confirmed absent from DB — avoids repeated lookups
+
+    def get(self, key, default=None):
+        v = super().get(key)
+        if v is not None:
+            return v
+        if key in self._miss:
+            return default
+        # Try to rehydrate from the persistent sessions table
+        try:
+            with _db() as conn:
+                row = conn.execute(
+                    "SELECT file_bytes, file_name, analysis_type, xero_cash "
+                    "FROM sessions WHERE id = ?", (key,)
+                ).fetchone()
+            if row:
+                ok = _rehydrate_from_file(
+                    key, bytes(row["file_bytes"]), row["file_name"],
+                    row["analysis_type"], row["xero_cash"],
+                )
+                if ok:
+                    self._miss.discard(key)
+                    return super().get(key, default)
+        except Exception as exc:
+            print(f"[SessionStore] rehydrate {key}: {exc}", file=sys.stderr)
+        self._miss.add(key)
+        return default
+
+
+# Session store — dict with automatic SQLite-backed rehydration on miss
+SESSIONS = SessionStore()
 
 # Xero OAuth 2.0 token store (in-memory, keyed by state param)
 XERO_TOKENS: dict = {}  # state_key → {access_token, refresh_token, tenant_id, ...}
@@ -580,43 +663,10 @@ def demo_burn():
 # ─────────────────────────────────────────────────────────────────────────────
 # PRACTICE PORTFOLIO — multi-client month-end triage (firm mode)
 # ─────────────────────────────────────────────────────────────────────────────
-# SQLite-backed persistence for real client P&Ls.
-# On Render, mount a persistent disk at /data so the DB survives redeploys;
-# set PORTFOLIO_DB=/data/portfolio.db in environment vars.
-_DB_PATH = Path(os.environ.get("PORTFOLIO_DB", str(Path(__file__).parent / "portfolio.db")))
 
-
-def _db() -> sqlite3.Connection:
-    conn = sqlite3.connect(_DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-def _init_db():
-    with _db() as conn:
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS portfolio_clients (
-                id           TEXT PRIMARY KEY,
-                firm_token   TEXT NOT NULL,
-                name         TEXT NOT NULL,
-                sector       TEXT NOT NULL DEFAULT 'Other',
-                file_bytes   BLOB NOT NULL,
-                file_name    TEXT NOT NULL,
-                cash_balance REAL,
-                created_at   TEXT NOT NULL,
-                updated_at   TEXT NOT NULL
-            )
-        """)
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_firm ON portfolio_clients(firm_token)")
-        conn.commit()
-
-
-_init_db()
-
-
-def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
-                      name: str, cash_balance) -> bool:
-    """Run the MoM analysis pipeline from raw file bytes and store in SESSIONS."""
+def _rehydrate_mom(session_id: str, file_bytes: bytes, file_name: str,
+                   xero_cash=None) -> bool:
+    """Run the MoM analysis pipeline from raw bytes and store in SESSIONS."""
     try:
         df = load_file(file_bytes, file_name)
         df["Account"] = df["Account"].astype(str).str.strip()
@@ -627,15 +677,86 @@ def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
         kpi_accounts = detect_kpis(df_long_m)
         analysis_m   = build_analysis(df_long_m)
         analysis_q   = build_analysis(df_long_q)
-        SESSIONS[client_id] = {
+        SESSIONS[session_id] = {
             "df": df, "df_long_m": df_long_m, "df_long_q": df_long_q,
             "analysis_m": analysis_m, "analysis_q": analysis_q,
             "kpi_accounts": kpi_accounts, "filename": file_name,
-            "analysis_type": "month_on_month", "xero_cash": cash_balance, "chat": [],
+            "analysis_type": "month_on_month", "xero_cash": xero_cash, "chat": [],
         }
         return True
     except Exception as exc:
-        print(f"[Portfolio] rehydrate {client_id}: {exc}", file=sys.stderr)
+        print(f"[Rehydrate MoM] {session_id}: {exc}", file=sys.stderr)
+        return False
+
+
+def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
+                      name: str, cash_balance) -> bool:
+    """Rehydrate a portfolio client session (MoM only)."""
+    return _rehydrate_mom(client_id, file_bytes, file_name, cash_balance)
+
+
+def _rehydrate_from_file(session_id: str, contents: bytes, filename: str,
+                          analysis_type: str, xero_cash) -> bool:
+    """
+    Rehydrate any persisted session from stored file bytes.
+    Handles both month_on_month and budget_vs_actual modes.
+    Called automatically by SessionStore.get() on a cache miss.
+    """
+    if analysis_type != "budget_vs_actual":
+        return _rehydrate_mom(session_id, contents, filename, xero_cash)
+
+    # BvA path
+    try:
+        bva_snapshot   = None
+        bva_long_store = None
+        ext = filename.split(".")[-1].lower()
+
+        if ext in ("xlsx", "xls"):
+            try:
+                df_actual, df_budget = load_bva_from_sheets(contents, filename)
+                bva_long = build_bva_long_from_sheets(df_actual, df_budget)
+                agg = (
+                    bva_long
+                    .groupby(["Account", "Section", "Category", "Is Subtotal"], as_index=False)
+                    [["Actual", "Budget"]].sum()
+                )
+                agg["Variance"]     = agg["Actual"] - agg["Budget"]
+                agg["Variance %"]   = agg.apply(
+                    lambda r: (r["Variance"] / r["Budget"] * 100) if r["Budget"] != 0 else None, axis=1
+                )
+                agg["Abs Variance"] = agg["Variance"].abs()
+                bva_snapshot   = agg
+                df_for_kpis    = df_actual
+                bva_long_store = bva_long
+            except Exception:
+                pass
+
+        if bva_snapshot is None:
+            df = load_file(contents, filename)
+            df["Account"] = df["Account"].astype(str).str.strip()
+            df["Section"] = df["Section"].astype(str).replace("nan", "").fillna("")
+            df = df[df["Account"].notna() & (df["Account"] != "") & (df["Account"].str.lower() != "nan")]
+            actual_col, budget_col = detect_bva_columns(df)
+            if not actual_col or not budget_col:
+                return False
+            bva_snapshot = build_bva(df, actual_col, budget_col)
+            df_for_kpis  = df
+
+        bva_periods  = sorted(bva_long_store["Period"].unique()) if bva_long_store is not None else []
+        kpi_accounts = detect_kpis(df_for_kpis)
+        SESSIONS[session_id] = {
+            "df":           df_for_kpis,
+            "bva_data":     bva_snapshot,
+            "bva_long":     bva_long_store,
+            "bva_periods":  bva_periods,
+            "kpi_accounts": kpi_accounts,
+            "filename":     filename,
+            "analysis_type": "budget_vs_actual",
+            "chat":         [],
+        }
+        return True
+    except Exception as exc:
+        print(f"[Rehydrate BvA] {session_id}: {exc}", file=sys.stderr)
         return False
 
 
@@ -1689,6 +1810,19 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
         data["file_name"]             = file.filename
         data["available_bva_periods"] = [str(ts)[:10] for ts in bva_periods]
         data["selected_bva_period"]   = "full_year"
+        # Persist so share links survive server restarts
+        try:
+            with _db() as conn:
+                conn.execute(
+                    "INSERT OR REPLACE INTO sessions "
+                    "(id, file_bytes, file_name, analysis_type, xero_cash, created_at) "
+                    "VALUES (?,?,?,?,?,?)",
+                    (session_id, contents, file.filename, "budget_vs_actual", None,
+                     datetime.now(timezone.utc).isoformat()),
+                )
+                conn.commit()
+        except Exception as exc:
+            print(f"[Upload] persist BvA session: {exc}", file=sys.stderr)
         return data
 
     # ── Month-on-Month path (default) ─────────────────────────────────────
@@ -1728,6 +1862,20 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
     if not len(periods_m):
         raise HTTPException(400, "No valid periods found in the file.")
     latest = periods_m[-1]
+
+    # Persist so share links survive server restarts
+    try:
+        with _db() as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO sessions "
+                "(id, file_bytes, file_name, analysis_type, xero_cash, created_at) "
+                "VALUES (?,?,?,?,?,?)",
+                (session_id, contents, file.filename, "month_on_month", None,
+                 datetime.now(timezone.utc).isoformat()),
+            )
+            conn.commit()
+    except Exception as exc:
+        print(f"[Upload] persist MoM session: {exc}", file=sys.stderr)
 
     data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
     data["analysis_type"] = "month_on_month"
