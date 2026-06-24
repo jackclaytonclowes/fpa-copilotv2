@@ -2834,7 +2834,7 @@ def get_anomalies(
 
 
 @app.get("/api/export/{session_id}")
-def export(session_id: str, period: str = "", fmt: str = "pdf"):
+def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = ""):
     s = SESSIONS.get(session_id)
     if not s:
         raise HTTPException(404, "Session not found.")
@@ -2886,7 +2886,8 @@ def export(session_id: str, period: str = "", fmt: str = "pdf"):
 
     if fmt == "pdf":
         content = make_pdf(lbl, data["movements"], data["commentary"], data["kpis"],
-                           analysis_type=analysis_type, waterfall=data.get("waterfall"))
+                           analysis_type=analysis_type, waterfall=data.get("waterfall"),
+                           firm_name=firm)
         return Response(content, media_type="application/pdf",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.pdf"'})
     elif fmt == "xlsx":

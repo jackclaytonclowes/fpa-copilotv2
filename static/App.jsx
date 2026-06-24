@@ -577,6 +577,10 @@ function App() {
         onExitConsolidated={onExitConsolidated}
       />
     );
+  } else if (view === "settings") {
+    body = window.SettingsView
+      ? <SettingsView onToast={fireToast} />
+      : null;
   } else {
     body = (
       <div className="content">
@@ -632,6 +636,7 @@ function App() {
           sessionId={sessionId}
           period={currentPeriodObj}
           analysisType={analysisType}
+          firmName={(() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })()}
         />
       )}
       <MobileNav active={view} onNav={setView} hasData={hasData} />

@@ -1841,7 +1841,8 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
 
 
 def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: list,
-             analysis_type: str = "month_on_month", waterfall: dict | None = None) -> bytes:
+             analysis_type: str = "month_on_month", waterfall: dict | None = None,
+             firm_name: str = "") -> bytes:
     """Generate a professional management pack PDF using ReportLab platypus."""
     import datetime
     from reportlab.lib import colors as C
@@ -1983,8 +1984,9 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
         canvas.setFont("Helvetica", 9.5)
         canvas.setFillColor(C.HexColor("#94A3B8"))
         analysis_lbl = "Budget vs Actual" if is_bva else "P&L Variance Analysis"
+        prepared_by  = f"  ·  Prepared by {firm_name}" if firm_name.strip() else ""
         canvas.drawString(MARG, h - 2.55*cm,
-                          f"{period_label_str}  ·  {analysis_lbl}  ·  {gen_date}")
+                          f"{period_label_str}  ·  {analysis_lbl}  ·  {gen_date}{prepared_by}")
         canvas.restoreState()
 
     def _std_header(canvas, doc):

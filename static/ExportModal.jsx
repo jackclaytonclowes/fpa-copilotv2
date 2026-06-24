@@ -1,7 +1,7 @@
 /* FP&A Copilot — export management pack modal */
 const { useState: useStateExport, useEffect: useEffectExport } = React;
 
-function ExportModal({ onClose, sessionId, period, analysisType }) {
+function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
   const { Icon, Button } = window;
   const [tab,          setTab]          = useStateExport("download"); // "download" | "email"
   const [fmt,          setFmt]          = useStateExport("pdf");
@@ -65,6 +65,7 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
     try {
       await _saveIfDirty();
       const params = new URLSearchParams({ period: periodParam, fmt });
+      if (firmName) params.set("firm", firmName);
       const res = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
       if (!res.ok) {
         let detail = `HTTP ${res.status}`;
