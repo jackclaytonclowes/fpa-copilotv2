@@ -828,13 +828,21 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
         commentary.append({"icon": icon, "fav": fav,
             "html": f"<b>{kpi_accounts['profit'] or 'Operating profit'} {word}</b> by "
                     f"<b>{fmt_gbp(abs(prof_kpi['variance']))}</b>"
-                    f"{(' (' + fmt_pct(abs(prof_kpi['pct'])) + ')') if prof_kpi['pct'] else ''} vs prior period."})
+                    f"{(' (' + fmt_pct(abs(prof_kpi['pct'])) + ')') if prof_kpi['pct'] else ''} vs prior period.",
+            "source": {"account": kpi_accounts['profit'] or 'Operating profit',
+                       "actual": prof_kpi["value"], "actual_label": "Current",
+                       "comparison": prof_kpi["prior"], "comparison_label": "Prior period",
+                       "variance": prof_kpi["variance"], "pct": prof_kpi["pct"]}})
     if rev_kpi and rev_kpi["variance"]:
         d = "increased" if rev_kpi["variance"] > 0 else "decreased"
         commentary.append({"icon": "arrow-up-right" if rev_kpi["variance"]>0 else "arrow-down-right",
             "fav": rev_kpi["variance"] > 0,
             "html": f"Revenue {d} by <b>{fmt_gbp(abs(rev_kpi['variance']))}"
-                    f"{(' (' + fmt_pct(abs(rev_kpi['pct'])) + ')') if rev_kpi['pct'] else ''}</b> vs prior period."})
+                    f"{(' (' + fmt_pct(abs(rev_kpi['pct'])) + ')') if rev_kpi['pct'] else ''}</b> vs prior period.",
+            "source": {"account": rev_kpi["label"],
+                       "actual": rev_kpi["value"], "actual_label": "Current",
+                       "comparison": rev_kpi["prior"], "comparison_label": "Prior period",
+                       "variance": rev_kpi["variance"], "pct": rev_kpi["pct"]}})
     for _, row in (driver_df[driver_df["Variance"].notna()]
                    .sort_values("Abs Variance", ascending=False).head(3).iterrows()):
         if row["Variance"] == 0:
@@ -847,6 +855,10 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
             "icon": "arrow-up-right" if row["Variance"] > 0 else "arrow-down-right",
             "fav": fav,
             "html": f"<b>{row['Account']}</b> {d} by {fmt_gbp(abs(row['Variance']))}{pct_str}.",
+            "source": {"account": row["Account"], "category": cat,
+                       "actual": float(row["Value"]) if pd.notna(row["Value"]) else None, "actual_label": "Current",
+                       "comparison": float(row["Prior Value"]) if pd.notna(row["Prior Value"]) else None, "comparison_label": "Prior period",
+                       "variance": float(row["Variance"]), "pct": float(row["Variance %"]) if pd.notna(row["Variance %"]) else None},
         })
 
     # Period label + prior
@@ -1651,6 +1663,10 @@ def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str, bva_lo
                 f"{fmt_gbp(abs(prof_kpi['variance']))} {word} budget</b>"
                 + (f" ({fmt_pct(abs(prof_kpi['pct']))})" if prof_kpi["pct"] else "") + "."
             ),
+            "source": {"account": kpi_accounts.get('profit') or 'Operating profit',
+                       "actual": prof_kpi["value"], "actual_label": "Actual",
+                       "comparison": prof_kpi["prior"], "comparison_label": "Budget",
+                       "variance": prof_kpi["variance"], "pct": prof_kpi["pct"]},
         })
     if rev_kpi and rev_kpi["variance"]:
         word = "above" if rev_kpi["variance"] > 0 else "below"
@@ -1661,6 +1677,10 @@ def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str, bva_lo
                 f"Revenue was <b>{fmt_gbp(abs(rev_kpi['variance']))} {word} budget</b>"
                 + (f" ({fmt_pct(abs(rev_kpi['pct']))})" if rev_kpi["pct"] else "") + "."
             ),
+            "source": {"account": rev_kpi["label"],
+                       "actual": rev_kpi["value"], "actual_label": "Actual",
+                       "comparison": rev_kpi["prior"], "comparison_label": "Budget",
+                       "variance": rev_kpi["variance"], "pct": rev_kpi["pct"]},
         })
     for _, row in (driver_df[driver_df["Variance"].notna()]
                    .sort_values("Abs Variance", ascending=False).head(3).iterrows()):
@@ -1674,6 +1694,10 @@ def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str, bva_lo
             "icon": "arrow-up-right" if row["Variance"] > 0 else "arrow-down-right",
             "fav" : is_fav,
             "html": f"<b>{row['Account']}</b> was {fmt_gbp(abs(row['Variance']))} {word} budget{pct_str}.",
+            "source": {"account": row["Account"], "category": cat,
+                       "actual": float(row["Actual"]) if pd.notna(row["Actual"]) else None, "actual_label": "Actual",
+                       "comparison": float(row["Budget"]) if pd.notna(row["Budget"]) else None, "comparison_label": "Budget",
+                       "variance": float(row["Variance"]), "pct": float(row["Variance %"]) if pd.notna(row["Variance %"]) else None},
         })
 
     waterfall = build_bva_waterfall(df_bva, kpi_accounts)

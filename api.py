@@ -1564,8 +1564,77 @@ Requirements:
 - Do NOT use meta-language like "based on the data" or "according to the analysis"
 - Do NOT add any preamble or sign-off — start directly with <h4>Executive Summary</h4>
 
+CRITICAL — FIGURE INTEGRITY (your figures are checked against the ledger after you write):
+- Every £ figure you state MUST appear verbatim in the FINANCIAL DATA below. Copy figures exactly.
+- NEVER calculate, sum, estimate, annualise, or derive a new total that is not already given.
+- If a number you want to cite is not in the data, describe the movement in words instead of inventing a figure.
+- Do not round figures to a different precision than shown (if data says £44,012, do not write "£44k" unless that rounding is unambiguous).
+
 FINANCIAL DATA:
 {context}"""
+
+
+# Matches £ amounts like £1,356,000 · -£35,780 · £44k · £1.3m · £0
+_MONEY_RE = re.compile(r"-?£\s?(\d[\d,]*(?:\.\d+)?)\s*(k|m|bn)?", re.IGNORECASE)
+
+
+def _parse_money(num_str: str, suffix: str | None) -> float:
+    """Parse a regex-captured money figure into an absolute float value."""
+    val = float(num_str.replace(",", ""))
+    if suffix:
+        s = suffix.lower()
+        val *= {"k": 1_000, "m": 1_000_000, "bn": 1_000_000_000}.get(s, 1)
+    return abs(val)
+
+
+def _money_tolerance(value: float, suffix: str | None) -> float:
+    """Allowed match tolerance — looser when the figure is expressed in k/m shorthand."""
+    s = (suffix or "").lower()
+    if s in ("m", "bn"):
+        return max(50_000.0, value * 0.01)
+    if s == "k":
+        return max(500.0, value * 0.01)
+    return max(1.0, value * 0.005)
+
+
+def _ground_truth_figures(context: str) -> list[float]:
+    """All £ figures present in the data we handed to the model — the allowed set."""
+    out = []
+    for m in _MONEY_RE.finditer(context):
+        try:
+            out.append(_parse_money(m.group(1), m.group(2)))
+        except (TypeError, ValueError):
+            continue
+    return out
+
+
+def _verify_narrative_figures(narrative: str, context: str) -> dict:
+    """
+    Lock-the-maths check: every £ figure the model wrote must trace back to a
+    figure we gave it. Returns coverage stats plus any unverifiable figures.
+    """
+    truth = _ground_truth_figures(context)
+    total, verified, unverified = 0, 0, []
+    for m in _MONEY_RE.finditer(narrative):
+        try:
+            value = _parse_money(m.group(1), m.group(2))
+        except (TypeError, ValueError):
+            continue
+        total += 1
+        tol = _money_tolerance(value, m.group(2))
+        if any(abs(value - g) <= tol for g in truth):
+            verified += 1
+        else:
+            raw = m.group(0).strip()
+            if raw not in unverified:
+                unverified.append(raw)
+    return {
+        "total":       total,
+        "verified":    verified,
+        "unverified":  unverified,
+        "all_verified": total > 0 and not unverified,
+        "coverage_pct": round(100 * verified / total, 1) if total else None,
+    }
 
 
 class CommentaryBody(BaseModel):
@@ -1614,7 +1683,8 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
             max_tokens=900,
         )
         narrative = resp.choices[0].message.content.strip()
-        return {"narrative": narrative}
+        verification = _verify_narrative_figures(narrative, context)
+        return {"narrative": narrative, "verification": verification}
     except Exception as e:
         raise HTTPException(500, f"Commentary generation failed: {str(e)}")
 

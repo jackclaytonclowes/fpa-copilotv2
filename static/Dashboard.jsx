@@ -842,17 +842,43 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         <Card
           title="AI commentary"
           className="card-ai"
-          sub={isBvA ? "Budget vs Actual · key variances" : `${period?.label || selected_period} · vs prior period`}
+          sub={isBvA ? "Budget vs Actual · figures from your ledger" : `${period?.label || selected_period} · figures from your ledger`}
           action={<span className="ai-badge"><Icon name="sparkles" size={13} />AI</span>}>
           <ul className="ai-list">
-            {(commentary || []).map((c, i) => (
-              <li key={i}>
-                <span className="ic">
-                  <Icon name={c.icon} size={16} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
-                </span>
-                <span dangerouslySetInnerHTML={{ __html: c.html }} />
-              </li>
-            ))}
+            {(commentary || []).map((c, i) => {
+              const src = c.source;
+              const tip = src ? [
+                src.account,
+                `${src.actual_label || "Actual"}: ${fmtGBP(src.actual)}`,
+                src.comparison != null ? `${src.comparison_label || "Prior"}: ${fmtGBP(src.comparison)}` : null,
+                src.variance != null ? `Variance: ${fmtSignedGBP(src.variance)}${src.pct != null ? ` (${fmtPct(src.pct)})` : ""}` : null,
+                "— traced to your imported P&L",
+              ].filter(Boolean).join("\n") : null;
+              return (
+                <li key={i}>
+                  <span className="ic">
+                    <Icon name={c.icon} size={16} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
+                  </span>
+                  <span dangerouslySetInnerHTML={{ __html: c.html }} />
+                  {src && (
+                    <span
+                      title={tip}
+                      style={{
+                        marginLeft: 6, cursor: "help", flexShrink: 0,
+                        display: "inline-flex", alignItems: "center", gap: 3,
+                        font: "var(--text-label)", fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".04em",
+                        color: "var(--favourable-text)", background: "var(--favourable-soft)",
+                        border: "1px solid var(--favourable-border)", borderRadius: 20, padding: "1px 6px 1px 4px",
+                        verticalAlign: "middle",
+                      }}
+                    >
+                      <Icon name="shield-check" size={10} />
+                      Source
+                    </span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </Card>
       </div>
