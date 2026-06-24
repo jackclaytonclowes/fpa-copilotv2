@@ -1,20 +1,43 @@
 /* FP&A Copilot — read-only shared client digest */
 const { useState: useSVState, useEffect: useSVEffect } = React;
 
-// ── Shared colour palette ──────────────────────────────────────────────────
-const SV_NAVY    = "#0C1726";
+// ── Light palette ──────────────────────────────────────────────────────────
+const SV_LIGHT = {
+  navy:    "#0C1726",
+  bg:      "#F0F2F5",
+  card:    "#ffffff",
+  border:  "#E2E8F0",
+  fg1:     "#0C1726",
+  fg2:     "#344054",
+  fg3:     "#667085",
+  favBg:   "#E6F4EE",
+  advBg:   "#FDE8EC",
+  header:  "rgba(255,255,255,0.08)",
+  hborder: "rgba(255,255,255,0.14)",
+};
+
+// ── Dark palette ───────────────────────────────────────────────────────────
+const SV_DARK = {
+  navy:    "#0C1726",
+  bg:      "#0F172A",
+  card:    "#1A2235",
+  border:  "#2D3748",
+  fg1:     "#F1F5F9",
+  fg2:     "#CBD5E1",
+  fg3:     "#94A3B8",
+  favBg:   "rgba(14,138,87,0.18)",
+  advBg:   "rgba(208,43,69,0.18)",
+  header:  "rgba(255,255,255,0.08)",
+  hborder: "rgba(255,255,255,0.14)",
+};
+
+// Brand colours — same in both modes
 const SV_PRIMARY = "#2F62E8";
 const SV_FAV     = "#0E8A57";
 const SV_ADV     = "#D02B45";
-const SV_FAV_BG  = "#E6F4EE";
-const SV_ADV_BG  = "#FDE8EC";
-const SV_BORDER  = "#E2E8F0";
-const SV_FG2     = "#344054";
-const SV_FG3     = "#667085";
-const SV_BG      = "#F0F2F5";
 
 // ── Trend chart ────────────────────────────────────────────────────────────
-function SvTrendChart({ trend }) {
+function SvTrendChart({ trend, p }) {
   if (!trend || trend.length < 2) return null;
 
   const W = 600, H = 200;
@@ -40,8 +63,7 @@ function SvTrendChart({ trend }) {
   const yScale = v => PAD.top + ph - ((v - minV) / vRange) * ph;
 
   const fmtY = v => {
-    const a = Math.abs(v);
-    const s = v < 0 ? "-£" : "£";
+    const a = Math.abs(v), s = v < 0 ? "-£" : "£";
     if (a >= 1e6) return `${s}${(a / 1e6).toFixed(1)}m`;
     if (a >= 1e3) return `${s}${(a / 1e3).toFixed(0)}k`;
     return `${s}${Math.round(a)}`;
@@ -53,54 +75,41 @@ function SvTrendChart({ trend }) {
   return (
     <div>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
-        {/* Grid + Y labels */}
         {yTicks.map((v, i) => (
           <g key={i}>
             <line x1={PAD.left} y1={yScale(v)} x2={W - PAD.right} y2={yScale(v)}
-              stroke={SV_BORDER} strokeWidth={1} />
+              stroke={p.border} strokeWidth={1} />
             <text x={PAD.left - 8} y={yScale(v) + 4}
-              textAnchor="end" fontSize={9.5} fill={SV_FG3} fontFamily="system-ui, sans-serif">
+              textAnchor="end" fontSize={9.5} fill={p.fg3} fontFamily="system-ui, sans-serif">
               {fmtY(v)}
             </text>
           </g>
         ))}
-
-        {/* Zero line */}
         {minV < 0 && maxV > 0 && (
           <line x1={PAD.left} y1={yScale(0)} x2={W - PAD.right} y2={yScale(0)}
-            stroke={SV_FG3} strokeWidth={1} strokeDasharray="4,3" opacity={0.4} />
+            stroke={p.fg3} strokeWidth={1} strokeDasharray="4,3" opacity={0.4} />
         )}
-
-        {/* X labels */}
         {trend.map((d, i) => (
           <text key={i} x={xScale(i)} y={H - PAD.bottom + 16}
-            textAnchor="middle" fontSize={10} fill={SV_FG3} fontFamily="system-ui, sans-serif">
+            textAnchor="middle" fontSize={10} fill={p.fg3} fontFamily="system-ui, sans-serif">
             {d.m}
           </text>
         ))}
-
-        {/* Lines */}
         {series.map(s => (
           <polyline key={s.key} points={pts(s.key)}
             fill="none" stroke={s.color} strokeWidth={2.5}
             strokeLinejoin="round" strokeLinecap="round" />
         ))}
-
-        {/* Dots */}
         {series.map(s => trend.map((d, i) => (
           <circle key={`${s.key}-${i}`} cx={xScale(i)} cy={yScale(d[s.key] ?? 0)}
             r={3.5} fill={s.color} />
         )))}
       </svg>
-
-      {/* Legend */}
       <div style={{ display: "flex", gap: 18, justifyContent: "center", marginTop: 6 }}>
         {series.map(s => (
           <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <div style={{ width: 20, height: 3, background: s.color, borderRadius: 2 }} />
-            <span style={{ fontSize: 11, color: SV_FG3, fontFamily: "system-ui, sans-serif" }}>
-              {s.label}
-            </span>
+            <span style={{ fontSize: 11, color: p.fg3, fontFamily: "system-ui, sans-serif" }}>{s.label}</span>
           </div>
         ))}
       </div>
@@ -111,6 +120,35 @@ function SvTrendChart({ trend }) {
 // ── Main shared view ───────────────────────────────────────────────────────
 function SharedView({ sessionId }) {
   const { Icon } = window;
+
+  // Dark mode — init from localStorage, fall back to OS preference
+  const [isDark, setIsDark] = useSVState(() => {
+    try {
+      const stored = localStorage.getItem("meiq_sv_dark");
+      if (stored !== null) return stored === "1";
+    } catch {}
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  });
+
+  // Sync to OS changes when no explicit preference stored
+  useSVEffect(() => {
+    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
+    if (!mq) return;
+    const handler = e => {
+      try { if (localStorage.getItem("meiq_sv_dark") === null) setIsDark(e.matches); } catch { setIsDark(e.matches); }
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const toggleDark = () => {
+    const next = !isDark;
+    setIsDark(next);
+    try { localStorage.setItem("meiq_sv_dark", next ? "1" : "0"); } catch {}
+  };
+
+  const p = isDark ? SV_DARK : SV_LIGHT;
+
   const [data,        setData]        = useSVState(null);
   const [loading,     setLoading]     = useSVState(true);
   const [fetching,    setFetching]    = useSVState(false);
@@ -133,71 +171,54 @@ function SharedView({ sessionId }) {
       .catch(() => { setErrMsg("This report link has expired or is no longer available."); setLoading(false); setFetching(false); });
   }, [sessionId, selPeriod]);
 
-  // ── Number formatters ──────────────────────────────────────────────────────
-  const fmt = v => {
-    const n = parseFloat(v);
-    if (v == null || isNaN(n)) return "—";
-    return (n < 0 ? "-£" : "£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 });
-  };
-  const fmtS = v => {
-    const n = parseFloat(v);
-    if (v == null || isNaN(n)) return "—";
-    return (n >= 0 ? "+£" : "-£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 });
-  };
-  const fmtP = v => {
-    const n = parseFloat(v);
-    if (v == null || isNaN(n)) return "—";
-    return (n > 0 ? "+" : "") + n.toFixed(1) + "%";
-  };
+  const fmt  = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n < 0 ? "-£" : "£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 }); };
+  const fmtS = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n >= 0 ? "+£" : "-£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 }); };
+  const fmtP = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n > 0 ? "+" : "") + n.toFixed(1) + "%"; };
 
-  const card = { background: "#fff", border: `1px solid ${SV_BORDER}`, borderRadius: 10 };
+  const card = { background: p.card, border: `1px solid ${p.border}`, borderRadius: 10 };
 
-  // ── Loading ────────────────────────────────────────────────────────────────
+  const spinStyle = (color = SV_PRIMARY, size = 36, border = 3) => ({
+    width: size, height: size,
+    border: `${border}px solid ${p.border}`, borderTopColor: color,
+    borderRadius: "50%", animation: "spin 0.7s linear infinite",
+  });
+
   if (loading) return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: SV_BG }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: p.bg }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ width: 36, height: 36, border: `3px solid ${SV_BORDER}`, borderTopColor: SV_PRIMARY, borderRadius: "50%",
-          animation: "spin 0.7s linear infinite", margin: "0 auto 14px" }} />
-        <div style={{ fontSize: 13.5, color: SV_FG3 }}>Loading report…</div>
+        <div style={{ ...spinStyle(), margin: "0 auto 14px" }} />
+        <div style={{ fontSize: 13.5, color: p.fg3 }}>Loading report…</div>
       </div>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 
-  // ── Error ──────────────────────────────────────────────────────────────────
   if (errMsg || !data) return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: SV_BG, padding: "24px" }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: p.bg, padding: "24px" }}>
       <div style={{ textAlign: "center", maxWidth: 380 }}>
-        <Icon name="file-x" size={40} color={SV_FG3} />
-        <div style={{ marginTop: 16, fontSize: 16, fontWeight: 600, color: SV_NAVY }}>Report not found</div>
-        <div style={{ marginTop: 8, fontSize: 13.5, color: SV_FG2, lineHeight: 1.6 }}>
+        <Icon name="file-x" size={40} color={p.fg3} />
+        <div style={{ marginTop: 16, fontSize: 16, fontWeight: 600, color: p.fg1 }}>Report not found</div>
+        <div style={{ marginTop: 8, fontSize: 13.5, color: p.fg2, lineHeight: 1.6 }}>
           {errMsg || "This report link has expired or is no longer available."}
         </div>
       </div>
     </div>
   );
 
-  // ── Derived values ─────────────────────────────────────────────────────────
-  const companyName = (data.file_name || "Report")
-    .replace(/\.[a-zA-Z]{2,5}$/, "")
-    .replace(/[_-]/g, " ")
-    .trim();
+  const companyName = (data.file_name || "Report").replace(/\.[a-zA-Z]{2,5}$/, "").replace(/[_-]/g, " ").trim();
   const periodLabel = data.period?.label || data.selected_period || "Period";
   const priorLabel  = data.period?.prior || "Prior";
   const isBvA       = data.analysis_type === "budget_vs_actual";
   const analysisLbl = isBvA ? "Budget vs Actual" : "P&L Variance Analysis";
   const today       = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
-  const kpis      = (data.kpis       || []).slice(0, 6);
+  const kpis       = (data.kpis       || []).slice(0, 6);
   const commentary = (data.commentary || []);
   const movements  = (data.movements  || []);
   const trend      = (data.trend      || []);
-  const favMvts   = movements.filter(m => m.is_fav  && m.variance !== 0)
-                              .sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
-  const advMvts   = movements.filter(m => !m.is_fav && m.variance !== 0)
-                              .sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
+  const favMvts    = movements.filter(m => m.is_fav  && m.variance !== 0).sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
+  const advMvts    = movements.filter(m => !m.is_fav && m.variance !== 0).sort((a, b) => Math.abs(b.variance) - Math.abs(a.variance)).slice(0, 5);
 
-  // ── PDF download ───────────────────────────────────────────────────────────
   async function downloadPdf() {
     setDownloading(true);
     try {
@@ -209,23 +230,26 @@ function SharedView({ sessionId }) {
       const blob = await r.blob();
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement("a");
-      a.href     = url;
-      a.download = `${companyName.replace(/\s+/g, "_")}_${periodLabel}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+      a.href = url; a.download = `${companyName.replace(/\s+/g, "_")}_${periodLabel}.pdf`;
+      a.click(); URL.revokeObjectURL(url);
     } catch {}
     setDownloading(false);
   }
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  const miniSpinner = (
+    <span style={{ width: 11, height: 11, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff",
+      borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
+  );
+
   return (
-    <div style={{ minHeight: "100vh", background: SV_BG, fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: p.bg, fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
       {/* ─── Header band ─── */}
-      <div style={{ background: SV_NAVY }}>
+      <div style={{ background: SV_DARK.navy }}>
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "22px 28px 20px" }}>
 
-          {/* Top row: wordmark + actions */}
+          {/* Top row */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>MonthEndIQ</span>
@@ -233,44 +257,41 @@ function SharedView({ sessionId }) {
               <span style={{ fontSize: 12.5, color: "#94A3B8" }}>Management Pack</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {/* Dark mode toggle */}
+              <button onClick={toggleDark} title={isDark ? "Switch to light mode" : "Switch to dark mode"} style={{
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                width: 30, height: 30, borderRadius: 20,
+                background: p.header, border: `1px solid ${p.hborder}`,
+                cursor: "pointer", color: "#94A3B8",
+              }}>
+                <Icon name={isDark ? "sun" : "moon"} size={13} color="#94A3B8" />
+              </button>
               <span style={{
                 display: "inline-flex", alignItems: "center", gap: 5,
                 padding: "5px 11px", borderRadius: 20,
-                background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)",
+                background: p.header, border: `1px solid ${p.hborder}`,
                 fontSize: 11.5, fontWeight: 500, color: "#94A3B8",
               }}>
-                <Icon name="lock" size={11} color="#94A3B8" />
-                Read-only
+                <Icon name="lock" size={11} color="#94A3B8" /> Read-only
               </span>
-              <button
-                onClick={downloadPdf}
-                disabled={downloading}
-                style={{
-                  display: "inline-flex", alignItems: "center", gap: 6,
-                  padding: "6px 13px", borderRadius: 20,
-                  background: downloading ? "rgba(255,255,255,0.08)" : SV_PRIMARY,
-                  border: "1px solid rgba(255,255,255,0.14)",
-                  fontSize: 12, fontWeight: 600, color: "#fff",
-                  cursor: downloading ? "default" : "pointer",
-                  opacity: downloading ? 0.7 : 1, transition: "opacity .15s",
-                }}
-              >
+              <button onClick={downloadPdf} disabled={downloading} style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "6px 13px", borderRadius: 20,
+                background: downloading ? p.header : SV_PRIMARY,
+                border: `1px solid ${p.hborder}`,
+                fontSize: 12, fontWeight: 600, color: "#fff",
+                cursor: downloading ? "default" : "pointer",
+                opacity: downloading ? 0.7 : 1, transition: "opacity .15s",
+              }}>
                 {downloading
-                  ? <React.Fragment>
-                      <span style={{ width: 11, height: 11, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "#fff",
-                        borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
-                      Preparing…
-                    </React.Fragment>
-                  : <React.Fragment>
-                      <Icon name="download" size={12} color="#fff" />
-                      Download PDF
-                    </React.Fragment>
+                  ? <React.Fragment>{miniSpinner} Preparing…</React.Fragment>
+                  : <React.Fragment><Icon name="download" size={12} color="#fff" /> Download PDF</React.Fragment>
                 }
               </button>
             </div>
           </div>
 
-          {/* Company name + period selector */}
+          {/* Company + period selector */}
           <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
             <div>
               <div style={{ fontSize: 24, fontWeight: 700, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
@@ -278,29 +299,20 @@ function SharedView({ sessionId }) {
               </div>
               <div style={{ marginTop: 7, fontSize: 13, color: "#94A3B8" }}>
                 {analysisLbl} · Prepared {today}
-                {fetching && (
-                  <span style={{ marginLeft: 10, display: "inline-flex", alignItems: "center", gap: 5, verticalAlign: "middle" }}>
-                    <span style={{ width: 11, height: 11, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff",
-                      borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
-                  </span>
-                )}
+                {fetching && <span style={{ marginLeft: 10, display: "inline-flex", alignItems: "center", verticalAlign: "middle" }}>{miniSpinner}</span>}
               </div>
             </div>
             {(data.periods || []).length > 1 && (
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
                 <Icon name="calendar" size={13} color="#94A3B8" />
-                <select
-                  value={selPeriod || data.selected_period || ""}
-                  onChange={e => setSelPeriod(e.target.value)}
-                  style={{
-                    background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
-                    borderRadius: 6, padding: "5px 10px", color: "#fff",
-                    fontSize: 13, fontWeight: 500, cursor: "pointer", outline: "none",
-                  }}
-                >
-                  {(data.periods || []).map((p, i) => (
-                    <option key={p} value={p} style={{ background: SV_NAVY, color: "#fff" }}>
-                      {(data.period_labels || [])[i] || p}
+                <select value={selPeriod || data.selected_period || ""} onChange={e => setSelPeriod(e.target.value)} style={{
+                  background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: 6, padding: "5px 10px", color: "#fff",
+                  fontSize: 13, fontWeight: 500, cursor: "pointer", outline: "none",
+                }}>
+                  {(data.periods || []).map((pd, i) => (
+                    <option key={pd} value={pd} style={{ background: SV_DARK.navy, color: "#fff" }}>
+                      {(data.period_labels || [])[i] || pd}
                     </option>
                   ))}
                 </select>
@@ -317,30 +329,23 @@ function SharedView({ sessionId }) {
 
         {/* KPI tiles */}
         {kpis.length > 0 && (
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-            gap: 12, marginBottom: 20,
-          }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 20 }}>
             {kpis.map((k, i) => {
               const fav = k.is_fav;
               return (
                 <div key={i} style={{ ...card, padding: "16px 18px", borderTop: `3px solid ${fav ? SV_FAV : SV_ADV}` }}>
-                  <div style={{ fontSize: 10.5, fontWeight: 600, color: SV_FG3, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 10 }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 600, color: p.fg3, textTransform: "uppercase", letterSpacing: ".06em", marginBottom: 10 }}>
                     {k.label}
                   </div>
-                  <div style={{ fontSize: 21, fontWeight: 700, color: SV_NAVY, letterSpacing: "-0.5px", lineHeight: 1 }}>
+                  <div style={{ fontSize: 21, fontWeight: 700, color: p.fg1, letterSpacing: "-0.5px", lineHeight: 1 }}>
                     {k.pct_only ? fmtP(k.pct) : fmt(k.value)}
                   </div>
                   {!k.pct_only && (
                     <div style={{ marginTop: 9, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{
-                        fontSize: 11.5, fontWeight: 600, color: fav ? SV_FAV : SV_ADV,
-                        background: fav ? SV_FAV_BG : SV_ADV_BG, padding: "2px 8px", borderRadius: 20,
-                      }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 600, color: fav ? SV_FAV : SV_ADV, background: fav ? p.favBg : p.advBg, padding: "2px 8px", borderRadius: 20 }}>
                         {fmtP(k.pct)}
                       </span>
-                      <span style={{ fontSize: 11, color: SV_FG3 }}>vs {priorLabel}</span>
+                      <span style={{ fontSize: 11, color: p.fg3 }}>vs {priorLabel}</span>
                     </div>
                   )}
                 </div>
@@ -355,7 +360,7 @@ function SharedView({ sessionId }) {
             <div style={{ fontSize: 10.5, fontWeight: 600, color: SV_PRIMARY, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 16 }}>
               Financial Trend
             </div>
-            <SvTrendChart trend={trend} />
+            <SvTrendChart trend={trend} p={p} />
           </div>
         )}
 
@@ -367,7 +372,7 @@ function SharedView({ sessionId }) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {commentary.map((line, i) => (
-                <div key={i} style={{ display: "flex", gap: 10, fontSize: 14, color: SV_FG2, lineHeight: 1.6 }}>
+                <div key={i} style={{ display: "flex", gap: 10, fontSize: 14, color: p.fg2, lineHeight: 1.6 }}>
                   <span style={{ color: SV_PRIMARY, flexShrink: 0, fontWeight: 600, lineHeight: 1.6 }}>·</span>
                   <span>{line}</span>
                 </div>
@@ -377,14 +382,10 @@ function SharedView({ sessionId }) {
         )}
 
         {/* Fav / Adv variance panels */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: 12, marginBottom: 28,
-        }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 12, marginBottom: 28 }}>
           {[
-            { label: "Favourable Variances", rows: favMvts, c: SV_FAV, bg: SV_FAV_BG, icon: "trending-up" },
-            { label: "Adverse Variances",    rows: advMvts, c: SV_ADV, bg: SV_ADV_BG, icon: "trending-down" },
+            { label: "Favourable Variances", rows: favMvts, c: SV_FAV, bg: p.favBg, icon: "trending-up" },
+            { label: "Adverse Variances",    rows: advMvts, c: SV_ADV, bg: p.advBg, icon: "trending-down" },
           ].map(({ label, rows, c, bg, icon }) => (
             <div key={label} style={{ ...card, padding: "18px 20px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 14 }}>
@@ -394,18 +395,15 @@ function SharedView({ sessionId }) {
                 </div>
               </div>
               {rows.length === 0 ? (
-                <div style={{ fontSize: 13, color: SV_FG3 }}>None in this period</div>
+                <div style={{ fontSize: 13, color: p.fg3 }}>None in this period</div>
               ) : rows.map((m, i) => (
                 <div key={i} style={{
                   display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
-                  padding: "8px 0",
-                  borderBottom: i < rows.length - 1 ? `1px solid ${SV_BORDER}` : "none",
+                  padding: "8px 0", borderBottom: i < rows.length - 1 ? `1px solid ${p.border}` : "none",
                 }}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 12.5, fontWeight: 500, color: SV_FG2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {m.account}
-                    </div>
-                    <div style={{ fontSize: 11, color: SV_FG3, marginTop: 2 }}>{m.category}</div>
+                    <div style={{ fontSize: 12.5, fontWeight: 500, color: p.fg2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.account}</div>
+                    <div style={{ fontSize: 11, color: p.fg3, marginTop: 2 }}>{m.category}</div>
                   </div>
                   <div style={{ textAlign: "right", flexShrink: 0 }}>
                     <div style={{ fontSize: 12.5, fontWeight: 600, color: c }}>{fmtS(m.variance)}</div>
@@ -418,15 +416,15 @@ function SharedView({ sessionId }) {
         </div>
 
         {/* Footer */}
-        <div style={{ textAlign: "center", borderTop: `1px solid ${SV_BORDER}`, paddingTop: 18 }}>
-          <div style={{ fontSize: 12, color: SV_FG3, lineHeight: 1.5 }}>
+        <div style={{ textAlign: "center", borderTop: `1px solid ${p.border}`, paddingTop: 18 }}>
+          <div style={{ fontSize: 12, color: p.fg3, lineHeight: 1.5 }}>
             {firmName
-              ? <span>Prepared by <span style={{ fontWeight: 600, color: SV_NAVY }}>{firmName}</span></span>
+              ? <span>Prepared by <span style={{ fontWeight: 600, color: p.fg1 }}>{firmName}</span></span>
               : "Prepared by your accountant"}
-            <span style={{ margin: "0 6px", color: SV_BORDER }}>·</span>
-            Powered by <span style={{ fontWeight: 600, color: SV_NAVY }}>MonthEndIQ</span>
+            <span style={{ margin: "0 6px", color: p.border }}>·</span>
+            Powered by <span style={{ fontWeight: 600, color: p.fg1 }}>MonthEndIQ</span>
           </div>
-          <div style={{ marginTop: 5, fontSize: 11, color: "#C0C8D4" }}>
+          <div style={{ marginTop: 5, fontSize: 11, color: p.fg3, opacity: 0.6 }}>
             Financial intelligence for modern accounting practices
           </div>
         </div>
