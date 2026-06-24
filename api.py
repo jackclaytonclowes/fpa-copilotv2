@@ -575,6 +575,142 @@ def demo_burn():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PRACTICE PORTFOLIO — multi-client month-end triage (firm mode)
+# ─────────────────────────────────────────────────────────────────────────────
+_PORTFOLIO_MONTHS = [
+    "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+    "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
+]
+
+
+def _ramp(start, step, shock_last=0):
+    vals = [float(round(start + step * i)) for i in range(12)]
+    if shock_last:
+        vals[-1] += float(shock_last)
+    return vals
+
+
+def _build_portfolio_client(name, sector, revenue, cogs, staff, overheads, cash):
+    """Build & store a client P&L session, then return a triage summary."""
+    total_costs = [cogs[i] + staff[i] + overheads[i] for i in range(12)]
+    op          = [revenue[i] - total_costs[i] for i in range(12)]
+    rows = [
+        ("Total Turnover",        "Turnover",       revenue),
+        ("Cost of Sales",         "Cost of Sales",  cogs),
+        ("Staff Costs",           "Staff Costs",    staff),
+        ("Overheads",             "Overheads",      overheads),
+        ("Total Operating Costs", "Costs",          total_costs),
+        ("Operating Profit",      "Profit",         op),
+    ]
+    data_dict = {"Account": [], "Section": []}
+    for m in _PORTFOLIO_MONTHS:
+        data_dict[m] = []
+    for acc, sec, vals in rows:
+        data_dict["Account"].append(acc)
+        data_dict["Section"].append(sec)
+        for i, m in enumerate(_PORTFOLIO_MONTHS):
+            data_dict[m].append(float(vals[i]))
+
+    df           = pd.DataFrame(data_dict)
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m)
+    analysis_q   = build_analysis(df_long_q)
+
+    sid = str(uuid.uuid4())
+    SESSIONS[sid] = {
+        "df": df, "df_long_m": df_long_m, "df_long_q": df_long_q,
+        "analysis_m": analysis_m, "analysis_q": analysis_q,
+        "kpi_accounts": kpi_accounts, "filename": f"{name} — Demo",
+        "analysis_type": "month_on_month", "xero_cash": cash, "chat": [],
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest    = periods_m[-1]
+    data      = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+
+    kpis = data.get("kpis", [])
+    prof = next((k for k in kpis if k.get("icon") == "wallet"), None)
+    revk = next((k for k in kpis if k.get("icon") == "trending-up"), None)
+    op_profit  = prof["value"]    if prof else None
+    profit_var = prof["variance"] if prof else None
+    profit_pct = prof["pct"]      if prof else None
+    revenue_v  = revk["value"]    if revk else None
+    margin     = (op_profit / revenue_v * 100) if (op_profit is not None and revenue_v) else None
+
+    profits = [t.get("profit") for t in data.get("trend", []) if isinstance(t.get("profit"), (int, float))]
+    avg     = sum(profits) / len(profits) if profits else 0.0
+    burning = avg < 0
+    runway  = (cash / abs(avg)) if (burning and cash and avg != 0) else None
+
+    movements = data.get("movements", [])
+    adverse   = [m for m in movements if not m.get("is_fav") and m.get("variance")]
+    largest_adv = max(adverse, key=lambda m: abs(m["variance"]), default=None) if adverse else None
+    big_swings  = sum(1 for m in movements if m.get("variance_pct") is not None and abs(m["variance_pct"]) >= 50)
+
+    # ── Attention scoring ─────────────────────────────────────────────────────
+    score, reasons = 0, []
+    if runway is not None and runway < 6:
+        score += 50; reasons.append(f"{runway:.0f}-month cash runway")
+    elif runway is not None and runway < 12:
+        score += 25; reasons.append(f"{runway:.0f}-month cash runway")
+    if op_profit is not None and op_profit < 0:
+        score += 30; reasons.append("Operating loss this period")
+    if profit_pct is not None and profit_pct < -10:
+        score += 25; reasons.append(f"Profit {abs(profit_pct):.0f}% below prior period")
+    rev_thresh = 0.05 * abs(revenue_v) if revenue_v else float("inf")
+    if largest_adv is not None and abs(largest_adv["variance"]) > rev_thresh:
+        score += 15; reasons.append(f"{largest_adv['account']} £{abs(largest_adv['variance']):,.0f} adverse")
+    if big_swings >= 2:
+        score += 10; reasons.append(f"{big_swings} large movements")
+
+    tier = "action" if score >= 50 else "watch" if score >= 20 else "healthy"
+
+    return {
+        "session_id": sid, "name": name, "sector": sector,
+        "revenue": revenue_v, "op_profit": op_profit, "margin": margin,
+        "profit_var": profit_var, "profit_var_pct": profit_pct,
+        "cash": cash, "runway_months": runway, "burning": burning,
+        "anomalies": big_swings, "tier": tier, "score": score,
+        "reasons": reasons[:2] if reasons else ["On track"],
+    }
+
+
+@app.get("/api/portfolio/demo")
+def portfolio_demo():
+    """Build a demo practice of clients and return a month-end triage list."""
+    clients = [
+        _build_portfolio_client(
+            "Harbour Retail Ltd", "Retail",
+            _ramp(82000, 2500), _ramp(41000, 1200), _ramp(22000, 400), _ramp(9000, 150), 240000),
+        _build_portfolio_client(
+            "Carter & Co Accountants", "Professional services",
+            _ramp(60000, 500), _ramp(12000, 100), _ramp(30000, 300), _ramp(7000, 50), 180000),
+        _build_portfolio_client(
+            "Nimbus Labs Ltd", "SaaS",
+            _ramp(21000, 3300), _ramp(10000, 700), _ramp(61000, 2500), _ramp(6700, 100), 350000),
+        _build_portfolio_client(
+            "Orbit Manufacturing Ltd", "Manufacturing",
+            _ramp(120000, 1000), _ramp(70000, 800), _ramp(20000, 200), _ramp(8000, 100, shock_last=45000), 320000),
+        _build_portfolio_client(
+            "Vale Hospitality Ltd", "Hospitality",
+            _ramp(95000, -1500), _ramp(38000, -300), _ramp(30000, 100), _ramp(9000, 0), 140000),
+    ]
+    clients.sort(key=lambda c: c["score"], reverse=True)
+
+    summary = {
+        "total":         len(clients),
+        "action":        sum(1 for c in clients if c["tier"] == "action"),
+        "watch":         sum(1 for c in clients if c["tier"] == "watch"),
+        "healthy":       sum(1 for c in clients if c["tier"] == "healthy"),
+        "total_revenue": sum(c["revenue"] or 0 for c in clients),
+        "burning":       sum(1 for c in clients if c["burning"]),
+    }
+    return {"clients": clients, "summary": summary}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # DEMO — Budget vs Actual
 # ─────────────────────────────────────────────────────────────────────────────
 @app.get("/api/demo-bva")

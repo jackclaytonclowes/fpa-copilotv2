@@ -31,14 +31,17 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "scenarios", icon: "sliders-horizontal",  label: "Scenarios" },
   ];
   const tools = [
-    { id: "data",     icon: "database", label: "Data sources" },
-    { id: "settings", icon: "settings", label: "Settings" },
+    { id: "portfolio", icon: "briefcase", label: "Practice" },
+    { id: "data",      icon: "database",  label: "Data sources" },
+    { id: "settings",  icon: "settings",  label: "Settings" },
   ];
+  // Views that don't require a loaded session
+  const ALWAYS = ["portfolio", "data", "settings"];
   const Item = ({ it }) => (
     <div
-      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !["data","settings"].includes(it.id) ? " disabled" : ""}`}
-      onClick={() => (hasData || ["data","settings"].includes(it.id)) && onNav(it.id)}
-      style={!hasData && !["data","settings"].includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
+      className={`sb-item${active === it.id ? " on" : ""}${!hasData && !ALWAYS.includes(it.id) ? " disabled" : ""}`}
+      onClick={() => (hasData || ALWAYS.includes(it.id)) && onNav(it.id)}
+      style={!hasData && !ALWAYS.includes(it.id) ? { opacity: 0.4, cursor: "default" } : {}}
     >
       <span className="ic"><Icon name={it.icon} size={18} /></span>{it.label}
     </div>

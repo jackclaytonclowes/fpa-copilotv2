@@ -115,7 +115,9 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 
   const momLabel = periodMode === "monthly" ? "MoM" : periodMode === "quarterly" ? "QoQ" : "YTD";
 
-  const subtitle = hasData && period
+  const subtitle = view === "portfolio"
+    ? "Multi-client month-end triage"
+    : hasData && period
     ? (isConsolidated
         ? `Consolidated group · ${entityCount || 2} entities`
         : analysisType === "budget_vs_actual"
@@ -131,6 +133,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     movements: "Movements",
     reports:   "Reports",
     scenarios: "Scenario Analysis",
+    portfolio: "Practice Portfolio",
     data:      "Data sources",
     settings:  "Settings",
   };
@@ -348,7 +351,7 @@ function Toast({ message }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette, Portfolio } = window;
 
   // Diagnostic: log any undefined components so we can spot load failures
   React.useEffect(() => {
@@ -441,6 +444,18 @@ function App() {
     fireToast(`Analysed ${data.file_name}`);
   };
 
+  // Open a client from the practice portfolio — load its session as the active one
+  const openClient = (clientSessionId, clientName) => {
+    fetch(apiUrl(`/api/data/${clientSessionId}?period=&mode=monthly`))
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then((data) => {
+        data.session_id = clientSessionId;
+        if (!data.file_name) data.file_name = clientName;
+        onLoad(data);
+      })
+      .catch(() => fireToast("Could not open client"));
+  };
+
   const onAddEntity = (data) => {
     const newEntity = { sessionId: data.session_id, fileName: data.file_name };
     setEntities((prev) => {
@@ -514,6 +529,8 @@ function App() {
   let body;
   if (restoring) {
     body = null;
+  } else if (view === "portfolio") {
+    body = Portfolio ? <Portfolio onOpenClient={openClient} /> : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
