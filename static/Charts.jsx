@@ -1,4 +1,4 @@
-/* FP&A Copilot — SVG charts: TrendChart + Donut */
+/* FP&A Copilot — SVG charts: TrendChart + Donut + Sparkline */
 const { useState: useStateChart, useEffect: useEffectChart } = React;
 
 function TrendChart({ data, series, forecastFrom, onPointClick }) {
@@ -315,4 +315,58 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
   );
 }
 
-Object.assign(window, { TrendChart, Donut, WaterfallChart });
+/* ── Sparkline ────────────────────────────────────────────────────────────────
+   Tiny inline trend line for KPI tiles.
+   Props:
+     data      — the trend array already fetched by Dashboard
+     valueKey  — which key to plot ("revenue" | "profit" | "costs" | ...)
+     height    — SVG height in px (default 28)
+   Green when last ≥ first, red otherwise. No axes, no labels.
+──────────────────────────────────────────────────────────────────────────── */
+function Sparkline({ data, valueKey, height = 28 }) {
+  if (!data || data.length < 2) return null;
+
+  const vals = data.map(d => {
+    const v = d[valueKey];
+    return typeof v === "number" && isFinite(v) ? v : null;
+  });
+  const valid = vals.filter(v => v !== null);
+  if (valid.length < 2) return null;
+
+  const W = 100, H = height, pad = 2;
+  const min = Math.min(...valid);
+  const max = Math.max(...valid);
+  const rng = max - min || 1;
+
+  const xOf = i => pad + ((W - 2 * pad) * i) / (vals.length - 1);
+  const yOf = v => H - pad - ((v - min) / rng) * (H - 2 * pad);
+
+  const pts = vals
+    .map((v, i) => v !== null ? `${xOf(i).toFixed(1)},${yOf(v).toFixed(1)}` : null)
+    .filter(Boolean);
+
+  const firstValid = vals.findIndex(v => v !== null);
+  const lastValid  = vals.length - 1 - [...vals].reverse().findIndex(v => v !== null);
+  const areaPath = pts.length >= 2
+    ? `M ${pts[0]} L ${pts.slice(1).join(" L ")} L ${xOf(lastValid).toFixed(1)},${H} L ${xOf(firstValid).toFixed(1)},${H} Z`
+    : null;
+
+  const up     = valid[valid.length - 1] >= valid[0];
+  const stroke = up ? "var(--favourable)" : "var(--adverse)";
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={height}
+         style={{ display: "block", overflow: "visible" }} aria-hidden="true">
+      {areaPath && <path d={areaPath} fill={stroke} opacity="0.09" />}
+      <polyline points={pts.join(" ")} fill="none"
+        stroke={stroke} strokeWidth="1.5"
+        strokeLinecap="round" strokeLinejoin="round" opacity="0.75" />
+      {vals[lastValid] !== null && (
+        <circle cx={xOf(lastValid).toFixed(1)} cy={yOf(vals[lastValid]).toFixed(1)}
+          r="2" fill={stroke} opacity="0.9" />
+      )}
+    </svg>
+  );
+}
+
+Object.assign(window, { TrendChart, Donut, WaterfallChart, Sparkline });

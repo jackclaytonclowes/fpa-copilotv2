@@ -897,25 +897,40 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
 
       {/* KPI row */}
       <div className="grid-kpi">
-        {(kpis || []).map((k) => (
-          <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`}>
-            <div className="kpi-top">
-              <div className="lbl">{k.label}</div>
-              <span className="kpi-ic"><Icon name={k.icon} size={16} /></span>
+        {(kpis || []).map((k) => {
+          // Map KPI label → trend series key for sparkline
+          const lc = k.label.toLowerCase();
+          const trendKey = !isBvA && trend && trend.length > 2
+            ? (lc.includes("revenue") || lc.includes("turnover") || lc.includes("sales") ? "revenue"
+              : lc.includes("profit") || lc.includes("ebitda") || lc.includes("operating") ? "profit"
+              : lc.includes("cost") || lc.includes("expense") ? "costs"
+              : null)
+            : null;
+          return (
+            <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`}>
+              <div className="kpi-top">
+                <div className="lbl">{k.label}</div>
+                <span className="kpi-ic"><Icon name={k.icon} size={16} /></span>
+              </div>
+              <div className="val">{k.pct_only ? fmtPct(k.pct) : fmtGBP(k.value)}</div>
+              {!k.pct_only && k.variance !== null && (
+                <Delta fav={k.is_fav} up={k.variance >= 0}>
+                  {fmtSignedGBP(k.variance)} · {fmtPct(k.pct)}
+                </Delta>
+              )}
+              {k.pct_only && (
+                <Delta fav={k.is_fav} up={k.variance >= 0}>
+                  vs {period?.prior || "prior"}
+                </Delta>
+              )}
+              {trendKey && window.Sparkline && (
+                <div style={{ marginTop: 10, marginBottom: -2 }}>
+                  <Sparkline data={trend} valueKey={trendKey} height={26} />
+                </div>
+              )}
             </div>
-            <div className="val">{k.pct_only ? fmtPct(k.pct) : fmtGBP(k.value)}</div>
-            {!k.pct_only && k.variance !== null && (
-              <Delta fav={k.is_fav} up={k.variance >= 0}>
-                {fmtSignedGBP(k.variance)} · {fmtPct(k.pct)}
-              </Delta>
-            )}
-            {k.pct_only && (
-              <Delta fav={k.is_fav} up={k.variance >= 0}>
-                vs {period?.prior || "prior"}
-              </Delta>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Cash & Runway — headline SMB metric */}
