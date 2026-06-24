@@ -2487,6 +2487,21 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
         raise HTTPException(500, f"Commentary generation failed: {str(e)}")
 
 
+class CommentaryUpdateBody(BaseModel):
+    commentary: list[str]
+
+
+@app.patch("/api/sessions/{session_id}/commentary")
+async def update_session_commentary(session_id: str, body: CommentaryUpdateBody):
+    """Persist hand-edited commentary bullets back into the live session so the
+    next export call picks them up without requiring a re-analysis."""
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+    s["commentary"] = [line.strip() for line in body.commentary if line.strip()]
+    return {"ok": True, "count": len(s["commentary"])}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Q&A COPILOT — OpenAI-powered
 # ─────────────────────────────────────────────────────────────────────────────

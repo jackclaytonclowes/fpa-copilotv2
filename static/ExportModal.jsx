@@ -1,16 +1,43 @@
 /* FP&A Copilot — export management pack modal */
-const { useState: useStateExport } = React;
+const { useState: useStateExport, useEffect: useEffectExport } = React;
 
 function ExportModal({ onClose, sessionId, period, analysisType }) {
   const { Icon, Button } = window;
-  const [tab,       setTab]       = useStateExport("download"); // "download" | "email"
-  const [fmt,       setFmt]       = useStateExport("pdf");
-  const [loading,   setLoading]   = useStateExport(false);
-  const [recipients, setRecipients] = useStateExport("");
-  const [subject,   setSubject]   = useStateExport(
+  const [tab,          setTab]          = useStateExport("download"); // "download" | "email"
+  const [fmt,          setFmt]          = useStateExport("pdf");
+  const [loading,      setLoading]      = useStateExport(false);
+  const [recipients,   setRecipients]   = useStateExport("");
+  const [subject,      setSubject]      = useStateExport(
     () => `Management Pack — ${period?.label || "Report"}`
   );
-  const [emailStatus, setEmailStatus] = useStateExport(null); // null | "sending" | "sent" | { error }
+  const [emailStatus,  setEmailStatus]  = useStateExport(null); // null | "sending" | "sent" | { error }
+
+  // Commentary editing state
+  const [showEdit,     setShowEdit]     = useStateExport(false);
+  const [commentary,   setCommentary]   = useStateExport(null); // null = not yet loaded
+  const [origComm,     setOrigComm]     = useStateExport(null);
+  const [editLoading,  setEditLoading]  = useStateExport(false);
+
+  const isDirty = commentary && origComm &&
+    JSON.stringify(commentary) !== JSON.stringify(origComm);
+
+  // Load commentary from session the first time the edit panel opens
+  useEffectExport(() => {
+    if (!showEdit || commentary !== null) return;
+    setEditLoading(true);
+    fetch(apiUrl(`/api/data/${sessionId}?period=&mode=monthly`))
+      .then(r => r.json())
+      .then(d => {
+        const bullets = d.commentary || [];
+        setCommentary(bullets);
+        setOrigComm(bullets);
+      })
+      .catch(() => {
+        setCommentary([]);
+        setOrigComm([]);
+      })
+      .finally(() => setEditLoading(false));
+  }, [showEdit]);
 
   const opts = [
     { id: "pdf",  icon: "file-text",    t: "PDF management pack",        s: "Board-ready: summary, commentary, tables" },
@@ -22,9 +49,21 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
     ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
     : (period?.label || "");
 
+  // If commentary was edited, persist it before the export runs
+  const _saveIfDirty = async () => {
+    if (!isDirty) return;
+    await fetch(apiUrl(`/api/sessions/${sessionId}/commentary`), {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentary }),
+    });
+    setOrigComm([...commentary]); // reset dirty flag
+  };
+
   const download = async () => {
     setLoading(true);
     try {
+      await _saveIfDirty();
       const params = new URLSearchParams({ period: periodParam, fmt });
       const res = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
       if (!res.ok) {
@@ -53,6 +92,7 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
     if (!rcpts.length) { alert("Enter at least one recipient email address."); return; }
     setEmailStatus("sending");
     try {
+      await _saveIfDirty();
       const res = await fetch(apiUrl(`/api/email/${sessionId}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,6 +116,13 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
     width: "100%", padding: "8px 12px", boxSizing: "border-box",
     font: "var(--text-body)", fontSize: 13.5, color: "var(--ink)",
     background: "var(--surface-2)", border: "1px solid var(--border-strong)",
+    borderRadius: "var(--radius-sm)", outline: "none",
+  };
+
+  const bulletInputStyle = {
+    flex: 1, padding: "6px 10px", boxSizing: "border-box",
+    font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
+    background: "var(--surface-2)", border: "1px solid var(--border)",
     borderRadius: "var(--radius-sm)", outline: "none",
   };
 
@@ -128,12 +175,99 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
                   <div className="rad" />
                 </div>
               ))}
-              <label style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 6, font: "var(--text-body)", fontSize: 13.5, color: "var(--ink)" }}>
-                <span style={{ width: 18, height: 18, borderRadius: 5, background: "var(--primary)", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon name="check" size={12} color="#fff" />
-                </span>
-                Include AI-written commentary
-              </label>
+
+              {/* Commentary editing — PDF only */}
+              {fmt === "pdf" && (
+                <div style={{ marginTop: 12, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+                  <button
+                    onClick={() => setShowEdit(e => !e)}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      width: "100%", background: "none", border: "none", cursor: "pointer",
+                      padding: "4px 0",
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: 7,
+                      font: "var(--text-body-strong)", fontSize: 13, color: "var(--ink)" }}>
+                      <Icon name="pencil" size={13} color="var(--fg-2)" />
+                      Edit commentary
+                      {isDirty && (
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: "var(--primary)",
+                          background: "var(--primary-soft)", borderRadius: 10, padding: "1px 7px" }}>
+                          edited
+                        </span>
+                      )}
+                    </span>
+                    <Icon name={showEdit ? "chevron-up" : "chevron-down"} size={14} color="var(--fg-3)" />
+                  </button>
+
+                  {showEdit && (
+                    <div style={{ marginTop: 10 }}>
+                      {editLoading ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 0",
+                          font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+                          <div className="spinner" style={{ width: 13, height: 13 }} />
+                          Loading commentary…
+                        </div>
+                      ) : (
+                        <React.Fragment>
+                          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                            {(commentary || []).map((bullet, i) => (
+                              <div key={i} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                                <span style={{ color: "var(--primary)", fontSize: 16, lineHeight: 1, flexShrink: 0 }}>·</span>
+                                <input
+                                  type="text"
+                                  value={bullet}
+                                  onChange={e => {
+                                    const next = [...commentary];
+                                    next[i] = e.target.value;
+                                    setCommentary(next);
+                                  }}
+                                  style={bulletInputStyle}
+                                />
+                                <button
+                                  onClick={() => setCommentary(prev => prev.filter((_, j) => j !== i))}
+                                  title="Remove bullet"
+                                  style={{ background: "none", border: "none", cursor: "pointer",
+                                    color: "var(--fg-3)", padding: 4, display: "flex", alignItems: "center",
+                                    flexShrink: 0 }}
+                                >
+                                  <Icon name="x" size={13} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          <button
+                            onClick={() => setCommentary(prev => [...(prev || []), ""])}
+                            style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 5,
+                              background: "none", border: "1px dashed var(--border-strong)",
+                              borderRadius: "var(--radius-sm)", padding: "5px 10px",
+                              font: "var(--text-caption)", fontSize: 12, color: "var(--fg-2)",
+                              cursor: "pointer", width: "100%" }}
+                          >
+                            <Icon name="plus" size={12} /> Add bullet
+                          </button>
+                          <div style={{ marginTop: 8, font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                            Edits are applied to the downloaded PDF only — they don't change the analysis.
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Include commentary toggle — shown when NOT editing */}
+              {!(fmt === "pdf" && showEdit) && (
+                <label style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 10,
+                  font: "var(--text-body)", fontSize: 13.5, color: "var(--ink)" }}>
+                  <span style={{ width: 18, height: 18, borderRadius: 5, background: "var(--primary)",
+                    display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon name="check" size={12} color="#fff" />
+                  </span>
+                  Include AI-written commentary
+                </label>
+              )}
             </React.Fragment>
           )}
 
@@ -154,14 +288,17 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
                     The PDF management pack has been dispatched.
                   </div>
                   <button onClick={onClose}
-                    style={{ marginTop: 4, padding: "7px 20px", borderRadius: "var(--radius-sm)", border: "none", background: "var(--favourable)", color: "#fff", font: "var(--text-body-strong)", fontSize: 13, cursor: "pointer" }}>
+                    style={{ marginTop: 4, padding: "7px 20px", borderRadius: "var(--radius-sm)", border: "none",
+                      background: "var(--favourable)", color: "#fff", font: "var(--text-body-strong)",
+                      fontSize: 13, cursor: "pointer" }}>
                     Done
                   </button>
                 </div>
               ) : (
                 <React.Fragment>
                   <div>
-                    <label style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", display: "block", marginBottom: 6 }}>
+                    <label style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase",
+                      letterSpacing: ".05em", color: "var(--fg-3)", display: "block", marginBottom: 6 }}>
                       Recipients
                     </label>
                     <textarea
@@ -176,7 +313,8 @@ function ExportModal({ onClose, sessionId, period, analysisType }) {
                     </div>
                   </div>
                   <div>
-                    <label style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", display: "block", marginBottom: 6 }}>
+                    <label style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase",
+                      letterSpacing: ".05em", color: "var(--fg-3)", display: "block", marginBottom: 6 }}>
                       Subject
                     </label>
                     <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} style={inputStyle} />

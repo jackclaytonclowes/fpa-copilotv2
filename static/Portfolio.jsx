@@ -284,6 +284,7 @@ function Portfolio({ onOpenClient }) {
   const [deleting, setDeleting]   = React.useState(null); // client_id being confirmed
   const [briefStatus, setBriefStatus] = React.useState("idle"); // idle | loading | done | error
   const [briefs, setBriefs]           = React.useState({});     // {session_id: text}
+  const [copiedLink, setCopiedLink]   = React.useState(null);  // session_id of last copied card
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -644,6 +645,26 @@ function Portfolio({ onOpenClient }) {
                               cursor: "pointer", color: "var(--fg-2)", display: "flex", alignItems: "center",
                             }}>
                               <Icon name="refresh-cw" size={13} />
+                            </button>
+                            <button
+                              title="Copy share link"
+                              onClick={() => {
+                                const url = `${window.location.origin}/view/${c.session_id}`;
+                                navigator.clipboard?.writeText(url);
+                                setCopiedLink(c.session_id);
+                                setTimeout(() => setCopiedLink(null), 2000);
+                              }}
+                              style={{
+                                background: copiedLink === c.session_id ? "var(--favourable-soft)" : "var(--surface-2)",
+                                border: `1px solid ${copiedLink === c.session_id ? "var(--favourable-border)" : "var(--border)"}`,
+                                borderRadius: "var(--radius-sm)", padding: "6px 8px",
+                                cursor: "pointer",
+                                color: copiedLink === c.session_id ? "var(--favourable-text)" : "var(--fg-2)",
+                                display: "flex", alignItems: "center",
+                                transition: "all .15s",
+                              }}
+                            >
+                              <Icon name={copiedLink === c.session_id ? "check" : "share-2"} size={13} />
                             </button>
                             <button onClick={() => setDeleting(c.session_id)} title="Remove client" style={{
                               background: "var(--surface-2)", border: "1px solid var(--border)",
