@@ -285,6 +285,7 @@ function Portfolio({ onOpenClient }) {
   const [briefStatus, setBriefStatus] = React.useState("idle"); // idle | loading | done | error
   const [briefs, setBriefs]           = React.useState({});     // {session_id: text}
   const [copiedLink, setCopiedLink]   = React.useState(null);  // session_id of last copied card
+  const [emailedLink, setEmailedLink] = React.useState(null); // session_id of last emailed card
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -667,6 +668,31 @@ function Portfolio({ onOpenClient }) {
                               }}
                             >
                               <Icon name={copiedLink === c.session_id ? "check" : "share-2"} size={13} />
+                            </button>
+                            <button
+                              title="Email share link to client"
+                              onClick={() => {
+                                const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+                                const base = `${window.location.origin}/view/${c.session_id}`;
+                                const url  = firm ? `${base}?firm=${encodeURIComponent(firm)}` : base;
+                                const sign = firm ? `Kind regards,\n${firm}` : "Kind regards";
+                                const body = `Hi,\n\nYour latest management pack is ready to view online:\n\n${url}\n\nYou can browse by period and download a PDF copy directly from the link.\n\n${sign}`;
+                                const mailto = `mailto:?subject=${encodeURIComponent(`Your management pack — ${c.name}`)}&body=${encodeURIComponent(body)}`;
+                                window.location.href = mailto;
+                                setEmailedLink(c.session_id);
+                                setTimeout(() => setEmailedLink(null), 2500);
+                              }}
+                              style={{
+                                background: emailedLink === c.session_id ? "var(--primary-soft)" : "var(--surface-2)",
+                                border: `1px solid ${emailedLink === c.session_id ? "var(--primary)" : "var(--border)"}`,
+                                borderRadius: "var(--radius-sm)", padding: "6px 8px",
+                                cursor: "pointer",
+                                color: emailedLink === c.session_id ? "var(--primary)" : "var(--fg-2)",
+                                display: "flex", alignItems: "center",
+                                transition: "all .15s",
+                              }}
+                            >
+                              <Icon name={emailedLink === c.session_id ? "check" : "mail"} size={13} />
                             </button>
                             <button onClick={() => setDeleting(c.session_id)} title="Remove client" style={{
                               background: "var(--surface-2)", border: "1px solid var(--border)",
