@@ -51,6 +51,12 @@ function formatPeriod(p, mode) {
   return String(p);
 }
 
+// Detect a /view/{id} shared link — computed once at load time
+const _SHARED_SESSION_ID = (() => {
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  return parts[0] === "view" && parts[1] ? parts[1] : null;
+})();
+
 /* ── TopBar ─────────────────────────────────────────────── */
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
@@ -585,6 +591,13 @@ function App() {
         />
       </div>
     );
+  }
+
+  // Render the read-only digest for shared /view/{id} links
+  if (_SHARED_SESSION_ID) {
+    return window.SharedView
+      ? <SharedView sessionId={_SHARED_SESSION_ID} />
+      : null;
   }
 
   return (
