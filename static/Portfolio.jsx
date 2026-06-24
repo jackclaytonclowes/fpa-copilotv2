@@ -276,12 +276,14 @@ function Portfolio({ onOpenClient }) {
   const { Icon } = window;
   const firmToken = React.useMemo(() => getFirmToken(), []);
 
-  const [mode, setMode]         = React.useState("real"); // "real" | "demo"
-  const [status, setStatus]     = React.useState("loading");
-  const [data, setData]         = React.useState(null);
-  const [showAdd, setShowAdd]   = React.useState(false);
-  const [updating, setUpdating] = React.useState(null); // client object being updated
-  const [deleting, setDeleting] = React.useState(null); // client_id being confirmed
+  const [mode, setMode]           = React.useState("real"); // "real" | "demo"
+  const [status, setStatus]       = React.useState("loading");
+  const [data, setData]           = React.useState(null);
+  const [showAdd, setShowAdd]     = React.useState(false);
+  const [updating, setUpdating]   = React.useState(null); // client object being updated
+  const [deleting, setDeleting]   = React.useState(null); // client_id being confirmed
+  const [briefStatus, setBriefStatus] = React.useState("idle"); // idle | loading | done | error
+  const [briefs, setBriefs]           = React.useState({});     // {session_id: text}
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -346,6 +348,27 @@ function Portfolio({ onOpenClient }) {
     };
   }
 
+  async function generateBriefing() {
+    setBriefStatus("loading");
+    setBriefs({});
+    try {
+      const r = await fetch(
+        apiUrl(`/api/portfolio/briefing?firm_token=${encodeURIComponent(firmToken)}`),
+        { method: "POST" }
+      );
+      if (!r.ok) {
+        const j = await r.json().catch(() => ({}));
+        throw new Error(j.detail || `Error ${r.status}`);
+      }
+      const { briefs: b } = await r.json();
+      setBriefs(b || {});
+      setBriefStatus("done");
+    } catch (ex) {
+      console.error("[Briefing]", ex);
+      setBriefStatus("error");
+    }
+  }
+
   function fmtGBP(v) {
     if (v == null || isNaN(v)) return "—";
     const a = Math.abs(v), s = v < 0 ? "-£" : "£";
@@ -394,6 +417,26 @@ function Portfolio({ onOpenClient }) {
                 </button>
               ))}
             </div>
+            {/* Morning briefing (real mode, has clients) */}
+            {!isDemo && hasClients && (
+              <button
+                onClick={generateBriefing}
+                disabled={briefStatus === "loading"}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px",
+                  borderRadius: "var(--radius-sm)", border: "1px solid var(--primary)",
+                  background: briefStatus === "done" ? "var(--primary-soft)" : "var(--surface)",
+                  color: "var(--primary)",
+                  font: "var(--text-body-strong)", fontSize: 13,
+                  cursor: briefStatus === "loading" ? "default" : "pointer",
+                  opacity: briefStatus === "loading" ? .7 : 1,
+                }}
+              >
+                {briefStatus === "loading"
+                  ? <React.Fragment><div className="spinner" style={{ width: 13, height: 13, borderColor: "var(--primary)", borderTopColor: "transparent" }} /> Generating…</React.Fragment>
+                  : <React.Fragment><Icon name="sun" size={14} /> Morning briefing</React.Fragment>}
+              </button>
+            )}
             {/* Add client (real mode only) */}
             {!isDemo && (
               <button onClick={() => setShowAdd(true)} style={{
@@ -514,7 +557,7 @@ function Portfolio({ onOpenClient }) {
                         </span>
                       </div>
 
-                      {/* Name + sector + reasons */}
+                      {/* Name + sector + reasons + brief */}
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ font: "var(--text-body-strong)", fontSize: 14.5, color: "var(--fg-1)" }}>
                           {c.name}
@@ -537,6 +580,40 @@ function Portfolio({ onOpenClient }) {
                             }}>{r}</span>
                           ))}
                         </div>
+                        {/* Morning brief — shown when generated */}
+                        {briefStatus === "loading" && !briefs[c.session_id] && (
+                          <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 7,
+                            font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+                            <div className="spinner" style={{ width: 12, height: 12, flexShrink: 0 }} />
+                            Generating brief…
+                          </div>
+                        )}
+                        {briefs[c.session_id] && (
+                          <div style={{
+                            marginTop: 10, padding: "9px 12px",
+                            background: "var(--primary-soft)", borderRadius: 8,
+                            border: "1px solid var(--primary-border, rgba(var(--primary-rgb,79,70,229),.2))",
+                            animation: "fadeIn .35s ease",
+                          }}>
+                            <div style={{ font: "var(--text-caption)", fontSize: 10.5, fontWeight: 700,
+                              textTransform: "uppercase", letterSpacing: ".05em",
+                              color: "var(--primary)", marginBottom: 4 }}>
+                              AI Brief
+                            </div>
+                            <p style={{ margin: 0, font: "var(--text-body)", fontSize: 13, lineHeight: 1.6,
+                              color: "var(--fg-1)" }}>
+                              {briefs[c.session_id]}
+                            </p>
+                            <button
+                              onClick={() => navigator.clipboard?.writeText(briefs[c.session_id])}
+                              style={{ marginTop: 6, background: "none", border: "none", cursor: "pointer",
+                                font: "var(--text-caption)", fontSize: 11, color: "var(--primary)",
+                                padding: 0, display: "inline-flex", alignItems: "center", gap: 4 }}
+                            >
+                              <Icon name="copy" size={11} /> Copy
+                            </button>
+                          </div>
+                        )}
                       </div>
 
                       {/* Figures */}
@@ -603,6 +680,42 @@ function Portfolio({ onOpenClient }) {
                     </div>
                   );
                 })}
+              </div>
+            )}
+
+            {/* Briefing error */}
+            {briefStatus === "error" && (
+              <div style={{ marginTop: 14, padding: "10px 14px", background: "var(--adverse-soft)",
+                border: "1px solid var(--adverse-border)", borderRadius: "var(--radius-sm)",
+                font: "var(--text-body)", fontSize: 13, color: "var(--adverse-text)" }}>
+                Briefing failed. Make sure <code>OPENAI_API_KEY</code> is set on the server.{" "}
+                <button onClick={generateBriefing} style={{ marginLeft: 8, textDecoration: "underline",
+                  background: "none", border: "none", color: "inherit", cursor: "pointer" }}>Retry</button>
+              </div>
+            )}
+
+            {/* Copy all briefs to clipboard */}
+            {briefStatus === "done" && Object.keys(briefs).length > 0 && (
+              <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "space-between",
+                padding: "10px 14px", background: "var(--primary-soft)",
+                borderRadius: "var(--radius-sm)", border: "1px solid var(--primary-border, rgba(79,70,229,.2))" }}>
+                <span style={{ font: "var(--text-body)", fontSize: 13, color: "var(--primary)" }}>
+                  <Icon name="check-circle" size={14} style={{ verticalAlign: "middle", marginRight: 6 }} />
+                  Morning briefing ready — {Object.keys(briefs).length} client{Object.keys(briefs).length !== 1 ? "s" : ""}
+                </span>
+                <button
+                  onClick={() => {
+                    const lines = (data?.clients || [])
+                      .filter(c => briefs[c.session_id])
+                      .map(c => `${c.name}\n${briefs[c.session_id]}`);
+                    navigator.clipboard?.writeText(lines.join("\n\n"));
+                  }}
+                  style={{ background: "none", border: "none", cursor: "pointer",
+                    font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--primary)",
+                    display: "inline-flex", alignItems: "center", gap: 5 }}
+                >
+                  <Icon name="copy" size={13} /> Copy all
+                </button>
               </div>
             )}
 

@@ -994,6 +994,89 @@ def portfolio_delete_client(client_id: str, firm_token: str):
     return {"ok": True}
 
 
+@app.post("/api/portfolio/briefing")
+async def portfolio_briefing(firm_token: str):
+    """
+    Generate a 2-sentence AI brief for every client in the firm's portfolio.
+    Calls are made concurrently (one per client) to minimise total latency.
+    Returns {session_id: "brief text"}.
+    """
+    import asyncio
+
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise HTTPException(503, "OpenAI API key not configured on the server.")
+
+    with _db() as conn:
+        rows = conn.execute(
+            "SELECT id, name, sector, file_bytes, file_name, cash_balance "
+            "FROM portfolio_clients WHERE firm_token = ? ORDER BY updated_at DESC",
+            (firm_token,),
+        ).fetchall()
+
+    if not rows:
+        return {"briefs": {}}
+
+    # Rehydrate any sessions that fell out of memory
+    for row in rows:
+        if row["id"] not in SESSIONS:
+            _rehydrate_client(row["id"], bytes(row["file_bytes"]), row["file_name"],
+                              row["name"], row["cash_balance"])
+
+    ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+
+    _BRIEF_SYSTEM = (
+        "You are a UK accounting practice manager reviewing a client's latest month-end figures. "
+        "Write exactly 2 sentences. "
+        "Sentence 1: the headline financial result this month (revenue, profit, margin — be specific with £ figures). "
+        "Sentence 2: the single most important thing to raise with this client right now (a concern or a strong positive). "
+        "Be concise and direct. No bullet points. No markdown."
+    )
+
+    def _call_openai(name, sector, summary):
+        from openai import OpenAI
+        figures = [
+            f"Revenue: £{summary['revenue']:,.0f}" if summary.get("revenue") else None,
+            f"Op profit: £{summary['op_profit']:,.0f}" if summary.get("op_profit") is not None else None,
+            f"Margin: {summary['margin']:.1f}%" if summary.get("margin") is not None else None,
+            (f"vs prior: {summary['profit_var_pct']:+.1f}%" if summary.get("profit_var_pct") is not None else None),
+            (f"Cash runway: {summary['runway_months']:.0f} months" if summary.get("runway_months") else None),
+        ]
+        user_msg = (
+            f"Client: {name} ({sector})\n"
+            + "\n".join(f for f in figures if f)
+            + f"\nKey signals: {', '.join(summary.get('reasons', []))}"
+        )
+        client = OpenAI(api_key=api_key)
+        resp = client.chat.completions.create(
+            model=ai_model,
+            messages=[
+                {"role": "system", "content": _BRIEF_SYSTEM},
+                {"role": "user",   "content": user_msg},
+            ],
+            temperature=0.35,
+            max_tokens=130,
+        )
+        return resp.choices[0].message.content.strip()
+
+    async def brief_one(row):
+        cid = row["id"]
+        summary = _score_session(cid, row["name"], row["sector"],
+                                 row["cash_balance"], None, None)
+        if not summary:
+            return cid, None
+        try:
+            text = await asyncio.to_thread(_call_openai, row["name"], row["sector"], summary)
+            return cid, text
+        except Exception as exc:
+            print(f"[Briefing] {cid}: {exc}", file=sys.stderr)
+            return cid, None
+
+    results = await asyncio.gather(*[brief_one(r) for r in rows])
+    briefs = {cid: text for cid, text in results if text}
+    return {"briefs": briefs}
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DEMO — Budget vs Actual
 # ─────────────────────────────────────────────────────────────────────────────

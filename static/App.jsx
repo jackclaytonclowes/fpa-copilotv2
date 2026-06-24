@@ -1,31 +1,6 @@
 /* FP&A Copilot — app shell, routing, state */
 const { useState: useStateApp, useEffect: useEffectApp, useRef: useRefApp } = React;
 
-/* ── On-screen error logger (temporary — remove after debugging) ── */
-(function() {
-  const errs = [];
-  const show = () => {
-    let el = document.getElementById("__meiq_err");
-    if (!el) {
-      el = document.createElement("div");
-      el.id = "__meiq_err";
-      Object.assign(el.style, {
-        position:"fixed",bottom:"70px",left:"8px",right:"8px",zIndex:"9999",
-        background:"#1a0a0a",color:"#ff8a80",fontFamily:"monospace",fontSize:"11px",
-        padding:"10px",borderRadius:"8px",maxHeight:"40vh",overflowY:"auto",
-        border:"1px solid #ff3b30",boxShadow:"0 4px 16px rgba(0,0,0,.6)",
-      });
-      document.body.appendChild(el);
-    }
-    el.innerHTML = "<b style='color:#fff'>JS Errors:</b><br>" +
-      errs.map(e => `<div style='margin-top:6px;border-top:1px solid #3a1010;padding-top:6px'>${e}</div>`).join("") +
-      "<br><button onclick=\"document.getElementById('__meiq_err').remove()\" " +
-      "style='margin-top:8px;padding:4px 10px;border-radius:4px;border:none;background:#333;color:#fff;cursor:pointer'>Dismiss</button>";
-  };
-  window.addEventListener("error", (e) => { errs.push(`${e.message}<br><small>${e.filename}:${e.lineno}</small>`); show(); });
-  window.addEventListener("unhandledrejection", (e) => { errs.push(String(e.reason)); show(); });
-})();
-
 /* ── Session persistence (localStorage) ─────────────────── */
 const SESSION_STORAGE_KEY = "monthendiq_session";
 const CHAT_STORAGE_KEY_FN = (sid) => `monthendiq_chat_${sid}`;
