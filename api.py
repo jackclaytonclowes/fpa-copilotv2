@@ -8,7 +8,10 @@ Environment variables:
 """
 import os
 import re
+import sqlite3
+import sys
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Load .env from project root (silently ignored if file doesn't exist)
@@ -16,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent / ".env")
 
 import pandas as pd
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
@@ -577,6 +580,130 @@ def demo_burn():
 # ─────────────────────────────────────────────────────────────────────────────
 # PRACTICE PORTFOLIO — multi-client month-end triage (firm mode)
 # ─────────────────────────────────────────────────────────────────────────────
+# SQLite-backed persistence for real client P&Ls.
+# On Render, mount a persistent disk at /data so the DB survives redeploys;
+# set PORTFOLIO_DB=/data/portfolio.db in environment vars.
+_DB_PATH = Path(os.environ.get("PORTFOLIO_DB", str(Path(__file__).parent / "portfolio.db")))
+
+
+def _db() -> sqlite3.Connection:
+    conn = sqlite3.connect(_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def _init_db():
+    with _db() as conn:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS portfolio_clients (
+                id           TEXT PRIMARY KEY,
+                firm_token   TEXT NOT NULL,
+                name         TEXT NOT NULL,
+                sector       TEXT NOT NULL DEFAULT 'Other',
+                file_bytes   BLOB NOT NULL,
+                file_name    TEXT NOT NULL,
+                cash_balance REAL,
+                created_at   TEXT NOT NULL,
+                updated_at   TEXT NOT NULL
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_firm ON portfolio_clients(firm_token)")
+        conn.commit()
+
+
+_init_db()
+
+
+def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
+                      name: str, cash_balance) -> bool:
+    """Run the MoM analysis pipeline from raw file bytes and store in SESSIONS."""
+    try:
+        df = load_file(file_bytes, file_name)
+        df["Account"] = df["Account"].astype(str).str.strip()
+        df["Section"] = df["Section"].astype(str).replace("nan", "").fillna("")
+        df = df[df["Account"].notna() & (df["Account"] != "") & (df["Account"].str.lower() != "nan")]
+        df_long_m    = build_long(df, "monthly")
+        df_long_q    = build_long(df, "quarterly")
+        kpi_accounts = detect_kpis(df_long_m)
+        analysis_m   = build_analysis(df_long_m)
+        analysis_q   = build_analysis(df_long_q)
+        SESSIONS[client_id] = {
+            "df": df, "df_long_m": df_long_m, "df_long_q": df_long_q,
+            "analysis_m": analysis_m, "analysis_q": analysis_q,
+            "kpi_accounts": kpi_accounts, "filename": file_name,
+            "analysis_type": "month_on_month", "xero_cash": cash_balance, "chat": [],
+        }
+        return True
+    except Exception as exc:
+        print(f"[Portfolio] rehydrate {client_id}: {exc}", file=sys.stderr)
+        return False
+
+
+def _score_session(sid: str, name: str, sector: str, cash,
+                   created_at: str, updated_at: str) -> dict | None:
+    """Score a loaded session and return a portfolio triage dict."""
+    s = SESSIONS.get(sid)
+    if not s:
+        return None
+
+    analysis_m   = s["analysis_m"]
+    df_long_m    = s["df_long_m"]
+    kpi_accounts = s["kpi_accounts"]
+    cash = cash or s.get("xero_cash") or 0
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    if not periods_m:
+        return None
+    latest = periods_m[-1]
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+
+    kpis = data.get("kpis", [])
+    prof = next((k for k in kpis if k.get("icon") == "wallet"), None)
+    revk = next((k for k in kpis if k.get("icon") == "trending-up"), None)
+    op_profit  = prof["value"]    if prof else None
+    profit_var = prof["variance"] if prof else None
+    profit_pct = prof["pct"]      if prof else None
+    revenue_v  = revk["value"]    if revk else None
+    margin     = (op_profit / revenue_v * 100) if (op_profit is not None and revenue_v) else None
+
+    profits  = [t.get("profit") for t in data.get("trend", []) if isinstance(t.get("profit"), (int, float))]
+    avg      = sum(profits) / len(profits) if profits else 0.0
+    burning  = avg < 0
+    runway   = (cash / abs(avg)) if (burning and cash and avg != 0) else None
+
+    movements   = data.get("movements", [])
+    adverse     = [m for m in movements if not m.get("is_fav") and m.get("variance")]
+    largest_adv = max(adverse, key=lambda m: abs(m["variance"]), default=None) if adverse else None
+    big_swings  = sum(1 for m in movements if m.get("variance_pct") is not None and abs(m["variance_pct"]) >= 50)
+
+    score, reasons = 0, []
+    if runway is not None and runway < 6:
+        score += 50; reasons.append(f"{runway:.0f}-month cash runway")
+    elif runway is not None and runway < 12:
+        score += 25; reasons.append(f"{runway:.0f}-month cash runway")
+    if op_profit is not None and op_profit < 0:
+        score += 30; reasons.append("Operating loss this period")
+    if profit_pct is not None and profit_pct < -10:
+        score += 25; reasons.append(f"Profit {abs(profit_pct):.0f}% below prior period")
+    rev_thresh = 0.05 * abs(revenue_v) if revenue_v else float("inf")
+    if largest_adv is not None and abs(largest_adv["variance"]) > rev_thresh:
+        score += 15; reasons.append(f"{largest_adv['account']} £{abs(largest_adv['variance']):,.0f} adverse")
+    if big_swings >= 2:
+        score += 10; reasons.append(f"{big_swings} large movements")
+
+    tier = "action" if score >= 50 else "watch" if score >= 20 else "healthy"
+
+    return {
+        "session_id": sid, "name": name, "sector": sector,
+        "revenue": revenue_v, "op_profit": op_profit, "margin": margin,
+        "profit_var": profit_var, "profit_var_pct": profit_pct,
+        "cash": cash or None, "runway_months": runway, "burning": burning,
+        "anomalies": big_swings, "tier": tier, "score": score,
+        "reasons": reasons[:2] if reasons else ["On track"],
+        "created_at": created_at, "updated_at": updated_at,
+    }
+
+
 _PORTFOLIO_MONTHS = [
     "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
     "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
@@ -708,6 +835,163 @@ def portfolio_demo():
         "burning":       sum(1 for c in clients if c["burning"]),
     }
     return {"clients": clients, "summary": summary}
+
+
+@app.get("/api/portfolio/clients")
+def portfolio_list_clients(firm_token: str):
+    """Return triage list for all real clients stored under a firm token."""
+    if not firm_token:
+        raise HTTPException(400, "firm_token is required.")
+    with _db() as conn:
+        rows = conn.execute(
+            "SELECT id, name, sector, file_bytes, file_name, cash_balance, created_at, updated_at "
+            "FROM portfolio_clients WHERE firm_token = ? ORDER BY updated_at DESC",
+            (firm_token,),
+        ).fetchall()
+
+    clients = []
+    for row in rows:
+        cid = row["id"]
+        if cid not in SESSIONS:
+            _rehydrate_client(cid, bytes(row["file_bytes"]), row["file_name"],
+                              row["name"], row["cash_balance"])
+        summary = _score_session(cid, row["name"], row["sector"],
+                                 row["cash_balance"], row["created_at"], row["updated_at"])
+        if summary:
+            clients.append(summary)
+
+    clients.sort(key=lambda c: c["score"], reverse=True)
+    totals = {
+        "total":         len(clients),
+        "action":        sum(1 for c in clients if c["tier"] == "action"),
+        "watch":         sum(1 for c in clients if c["tier"] == "watch"),
+        "healthy":       sum(1 for c in clients if c["tier"] == "healthy"),
+        "total_revenue": sum(c["revenue"] or 0 for c in clients),
+        "burning":       sum(1 for c in clients if c["burning"]),
+    }
+    return {"clients": clients, "summary": totals}
+
+
+@app.post("/api/portfolio/clients")
+async def portfolio_add_client(
+    file:         UploadFile = File(...),
+    firm_token:   str        = Form(...),
+    name:         str        = Form(...),
+    sector:       str        = Form("Other"),
+    cash_balance: float      = Form(0.0),
+):
+    """Upload a real client P&L and add them to the firm's practice portfolio."""
+    if not firm_token or not name:
+        raise HTTPException(400, "firm_token and name are required.")
+    ext = (file.filename or "").split(".")[-1].lower()
+    if ext not in ("csv", "xlsx", "xls"):
+        raise HTTPException(400, "Only CSV and Excel files are supported.")
+
+    contents  = await file.read()
+    client_id = str(uuid.uuid4())
+    now       = datetime.now(timezone.utc).isoformat()
+    cash      = cash_balance if cash_balance else None
+
+    ok = _rehydrate_client(client_id, contents, file.filename or "upload", name, cash)
+    if not ok:
+        raise HTTPException(
+            400,
+            "Could not parse this file. Make sure it has Account, Section, and at least "
+            "two monthly columns (e.g. 'Jan 2025', 'Feb 2025').",
+        )
+
+    with _db() as conn:
+        conn.execute(
+            "INSERT INTO portfolio_clients "
+            "(id, firm_token, name, sector, file_bytes, file_name, cash_balance, created_at, updated_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (client_id, firm_token, name, sector, contents, file.filename, cash, now, now),
+        )
+        conn.commit()
+
+    result = _score_session(client_id, name, sector, cash, now, now)
+    if not result:
+        raise HTTPException(500, "Analysis succeeded but no periods were found in the file.")
+    return result
+
+
+@app.put("/api/portfolio/clients/{client_id}")
+async def portfolio_update_client(
+    client_id:    str,
+    firm_token:   str        = Form(...),
+    name:         str | None = Form(None),
+    sector:       str | None = Form(None),
+    cash_balance: float      = Form(0.0),
+    file:         UploadFile | None = File(None),
+):
+    """Re-upload or rename a client (re-runs analysis if a new file is provided)."""
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT firm_token, file_bytes, file_name FROM portfolio_clients WHERE id = ?",
+            (client_id,),
+        ).fetchone()
+        if not row:
+            raise HTTPException(404, "Client not found.")
+        if row["firm_token"] != firm_token:
+            raise HTTPException(403, "Not authorised.")
+
+        now      = datetime.now(timezone.utc).isoformat()
+        cash     = cash_balance if cash_balance else None
+        contents = bytes(row["file_bytes"])
+        fname    = row["file_name"]
+
+        if file:
+            ext = (file.filename or "").split(".")[-1].lower()
+            if ext not in ("csv", "xlsx", "xls"):
+                raise HTTPException(400, "Only CSV and Excel files are supported.")
+            contents = await file.read()
+            fname    = file.filename or fname
+            SESSIONS.pop(client_id, None)
+
+        ok = _rehydrate_client(client_id, contents, fname, name or "Client", cash)
+        if not ok:
+            raise HTTPException(400, "Could not parse the uploaded file.")
+
+        updates = {"cash_balance": cash, "updated_at": now}
+        if name:
+            updates["name"] = name
+        if sector:
+            updates["sector"] = sector
+        if file:
+            updates["file_bytes"] = contents
+            updates["file_name"]  = fname
+
+        set_clause = ", ".join(f"{k} = ?" for k in updates)
+        conn.execute(
+            f"UPDATE portfolio_clients SET {set_clause} WHERE id = ?",
+            (*updates.values(), client_id),
+        )
+        conn.commit()
+
+        row2 = conn.execute(
+            "SELECT name, sector, cash_balance, created_at, updated_at FROM portfolio_clients WHERE id = ?",
+            (client_id,),
+        ).fetchone()
+
+    return _score_session(client_id, row2["name"], row2["sector"],
+                          row2["cash_balance"], row2["created_at"], row2["updated_at"])
+
+
+@app.delete("/api/portfolio/clients/{client_id}")
+def portfolio_delete_client(client_id: str, firm_token: str):
+    """Remove a client from the firm's portfolio."""
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT firm_token FROM portfolio_clients WHERE id = ?", (client_id,)
+        ).fetchone()
+        if not row:
+            raise HTTPException(404, "Client not found.")
+        if row["firm_token"] != firm_token:
+            raise HTTPException(403, "Not authorised.")
+        conn.execute("DELETE FROM portfolio_clients WHERE id = ?", (client_id,))
+        conn.commit()
+    SESSIONS.pop(client_id, None)
+    return {"ok": True}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
