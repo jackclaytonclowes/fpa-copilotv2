@@ -3,20 +3,26 @@ const { useState: useSVState, useEffect: useSVEffect } = React;
 
 function SharedView({ sessionId }) {
   const { Icon } = window;
-  const [data,    setData]    = useSVState(null);
-  const [loading, setLoading] = useSVState(true);
-  const [errMsg,  setErrMsg]  = useSVState(null);
+  const [data,     setData]     = useSVState(null);
+  const [loading,  setLoading]  = useSVState(true);  // true only on first load
+  const [fetching, setFetching] = useSVState(false); // true on period switches
+  const [errMsg,   setErrMsg]   = useSVState(null);
+  const [selPeriod, setSelPeriod] = useSVState(""); // "" = latest
 
   const firmName = (() => {
     try { return new URLSearchParams(window.location.search).get("firm") || ""; } catch { return ""; }
   })();
 
   useSVEffect(() => {
-    fetch(apiUrl(`/api/data/${sessionId}?period=&mode=monthly`))
+    if (data) setFetching(true); else setLoading(true);
+    const qs = selPeriod
+      ? `period=${encodeURIComponent(selPeriod)}&mode=monthly`
+      : `period=&mode=monthly`;
+    fetch(apiUrl(`/api/data/${sessionId}?${qs}`))
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(d => { setData(d); setLoading(false); })
-      .catch(() => { setErrMsg("This report link has expired or is no longer available."); setLoading(false); });
-  }, [sessionId]);
+      .then(d => { setData(d); setLoading(false); setFetching(false); })
+      .catch(() => { setErrMsg("This report link has expired or is no longer available."); setLoading(false); setFetching(false); });
+  }, [sessionId, selPeriod]);
 
   // ── Number formatters ──────────────────────────────────────────────────────
   const fmt = v => {
@@ -119,11 +125,42 @@ function SharedView({ sessionId }) {
             </span>
           </div>
           {/* Company + period */}
-          <div style={{ fontSize: 24, fontWeight: 700, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
-            {companyName}
-          </div>
-          <div style={{ marginTop: 7, fontSize: 13, color: "#94A3B8" }}>
-            {periodLabel} · {analysisLbl} · Prepared {today}
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+            <div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: "#fff", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
+                {companyName}
+              </div>
+              <div style={{ marginTop: 7, fontSize: 13, color: "#94A3B8" }}>
+                {analysisLbl} · Prepared {today}
+                {fetching && (
+                  <span style={{ marginLeft: 10, display: "inline-flex", alignItems: "center", gap: 5, verticalAlign: "middle" }}>
+                    <span style={{ width: 11, height: 11, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff",
+                      borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />
+                  </span>
+                )}
+              </div>
+            </div>
+            {/* Period selector — only shown when multiple periods available */}
+            {(data.periods || []).length > 1 && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                <Icon name="calendar" size={13} color="#94A3B8" />
+                <select
+                  value={selPeriod || data.selected_period || ""}
+                  onChange={e => setSelPeriod(e.target.value)}
+                  style={{
+                    background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: 6, padding: "5px 10px", color: "#fff",
+                    fontSize: 13, fontWeight: 500, cursor: "pointer", outline: "none",
+                  }}
+                >
+                  {(data.periods || []).map((p, i) => (
+                    <option key={p} value={p} style={{ background: NAVY, color: "#fff" }}>
+                      {(data.period_labels || [])[i] || p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
         </div>
         <div style={{ height: 3, background: PRIMARY }} />

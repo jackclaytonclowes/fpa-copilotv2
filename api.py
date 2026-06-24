@@ -2014,9 +2014,12 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         selected = periods[-1]
 
     data = get_period_data(analysis, df_long, selected, kpi_accounts, mode)
-    data["analysis_type"] = "month_on_month"
-    data["session_id"]    = session_id
-    data["file_name"]     = s["filename"]
+    data["analysis_type"]   = "month_on_month"
+    data["session_id"]      = session_id
+    data["file_name"]       = s["filename"]
+    data["periods"]         = [str(p) for p in periods]
+    data["period_labels"]   = [period_label(p, mode) for p in periods]
+    data["selected_period"] = str(selected)
     return data
 
 
