@@ -2,11 +2,16 @@
 FP&A Copilot — pure analysis module.
 All data-processing logic extracted from app.py; no Streamlit dependency.
 """
+import os
 import re
+import sys
 import zipfile
 from io import BytesIO
 
 import pandas as pd
+
+# Set WATERFALL_DEBUG=1 to enable verbose per-period waterfall logging to stderr.
+_WATERFALL_DEBUG = os.environ.get("WATERFALL_DEBUG", "").strip() == "1"
 
 # ─────────────────────────────────────────────
 # CLASSIFICATION CONFIG
@@ -491,26 +496,26 @@ def build_waterfall(
         .reset_index()
     )
 
-    # ── Diagnostic: print source values to server stderr ─────────────────────
-    import sys
-    print(f"\n[waterfall] ── {selected_period} ──────────────────────────────────", file=sys.stderr)
-    print(f"[waterfall]   Prior profit : {fmt_gbp(prior_profit)}", file=sys.stderr)
-    print(f"[waterfall]   Current profit: {fmt_gbp(current_profit)}", file=sys.stderr)
-    print(f"[waterfall]   Net change   : {'+' if net_change >= 0 else ''}{fmt_gbp(net_change)}", file=sys.stderr)
-    print(f"[waterfall]   {'Category':<30} {'Prior':>12} {'Current':>12} {'RawVariance':>13} {'ProfitImpact':>13} Type", file=sys.stderr)
-    for _, row in cat_agg.iterrows():
-        cat  = str(row["Category"])
-        cur  = float(row["current_total"])
-        pri  = float(row["prior_total"])
-        pi   = float(row["impact"])
-        raw  = cur - pri
-        kind = "revenue (cur−pri)" if _is_revenue({"Category": cat}) else "cost (pri−cur)"
-        print(
-            f"[waterfall]   {cat:<30} {fmt_gbp(pri):>12} {fmt_gbp(cur):>12} "
-            f"{('+' if raw>=0 else '')}{fmt_gbp(raw):>13} "
-            f"{('+' if pi>=0 else '')}{fmt_gbp(pi):>13} {kind}",
-            file=sys.stderr,
-        )
+    # ── Diagnostic: print source values to server stderr (opt-in via WATERFALL_DEBUG=1) ──
+    if _WATERFALL_DEBUG:
+        print(f"\n[waterfall] ── {selected_period} ──────────────────────────────────", file=sys.stderr)
+        print(f"[waterfall]   Prior profit : {fmt_gbp(prior_profit)}", file=sys.stderr)
+        print(f"[waterfall]   Current profit: {fmt_gbp(current_profit)}", file=sys.stderr)
+        print(f"[waterfall]   Net change   : {'+' if net_change >= 0 else ''}{fmt_gbp(net_change)}", file=sys.stderr)
+        print(f"[waterfall]   {'Category':<30} {'Prior':>12} {'Current':>12} {'RawVariance':>13} {'ProfitImpact':>13} Type", file=sys.stderr)
+        for _, row in cat_agg.iterrows():
+            cat  = str(row["Category"])
+            cur  = float(row["current_total"])
+            pri  = float(row["prior_total"])
+            pi   = float(row["impact"])
+            raw  = cur - pri
+            kind = "revenue (cur−pri)" if _is_revenue({"Category": cat}) else "cost (pri−cur)"
+            print(
+                f"[waterfall]   {cat:<30} {fmt_gbp(pri):>12} {fmt_gbp(cur):>12} "
+                f"{('+' if raw>=0 else '')}{fmt_gbp(raw):>13} "
+                f"{('+' if pi>=0 else '')}{fmt_gbp(pi):>13} {kind}",
+                file=sys.stderr,
+            )
 
     # ── category_detail for API response / frontend console ──────────────────
     category_detail = [
@@ -574,7 +579,6 @@ def build_waterfall(
     reconciles = abs(residual) <= 0.5
 
     if not reconciles:
-        import sys
         print(
             f"[waterfall] RECONCILIATION MISMATCH  "
             f"net_change={net_change:+.2f}  explained={explained:+.2f}  "
@@ -1064,8 +1068,6 @@ def _parse_wide_sheet(raw: pd.DataFrame) -> tuple:
 
     Raises ValueError if no Account header row is found.
     """
-    import sys
-
     header_row = None
     for i in range(min(25, len(raw))):
         if "account" in raw.iloc[i].astype(str).str.strip().str.lower().tolist():
@@ -1141,8 +1143,6 @@ def load_bva_from_sheets(contents: bytes, filename: str) -> tuple:
         • Account counts per sheet
         • Month/period counts per sheet
     """
-    import sys
-
     xf          = pd.ExcelFile(BytesIO(contents))
     all_sheets  = xf.sheet_names
     sheets_lower = {s.lower().strip(): s for s in all_sheets}
@@ -1193,8 +1193,6 @@ def build_bva_long_from_sheets(df_actual: pd.DataFrame, df_budget: pd.DataFrame)
     Month columns are matched by normalising both sides to pd.Timestamp so that
     different string representations (e.g. "Apr-24" vs "2024-04-01") still align.
     """
-    import sys
-
     def month_ts_map(df):
         """Return {Timestamp: original_col_name} for every parseable date column."""
         result = {}
