@@ -792,7 +792,12 @@ function ReportRecommendedActions({ model }) {
 
 /* ── Variance Table (for report preview) ─────────────────────────────────── */
 function ReportVarianceTable({ model }) {
+  const [showAll, setShowAll] = useStateR(false);
   if (!model || !model.movements.length) return null;
+
+  const PAGE = 20;
+  const rows = showAll ? model.movements : model.movements.slice(0, PAGE);
+  const hidden = model.movements.length - PAGE;
 
   return (
     <ReportSection id="variance-table" title="Variance Analysis" icon="table">
@@ -810,7 +815,7 @@ function ReportVarianceTable({ model }) {
             </tr>
           </thead>
           <tbody>
-            {model.movements.slice(0, 20).map((m, i) => (
+            {rows.map((m, i) => (
               <tr key={i}>
                 <td className="l">{m.account}</td>
                 <td className="l">{m.category}</td>
@@ -833,6 +838,22 @@ function ReportVarianceTable({ model }) {
           </tbody>
         </table>
       </div>
+      {model.movements.length > PAGE && (
+        <button
+          onClick={() => setShowAll(v => !v)}
+          style={{
+            display: "block", margin: "12px auto 0",
+            padding: "6px 18px", borderRadius: "var(--radius-pill)",
+            background: "transparent", border: "1px solid var(--border-strong)",
+            font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)",
+            cursor: "pointer", transition: "background .12s",
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = "var(--surface-2)"}
+          onMouseLeave={e => e.currentTarget.style.background = "transparent"}
+        >
+          {showAll ? "Show fewer rows" : `Show ${hidden} more row${hidden !== 1 ? "s" : ""}…`}
+        </button>
+      )}
     </ReportSection>
   );
 }
@@ -860,7 +881,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); detail = j.detail || detail; } catch (_) {}
         console.error("[MonthEndIQ Export]", detail);
-        alert("Export failed: " + detail);
+        onToast?.("Export failed: " + detail);
         return;
       }
       const blob = await res.blob();
@@ -873,7 +894,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
       onToast && onToast(`${fmt.toUpperCase()} exported successfully`);
     } catch (e) {
       console.error("[MonthEndIQ Export] Failed:", e);
-      alert("Export failed: " + e.message);
+      onToast?.("Export failed: " + e.message);
     } finally {
       setExporting(null);
     }
@@ -884,7 +905,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
     if (!el) return;
     const text = el.innerText;
     navigator.clipboard.writeText(text).then(() => {
-      alert("Report copied to clipboard");
+      onToast?.("Report copied to clipboard");
     }).catch(() => {
       const ta = document.createElement("textarea");
       ta.value = text;
@@ -892,7 +913,7 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
       ta.select();
       document.execCommand("copy");
       document.body.removeChild(ta);
-      alert("Report copied to clipboard");
+      onToast?.("Report copied to clipboard");
     });
   };
 
