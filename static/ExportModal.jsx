@@ -105,6 +105,7 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
           period: periodParam,
           mode: "monthly",
           fmt: "pdf",
+          firm: firmName || undefined,
         }),
       });
       const json = await res.json().catch(() => ({}));

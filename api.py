@@ -342,6 +342,7 @@ class EmailBody(BaseModel):
     period:     str | None = None
     mode:       str        = "monthly"
     fmt:        str        = "pdf"
+    firm:       str | None = None
 
 
 @app.post("/api/email/{session_id}")
@@ -395,6 +396,7 @@ def email_pack(session_id: str, body: EmailBody):
         d.get("commentary", []),
         d.get("kpis", []),
         "month_on_month",
+        firm_name=body.firm or "",
     )
 
     subject = body.subject or f"Management Pack — {period_lbl}"
