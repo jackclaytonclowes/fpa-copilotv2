@@ -21,7 +21,7 @@ load_dotenv(Path(__file__).parent / ".env")
 import pandas as pd
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -1400,10 +1400,10 @@ def demo_xero():
 # ─────────────────────────────────────────────────────────────────────────────
 # XERO OAUTH 2.0 INTEGRATION
 # ─────────────────────────────────────────────────────────────────────────────
+import html as _html
 import secrets
 import urllib.parse
 import json
-from datetime import datetime
 
 @app.get("/api/xero/status")
 def xero_status():
@@ -1434,8 +1434,9 @@ async def xero_callback(code: str = "", state: str = "", error: str = ""):
     import httpx
 
     if error:
-        html = f"<html><body><h2>Xero authorisation failed</h2><p>{error}</p><script>window.close()</script></body></html>"
-        return Response(content=html, media_type="text/html")
+        safe_err = _html.escape(error)
+        html_body = f"<html><body><h2>Xero authorisation failed</h2><p>{safe_err}</p><script>window.close()</script></body></html>"
+        return Response(content=html_body, media_type="text/html")
 
     if state not in XERO_TOKENS:
         raise HTTPException(400, "Invalid OAuth state.")
@@ -1449,8 +1450,8 @@ async def xero_callback(code: str = "", state: str = "", error: str = ""):
             "client_secret": XERO_CLIENT_SECRET,
         })
         if token_resp.status_code != 200:
-            html = f"<html><body><h2>Token exchange failed</h2><p>{token_resp.text}</p><script>window.close()</script></body></html>"
-            return Response(content=html, media_type="text/html")
+            html_body = f"<html><body><h2>Token exchange failed</h2><p>{_html.escape(token_resp.text)}</p><script>window.close()</script></body></html>"
+            return Response(content=html_body, media_type="text/html")
 
         tokens = token_resp.json()
 
@@ -1756,7 +1757,6 @@ def _friendly_upload_error(raw: str, mode: str) -> str:
 
 @app.post("/api/upload")
 async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
-    import sys
     ext = file.filename.split(".")[-1].lower()
     if ext not in ("csv", "xlsx", "xls"):
         raise HTTPException(400, "Only CSV and Excel files are supported.")
