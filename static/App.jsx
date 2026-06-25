@@ -100,7 +100,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
   const momLabel = periodMode === "monthly" ? "MoM" : periodMode === "quarterly" ? "QoQ" : "YTD";
 
   const subtitle = view === "portfolio"
-    ? "Multi-client month-end triage"
+    ? "Client month-end triage"
     : hasData && period
     ? (isConsolidated
         ? `Consolidated group · ${entityCount || 2} entities`
@@ -111,12 +111,12 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 
   const titles = {
     dashboard: "Variance dashboard",
-    copilot:   "Q&A Copilot",
+    copilot:   "AI Analyst",
     movements: "Movements",
     reports:   "Reports",
     scenarios: "Scenario Analysis",
-    portfolio: "Practice Portfolio",
-    data:      "Data sources",
+    portfolio: "Client Portfolio",
+    data:      "Data & Connections",
     settings:  "Settings",
   };
 
@@ -297,7 +297,7 @@ function MobileNav({ active, onNav, hasData }) {
   const { Icon } = window;
   const items = [
     { id: "dashboard", icon: "layout-dashboard", label: "Home" },
-    { id: "copilot",   icon: "sparkles",          label: "Copilot" },
+    { id: "copilot",   icon: "sparkles",          label: "AI" },
     { id: "movements", icon: "list-tree",          label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
     { id: "data",      icon: "database",           label: "Data" },

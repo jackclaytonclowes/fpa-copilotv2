@@ -45,14 +45,14 @@ function Sidebar({ active, onNav, hasData }) {
   };
   const nav = [
     { id: "dashboard", icon: "layout-dashboard",   label: "Dashboard" },
-    { id: "copilot",   icon: "sparkles",            label: "Q&A Copilot" },
+    { id: "copilot",   icon: "sparkles",            label: "AI Analyst" },
     { id: "movements", icon: "list-tree",           label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",      label: "Reports" },
     { id: "scenarios", icon: "sliders-horizontal",  label: "Scenarios" },
   ];
   const tools = [
-    { id: "portfolio", icon: "briefcase", label: "Practice" },
-    { id: "data",      icon: "database",  label: "Data sources" },
+    { id: "portfolio", icon: "briefcase", label: "Clients" },
+    { id: "data",      icon: "database",  label: "Data & Sources" },
     { id: "settings",  icon: "settings",  label: "Settings" },
   ];
   // Views that don't require a loaded session

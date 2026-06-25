@@ -49,12 +49,12 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
   /* ── Build command list ── */
   const VIEWS = [
     { id: "dashboard", icon: "layout-dashboard", label: "Dashboard",         group: "Navigate" },
-    { id: "copilot",   icon: "sparkles",          label: "Q&A Copilot",       group: "Navigate" },
+    { id: "copilot",   icon: "sparkles",          label: "AI Analyst",        group: "Navigate" },
     { id: "movements", icon: "list-tree",          label: "Movements",         group: "Navigate" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports",           group: "Navigate" },
     { id: "scenarios", icon: "sliders-horizontal", label: "Scenario Analysis", group: "Navigate" },
-    { id: "portfolio", icon: "briefcase",          label: "Portfolio",         group: "Navigate" },
-    { id: "data",      icon: "database",           label: "Data Sources",      group: "Navigate" },
+    { id: "portfolio", icon: "briefcase",          label: "Client Portfolio",  group: "Navigate" },
+    { id: "data",      icon: "database",           label: "Data & Connections",group: "Navigate" },
     { id: "settings",  icon: "settings",           label: "Settings",          group: "Navigate" },
   ];
 

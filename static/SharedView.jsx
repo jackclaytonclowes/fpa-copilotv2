@@ -102,14 +102,14 @@ function SvTrendChart({ trend, p }) {
         ))}
         {series.map(s => trend.map((d, i) => (
           <circle key={`${s.key}-${i}`} cx={xScale(i)} cy={yScale(d[s.key] ?? 0)}
-            r={3.5} fill={s.color} />
+            r={5} fill={s.color} />
         )))}
       </svg>
-      <div style={{ display: "flex", gap: 18, justifyContent: "center", marginTop: 6 }}>
+      <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 10, flexWrap: "wrap" }}>
         {series.map(s => (
-          <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: 20, height: 3, background: s.color, borderRadius: 2 }} />
-            <span style={{ fontSize: 11, color: p.fg3, fontFamily: "system-ui, sans-serif" }}>{s.label}</span>
+          <div key={s.key} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 0", minHeight: 32 }}>
+            <div style={{ width: 24, height: 4, background: s.color, borderRadius: 2, flexShrink: 0 }} />
+            <span style={{ fontSize: 13, color: p.fg3, fontFamily: "system-ui, sans-serif" }}>{s.label}</span>
           </div>
         ))}
       </div>
