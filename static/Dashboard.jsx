@@ -692,10 +692,11 @@ function CashRunway({ trend, periodMode, sessionId, isBvA, xeroCash }) {
 
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
   const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
-  const [data, setData]       = useStateDash(initialData);
-  const [loading, setLoading] = useStateDash(false);
-  const [activeTab, setActiveTab] = useStateDash("movements");
-  const [spotlight, setSpotlight] = useStateDash(null);
+  const [data, setData]             = useStateDash(initialData);
+  const [loading, setLoading]       = useStateDash(false);
+  const [activeTab, setActiveTab]   = useStateDash("movements");
+  const [spotlight, setSpotlight]   = useStateDash(null);
+  const [commentaryCopied, setCommentaryCopied] = useStateDash(false);
 
   // Track what we last fetched so we don't re-fetch on initial mount
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
@@ -1001,7 +1002,35 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           title="AI commentary"
           className="card-ai"
           sub={isBvA ? "Budget vs Actual · figures from your ledger" : `${period?.label || selected_period} · figures from your ledger`}
-          action={<span className="ai-badge"><Icon name="sparkles" size={13} />AI</span>}>
+          action={
+            <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+              {(commentary || []).length > 0 && (
+                <button
+                  onClick={() => {
+                    const text = (commentary || []).map(c => {
+                      const div = document.createElement("div");
+                      div.innerHTML = c.html;
+                      return "• " + (div.innerText || div.textContent || "").trim();
+                    }).join("\n");
+                    navigator.clipboard.writeText(text).catch(() => {});
+                    setCommentaryCopied(true);
+                    setTimeout(() => setCommentaryCopied(false), 2000);
+                  }}
+                  title="Copy all commentary bullets"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 5,
+                    background: "none", border: "1px solid var(--border-strong)",
+                    borderRadius: "var(--radius-xs)", padding: "3px 8px", cursor: "pointer",
+                    font: "var(--text-label)", fontSize: 11, color: "var(--fg-2)",
+                  }}
+                >
+                  <Icon name={commentaryCopied ? "check" : "copy"} size={11} />
+                  {commentaryCopied ? "Copied" : "Copy"}
+                </button>
+              )}
+              <span className="ai-badge"><Icon name="sparkles" size={13} />AI</span>
+            </div>
+          }>
           <ul className="ai-list">
             {(commentary || []).map((c, i) => {
               const src = c.source;
