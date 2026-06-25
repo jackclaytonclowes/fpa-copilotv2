@@ -378,8 +378,13 @@ def email_pack(session_id: str, body: EmailBody):
     if not s:
         raise HTTPException(404, "Session not found.")
 
+    if s.get("analysis_type") == "budget_vs_actual":
+        raise HTTPException(400, "Email export is not yet supported for Budget vs Actual sessions.")
+
     if not body.recipients:
         raise HTTPException(400, "At least one recipient is required.")
+    if len(body.recipients) > 10:
+        raise HTTPException(400, "Maximum 10 recipients per email.")
 
     # Build period data for the PDF
     analysis  = s["analysis_m"]
@@ -1045,7 +1050,9 @@ async def portfolio_add_client(
     if ext not in ("csv", "xlsx", "xls"):
         raise HTTPException(400, "Only CSV and Excel files are supported.")
 
-    contents  = await file.read()
+    contents  = await file.read(_MAX_UPLOAD_BYTES + 1)
+    if len(contents) > _MAX_UPLOAD_BYTES:
+        raise HTTPException(413, "File too large. Maximum supported file size is 20 MB.")
     client_id = str(uuid.uuid4())
     now       = datetime.now(timezone.utc).isoformat()
     cash      = cash_balance if cash_balance else None
@@ -1102,7 +1109,9 @@ async def portfolio_update_client(
             ext = (file.filename or "").split(".")[-1].lower()
             if ext not in ("csv", "xlsx", "xls"):
                 raise HTTPException(400, "Only CSV and Excel files are supported.")
-            contents = await file.read()
+            contents = await file.read(_MAX_UPLOAD_BYTES + 1)
+            if len(contents) > _MAX_UPLOAD_BYTES:
+                raise HTTPException(413, "File too large. Maximum supported file size is 20 MB.")
             fname    = file.filename or fname
             SESSIONS.pop(client_id, None)
 
