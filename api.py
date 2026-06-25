@@ -457,6 +457,7 @@ def get_forecast(session_id: str, lookback: int = 3, mode: str = "monthly"):
     Uses the last `lookback` actuals periods to project forward until year-end
     (monthly mode) or the next 2 quarters (quarterly mode).
     """
+    lookback = max(1, min(lookback, 24))
     s = SESSIONS.get(session_id)
     if not s:
         raise HTTPException(404, "Session not found.")
@@ -2368,12 +2369,12 @@ def reclassify(session_id: str, body: ReclassifyBody):
 # CHAT HISTORY  (server-side persistence, same lifetime as the analysis session)
 # ─────────────────────────────────────────────────────────────────────────────
 class ChatTurn(BaseModel):
-    who:  str   # "user" | "ai"
-    html: str
+    who:  str = Field(pattern=r"^(user|ai)$")
+    html: str = Field(max_length=20_000)
 
 
 class ChatSaveBody(BaseModel):
-    turns: list[ChatTurn]
+    turns: list[ChatTurn] = Field(max_length=200)
 
 
 @app.get("/api/chat/{session_id}")
