@@ -167,8 +167,7 @@ table.var tbody tr:hover{background:var(--surface-2);}
 .msg:hover .msg-copy-btn{opacity:1!important;}
 .qna-suggest{display:flex;gap:8px;flex-wrap:wrap;padding:4px 4px 12px;}
 .suggest{font:var(--text-body-strong);font-size:12px;color:var(--fg-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-pill);padding:6px 13px;transition:border-color .12s,background .12s;}
-.suggest:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft);}
-.suggest:hover{background:var(--primary-soft-2);}
+.suggest:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft-2);}
 .composer{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-md);padding:8px 8px 8px 15px;box-shadow:var(--shadow-sm);margin:0 4px 8px;}
 .composer input{flex:1;border:none;outline:none;font:var(--text-body);font-size:14px;color:var(--ink);background:transparent;}
 .composer input::placeholder{color:var(--fg-3);}
