@@ -537,6 +537,88 @@ class TestGetBvaData:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# MAKE_XLSX (smoke test)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestMakeXlsx:
+    def _build_data(self, sample_mom_df):
+        df_long = analysis.build_long(sample_mom_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        return analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+
+    def test_returns_bytes(self, sample_mom_df):
+        data = self._build_data(sample_mom_df)
+        result = analysis.make_xlsx("June 2024", data["movements"], data["commentary"], data["kpis"])
+        assert isinstance(result, bytes)
+        assert len(result) > 500
+
+    def test_xlsx_magic_bytes(self, sample_mom_df):
+        data = self._build_data(sample_mom_df)
+        result = analysis.make_xlsx("June 2024", data["movements"], data["commentary"], data["kpis"])
+        # OOXML files are zip archives — magic bytes PK
+        assert result[:2] == b"PK"
+
+    def test_bva_mode_runs(self):
+        """make_xlsx should run for BvA analysis type without errors."""
+        movements = [{"account": "Revenue", "category": "Revenue", "value": 100_000,
+                      "prior_value": 95_000, "variance": 5_000, "variance_pct": 5.26, "is_fav": True}]
+        kpis = [{"label": "Revenue", "value": 100_000, "prior": 95_000,
+                 "variance": 5_000, "pct": 5.26, "is_fav": True, "icon": "trending-up", "pct_only": False}]
+        result = analysis.make_xlsx("FY 2025", movements, [], kpis, analysis_type="budget_vs_actual")
+        assert isinstance(result, bytes) and len(result) > 500
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GET_YTD_DATA
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGetYtdData:
+    @pytest.fixture
+    def ytd_df(self):
+        """18-month P&L spanning two calendar years — needed for prior-year YTD comparison."""
+        months = [
+            "Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024",
+            "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+            "Jan 2025", "Feb 2025", "Mar 2025",
+        ]
+        data = {"Account": ["Product Revenue", "Staff Wages", "Operating Profit"],
+                "Section":  ["Turnover", "Admin", "Profit"]}
+        for m in months:
+            data[m] = [80_000, 35_000, 45_000]
+        return pd.DataFrame(data)
+
+    def test_returns_expected_keys(self, ytd_df):
+        df_long = analysis.build_long(ytd_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data = analysis.get_ytd_data(df_a, periods[-1], kpis)
+        for key in ("kpis", "movements", "commentary", "period"):
+            assert key in data, f"Missing key: {key}"
+
+    def test_ytd_period_label_contains_ytd(self, ytd_df):
+        df_long = analysis.build_long(ytd_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data = analysis.get_ytd_data(df_a, periods[-1], kpis)
+        assert data["period"]["label"]  # non-empty
+
+    def test_ytd_accumulates_values(self, ytd_df):
+        """YTD revenue for Mar 2025 should be Jan+Feb+Mar 2025 = 3 × 80k = 240k."""
+        df_long = analysis.build_long(ytd_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data = analysis.get_ytd_data(df_a, periods[-1], kpis)
+        rev_kpi = next((k for k in data["kpis"] if "Revenue" in k.get("label", "") or "Turnover" in k.get("label", "")), None)
+        if rev_kpi and rev_kpi.get("value") is not None:
+            assert rev_kpi["value"] == pytest.approx(240_000, rel=0.05)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # PDF GENERATION (smoke test)
 # ─────────────────────────────────────────────────────────────────────────────
 

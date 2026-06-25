@@ -2511,7 +2511,7 @@ def _verify_narrative_figures(narrative: str, context: str) -> dict:
 class CommentaryBody(BaseModel):
     period:        str | None = None
     mode:          str        = "monthly"
-    context_notes: str | None = None  # optional accountant notes injected into prompt
+    context_notes: str | None = Field(None, max_length=2000)
     tone:          str        = "board"  # board | management | client
 
 
