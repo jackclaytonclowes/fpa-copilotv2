@@ -204,7 +204,7 @@ def view_shared(session_id: str):
 # MULTI-ENTITY CONSOLIDATION
 # ─────────────────────────────────────────────────────────────────────────────
 class ConsolidateBody(BaseModel):
-    session_ids: list[str]
+    session_ids: list[str] = Field(min_length=2, max_length=20)
     period:      str | None = None
     mode:        str        = "monthly"
 
@@ -347,12 +347,12 @@ from email import encoders as _encoders
 
 
 class EmailBody(BaseModel):
-    recipients: list[str]
-    subject:    str | None = None
-    period:     str | None = None
-    mode:       str        = "monthly"
-    fmt:        str        = "pdf"
-    firm:       str | None = None
+    recipients: list[str]          = Field(max_length=10)
+    subject:    str | None         = Field(None, max_length=200)
+    period:     str | None         = None
+    mode:       str                = "monthly"
+    fmt:        str                = "pdf"
+    firm:       str | None         = Field(None, max_length=200)
 
 
 @app.post("/api/email/{session_id}")
@@ -2326,8 +2326,8 @@ def get_categories():
 # CATEGORY REMAPPING
 # ─────────────────────────────────────────────────────────────────────────────
 class ReclassifyBody(BaseModel):
-    account:  str
-    category: str
+    account:  str = Field(max_length=500)
+    category: str = Field(max_length=100)
 
 
 @app.post("/api/reclassify/{session_id}")
@@ -2576,7 +2576,7 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
 
 
 class CommentaryUpdateBody(BaseModel):
-    commentary: list[str]
+    commentary: list[str] = Field(max_length=100)
 
 
 @app.patch("/api/sessions/{session_id}/commentary")
