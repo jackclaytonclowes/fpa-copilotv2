@@ -51,6 +51,8 @@ function Scenarios({ initialData, fileName, analysisType }) {
   const [activeIdx, setActiveIdx]     = useStateSc(null);
   const [showSave, setShowSave]       = useStateSc(false);
   const [saveName, setSaveName]       = useStateSc("Scenario 1");
+  const [renamingIdx, setRenamingIdx] = useStateSc(null);
+  const [renameVal, setRenameVal]     = useStateSc("");
 
   /* ── computed totals ── */
   const sum = (items, adj) =>
@@ -101,6 +103,23 @@ function Scenarios({ initialData, fileName, analysisType }) {
     saveScenarios(fileName, next);
     if (activeIdx === i) { setAdjustments({}); setActiveIdx(null); }
     else if (activeIdx > i) setActiveIdx((p) => p - 1);
+  };
+
+  const startRename = (e, i) => {
+    e.stopPropagation();
+    setRenamingIdx(i);
+    setRenameVal(saved[i].name);
+  };
+
+  const commitRename = () => {
+    if (renamingIdx === null) return;
+    const name = renameVal.trim();
+    if (name) {
+      const next = saved.map((sc, i) => i === renamingIdx ? { ...sc, name } : sc);
+      setSaved(next);
+      saveScenarios(fileName, next);
+    }
+    setRenamingIdx(null);
   };
 
   /* ── formatters ── */
@@ -450,7 +469,7 @@ function Scenarios({ initialData, fileName, analysisType }) {
           {saved.length > 0 && (
             <Card
               title="Saved scenarios"
-              sub={`${saved.length} of 4 · click to load`}
+              sub={`${saved.length} of 4 · click to load · double-click name to rename`}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                 {saved.map((sc, i) => (
@@ -464,12 +483,33 @@ function Scenarios({ initialData, fileName, analysisType }) {
                       cursor: "pointer",
                     }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{
-                        font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)",
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-                      }}>
-                        {sc.name}
-                      </div>
+                      {renamingIdx === i ? (
+                        <input
+                          autoFocus
+                          value={renameVal}
+                          onChange={e => setRenameVal(e.target.value)}
+                          onBlur={commitRename}
+                          onKeyDown={e => { if (e.key === "Enter") commitRename(); if (e.key === "Escape") setRenamingIdx(null); }}
+                          onClick={e => e.stopPropagation()}
+                          style={{
+                            font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)",
+                            background: "var(--surface-2)", border: "1px solid var(--primary)",
+                            borderRadius: "var(--radius-sm)", padding: "1px 6px", width: "100%",
+                            outline: "none",
+                          }}
+                        />
+                      ) : (
+                        <div
+                          onDoubleClick={(e) => startRename(e, i)}
+                          title="Double-click to rename"
+                          style={{
+                            font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)",
+                            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                            cursor: "text",
+                          }}>
+                          {sc.name}
+                        </div>
+                      )}
                       <div style={{
                         font: "600 11.5px var(--font-mono)", fontVariantNumeric: "tabular-nums",
                         marginTop: 2,
@@ -480,13 +520,14 @@ function Scenarios({ initialData, fileName, analysisType }) {
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); deleteSaved(i); }}
+                      title="Delete scenario"
                       style={{
                         background: "transparent", border: "none", cursor: "pointer",
                         color: "var(--fg-3)", padding: 4,
                         borderRadius: "var(--radius-sm)", flexShrink: 0,
                         display: "flex", alignItems: "center",
                       }}>
-                      <Icon name="x" size={13} />
+                      <Icon name="trash-2" size={13} />
                     </button>
                   </div>
                 ))}

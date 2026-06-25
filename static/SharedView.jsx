@@ -354,6 +354,43 @@ function SharedView({ sessionId }) {
           </div>
         )}
 
+        {/* Trend outlook signal — forward-looking indicator derived from last 3 periods */}
+        {trend.length >= 3 && (() => {
+          const signals = ["revenue", "profit"].map(key => {
+            const vals = trend.map(d => d[key] ?? 0);
+            const last  = vals[vals.length - 1];
+            const prev2 = vals.slice(-3, -1);
+            const avg   = prev2.reduce((s, v) => s + v, 0) / prev2.length;
+            const pct   = avg !== 0 ? (last - avg) / Math.abs(avg) * 100 : 0;
+            const up    = pct > 3;
+            const down  = pct < -3;
+            return {
+              label: key.charAt(0).toUpperCase() + key.slice(1),
+              icon: up ? "trending-up" : down ? "trending-down" : "minus",
+              text: up ? `Trending up ${pct.toFixed(0)}%` : down ? `Trending down ${Math.abs(pct).toFixed(0)}%` : "Holding steady",
+              color: up ? SV_FAV : down ? SV_ADV : "#B45309",
+              bg: up ? p.favBg : down ? p.advBg : (isDark ? "rgba(180,83,9,.15)" : "#FEF3C7"),
+            };
+          });
+          return (
+            <div style={{ ...card, padding: "14px 20px", marginBottom: 16, display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: p.fg3, textTransform: "uppercase", letterSpacing: ".07em", alignSelf: "center", flexShrink: 0 }}>
+                Trend outlook
+              </div>
+              {signals.map(s => (
+                <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 7, background: s.bg, borderRadius: 20, padding: "5px 12px" }}>
+                  <Icon name={s.icon} size={12} color={s.color} />
+                  <span style={{ fontSize: 12, fontWeight: 600, color: s.color }}>{s.label}</span>
+                  <span style={{ fontSize: 11.5, color: p.fg3, marginLeft: 2 }}>{s.text}</span>
+                </div>
+              ))}
+              <div style={{ fontSize: 11, color: p.fg3, alignSelf: "center", marginLeft: "auto" }}>
+                Based on last 3 periods
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Trend chart */}
         {trend.length >= 2 && (
           <div style={{ ...card, padding: "20px 22px", marginBottom: 16 }}>
