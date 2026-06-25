@@ -4,6 +4,7 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/view/:session", "destination": "/static/index.html" },
-    { "source": "/",             "destination": "/static/index.html" }
+    { "source": "/privacy",       "destination": "/static/privacy.html" },
+    { "source": "/",              "destination": "/static/index.html" }
   ]
 }
