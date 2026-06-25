@@ -172,14 +172,39 @@ function SettingsView({ onToast }) {
           })()}
         </div>
 
+        {/* ── Keyboard shortcuts ── */}
+        <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
+          <div style={sectionHdr}>Keyboard shortcuts</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              ["⌘K / Ctrl+K", "Open command palette"],
+              ["↑ ↓ + Enter",  "Navigate command palette"],
+              ["Escape",        "Close modals and palette"],
+            ].map(([keys, desc]) => (
+              <div key={keys} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{
+                  display: "inline-flex", gap: 4, flexShrink: 0,
+                  font: "var(--font-mono, monospace)", fontSize: 11.5,
+                  color: "var(--fg-2)", background: "var(--surface-2)",
+                  border: "1px solid var(--border-strong)",
+                  borderRadius: "var(--radius-xs)", padding: "2px 8px",
+                  minWidth: 110, justifyContent: "center",
+                }}>{keys}</span>
+                <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)" }}>{desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ── About ── */}
         <div className="card" style={{ padding: "22px 24px" }}>
-          <div style={sectionHdr}>About</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={sectionHdr}>About MonthEndIQ</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
             {[
               ["Product",  "MonthEndIQ"],
               ["Version",  "2.0"],
               ["Purpose",  "FP&A intelligence for accounting practices"],
+              ["Stack",    "FastAPI · React 18 · OpenAI GPT-4o"],
             ].map(([k, v]) => (
               <div key={k} style={{ display: "flex", gap: 0 }}>
                 <span style={{ font: "var(--text-caption)", fontSize: 12.5, color: "var(--fg-3)",
@@ -187,6 +212,10 @@ function SettingsView({ onToast }) {
                 <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--ink)" }}>{v}</span>
               </div>
             ))}
+          </div>
+          <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", lineHeight: 1.6 }}>
+            MonthEndIQ automates month-end financial analysis for accounting practices —
+            variance analysis, AI commentary, board packs, and client-ready digests.
           </div>
         </div>
 
