@@ -27,6 +27,17 @@ function SettingsView({ onToast }) {
     }
   };
 
+  // ── Default report tone ────────────────────────────────────────────────────
+  const [defaultTone, setDefaultTone] = useStateSV(() => {
+    try { return localStorage.getItem("meiq_default_tone") || "board"; } catch { return "board"; }
+  });
+
+  const saveTone = (tone) => {
+    setDefaultTone(tone);
+    try { localStorage.setItem("meiq_default_tone", tone); } catch {}
+    onToast?.("Default tone saved");
+  };
+
   // ── Theme ──────────────────────────────────────────────────────────────────
   const [theme, setTheme] = useStateSV(() => {
     return document.documentElement.dataset.theme || "light";
@@ -110,6 +121,42 @@ function SettingsView({ onToast }) {
                 PDF will show: <em>Prepared by {firmName.trim()}</em>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* ── Default report tone ── */}
+        <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
+          <div style={sectionHdr}>Report tone</div>
+          <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 12, lineHeight: 1.5 }}>
+            Pre-selects the commentary tone whenever you generate a management pack.
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {[
+              { key: "board",      label: "Board Pack",        desc: "Formal, executive-level — suitable for Finance Directors and CFOs" },
+              { key: "management", label: "Management Review", desc: "Detailed and analytical — for the senior management team" },
+              { key: "client",     label: "Client Digest",     desc: "Plain English — written for business owners without jargon" },
+            ].map(t => (
+              <button key={t.key} onClick={() => saveTone(t.key)} style={{
+                display: "flex", alignItems: "flex-start", gap: 10, textAlign: "left",
+                padding: "10px 14px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+                border: defaultTone === t.key ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+                background: defaultTone === t.key ? "var(--primary-soft)" : "var(--surface-2)",
+                color: "inherit",
+              }}>
+                <div style={{
+                  width: 16, height: 16, borderRadius: "50%", flexShrink: 0, marginTop: 1,
+                  border: defaultTone === t.key ? "4px solid var(--primary)" : "2px solid var(--border-strong)",
+                  background: defaultTone === t.key ? "var(--primary-soft)" : "var(--surface)",
+                  boxSizing: "border-box",
+                }} />
+                <div>
+                  <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: defaultTone === t.key ? "var(--primary)" : "var(--ink)" }}>
+                    {t.label}
+                  </div>
+                  <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 2 }}>{t.desc}</div>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
 

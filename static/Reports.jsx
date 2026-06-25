@@ -182,7 +182,9 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
   const [verification, setVerification] = React.useState(null);
   const [copied,       setCopied]       = React.useState(false);
   const [contextNotes, setContextNotes] = React.useState("");
-  const [tonePreset,   setTonePreset]   = React.useState("board"); // board | management | client
+  const [tonePreset,   setTonePreset]   = React.useState(() => {
+    try { return localStorage.getItem("meiq_default_tone") || "board"; } catch { return "board"; }
+  }); // board | management | client
 
   const generate = async () => {
     setStatus("loading");

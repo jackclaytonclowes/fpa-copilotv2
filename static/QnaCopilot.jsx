@@ -19,7 +19,7 @@
  *
  *   CLEAR — clearChat() removes both keys and resets to the welcome message.
  */
-const { useState: useStateQna, useRef: useRefQna, useEffect: useEffectQna } = React;
+const { useState: useStateQna, useRef: useRefQna, useEffect: useEffectQna, useCallback: useCallbackQna } = React;
 
 /* ── Suggested questions ─────────────────────────────────────────────────── */
 const SUGGESTIONS_MOM = [
@@ -304,7 +304,17 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
     }
   }, [prefillQuestion]);
 
+  const [copiedIdx, setCopiedIdx] = useStateQna(null);
   const hasHistory = msgs.length > 1;
+
+  const copyMsg = (html, idx) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    const text = (div.innerText || div.textContent || "").trim();
+    navigator.clipboard.writeText(text).catch(() => {});
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2000);
+  };
 
   /* ── Render ──────────────────────────────────────────────────────────── */
   return (
@@ -341,19 +351,42 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
         <div className="qna-scroll" ref={scrollRef}>
           {msgs.map((m, i) => {
             const isLiveStream = m.streaming && i === msgs.length - 1;
+            const isCopied = copiedIdx === i;
             return (
-              <div key={i} className={"msg " + m.who}>
+              <div key={i} className={"msg " + m.who} style={{ position: "relative" }}>
                 <div className="av">
                   {m.who === "ai" ? <Icon name="sparkles" size={16} /> : userInitials}
                 </div>
-                <div
-                  className="bubble"
-                  dangerouslySetInnerHTML={{
-                    __html: m.html + (isLiveStream
-                      ? '<span class="stream-cursor">▍</span>'
-                      : ""),
-                  }}
-                />
+                <div style={{ flex: 1, minWidth: 0, position: "relative" }}>
+                  <div
+                    className="bubble"
+                    dangerouslySetInnerHTML={{
+                      __html: m.html + (isLiveStream
+                        ? '<span class="stream-cursor">▍</span>'
+                        : ""),
+                    }}
+                  />
+                  {/* Copy button — AI messages only, not while streaming */}
+                  {m.who === "ai" && !m.streaming && m.html && (
+                    <button
+                      onClick={() => copyMsg(m.html, i)}
+                      title="Copy to clipboard"
+                      className="msg-copy-btn"
+                      style={{
+                        position: "absolute", top: 6, right: 2,
+                        display: "inline-flex", alignItems: "center", gap: 4,
+                        padding: "3px 7px", borderRadius: "var(--radius-xs)",
+                        border: "1px solid var(--border-strong)",
+                        background: "var(--surface)", color: isCopied ? "var(--favourable-text)" : "var(--fg-3)",
+                        font: "var(--text-label)", fontSize: 10.5, cursor: "pointer",
+                        opacity: 0, transition: "opacity .15s, color .15s",
+                      }}
+                    >
+                      <Icon name={isCopied ? "check" : "copy"} size={11} />
+                      {isCopied ? "Copied" : "Copy"}
+                    </button>
+                  )}
+                </div>
               </div>
             );
           })}

@@ -164,6 +164,7 @@ table.var tbody tr:hover{background:var(--surface-2);}
 .msg.user .bubble{background:var(--primary);color:#fff;border-radius:var(--radius-md) 4px var(--radius-md) var(--radius-md);}
 .msg .bubble b{font-weight:600;}
 .msg .bubble .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;}
+.msg:hover .msg-copy-btn{opacity:1!important;}
 .qna-suggest{display:flex;gap:8px;flex-wrap:wrap;padding:4px 4px 12px;}
 .suggest{font:var(--text-body-strong);font-size:12px;color:var(--fg-2);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-pill);padding:6px 13px;transition:border-color .12s,background .12s;}
 .suggest:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft);}
