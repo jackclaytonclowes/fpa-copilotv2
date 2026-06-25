@@ -31,7 +31,6 @@ function Sparkline({ values, isFav }) {
 }
 
 function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, analysisType, onNavigateCopilot, fileName }) {
-  console.log("[Movements] render, initialData:", !!initialData, "sessionId:", sessionId);
   const { Icon, Card, Button, Delta, Chip } = window;
   const [data, setData]               = useStateM(initialData);
   const [loading, setLoading]         = useStateM(false);

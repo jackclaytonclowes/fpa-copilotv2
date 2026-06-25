@@ -2644,14 +2644,8 @@ async def ask(session_id: str, body: AskBody):
         raw = resp.choices[0].message.content.strip()
 
         # Convert Markdown-style formatting to safe HTML for the chat bubble
-        html = (
-            raw
-            .replace("**", "<b>", 1)   # open bold
-        )
-        # Proper bold conversion: **text** → <b>text</b>
-        import re as _re
-        html = _re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", raw)
-        html = _re.sub(r"\*(.+?)\*",     r"<i>\1</i>", html)
+        html = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", raw)
+        html = re.sub(r"\*(.+?)\*",     r"<i>\1</i>", html)
         html = html.replace("\n\n", "<br><br>").replace("\n", "<br>")
 
         return {"answer": html}
