@@ -61,15 +61,11 @@ function chatLoad(sessionId, fileName) {
 
   // Prefer filename-keyed (stable across sessions)
   const fromFile = fileKey ? _tryReadKey(fileKey) : null;
-  if (fromFile && fromFile.length > 0) {
-    console.log("[Chat] LOAD  file-key  turns=" + fromFile.length);
-    return fromFile;
-  }
+  if (fromFile && fromFile.length > 0) return fromFile;
 
   // Fall back to legacy session key and migrate
   const fromSession = _tryReadKey(sessionKey);
   if (fromSession && fromSession.length > 0) {
-    console.log("[Chat] LOAD  legacy session-key  turns=" + fromSession.length + "  migrating…");
     if (fileKey) {
       try { localStorage.setItem(fileKey, JSON.stringify(fromSession)); } catch {}
     }
@@ -77,7 +73,6 @@ function chatLoad(sessionId, fileName) {
     return fromSession;
   }
 
-  console.log("[Chat] LOAD  empty (no history)");
   return [];
 }
 
@@ -86,9 +81,8 @@ function chatSave(sessionId, fileName, msgs) {
   const key   = fileName ? CHAT_KEY_BY_FILE(fileName) : CHAT_KEY_BY_SESSION(sessionId);
   try {
     localStorage.setItem(key, JSON.stringify(turns));
-    console.log("[Chat] SAVE  key=" + key + "  turns=" + turns.length);
   } catch (err) {
-    console.warn("[Chat] SAVE  failed (quota?):", err);
+    console.warn("[Chat] localStorage quota exceeded:", err);
   }
 }
 
@@ -96,13 +90,26 @@ function chatClear(sessionId, fileName) {
   try {
     if (fileName) localStorage.removeItem(CHAT_KEY_BY_FILE(fileName));
     localStorage.removeItem(CHAT_KEY_BY_SESSION(sessionId));
-    console.log("[Chat] CLEAR");
   } catch {}
 }
 
 /* ── Misc helpers ────────────────────────────────────────────────────────── */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function stripHtml(html) {
-  return html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim();
+  return html
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .trim();
 }
 
 function makeWelcome(periodLabel, analysisType) {
@@ -150,7 +157,6 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
    * every mount which, combined with the saveTurns auto-delete, could wipe history.
    */
   const [msgs, setMsgs] = useStateQna(() => {
-    console.log("[Chat] MOUNT sessionId=" + sessionId + " fileName=" + fileName);
     const saved = chatLoad(sessionId, fileName);
     return [makeWelcome(period?.label, analysisType), ...saved];
   });
@@ -203,7 +209,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
   /* ── Send question (streaming via SSE) ──────────────────────────────── */
   const ask = async (q) => {
     if (!q.trim() || loading) return;
-    setMsgs((m) => [...m, { who: "user", html: q }]);
+    setMsgs((m) => [...m, { who: "user", html: escapeHtml(q) }]);
     setText("");
     setLoading(true);
 
@@ -213,7 +219,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
       .slice(-12)
       .map((m) => ({
         role:    m.who === "user" ? "user" : "assistant",
-        content: m.who === "user" ? m.html : stripHtml(m.html),
+        content: stripHtml(m.html),
       }));
 
     /* Add an empty streaming placeholder immediately */
@@ -276,7 +282,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
       });
 
       /* Best-effort server sync */
-      const allTurns = [...msgs.slice(1), { who: "user", html: q }, aiMsg];
+      const allTurns = [...msgs.slice(1), { who: "user", html: escapeHtml(q) }, aiMsg];
       fetch(apiUrl("/api/chat/" + sessionId), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
