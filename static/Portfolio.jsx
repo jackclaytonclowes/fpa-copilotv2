@@ -272,7 +272,7 @@ function UpdateCashModal({ client, firmToken, onClose, onUpdated }) {
 }
 
 // ── Main Portfolio component ───────────────────────────────────────────────
-function Portfolio({ onOpenClient }) {
+function Portfolio({ onOpenClient, onToast }) {
   const { Icon } = window;
   const firmToken = React.useMemo(() => getFirmToken(), []);
 
@@ -286,6 +286,8 @@ function Portfolio({ onOpenClient }) {
   const [briefs, setBriefs]           = React.useState({});     // {session_id: text}
   const [copiedLink, setCopiedLink]   = React.useState(null);  // session_id of last copied card
   const [emailedLink, setEmailedLink] = React.useState(null); // session_id of last emailed card
+  const [search, setSearch]           = React.useState("");
+  const [tierFilter, setTierFilter]   = React.useState("all"); // "all" | "action" | "watch" | "healthy"
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -335,7 +337,7 @@ function Portfolio({ onOpenClient }) {
         return { clients, summary: buildSummary(clients) };
       });
     } catch {
-      alert("Could not delete client. Please try again.");
+      onToast?.("Could not delete client. Please try again.");
     }
   }
 
@@ -393,6 +395,16 @@ function Portfolio({ onOpenClient }) {
 
   const isDemo = mode === "demo";
   const hasClients = data?.clients?.length > 0;
+
+  const visibleClients = React.useMemo(() => {
+    let list = data?.clients || [];
+    if (tierFilter !== "all") list = list.filter(c => c.tier === tierFilter);
+    const q = search.trim().toLowerCase();
+    if (q) list = list.filter(c =>
+      c.name.toLowerCase().includes(q) || (c.sector || "").toLowerCase().includes(q)
+    );
+    return list;
+  }, [data, tierFilter, search]);
 
   return (
     <div className="content">
@@ -543,10 +555,70 @@ function Portfolio({ onOpenClient }) {
               </div>
             )}
 
+            {/* Search + tier filter */}
+            {hasClients && (
+              <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap", alignItems: "center" }}>
+                <div style={{
+                  display: "flex", alignItems: "center", gap: 8,
+                  flex: "1 1 200px", padding: "7px 12px",
+                  background: "var(--surface)", border: "1px solid var(--border-strong)",
+                  borderRadius: "var(--radius-sm)",
+                }}>
+                  <Icon name="search" size={14} color="var(--fg-3)" style={{ flexShrink: 0 }} />
+                  <input
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    placeholder="Search clients…"
+                    style={{
+                      flex: 1, border: "none", outline: "none",
+                      font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
+                      background: "transparent",
+                    }}
+                  />
+                  {search && (
+                    <button onClick={() => setSearch("")} style={{
+                      background: "none", border: "none", cursor: "pointer",
+                      color: "var(--fg-3)", padding: 0, display: "flex", alignItems: "center",
+                    }}>
+                      <Icon name="x" size={13} />
+                    </button>
+                  )}
+                </div>
+                <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                  {[
+                    { key: "all",     label: "All" },
+                    { key: "action",  label: "Action", color: "var(--adverse-text)",         bg: "var(--adverse-soft)",    border: "var(--adverse-border)" },
+                    { key: "watch",   label: "Watch",  color: "var(--caution-text, #b45309)",bg: "var(--caution-soft, #fef3c7)", border: "var(--caution-border, #fcd34d)" },
+                    { key: "healthy", label: "Healthy",color: "var(--favourable-text)",      bg: "var(--favourable-soft)", border: "var(--favourable-border)" },
+                  ].map(f => {
+                    const active = tierFilter === f.key;
+                    return (
+                      <button key={f.key} onClick={() => setTierFilter(f.key)} style={{
+                        padding: "5px 12px", borderRadius: 20, cursor: "pointer",
+                        font: "var(--text-label)", fontSize: 11.5, fontWeight: 600,
+                        border: `1px solid ${active && f.border ? f.border : "var(--border-strong)"}`,
+                        background: active && f.bg ? f.bg : (active ? "var(--surface-2)" : "var(--surface)"),
+                        color: active && f.color ? f.color : (active ? "var(--ink)" : "var(--fg-3)"),
+                        transition: "all .12s",
+                      }}>
+                        {f.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* Triage list */}
             {hasClients && (
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {data.clients.map((c) => {
+                {visibleClients.length === 0 && (
+                  <div style={{ padding: "28px 16px", textAlign: "center",
+                    font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
+                    No clients match your filter.
+                  </div>
+                )}
+                {visibleClients.map((c) => {
                   const t = TIER[c.tier] || TIER.healthy;
                   const isConfirmingDelete = deleting === c.session_id;
                   return (

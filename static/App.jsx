@@ -595,7 +595,7 @@ function App() {
   if (restoring) {
     body = null;
   } else if (view === "portfolio") {
-    body = Portfolio ? <Portfolio onOpenClient={openClient} /> : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>;
+    body = Portfolio ? <Portfolio onOpenClient={openClient} onToast={fireToast} /> : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
