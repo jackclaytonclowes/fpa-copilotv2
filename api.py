@@ -11,7 +11,7 @@ import re
 import sqlite3
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # Load .env from project root (silently ignored if file doesn't exist)
@@ -97,6 +97,31 @@ def _init_db():
 
 
 _init_db()
+
+
+def _prune_old_sessions():
+    """Delete sessions and portfolio clients older than SESSION_TTL_DAYS (default 30).
+
+    Called at startup so stale BLOBs don't accumulate on disk indefinitely.
+    Configurable via SESSION_TTL_DAYS env var; set to 0 to disable pruning.
+    """
+    ttl = int(os.environ.get("SESSION_TTL_DAYS", "30"))
+    if ttl <= 0:
+        return
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=ttl)).isoformat()
+    try:
+        with _db() as conn:
+            deleted = conn.execute(
+                "DELETE FROM sessions WHERE created_at < ?", (cutoff,)
+            ).rowcount
+            conn.commit()
+        if deleted:
+            print(f"[DB] Pruned {deleted} session(s) older than {ttl} days", file=sys.stderr)
+    except Exception as exc:
+        print(f"[DB] Session prune failed: {exc}", file=sys.stderr)
+
+
+_prune_old_sessions()
 
 
 class SessionStore(dict):
@@ -1529,7 +1554,6 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
         today = datetime.utcnow()
         to_date = today.strftime("%Y-%m-%d")
     if not from_date:
-        from datetime import timedelta
         d = datetime.strptime(to_date, "%Y-%m-%d")
         from_date = (d.replace(year=d.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
 

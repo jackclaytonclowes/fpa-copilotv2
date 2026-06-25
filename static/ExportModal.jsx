@@ -11,6 +11,7 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
     () => `Management Pack — ${period?.label || "Report"}`
   );
   const [emailStatus,  setEmailStatus]  = useStateExport(null); // null | "sending" | "sent" | { error }
+  const [downloadError, setDownloadError] = useStateExport(null);
 
   // Commentary editing state
   const [showEdit,     setShowEdit]     = useStateExport(false);
@@ -62,6 +63,7 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
 
   const download = async () => {
     setLoading(true);
+    setDownloadError(null);
     try {
       await _saveIfDirty();
       const params = new URLSearchParams({ period: periodParam, fmt });
@@ -82,7 +84,7 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
       URL.revokeObjectURL(url);
       onClose();
     } catch (e) {
-      alert("Export failed: " + e.message);
+      setDownloadError(e.message);
     } finally {
       setLoading(false);
     }
@@ -90,7 +92,7 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
 
   const sendEmail = async () => {
     const rcpts = recipients.split(/[,\n;]+/).map(r => r.trim()).filter(Boolean);
-    if (!rcpts.length) { alert("Enter at least one recipient email address."); return; }
+    if (!rcpts.length) { setEmailStatus({ error: "Enter at least one recipient email address." }); return; }
     setEmailStatus("sending");
     try {
       await _saveIfDirty();
@@ -268,6 +270,19 @@ function ExportModal({ onClose, sessionId, period, analysisType, firmName }) {
                   </span>
                   Include AI-written commentary
                 </label>
+              )}
+
+              {/* Download error */}
+              {downloadError && (
+                <div style={{
+                  marginTop: 10, padding: "10px 14px", borderRadius: "var(--radius-sm)",
+                  background: "var(--adverse-soft)", border: "1px solid var(--adverse-border)",
+                  font: "var(--text-body)", fontSize: 12.5, color: "var(--adverse-text)",
+                  display: "flex", alignItems: "flex-start", gap: 8,
+                }}>
+                  <Icon name="alert-triangle" size={14} color="var(--adverse)" style={{ flexShrink: 0, marginTop: 1 }} />
+                  <span>Export failed: {downloadError}</span>
+                </div>
               )}
             </React.Fragment>
           )}
