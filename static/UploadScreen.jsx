@@ -350,7 +350,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
             <DemoCard
               icon="calendar-days"
               title="Meridian Software Ltd"
-              badge="Month-on-Month"
+              badge="P&L Variance Analysis"
               description="12-month P&L — software licences and consulting revenue"
               detail="Jul 2024 – Jun 2025 · £1.26m revenue · Full cost structure"
               endpoint="/api/demo"
