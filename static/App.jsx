@@ -598,6 +598,20 @@ function App() {
     body = window.SettingsView
       ? <SettingsView onToast={fireToast} />
       : null;
+  } else if (view === "data") {
+    body = (
+      <DataSources
+        sessionData={sessionData}
+        availablePeriods={availablePeriods}
+        onLoad={onLoad}
+        entities={entities}
+        onAddEntity={onAddEntity}
+        onConsolidate={onConsolidate}
+        consolidating={consolidating}
+        isConsolidated={isConsolidated}
+        onExitConsolidated={onExitConsolidated}
+      />
+    );
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
@@ -650,20 +664,6 @@ function App() {
           analysisType={analysisType}
         />
       </div>
-    );
-  } else if (view === "data") {
-    body = (
-      <DataSources
-        sessionData={sessionData}
-        availablePeriods={availablePeriods}
-        onLoad={onLoad}
-        entities={entities}
-        onAddEntity={onAddEntity}
-        onConsolidate={onConsolidate}
-        consolidating={consolidating}
-        isConsolidated={isConsolidated}
-        onExitConsolidated={onExitConsolidated}
-      />
     );
   } else {
     body = (
