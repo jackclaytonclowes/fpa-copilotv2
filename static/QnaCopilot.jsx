@@ -105,14 +105,24 @@ function stripHtml(html) {
   return html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").trim();
 }
 
-function makeWelcome(periodLabel) {
+function makeWelcome(periodLabel, analysisType) {
+  const isBvA = analysisType === "budget_vs_actual";
+  const period = periodLabel ? "<b>" + periodLabel + "</b>" : "your P&amp;L";
+  const contextLine = isBvA
+    ? "I have your budget vs actual data loaded for " + period + "."
+    : "I have your month-on-month P&amp;L loaded for " + period + ".";
   return {
     who: "ai",
     html:
-      "Ask me anything about <b>" + (periodLabel || "your P&L") + "</b>. " +
-      "I can explain what drove profit changes, identify cost pressures, " +
-      "highlight revenue movements, or draft board-ready commentary — " +
-      "all based on the data currently loaded.",
+      contextLine +
+      " Here are some things you can ask me:" +
+      "<ul style=\"margin:8px 0 0;padding-left:18px;line-height:1.8\">" +
+      (isBvA
+        ? "<li>Why did profit differ from budget?</li><li>Which areas are most over budget?</li><li>Summarise budget performance for a Finance Director</li>"
+        : "<li>Why did operating profit change this month?</li><li>What were the biggest cost movements?</li><li>Summarise this period for a Finance Director</li>"
+      ) +
+      "<li>What should I investigate further?</li>" +
+      "</ul>",
   };
 }
 
@@ -142,7 +152,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
   const [msgs, setMsgs] = useStateQna(() => {
     console.log("[Chat] MOUNT sessionId=" + sessionId + " fileName=" + fileName);
     const saved = chatLoad(sessionId, fileName);
-    return [makeWelcome(period?.label), ...saved];
+    return [makeWelcome(period?.label, analysisType), ...saved];
   });
 
   const [text, setText]       = useStateQna("");
@@ -173,7 +183,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
   /* ── Clear chat ──────────────────────────────────────────────────────── */
   const clearChat = () => {
     chatClear(sessionId, fileName);
-    setMsgs([makeWelcome(period?.label)]);
+    setMsgs([makeWelcome(period?.label, analysisType)]);
     // Clear server-side history too (best-effort)
     fetch(apiUrl("/api/chat/" + sessionId), {
       method: "POST",

@@ -53,7 +53,9 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
     { id: "movements", icon: "list-tree",          label: "Movements",         group: "Navigate" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports",           group: "Navigate" },
     { id: "scenarios", icon: "sliders-horizontal", label: "Scenario Analysis", group: "Navigate" },
+    { id: "portfolio", icon: "briefcase",          label: "Portfolio",         group: "Navigate" },
     { id: "data",      icon: "database",           label: "Data Sources",      group: "Navigate" },
+    { id: "settings",  icon: "settings",           label: "Settings",          group: "Navigate" },
   ];
 
   const TOOLS = [
@@ -85,7 +87,7 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
 
   const staticCmds = useMemoMemo(() => [
     ...VIEWS
-      .filter((v) => hasData || ["data"].includes(v.id))
+      .filter((v) => hasData || ["data", "portfolio", "settings"].includes(v.id))
       .map((v) => ({
         icon: v.icon,
         label: `Go to ${v.label}`,

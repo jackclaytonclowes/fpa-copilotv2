@@ -775,7 +775,29 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                   );
                 })}
                 {sorted.length === 0 && (
-                  <tr><td colSpan={8} style={{ textAlign: "center", padding: 30, color: "var(--fg-3)" }}>No matching accounts</td></tr>
+                  <tr>
+                    <td colSpan={8}>
+                      <div style={{ textAlign: "center", padding: "36px 24px" }}>
+                        <Icon name="search-x" size={28} color="var(--fg-4, var(--fg-3))" style={{ marginBottom: 10 }} />
+                        <div style={{ font: "var(--text-body-strong)", fontSize: 13.5, color: "var(--ink)", marginBottom: 5 }}>
+                          No accounts match your search
+                        </div>
+                        <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)", marginBottom: 12 }}>
+                          Try a different keyword or clear the search to see all accounts
+                        </div>
+                        {search && (
+                          <button onClick={() => setSearch("")} style={{
+                            display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px",
+                            borderRadius: "var(--radius-sm)", background: "var(--surface-2)",
+                            border: "1px solid var(--border)", cursor: "pointer",
+                            font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)",
+                          }}>
+                            <Icon name="x" size={13} />Clear search
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
