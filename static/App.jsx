@@ -319,6 +319,69 @@ function MobileNav({ active, onNav, hasData }) {
   );
 }
 
+/* ── Post-upload onboarding checklist ──────────────────── */
+function OnboardingChecklist({ onNav, onExport, onDismiss, sessionId }) {
+  const { Icon } = window;
+  const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+  const shareUrl = sessionId
+    ? `${window.location.origin}/view/${sessionId}${firm ? "?firm=" + encodeURIComponent(firm) : ""}`
+    : null;
+  const steps = [
+    { icon: "sparkles",   label: "Review the AI commentary",         desc: "Your board-ready analysis is on the dashboard",          action: () => { onNav("dashboard"); onDismiss(); } },
+    { icon: "share-2",    label: "Share the client digest",          desc: shareUrl ? "Copied to clipboard" : "Open a session first",
+      action: () => { if (shareUrl) { navigator.clipboard?.writeText(shareUrl).catch(() => {}); } onDismiss(); } },
+    { icon: "download",   label: "Export the management pack",       desc: "Download a board-ready PDF",                             action: () => { onExport(); onDismiss(); } },
+    { icon: "file-plus",  label: "Add another client",               desc: "Switch to Portfolio to manage multiple clients",         action: () => { onNav("portfolio"); onDismiss(); } },
+  ];
+  return (
+    <div style={{
+      position: "fixed", bottom: 24, right: 24, width: 300, zIndex: 70,
+      background: "var(--surface)", border: "1px solid var(--border-strong)",
+      borderRadius: 14, boxShadow: "var(--shadow-hover)",
+      animation: "fadeIn .3s ease",
+    }}>
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "14px 16px 10px",
+        borderBottom: "1px solid var(--border)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Icon name="check-circle" size={15} color="var(--primary)" />
+          <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--ink)" }}>
+            Analysis ready — what next?
+          </span>
+        </div>
+        <button onClick={onDismiss} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg-3)", padding: 2, lineHeight: 0 }}>
+          <Icon name="x" size={15} />
+        </button>
+      </div>
+      <div style={{ padding: "10px 0 8px" }}>
+        {steps.map((s, i) => (
+          <button
+            key={i}
+            onClick={s.action}
+            style={{
+              display: "flex", alignItems: "flex-start", gap: 12, width: "100%",
+              padding: "9px 16px", background: "none", border: "none", cursor: "pointer",
+              textAlign: "left",
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = "var(--surface-2)"; }}
+            onMouseOut={(e)  => { e.currentTarget.style.background = "none"; }}
+          >
+            <span style={{ marginTop: 1, flexShrink: 0 }}>
+              <Icon name={s.icon} size={15} color="var(--primary)" />
+            </span>
+            <div>
+              <div style={{ font: "var(--text-body-strong)", fontSize: 12.5, color: "var(--ink)" }}>{s.label}</div>
+              <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 1 }}>{s.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── Toast ──────────────────────────────────────────────── */
 function Toast({ message, onDismiss }) {
   const { Icon } = window;
@@ -435,6 +498,11 @@ function App() {
     setIsConsolidated(false);
     setView("dashboard");
     fireToast(`Analysed ${data.file_name}`);
+    // Show the onboarding checklist once per page load (not on restore)
+    if (!checklistShownRef.current) {
+      checklistShownRef.current = true;
+      setTimeout(() => setShowChecklist(true), 1800);
+    }
   };
 
   // Open a client from the practice portfolio — load its session as the active one
@@ -511,6 +579,10 @@ function App() {
   const hasData        = !!sessionData;
   const sessionId      = effectiveData?.session_id || sessionData?.session_id;
   const analysisType   = effectiveData?.analysis_type || "month_on_month";
+
+  // Onboarding checklist (shown once after first upload in the session)
+  const [showChecklist, setShowChecklist] = useStateApp(false);
+  const checklistShownRef = useRefApp(false);
 
   // Pre-filled question for copilot (set by Movements "Explain this variance")
   const [copilotQuestion, setCopilotQuestion] = useStateApp(null);
@@ -655,6 +727,14 @@ function App() {
       )}
       <MobileNav active={view} onNav={setView} hasData={hasData} />
       <Toast message={toast} onDismiss={() => { clearTimeout(window.__toastTimer); setToast(null); }} />
+      {showChecklist && hasData && (
+        <OnboardingChecklist
+          onNav={setView}
+          onExport={() => setShowExport(true)}
+          onDismiss={() => setShowChecklist(false)}
+          sessionId={sessionId}
+        />
+      )}
 
       <CommandPalette
         onNav={setView}

@@ -218,6 +218,7 @@ table.var tbody tr:hover{background:var(--surface-2);}
   .reveal{animation:meiq-rise .5s cubic-bezier(.2,.7,.3,1);}
 }
 @keyframes meiq-rise{from{transform:translateY(14px);opacity:.6;}to{transform:none;opacity:1;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 @media (max-width:1080px){
   .grid-kpi{grid-template-columns:repeat(2,1fr);}
   .grid-2,.grid-2b{grid-template-columns:1fr;}
