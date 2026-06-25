@@ -400,6 +400,76 @@ class TestLoadFile:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# DETECT_BVA_COLUMNS
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestDetectBvaColumns:
+    def test_finds_actual_and_budget(self):
+        df = pd.DataFrame({"Account": [], "Actual": [], "Budget": []})
+        actual, budget = analysis.detect_bva_columns(df)
+        assert actual == "Actual"
+        assert budget == "Budget"
+
+    def test_finds_actuals_plural(self):
+        df = pd.DataFrame({"Account": [], "Actuals": [], "Budget": []})
+        actual, budget = analysis.detect_bva_columns(df)
+        assert actual == "Actuals"
+        assert budget == "Budget"
+
+    def test_case_insensitive(self):
+        df = pd.DataFrame({"Account": [], "ACTUAL": [], "BUDGET": []})
+        actual, budget = analysis.detect_bva_columns(df)
+        assert actual == "ACTUAL"
+        assert budget == "BUDGET"
+
+    def test_partial_match(self):
+        df = pd.DataFrame({"Account": [], "YTD Actual": [], "Original Budget": []})
+        actual, budget = analysis.detect_bva_columns(df)
+        assert actual == "YTD Actual"
+        assert budget == "Original Budget"
+
+    def test_returns_none_when_not_found(self):
+        df = pd.DataFrame({"Account": [], "Apr 2024": [], "May 2024": []})
+        actual, budget = analysis.detect_bva_columns(df)
+        assert actual is None
+        assert budget is None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GET_PERIOD_DATA
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGetPeriodData:
+    def test_returns_expected_keys(self, sample_mom_df):
+        df_long = analysis.build_long(sample_mom_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        for key in ("kpis", "movements", "commentary", "period", "trend"):
+            assert key in data, f"Missing key: {key}"
+
+    def test_movements_have_required_fields(self, sample_mom_df):
+        df_long = analysis.build_long(sample_mom_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        for m in data["movements"]:
+            for field in ("account", "category", "value", "variance", "is_fav"):
+                assert field in m, f"Movement missing field: {field}"
+
+    def test_period_label_populated(self, sample_mom_df):
+        df_long = analysis.build_long(sample_mom_df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        assert data["period"]["label"]  # non-empty label
+        assert data["period"]["prior"]  # prior period label present
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # PDF GENERATION (smoke test)
 # ─────────────────────────────────────────────────────────────────────────────
 
