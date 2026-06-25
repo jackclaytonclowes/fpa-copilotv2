@@ -171,6 +171,16 @@ XERO_REDIRECT_URI  = os.environ.get("XERO_REDIRECT_URI", "http://localhost:8000/
 XERO_SCOPES        = "openid profile email accounting.reports.profitandloss.read accounting.reports.balancesheet.read"
 
 STATIC = Path(__file__).parent / "static"
+
+# Write a no-op api-base.js if missing (dev mode).
+# In production, scripts/inject-config.js overwrites this with the real API URL.
+_api_base_js = STATIC / "api-base.js"
+if not _api_base_js.exists():
+    try:
+        _api_base_js.write_text("window.__MONTHENDIQ_API_BASE__ = '';\n")
+    except OSError:
+        pass
+
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 

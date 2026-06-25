@@ -103,7 +103,7 @@
     <a href="/" class="privacy-back">&larr; Back to MonthEndIQ</a>
 
     <h1>Privacy Notice</h1>
-    <p class="subtitle">Last updated: 23 June 2025</p>
+    <p class="subtitle">Last updated: 25 June 2025</p>
 
     <div class="highlight-box">
       <p><strong>The short version:</strong> MonthEndIQ analyses your financial data in-session to produce variance dashboards and commentary. We do not store your data after your session ends, we do not use it to train AI models, and we do not sell or share it with third parties for their own purposes.</p>
@@ -146,7 +146,7 @@
     <h2>4. What we do NOT do</h2>
     <ul>
       <li>We do <strong>not</strong> use your data to train, fine-tune, adapt, or enhance any AI model.</li>
-      <li>We do <strong>not</strong> store your financial data persistently — sessions are held in server memory and discarded when the server restarts or the session expires.</li>
+      <li>We do <strong>not</strong> sell, rent, trade, or share your financial data with third parties for their own purposes, nor use it for any purpose beyond producing the analysis you requested.</li>
       <li>We do <strong>not</strong> sell, rent, or share your data with third parties for their own purposes.</li>
       <li>We do <strong>not</strong> store your Xero password — authentication uses OAuth 2.0 tokens only.</li>
     </ul>
@@ -185,12 +185,9 @@
     </table>
 
     <h2>7. Data retention</h2>
-    <p>Session data (uploaded files, analysis results, chat history) is held <strong>in server memory only</strong> and is not persisted to any database or file system. Data is lost when:</p>
-    <ul>
-      <li>The server restarts or redeploys</li>
-      <li>The session expires due to inactivity</li>
-    </ul>
-    <p>Exported PDF and Excel files are generated on-the-fly and delivered directly to your browser — they are not retained on the server.</p>
+    <p>Session data (your uploaded P&amp;L file, analysis results, and Q&amp;A chat history) is stored in an encrypted SQLite database on the server for up to <strong>30 days</strong> from the time of upload, after which it is automatically and permanently deleted. You can delete your session immediately at any time using <strong>Settings → Start fresh</strong> in the application.</p>
+    <p>Exported PDF and Excel management packs are generated on-the-fly and delivered directly to your browser — they are not retained on the server after delivery.</p>
+    <p>Chat history is also stored in your browser's localStorage so that your conversation persists across page reloads. You can clear this at any time using <strong>Clear chat</strong> in the Q&amp;A Copilot tab.</p>
 
     <h2>8. Security</h2>
     <ul>
