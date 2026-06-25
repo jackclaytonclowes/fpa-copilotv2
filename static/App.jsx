@@ -107,7 +107,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
         : analysisType === "budget_vs_actual"
           ? "Actual vs Budget"
           : "P&L Variance Analysis")
-    : "Upload a P&L to begin";
+    : "Upload your first P&L to get started";
 
   const titles = {
     dashboard: "Variance dashboard",

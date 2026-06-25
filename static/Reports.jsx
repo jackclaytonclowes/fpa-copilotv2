@@ -953,6 +953,9 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
             <Button variant="secondary" icon="copy" onClick={copyFullReport}>
               Copy
             </Button>
+            <Button variant="secondary" icon="printer" onClick={() => window.print()}>
+              Print
+            </Button>
             <Button variant="secondary" icon="file-archive"
               onClick={() => doExport("zip")}
               disabled={!!exporting}>

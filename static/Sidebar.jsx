@@ -75,9 +75,9 @@ function Sidebar({ active, onNav, hasData }) {
       >
         <Logo />
       </div>
-      <div className="sb-sec">Analyse</div>
+      <div className="sb-sec">Analysis</div>
       {nav.map((it) => <Item key={it.id} it={it} />)}
-      <div className="sb-sec">Workspace</div>
+      <div className="sb-sec">Practice</div>
       {tools.map((it) => <Item key={it.id} it={it} />)}
       <div className="sb-foot">
         {/* Dark mode toggle */}
