@@ -155,6 +155,7 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
   const padL = 76, padR = 18, padT = 32, padB = 52;
   const cW = W - padL - padR;
   const cH = H - padT - padB;
+  const [hoveredIdx, setHoveredIdx] = useStateChart(null);
 
   // ── Build the full segment list ───────────────────────────────────────
   // segment: { label, base, impact, type:"total"|"fav"|"adv" }
@@ -276,6 +277,13 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
         // X-axis label (wrapped)
         const lines = wrapLabel(seg.label);
 
+        const isHovered = hoveredIdx === i;
+
+        // Tooltip position — flip to left half if bar is in the right half
+        const tipW = 128, tipH = seg.type === "total" ? 44 : 56;
+        const tipX = cx + barW / 2 + 6 > W / 2 ? cx - barW / 2 - tipW - 6 : cx + barW / 2 + 6;
+        const tipY = Math.max(padT, Math.min(barTop - 4, padT + cH - tipH));
+
         return (
           <g key={i}>
             {/* Connector to next bar */}
@@ -289,8 +297,15 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
             {/* Bar */}
             <rect
               x={barX} y={barTop} width={barW} height={barHpx}
-              fill={FILL[seg.type]} rx={2} opacity={0.86}
+              fill={FILL[seg.type]} rx={2}
+              opacity={isHovered ? 1 : 0.86}
+              style={{ transition: "opacity .1s" }}
             />
+            {/* Hover highlight ring */}
+            {isHovered && (
+              <rect x={barX - 1} y={barTop - 1} width={barW + 2} height={barHpx + 2}
+                fill="none" stroke={FILL[seg.type]} strokeWidth={1.5} rx={3} opacity={0.6} />
+            )}
 
             {/* Value label */}
             <text x={cx} y={labelY} textAnchor="middle"
@@ -303,11 +318,41 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
               {seg.label.length > 22 && <title>{seg.label}</title>}
               {lines.map((ln, li) => (
                 <text key={li} x={cx} y={H - padB + 14 + li * 12} textAnchor="middle"
-                  style={{ font: "10px var(--font-sans)", fill: "var(--fg-3)" }}>
+                  style={{ font: "10px var(--font-sans)", fill: isHovered ? "var(--ink)" : "var(--fg-3)" }}>
                   {ln}
                 </text>
               ))}
             </g>
+
+            {/* Invisible hover hit area */}
+            <rect
+              x={barX} y={padT} width={barW} height={cH}
+              fill="transparent" style={{ cursor: "default" }}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            />
+
+            {/* Tooltip */}
+            {isHovered && (
+              <g>
+                <rect x={tipX} y={tipY} width={tipW} height={tipH}
+                  rx={4} fill="var(--ink)" opacity={0.92} />
+                <text x={tipX + 8} y={tipY + 14}
+                  style={{ font: "600 10px var(--font-sans)", fill: "#fff" }}>
+                  {seg.label.length > 16 ? seg.label.slice(0, 15) + "…" : seg.label}
+                </text>
+                <text x={tipX + 8} y={tipY + 28}
+                  style={{ font: "600 11px var(--font-mono)", fill: seg.type === "fav" ? "#6ee7b7" : seg.type === "adv" ? "#fca5a5" : "#93c5fd" }}>
+                  {labelTxt}
+                </text>
+                {seg.type !== "total" && (
+                  <text x={tipX + 8} y={tipY + 42}
+                    style={{ font: "400 9px var(--font-sans)", fill: "rgba(255,255,255,0.6)" }}>
+                    {seg.type === "fav" ? "Favourable" : "Adverse"} · from {fmtAxis(seg.base)}
+                  </text>
+                )}
+              </g>
+            )}
           </g>
         );
       })}
