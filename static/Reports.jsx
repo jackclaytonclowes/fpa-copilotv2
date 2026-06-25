@@ -181,6 +181,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
   const [narrative,    setNarrative]    = React.useState(null);
   const [verification, setVerification] = React.useState(null);
   const [copied,       setCopied]       = React.useState(false);
+  const [errMsg,       setErrMsg]       = React.useState("");
   const [contextNotes, setContextNotes] = React.useState("");
   const [tonePreset,   setTonePreset]   = React.useState(() => {
     try { return localStorage.getItem("meiq_default_tone") || "board"; } catch { return "board"; }
@@ -208,6 +209,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       setStatus("done");
     } catch (e) {
       console.error("[Commentary]", e);
+      setErrMsg(e.message || "");
       setStatus("error");
     }
   };
@@ -316,8 +318,16 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
           padding: "16px 18px", background: "var(--adverse-soft)", borderRadius: "var(--radius-sm)",
           border: "1px solid var(--adverse-border)",
         }}>
-          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--adverse-text)", marginBottom: 12 }}>
-            Failed to generate commentary. Check your OpenAI API key and try again.
+          <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--adverse-text)", marginBottom: 4 }}>
+            Failed to generate commentary.
+          </div>
+          {errMsg && (
+            <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--adverse-text)", marginBottom: 10, opacity: 0.8 }}>
+              {errMsg}
+            </div>
+          )}
+          <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)", marginBottom: 12 }}>
+            Check that <code>OPENAI_API_KEY</code> is set on the server and try again.
           </div>
           <Button variant="secondary" icon="refresh-cw" onClick={generate}>
             Retry
