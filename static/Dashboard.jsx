@@ -762,44 +762,10 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   // Short month labels for waterfall x-axis  e.g. "August 2025" → "Aug"
   const shortLabel = (lbl) => lbl ? lbl.split(" ")[0].slice(0, 3) : "";
 
-  // Log full waterfall source values to browser console for inspection
   React.useEffect(() => {
-    if (!waterfall) return;
-
-    const fmtGBPc = (v) => (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
-    const fmtDiff = (v) => (v >= 0 ? "+" : "") + fmtGBPc(v);
-
-    console.group("[FP&A Copilot] Profit Drivers — source values");
-    console.log("Period        :", period?.label, "vs", period?.prior);
-    console.log("Prior profit  :", fmtGBPc(waterfall.prior_profit));
-    console.log("Current profit:", fmtGBPc(waterfall.current_profit));
-    console.log("Net change    :", fmtDiff(waterfall.net_change));
-    console.log("Reconciles    :", waterfall.reconciles);
-    console.log("");
-    console.log("Category detail (Prior → Current → Raw Variance → Profit Impact):");
-    (waterfall.category_detail || []).forEach((d) => {
-      const type   = d.is_revenue ? "revenue  [formula: current − prior]" : "cost     [formula: prior − current]";
-      const verify = d.is_revenue
-        ? (d.current - d.prior).toFixed(2)
-        : (d.prior   - d.current).toFixed(2);
-      console.log(
-        `  ${d.category.padEnd(30)} ` +
-        `Prior=${fmtGBPc(d.prior).padStart(12)}  ` +
-        `Current=${fmtGBPc(d.current).padStart(12)}  ` +
-        `RawVar=${fmtDiff(d.raw_variance).padStart(12)}  ` +
-        `ProfitImpact=${fmtDiff(d.profit_impact).padStart(12)}  ` +
-        `(${type}, check=${verify})`
-      );
-    });
-    console.log("");
-    const barSum = waterfall.bars.reduce((s, b) => s + b.impact, 0);
-    console.log("Bar sum       :", fmtDiff(Math.round(barSum)));
-    console.log("Net change    :", fmtDiff(waterfall.net_change));
-    console.log("Diff          :", fmtDiff(Math.round(waterfall.net_change - barSum)));
-    if (!waterfall.reconciles) {
-      console.warn("[FP&A Copilot] ⚠ Waterfall does not reconcile — check account categorisation");
+    if (waterfall && !waterfall.reconciles) {
+      console.warn("[MonthEndIQ] Waterfall does not reconcile — check account categorisation");
     }
-    console.groupEnd();
   }, [waterfall]);
 
   // Donut colours
