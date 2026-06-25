@@ -78,10 +78,10 @@ function UploadScreen({ onLoad, onLoadDemo }) {
   const [demoLoading,  setDemoLoading]  = useStateUpload(null);
   const [error,        setError]        = useStateUpload(null);
   const [mode,         setMode]         = useStateUpload(() => {
-    try { return localStorage.getItem("meiq_upload_mode") || "month_on_month"; } catch { return "month_on_month"; }
+    try { return localStorage.getItem("meiq_upload_mode") || ""; } catch { return ""; }
   });
   const [xeroMode,     setXeroMode]     = useStateUpload(() => {
-    try { return localStorage.getItem("meiq_upload_mode") || "month_on_month"; } catch { return "month_on_month"; }
+    try { return localStorage.getItem("meiq_upload_mode") || ""; } catch { return ""; }
   });
   const [showGuide,    setShowGuide]    = useStateUpload(false);
   const inputRef = useRefUpload(null);
@@ -139,7 +139,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     setXeroStatus("importing");
     setXeroError(null);
     try {
-      const params = new URLSearchParams({ state: xeroState, tenant_id: xeroTenant, mode: xeroMode });
+      const params = new URLSearchParams({ state: xeroState, tenant_id: xeroTenant, mode: xeroMode || "month_on_month" });
       if (xeroFromDate) params.set("from_date", xeroFromDate);
       if (xeroToDate) params.set("to_date", xeroToDate);
       const resp = await fetch(apiUrl(`/api/xero/import?${params}`));
@@ -156,12 +156,13 @@ function UploadScreen({ onLoad, onLoadDemo }) {
       setError("Please upload a CSV or Excel file (.csv, .xlsx).");
       return;
     }
+    const effectiveMode = mode || "month_on_month";
     setLoading(true);
     setError(null);
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch(apiUrl(`/api/upload?mode=${mode}`), { method: "POST", body: fd });
+      const res = await fetch(apiUrl(`/api/upload?mode=${effectiveMode}`), { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Upload failed." }));
         throw new Error(err.detail || "Upload failed.");
@@ -247,11 +248,13 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                   Budget vs Actual
                 </button>
               </div>
-              <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 7, lineHeight: 1.5 }}>
-                {mode === "month_on_month"
-                  ? "Upload a monthly P&L export. MonthEndIQ will compare each period against the prior period."
-                  : "Upload a file with Actual and Budget columns. MonthEndIQ will calculate variances against budget."}
-              </div>
+              {mode && (
+                <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 7, lineHeight: 1.5 }}>
+                  {mode === "month_on_month"
+                    ? "Upload a monthly P&L export. MonthEndIQ will compare each period against the prior period."
+                    : "Upload a file with Actual and Budget columns. MonthEndIQ will calculate variances against budget."}
+                </div>
+              )}
             </div>
 
             <div
