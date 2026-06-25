@@ -43,6 +43,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [categories, setCategories]       = useStateM([]);
   const [reclassState, setReclassState]   = useStateM({});
   const [alertThreshold, setAlertThreshold] = useStateM(null); // null = off, number = %
+  const [showPctRev, setShowPctRev] = useStateM(false);
   const [notes, setNotes]           = useStateM({});
   const [noteEditing, setNoteEditing] = useStateM({}); // account → draft text
   const lastFetched = useRefM({ period: initialData?.selected_period, mode: periodMode });
@@ -195,6 +196,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const totalFav = favRows.reduce((s, m) => s + Math.abs(m.variance || 0), 0);
   const totalAdv = advRows.reduce((s, m) => s + Math.abs(m.variance || 0), 0);
   const maxAbsVariance = allRows.reduce((max, m) => Math.max(max, Math.abs(m.variance || 0)), 0);
+  const totalRevenue   = allRows.filter(m => m.category === "Revenue").reduce((s, m) => s + Math.abs(m.value || 0), 0);
 
   // Insights: most volatile category
   const catVariances = {};
@@ -261,6 +263,30 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
       `Variance %: ${fmtPct(m.variance_pct)}`,
     ].join("\n");
     onNavigateCopilot(`Given this context:\n${context}\n\nExplain this variance.`);
+  };
+
+  const downloadCSV = () => {
+    const headers = ["Account", "Category", isBvA ? "Actual" : "Current", isBvA ? "Budget" : "Prior", "Variance", "Var %", "Direction"];
+    if (showPctRev) headers.push("% of Revenue");
+    const escape = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const rows = sorted.map(m => [
+      escape(m.account),
+      escape(m.category),
+      m.value        != null ? Math.round(m.value)        : "",
+      m.prior_value  != null ? Math.round(m.prior_value)  : "",
+      m.variance     != null ? Math.round(m.variance)     : "",
+      m.variance_pct != null ? m.variance_pct.toFixed(1)  : "",
+      m.variance !== 0 ? (m.is_fav ? "Favourable" : "Adverse") : "No change",
+      ...(showPctRev ? [totalRevenue > 0 && m.value != null ? ((m.value / totalRevenue) * 100).toFixed(1) : ""] : []),
+    ].join(","));
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `movements-${selected_period || "export"}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const tabs = [
@@ -454,6 +480,41 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
               </select>
             </div>
 
+            {/* % of revenue toggle — only meaningful when revenue rows exist */}
+            {totalRevenue > 0 && (
+              <button
+                onClick={() => setShowPctRev(v => !v)}
+                title="Show each account as % of total revenue"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 5,
+                  font: "var(--text-body-strong)", fontSize: 12.5,
+                  padding: "0 10px", height: 34, borderRadius: "var(--radius-sm)",
+                  border: `1px solid ${showPctRev ? "var(--primary)" : "var(--border)"}`,
+                  background: showPctRev ? "var(--primary-soft)" : "var(--surface)",
+                  color: showPctRev ? "var(--primary)" : "var(--fg-2)",
+                  cursor: "pointer", whiteSpace: "nowrap",
+                }}
+              >
+                <Icon name="percent" size={13} />% Rev
+              </button>
+            )}
+
+            {/* CSV export */}
+            <button
+              onClick={downloadCSV}
+              title="Download visible rows as CSV"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 5,
+                font: "var(--text-body-strong)", fontSize: 12.5,
+                padding: "0 10px", height: 34, borderRadius: "var(--radius-sm)",
+                border: "1px solid var(--border)",
+                background: "var(--surface)", color: "var(--fg-2)",
+                cursor: "pointer",
+              }}
+            >
+              <Icon name="download" size={13} />CSV
+            </button>
+
             <div style={{
               display: "flex", alignItems: "center", gap: 6,
               background: "var(--surface)", border: "1px solid var(--border)",
@@ -523,6 +584,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                   <SortHeader col="variance" label="Variance" />
                   <SortHeader col="variance_pct" label="Var %" className="col-varpct" />
                   <th>Impact</th>
+                  {showPctRev && <th style={{ whiteSpace: "nowrap" }}>% Rev</th>}
                   <th style={{ width: 40 }}></th>
                 </tr>
               </thead>
@@ -596,13 +658,20 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                             <span style={{ color: "var(--fg-3)", fontSize: 12 }}>—</span>
                           )}
                         </td>
+                        {showPctRev && (
+                          <td style={{ fontVariantNumeric: "tabular-nums", color: "var(--fg-2)", fontSize: 12 }}>
+                            {totalRevenue > 0 && m.value != null
+                              ? ((m.value / totalRevenue) * 100).toFixed(1) + "%"
+                              : "—"}
+                          </td>
+                        )}
                         <td>
                           <Icon name={isExpanded ? "chevron-up" : "chevron-down"} size={14} color="var(--fg-3)" />
                         </td>
                       </tr>
                       {isExpanded && (
                         <tr>
-                          <td colSpan={isBvA ? 8 : 9} style={{ padding: 0, border: "none" }}>
+                          <td colSpan={(isBvA ? 8 : 9) + (showPctRev ? 1 : 0)} style={{ padding: 0, border: "none" }}>
                             <div style={{
                               padding: "16px 20px", background: "var(--surface)",
                               borderBottom: "1px solid var(--border)",
@@ -791,7 +860,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 })}
                 {sorted.length === 0 && (
                   <tr>
-                    <td colSpan={8}>
+                    <td colSpan={(isBvA ? 8 : 9) + (showPctRev ? 1 : 0)}>
                       <div style={{ textAlign: "center", padding: "36px 24px" }}>
                         <Icon name="search-x" size={28} color="var(--fg-4, var(--fg-3))" style={{ marginBottom: 10 }} />
                         <div style={{ font: "var(--text-body-strong)", fontSize: 13.5, color: "var(--ink)", marginBottom: 5 }}>
