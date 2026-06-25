@@ -177,10 +177,11 @@ function ReportKpiSummary({ model }) {
 /* ── AI Narrative Commentary ─────────────────────────────────────────────── */
 function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
   const { Icon, Button } = window;
-  const [status,    setStatus]    = React.useState("idle"); // idle | loading | done | error
-  const [narrative, setNarrative] = React.useState(null);
+  const [status,       setStatus]       = React.useState("idle"); // idle | loading | done | error
+  const [narrative,    setNarrative]    = React.useState(null);
   const [verification, setVerification] = React.useState(null);
-  const [copied,    setCopied]    = React.useState(false);
+  const [copied,       setCopied]       = React.useState(false);
+  const [contextNotes, setContextNotes] = React.useState("");
 
   const generate = async () => {
     setStatus("loading");
@@ -192,7 +193,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       const res = await fetch(apiUrl(`/api/commentary/${sessionId}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly" }),
+        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly", context_notes: contextNotes.trim() || null }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -222,22 +223,52 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       action={<span className="ai-badge"><Icon name="sparkles" size={11} />AI</span>}>
       {status === "idle" && (
         <div style={{
-          padding: "20px 16px", textAlign: "center",
+          padding: "20px 16px",
           background: "var(--surface-2)", borderRadius: "var(--radius-sm)",
           border: "1px dashed var(--primary-soft-2)",
         }}>
-          <div style={{ marginBottom: 8 }}>
-            <Icon name="sparkles" size={28} color="var(--primary)" />
+          <div style={{ textAlign: "center", marginBottom: 16 }}>
+            <div style={{ marginBottom: 8 }}>
+              <Icon name="sparkles" size={28} color="var(--primary)" />
+            </div>
+            <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)", marginBottom: 4 }}>
+              Generate board-ready narrative commentary
+            </div>
+            <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-2)" }}>
+              AI writes a full management pack narrative — revenue, costs, profitability and recommended actions.
+            </div>
           </div>
-          <div style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)", marginBottom: 4 }}>
-            Generate board-ready narrative commentary
+          <div style={{ marginBottom: 14 }}>
+            <label style={{
+              display: "block", font: "var(--text-label)", fontSize: 11.5,
+              color: "var(--fg-2)", marginBottom: 5, textAlign: "left",
+            }}>
+              Period notes <span style={{ color: "var(--fg-3)", fontWeight: 400 }}>(optional)</span>
+            </label>
+            <textarea
+              value={contextNotes}
+              onChange={e => setContextNotes(e.target.value)}
+              placeholder="e.g. Large one-off rent payment in March. Revenue delayed due to contract renewal. Staff costs include £12k redundancy."
+              rows={3}
+              style={{
+                width: "100%", boxSizing: "border-box", resize: "vertical",
+                font: "var(--text-body)", fontSize: 13, lineHeight: 1.5,
+                color: "var(--ink)", background: "var(--surface)",
+                border: "1.5px solid var(--border)", borderRadius: "var(--radius-xs)",
+                padding: "9px 11px", outline: "none", transition: "border-color .15s",
+              }}
+              onFocus={e => e.target.style.borderColor = "var(--primary)"}
+              onBlur={e => e.target.style.borderColor = "var(--border)"}
+            />
+            <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 4, textAlign: "left" }}>
+              These notes are injected into the AI prompt so commentary reflects your context.
+            </div>
           </div>
-          <div style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-2)", marginBottom: 16 }}>
-            AI writes a full management pack narrative — revenue, costs, profitability and recommended actions.
+          <div style={{ textAlign: "center" }}>
+            <Button variant="primary" icon="sparkles" onClick={generate}>
+              Generate Commentary
+            </Button>
           </div>
-          <Button variant="primary" icon="sparkles" onClick={generate}>
-            Generate Commentary
-          </Button>
         </div>
       )}
 
@@ -266,13 +297,22 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
 
       {status === "done" && narrative && (
         <div>
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 12 }}>
-            <Button variant="secondary" icon={copied ? "check" : "copy"} onClick={copy}>
-              {copied ? "Copied" : "Copy"}
-            </Button>
-            <Button variant="secondary" icon="refresh-cw" onClick={generate}>
-              Regenerate
-            </Button>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+            <button onClick={() => { setStatus("idle"); setNarrative(null); }} style={{
+              background: "none", border: "none", cursor: "pointer", padding: "4px 0",
+              font: "var(--text-caption)", fontSize: 11.5, color: "var(--primary)",
+              display: "flex", alignItems: "center", gap: 4,
+            }}>
+              <Icon name="pencil" size={12} />Edit period notes &amp; regenerate
+            </button>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Button variant="secondary" icon={copied ? "check" : "copy"} onClick={copy}>
+                {copied ? "Copied" : "Copy"}
+              </Button>
+              <Button variant="secondary" icon="refresh-cw" onClick={generate}>
+                Regenerate
+              </Button>
+            </div>
           </div>
           <div style={{
             padding: "16px 18px", background: "var(--surface-2)", borderRadius: "var(--radius-sm)",

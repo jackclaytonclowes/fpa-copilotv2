@@ -2439,8 +2439,9 @@ def _verify_narrative_figures(narrative: str, context: str) -> dict:
 
 
 class CommentaryBody(BaseModel):
-    period: str | None = None
-    mode:   str        = "monthly"
+    period:        str | None = None
+    mode:          str        = "monthly"
+    context_notes: str | None = None  # optional accountant notes injected into prompt
 
 
 @app.post("/api/commentary/{session_id}")
@@ -2470,6 +2471,14 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
 
     context = _build_financial_context(s, selected, body.mode)
 
+    # Append accountant-provided context notes to the user turn if supplied
+    user_msg = "Write the management pack narrative commentary for this period."
+    if body.context_notes and body.context_notes.strip():
+        user_msg += (
+            f"\n\nACCOUNTANT'S NOTES FOR THIS PERIOD:\n{body.context_notes.strip()}\n"
+            "Please incorporate the above context where relevant in the commentary."
+        )
+
     try:
         from openai import OpenAI
         ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
@@ -2478,7 +2487,7 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
             model=ai_model,
             messages=[
                 {"role": "system", "content": COMMENTARY_PROMPT.format(context=context)},
-                {"role": "user",   "content": "Write the management pack narrative commentary for this period."},
+                {"role": "user",   "content": user_msg},
             ],
             temperature=0.4,
             max_tokens=900,
