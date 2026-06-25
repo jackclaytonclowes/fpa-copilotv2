@@ -470,6 +470,73 @@ class TestGetPeriodData:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# GET_BVA_DATA
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGetBvaData:
+    @pytest.fixture
+    def bva_df(self):
+        raw = pd.DataFrame({
+            "Account": [
+                "Product Revenue", "Service Revenue", "Total Revenue",
+                "Staff Wages", "Office Rent", "Total Costs",
+                "Operating Profit",
+            ],
+            "Section": [
+                "Turnover", "Turnover", "Turnover",
+                "Admin", "Admin", "Admin",
+                "Profit",
+            ],
+            "Actual": [85_000, 42_000, 127_000, 36_000, 5_200, 41_200, 85_800],
+            "Budget": [80_000, 40_000, 120_000, 35_000, 5_000, 40_000, 80_000],
+        })
+        return analysis.build_bva(raw, "Actual", "Budget")
+
+    @pytest.fixture
+    def kpi_accounts(self, bva_df):
+        # build_long is not used in BvA — use detect_kpis on a derived long form
+        raw = pd.DataFrame({
+            "Account": bva_df["Account"].tolist(),
+            "Section": bva_df["Section"].tolist(),
+            "Apr 2024": bva_df["Actual"].tolist(),
+        })
+        df_long = analysis.build_long(raw, "monthly")
+        return analysis.detect_kpis(df_long)
+
+    def test_returns_expected_top_level_keys(self, bva_df, kpi_accounts):
+        data = analysis.get_bva_data(bva_df, kpi_accounts, "test.csv")
+        for key in ("kpis", "movements", "commentary", "waterfall"):
+            assert key in data, f"Missing key: {key}"
+
+    def test_kpis_have_required_fields(self, bva_df, kpi_accounts):
+        data = analysis.get_bva_data(bva_df, kpi_accounts, "test.csv")
+        for kpi in data["kpis"]:
+            for field in ("label", "value", "variance", "is_fav"):
+                assert field in kpi, f"KPI missing field: {field}"
+
+    def test_movements_have_required_fields(self, bva_df, kpi_accounts):
+        data = analysis.get_bva_data(bva_df, kpi_accounts, "test.csv")
+        for m in data["movements"]:
+            for field in ("account", "category", "value", "variance", "is_fav"):
+                assert field in m, f"Movement missing field: {field}"
+
+    def test_revenue_is_favourable_when_above_budget(self, bva_df, kpi_accounts):
+        data = analysis.get_bva_data(bva_df, kpi_accounts, "test.csv")
+        rev_kpi = next((k for k in data["kpis"] if "Revenue" in k["label"]), None)
+        assert rev_kpi is not None, "No revenue KPI found"
+        assert rev_kpi["variance"] > 0
+        assert rev_kpi["is_fav"] is True
+
+    def test_commentary_list(self, bva_df, kpi_accounts):
+        data = analysis.get_bva_data(bva_df, kpi_accounts, "test.csv")
+        assert isinstance(data["commentary"], list)
+        if data["commentary"]:
+            first = data["commentary"][0]
+            assert "html" in first or "text" in first  # BvA uses html
+            assert "icon" in first
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # PDF GENERATION (smoke test)
 # ─────────────────────────────────────────────────────────────────────────────
 

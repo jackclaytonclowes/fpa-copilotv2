@@ -2828,6 +2828,7 @@ def get_anomalies(
     Returns accounts where the current period value deviates from its own
     historical distribution by more than `sigma` standard deviations.
     """
+    sigma = max(0.5, min(sigma, 5.0))
     s = SESSIONS.get(session_id)
     if not s:
         raise HTTPException(404, "Session not found.")
