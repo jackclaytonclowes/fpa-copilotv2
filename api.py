@@ -23,7 +23,7 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
@@ -1755,12 +1755,19 @@ def _friendly_upload_error(raw: str, mode: str) -> str:
     return raw
 
 
+_MAX_UPLOAD_BYTES = 20 * 1024 * 1024  # 20 MB
+
+
 @app.post("/api/upload")
 async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
+    if not file.filename:
+        raise HTTPException(400, "No filename provided.")
     ext = file.filename.split(".")[-1].lower()
     if ext not in ("csv", "xlsx", "xls"):
         raise HTTPException(400, "Only CSV and Excel files are supported.")
-    contents = await file.read()
+    contents = await file.read(_MAX_UPLOAD_BYTES + 1)
+    if len(contents) > _MAX_UPLOAD_BYTES:
+        raise HTTPException(413, "File too large. Maximum supported file size is 20 MB.")
 
     # ── Budget vs Actual path ─────────────────────────────────────────────
     if mode == "budget_vs_actual":
@@ -2603,7 +2610,7 @@ FINANCIAL DATA:
 
 
 class AskBody(BaseModel):
-    question: str
+    question: str       = Field(max_length=4000)
     period:   str | None = None
     mode:     str        = "monthly"
     history:  list[dict] | None = None   # [{role: "user"|"assistant", content: str}]
