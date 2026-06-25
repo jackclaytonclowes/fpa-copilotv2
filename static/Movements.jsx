@@ -194,6 +194,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const largestAdv = advRows.length ? advRows.reduce((a, b) => Math.abs(a.variance) > Math.abs(b.variance) ? a : b) : null;
   const totalFav = favRows.reduce((s, m) => s + Math.abs(m.variance || 0), 0);
   const totalAdv = advRows.reduce((s, m) => s + Math.abs(m.variance || 0), 0);
+  const maxAbsVariance = allRows.reduce((max, m) => Math.max(max, Math.abs(m.variance || 0)), 0);
 
   // Insights: most volatile category
   const catVariances = {};
@@ -571,15 +572,29 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
                         <td className="col-prior">{fmtGBP(m.prior_value)}</td>
                         <td className={m.is_fav ? "fav" : m.variance !== 0 ? "adv" : ""}>{fmtSignedGBP(m.variance)}</td>
                         <td className={`col-varpct${m.is_fav ? " fav" : m.variance !== 0 ? " adv" : ""}`}>{fmtPct(m.variance_pct)}</td>
-                        <td>
-                          <span style={{
-                            font: "var(--text-body-strong)", fontSize: 11, padding: "2px 8px",
-                            borderRadius: "var(--radius-pill)",
-                            background: m.is_fav ? "var(--favourable-soft)" : (m.variance !== 0 ? "var(--adverse-soft)" : "var(--surface-2)"),
-                            color: m.is_fav ? "var(--favourable-text)" : (m.variance !== 0 ? "var(--adverse-text)" : "var(--fg-3)"),
-                          }}>
-                            {m.is_fav ? "Favourable" : (m.variance !== 0 ? "Adverse" : "—")}
-                          </span>
+                        <td style={{ minWidth: 110 }}>
+                          {m.variance !== 0 ? (
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <div style={{ flex: 1, height: 6, background: "var(--surface-2)", borderRadius: 3, overflow: "hidden", minWidth: 50 }}>
+                                <div style={{
+                                  height: "100%", borderRadius: 3,
+                                  width: `${maxAbsVariance > 0 ? Math.round(Math.abs(m.variance || 0) / maxAbsVariance * 100) : 0}%`,
+                                  background: m.is_fav ? "var(--favourable)" : "var(--adverse)",
+                                  transition: "width .2s",
+                                }} />
+                              </div>
+                              <span style={{
+                                font: "var(--text-body-strong)", fontSize: 10, padding: "1px 6px",
+                                borderRadius: "var(--radius-pill)", whiteSpace: "nowrap",
+                                background: m.is_fav ? "var(--favourable-soft)" : "var(--adverse-soft)",
+                                color: m.is_fav ? "var(--favourable-text)" : "var(--adverse-text)",
+                              }}>
+                                {m.is_fav ? "Fav" : "Adv"}
+                              </span>
+                            </div>
+                          ) : (
+                            <span style={{ color: "var(--fg-3)", fontSize: 12 }}>—</span>
+                          )}
                         </td>
                         <td>
                           <Icon name={isExpanded ? "chevron-up" : "chevron-down"} size={14} color="var(--fg-3)" />
