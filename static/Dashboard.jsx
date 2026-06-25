@@ -900,24 +900,6 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         })}
       </div>
 
-      {/* Cash & Runway — headline SMB metric */}
-      <CashRunway
-        trend={trend}
-        periodMode={periodMode}
-        sessionId={sessionId}
-        isBvA={isBvA}
-        xeroCash={data.xero_cash}
-      />
-
-      {/* Statistical anomaly detection */}
-      {!isBvA && periodMode !== "ytd" && (
-        <AnomalyPanel
-          sessionId={sessionId}
-          selectedPeriod={selected_period}
-          periodMode={periodMode}
-        />
-      )}
-
       {/* Smart highlights */}
       <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
 
@@ -1446,6 +1428,24 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {!isBvA && periodMode !== "ytd" && (trend || []).length > 2 && (
         <ForecastPanel sessionId={sessionId} periodMode={periodMode} />
       )}
+
+      {/* ── Statistical anomaly detection (secondary — requires history) ── */}
+      {!isBvA && periodMode !== "ytd" && (
+        <AnomalyPanel
+          sessionId={sessionId}
+          selectedPeriod={selected_period}
+          periodMode={periodMode}
+        />
+      )}
+
+      {/* ── Cash & Runway (supplementary — requires cash balance input) ── */}
+      <CashRunway
+        trend={trend}
+        periodMode={periodMode}
+        sessionId={sessionId}
+        isBvA={isBvA}
+        xeroCash={data.xero_cash}
+      />
 
       {/* ── Period spotlight modal ── */}
       {spotlight && (

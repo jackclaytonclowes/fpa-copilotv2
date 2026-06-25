@@ -594,6 +594,10 @@ function App() {
     body = null;
   } else if (view === "portfolio") {
     body = Portfolio ? <Portfolio onOpenClient={openClient} onToast={fireToast} /> : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>;
+  } else if (view === "settings") {
+    body = window.SettingsView
+      ? <SettingsView onToast={fireToast} />
+      : null;
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
@@ -661,10 +665,6 @@ function App() {
         onExitConsolidated={onExitConsolidated}
       />
     );
-  } else if (view === "settings") {
-    body = window.SettingsView
-      ? <SettingsView onToast={fireToast} />
-      : null;
   } else {
     body = (
       <div className="content">

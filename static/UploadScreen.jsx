@@ -77,7 +77,12 @@ function UploadScreen({ onLoad, onLoadDemo }) {
   const [loading,      setLoading]      = useStateUpload(false);
   const [demoLoading,  setDemoLoading]  = useStateUpload(null);
   const [error,        setError]        = useStateUpload(null);
-  const [mode,         setMode]         = useStateUpload("month_on_month");
+  const [mode,         setMode]         = useStateUpload(() => {
+    try { return localStorage.getItem("meiq_upload_mode") || "month_on_month"; } catch { return "month_on_month"; }
+  });
+  const [xeroMode,     setXeroMode]     = useStateUpload(() => {
+    try { return localStorage.getItem("meiq_upload_mode") || "month_on_month"; } catch { return "month_on_month"; }
+  });
   const [showGuide,    setShowGuide]    = useStateUpload(false);
   const inputRef = useRefUpload(null);
 
@@ -134,7 +139,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     setXeroStatus("importing");
     setXeroError(null);
     try {
-      const params = new URLSearchParams({ state: xeroState, tenant_id: xeroTenant });
+      const params = new URLSearchParams({ state: xeroState, tenant_id: xeroTenant, mode: xeroMode });
       if (xeroFromDate) params.set("from_date", xeroFromDate);
       if (xeroToDate) params.set("to_date", xeroToDate);
       const resp = await fetch(apiUrl(`/api/xero/import?${params}`));
@@ -227,7 +232,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
               <div className="seg" style={{ display: "inline-flex" }}>
                 <button
                   className={mode === "month_on_month" ? "on" : ""}
-                  onClick={() => setMode("month_on_month")}
+                  onClick={() => { setMode("month_on_month"); try { localStorage.setItem("meiq_upload_mode", "month_on_month"); } catch {} }}
                   style={{ display: "flex", alignItems: "center", gap: 6 }}
                 >
                   <Icon name="calendar-days" size={13} />
@@ -235,7 +240,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                 </button>
                 <button
                   className={mode === "budget_vs_actual" ? "on" : ""}
-                  onClick={() => setMode("budget_vs_actual")}
+                  onClick={() => { setMode("budget_vs_actual"); try { localStorage.setItem("meiq_upload_mode", "budget_vs_actual"); } catch {} }}
                   style={{ display: "flex", alignItems: "center", gap: 6 }}
                 >
                   <Icon name="target" size={13} />
@@ -466,6 +471,27 @@ function UploadScreen({ onLoad, onLoadDemo }) {
 
             {(xeroStatus === "connected" || xeroStatus === "importing") && (
               <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 14 }}>
+                <div>
+                  <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 6 }}>Analysis mode</div>
+                  <div className="seg" style={{ display: "inline-flex" }}>
+                    <button
+                      className={xeroMode === "month_on_month" ? "on" : ""}
+                      onClick={() => { setXeroMode("month_on_month"); try { localStorage.setItem("meiq_upload_mode", "month_on_month"); } catch {} }}
+                      style={{ display: "flex", alignItems: "center", gap: 6 }}
+                    >
+                      <Icon name="calendar-days" size={13} />
+                      Month-on-Month
+                    </button>
+                    <button
+                      className={xeroMode === "budget_vs_actual" ? "on" : ""}
+                      onClick={() => { setXeroMode("budget_vs_actual"); try { localStorage.setItem("meiq_upload_mode", "budget_vs_actual"); } catch {} }}
+                      style={{ display: "flex", alignItems: "center", gap: 6 }}
+                    >
+                      <Icon name="target" size={13} />
+                      Budget vs Actual
+                    </button>
+                  </div>
+                </div>
                 <div>
                   <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 6 }}>Organisation</div>
                   <select value={xeroTenant} onChange={e => setXeroTenant(e.target.value)}

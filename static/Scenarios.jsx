@@ -48,6 +48,8 @@ function Scenarios({ initialData, fileName, analysisType }) {
   const [adjustments, setAdjustments] = useStateSc({}); // { account: pct }
   const [filter, setFilter]           = useStateSc("all"); // all|revenue|costs
   const [saved, setSaved]             = useStateSc(() => loadScenarios(fileName));
+  const [bulkRevPct, setBulkRevPct]   = useStateSc(0);
+  const [bulkCostPct, setBulkCostPct] = useStateSc(0);
   const [activeIdx, setActiveIdx]     = useStateSc(null);
   const [showSave, setShowSave]       = useStateSc(false);
   const [saveName, setSaveName]       = useStateSc("Scenario 1");
@@ -75,7 +77,27 @@ function Scenarios({ initialData, fileName, analysisType }) {
     setActiveIdx(null);
   };
 
-  const reset = () => { setAdjustments({}); setActiveIdx(null); };
+  const reset = () => { setAdjustments({}); setActiveIdx(null); setBulkRevPct(0); setBulkCostPct(0); };
+
+  const applyBulkRevenue = () => {
+    const pct = Math.max(-50, Math.min(50, Number(bulkRevPct) || 0));
+    setAdjustments(prev => {
+      const next = { ...prev };
+      revenueItems.forEach(item => { next[item.account] = pct; });
+      return next;
+    });
+    setActiveIdx(null);
+  };
+
+  const applyBulkCosts = () => {
+    const pct = Math.max(-50, Math.min(50, Number(bulkCostPct) || 0));
+    setAdjustments(prev => {
+      const next = { ...prev };
+      costItems.forEach(item => { next[item.account] = pct; });
+      return next;
+    });
+    setActiveIdx(null);
+  };
 
   const saveScenario = () => {
     if (!saveName.trim()) return;
@@ -262,6 +284,62 @@ function Scenarios({ initialData, fileName, analysisType }) {
             </div>
           }
         >
+          {/* ── Bulk adjust row ── */}
+          <div style={{
+            display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap",
+            padding: "10px 0 12px", marginBottom: 4,
+            borderBottom: "1px solid var(--border)",
+          }}>
+            <span style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--fg-3)", flexShrink: 0 }}>
+              Apply to all:
+            </span>
+            {/* Revenue bulk */}
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <Icon name="trending-up" size={12} color="var(--favourable)" />
+              <span style={{ font: "var(--text-body)", fontSize: 12, color: "var(--fg-2)" }}>Revenue</span>
+              <input
+                type="number" min={-50} max={50} step={1}
+                value={bulkRevPct}
+                onChange={e => setBulkRevPct(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && applyBulkRevenue()}
+                style={{
+                  width: 58, padding: "3px 6px", textAlign: "right",
+                  border: "1px solid var(--border-strong)", borderRadius: "var(--radius-sm)",
+                  font: "600 12px var(--font-mono)", background: "var(--surface)", color: "var(--ink)",
+                }}
+              />
+              <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>%</span>
+              <button onClick={applyBulkRevenue} style={{
+                padding: "3px 9px", borderRadius: "var(--radius-pill)", cursor: "pointer",
+                border: "1px solid var(--favourable)", background: "var(--favourable-soft)",
+                color: "var(--favourable-text)", font: "var(--text-label)", fontSize: 11,
+              }}>Apply</button>
+            </div>
+            <div style={{ width: 1, height: 18, background: "var(--border)", flexShrink: 0 }} />
+            {/* Costs bulk */}
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <Icon name="trending-down" size={12} color="var(--adverse)" />
+              <span style={{ font: "var(--text-body)", fontSize: 12, color: "var(--fg-2)" }}>Costs</span>
+              <input
+                type="number" min={-50} max={50} step={1}
+                value={bulkCostPct}
+                onChange={e => setBulkCostPct(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && applyBulkCosts()}
+                style={{
+                  width: 58, padding: "3px 6px", textAlign: "right",
+                  border: "1px solid var(--border-strong)", borderRadius: "var(--radius-sm)",
+                  font: "600 12px var(--font-mono)", background: "var(--surface)", color: "var(--ink)",
+                }}
+              />
+              <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>%</span>
+              <button onClick={applyBulkCosts} style={{
+                padding: "3px 9px", borderRadius: "var(--radius-pill)", cursor: "pointer",
+                border: "1px solid var(--adverse)", background: "var(--adverse-soft)",
+                color: "var(--adverse-text)", font: "var(--text-label)", fontSize: 11,
+              }}>Apply</button>
+            </div>
+          </div>
+
           {grouped.map(([category, items]) => (
             <div key={category} style={{ marginBottom: 4 }}>
               {/* Category heading */}
