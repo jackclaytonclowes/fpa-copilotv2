@@ -98,6 +98,17 @@ Redeploy the Render service. The backend will now accept requests from your Verc
 | `OPENAI_MODEL` | Render | No | Model override (default: `gpt-4o-mini`) |
 | `ALLOWED_ORIGINS` | Render | Split deploy only | Comma-separated Vercel URLs |
 | `NEXT_PUBLIC_API_URL` | Vercel | Split deploy only | Your Render service URL |
+| `XERO_CLIENT_ID` | Render | No | Xero app client ID (OAuth 2.0) |
+| `XERO_CLIENT_SECRET` | Render | No | Xero app client secret |
+| `XERO_REDIRECT_URI` | Render | No | Xero OAuth callback URL |
+| `PORTFOLIO_DB` | Render | No | Path to SQLite DB file (default: `portfolio.db`). Set to a persistent-disk path on Render, e.g. `/data/portfolio.db` |
+| `SESSION_TTL_DAYS` | Render | No | Days before session data is auto-deleted (default: `30`) |
+| `WATERFALL_DEBUG` | Render | No | Set to `1` for verbose waterfall analysis logs |
+| `SMTP_HOST` | Render | No | SMTP server hostname — enables email export feature |
+| `SMTP_PORT` | Render | No | SMTP port (default: `587`) |
+| `SMTP_USER` | Render | No | SMTP username / login address |
+| `SMTP_PASSWORD` | Render | No | SMTP password or app password |
+| `EMAIL_FROM` | Render | No | From address for sent emails (defaults to `SMTP_USER`) |
 
 See `.env.example` for a template.
 

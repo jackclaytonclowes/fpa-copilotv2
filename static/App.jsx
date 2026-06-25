@@ -29,7 +29,6 @@ function migrateChatHistory(oldSessionId, newSessionId) {
       const turns = JSON.parse(data);
       if (Array.isArray(turns) && turns.length > 0) {
         localStorage.setItem(newKey, data);
-        console.log("[MonthEndIQ] Migrated " + turns.length + " chat turns from " + oldSessionId.slice(0,8) + " → " + newSessionId.slice(0,8));
       }
       localStorage.removeItem(oldKey);
     }
@@ -414,7 +413,6 @@ function App() {
     const check = { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette };
     const missing = Object.entries(check).filter(([, v]) => !v).map(([k]) => k);
     if (missing.length) console.error("[MonthEndIQ] Missing window components:", missing);
-    else console.log("[MonthEndIQ] All components loaded OK");
   }, []);
 
   // Upload / session
