@@ -237,7 +237,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                   style={{ display: "flex", alignItems: "center", gap: 6 }}
                 >
                   <Icon name="calendar-days" size={13} />
-                  Month-on-Month
+                  P&L Variance Analysis
                 </button>
                 <button
                   className={mode === "budget_vs_actual" ? "on" : ""}
@@ -306,7 +306,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                   border: "1px solid var(--border)",
                   font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-2)", lineHeight: 1.7,
                 }}>
-                  <p style={{ margin: "0 0 8px", fontWeight: 600 }}>Month-on-Month (CSV or XLSX)</p>
+                  <p style={{ margin: "0 0 8px", fontWeight: 600 }}>P&L Variance Analysis (CSV or XLSX)</p>
                   <div style={{
                     fontFamily: "var(--font-mono, monospace)", fontSize: 11.5,
                     background: "var(--surface-2)", padding: "8px 12px",
@@ -483,7 +483,7 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                       style={{ display: "flex", alignItems: "center", gap: 6 }}
                     >
                       <Icon name="calendar-days" size={13} />
-                      Month-on-Month
+                      P&L Variance Analysis
                     </button>
                     <button
                       className={xeroMode === "budget_vs_actual" ? "on" : ""}
