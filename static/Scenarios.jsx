@@ -582,6 +582,65 @@ function Scenarios({ initialData, fileName, analysisType }) {
                       ))}
                     </tbody>
                   </table>
+
+                  {/* Profit bar chart */}
+                  {(() => {
+                    const allProfs = [baseProfit, ...saved.map(s => s.profit)];
+                    const maxAbs   = Math.max(...allProfs.map(Math.abs), 1);
+                    const items    = [
+                      { label: "Baseline", profit: baseProfit, isBase: true },
+                      ...saved.map(sc => ({ label: sc.name, profit: sc.profit, impact: sc.impact })),
+                    ];
+                    return (
+                      <div style={{ marginTop: 16 }}>
+                        <div style={{
+                          font: "var(--text-label)", fontSize: 10, textTransform: "uppercase",
+                          letterSpacing: ".06em", color: "var(--fg-3)", marginBottom: 8,
+                        }}>Profit comparison</div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          {items.map((sc, i) => {
+                            const barPct   = (Math.abs(sc.profit) / maxAbs) * 100;
+                            const isBetter = !sc.isBase && sc.profit > baseProfit;
+                            const isWorse  = !sc.isBase && sc.profit < baseProfit;
+                            const barColor = sc.isBase
+                              ? "var(--fg-3)"
+                              : isBetter ? "var(--favourable)" : isWorse ? "var(--adverse)" : "var(--primary)";
+                            return (
+                              <div key={i}>
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
+                                  <span style={{
+                                    font: "var(--text-body)", fontSize: 11,
+                                    color: sc.isBase ? "var(--fg-3)" : "var(--fg-2)",
+                                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "55%",
+                                  }}>{sc.label}</span>
+                                  <span style={{
+                                    font: "600 11px var(--font-mono)", fontVariantNumeric: "tabular-nums", flexShrink: 0,
+                                    color: sc.isBase ? "var(--fg-3)" : isBetter ? "var(--favourable-text)" : isWorse ? "var(--adverse-text)" : "var(--fg-2)",
+                                  }}>
+                                    {fmtGBP(sc.profit)}
+                                    {!sc.isBase && sc.impact != null && (
+                                      <span style={{ marginLeft: 4, fontSize: 10, opacity: 0.75 }}>
+                                        ({sc.impact >= 0 ? "+" : ""}{fmtGBP(sc.impact)})
+                                      </span>
+                                    )}
+                                  </span>
+                                </div>
+                                <div style={{ height: 7, background: "var(--surface-2)", borderRadius: 4, overflow: "hidden" }}>
+                                  <div style={{
+                                    height: "100%", borderRadius: 4,
+                                    width: `${Math.max(barPct, 1)}%`,
+                                    background: barColor,
+                                    opacity: sc.isBase ? 0.45 : 0.85,
+                                    transition: "width .35s ease",
+                                  }} />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               )}
             </Card>

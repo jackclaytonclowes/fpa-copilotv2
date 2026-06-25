@@ -38,6 +38,7 @@ const SV_ADV     = "#D02B45";
 
 // ── Trend chart ────────────────────────────────────────────────────────────
 function SvTrendChart({ trend, p }) {
+  const [hoveredIdx, setHoveredIdx] = useSVState(null);
   if (!trend || trend.length < 2) return null;
 
   const W = 600, H = 200;
@@ -72,6 +73,14 @@ function SvTrendChart({ trend, p }) {
   const yTicks = Array.from({ length: 5 }, (_, i) => minV + vRange * i / 4);
   const pts = key => trend.map((d, i) => `${xScale(i)},${yScale(d[key] ?? 0)}`).join(" ");
 
+  // Always-dark tooltip for contrast
+  const TT_BG = "#0F1D2F", TT_BD = "#2D3B4E", TT_F1 = "#F1F5F9", TT_F3 = "#94A3B8";
+  const hovD = hoveredIdx !== null ? trend[hoveredIdx] : null;
+  const hovX = hoveredIdx !== null ? xScale(hoveredIdx) : 0;
+  const TW = 150, TH = 72;
+  const ttX = hovX + TW + 14 > W - PAD.right ? hovX - TW - 8 : hovX + 8;
+  const ttY = PAD.top + 4;
+
   return (
     <div>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
@@ -91,7 +100,9 @@ function SvTrendChart({ trend, p }) {
         )}
         {trend.map((d, i) => (
           <text key={i} x={xScale(i)} y={H - PAD.bottom + 16}
-            textAnchor="middle" fontSize={10} fill={p.fg3} fontFamily="system-ui, sans-serif">
+            textAnchor="middle" fontSize={10}
+            fill={hoveredIdx === i ? p.fg1 : p.fg3}
+            fontFamily="system-ui, sans-serif">
             {d.m}
           </text>
         ))}
@@ -102,8 +113,46 @@ function SvTrendChart({ trend, p }) {
         ))}
         {series.map(s => trend.map((d, i) => (
           <circle key={`${s.key}-${i}`} cx={xScale(i)} cy={yScale(d[s.key] ?? 0)}
-            r={5} fill={s.color} />
+            r={hoveredIdx === i ? 6 : 5} fill={s.color}
+            opacity={hoveredIdx !== null && hoveredIdx !== i ? 0.4 : 1} />
         )))}
+
+        {/* Invisible hit areas per column */}
+        {trend.map((d, i) => {
+          const x0 = i === 0 ? PAD.left : (xScale(i) + xScale(i - 1)) / 2;
+          const x1 = i === trend.length - 1 ? W - PAD.right : (xScale(i) + xScale(i + 1)) / 2;
+          return (
+            <rect key={`hit-${i}`} x={x0} y={PAD.top} width={x1 - x0} height={ph}
+              fill="transparent" style={{ cursor: "crosshair" }}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(null)} />
+          );
+        })}
+
+        {/* Crosshair */}
+        {hovD && (
+          <line x1={hovX} y1={PAD.top} x2={hovX} y2={PAD.top + ph}
+            stroke={p.fg3} strokeWidth={1} strokeDasharray="3,3" opacity={0.5} />
+        )}
+
+        {/* Tooltip */}
+        {hovD && (
+          <g>
+            <rect x={ttX} y={ttY} width={TW} height={TH} rx={6}
+              fill={TT_BG} stroke={TT_BD} strokeWidth={1} />
+            <text x={ttX + 10} y={ttY + 15} fontSize={9.5} fontWeight={600}
+              fill={TT_F3} fontFamily="system-ui, sans-serif">{hovD.m}</text>
+            {series.map((s, si) => (
+              <g key={s.key}>
+                <circle cx={ttX + 11} cy={ttY + 28 + si * 14} r={3} fill={s.color} />
+                <text x={ttX + 20} y={ttY + 32 + si * 14} fontSize={9.5}
+                  fill={TT_F1} fontFamily="system-ui, sans-serif">
+                  {s.label}: {fmtY(hovD[s.key] ?? 0)}
+                </text>
+              </g>
+            ))}
+          </g>
+        )}
       </svg>
       <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 10, flexWrap: "wrap" }}>
         {series.map(s => (
@@ -155,6 +204,7 @@ function SharedView({ sessionId }) {
   const [errMsg,      setErrMsg]      = useSVState(null);
   const [selPeriod,   setSelPeriod]   = useSVState("");
   const [downloading, setDownloading] = useSVState(false);
+  const [showAllMvts, setShowAllMvts] = useSVState(false);
 
   const firmName = (() => {
     try { return new URLSearchParams(window.location.search).get("firm") || ""; } catch { return ""; }
@@ -299,6 +349,7 @@ function SharedView({ sessionId }) {
               </div>
               <div style={{ marginTop: 7, fontSize: 13, color: "#94A3B8" }}>
                 {analysisLbl} · Prepared {today}
+                {firmName && <span> · by <span style={{ color: "#CBD5E1", fontWeight: 500 }}>{firmName}</span></span>}
                 {fetching && <span style={{ marginLeft: 10, display: "inline-flex", alignItems: "center", verticalAlign: "middle" }}>{miniSpinner}</span>}
               </div>
             </div>
@@ -419,7 +470,7 @@ function SharedView({ sessionId }) {
         )}
 
         {/* Fav / Adv variance panels */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 12, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 12, marginBottom: 12 }}>
           {[
             { label: "Favourable Variances", rows: favMvts, c: SV_FAV, bg: p.favBg, icon: "trending-up" },
             { label: "Adverse Variances",    rows: advMvts, c: SV_ADV, bg: p.advBg, icon: "trending-down" },
@@ -451,6 +502,67 @@ function SharedView({ sessionId }) {
             </div>
           ))}
         </div>
+
+        {/* Full variance breakdown — collapsible */}
+        {movements.length > 0 && (
+          <div style={{ ...card, padding: "16px 20px", marginBottom: 28 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: SV_PRIMARY, textTransform: "uppercase", letterSpacing: ".07em" }}>
+                Full Variance Breakdown
+              </div>
+              <button onClick={() => setShowAllMvts(v => !v)} style={{
+                display: "inline-flex", alignItems: "center", gap: 5,
+                padding: "5px 12px", borderRadius: 20,
+                background: "transparent", border: `1px solid ${p.border}`,
+                fontSize: 11.5, fontWeight: 500, color: p.fg2, cursor: "pointer",
+                fontFamily: "system-ui, sans-serif",
+              }}>
+                {showAllMvts ? "Hide" : `Show all ${movements.length} lines`}
+                <Icon name={showAllMvts ? "chevron-up" : "chevron-down"} size={11} color={p.fg3} />
+              </button>
+            </div>
+            {showAllMvts && (
+              <div style={{ marginTop: 14, overflowX: "auto" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5, fontFamily: "system-ui, sans-serif" }}>
+                  <thead>
+                    <tr>
+                      {["Account", "Category", isBvA ? "Actual" : "Current", isBvA ? "Budget" : "Prior", "Variance", "%"].map(h => (
+                        <th key={h} style={{
+                          textAlign: h === "Account" || h === "Category" ? "left" : "right",
+                          padding: "6px 10px", fontSize: 10, fontWeight: 700,
+                          textTransform: "uppercase", letterSpacing: ".06em",
+                          color: p.fg3, borderBottom: `2px solid ${p.border}`, whiteSpace: "nowrap",
+                        }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...movements].sort((a, b) => Math.abs(b.variance || 0) - Math.abs(a.variance || 0)).map((m, i) => (
+                      <tr key={i} style={{ background: i % 2 === 0 ? "transparent" : (isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.015)") }}>
+                        <td style={{ padding: "7px 10px", color: p.fg1, fontWeight: 500, maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.account}</td>
+                        <td style={{ padding: "7px 10px", color: p.fg3, fontSize: 11.5 }}>{m.category}</td>
+                        <td style={{ padding: "7px 10px", textAlign: "right", color: p.fg2 }}>{m.value != null ? fmt(m.value) : "—"}</td>
+                        <td style={{ padding: "7px 10px", textAlign: "right", color: p.fg2 }}>{m.prior_value != null ? fmt(m.prior_value) : "—"}</td>
+                        <td style={{ padding: "7px 10px", textAlign: "right", fontWeight: 600, color: m.variance !== 0 ? (m.is_fav ? SV_FAV : SV_ADV) : p.fg3 }}>
+                          {m.variance != null ? fmtS(m.variance) : "—"}
+                        </td>
+                        <td style={{ padding: "7px 10px", textAlign: "right" }}>
+                          {m.variance !== 0 && m.variance_pct != null && (
+                            <span style={{
+                              fontSize: 11, fontWeight: 600, padding: "2px 7px", borderRadius: 20,
+                              background: m.is_fav ? p.favBg : p.advBg,
+                              color: m.is_fav ? SV_FAV : SV_ADV,
+                            }}>{fmtP(m.variance_pct)}</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Footer */}
         <div style={{ textAlign: "center", borderTop: `1px solid ${p.border}`, paddingTop: 18 }}>

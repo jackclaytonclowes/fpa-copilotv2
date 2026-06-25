@@ -95,6 +95,28 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
         action: () => { onNav && onNav(v.id); close(); },
       })),
     ...TOOLS,
+    ...(hasData ? [
+      {
+        icon: "sparkles", label: "Summarise key movements this period", group: "Quick questions",
+        iconColor: "var(--primary)",
+        action: () => { onAsk?.("Summarise the key financial movements this period in 3-4 concise bullet points."); close(); },
+      },
+      {
+        icon: "alert-triangle", label: "What are the biggest risks this period?", group: "Quick questions",
+        iconColor: "var(--caution, #b45309)",
+        action: () => { onAsk?.("What are the biggest financial risks or concerns highlighted by this period's data? Be specific."); close(); },
+      },
+      {
+        icon: "user", label: "Draft a plain-English client narrative", group: "Quick questions",
+        iconColor: "var(--primary)",
+        action: () => { onAsk?.("Write a brief, plain-English narrative summarising this period's financial performance for a business owner — no jargon, 3-4 sentences."); close(); },
+      },
+      {
+        icon: "trending-up", label: "What's driving profit improvement?", group: "Quick questions",
+        iconColor: "var(--favourable)",
+        action: () => { onAsk?.("Which line items are driving profit improvement this period, and why?"); close(); },
+      },
+    ] : []),
   ], [hasData]);
 
   const close = () => { setOpen(false); setQuery(""); setCursor(0); };
@@ -104,7 +126,7 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
 
   const filtered = useMemoMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return allCmds.slice(0, 12);
+    if (!q) return allCmds.slice(0, 16);
     return allCmds.filter(
       (c) =>
         c.label.toLowerCase().includes(q) ||
@@ -218,7 +240,7 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
         {/* Results */}
         <div
           ref={listRef}
-          style={{ maxHeight: 340, overflowY: "auto", padding: "6px 0" }}>
+          style={{ maxHeight: 420, overflowY: "auto", padding: "6px 0" }}>
           {visible.length === 0 && (
             <div style={{
               padding: "24px 16px", textAlign: "center",
