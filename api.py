@@ -2346,7 +2346,25 @@ def chat_save(session_id: str, body: ChatSaveBody):
 # ─────────────────────────────────────────────────────────────────────────────
 # AI NARRATIVE COMMENTARY
 # ─────────────────────────────────────────────────────────────────────────────
-COMMENTARY_PROMPT = """You are MonthEndIQ, writing a board-ready management pack narrative for a Finance Director.
+_COMMENTARY_TONE_SUFFIXES = {
+    "board": (
+        "TONE: Board Pack — formal, executive-level language suitable for a Finance Director or CFO. "
+        "Precise, authoritative, minimal jargon. Assume a financially literate audience. "
+        "Recommended Actions should be board-level strategic decisions."
+    ),
+    "management": (
+        "TONE: Management Review — detailed analytical commentary for the senior management team. "
+        "More depth than a board pack; include operational context, trend direction, and root-cause commentary. "
+        "Recommended Actions should be departmental and operational."
+    ),
+    "client": (
+        "TONE: Client Digest — plain English, friendly, jargon-free. Written for a business owner, "
+        "not an accountant. Avoid technical terms; explain what numbers mean in plain language. "
+        "Recommended Actions should be practical steps the business owner can take."
+    ),
+}
+
+COMMENTARY_PROMPT = """You are MonthEndIQ, writing a management pack narrative.
 
 Write a concise but complete narrative commentary covering the financial period below.
 
@@ -2358,12 +2376,12 @@ Structure (use exactly these HTML tags):
 - <h4>Recommended Actions</h4> followed by a <ul> with exactly 3 <li> items — specific, prioritised, actionable
 
 Requirements:
-- Professional board-pack language suitable for a Finance Director or CFO audience
 - Format all currency as £X,XXX (pound sterling, UK convention)
 - Be specific: cite actual figures from the data — do not be vague or generic
 - Highlight both favourable and adverse variances explicitly
 - Do NOT use meta-language like "based on the data" or "according to the analysis"
 - Do NOT add any preamble or sign-off — start directly with <h4>Executive Summary</h4>
+- {tone_instruction}
 
 CRITICAL — FIGURE INTEGRITY (your figures are checked against the ledger after you write):
 - Every £ figure you state MUST appear verbatim in the FINANCIAL DATA below. Copy figures exactly.
@@ -2442,6 +2460,7 @@ class CommentaryBody(BaseModel):
     period:        str | None = None
     mode:          str        = "monthly"
     context_notes: str | None = None  # optional accountant notes injected into prompt
+    tone:          str        = "board"  # board | management | client
 
 
 @app.post("/api/commentary/{session_id}")
@@ -2471,6 +2490,10 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
 
     context = _build_financial_context(s, selected, body.mode)
 
+    # Resolve tone instruction (default to board if unrecognised)
+    tone_key = (body.tone or "board").lower()
+    tone_instruction = _COMMENTARY_TONE_SUFFIXES.get(tone_key, _COMMENTARY_TONE_SUFFIXES["board"])
+
     # Append accountant-provided context notes to the user turn if supplied
     user_msg = "Write the management pack narrative commentary for this period."
     if body.context_notes and body.context_notes.strip():
@@ -2486,7 +2509,7 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
         resp     = client.chat.completions.create(
             model=ai_model,
             messages=[
-                {"role": "system", "content": COMMENTARY_PROMPT.format(context=context)},
+                {"role": "system", "content": COMMENTARY_PROMPT.format(context=context, tone_instruction=tone_instruction)},
                 {"role": "user",   "content": user_msg},
             ],
             temperature=0.4,

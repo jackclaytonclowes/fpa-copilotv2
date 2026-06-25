@@ -182,6 +182,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
   const [verification, setVerification] = React.useState(null);
   const [copied,       setCopied]       = React.useState(false);
   const [contextNotes, setContextNotes] = React.useState("");
+  const [tonePreset,   setTonePreset]   = React.useState("board"); // board | management | client
 
   const generate = async () => {
     setStatus("loading");
@@ -193,7 +194,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       const res = await fetch(apiUrl(`/api/commentary/${sessionId}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly", context_notes: contextNotes.trim() || null }),
+        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly", context_notes: contextNotes.trim() || null, tone: tonePreset }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -238,6 +239,33 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
               AI writes a full management pack narrative — revenue, costs, profitability and recommended actions.
             </div>
           </div>
+          {/* Tone preset selector */}
+          <div style={{ marginBottom: 14 }}>
+            <div style={{
+              font: "var(--text-label)", fontSize: 11.5, color: "var(--fg-2)", marginBottom: 7, textAlign: "left",
+            }}>
+              Commentary tone
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {[
+                { key: "board",      label: "Board Pack",        desc: "Formal, CFO-level" },
+                { key: "management", label: "Management Review", desc: "Detailed & operational" },
+                { key: "client",     label: "Client Digest",     desc: "Plain English" },
+              ].map(t => (
+                <button key={t.key} onClick={() => setTonePreset(t.key)} style={{
+                  padding: "6px 12px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+                  border: tonePreset === t.key ? "1.5px solid var(--primary)" : "1.5px solid var(--border)",
+                  background: tonePreset === t.key ? "var(--primary-soft)" : "var(--surface)",
+                  color: tonePreset === t.key ? "var(--primary)" : "var(--fg-2)",
+                  transition: "all .12s", textAlign: "left",
+                }}>
+                  <div style={{ font: "var(--text-body-strong)", fontSize: 12.5 }}>{t.label}</div>
+                  <div style={{ font: "var(--text-caption)", fontSize: 11, color: tonePreset === t.key ? "var(--primary)" : "var(--fg-3)", marginTop: 1 }}>{t.desc}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div style={{ marginBottom: 14 }}>
             <label style={{
               display: "block", font: "var(--text-label)", fontSize: 11.5,
@@ -298,13 +326,22 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       {status === "done" && narrative && (
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
-            <button onClick={() => { setStatus("idle"); setNarrative(null); }} style={{
-              background: "none", border: "none", cursor: "pointer", padding: "4px 0",
-              font: "var(--text-caption)", fontSize: 11.5, color: "var(--primary)",
-              display: "flex", alignItems: "center", gap: 4,
-            }}>
-              <Icon name="pencil" size={12} />Edit period notes &amp; regenerate
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button onClick={() => { setStatus("idle"); setNarrative(null); }} style={{
+                background: "none", border: "none", cursor: "pointer", padding: "4px 0",
+                font: "var(--text-caption)", fontSize: 11.5, color: "var(--primary)",
+                display: "flex", alignItems: "center", gap: 4,
+              }}>
+                <Icon name="pencil" size={12} />Edit notes &amp; regenerate
+              </button>
+              <span style={{
+                padding: "2px 8px", borderRadius: "var(--radius-pill)",
+                background: "var(--primary-soft)", color: "var(--primary)",
+                font: "var(--text-label)", fontSize: 10.5,
+              }}>
+                {{ board: "Board Pack", management: "Management Review", client: "Client Digest" }[tonePreset] || "Board Pack"}
+              </span>
+            </div>
             <div style={{ display: "flex", gap: 8 }}>
               <Button variant="secondary" icon={copied ? "check" : "copy"} onClick={copy}>
                 {copied ? "Copied" : "Copy"}
