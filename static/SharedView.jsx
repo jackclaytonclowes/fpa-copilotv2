@@ -37,7 +37,7 @@ const SV_FAV     = "#0E8A57";
 const SV_ADV     = "#D02B45";
 
 // ── Trend chart ────────────────────────────────────────────────────────────
-function SvTrendChart({ trend, p }) {
+function SvTrendChart({ trend, p, currSym = "£" }) {
   const [hoveredIdx, setHoveredIdx] = useSVState(null);
   if (!trend || trend.length < 2) return null;
 
@@ -64,7 +64,7 @@ function SvTrendChart({ trend, p }) {
   const yScale = v => PAD.top + ph - ((v - minV) / vRange) * ph;
 
   const fmtY = v => {
-    const a = Math.abs(v), s = v < 0 ? "-£" : "£";
+    const a = Math.abs(v), s = (v < 0 ? "-" : "") + currSym;
     if (a >= 1e6) return `${s}${(a / 1e6).toFixed(1)}m`;
     if (a >= 1e3) return `${s}${(a / 1e3).toFixed(0)}k`;
     return `${s}${Math.round(a)}`;
@@ -209,6 +209,9 @@ function SharedView({ sessionId }) {
   const firmName = (() => {
     try { return new URLSearchParams(window.location.search).get("firm") || ""; } catch { return ""; }
   })();
+  const currSym = (() => {
+    try { return new URLSearchParams(window.location.search).get("cur") || "£"; } catch { return "£"; }
+  })();
 
   useSVEffect(() => {
     if (data) setFetching(true); else setLoading(true);
@@ -221,8 +224,8 @@ function SharedView({ sessionId }) {
       .catch(() => { setErrMsg("This report link has expired or is no longer available."); setLoading(false); setFetching(false); });
   }, [sessionId, selPeriod]);
 
-  const fmt  = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n < 0 ? "-£" : "£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 }); };
-  const fmtS = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n >= 0 ? "+£" : "-£") + Math.abs(n).toLocaleString("en-GB", { maximumFractionDigits: 0 }); };
+  const fmt  = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n < 0 ? "-" : "") + currSym + Math.abs(Math.round(n)).toLocaleString(); };
+  const fmtS = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n >= 0 ? "+" : "-") + currSym + Math.abs(Math.round(n)).toLocaleString(); };
   const fmtP = v => { const n = parseFloat(v); if (v == null || isNaN(n)) return "—"; return (n > 0 ? "+" : "") + n.toFixed(1) + "%"; };
 
   const card = { background: p.card, border: `1px solid ${p.border}`, borderRadius: 10 };
@@ -448,7 +451,7 @@ function SharedView({ sessionId }) {
             <div style={{ fontSize: 10.5, fontWeight: 600, color: SV_PRIMARY, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 16 }}>
               Financial Trend
             </div>
-            <SvTrendChart trend={trend} p={p} />
+            <SvTrendChart trend={trend} p={p} currSym={currSym} />
           </div>
         )}
 

@@ -67,7 +67,9 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
   const shareSession = () => {
     if (!sessionId) return;
     const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
-    const url = `${window.location.origin}/view/${sessionId}${firm ? "?firm=" + encodeURIComponent(firm) : ""}`;
+    const cur  = (() => { try { return localStorage.getItem("meiq_currency_sym") || ""; } catch { return ""; } })();
+    const ps   = [firm ? "firm=" + encodeURIComponent(firm) : "", cur && cur !== "£" ? "cur=" + encodeURIComponent(cur) : ""].filter(Boolean).join("&");
+    const url  = `${window.location.origin}/view/${sessionId}${ps ? "?" + ps : ""}`;
     navigator.clipboard.writeText(url).catch(() => {
       const ta = document.createElement("textarea");
       ta.value = url;
@@ -322,8 +324,10 @@ function MobileNav({ active, onNav, hasData }) {
 function OnboardingChecklist({ onNav, onExport, onDismiss, sessionId }) {
   const { Icon } = window;
   const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+  const cur  = (() => { try { return localStorage.getItem("meiq_currency_sym") || ""; } catch { return ""; } })();
+  const _sharePs = [firm ? "firm=" + encodeURIComponent(firm) : "", cur && cur !== "£" ? "cur=" + encodeURIComponent(cur) : ""].filter(Boolean).join("&");
   const shareUrl = sessionId
-    ? `${window.location.origin}/view/${sessionId}${firm ? "?firm=" + encodeURIComponent(firm) : ""}`
+    ? `${window.location.origin}/view/${sessionId}${_sharePs ? "?" + _sharePs : ""}`
     : null;
   const steps = [
     { icon: "sparkles",   label: "Review the AI commentary",         desc: "Your board-ready analysis is on the dashboard",          action: () => { onNav("dashboard"); onDismiss(); } },

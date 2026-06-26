@@ -145,14 +145,8 @@ function Scenarios({ initialData, fileName, analysisType }) {
   };
 
   /* ── formatters ── */
-  const fmtGBP = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const abs = Math.abs(v), sign = v < 0 ? "-" : "";
-    if (abs >= 1_000_000) return `${sign}£${(abs / 1_000_000).toFixed(2)}m`;
-    if (abs >= 1_000)     return `${sign}£${(abs / 1_000).toFixed(0)}k`;
-    return `${sign}£${Math.round(abs).toLocaleString("en-GB")}`;
-  };
-  const fmtSgn = (v) => (v > 0 ? "+" : "") + fmtGBP(v);
+  const fmtGBP = (v) => window.fmtCurrency(v, { compact: true });
+  const fmtSgn = (v) => window.fmtCurrency(v, { compact: true, signed: true });
 
   /* ── active items for the slider panel ── */
   const activeItems =

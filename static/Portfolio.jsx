@@ -373,11 +373,7 @@ function Portfolio({ onOpenClient, onToast }) {
     }
   }
 
-  function fmtGBP(v) {
-    if (v == null || isNaN(v)) return "—";
-    const a = Math.abs(v), s = v < 0 ? "-£" : "£";
-    return a >= 1e6 ? `${s}${(a / 1e6).toFixed(2)}m` : a >= 1e3 ? `${s}${(a / 1e3).toFixed(0)}k` : `${s}${Math.round(a)}`;
-  }
+  function fmtGBP(v) { return window.fmtCurrency(v, { compact: true }); }
 
   function fmtDate(iso) {
     if (!iso) return "";
@@ -745,8 +741,10 @@ function Portfolio({ onOpenClient, onToast }) {
                               title="Copy share link"
                               onClick={() => {
                                 const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+                                const cur  = (() => { try { return localStorage.getItem("meiq_currency_sym") || ""; } catch { return ""; } })();
+                                const ps   = [firm ? "firm=" + encodeURIComponent(firm) : "", cur && cur !== "£" ? "cur=" + encodeURIComponent(cur) : ""].filter(Boolean).join("&");
                                 const base = `${window.location.origin}/view/${c.session_id}`;
-                                const url  = firm ? `${base}?firm=${encodeURIComponent(firm)}` : base;
+                                const url  = ps ? `${base}?${ps}` : base;
                                 navigator.clipboard?.writeText(url);
                                 setCopiedLink(c.session_id);
                                 setTimeout(() => setCopiedLink(null), 2000);
@@ -767,8 +765,10 @@ function Portfolio({ onOpenClient, onToast }) {
                               title="Email share link to client"
                               onClick={() => {
                                 const firm = (() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })();
+                                const cur  = (() => { try { return localStorage.getItem("meiq_currency_sym") || ""; } catch { return ""; } })();
+                                const ps   = [firm ? "firm=" + encodeURIComponent(firm) : "", cur && cur !== "£" ? "cur=" + encodeURIComponent(cur) : ""].filter(Boolean).join("&");
                                 const base = `${window.location.origin}/view/${c.session_id}`;
-                                const url  = firm ? `${base}?firm=${encodeURIComponent(firm)}` : base;
+                                const url  = ps ? `${base}?${ps}` : base;
                                 const sign = firm ? `Kind regards,\n${firm}` : "Kind regards";
                                 const body = `Hi,\n\nYour latest management pack is ready to view online:\n\n${url}\n\nYou can browse by period and download a PDF copy directly from the link.\n\n${sign}`;
                                 const mailto = `mailto:?subject=${encodeURIComponent(`Your management pack — ${c.name}`)}&body=${encodeURIComponent(body)}`;
