@@ -38,10 +38,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
 
   const fmtMoney = (v) => {
     if (v == null || isNaN(Number(v))) return "—";
-    const n = Number(v);
-    if (Math.abs(n) >= 1_000_000) return `£${(n / 1_000_000).toFixed(2)}m`;
-    if (Math.abs(n) >= 1_000)     return `£${(n / 1_000).toFixed(0)}k`;
-    return `£${n.toLocaleString("en-GB")}`;
+    return window.fmtCurrency(Number(v), { compact: true });
   };
 
   /* ── derived dataset info ── */

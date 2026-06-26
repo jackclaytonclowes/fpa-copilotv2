@@ -1064,7 +1064,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       <div className="grid-2b">
         <Card title="Revenue split" sub={period?.label || selected_period}>
           <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
-            <Donut data={revSplit} total={"£" + Math.round(revTotal / 1000) + "k"} label="revenue" />
+            <Donut data={revSplit} total={fmtGBP(revTotal)} label="revenue" />
             <div className="legend" style={{ flex: 1, minWidth: 0 }}>
               {revSplit.map((it, i) => (
                 <div className="lg" key={`${it.name}-${i}`}>
@@ -1079,7 +1079,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         </Card>
         <Card title="Expense split" sub={period?.label || selected_period}>
           <div className="donut-wrap" style={{ display: "flex", gap: 22, alignItems: "center" }}>
-            <Donut data={expSplit} total={"£" + Math.round(expTotal / 1000) + "k"} label="costs" />
+            <Donut data={expSplit} total={fmtGBP(expTotal)} label="costs" />
             <div className="legend" style={{ flex: 1, minWidth: 0 }}>
               {expSplit.map((it, i) => (
                 <div className="lg" key={`${it.name}-${i}`}>
@@ -1198,7 +1198,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                           b.label,
                           `${priorLbl}: ${fmtGBP(det.prior)}`,
                           `${currentLbl}: ${fmtGBP(det.current)}`,
-                          `Movement: revenue ${rawDir} by £${rawAbs.toLocaleString("en-GB")}`,
+                          `Movement: revenue ${rawDir} by ${fmtGBP(rawAbs)}`,
                           `Profit impact: ${fmtSignedGBP(b.impact)}`,
                         ].join("\n");
                       } else {
@@ -1210,7 +1210,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                           b.label,
                           `${priorLbl}: ${fmtGBP(det.prior)}`,
                           `${currentLbl}: ${fmtGBP(det.current)}`,
-                          `Movement: costs ${costDir} by £${rawAbs.toLocaleString("en-GB")}`,
+                          `Movement: costs ${costDir} by ${fmtGBP(rawAbs)}`,
                           `Profit impact: ${fmtSignedGBP(b.impact)} (${effLabel})`,
                         ].join("\n");
                       }
