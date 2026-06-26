@@ -98,4 +98,20 @@ function catChip(cat) {
   return { bg: `hsla(${hue},55%,92%,1)`, color: `hsl(${hue},50%,30%)` };
 }
 
-Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo, catChip });
+// Reads currency symbol from localStorage; falls back to £.
+// Components call fmtCurrency() so changing the symbol in Settings refreshes on next render.
+function fmtCurrency(v, { signed = false, compact = false } = {}) {
+  if (v == null || isNaN(v)) return "—";
+  let sym = "£";
+  try { sym = localStorage.getItem("meiq_currency_sym") || "£"; } catch {}
+  const abs = Math.abs(v);
+  const pfx = (signed ? (v > 0 ? "+" : v < 0 ? "-" : "") : (v < 0 ? "-" : "")) + sym;
+  if (compact) {
+    if (abs >= 1e6) return `${pfx}${(abs / 1e6).toFixed(1)}m`;
+    if (abs >= 1e3) return `${pfx}${Math.round(abs / 1e3)}k`;
+    return `${pfx}${Math.round(abs)}`;
+  }
+  return `${pfx}${Math.round(abs).toLocaleString()}`;
+}
+
+Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo, catChip, fmtCurrency });

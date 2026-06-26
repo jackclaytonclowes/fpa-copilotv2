@@ -192,18 +192,8 @@ function WaterfallChart({ prior, current, bars, priorLabel, currentLabel }) {
   );
 
   // ── Formatters ───────────────────────────────────────────────────────
-  const fmtAxis = v => {
-    const a = Math.abs(v), sign = v < 0 ? "-" : "";
-    if (a >= 1e6)  return `${sign}£${(a / 1e6).toFixed(1)}m`;
-    if (a >= 1000) return `${sign}£${(a / 1000).toFixed(0)}k`;
-    return `${sign}£${Math.round(a)}`;
-  };
-  const fmtImpact = v => {
-    const a = Math.abs(v), sign = v > 0 ? "+" : v < 0 ? "-" : "";
-    if (a >= 1e6)  return `${sign}£${(a / 1e6).toFixed(1)}m`;
-    if (a >= 1000) return `${sign}£${(a / 1000).toFixed(0)}k`;
-    return `${sign}£${Math.round(a)}`;
-  };
+  const fmtAxis   = v => (window.fmtCurrency || (x => x))(v, { compact: true });
+  const fmtImpact = v => (window.fmtCurrency || (x => x))(v, { compact: true, signed: true });
 
   // ── Label word-wrap (max 2 lines, 11 chars/line) ─────────────────────
   const wrapLabel = text => {

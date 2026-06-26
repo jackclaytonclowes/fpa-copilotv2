@@ -24,13 +24,7 @@ function AnomalyPanel({ sessionId, selectedPeriod, periodMode }) {
       .finally(() => setLoading(false));
   }, [sessionId, selectedPeriod, periodMode, sigma]);
 
-  const fmtGBP = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const abs = Math.abs(v), sign = v < 0 ? "-" : "";
-    if (abs >= 1_000_000) return `${sign}£${(abs / 1_000_000).toFixed(2)}m`;
-    if (abs >= 1_000)     return `${sign}£${(abs / 1_000).toFixed(0)}k`;
-    return `${sign}£${Math.round(abs).toLocaleString("en-GB")}`;
-  };
+  const fmtGBP = (v) => window.fmtCurrency(v, { compact: true });
 
   const anomalies = result?.anomalies || [];
   const note      = result?.note;
@@ -212,10 +206,7 @@ function ForecastPanel({ sessionId, periodMode }) {
       .finally(() => setLoading(false));
   }, [sessionId, lookback, periodMode]);
 
-  const fmtGBP = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    return (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
+  const fmtGBP = (v) => window.fmtCurrency(v);
 
   const combined     = fcData?.combined || [];
   const forecastFrom = fcData ? (fcData.actuals || []).length : 0;
@@ -316,16 +307,8 @@ function SmartInsights({ movements, kpis, isBvA }) {
   const advM = all.filter(m => !m.is_fav && m.variance !== 0);
   const revM = all.filter(m => m.category === "Revenue");
 
-  const fmt = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const abs = Math.abs(v), s = v < 0 ? "-£" : "£";
-    return abs >= 1e6 ? `${s}${(abs/1e6).toFixed(1)}m` : abs >= 1e3 ? `${s}${Math.round(abs/1e3)}k` : `${s}${Math.round(abs)}`;
-  };
-  const fmtS = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const abs = Math.abs(v), s = v > 0 ? "+£" : v < 0 ? "-£" : "£";
-    return abs >= 1e6 ? `${s}${(abs/1e6).toFixed(1)}m` : abs >= 1e3 ? `${s}${Math.round(abs/1e3)}k` : `${s}${Math.round(abs)}`;
-  };
+  const fmt  = (v) => window.fmtCurrency(v, { compact: true });
+  const fmtS = (v) => window.fmtCurrency(v, { compact: true, signed: true });
 
   const items = [];
 
@@ -427,17 +410,8 @@ function SpotlightModal({ spotlight, onClose }) {
     return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  const fmt = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const a = Math.abs(v), s = v < 0 ? "-" : "";
-    if (a >= 1e6) return `${s}£${(a / 1e6).toFixed(2)}m`;
-    if (a >= 1e3) return `${s}£${(a / 1e3).toFixed(0)}k`;
-    return `${s}£${Math.round(a).toLocaleString("en-GB")}`;
-  };
-  const fmtS = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    return (v > 0 ? "+" : v < 0 ? "-" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
+  const fmt  = (v) => window.fmtCurrency(v, { compact: true });
+  const fmtS = (v) => window.fmtCurrency(v, { signed: true });
   const fmtPct = (v) => (v == null || isNaN(v)) ? "—"
     : (v > 0 ? "+" : v < 0 ? "-" : "") + Math.abs(v).toFixed(1) + "%";
 
@@ -591,11 +565,7 @@ function CashRunway({ trend, periodMode, sessionId, isBvA, xeroCash }) {
   const monthlyBurn = Math.abs(perMonth);
   const nPeriods    = results.length;
 
-  const fmtMoney = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const a = Math.abs(v), s = v < 0 ? "-£" : "£";
-    return a >= 1e6 ? `${s}${(a / 1e6).toFixed(2)}m` : `${s}${Math.round(a).toLocaleString("en-GB")}`;
-  };
+  const fmtMoney = (v) => window.fmtCurrency(v, { compact: true });
 
   const saveCash = () => {
     const n = Number(String(draft).replace(/[^0-9.\-]/g, ""));
@@ -702,14 +672,8 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
 
   /* ── formatters ── */
-  const fmtGBP = (v) => {
-    if (v === null || v === undefined || isNaN(v)) return "—";
-    return (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
-  const fmtSignedGBP = (v) => {
-    if (v === null || v === undefined || isNaN(v)) return "—";
-    return (v > 0 ? "+" : v < 0 ? "-" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
+  const fmtGBP       = (v) => window.fmtCurrency(v);
+  const fmtSignedGBP = (v) => window.fmtCurrency(v, { signed: true });
   const fmtPct = (v) => {
     if (v === null || v === undefined || isNaN(v)) return "—";
     return (v > 0 ? "+" : v < 0 ? "-" : "") + Math.abs(v).toFixed(1) + "%";

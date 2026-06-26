@@ -51,14 +51,8 @@ function buildReportModel(data, analysisType, periodMode) {
 }
 
 /* ── Formatters (shared) ─────────────────────────────────────────────────── */
-const rfmtGBP = (v) => {
-  if (v == null || isNaN(v)) return "—";
-  return (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
-};
-const rfmtSignedGBP = (v) => {
-  if (v == null || isNaN(v)) return "—";
-  return (v > 0 ? "+" : v < 0 ? "-" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
-};
+const rfmtGBP       = (v) => window.fmtCurrency(v);
+const rfmtSignedGBP = (v) => window.fmtCurrency(v, { signed: true });
 const rfmtPct = (v) => {
   if (v == null || isNaN(v)) return "—";
   return (v > 0 ? "+" : v < 0 ? "-" : "") + Math.abs(v).toFixed(1) + "%";

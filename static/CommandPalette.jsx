@@ -74,7 +74,7 @@ function CommandPalette({ onNav, hasData, movements, onAsk, onExport, onThemeTog
     return (movements || []).slice(0, 30).map((m) => ({
       icon: m.is_fav ? "trending-up" : "trending-down",
       label: `Analyse: ${m.account}`,
-      sub: `${m.category} · ${m.is_fav ? "+" : ""}${m.variance != null ? m.variance.toLocaleString("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 }) : ""}`,
+      sub: `${m.category} · ${m.variance != null ? window.fmtCurrency(m.variance, { signed: true }) : ""}`,
       group: "Accounts",
       action: () => {
         const q = `Explain the variance for ${m.account} (${m.category}, ${m.is_fav ? "favourable" : "adverse"}).`;

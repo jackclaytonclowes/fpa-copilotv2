@@ -49,6 +49,24 @@ function SettingsView({ onToast }) {
     setTheme(next);
   };
 
+  // ── Currency ───────────────────────────────────────────────────────────────
+  const CURRENCIES = [
+    { sym: "£",   label: "GBP",  name: "British Pound"    },
+    { sym: "$",   label: "USD",  name: "US Dollar"        },
+    { sym: "€",   label: "EUR",  name: "Euro"             },
+    { sym: "A$",  label: "AUD",  name: "Australian Dollar"},
+    { sym: "C$",  label: "CAD",  name: "Canadian Dollar"  },
+    { sym: "CHF ", label: "CHF", name: "Swiss Franc"      },
+  ];
+  const [currSym, setCurrSym] = useStateSV(() => {
+    try { return localStorage.getItem("meiq_currency_sym") || "£"; } catch { return "£"; }
+  });
+  const saveCurrency = (sym) => {
+    setCurrSym(sym);
+    try { localStorage.setItem("meiq_currency_sym", sym); } catch {}
+    onToast?.("Currency updated");
+  };
+
   // ── Styles ─────────────────────────────────────────────────────────────────
   const sectionHdr = {
     font: "var(--text-label)", fontSize: 10.5, fontWeight: 700,
@@ -155,6 +173,29 @@ function SettingsView({ onToast }) {
                   </div>
                   <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 2 }}>{t.desc}</div>
                 </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Currency ── */}
+        <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
+          <div style={sectionHdr}>Currency</div>
+          <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 12, lineHeight: 1.5 }}>
+            Sets the currency symbol used throughout the dashboard and reports.
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {CURRENCIES.map(({ sym, label, name }) => (
+              <button key={sym} onClick={() => saveCurrency(sym)} title={name} style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 14px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+                border: currSym === sym ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+                background: currSym === sym ? "var(--primary-soft)" : "var(--surface-2)",
+                color: currSym === sym ? "var(--primary)" : "var(--ink)",
+                font: "var(--text-body-strong)", fontSize: 13,
+              }}>
+                <span style={{ fontWeight: 700 }}>{sym.trim()}</span>
+                <span style={{ color: "var(--fg-3)", fontSize: 11.5 }}>{label}</span>
               </button>
             ))}
           </div>

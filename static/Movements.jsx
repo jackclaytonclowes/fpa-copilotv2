@@ -76,14 +76,8 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
     try { if (fileName) localStorage.setItem(NOTES_KEY(fileName), JSON.stringify(next)); } catch {}
   };
 
-  const fmtGBP = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    return (v < 0 ? "-£" : "£") + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
-  const fmtSignedGBP = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    return (v > 0 ? "+" : v < 0 ? "-" : "") + "£" + Math.abs(Math.round(v)).toLocaleString("en-GB");
-  };
+  const fmtGBP       = (v) => window.fmtCurrency(v);
+  const fmtSignedGBP = (v) => window.fmtCurrency(v, { signed: true });
   const fmtPct = (v) => {
     if (v == null || isNaN(v)) return "—";
     return (v > 0 ? "+" : v < 0 ? "-" : "") + Math.abs(v).toFixed(1) + "%";
@@ -319,14 +313,7 @@ function Movements({ sessionId, initialData, periodMode, controlledPeriod, onDat
       : `rgba(208,43,69,${0.07 + alpha})`;
   };
 
-  const fmtCompact = (v) => {
-    if (v == null || isNaN(v)) return "—";
-    const abs = Math.abs(v);
-    const sign = v < 0 ? "-" : "";
-    if (abs >= 1_000_000) return `${sign}£${(abs / 1_000_000).toFixed(1)}m`;
-    if (abs >= 1_000)     return `${sign}£${(abs / 1_000).toFixed(0)}k`;
-    return `${sign}£${Math.round(abs)}`;
-  };
+  const fmtCompact = (v) => window.fmtCurrency(v, { compact: true });
 
   const heatRows = useMemoM(() => {
     if (activeTab === "revenue") return allRows.filter(m => m.category === "Revenue");
