@@ -589,17 +589,24 @@ function App() {
     setView("copilot");
   };
 
+  const { ViewErrorBoundary } = window;
+  const eb = (key, el) => ViewErrorBoundary
+    ? <ViewErrorBoundary key={key}>{el}</ViewErrorBoundary>
+    : el;
+
   let body;
   if (restoring) {
     body = null;
   } else if (view === "portfolio") {
-    body = Portfolio ? <Portfolio onOpenClient={openClient} onToast={fireToast} /> : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>;
+    body = eb("portfolio", Portfolio
+      ? <Portfolio onOpenClient={openClient} onToast={fireToast} />
+      : <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Practice view failed to load.</div></div>);
   } else if (view === "settings") {
     body = window.SettingsView
-      ? <SettingsView onToast={fireToast} />
+      ? eb("settings", <SettingsView onToast={fireToast} />)
       : null;
   } else if (view === "data") {
-    body = (
+    body = eb("data", (
       <DataSources
         sessionData={sessionData}
         availablePeriods={availablePeriods}
@@ -611,11 +618,11 @@ function App() {
         isConsolidated={isConsolidated}
         onExitConsolidated={onExitConsolidated}
       />
-    );
+    ));
   } else if (!hasData) {
     body = <UploadScreen onLoad={onLoad} onLoadDemo={onLoad} />;
   } else if (view === "copilot") {
-    body = <QnaCopilot
+    body = eb("copilot", <QnaCopilot
         sessionId={sessionData?.session_id}
         fileName={sessionData?.file_name}
         period={currentPeriodObj}
@@ -624,9 +631,9 @@ function App() {
         analysisType={analysisType}
         prefillQuestion={copilotQuestion}
         onPrefillConsumed={() => setCopilotQuestion(null)}
-      />;
+      />);
   } else if (view === "reports") {
-    body = (
+    body = eb("reports", (
       <Reports
         sessionId={sessionId}
         initialData={effectiveData}
@@ -637,9 +644,8 @@ function App() {
         period={currentPeriodObj}
         onToast={fireToast}
       />
-    );
+    ));
   } else if (view === "movements") {
-    const { ViewErrorBoundary } = window;
     const movEl = !Movements
       ? <div className="content"><div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Movements failed to load — check the browser console (F12) for errors.</div></div>
       : (
@@ -654,9 +660,9 @@ function App() {
         fileName={sessionData?.file_name}
       />
     );
-    body = ViewErrorBoundary ? <ViewErrorBoundary key="movements-boundary">{movEl}</ViewErrorBoundary> : movEl;
+    body = eb("movements", movEl);
   } else if (view === "scenarios") {
-    body = (
+    body = eb("scenarios", (
       <div className="content">
         <Scenarios
           initialData={effectiveData}
@@ -664,9 +670,9 @@ function App() {
           analysisType={analysisType}
         />
       </div>
-    );
+    ));
   } else {
-    body = (
+    body = eb("dashboard", (
       <div className="content">
         <Dashboard
           sessionId={sessionId}
@@ -678,7 +684,7 @@ function App() {
           analysisType={analysisType}
         />
       </div>
-    );
+    ));
   }
 
   // Render the read-only digest for shared /view/{id} links

@@ -1392,8 +1392,17 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                     <tr key={i}>
                       <td className="l">{m.account}</td>
                       <td className="l">
-                        <span className="cat-dot" style={{ background: CHART_COLORS[i % 8] }} />
-                        {m.category}
+                        {(() => {
+                          const chip = window.catChip && window.catChip(m.category);
+                          return chip ? (
+                            <span style={{
+                              display: "inline-flex", alignItems: "center",
+                              font: "var(--text-label)", fontSize: 10.5, fontWeight: 600,
+                              padding: "2px 8px", borderRadius: 20,
+                              background: chip.bg, color: chip.color, whiteSpace: "nowrap",
+                            }}>{m.category}</span>
+                          ) : m.category;
+                        })()}
                       </td>
                       <td>{fmtGBP(m.value)}</td>
                       <td>{fmtGBP(m.prior_value)}</td>

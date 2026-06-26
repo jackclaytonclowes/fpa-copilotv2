@@ -79,4 +79,23 @@ function Logo() {
   );
 }
 
-Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo });
+function catChip(cat) {
+  if (!cat) return null;
+  const lc = cat.toLowerCase();
+  if (lc.includes("revenue") || lc.includes("turnover") || lc.includes("sales") || lc.includes("income"))
+    return { bg: "var(--favourable-soft)", color: "var(--favourable-text)" };
+  if (lc.includes("staff") || lc.includes("payroll") || lc.includes("wage") || lc.includes("salary") || lc.includes("hr"))
+    return { bg: "rgba(99,102,241,.12)", color: "#4f46e5" };
+  if (lc.includes("direct") || lc.includes("cogs") || lc.includes("material") || lc.includes("production"))
+    return { bg: "rgba(245,158,11,.12)", color: "#b45309" };
+  if (lc.includes("market") || lc.includes("advertis"))
+    return { bg: "rgba(168,85,247,.12)", color: "#7c3aed" };
+  if (lc.includes("admin") || lc.includes("overhead") || lc.includes("general"))
+    return { bg: "var(--surface-2)", color: "var(--fg-2)" };
+  if (lc.includes("finance") || lc.includes("interest") || lc.includes("bank"))
+    return { bg: "rgba(20,184,166,.12)", color: "#0f766e" };
+  const hue = ((cat.charCodeAt(0) || 0) * 47) % 360;
+  return { bg: `hsla(${hue},55%,92%,1)`, color: `hsl(${hue},50%,30%)` };
+}
+
+Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo, catChip });

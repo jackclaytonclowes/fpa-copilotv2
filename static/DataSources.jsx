@@ -237,7 +237,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
                 background: "var(--primary-soft)", color: "var(--primary)",
                 whiteSpace: "nowrap",
               }}>
-                {isBvA ? "Budget vs Actual" : "Month-on-Month"}
+                {isBvA ? "Budget vs Actual" : "P&L Variance Analysis"}
               </span>
             </div>
             <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)", marginBottom: 12 }}>
@@ -370,7 +370,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
                   onClick={() => setMode("month_on_month")}
                   style={{ display: "flex", alignItems: "center", gap: 6 }}
                 >
-                  <Icon name="calendar-days" size={13} /> Month-on-Month
+                  <Icon name="calendar-days" size={13} /> P&L Variance Analysis
                 </button>
                 <button
                   className={mode === "budget_vs_actual" ? "on" : ""}
@@ -417,7 +417,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
             <DemoCard
               icon="calendar-days"
               title="Meridian Software Ltd"
-              badge="Month-on-Month"
+              badge="P&L Variance Analysis"
               description="12-month P&L — software licences and consulting revenue"
               detail="Jul 2024 – Jun 2025 · £1.26m revenue · Full cost structure"
               endpoint="/api/demo"
@@ -669,7 +669,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
                 </span>
               </div>
               <div style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-3)" }}>
-                Upload a second entity's P&amp;L (month-on-month). Once two or more entities are loaded you can consolidate them into a group view.
+                Upload a second entity's P&amp;L for consolidation. Once two or more entities are loaded you can merge them into a group view.
               </div>
             </div>
             <div
@@ -689,7 +689,7 @@ function DataSources({ sessionData, availablePeriods, onLoad,
                 <React.Fragment>
                   <div className="dz-ic"><Icon name="layers" size={34} /></div>
                   <div className="dz-t">Drag &amp; drop entity P&amp;L</div>
-                  <div className="dz-s">CSV or XLSX · must be month-on-month format</div>
+                  <div className="dz-s">CSV or XLSX · monthly P&L, same format as your primary file</div>
                 </React.Fragment>
               )}
             </div>
