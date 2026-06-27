@@ -296,21 +296,23 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
 /* ── Mobile bottom nav ──────────────────────────────────── */
 function MobileNav({ active, onNav, hasData }) {
   const { Icon } = window;
+  const ALWAYS = ["data", "settings"];
   const items = [
     { id: "dashboard", icon: "layout-dashboard", label: "Home" },
     { id: "copilot",   icon: "sparkles",          label: "AI" },
     { id: "movements", icon: "list-tree",          label: "Movements" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
     { id: "data",      icon: "database",           label: "Data" },
+    { id: "settings",  icon: "settings",           label: "Settings" },
   ];
   return (
     <nav className="mobile-nav">
       {items.map((it) => (
         <button
           key={it.id}
-          className={`mobile-nav-item${active === it.id ? " on" : ""}${!hasData && !["data"].includes(it.id) ? " disabled" : ""}`}
-          onClick={() => (hasData || it.id === "data") && onNav(it.id)}
-          style={!hasData && it.id !== "data" ? { opacity: 0.35 } : {}}
+          className={`mobile-nav-item${active === it.id ? " on" : ""}${!hasData && !ALWAYS.includes(it.id) ? " disabled" : ""}`}
+          onClick={() => (hasData || ALWAYS.includes(it.id)) && onNav(it.id)}
+          style={!hasData && !ALWAYS.includes(it.id) ? { opacity: 0.35 } : {}}
         >
           <Icon name={it.icon} size={20} />
           <span>{it.label}</span>

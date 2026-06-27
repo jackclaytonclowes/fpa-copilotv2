@@ -357,7 +357,7 @@ function Portfolio({ onOpenClient, onToast }) {
     setBriefs({});
     try {
       const r = await fetch(
-        apiUrl(`/api/portfolio/briefing?firm_token=${encodeURIComponent(firmToken)}`),
+        apiUrl(`/api/portfolio/briefing?firm_token=${encodeURIComponent(firmToken)}&currency=${encodeURIComponent((() => { try { return localStorage.getItem("meiq_currency_sym") || "£"; } catch { return "£"; } })())}`),
         { method: "POST" }
       );
       if (!r.ok) {

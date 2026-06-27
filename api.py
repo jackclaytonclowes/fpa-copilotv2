@@ -1163,7 +1163,7 @@ def portfolio_delete_client(client_id: str, firm_token: str):
 
 
 @app.post("/api/portfolio/briefing")
-async def portfolio_briefing(firm_token: str):
+async def portfolio_briefing(firm_token: str, currency: str = "£"):
     """
     Generate a 2-sentence AI brief for every client in the firm's portfolio.
     Calls are made concurrently (one per client) to minimise total latency.
@@ -1193,19 +1193,22 @@ async def portfolio_briefing(firm_token: str):
 
     ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 
+    _sym = currency.strip()
+    _cdesc = _currency_desc(currency)
     _BRIEF_SYSTEM = (
-        "You are a UK accounting practice manager reviewing a client's latest month-end figures. "
+        f"You are an accounting practice manager reviewing a client's latest month-end figures. "
         "Write exactly 2 sentences. "
-        "Sentence 1: the headline financial result this month (revenue, profit, margin — be specific with £ figures). "
+        f"Sentence 1: the headline financial result this month (revenue, profit, margin — be specific with {_sym} figures). "
         "Sentence 2: the single most important thing to raise with this client right now (a concern or a strong positive). "
+        f"Format all currency values as {_sym}X,XXX ({_cdesc}). "
         "Be concise and direct. No bullet points. No markdown."
     )
 
     def _call_openai(name, sector, summary):
         from openai import OpenAI
         figures = [
-            f"Revenue: £{summary['revenue']:,.0f}" if summary.get("revenue") else None,
-            f"Op profit: £{summary['op_profit']:,.0f}" if summary.get("op_profit") is not None else None,
+            f"Revenue: {_sym}{summary['revenue']:,.0f}" if summary.get("revenue") else None,
+            f"Op profit: {_sym}{summary['op_profit']:,.0f}" if summary.get("op_profit") is not None else None,
             f"Margin: {summary['margin']:.1f}%" if summary.get("margin") is not None else None,
             (f"vs prior: {summary['profit_var_pct']:+.1f}%" if summary.get("profit_var_pct") is not None else None),
             (f"Cash runway: {summary['runway_months']:.0f} months" if summary.get("runway_months") else None),
@@ -2940,7 +2943,7 @@ def get_anomalies(
 
 
 @app.get("/api/export/{session_id}")
-def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = ""):
+def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", currency: str = "£"):
     s = SESSIONS.get(session_id)
     if not s:
         raise HTTPException(404, "Session not found.")
@@ -2993,7 +2996,7 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = ""):
     if fmt == "pdf":
         content = make_pdf(lbl, data["movements"], data["commentary"], data["kpis"],
                            analysis_type=analysis_type, waterfall=data.get("waterfall"),
-                           firm_name=firm)
+                           firm_name=firm, currency_sym=currency)
         return Response(content, media_type="application/pdf",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.pdf"'})
     elif fmt == "xlsx":
@@ -3005,6 +3008,6 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = ""):
             headers={"Content-Disposition": f'attachment; filename="variance_analysis_{safe_lbl}.xlsx"'},
         )
     else:
-        content = make_zip(lbl, data["movements"], data["commentary"], data["kpis"])
+        content = make_zip(lbl, data["movements"], data["commentary"], data["kpis"], currency_sym=currency)
         return Response(content, media_type="application/zip",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.zip"'})

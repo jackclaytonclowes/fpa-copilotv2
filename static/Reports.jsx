@@ -879,7 +879,8 @@ function Reports({ sessionId, initialData, periodMode, controlledPeriod, onDataC
       const periodParam = isBvA
         ? (period?.label === "Actual" ? "full_year" : (period?.label || "full_year"))
         : (period?.label || "");
-      const params = new URLSearchParams({ period: periodParam, fmt });
+      const currSym = (() => { try { return localStorage.getItem("meiq_currency_sym") || "£"; } catch { return "£"; } })();
+      const params = new URLSearchParams({ period: periodParam, fmt, currency: currSym });
       const res = await fetch(apiUrl(`/api/export/${sessionId}?${params}`));
       if (!res.ok) {
         let detail = `HTTP ${res.status}`;

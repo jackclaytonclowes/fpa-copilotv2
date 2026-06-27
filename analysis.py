@@ -139,10 +139,11 @@ CHART_COLORS_CSS = [
 # ─────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────
-def fmt_gbp(v):
+def fmt_gbp(v, sym="£"):
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return ""
-    return f"-£{abs(v):,.0f}" if v < 0 else f"£{v:,.0f}"
+    s = sym.strip()
+    return f"-{s}{abs(v):,.0f}" if v < 0 else f"{s}{v:,.0f}"
 
 
 def fmt_pct(v):
@@ -1719,9 +1720,10 @@ def get_bva_data(df_bva: pd.DataFrame, kpi_accounts: dict, filename: str, bva_lo
 # ─────────────────────────────────────────────
 # EXPORTS
 # ─────────────────────────────────────────────
-def make_zip(period_label_str: str, movements: list, commentary: list, kpis: list) -> bytes:
+def make_zip(period_label_str: str, movements: list, commentary: list, kpis: list, currency_sym: str = "£") -> bytes:
     buf = BytesIO()
     safe = period_label_str.replace(" ", "_").replace("/", "-")
+    _fg = lambda v: fmt_gbp(v, currency_sym)
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
         # Movements CSV
         rows = [",".join(["Account","Category","Value","Prior","Variance","Variance %"])]
@@ -1735,25 +1737,28 @@ def make_zip(period_label_str: str, movements: list, commentary: list, kpis: lis
         lines = [f"Management Pack — {period_label_str}", ""]
         for k in kpis:
             if not k.get("pct_only"):
-                lines.append(f"{k['label']}: {fmt_gbp(k['value'])} (variance: {fmt_gbp(k['variance'])})")
+                lines.append(f"{k['label']}: {_fg(k['value'])} (variance: {_fg(k['variance'])})")
         lines += ["", "Commentary:"] + [f"- {c['html']}" for c in commentary]
         zf.writestr(f"management_commentary_{safe}.txt", "\n".join(lines))
     buf.seek(0)
     return buf.getvalue()
 
 
-def _fmt_signed_gbp(v):
+def _fmt_signed_gbp(v, sym="£"):
     if v is None or (isinstance(v, float) and pd.isna(v)):
         return ""
-    return ("+" if v > 0 else "") + fmt_gbp(v)
+    return ("+" if v > 0 else "") + fmt_gbp(v, sym)
 
 
 def _build_report_text(period_label_str, movements, commentary, kpis,
-                       analysis_type="month_on_month", waterfall=None):
+                       analysis_type="month_on_month", waterfall=None, currency_sym="£"):
     """Build structured report text blocks reusable by any export format."""
     import html as html_lib
     is_bva = analysis_type == "budget_vs_actual"
     prior_word = "Budget" if is_bva else "Prior"
+
+    _fg  = lambda v: fmt_gbp(v, currency_sym)
+    _fgs = lambda v: _fmt_signed_gbp(v, currency_sym)
 
     prof_kpi = next((k for k in kpis if not k.get("pct_only") and k.get("icon") == "wallet"), None)
     rev_kpi  = next((k for k in kpis if not k.get("pct_only") and k.get("icon") == "trending-up"), None)
@@ -1773,29 +1778,29 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
         pv = prof_kpi.get("variance", 0)
         if is_bva:
             exec_lines.append(
-                f"Operating Profit was {fmt_gbp(abs(pv))} {'above' if pv >= 0 else 'below'} budget "
-                f"at {fmt_gbp(prof_kpi['value'])}, versus a budget of {fmt_gbp(prof_kpi['prior'])}."
+                f"Operating Profit was {_fg(abs(pv))} {'above' if pv >= 0 else 'below'} budget "
+                f"at {_fg(prof_kpi['value'])}, versus a budget of {_fg(prof_kpi['prior'])}."
             )
         else:
             exec_lines.append(
-                f"Operating Profit {'increased' if pv >= 0 else 'decreased'} by {fmt_gbp(abs(pv))} "
-                f"to {fmt_gbp(prof_kpi['value'])}, from {fmt_gbp(prof_kpi['prior'])} in the prior period."
+                f"Operating Profit {'increased' if pv >= 0 else 'decreased'} by {_fg(abs(pv))} "
+                f"to {_fg(prof_kpi['value'])}, from {_fg(prof_kpi['prior'])} in the prior period."
             )
     if rev_kpi:
         exec_lines.append(
-            f"Total Revenue was {fmt_gbp(rev_kpi['value'])} against "
-            f"{'a budget' if is_bva else 'prior'} of {fmt_gbp(rev_kpi['prior'])} "
+            f"Total Revenue was {_fg(rev_kpi['value'])} against "
+            f"{'a budget' if is_bva else 'prior'} of {_fg(rev_kpi['prior'])} "
             f"({fmt_pct(rev_kpi.get('pct'))}%)." if rev_kpi.get("pct") is not None
-            else f"Total Revenue was {fmt_gbp(rev_kpi['value'])}."
+            else f"Total Revenue was {_fg(rev_kpi['value'])}."
         )
     exec_lines.append(
-        f"There were {len(fav_rows)} favourable variances totalling {fmt_gbp(total_fav)} "
-        f"and {len(adv_rows)} adverse variances totalling {fmt_gbp(total_adv)}."
+        f"There were {len(fav_rows)} favourable variances totalling {_fg(total_fav)} "
+        f"and {len(adv_rows)} adverse variances totalling {_fg(total_adv)}."
     )
     if largest_fav:
-        exec_lines.append(f"Largest favourable: {largest_fav['account']} ({_fmt_signed_gbp(largest_fav['variance'])})")
+        exec_lines.append(f"Largest favourable: {largest_fav['account']} ({_fgs(largest_fav['variance'])})")
     if largest_adv:
-        exec_lines.append(f"Largest adverse: {largest_adv['account']} ({_fmt_signed_gbp(largest_adv['variance'])})")
+        exec_lines.append(f"Largest adverse: {largest_adv['account']} ({_fgs(largest_adv['variance'])})")
 
     # Commentary (clean HTML)
     commentary_lines = []
@@ -1810,21 +1815,21 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
         pct_str = f" ({abs(largest_adv.get('variance_pct', 0)):.1f}%)" if largest_adv.get("variance_pct") else ""
         actions.append(
             f"[HIGH] Investigate {largest_adv['account']} — largest adverse variance at "
-            f"{fmt_gbp(abs(largest_adv['variance']))}{pct_str}."
+            f"{_fg(abs(largest_adv['variance']))}{pct_str}."
         )
     for m in adv_rows[1:3]:
         actions.append(
             f"[MEDIUM] Review {m['account']} ({m['category']}) — adverse variance of "
-            f"{fmt_gbp(abs(m['variance']))}."
+            f"{_fg(abs(m['variance']))}."
         )
     if largest_fav:
         actions.append(
             f"[LOW] Validate {largest_fav['account']} favourable variance of "
-            f"{fmt_gbp(abs(largest_fav['variance']))} — confirm sustainability."
+            f"{_fg(abs(largest_fav['variance']))} — confirm sustainability."
         )
     if prof_kpi and not prof_kpi.get("is_fav"):
         actions.append(
-            f"[HIGH] Operating Profit is {fmt_gbp(abs(prof_kpi['variance']))} "
+            f"[HIGH] Operating Profit is {_fg(abs(prof_kpi['variance']))} "
             f"{'below budget' if is_bva else 'below prior period'}. Prepare remediation plan."
         )
 
@@ -1840,7 +1845,7 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
 
 def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: list,
              analysis_type: str = "month_on_month", waterfall: dict | None = None,
-             firm_name: str = "") -> bytes:
+             firm_name: str = "", currency_sym: str = "£") -> bytes:
     """Generate a professional management pack PDF using ReportLab platypus."""
     import datetime
     from reportlab.lib import colors as C
@@ -1870,10 +1875,12 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
     is_bva     = analysis_type == "budget_vs_actual"
     prior_word  = "Budget"  if is_bva else "Prior"
     actual_word = "Actual"  if is_bva else "Current"
-    report = _build_report_text(period_label_str, movements, commentary, kpis, analysis_type, waterfall)
+    report = _build_report_text(period_label_str, movements, commentary, kpis, analysis_type, waterfall, currency_sym)
     gen_date = datetime.datetime.now().strftime("%d %B %Y")
 
     # ── Formatters ───────────────────────────────────────────────────────────
+    _sym = currency_sym.strip()
+
     def _f(v):
         if v is None or (isinstance(v, float) and pd.isna(v)):
             return "—"
@@ -1881,7 +1888,7 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
             v = float(v)
         except (TypeError, ValueError):
             return "—"
-        return ("-£" if v < 0 else "£") + f"{abs(v):,.0f}"
+        return (f"-{_sym}" if v < 0 else _sym) + f"{abs(v):,.0f}"
 
     def _fs(v):
         if v is None or (isinstance(v, float) and pd.isna(v)):
@@ -1891,7 +1898,7 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
         except (TypeError, ValueError):
             return "—"
         sign = "+" if v > 0 else ("-" if v < 0 else "")
-        return f"{sign}£{abs(v):,.0f}"
+        return f"{sign}{_sym}{abs(v):,.0f}"
 
     def _fp(v):
         if v is None or (isinstance(v, float) and pd.isna(v)):
