@@ -230,10 +230,11 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({
-          question: q,
-          period:   period?.label || null,
-          mode:     periodMode    || "monthly",
+          question:     q,
+          period:       period?.label || null,
+          mode:         periodMode    || "monthly",
           history,
+          currency_sym: (() => { try { return localStorage.getItem("meiq_currency_sym") || "£"; } catch { return "£"; } })(),
         }),
       });
 

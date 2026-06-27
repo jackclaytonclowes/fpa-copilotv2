@@ -2079,7 +2079,7 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
 # ─────────────────────────────────────────────────────────────────────────────
 # FINANCIAL CONTEXT BUILDER
 # ─────────────────────────────────────────────────────────────────────────────
-def _build_financial_context(session: dict, selected_period, mode: str) -> str:
+def _build_financial_context(session: dict, selected_period, mode: str, currency_sym: str = "£") -> str:
     """
     Build a structured financial context string for the OpenAI system prompt.
     Includes analysis type header, KPIs, profit drivers/waterfall, revenue split,
@@ -2107,6 +2107,8 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
         kpi_accounts = session["kpi_accounts"]
         wf           = data.get("waterfall")
 
+        _sym = currency_sym.strip()
+
         def _f(v):
             if v is None: return "n/a"
             try:
@@ -2114,7 +2116,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
             except (TypeError, ValueError):
                 return "n/a"
             if pd.isna(fv): return "n/a"
-            return f"-£{abs(fv):,.0f}" if fv < 0 else f"£{fv:,.0f}"
+            return f"-{_sym}{abs(fv):,.0f}" if fv < 0 else f"{_sym}{fv:,.0f}"
 
         def _fs(v):
             if v is None: return "n/a"
@@ -2124,7 +2126,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
                 return "n/a"
             if pd.isna(fv): return "n/a"
             prefix = "+" if fv >= 0 else ""
-            return f"{prefix}£{fv:,.0f}" if fv >= 0 else f"-£{abs(fv):,.0f}"
+            return f"{prefix}{_sym}{fv:,.0f}" if fv >= 0 else f"-{_sym}{abs(fv):,.0f}"
 
         bva_period_label = _resolve_bva_period_label(selected_period)
 
@@ -2192,6 +2194,8 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
     mom_mode_label = "Month-on-Month" if mode == "monthly" else "Quarter-on-Quarter"
 
     # ── formatters ──────────────────────────────────────────────────────────
+    _sym = currency_sym.strip()
+
     def _f(v):
         if v is None:
             return "n/a"
@@ -2201,7 +2205,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
             return "n/a"
         if pd.isna(fv):
             return "n/a"
-        return f"-£{abs(fv):,.0f}" if fv < 0 else f"£{fv:,.0f}"
+        return f"-{_sym}{abs(fv):,.0f}" if fv < 0 else f"{_sym}{fv:,.0f}"
 
     def _fs(v):
         if v is None:
@@ -2213,7 +2217,7 @@ def _build_financial_context(session: dict, selected_period, mode: str) -> str:
         if pd.isna(fv):
             return "n/a"
         prefix = "+" if fv >= 0 else ""
-        return f"{prefix}£{fv:,.0f}" if fv >= 0 else f"-£{abs(fv):,.0f}"
+        return f"{prefix}{_sym}{fv:,.0f}" if fv >= 0 else f"-{_sym}{abs(fv):,.0f}"
 
     # ── assemble context ─────────────────────────────────────────────────────
     lines = [
@@ -2429,7 +2433,7 @@ Structure (use exactly these HTML tags):
 - <h4>Recommended Actions</h4> followed by a <ul> with exactly 3 <li> items — specific, prioritised, actionable
 
 Requirements:
-- Format all currency as £X,XXX (pound sterling, UK convention)
+- Format all currency as {currency_sym}X,XXX ({currency_desc})
 - Be specific: cite actual figures from the data — do not be vague or generic
 - Highlight both favourable and adverse variances explicitly
 - Do NOT use meta-language like "based on the data" or "according to the analysis"
@@ -2437,17 +2441,33 @@ Requirements:
 - {tone_instruction}
 
 CRITICAL — FIGURE INTEGRITY (your figures are checked against the ledger after you write):
-- Every £ figure you state MUST appear verbatim in the FINANCIAL DATA below. Copy figures exactly.
+- Every {currency_sym} figure you state MUST appear verbatim in the FINANCIAL DATA below. Copy figures exactly.
 - NEVER calculate, sum, estimate, annualise, or derive a new total that is not already given.
 - If a number you want to cite is not in the data, describe the movement in words instead of inventing a figure.
-- Do not round figures to a different precision than shown (if data says £44,012, do not write "£44k" unless that rounding is unambiguous).
+- Do not round figures to a different precision than shown (if data says {currency_sym}44,012, do not write "{currency_sym}44k" unless that rounding is unambiguous).
 
 FINANCIAL DATA:
 {context}"""
 
 
-# Matches £ amounts like £1,356,000 · -£35,780 · £44k · £1.3m · £0
-_MONEY_RE = re.compile(r"-?£\s?(\d[\d,]*(?:\.\d+)?)\s*(k|m|bn)?", re.IGNORECASE)
+_CURRENCY_DESCRIPTIONS: dict[str, str] = {
+    "£":    "GBP (pound sterling, UK convention)",
+    "$":    "USD (US dollar)",
+    "€":    "EUR (euro)",
+    "A$":   "AUD (Australian dollar)",
+    "C$":   "CAD (Canadian dollar)",
+    "CHF":  "CHF (Swiss franc)",
+}
+
+def _currency_desc(sym: str) -> str:
+    return _CURRENCY_DESCRIPTIONS.get(sym.strip(), sym.strip())
+
+def _make_money_re(sym: str) -> re.Pattern:
+    """Build a regex that matches currency amounts for the given symbol."""
+    return re.compile(
+        r"-?" + re.escape(sym.strip()) + r"\s?(\d[\d,]*(?:\.\d+)?)\s*(k|m|bn)?",
+        re.IGNORECASE,
+    )
 
 
 def _parse_money(num_str: str, suffix: str | None) -> float:
@@ -2469,10 +2489,10 @@ def _money_tolerance(value: float, suffix: str | None) -> float:
     return max(1.0, value * 0.005)
 
 
-def _ground_truth_figures(context: str) -> list[float]:
-    """All £ figures present in the data we handed to the model — the allowed set."""
+def _ground_truth_figures(context: str, sym: str = "£") -> list[float]:
+    """All currency figures present in the data we handed to the model — the allowed set."""
     out = []
-    for m in _MONEY_RE.finditer(context):
+    for m in _make_money_re(sym).finditer(context):
         try:
             out.append(_parse_money(m.group(1), m.group(2)))
         except (TypeError, ValueError):
@@ -2480,14 +2500,15 @@ def _ground_truth_figures(context: str) -> list[float]:
     return out
 
 
-def _verify_narrative_figures(narrative: str, context: str) -> dict:
+def _verify_narrative_figures(narrative: str, context: str, sym: str = "£") -> dict:
     """
-    Lock-the-maths check: every £ figure the model wrote must trace back to a
+    Lock-the-maths check: every currency figure the model wrote must trace back to a
     figure we gave it. Returns coverage stats plus any unverifiable figures.
     """
-    truth = _ground_truth_figures(context)
+    money_re = _make_money_re(sym)
+    truth = _ground_truth_figures(context, sym)
     total, verified, unverified = 0, 0, []
-    for m in _MONEY_RE.finditer(narrative):
+    for m in money_re.finditer(narrative):
         try:
             value = _parse_money(m.group(1), m.group(2))
         except (TypeError, ValueError):
@@ -2514,6 +2535,7 @@ class CommentaryBody(BaseModel):
     mode:          str        = "monthly"
     context_notes: str | None = Field(None, max_length=2000)
     tone:          str        = "board"  # board | management | client
+    currency_sym:  str        = Field("£", max_length=10)
 
 
 @app.post("/api/commentary/{session_id}")
@@ -2541,7 +2563,7 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
                     selected = p
                     break
 
-    context = _build_financial_context(s, selected, body.mode)
+    context = _build_financial_context(s, selected, body.mode, body.currency_sym)
 
     # Resolve tone instruction (default to board if unrecognised)
     tone_key = (body.tone or "board").lower()
@@ -2562,14 +2584,14 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
         resp     = client.chat.completions.create(
             model=ai_model,
             messages=[
-                {"role": "system", "content": COMMENTARY_PROMPT.format(context=context, tone_instruction=tone_instruction)},
+                {"role": "system", "content": COMMENTARY_PROMPT.format(context=context, tone_instruction=tone_instruction, currency_sym=body.currency_sym, currency_desc=_currency_desc(body.currency_sym))},
                 {"role": "user",   "content": user_msg},
             ],
             temperature=0.4,
             max_tokens=900,
         )
         narrative = resp.choices[0].message.content.strip()
-        verification = _verify_narrative_figures(narrative, context)
+        verification = _verify_narrative_figures(narrative, context, body.currency_sym)
         return {"narrative": narrative, "verification": verification}
     except Exception as e:
         raise HTTPException(500, f"Commentary generation failed: {str(e)}")
@@ -2611,7 +2633,7 @@ Rules for concept questions:
 
 Other rules:
 - Only say "I can't determine that from the data currently loaded" when the user asks for a specific figure genuinely not in the data.
-- Use professional but clear finance language. Format currency as £X,XXX (pound sterling).
+- Use professional but clear finance language. Format currency as {currency_sym}X,XXX ({currency_desc}).
 - Be concise unless the user explicitly asks for detail.
 - When referencing profit drivers, note that positive profit impacts can come from EITHER revenue increases OR cost decreases (MoM) / coming in under budget (BvA).
 
@@ -2620,10 +2642,11 @@ FINANCIAL DATA:
 
 
 class AskBody(BaseModel):
-    question: str       = Field(max_length=4000)
-    period:   str | None = None
-    mode:     str        = "monthly"
-    history:  list[dict] | None = None   # [{role: "user"|"assistant", content: str}]
+    question:     str            = Field(max_length=4000)
+    period:       str | None     = None
+    mode:         str            = "monthly"
+    history:      list[dict] | None = None   # [{role: "user"|"assistant", content: str}]
+    currency_sym: str            = Field("£", max_length=10)
 
 
 @app.post("/api/ask/{session_id}")
@@ -2665,11 +2688,11 @@ async def ask(session_id: str, body: AskBody):
                     break
 
     # ── Build financial context ───────────────────────────────────────────────
-    context = _build_financial_context(s, selected, body.mode)
+    context = _build_financial_context(s, selected, body.mode, body.currency_sym)
 
     # ── Build message list ───────────────────────────────────────────────────
     messages: list[dict] = [
-        {"role": "system", "content": SYSTEM_PROMPT.format(context=context)}
+        {"role": "system", "content": SYSTEM_PROMPT.format(context=context, currency_sym=body.currency_sym, currency_desc=_currency_desc(body.currency_sym))}
     ]
 
     # Append previous conversation turns (last 6 exchanges = 12 messages)
@@ -2777,8 +2800,8 @@ def ask_stream(session_id: str, body: AskBody):
                     selected = p
                     break
 
-    context  = _build_financial_context(s, selected, body.mode)
-    messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT.format(context=context)}]
+    context  = _build_financial_context(s, selected, body.mode, body.currency_sym)
+    messages: list[dict] = [{"role": "system", "content": SYSTEM_PROMPT.format(context=context, currency_sym=body.currency_sym, currency_desc=_currency_desc(body.currency_sym))}]
     if body.history:
         for msg in body.history[-12:]:
             role    = msg.get("role", "")

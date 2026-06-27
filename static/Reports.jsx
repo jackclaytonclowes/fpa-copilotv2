@@ -191,7 +191,7 @@ function ReportAINarrative({ sessionId, period, periodMode, analysisType }) {
       const res = await fetch(apiUrl(`/api/commentary/${sessionId}`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly", context_notes: contextNotes.trim() || null, tone: tonePreset }),
+        body: JSON.stringify({ period: periodParam, mode: periodMode || "monthly", context_notes: contextNotes.trim() || null, tone: tonePreset, currency_sym: (() => { try { return localStorage.getItem("meiq_currency_sym") || "£"; } catch { return "£"; } })() }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
