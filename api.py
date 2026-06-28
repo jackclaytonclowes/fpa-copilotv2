@@ -405,6 +405,11 @@ def email_pack(session_id: str, body: EmailBody):
     d = get_period_data(analysis, df_long, selected, kpi_accts, "monthly")
     period_lbl = d.get("period", {}).get("label", "Report")
 
+    try:
+        _email_insights = get_insights_data(analysis, df_long, selected, kpi_accts, "monthly")
+    except Exception:
+        _email_insights = None
+
     pdf_bytes = make_pdf(
         period_lbl,
         d.get("movements", []),
@@ -412,6 +417,7 @@ def email_pack(session_id: str, body: EmailBody):
         d.get("kpis", []),
         "month_on_month",
         firm_name=body.firm or "",
+        insights=_email_insights,
     )
 
     subject = body.subject or f"Management Pack — {period_lbl}"
@@ -2992,6 +2998,7 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
         raise HTTPException(404, "Session not found.")
 
     analysis_type = s.get("analysis_type", "month_on_month")
+    insights_data = None
 
     if analysis_type == "budget_vs_actual":
         bva_long    = s.get("bva_long")
@@ -3033,18 +3040,24 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
                 break
         data = get_period_data(analysis, df_long, selected, kpi_accounts, "monthly")
         lbl  = data["period"]["label"]
+        try:
+            insights_data = get_insights_data(analysis, df_long, selected, kpi_accounts, "monthly")
+        except Exception:
+            insights_data = None
 
     safe_lbl = re.sub(r"[^\w\s-]", "", lbl).replace(" ", "_")
 
     if fmt == "pdf":
         content = make_pdf(lbl, data["movements"], data["commentary"], data["kpis"],
                            analysis_type=analysis_type, waterfall=data.get("waterfall"),
-                           firm_name=firm, currency_sym=currency)
+                           firm_name=firm, currency_sym=currency,
+                           insights=insights_data if analysis_type != "budget_vs_actual" else None)
         return Response(content, media_type="application/pdf",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.pdf"'})
     elif fmt == "xlsx":
         content = make_xlsx(lbl, data["movements"], data["commentary"], data["kpis"],
-                            analysis_type=analysis_type)
+                            analysis_type=analysis_type,
+                            insights=insights_data if analysis_type != "budget_vs_actual" else None)
         return Response(
             content,
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
