@@ -2122,7 +2122,8 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
 
 def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: list,
              analysis_type: str = "month_on_month", waterfall: dict | None = None,
-             firm_name: str = "", currency_sym: str = "£") -> bytes:
+             firm_name: str = "", currency_sym: str = "£",
+             insights: dict | None = None) -> bytes:
     """Generate a professional management pack PDF using ReportLab platypus."""
     import datetime
     from reportlab.lib import colors as C
@@ -2550,6 +2551,216 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
 
     land_tbl.setStyle(TableStyle(land_style))
     story.append(land_tbl)
+
+    # ────────────────────────────────────────────────────────────────────────
+    # PAGE 4 — Insights Summary (only when insights data is provided)
+    # ────────────────────────────────────────────────────────────────────────
+    if insights:
+        story.append(NextPageTemplate("standard"))
+        story.append(PageBreak())
+        story.append(Paragraph(
+            "Insights Summary",
+            _ps("ish", fontSize=15, textColor=NAVY, fontName="Helvetica-Bold", leading=19, spaceAfter=8),
+        ))
+
+        # Helper: two-column label/value row builder
+        def _ins_row(label, value, val_style=None):
+            return [
+                Paragraph(label, s_body),
+                Paragraph(value, val_style or s_numb),
+            ]
+
+        def _ins_section(title):
+            story.append(Paragraph(title, s_h3))
+
+        # ── Operating Margins ────────────────────────────────────────────
+        _ins_section("OPERATING MARGINS")
+        margins = insights.get("margins", {})
+        op_pct  = margins.get("op_pct")
+        pay_pct = margins.get("payroll_pct")
+
+        # Direction from trend
+        trend = margins.get("trend", [])
+        op_dir = "—"
+        if len(trend) >= 3:
+            recent = [t["op_pct"] for t in trend[-3:] if t.get("op_pct") is not None]
+            if len(recent) >= 2:
+                chg = recent[-1] - recent[0]
+                op_dir = "Improving" if chg > 0.5 else ("Worsening" if chg < -0.5 else "Stable")
+
+        margin_data = [
+            [Paragraph("Metric", s_lbl), Paragraph("Value", s_lbl), Paragraph("Trend", s_lbl)],
+            [
+                Paragraph("Operating Margin", s_body),
+                Paragraph(f"{op_pct:.1f}%" if op_pct is not None else "—", s_numb),
+                Paragraph(op_dir, s_fav if op_dir == "Improving" else (s_adv if op_dir == "Worsening" else s_body)),
+            ],
+            [
+                Paragraph("Payroll % of Revenue", s_body),
+                Paragraph(f"{pay_pct:.1f}%" if pay_pct is not None else "—", s_numb),
+                Paragraph("", s_body),
+            ],
+        ]
+        m_tbl = Table(margin_data, colWidths=[AW * 0.45, AW * 0.25, AW * 0.30])
+        m_tbl.setStyle(TableStyle([
+            ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+            ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE",      (0, 0), (-1, 0), 8),
+            ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+            ("ALIGN",         (1, 0), (-1, -1), "RIGHT"),
+            ("ALIGN",         (0, 0), (0, -1), "LEFT"),
+            ("ALIGN",         (2, 0), (2, -1), "LEFT"),
+            ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+            ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+            ("TOPPADDING",    (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+        ]))
+        story.append(m_tbl)
+        story.append(Sp(0.4))
+
+        # ── Projections: R12 & Run-Rate ──────────────────────────────────
+        _ins_section("PROJECTIONS")
+        r12      = insights.get("r12", {})
+        run_rate = insights.get("run_rate", {})
+
+        proj_hdr = [Paragraph(h, s_lbl) for h in ["Metric", "R12 (Rolling 12 Mo)", "Run-Rate (Annualised)"]]
+        proj_data = [proj_hdr]
+        for key, label in (("revenue", "Revenue"), ("costs", "Total Costs"), ("profit", "Profit")):
+            r12_val  = r12.get(key)  if r12.get("available") else None
+            rr_val   = run_rate.get(key)
+            proj_data.append([
+                Paragraph(label, s_body),
+                Paragraph(_f(r12_val),  s_numb),
+                Paragraph(_f(rr_val),   s_numb),
+            ])
+        proj_tbl = Table(proj_data, colWidths=[AW * 0.35, AW * 0.325, AW * 0.325])
+        proj_tbl.setStyle(TableStyle([
+            ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+            ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("FONTSIZE",      (0, 0), (-1, 0), 8),
+            ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+            ("ALIGN",         (1, 0), (-1, -1), "RIGHT"),
+            ("ALIGN",         (0, 0), (0, -1), "LEFT"),
+            ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+            ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+            ("TOPPADDING",    (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+        ]))
+        story.append(proj_tbl)
+        story.append(Sp(0.4))
+
+        # ── Cost Pareto (Top 5) ──────────────────────────────────────────
+        _ins_section("COST CONCENTRATION (TOP 5 LINES)")
+        pareto = insights.get("pareto", {})
+        top5   = (pareto.get("lines") or [])[:5]
+
+        if top5:
+            pareto_hdr = [Paragraph(h, s_lbl) for h in ["Account", "Category", "Value", "% of Total Costs", "Cumulative %"]]
+            pareto_data = [pareto_hdr]
+            for pl in top5:
+                pareto_data.append([
+                    Paragraph(str(pl.get("account", ""))[:44], s_body),
+                    Paragraph(str(pl.get("category", "")),     s_cap),
+                    Paragraph(_f(pl.get("value")),             s_num),
+                    Paragraph(f"{pl.get('pct_of_total', 0):.1f}%", s_num),
+                    Paragraph(f"{pl.get('cum_pct', 0):.1f}%",      s_num),
+                ])
+            par_tbl = Table(pareto_data, colWidths=[AW*0.32, AW*0.18, AW*0.16, AW*0.17, AW*0.17])
+            par_tbl.setStyle(TableStyle([
+                ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",      (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+                ("ALIGN",         (2, 0), (-1, -1), "RIGHT"),
+                ("ALIGN",         (0, 0), (1, -1), "LEFT"),
+                ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",    (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+                ("FONTSIZE",      (0, 1), (-1, -1), 9),
+            ]))
+            story.append(par_tbl)
+        else:
+            story.append(Paragraph("No cost data available.", s_body))
+        story.append(Sp(0.4))
+
+        # ── Momentum ─────────────────────────────────────────────────────
+        _ins_section("MOMENTUM (3-MONTH TREND)")
+        momentum = insights.get("momentum", {})
+        if momentum.get("available"):
+            def _dir_style(d):
+                return s_fav if d == "improving" else (s_adv if d == "worsening" else s_body)
+
+            mom_data = [
+                [Paragraph(h, s_lbl) for h in ["Metric", "Direction"]],
+                [Paragraph("Revenue",      s_body), Paragraph(str(momentum.get("revenue_dir", "—")).capitalize(), _dir_style(momentum.get("revenue_dir")))],
+                [Paragraph("Total Costs",  s_body), Paragraph(str(momentum.get("cost_dir",    "—")).capitalize(), _dir_style(momentum.get("cost_dir")))],
+                [Paragraph("Profit",       s_body), Paragraph(str(momentum.get("profit_dir",  "—")).capitalize(), _dir_style(momentum.get("profit_dir")))],
+                [Paragraph("Overall",      s_bodyb), Paragraph(str(momentum.get("overall",    "—")).capitalize(), _dir_style(momentum.get("overall")))],
+            ]
+            mom_tbl = Table(mom_data, colWidths=[AW * 0.55, AW * 0.45])
+            mom_tbl.setStyle(TableStyle([
+                ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",      (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+                ("ALIGN",         (0, 0), (-1, -1), "LEFT"),
+                ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",    (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+                ("LINEABOVE",     (0, -1), (-1, -1), 0.5, NAVY),
+            ]))
+            story.append(mom_tbl)
+        else:
+            story.append(Paragraph("Insufficient data for momentum analysis (requires 6+ periods).", s_body))
+        story.append(Sp(0.4))
+
+        # ── Same-Period Prior Year ────────────────────────────────────────
+        sppy = insights.get("sppy", {})
+        if sppy.get("available"):
+            _ins_section(f"SAME-PERIOD PRIOR YEAR ({sppy.get('period_label', '')})")
+            sppy_data = [
+                [Paragraph(h, s_lbl) for h in ["Metric", "Current", "Prior Year", "Change", "Change %"]],
+                [
+                    Paragraph("Revenue", s_body),
+                    Paragraph(_f(insights.get("run_rate", {}).get("revenue") and insights.get("margins", {}).get("trend", [{}])[-1].get("revenue")), s_num),
+                    Paragraph(_f(sppy.get("revenue")),   s_num),
+                    Paragraph(_fs(sppy.get("rev_delta")), s_favr if (sppy.get("rev_delta") or 0) >= 0 else s_advr),
+                    Paragraph(_fp(sppy.get("rev_pct")),  s_favr if (sppy.get("rev_pct") or 0) >= 0 else s_advr),
+                ],
+                [
+                    Paragraph("Profit", s_body),
+                    Paragraph("—", s_num),
+                    Paragraph(_f(sppy.get("profit")),    s_num),
+                    Paragraph(_fs(sppy.get("prof_delta")), s_favr if (sppy.get("prof_delta") or 0) >= 0 else s_advr),
+                    Paragraph(_fp(sppy.get("prof_pct")),  s_favr if (sppy.get("prof_pct") or 0) >= 0 else s_advr),
+                ],
+            ]
+            sppy_tbl = Table(sppy_data, colWidths=[AW*0.25, AW*0.175, AW*0.175, AW*0.175, AW*0.175])
+            sppy_tbl.setStyle(TableStyle([
+                ("BACKGROUND",    (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",      (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",      (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",     (0, 0), (-1, 0), FG3),
+                ("ALIGN",         (1, 0), (-1, -1), "RIGHT"),
+                ("ALIGN",         (0, 0), (0, -1), "LEFT"),
+                ("GRID",          (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",    (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+                ("LEFTPADDING",   (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING",  (0, 0), (-1, -1), 8),
+            ]))
+            story.append(sppy_tbl)
 
     doc.build(story)
     buf.seek(0)
