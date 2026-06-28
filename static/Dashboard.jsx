@@ -667,6 +667,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [activeTab, setActiveTab]   = useStateDash("movements");
   const [spotlight, setSpotlight]   = useStateDash(null);
   const [commentaryCopied, setCommentaryCopied] = useStateDash(false);
+  const [, setRagRev] = useStateDash(0);
 
   // Track what we last fetched so we don't re-fetch on initial mount
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
@@ -710,6 +711,13 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       setSpotlight(prev => ({ ...prev, loading: false, error: e.message }));
     }
   };
+
+  // Re-render when user updates KPI thresholds in Settings
+  useEffectDash(() => {
+    const h = () => setRagRev(v => v + 1);
+    window.addEventListener("meiq:thresholds-updated", h);
+    return () => window.removeEventListener("meiq:thresholds-updated", h);
+  }, []);
 
   // React to TopBar period change (controlledPeriod prop)
   useEffectDash(() => {

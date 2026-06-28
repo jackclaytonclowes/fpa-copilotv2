@@ -273,7 +273,7 @@ function UpdateCashModal({ client, firmToken, onClose, onUpdated }) {
 
 // ── Main Portfolio component ───────────────────────────────────────────────
 function Portfolio({ onOpenClient, onToast }) {
-  const { Icon } = window;
+  const { Icon, RagBadge } = window;
   const firmToken = React.useMemo(() => getFirmToken(), []);
 
   const [mode, setMode]           = React.useState("real"); // "real" | "demo"
@@ -288,6 +288,7 @@ function Portfolio({ onOpenClient, onToast }) {
   const [emailedLink, setEmailedLink] = React.useState(null); // session_id of last emailed card
   const [search, setSearch]           = React.useState("");
   const [tierFilter, setTierFilter]   = React.useState("all"); // "all" | "action" | "watch" | "healthy"
+  const [, setRagRev]                 = React.useState(0);
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -302,6 +303,12 @@ function Portfolio({ onOpenClient, onToast }) {
   }, [mode, firmToken]);
 
   React.useEffect(() => { load(); }, [load]);
+
+  React.useEffect(() => {
+    const h = () => setRagRev(v => v + 1);
+    window.addEventListener("meiq:thresholds-updated", h);
+    return () => window.removeEventListener("meiq:thresholds-updated", h);
+  }, []);
 
   function switchMode(m) { setMode(m); load(m); }
 
@@ -388,6 +395,8 @@ function Portfolio({ onOpenClient, onToast }) {
     if (days <= 65)  return { label: "Due for update", color: "var(--caution-text, #b45309)", bg: "var(--caution-soft, #fef3c7)", border: "var(--caution-border, #fcd34d)" };
     return { label: "Data overdue", color: "var(--adverse-text)", bg: "var(--adverse-soft)", border: "var(--adverse-border)" };
   }
+
+  const ragThresholds = window.loadRagThresholds ? window.loadRagThresholds() : {};
 
   const isDemo = mode === "demo";
   const hasClients = data?.clients?.length > 0;
@@ -617,6 +626,7 @@ function Portfolio({ onOpenClient, onToast }) {
                 {visibleClients.map((c) => {
                   const t = TIER[c.tier] || TIER.healthy;
                   const isConfirmingDelete = deleting === c.session_id;
+                  const ragSt = window.ragStatus ? window.ragStatus(c.margin, ragThresholds.op_margin) : null;
                   return (
                     <div key={c.session_id} className="card" style={{
                       padding: "16px 18px", display: "flex", alignItems: "center", gap: 16,
@@ -725,6 +735,13 @@ function Portfolio({ onOpenClient, onToast }) {
                           </div>
                         ))}
                       </div>
+
+                      {/* Margin RAG badge */}
+                      {ragSt && (
+                        <div style={{ flexShrink: 0, alignSelf: "center" }}>
+                          <RagBadge status={ragSt} />
+                        </div>
+                      )}
 
                       {/* Actions */}
                       <div style={{ flexShrink: 0, display: "flex", gap: 8, alignItems: "center" }}>
