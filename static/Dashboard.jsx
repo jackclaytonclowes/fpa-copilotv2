@@ -661,7 +661,7 @@ function CashRunway({ trend, periodMode, sessionId, isBvA, xeroCash }) {
 }
 
 function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDataChange, onModeChange, analysisType }) {
-  const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart } = window;
+  const { Icon, Card, Button, Delta, Chip, TrendChart, Donut, WaterfallChart, RagBadge } = window;
   const [data, setData]             = useStateDash(initialData);
   const [loading, setLoading]       = useStateDash(false);
   const [activeTab, setActiveTab]   = useStateDash("movements");
@@ -739,6 +739,7 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const expTotal = expSplit.reduce((a, b) => a + b.value, 0);
 
   const tabs = ["movements", "revenue", "costs", "commentary"];
+  const ragThresholds = window.loadRagThresholds ? window.loadRagThresholds() : {};
 
   // ── BvA KPI helpers ────────────────────────────────────────────────
   const bvaRevKpi  = isBvA ? (kpis || []).find(k => !k.pct_only && k.icon === "trending-up")  : null;
@@ -837,6 +838,12 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
               : lc.includes("cost") || lc.includes("expense") ? "costs"
               : null)
             : null;
+          const ragKey = k.icon === "trending-up" ? "revenue_var_pct"
+                       : k.icon === "wallet"       ? "profit_var_pct"
+                       : k.icon === "percent"      ? "op_margin"
+                       : k.icon === "users"        ? "payroll_pct"
+                       : null;
+          const ragSt = ragKey && window.ragStatus ? window.ragStatus(k.pct, ragThresholds[ragKey]) : null;
           return (
             <div key={k.label} className={`card kpi${k.icon === "wallet" ? " kpi-hero" : ""}`}>
               <div className="kpi-top">
@@ -857,6 +864,11 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
               {trendKey && window.Sparkline && (
                 <div style={{ marginTop: 10, marginBottom: -2 }}>
                   <Sparkline data={trend} valueKey={trendKey} height={26} />
+                </div>
+              )}
+              {ragSt && (
+                <div style={{ marginTop: 6 }}>
+                  <RagBadge status={ragSt} />
                 </div>
               )}
             </div>

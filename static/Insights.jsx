@@ -1,7 +1,7 @@
 /* FP&A Copilot — Insights view: margins, pareto, momentum, SPPY, run-rate, common-size P&L */
 
 function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
-  const { Icon, Card } = window;
+  const { Icon, Card, RagBadge } = window;
   const fmt   = (v) => window.fmtCurrency(v);
   const fmtC  = (v) => window.fmtCurrency(v, { compact: true });
   const fmtS  = (v) => window.fmtCurrency(v, { signed: true });
@@ -51,6 +51,10 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
 
   const { margins, common_size, r12, run_rate, pareto, sppy, momentum, fixed_variable, nonrecurring, period_label } = data;
 
+  const ragThresholds = window.loadRagThresholds ? window.loadRagThresholds() : {};
+  const opMarginSt    = window.ragStatus ? window.ragStatus(margins.op_pct, ragThresholds.op_margin) : null;
+  const payrollSt     = window.ragStatus ? window.ragStatus(margins.payroll_pct, ragThresholds.payroll_pct) : null;
+
   /* ── helpers ─────────────────────────────────────────────────────── */
   const pctFmt = (v) => v == null ? "—" : `${v > 0 ? "+" : ""}${v.toFixed(1)}pp`;
   const pcFmt  = (v) => v == null ? "—" : `${v.toFixed(1)}%`;
@@ -72,13 +76,18 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     </div>
   );
 
-  const MetricCard = ({ label, value, sub, color, icon, small }) => (
+  const MetricCard = ({ label, value, sub, color, icon, small, badge }) => (
     <div style={{
       flex: 1, minWidth: 140, padding: "16px 18px",
       borderRadius: "var(--radius-md)", border: "1px solid var(--border)",
       background: "var(--surface)",
     }}>
-      {icon && <Icon name={icon} size={14} color={color || "var(--fg-3)"} style={{ marginBottom: 6 }} />}
+      {(icon || badge) ? (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+          {icon && <Icon name={icon} size={14} color={color || "var(--fg-3)"} />}
+          {badge}
+        </div>
+      ) : null}
       <div style={{
         font: "var(--text-mono)", fontSize: small ? 22 : 26, fontWeight: 700,
         color: color || "var(--ink)", lineHeight: 1.1,
@@ -540,12 +549,14 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
           icon="percent"
           color={margins.op_pct != null && margins.op_pct >= 0 ? "var(--favourable)" : "var(--adverse)"}
           sub={`Profit ÷ Revenue · ${period_label}`}
+          badge={opMarginSt ? <RagBadge status={opMarginSt} /> : null}
         />
         <MetricCard
           label="Payroll % of revenue"
           value={margins.payroll_pct != null ? `${margins.payroll_pct.toFixed(1)}%` : "—"}
           icon="users"
           sub={margins.staff_value ? `Staff costs ${fmtC(margins.staff_value)}` : ""}
+          badge={payrollSt ? <RagBadge status={payrollSt} /> : null}
         />
         {momentum.available && (
           <MetricCard

@@ -114,4 +114,49 @@ function fmtCurrency(v, { signed = false, compact = false } = {}) {
   return `${pfx}${Math.round(abs).toLocaleString()}`;
 }
 
-Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo, catChip, fmtCurrency });
+// ── RAG threshold system ──────────────────────────────────────────────────────
+
+const _RAG_DEFAULTS = {
+  revenue_var_pct: { green: 5,  amber: 0,  hib: true,  enabled: false },
+  profit_var_pct:  { green: 5,  amber: 0,  hib: true,  enabled: false },
+  op_margin:       { green: 15, amber: 10, hib: true,  enabled: false },
+  payroll_pct:     { green: 55, amber: 65, hib: false, enabled: false },
+};
+
+function loadRagThresholds() {
+  try {
+    const raw = localStorage.getItem("meiq_rag_thresholds");
+    return raw ? { ..._RAG_DEFAULTS, ...JSON.parse(raw) } : { ..._RAG_DEFAULTS };
+  } catch { return { ..._RAG_DEFAULTS }; }
+}
+
+function ragStatus(value, threshold) {
+  if (!threshold?.enabled || value == null || isNaN(value)) return null;
+  if (threshold.hib) {
+    return value >= threshold.green ? "green" : value >= threshold.amber ? "amber" : "red";
+  }
+  return value <= threshold.green ? "green" : value <= threshold.amber ? "amber" : "red";
+}
+
+function RagBadge({ status }) {
+  if (!status) return null;
+  const MAP = {
+    green: { bg: "var(--favourable-soft)", color: "var(--favourable)", label: "On track"  },
+    amber: { bg: "var(--caution-soft)",    color: "var(--caution)",    label: "Monitor"   },
+    red:   { bg: "var(--adverse-soft)",    color: "var(--adverse)",    label: "Off track" },
+  };
+  const { bg, color, label } = MAP[status] || {};
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 4,
+      padding: "2px 8px", borderRadius: "var(--radius-pill)",
+      background: bg, color,
+      font: "var(--text-label)", fontSize: 10.5, flexShrink: 0,
+    }}>
+      <span style={{ fontSize: 7, lineHeight: 1 }}>●</span>{label}
+    </span>
+  );
+}
+
+Object.assign(window, { Icon, Button, Card, Chip, Delta, Logo, catChip, fmtCurrency,
+  loadRagThresholds, ragStatus, RagBadge });

@@ -260,6 +260,109 @@ function SettingsView({ onToast }) {
           })()}
         </div>
 
+        {/* ── KPI Thresholds ── */}
+        {(() => {
+          const DEFS = [
+            { key: "revenue_var_pct", label: "Revenue variance %",   desc: "% change vs prior period",  hib: true,  dg: 5,  da: 0  },
+            { key: "profit_var_pct",  label: "Profit variance %",    desc: "% change vs prior period",  hib: true,  dg: 5,  da: 0  },
+            { key: "op_margin",       label: "Operating margin",     desc: "Profit ÷ Revenue",           hib: true,  dg: 15, da: 10 },
+            { key: "payroll_pct",     label: "Payroll % of revenue", desc: "Staff costs ÷ Revenue",      hib: false, dg: 55, da: 65 },
+          ];
+          const [thresholds, setThresholds] = useStateSV(() => window.loadRagThresholds?.() || {});
+          const [saved, setSaved] = useStateSV(false);
+
+          const update = (key, field, val) =>
+            setThresholds(prev => ({ ...prev, [key]: { ...prev[key], [field]: val } }));
+
+          const save = () => {
+            try {
+              localStorage.setItem("meiq_rag_thresholds", JSON.stringify(thresholds));
+              window.dispatchEvent(new CustomEvent("meiq:thresholds-updated"));
+              setSaved(true);
+              setTimeout(() => setSaved(false), 2200);
+              onToast?.("KPI thresholds saved");
+            } catch { onToast?.("Could not save — localStorage unavailable"); }
+          };
+
+          const numInp = (key, field) => (
+            <input
+              type="number" step="0.5"
+              value={thresholds[key]?.[field] ?? ""}
+              onChange={e => update(key, field, parseFloat(e.target.value))}
+              style={{ ...inp, width: 72, padding: "6px 8px", fontSize: 13 }}
+            />
+          );
+
+          return (
+            <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
+              <div style={sectionHdr}>KPI thresholds (RAG status)</div>
+              <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 16, lineHeight: 1.5 }}>
+                When enabled, a green / amber / red badge appears on Dashboard KPI cards and the Insights margin view.
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {DEFS.map(({ key, label, desc, hib, dg, da }) => {
+                  const t = thresholds[key] || { green: dg, amber: da, enabled: false };
+                  const op = hib ? "≥" : "≤";
+                  return (
+                    <div key={key} style={{
+                      padding: "14px 16px", borderRadius: "var(--radius-md)",
+                      border: `1.5px solid ${t.enabled ? "var(--primary)" : "var(--border)"}`,
+                      background: t.enabled ? "var(--primary-soft)" : "var(--surface-2)",
+                    }}>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: t.enabled ? 12 : 0 }}>
+                        <div>
+                          <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: t.enabled ? "var(--primary)" : "var(--ink)" }}>
+                            {label}
+                          </div>
+                          <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 2 }}>{desc}</div>
+                        </div>
+                        <button
+                          onClick={() => update(key, "enabled", !t.enabled)}
+                          style={{
+                            padding: "4px 12px", borderRadius: "var(--radius-pill)", cursor: "pointer",
+                            border: t.enabled ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+                            background: t.enabled ? "var(--primary)" : "transparent",
+                            color: t.enabled ? "#fff" : "var(--fg-3)",
+                            font: "var(--text-label)", fontSize: 11, flexShrink: 0,
+                          }}
+                        >{t.enabled ? "On" : "Off"}</button>
+                      </div>
+                      {t.enabled && (
+                        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 10, lineHeight: 1, color: "var(--favourable)" }}>●</span>
+                            <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-2)" }}>
+                              Green {op}
+                            </span>
+                            {numInp(key, "green")}
+                            <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>%</span>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <span style={{ fontSize: 10, lineHeight: 1, color: "var(--caution)" }}>●</span>
+                            <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-2)" }}>
+                              Amber {op}
+                            </span>
+                            {numInp(key, "amber")}
+                            <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>%</span>
+                          </div>
+                          <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", alignSelf: "center" }}>
+                            {hib ? "↑ higher is better" : "↓ lower is better"}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <Button variant="primary" icon={saved ? "check" : "save"} onClick={save}>
+                  {saved ? "Saved" : "Save thresholds"}
+                </Button>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* ── Keyboard shortcuts ── */}
         <div className="card" style={{ padding: "22px 24px", marginBottom: 16 }}>
           <div style={sectionHdr}>Keyboard shortcuts</div>
