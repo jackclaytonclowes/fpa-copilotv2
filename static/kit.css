@@ -277,6 +277,11 @@ table.var tbody tr:hover{background:var(--surface-2);}
   .grid-kpi{grid-template-columns:repeat(2,1fr);}
   .sidebar{display:none;}
   .mobile-nav{display:flex;}
+  /* Portfolio client row: stack figures below name on mobile */
+  .portfolio-row{flex-wrap:wrap !important;}
+  .portfolio-row-rag{display:none !important;}
+  .portfolio-row-figures{flex-wrap:wrap;gap:12px !important;}
+  .portfolio-row-figures > div{min-width:56px;}
 }
 
 @media print{

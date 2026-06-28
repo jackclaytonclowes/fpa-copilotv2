@@ -69,7 +69,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
   );
 
   const SectionTitle = ({ icon, title, sub }) => (
-    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 16 }}>
+    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
       <Icon name={icon} size={16} color="var(--fg-3)" />
       <span style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)" }}>{title}</span>
       {sub && <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>{sub}</span>}
@@ -110,8 +110,8 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     const path = pts.map((p, i) => (i === 0 ? "M" : "L") + p).join(" ");
     const latest = trend[trend.length - 1];
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} style={{ overflow: "visible", flexShrink: 0 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+        <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} style={{ overflow: "visible", flexShrink: 0, maxWidth: "100%" }}>
           <path d={path} fill="none" stroke="var(--primary)" strokeWidth="2" strokeLinejoin="round" />
           {trend.map((t, i) => t.op_pct != null && (
             <g key={i}>
@@ -189,7 +189,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
         <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 12 }}>
           Comparing {period_label} vs {sppy.period_label} (same month, prior year)
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12 }}>
           {rows.map(({ label, delta, pct, fav }) => delta != null && (
             <div key={label} style={{
               padding: "14px 16px", borderRadius: "var(--radius-md)",
@@ -224,7 +224,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       { label: "Profit",   val: run_rate.profit  },
     ];
     return (
-      <div style={{ display: "grid", gridTemplateColumns: r12.available ? "1fr 1fr" : "1fr", gap: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: r12.available ? "repeat(auto-fit, minmax(240px, 1fr))" : "1fr", gap: 24 }}>
         {/* Run-rate */}
         <div>
           <div style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--ink)", marginBottom: 12 }}>
@@ -351,7 +351,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     const coveragePct = pareto.total_cost > 0
       ? Math.round(total_classified / pareto.total_cost * 100) : null;
     return (
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 24 }}>
         <div>
           <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginBottom: 12 }}>
             Cost structure (classified lines only)
@@ -619,8 +619,8 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       <Divider />
 
       {/* ── Non-recurring ──────────────────────────────────────── */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
           <Icon name="alert-circle" size={16} color="var(--fg-3)" />
           <span style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)" }}>Potentially non-recurring</span>
           <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>Lines with irregular presence across recent periods</span>
@@ -642,8 +642,8 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       <Divider />
 
       {/* ── Common-size P&L ────────────────────────────────────── */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", minWidth: 0 }}>
           <Icon name="table" size={16} color="var(--fg-3)" />
           <span style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)" }}>Common-size P&L</span>
           <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>Every line as % of revenue</span>

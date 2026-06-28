@@ -95,7 +95,7 @@ function SettingsView({ onToast }) {
         flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
         padding: "9px 14px", border: "none", borderRadius: "var(--radius-sm)",
         background: theme === id ? "var(--primary)" : "var(--surface-2)",
-        color: theme === id ? "#fff" : "var(--fg-2)",
+        color: theme === id ? "var(--fg-on-dark)" : "var(--fg-2)",
         font: "var(--text-body-strong)", fontSize: 13, cursor: "pointer",
         transition: "all .15s",
       }}
@@ -322,7 +322,7 @@ function SettingsView({ onToast }) {
                             padding: "4px 12px", borderRadius: "var(--radius-pill)", cursor: "pointer",
                             border: t.enabled ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
                             background: t.enabled ? "var(--primary)" : "transparent",
-                            color: t.enabled ? "#fff" : "var(--fg-3)",
+                            color: t.enabled ? "var(--fg-on-dark)" : "var(--fg-3)",
                             font: "var(--text-label)", fontSize: 11, flexShrink: 0,
                           }}
                         >{t.enabled ? "On" : "Off"}</button>

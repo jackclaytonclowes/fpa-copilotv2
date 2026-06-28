@@ -628,7 +628,7 @@ function Portfolio({ onOpenClient, onToast }) {
                   const isConfirmingDelete = deleting === c.session_id;
                   const ragSt = window.ragStatus ? window.ragStatus(c.margin, ragThresholds.op_margin) : null;
                   return (
-                    <div key={c.session_id} className="card" style={{
+                    <div key={c.session_id} className="card portfolio-row" style={{
                       padding: "16px 18px", display: "flex", alignItems: "center", gap: 16,
                       borderLeft: `3px solid ${t.color}`, position: "relative",
                     }}>
@@ -719,7 +719,7 @@ function Portfolio({ onOpenClient, onToast }) {
                       </div>
 
                       {/* Figures */}
-                      <div style={{ display: "flex", gap: 22, flexShrink: 0 }}>
+                      <div className="portfolio-row-figures" style={{ display: "flex", gap: 22, flexShrink: 0 }}>
                         {[
                           { k: "Revenue",   v: fmtGBP(c.revenue),   color: "var(--ink)" },
                           { k: "Op profit", v: fmtGBP(c.op_profit), color: c.op_profit != null && c.op_profit < 0 ? "var(--adverse-text)" : "var(--ink)" },
@@ -736,9 +736,9 @@ function Portfolio({ onOpenClient, onToast }) {
                         ))}
                       </div>
 
-                      {/* Margin RAG badge */}
+                      {/* Margin RAG badge — hidden on mobile via .portfolio-row-rag */}
                       {ragSt && (
-                        <div style={{ flexShrink: 0, alignSelf: "center" }}>
+                        <div className="portfolio-row-rag" style={{ flexShrink: 0, alignSelf: "center" }}>
                           <RagBadge status={ragSt} />
                         </div>
                       )}
