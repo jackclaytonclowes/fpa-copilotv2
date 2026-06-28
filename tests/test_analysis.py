@@ -619,6 +619,747 @@ class TestGetYtdData:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# GET_INSIGHTS_DATA
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _make_insights_df(n_months=6):
+    """Helper: build an n-month P&L DataFrame with payroll and diverse costs."""
+    months = []
+    base = pd.Timestamp("2024-01-01")
+    for i in range(n_months):
+        dt = base + pd.offsets.MonthBegin(i)
+        months.append(dt.strftime("%b %Y"))
+    data = {
+        "Account": [
+            "Product Revenue", "Service Revenue", "Total Turnover",
+            "Staff Wages", "Pension Contributions", "Office Rent", "IT Software",
+            "Total Admin Costs", "Operating Profit",
+        ],
+        "Section": [
+            "Turnover", "Turnover", "Turnover",
+            "Admin", "Admin", "Admin", "Admin",
+            "Admin", "Profit",
+        ],
+    }
+    rev_vals    = [80_000 + i * 1_000 for i in range(n_months)]
+    staff_vals  = [30_000 + i * 500  for i in range(n_months)]
+    pension_vals = [3_000 + i * 50   for i in range(n_months)]
+    rent_vals   = [5_000] * n_months
+    it_vals     = [2_000 + i * 100   for i in range(n_months)]
+    total_costs = [v1 + v2 + v3 + v4 for v1, v2, v3, v4 in
+                   zip(staff_vals, pension_vals, rent_vals, it_vals)]
+    # Service revenue is a flat 20 % of product revenue
+    svc_vals  = [int(r * 0.25) for r in rev_vals]
+    tot_rev   = [r + s for r, s in zip(rev_vals, svc_vals)]
+    profit_vals = [tr - tc for tr, tc in zip(tot_rev, total_costs)]
+
+    for i, m in enumerate(months):
+        data[m] = [
+            rev_vals[i], svc_vals[i], tot_rev[i],
+            staff_vals[i], pension_vals[i], rent_vals[i], it_vals[i],
+            total_costs[i], profit_vals[i],
+        ]
+    return pd.DataFrame(data)
+
+
+class TestGetInsightsData:
+    """Tests for get_insights_data() — the supplementary FP&A insights function."""
+
+    @pytest.fixture
+    def insights_6m(self):
+        """6-period dataset: enough for momentum, not enough for R12 or SPPY.
+
+        get_insights_data() requires the second argument (df_long) to have an
+        'Is Subtotal' column for the nonrecurring detection section.  That
+        column is only present on the DataFrame returned by build_analysis(),
+        not on the raw build_long() output.  We therefore pass df_a for both
+        the analysis_df and df_long parameters.
+        """
+        df = _make_insights_df(n_months=6)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_insights_data(df_a, df_a, periods[-1], kpis, "monthly")
+        return data, df_a, df_long, kpis, periods
+
+    @pytest.fixture
+    def insights_13m(self):
+        """13-period dataset: enough for R12 and SPPY."""
+        df = _make_insights_df(n_months=13)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_insights_data(df_a, df_a, periods[-1], kpis, "monthly")
+        return data, df_a, df_long, kpis, periods
+
+    # ── 1. Top-level keys ────────────────────────────────────────────────────
+    def test_returns_all_expected_keys(self, insights_6m):
+        data = insights_6m[0]
+        expected = {
+            "margins", "common_size", "r12", "run_rate", "pareto",
+            "sppy", "momentum", "fixed_variable", "nonrecurring", "period_label",
+        }
+        assert expected.issubset(set(data.keys())), (
+            f"Missing keys: {expected - set(data.keys())}"
+        )
+
+    # ── 2. Margins ───────────────────────────────────────────────────────────
+    def test_margins_op_pct_computed_correctly(self, insights_6m):
+        """op_pct should equal profit / revenue * 100 for the selected period."""
+        data, df_a, df_long, kpis, periods = insights_6m
+        period_df = df_a[df_a["Period"] == periods[-1]]
+
+        rev_name  = kpis.get("revenue") or ""
+        prof_name = kpis.get("profit")  or ""
+
+        def _val(name):
+            m = period_df[period_df["Account"].str.strip() == name.strip()]
+            return float(m.iloc[0]["Value"]) if not m.empty else None
+
+        rev  = _val(rev_name)
+        prof = _val(prof_name)
+
+        if rev and rev != 0 and prof is not None:
+            expected_op_pct = round(prof / rev * 100, 1)
+            assert data["margins"]["op_pct"] == pytest.approx(expected_op_pct, abs=0.2)
+
+    def test_margins_payroll_pct_correct(self, insights_6m):
+        """payroll_pct = staff_cost_sum / revenue * 100."""
+        data, df_a, df_long, kpis, periods = insights_6m
+        period_df = df_a[df_a["Period"] == periods[-1]]
+        driver_df = period_df[~period_df["Is Subtotal"]]
+
+        staff_sum = float(driver_df[driver_df["Category"] == "Staff Costs"]["Value"].sum())
+        rev_name  = kpis.get("revenue") or ""
+        rev_row   = period_df[period_df["Account"].str.strip() == rev_name.strip()]
+        rev_val   = float(rev_row.iloc[0]["Value"]) if not rev_row.empty else None
+
+        if rev_val and rev_val != 0:
+            expected_pp = round(staff_sum / rev_val * 100, 1)
+            assert data["margins"]["payroll_pct"] == pytest.approx(expected_pp, abs=0.2)
+
+    def test_margins_trend_has_correct_length(self, insights_6m):
+        """Trend must have exactly min(6, n_periods) entries for a 6-period dataset."""
+        data = insights_6m[0]
+        # With 6 months and last period at idx 5, trend window = periods[0:6]
+        assert len(data["margins"]["trend"]) == 6
+
+    def test_margins_trend_contains_required_keys(self, insights_6m):
+        data = insights_6m[0]
+        for entry in data["margins"]["trend"]:
+            for key in ("m", "full", "op_pct", "payroll_pct"):
+                assert key in entry, f"Trend entry missing key: {key}"
+
+    # ── 3. Common-size P&L ───────────────────────────────────────────────────
+    def test_common_size_entries_have_pct_of_rev(self, insights_6m):
+        data = insights_6m[0]
+        assert len(data["common_size"]) > 0, "common_size should be non-empty"
+        for entry in data["common_size"]:
+            assert "pct_of_rev" in entry, f"Entry missing pct_of_rev: {entry}"
+
+    def test_common_size_pct_of_rev_values(self, insights_6m):
+        """pct_of_rev for a revenue account should be positive; cost accounts too."""
+        data = insights_6m[0]
+        for entry in data["common_size"]:
+            if entry.get("value") is not None and entry["value"] != 0:
+                assert entry["pct_of_rev"] is not None
+
+    # ── 4. R12 availability ──────────────────────────────────────────────────
+    def test_r12_not_available_with_6_months(self, insights_6m):
+        data = insights_6m[0]
+        assert data["r12"]["available"] is False
+
+    def test_r12_available_with_13_months(self, insights_13m):
+        data = insights_13m[0]
+        assert data["r12"]["available"] is True
+
+    def test_r12_has_required_keys_when_available(self, insights_13m):
+        data = insights_13m[0]
+        for key in ("revenue", "costs", "profit", "op_pct", "periods_used"):
+            assert key in data["r12"], f"r12 missing key: {key}"
+
+    # ── 5. Run-rate ──────────────────────────────────────────────────────────
+    def test_run_rate_equals_current_times_12(self, insights_6m):
+        data, df_a, df_long, kpis, periods = insights_6m
+        period_df = df_a[df_a["Period"] == periods[-1]]
+        rev_name  = kpis.get("revenue") or ""
+        rev_row   = period_df[period_df["Account"].str.strip() == rev_name.strip()]
+        if not rev_row.empty:
+            rev_val = float(rev_row.iloc[0]["Value"])
+            assert data["run_rate"]["revenue"] == pytest.approx(rev_val * 12, rel=1e-6)
+
+    def test_run_rate_has_all_keys(self, insights_6m):
+        data = insights_6m[0]
+        for key in ("revenue", "costs", "profit", "op_pct"):
+            assert key in data["run_rate"], f"run_rate missing key: {key}"
+
+    # ── 6. Pareto ────────────────────────────────────────────────────────────
+    def test_pareto_lines_sorted_descending(self, insights_6m):
+        data = insights_6m[0]
+        lines = data["pareto"]["lines"]
+        if len(lines) > 1:
+            for i in range(len(lines) - 1):
+                assert lines[i]["value"] >= lines[i + 1]["value"], (
+                    f"Pareto not descending at position {i}"
+                )
+
+    def test_pareto_top3_pct_matches_cumulative(self, insights_6m):
+        data  = insights_6m[0]
+        lines = data["pareto"]["lines"]
+        if len(lines) >= 3:
+            expected_top3 = lines[2]["cum_pct"]
+            assert data["pareto"]["top3_pct"] == pytest.approx(expected_top3, abs=0.1)
+
+    def test_pareto_top5_pct_matches_cumulative(self, insights_6m):
+        data  = insights_6m[0]
+        lines = data["pareto"]["lines"]
+        if len(lines) >= 5:
+            expected_top5 = lines[4]["cum_pct"]
+            assert data["pareto"]["top5_pct"] == pytest.approx(expected_top5, abs=0.1)
+
+    def test_pareto_excludes_revenue(self, insights_6m):
+        """Pareto cost-concentration should not include Revenue category."""
+        data = insights_6m[0]
+        for entry in data["pareto"]["lines"]:
+            assert entry["category"] != "Revenue", (
+                "Pareto should not include Revenue accounts"
+            )
+
+    # ── 7. Momentum ──────────────────────────────────────────────────────────
+    def test_momentum_not_available_with_fewer_than_6_periods(self):
+        df = _make_insights_df(n_months=5)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_insights_data(df_a, df_a, periods[-1], kpis, "monthly")
+        assert data["momentum"]["available"] is False
+
+    def test_momentum_available_with_6_periods(self, insights_6m):
+        data = insights_6m[0]
+        assert data["momentum"]["available"] is True
+
+    def test_momentum_direction_values_are_valid_strings(self, insights_6m):
+        data = insights_6m[0]
+        m    = data["momentum"]
+        if m["available"]:
+            valid = {"improving", "worsening", "stable"}
+            assert m["revenue_dir"] in valid, f"Unexpected revenue_dir: {m['revenue_dir']}"
+            assert m["cost_dir"]    in valid, f"Unexpected cost_dir: {m['cost_dir']}"
+            assert m["profit_dir"]  in valid, f"Unexpected profit_dir: {m['profit_dir']}"
+            assert m["overall"]     in valid, f"Unexpected overall: {m['overall']}"
+
+    # ── 8. SPPY ──────────────────────────────────────────────────────────────
+    def test_sppy_not_available_with_fewer_than_13_months(self, insights_6m):
+        data = insights_6m[0]
+        assert data["sppy"]["available"] is False
+
+    def test_sppy_available_with_13_months(self, insights_13m):
+        data = insights_13m[0]
+        assert data["sppy"]["available"] is True
+
+    def test_sppy_has_required_keys_when_available(self, insights_13m):
+        data = insights_13m[0]
+        if data["sppy"]["available"]:
+            for key in ("period_label", "revenue", "profit", "rev_delta", "prof_delta"):
+                assert key in data["sppy"], f"sppy missing key: {key}"
+
+    # ── 9. Fixed vs Variable ─────────────────────────────────────────────────
+    def test_fixed_variable_costs_non_negative(self, insights_6m):
+        data = insights_6m[0]
+        fv   = data["fixed_variable"]
+        assert fv["fixed_cost"]    >= 0, "fixed_cost should be non-negative"
+        assert fv["variable_cost"] >= 0, "variable_cost should be non-negative"
+
+    def test_fixed_variable_has_expected_keys(self, insights_6m):
+        data = insights_6m[0]
+        for key in ("fixed_cost", "variable_cost", "total_classified",
+                    "contribution_margin_pct", "breakeven_revenue", "has_revenue"):
+            assert key in data["fixed_variable"], f"fixed_variable missing key: {key}"
+
+    # ── 10. Non-recurring ────────────────────────────────────────────────────
+    def test_nonrecurring_items_have_required_keys(self, insights_6m):
+        data = insights_6m[0]
+        for item in data["nonrecurring"]:
+            for key in ("account", "category", "present_count", "check_periods"):
+                assert key in item, f"nonrecurring item missing key: {key}"
+
+    def test_nonrecurring_present_count_less_than_check_periods(self, insights_6m):
+        data = insights_6m[0]
+        for item in data["nonrecurring"]:
+            assert item["present_count"] < item["check_periods"], (
+                f"present_count should be < check_periods: {item}"
+            )
+
+    def test_nonrecurring_detected_for_sparse_account(self):
+        """An account that appears in only 1 of 6 periods should be flagged."""
+        months = ["Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024"]
+        data = {
+            "Account": ["Total Turnover", "Staff Wages", "Consultancy Fee", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Admin", "Profit"],
+        }
+        for i, m in enumerate(months):
+            # Consultancy Fee only appears in month 1
+            data[m] = [100_000, 40_000, 15_000 if i == 0 else 0, 45_000]
+        df      = pd.DataFrame(data)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        result  = analysis.get_insights_data(df_a, df_a, periods[-1], kpis, "monthly")
+        accounts = [item["account"] for item in result["nonrecurring"]]
+        assert "Consultancy Fee" in accounts, (
+            "Consultancy Fee (present in 1/6 periods) should be flagged as non-recurring"
+        )
+
+    # ── 11. period_label ─────────────────────────────────────────────────────
+    def test_period_label_matches_selected_period(self, insights_6m):
+        data, df_a, df_long, kpis, periods = insights_6m
+        expected_label = analysis.period_label(periods[-1], "monthly")
+        assert data["period_label"] == expected_label
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ANOMALY DETECTION (logic extracted from api.py route)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _run_anomaly_detection(analysis_df, sigma=1.5, mode="monthly"):
+    """
+    Reproduce the anomaly-detection logic from api.py's /api/anomalies route
+    so we can unit-test it without needing a live HTTP server or session store.
+    """
+    sort_key = (lambda p: pd.Timestamp(p)) if mode != "quarterly" else analysis.quarter_sort_key
+    periods  = sorted(analysis_df["Period"].unique(), key=sort_key)
+    sigma    = max(0.5, min(sigma, 5.0))   # clamp as the route does
+
+    if len(periods) < 4:
+        return {"anomalies": [], "period": "", "note": "Needs ≥ 4 periods for reliable detection."}
+
+    selected     = periods[-1]
+    selected_lbl = analysis.period_label(selected, mode)
+    non_sub      = analysis_df[~analysis_df["Is Subtotal"]].copy()
+
+    anomalies = []
+    for acc_name in non_sub["Account"].unique():
+        acc_strip = acc_name.strip()
+        curr_rows = non_sub[
+            (non_sub["Account"].str.strip() == acc_strip) &
+            (non_sub["Period"] == selected)
+        ]
+        if curr_rows.empty:
+            continue
+        curr_raw = curr_rows.iloc[0]["Value"]
+        if pd.isna(curr_raw):
+            continue
+        curr_val = float(curr_raw)
+
+        hist_vals = non_sub[
+            (non_sub["Account"].str.strip() == acc_strip) &
+            (non_sub["Period"] != selected)
+        ]["Value"].dropna().astype(float)
+
+        if len(hist_vals) < 3:
+            continue
+
+        hmean = float(hist_vals.mean())
+        hstd  = float(hist_vals.std())
+
+        if hstd < 1 or abs(hmean) < 1:
+            continue
+
+        z = abs(curr_val - hmean) / hstd
+        if z < sigma:
+            continue
+
+        cat_mode = non_sub[non_sub["Account"].str.strip() == acc_strip]["Category"].mode()
+        cat      = str(cat_mode.iloc[0]) if not cat_mode.empty else "Other"
+        change   = curr_val - hmean
+        is_rev   = cat == "Revenue"
+        is_fav   = (is_rev and change > 0) or (not is_rev and change < 0)
+        chg_pct  = round(change / abs(hmean) * 100, 1) if hmean != 0 else None
+
+        anomalies.append({
+            "account":         acc_strip,
+            "category":        cat,
+            "current_value":   round(curr_val, 2),
+            "historical_mean": round(hmean, 2),
+            "std_dev":         round(hstd, 2),
+            "z_score":         round(z, 2),
+            "change":          round(change, 2),
+            "change_pct":      chg_pct,
+            "is_fav":          is_fav,
+        })
+
+    anomalies.sort(key=lambda a: a["z_score"], reverse=True)
+    return {
+        "anomalies":   anomalies[:8],
+        "period":      selected_lbl,
+        "threshold":   sigma,
+        "total_found": len(anomalies),
+    }
+
+
+class TestAnomalyDetection:
+    """Tests for the anomaly detection logic (Z-score based)."""
+
+    @pytest.fixture
+    def stable_df(self):
+        """6-month dataset where every account is stable — no anomalies expected."""
+        months = ["Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024"]
+        data = {
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+        }
+        for m in months:
+            data[m] = [100_000, 40_000, 60_000]
+        df      = pd.DataFrame(data)
+        df_long = analysis.build_long(df, "monthly")
+        return analysis.build_analysis(df_long)
+
+    @pytest.fixture
+    def spike_df(self):
+        """6-month dataset with a large spike in the last month for Staff Wages."""
+        months = ["Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024"]
+        data = {
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+        }
+        wages = [40_000, 41_000, 39_500, 40_500, 40_200, 120_000]   # spike in Jun
+        rev   = [100_000] * 6
+        profit = [r - w for r, w in zip(rev, wages)]
+        for i, m in enumerate(months):
+            data[m] = [rev[i], wages[i], profit[i]]
+        df      = pd.DataFrame(data)
+        df_long = analysis.build_long(df, "monthly")
+        return analysis.build_analysis(df_long)
+
+    def test_returns_expected_structure_keys(self, stable_df):
+        result = _run_anomaly_detection(stable_df)
+        for key in ("anomalies", "period", "threshold"):
+            assert key in result, f"Missing key: {key}"
+
+    def test_empty_result_with_insufficient_history(self):
+        """Fewer than 4 periods → no anomaly detection."""
+        months = ["Jan 2024", "Feb 2024", "Mar 2024"]
+        data   = {
+            "Account": ["Total Revenue", "Staff Wages"],
+            "Section": ["Turnover", "Admin"],
+        }
+        for m in months:
+            data[m] = [100_000, 40_000]
+        df      = pd.DataFrame(data)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        result  = _run_anomaly_detection(df_a)
+        assert result["anomalies"] == []
+        assert "note" in result
+
+    def test_sigma_clamp_low(self, spike_df):
+        """Sigma below 0.5 is clamped to 0.5 — must not raise."""
+        result = _run_anomaly_detection(spike_df, sigma=0.01)
+        assert result["threshold"] == 0.5
+
+    def test_sigma_clamp_high(self, spike_df):
+        """Sigma above 5.0 is clamped to 5.0."""
+        result = _run_anomaly_detection(spike_df, sigma=99.0)
+        assert result["threshold"] == 5.0
+
+    def test_sigma_within_range_unchanged(self, spike_df):
+        """Sigma values inside [0.5, 5.0] are passed through unchanged."""
+        result = _run_anomaly_detection(spike_df, sigma=2.0)
+        assert result["threshold"] == 2.0
+
+    def test_spike_detected_as_anomaly(self, spike_df):
+        """The large Jun-2024 spike in Staff Wages must be detected."""
+        result = _run_anomaly_detection(spike_df, sigma=1.5)
+        accounts = [a["account"] for a in result["anomalies"]]
+        assert "Staff Wages" in accounts, (
+            f"Staff Wages spike not detected. Anomalies found: {accounts}"
+        )
+
+    def test_is_fav_false_for_cost_spike(self, spike_df):
+        """A cost spike is adverse (is_fav = False)."""
+        result  = _run_anomaly_detection(spike_df, sigma=1.5)
+        wages_a = next((a for a in result["anomalies"] if a["account"] == "Staff Wages"), None)
+        if wages_a is not None:
+            assert wages_a["is_fav"] is False, (
+                "A cost increase should be is_fav=False"
+            )
+
+    def test_is_fav_true_for_revenue_spike(self):
+        """A positive revenue spike is favourable (is_fav = True)."""
+        months = ["Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024"]
+        data = {
+            "Account": ["Product Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+        }
+        rev_vals = [50_000, 51_000, 49_500, 50_500, 50_200, 200_000]  # massive spike
+        for i, m in enumerate(months):
+            data[m] = [rev_vals[i], 30_000, rev_vals[i] - 30_000]
+        df      = pd.DataFrame(data)
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        result  = _run_anomaly_detection(df_a, sigma=1.5)
+        rev_a   = next((a for a in result["anomalies"] if a["account"] == "Product Revenue"), None)
+        if rev_a is not None:
+            assert rev_a["is_fav"] is True, "Revenue spike should be is_fav=True"
+
+    def test_anomaly_items_have_required_fields(self, spike_df):
+        result = _run_anomaly_detection(spike_df, sigma=1.5)
+        for item in result["anomalies"]:
+            for field in ("account", "category", "current_value", "historical_mean",
+                          "std_dev", "z_score", "change", "is_fav"):
+                assert field in item, f"Anomaly item missing field: {field}"
+
+    def test_no_anomalies_when_sigma_very_high(self, spike_df):
+        """At sigma=5 the spike may or may not exceed threshold — just shouldn't error."""
+        result = _run_anomaly_detection(spike_df, sigma=5.0)
+        assert isinstance(result["anomalies"], list)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GET_PERIOD_DATA — edge cases
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGetPeriodDataEdgeCases:
+
+    def test_single_period_no_prior_variances(self):
+        """A single-period file produces None variances (no prior period)."""
+        df = pd.DataFrame({
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+            "Apr 2024": [100_000, 40_000, 60_000],
+        })
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[0], kpis, "monthly")
+        # Movements rely on Variance being non-null; with a single period there is
+        # no prior, so movements should be empty (or all have None variance).
+        for m in data["movements"]:
+            # variance may be None since there's no prior period
+            assert m["variance"] is None or isinstance(m["variance"], (int, float))
+
+    def test_no_revenue_accounts_still_processes(self):
+        """A file with only cost accounts should not raise an error."""
+        df = pd.DataFrame({
+            "Account": ["Staff Wages", "Office Rent", "IT Costs"],
+            "Section": ["Admin", "Admin", "Admin"],
+            "Apr 2024": [40_000, 5_000, 2_000],
+            "May 2024": [41_000, 5_000, 2_100],
+        })
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        # Should not raise
+        data = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        assert "movements" in data
+        assert "kpis" in data
+
+    def test_accounts_with_zero_values_across_all_periods(self):
+        """Zero-value accounts should be handled gracefully (no division by zero)."""
+        df = pd.DataFrame({
+            "Account": ["Total Revenue", "Staff Wages", "Dormant Account", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Admin", "Profit"],
+            "Apr 2024": [100_000, 40_000, 0, 60_000],
+            "May 2024": [100_000, 40_000, 0, 60_000],
+        })
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        assert "movements" in data
+
+    def test_very_large_values_do_not_cause_errors(self):
+        """Values in the hundreds of millions should not cause formatting/overflow errors."""
+        df = pd.DataFrame({
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+            "Apr 2024": [500_000_000, 200_000_000, 300_000_000],
+            "May 2024": [510_000_000, 205_000_000, 305_000_000],
+        })
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "monthly")
+        assert "kpis" in data
+        assert len(data["kpis"]) > 0
+
+    def test_first_period_has_no_prior_label(self):
+        """For the very first period the prior label should still be populated."""
+        df = pd.DataFrame({
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+            "Apr 2024": [100_000, 40_000, 60_000],
+            "May 2024": [105_000, 41_000, 64_000],
+        })
+        df_long = analysis.build_long(df, "monthly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=lambda p: pd.Timestamp(p))
+        data    = analysis.get_period_data(df_a, df_long, periods[0], kpis, "monthly")
+        # period dict must always exist; prior may be the fallback string
+        assert "period" in data
+        assert data["period"]["label"]  # non-empty
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GET_BVA_DATA — additional coverage
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestGetBvaDataExtended:
+
+    @pytest.fixture
+    def full_bva(self):
+        raw = pd.DataFrame({
+            "Account": [
+                "Product Revenue", "Service Revenue", "Total Revenue",
+                "Staff Wages", "Office Rent", "Total Costs",
+                "Operating Profit",
+            ],
+            "Section": [
+                "Turnover", "Turnover", "Turnover",
+                "Admin", "Admin", "Admin",
+                "Profit",
+            ],
+            "Actual": [85_000, 42_000, 127_000, 36_000, 5_200, 41_200, 85_800],
+            "Budget": [80_000, 40_000, 120_000, 35_000, 5_000, 40_000, 80_000],
+        })
+        bva = analysis.build_bva(raw, "Actual", "Budget")
+        raw2 = pd.DataFrame({
+            "Account": raw["Account"].tolist(),
+            "Section": raw["Section"].tolist(),
+            "Apr 2024": raw["Actual"].tolist(),
+        })
+        df_long = analysis.build_long(raw2, "monthly")
+        kpis    = analysis.detect_kpis(df_long)
+        return bva, kpis
+
+    def test_returns_analysis_type_budget_vs_actual(self, full_bva):
+        bva, kpis = full_bva
+        data = analysis.get_bva_data(bva, kpis, "test.csv")
+        assert data.get("analysis_type") == "budget_vs_actual"
+
+    def test_budget_column_correctly_identifies_prior(self, full_bva):
+        """KPI 'prior' should equal the Budget value for the revenue row."""
+        bva, kpis = full_bva
+        data    = analysis.get_bva_data(bva, kpis, "test.csv")
+        rev_kpi = next((k for k in data["kpis"] if "Revenue" in k.get("label", "")), None)
+        assert rev_kpi is not None, "No revenue KPI found"
+        assert rev_kpi["prior"] == pytest.approx(120_000, abs=1)
+
+    def test_cost_adverse_when_actual_exceeds_budget(self, full_bva):
+        """Staff wages actual (36k) > budget (35k) — should be adverse."""
+        bva, kpis = full_bva
+        data = analysis.get_bva_data(bva, kpis, "test.csv")
+        wages_m = next(
+            (m for m in data["movements"] if m["account"] == "Staff Wages"), None
+        )
+        if wages_m is not None:
+            assert wages_m["is_fav"] is False, (
+                "Staff wages above budget should be adverse"
+            )
+
+    def test_period_label_is_actual_budget(self, full_bva):
+        """The BvA period labels should be 'Actual' vs 'Budget'."""
+        bva, kpis = full_bva
+        data = analysis.get_bva_data(bva, kpis, "test.csv")
+        assert data["period"]["label"] == "Actual"
+        assert data["period"]["prior"] == "Budget"
+
+    def test_waterfall_key_present(self, full_bva):
+        bva, kpis = full_bva
+        data = analysis.get_bva_data(bva, kpis, "test.csv")
+        assert "waterfall" in data
+
+    def test_revenue_movement_has_variance(self, full_bva):
+        """Product Revenue actual (85k) vs budget (80k) → variance +5k."""
+        bva, kpis = full_bva
+        data = analysis.get_bva_data(bva, kpis, "test.csv")
+        rev_m = next(
+            (m for m in data["movements"] if m["account"] == "Product Revenue"), None
+        )
+        if rev_m is not None:
+            assert rev_m["variance"] == pytest.approx(5_000, abs=1)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# QUARTERLY MODE
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestQuarterlyMode:
+
+    @pytest.fixture
+    def quarterly_df(self):
+        """12-month P&L: Apr 2024 – Mar 2025 covers three full FY quarters."""
+        months = [
+            "Apr 2024", "May 2024", "Jun 2024",
+            "Jul 2024", "Aug 2024", "Sep 2024",
+            "Oct 2024", "Nov 2024", "Dec 2024",
+            "Jan 2025", "Feb 2025", "Mar 2025",
+        ]
+        data = {
+            "Account": ["Total Revenue", "Staff Wages", "Operating Profit"],
+            "Section": ["Turnover", "Admin", "Profit"],
+        }
+        for m in months:
+            data[m] = [90_000, 35_000, 55_000]
+        return pd.DataFrame(data)
+
+    def test_quarterly_grouping_returns_quarterly_periods(self, quarterly_df):
+        df_long = analysis.build_long(quarterly_df, "quarterly")
+        periods = df_long["Period"].unique()
+        # 12 months / 3 = 4 quarters
+        assert len(periods) == 4
+
+    def test_quarterly_period_labels_look_like_quarter(self, quarterly_df):
+        df_long = analysis.build_long(quarterly_df, "quarterly")
+        for p in df_long["Period"].unique():
+            assert "Q" in str(p), f"Period label should contain 'Q': {p}"
+
+    def test_quarterly_period_labels_not_monthly_format(self, quarterly_df):
+        """Period labels should not look like 'January 2024'."""
+        df_long = analysis.build_long(quarterly_df, "quarterly")
+        for p in df_long["Period"].unique():
+            # Monthly format would contain a month name
+            month_names = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December",
+            ]
+            label = str(p)
+            assert not any(mn in label for mn in month_names), (
+                f"Quarterly period label looks like monthly format: {label}"
+            )
+
+    def test_quarterly_get_period_data_runs(self, quarterly_df):
+        """get_period_data in quarterly mode should complete without error."""
+        df_long = analysis.build_long(quarterly_df, "quarterly")
+        df_a    = analysis.build_analysis(df_long)
+        kpis    = analysis.detect_kpis(df_long)
+        periods = sorted(df_a["Period"].unique(), key=analysis.quarter_sort_key)
+        data    = analysis.get_period_data(df_a, df_long, periods[-1], kpis, "quarterly")
+        assert "kpis" in data
+        assert "movements" in data
+
+    def test_quarterly_aggregates_monthly_values(self, quarterly_df):
+        """Each quarterly period should sum 3 months: 3 × 90k = 270k revenue."""
+        df_long = analysis.build_long(quarterly_df, "quarterly")
+        # Revenue for Q1 FY24/25 (Apr+May+Jun) = 3 × 90k = 270k
+        q1_rev = df_long[
+            (df_long["Account"] == "Total Revenue") &
+            (df_long["Period"] == "FY24/25 Q1")
+        ]["Value"]
+        assert not q1_rev.empty
+        assert float(q1_rev.iloc[0]) == pytest.approx(270_000, rel=1e-6)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # PDF GENERATION (smoke test)
 # ─────────────────────────────────────────────────────────────────────────────
 

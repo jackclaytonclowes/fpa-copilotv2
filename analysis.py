@@ -2732,17 +2732,17 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
                 [Paragraph(h, s_lbl) for h in ["Metric", "Current", "Prior Year", "Change", "Change %"]],
                 [
                     Paragraph("Revenue", s_body),
-                    Paragraph(_f(insights.get("run_rate", {}).get("revenue") and insights.get("margins", {}).get("trend", [{}])[-1].get("revenue")), s_num),
-                    Paragraph(_f(sppy.get("revenue")),   s_num),
+                    Paragraph(_f((margins.get("trend") or [{}])[-1].get("revenue")), s_num),
+                    Paragraph(_f(sppy.get("revenue")),    s_num),
                     Paragraph(_fs(sppy.get("rev_delta")), s_favr if (sppy.get("rev_delta") or 0) >= 0 else s_advr),
-                    Paragraph(_fp(sppy.get("rev_pct")),  s_favr if (sppy.get("rev_pct") or 0) >= 0 else s_advr),
+                    Paragraph(_fp(sppy.get("rev_pct")),   s_favr if (sppy.get("rev_pct") or 0) >= 0 else s_advr),
                 ],
                 [
                     Paragraph("Profit", s_body),
-                    Paragraph("—", s_num),
-                    Paragraph(_f(sppy.get("profit")),    s_num),
+                    Paragraph(_f((margins.get("trend") or [{}])[-1].get("profit")), s_num),
+                    Paragraph(_f(sppy.get("profit")),     s_num),
                     Paragraph(_fs(sppy.get("prof_delta")), s_favr if (sppy.get("prof_delta") or 0) >= 0 else s_advr),
-                    Paragraph(_fp(sppy.get("prof_pct")),  s_favr if (sppy.get("prof_pct") or 0) >= 0 else s_advr),
+                    Paragraph(_fp(sppy.get("prof_pct")),   s_favr if (sppy.get("prof_pct") or 0) >= 0 else s_advr),
                 ],
             ]
             sppy_tbl = Table(sppy_data, colWidths=[AW*0.25, AW*0.175, AW*0.175, AW*0.175, AW*0.175])
@@ -2768,8 +2768,9 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
 
 
 def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: list,
-              analysis_type: str = "month_on_month") -> bytes:
-    """Generate a formatted Excel workbook with three sheets: Variance, KPIs, Commentary."""
+              analysis_type: str = "month_on_month",
+              insights: dict | None = None) -> bytes:
+    """Generate a formatted Excel workbook with sheets: Variance, KPIs, Commentary, Insights."""
     import openpyxl
     from openpyxl.styles import (
         Font, PatternFill, Alignment, Border, Side, numbers as xl_numbers
@@ -2949,6 +2950,228 @@ def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: li
 
     ws3.column_dimensions["A"].width = 4
     ws3.column_dimensions["B"].width = 90
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # SHEET 4 — Insights (only when insights data is provided)
+    # ══════════════════════════════════════════════════════════════════════════
+    if insights:
+        ws4 = wb.create_sheet("Insights")
+
+        # Title
+        ws4.merge_cells("A1:D1")
+        t4 = ws4["A1"]
+        t4.value = f"Insights Summary — {period_label_str}"
+        t4.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+        t4.alignment = Alignment(horizontal="left", vertical="center")
+        ws4.row_dimensions[1].height = 24
+
+        cur_row = 2
+
+        def _ws4_section(title):
+            nonlocal cur_row
+            ws4.merge_cells(f"A{cur_row}:D{cur_row}")
+            c = ws4.cell(row=cur_row, column=1, value=title)
+            c.font      = Font(name="Calibri", bold=True, size=10, color="FFFFFF")
+            c.fill      = fill(C_HEADER)
+            c.alignment = Alignment(horizontal="left", vertical="center")
+            ws4.row_dimensions[cur_row].height = 16
+            cur_row += 1
+
+        def _ws4_row(label, *values, bold_label=False):
+            nonlocal cur_row
+            c = ws4.cell(row=cur_row, column=1, value=label)
+            c.font      = body_font(bold=bold_label)
+            c.fill      = fill(C_SUBHEAD if bold_label else C_WHITE)
+            c.alignment = Alignment(horizontal="left", vertical="center")
+            c.border    = thin_border()
+            for col_i, val in enumerate(values, start=2):
+                cv = ws4.cell(row=cur_row, column=col_i, value=val)
+                cv.font      = body_font(bold=bold_label)
+                cv.fill      = fill(C_SUBHEAD if bold_label else C_WHITE)
+                cv.border    = thin_border()
+                cv.alignment = Alignment(horizontal="right" if isinstance(val, (int, float)) else "left",
+                                         vertical="center")
+                if isinstance(val, (int, float)):
+                    cv.number_format = GBP_FMT
+            cur_row += 1
+
+        def _ws4_pct_row(label, pct_value, note=""):
+            nonlocal cur_row
+            c = ws4.cell(row=cur_row, column=1, value=label)
+            c.font = body_font(); c.fill = fill(C_WHITE); c.border = thin_border()
+            c.alignment = Alignment(horizontal="left", vertical="center")
+            pv = ws4.cell(row=cur_row, column=2, value=round(pct_value, 1) if pct_value is not None else None)
+            pv.font = body_font(); pv.fill = fill(C_WHITE); pv.border = thin_border()
+            pv.alignment = Alignment(horizontal="right", vertical="center")
+            if pv.value is not None:
+                pv.number_format = '0.0"%"'
+            if note:
+                nv = ws4.cell(row=cur_row, column=3, value=note)
+                nv.font = body_font(color="667085"); nv.fill = fill(C_WHITE); nv.border = thin_border()
+                nv.alignment = Alignment(horizontal="left", vertical="center")
+            cur_row += 1
+
+        def _ws4_text_row(label, value, fav=None):
+            nonlocal cur_row
+            fg = C_FAV_FG if fav is True else (C_ADV_FG if fav is False else "1A1A1A")
+            c = ws4.cell(row=cur_row, column=1, value=label)
+            c.font = body_font(); c.fill = fill(C_WHITE); c.border = thin_border()
+            c.alignment = Alignment(horizontal="left", vertical="center")
+            v = ws4.cell(row=cur_row, column=2, value=value)
+            v.font = body_font(bold=(fav is not None), color=fg)
+            v.fill = fill(C_FAV_BG if fav is True else (C_ADV_BG if fav is False else C_WHITE))
+            v.border = thin_border()
+            v.alignment = Alignment(horizontal="left", vertical="center")
+            cur_row += 1
+
+        # ── Section 1: Operating Margins ──────────────────────────────
+        _ws4_section("Operating Margins")
+
+        margins  = insights.get("margins", {})
+        op_pct   = margins.get("op_pct")
+        pay_pct  = margins.get("payroll_pct")
+
+        # Compute operating margin direction from trend
+        trend    = margins.get("trend", [])
+        op_dir   = "Stable"
+        if len(trend) >= 3:
+            recent = [t["op_pct"] for t in trend[-3:] if t.get("op_pct") is not None]
+            if len(recent) >= 2:
+                chg    = recent[-1] - recent[0]
+                op_dir = "Improving" if chg > 0.5 else ("Worsening" if chg < -0.5 else "Stable")
+
+        _ws4_pct_row("Operating Margin %", op_pct, op_dir)
+        _ws4_pct_row("Payroll % of Revenue", pay_pct)
+        cur_row += 1  # blank spacer
+
+        # ── Section 2: Projections ────────────────────────────────────
+        _ws4_section("Projections")
+
+        r12      = insights.get("r12", {})
+        run_rate = insights.get("run_rate", {})
+
+        # Column headers for projections sub-table
+        for col_i, hdr in enumerate(["Metric", "R12 (Rolling 12 Mo)", "Run-Rate (Annualised)"], start=1):
+            hc = ws4.cell(row=cur_row, column=col_i, value=hdr)
+            hc.font = Font(name="Calibri", bold=True, size=9, color="667085")
+            hc.fill = fill(C_SUBHEAD)
+            hc.border = thin_border()
+            hc.alignment = Alignment(horizontal="right" if col_i > 1 else "left", vertical="center")
+        cur_row += 1
+
+        for key, label in (("revenue", "Revenue"), ("costs", "Total Costs"), ("profit", "Profit")):
+            r12_val = r12.get(key) if r12.get("available") else None
+            rr_val  = run_rate.get(key)
+            _ws4_row(label, r12_val, rr_val)
+        cur_row += 1  # blank spacer
+
+        # ── Section 3: Cost Pareto (Top 10) ──────────────────────────
+        _ws4_section("Cost Concentration — Top 10 Lines")
+
+        pareto  = insights.get("pareto", {})
+        top10   = (pareto.get("lines") or [])[:10]
+
+        if top10:
+            for col_i, hdr in enumerate(["Account", "Category", "Value", "% of Total", "Cumulative %"], start=1):
+                hc = ws4.cell(row=cur_row, column=col_i, value=hdr)
+                hc.font = Font(name="Calibri", bold=True, size=9, color="667085")
+                hc.fill = fill(C_SUBHEAD)
+                hc.border = thin_border()
+                hc.alignment = Alignment(horizontal="right" if col_i > 2 else "left", vertical="center")
+            cur_row += 1
+            for i, pl in enumerate(top10):
+                row_bg = C_WHITE if i % 2 == 0 else C_SUBHEAD
+                vals = [
+                    (str(pl.get("account", "")), "left"),
+                    (str(pl.get("category", "")), "left"),
+                    (pl.get("value"), "right"),
+                    (pl.get("pct_of_total"), "right"),
+                    (pl.get("cum_pct"), "right"),
+                ]
+                for col_i, (val, align) in enumerate(vals, start=1):
+                    pc = ws4.cell(row=cur_row, column=col_i, value=val)
+                    pc.font = body_font()
+                    pc.fill = fill(row_bg)
+                    pc.border = thin_border()
+                    pc.alignment = Alignment(horizontal=align, vertical="center")
+                    if col_i == 3 and isinstance(val, (int, float)):
+                        pc.number_format = GBP_FMT
+                    elif col_i in (4, 5) and isinstance(val, (int, float)):
+                        pc.number_format = '0.0"%"'
+                cur_row += 1
+        else:
+            ws4.cell(row=cur_row, column=1, value="No cost data available.").font = body_font()
+            cur_row += 1
+        cur_row += 1  # blank spacer
+
+        # ── Section 4: Momentum ───────────────────────────────────────
+        _ws4_section("Momentum (3-Month Trend)")
+
+        momentum = insights.get("momentum", {})
+        if momentum.get("available"):
+            def _dir_fav(d):
+                return True if d == "improving" else (False if d == "worsening" else None)
+
+            _ws4_text_row("Revenue",     str(momentum.get("revenue_dir", "—")).capitalize(), _dir_fav(momentum.get("revenue_dir")))
+            _ws4_text_row("Total Costs", str(momentum.get("cost_dir",    "—")).capitalize(), _dir_fav(momentum.get("cost_dir")))
+            _ws4_text_row("Profit",      str(momentum.get("profit_dir",  "—")).capitalize(), _dir_fav(momentum.get("profit_dir")))
+            _ws4_text_row("Overall",     str(momentum.get("overall",     "—")).capitalize(), _dir_fav(momentum.get("overall")))
+        else:
+            ws4.cell(row=cur_row, column=1, value="Insufficient data (requires 6+ periods).").font = body_font()
+            cur_row += 1
+        cur_row += 1  # blank spacer
+
+        # ── Section 5: Same-Period Prior Year ─────────────────────────
+        sppy = insights.get("sppy", {})
+        if sppy.get("available"):
+            _ws4_section(f"Same-Period Prior Year ({sppy.get('period_label', 'PY')})")
+
+            for col_i, hdr in enumerate(["Metric", "Prior Year", "Change", "Change %"], start=1):
+                hc = ws4.cell(row=cur_row, column=col_i, value=hdr)
+                hc.font = Font(name="Calibri", bold=True, size=9, color="667085")
+                hc.fill = fill(C_SUBHEAD)
+                hc.border = thin_border()
+                hc.alignment = Alignment(horizontal="right" if col_i > 1 else "left", vertical="center")
+            cur_row += 1
+
+            for label, py_key, delta_key, pct_key in (
+                ("Revenue", "revenue", "rev_delta",  "rev_pct"),
+                ("Profit",  "profit",  "prof_delta", "prof_pct"),
+            ):
+                py_val    = sppy.get(py_key)
+                delta_val = sppy.get(delta_key)
+                pct_val   = sppy.get(pct_key)
+                is_fav    = (delta_val or 0) >= 0
+                row_bg    = C_FAV_BG if is_fav else C_ADV_BG
+                fg_col    = C_FAV_FG if is_fav else C_ADV_FG
+
+                cv_data = [
+                    (label,     "1A1A1A", C_WHITE, "left"),
+                    (py_val,    "1A1A1A", C_WHITE, "right"),
+                    (delta_val, fg_col,   row_bg,  "right"),
+                    (pct_val,   fg_col,   row_bg,  "right"),
+                ]
+                for col_i, (val, fc, bg, align) in enumerate(cv_data, start=1):
+                    sc = ws4.cell(row=cur_row, column=col_i, value=val)
+                    sc.font = Font(name="Calibri", size=10, color=fc,
+                                   bold=(col_i in (3, 4)))
+                    sc.fill = fill(bg)
+                    sc.border = thin_border()
+                    sc.alignment = Alignment(horizontal=align, vertical="center")
+                    if col_i == 2 and isinstance(val, (int, float)):
+                        sc.number_format = GBP_FMT
+                    elif col_i == 3 and isinstance(val, (int, float)):
+                        sc.number_format = GBP_SFMT
+                    elif col_i == 4 and isinstance(val, (int, float)):
+                        sc.number_format = '+0.0%;-0.0%;"-"'
+                cur_row += 1
+
+        # Column widths for insights sheet
+        ws4.column_dimensions["A"].width = 38
+        ws4.column_dimensions["B"].width = 20
+        ws4.column_dimensions["C"].width = 20
+        ws4.column_dimensions["D"].width = 16
+        ws4.column_dimensions["E"].width = 16
 
     buf = BytesIO()
     wb.save(buf)
