@@ -1013,6 +1013,283 @@ def get_ytd_data(analysis_df: pd.DataFrame, selected_period, kpi_accounts: dict)
 
 
 # ─────────────────────────────────────────────
+# INSIGHTS — margins, pareto, momentum, etc.
+# ─────────────────────────────────────────────
+
+_FIXED_COST_CATEGORIES = frozenset({
+    "Staff Costs", "Management Costs", "Premises Costs", "IT Costs",
+    "Professional Fees", "Insurance", "Depreciation & Amortisation",
+    "Finance Costs", "Office & Admin", "Tax",
+})
+_VARIABLE_COST_CATEGORIES = frozenset({
+    "Direct Costs", "Marketing Costs", "Travel & Entertainment",
+})
+
+_CATEGORY_ORDER = {
+    "Revenue": 0, "Direct Costs": 1, "Staff Costs": 2, "Management Costs": 3,
+    "IT Costs": 4, "Premises Costs": 5, "Professional Fees": 6,
+    "Marketing Costs": 7, "Travel & Entertainment": 8, "Office & Admin": 9,
+    "Insurance": 10, "Finance Costs": 11, "Depreciation & Amortisation": 12,
+    "Tax": 13, "Other": 99,
+}
+
+
+def get_insights_data(
+    analysis_df: pd.DataFrame,
+    df_long: pd.DataFrame,
+    selected_period,
+    kpi_accounts: dict,
+    mode: str,
+) -> dict:
+    """Compute supplementary FP&A insights for the Insights view."""
+    sort_key = (lambda p: pd.Timestamp(p)) if mode == "monthly" else quarter_sort_key
+    sorted_periods = sorted(analysis_df["Period"].unique(), key=sort_key)
+    idx = (
+        list(sorted_periods).index(selected_period)
+        if selected_period in sorted_periods
+        else len(sorted_periods) - 1
+    )
+
+    period_df = analysis_df[analysis_df["Period"] == selected_period].copy()
+    driver_df = period_df[~period_df["Is Subtotal"]].copy()
+
+    rev_name  = kpi_accounts.get("revenue") or ""
+    cost_name = kpi_accounts.get("costs")   or ""
+    prof_name = kpi_accounts.get("profit")  or ""
+
+    def _kpi(name, df=None):
+        if not name:
+            return None
+        d = period_df if df is None else df
+        m = d[d["Account"].str.strip() == name.strip()]
+        if m.empty:
+            return None
+        v = m.iloc[0]["Value"]
+        return float(v) if pd.notna(v) else None
+
+    rev   = _kpi(rev_name)
+    costs = _kpi(cost_name)
+    prof  = _kpi(prof_name)
+
+    def _pct(num, denom):
+        if num is None or denom is None or denom == 0:
+            return None
+        return round(num / denom * 100, 1)
+
+    # ── 1. MARGINS ────────────────────────────────────────────────────
+    staff_sum   = float(driver_df[driver_df["Category"] == "Staff Costs"]["Value"].sum())
+    op_pct      = _pct(prof, rev)
+    payroll_pct = _pct(staff_sum, rev)
+
+    trend_margins = []
+    for p in sorted_periods[max(0, idx - 5):idx + 1]:
+        p_df  = analysis_df[analysis_df["Period"] == p]
+        p_drv = p_df[~p_df["Is Subtotal"]]
+        r, pr = _kpi(rev_name, p_df), _kpi(prof_name, p_df)
+        sc    = float(p_drv[p_drv["Category"] == "Staff Costs"]["Value"].sum()) if not p_drv.empty else 0
+        short = pd.Timestamp(p).strftime("%b") if mode == "monthly" else str(p)[-5:]
+        trend_margins.append({
+            "m": short, "full": period_label(p, mode),
+            "op_pct": _pct(pr, r), "payroll_pct": _pct(sc, r),
+            "revenue": r, "profit": pr,
+        })
+
+    margins = {
+        "op_pct": op_pct, "payroll_pct": payroll_pct,
+        "staff_value": staff_sum, "trend": trend_margins,
+    }
+
+    # ── 2. COMMON-SIZE P&L ────────────────────────────────────────────
+    common_size = []
+    if rev and rev != 0:
+        rev_row   = period_df[period_df["Account"].str.strip() == rev_name.strip()]
+        prior_rev = (
+            float(rev_row.iloc[0]["Prior Value"])
+            if not rev_row.empty and pd.notna(rev_row.iloc[0]["Prior Value"])
+            else None
+        )
+        cs_df = driver_df.copy()
+        cs_df["_ord"] = cs_df["Category"].map(lambda c: _CATEGORY_ORDER.get(c, 50))
+        for _, row in cs_df.sort_values(["_ord", "Account"]).iterrows():
+            v   = float(row["Value"])       if pd.notna(row["Value"])       else None
+            pv  = float(row["Prior Value"]) if pd.notna(row["Prior Value"]) else None
+            pct = _pct(v, rev)
+            ppct = _pct(pv, prior_rev) if pv is not None and prior_rev else None
+            common_size.append({
+                "account": str(row["Account"]),
+                "category": str(row["Category"]),
+                "value": v,
+                "pct_of_rev": pct,
+                "prior_pct_of_rev": ppct,
+                "delta_pp": round(pct - ppct, 1) if pct is not None and ppct is not None else None,
+            })
+
+    # ── 3. ROLLING 12 MONTHS (R12) ────────────────────────────────────
+    r12 = {"available": False}
+    if mode == "monthly" and idx + 1 >= 12:
+        r12_ps = sorted_periods[idx - 11:idx + 1]
+
+        def _sum(name, ps):
+            if not name:
+                return None
+            return sum(
+                v for p in ps
+                for v in [_kpi(name, analysis_df[analysis_df["Period"] == p])]
+                if v is not None
+            )
+
+        r12_rev, r12_cost, r12_prof = _sum(rev_name, r12_ps), _sum(cost_name, r12_ps), _sum(prof_name, r12_ps)
+        r12 = {
+            "available": True, "periods_used": len(r12_ps),
+            "revenue": r12_rev, "costs": r12_cost, "profit": r12_prof,
+            "op_pct": _pct(r12_prof, r12_rev),
+        }
+        if idx >= 23:
+            pr_ps = sorted_periods[idx - 23:idx - 11]
+            r12["prior_revenue"] = _sum(rev_name,  pr_ps)
+            r12["prior_costs"]   = _sum(cost_name, pr_ps)
+            r12["prior_profit"]  = _sum(prof_name, pr_ps)
+
+    # ── 4. RUN-RATE ───────────────────────────────────────────────────
+    run_rate = {
+        "revenue": rev  * 12 if rev   is not None else None,
+        "costs":   costs * 12 if costs is not None else None,
+        "profit":  prof  * 12 if prof  is not None else None,
+        "op_pct":  op_pct,
+    }
+
+    # ── 5. PARETO — cost concentration ───────────────────────────────
+    cost_df = driver_df[driver_df["Category"] != "Revenue"].copy()
+    cost_df["_abs"] = cost_df["Value"].abs()
+    cost_df = cost_df[cost_df["_abs"] > 0].sort_values("_abs", ascending=False).reset_index(drop=True)
+    total_cost = float(cost_df["_abs"].sum())
+    cum, pareto_lines = 0.0, []
+    for _, row in cost_df.iterrows():
+        cum += float(row["_abs"])
+        pareto_lines.append({
+            "account": str(row["Account"]),
+            "category": str(row["Category"]),
+            "value": float(row["_abs"]),
+            "pct_of_total": round(row["_abs"] / total_cost * 100, 1) if total_cost else 0,
+            "cum_pct": round(cum / total_cost * 100, 1) if total_cost else 0,
+        })
+    top3_pct = pareto_lines[2]["cum_pct"] if len(pareto_lines) >= 3 else (pareto_lines[-1]["cum_pct"] if pareto_lines else 0)
+    top5_pct = pareto_lines[4]["cum_pct"] if len(pareto_lines) >= 5 else (pareto_lines[-1]["cum_pct"] if pareto_lines else 0)
+    pareto = {"lines": pareto_lines[:12], "top3_pct": top3_pct, "top5_pct": top5_pct, "total_cost": total_cost}
+
+    # ── 6. SAME-PERIOD PRIOR YEAR (SPPY) ─────────────────────────────
+    sppy = {"available": False}
+    if mode == "monthly":
+        sel_ts = pd.Timestamp(selected_period)
+        sp_period = next(
+            (p for p in sorted_periods
+             if pd.Timestamp(p).year == sel_ts.year - 1 and pd.Timestamp(p).month == sel_ts.month),
+            None,
+        )
+        if sp_period is not None:
+            sp_df = analysis_df[analysis_df["Period"] == sp_period]
+            sp_rev, sp_cost, sp_prof = _kpi(rev_name, sp_df), _kpi(cost_name, sp_df), _kpi(prof_name, sp_df)
+            sppy = {
+                "available": True,
+                "period_label": period_label(sp_period, mode),
+                "revenue": sp_rev, "costs": sp_cost, "profit": sp_prof,
+                "rev_delta":  (rev   - sp_rev)  if rev   is not None and sp_rev  is not None else None,
+                "cost_delta": (costs - sp_cost) if costs is not None and sp_cost is not None else None,
+                "prof_delta": (prof  - sp_prof) if prof  is not None and sp_prof is not None else None,
+                "rev_pct":    _pct(rev   - sp_rev,  sp_rev)  if rev   is not None and sp_rev  else None,
+                "prof_pct":   _pct(prof  - sp_prof, sp_prof) if prof  is not None and sp_prof else None,
+                "sp_op_pct":  _pct(sp_prof, sp_rev),
+            }
+
+    # ── 7. MOMENTUM ───────────────────────────────────────────────────
+    momentum = {"available": False}
+    if idx >= 5:
+        last3  = sorted_periods[idx - 2:idx + 1]
+        prior3 = sorted_periods[idx - 5:idx - 2]
+
+        def _avg(name, ps):
+            vals = [_kpi(name, analysis_df[analysis_df["Period"] == p]) for p in ps]
+            vals = [v for v in vals if v is not None]
+            return sum(vals) / len(vals) if vals else None
+
+        def _dir(curr, prev, fav_up=True):
+            if curr is None or prev is None or prev == 0:
+                return "stable"
+            chg = (curr - prev) / abs(prev)
+            if chg > 0.02:
+                return "improving" if fav_up else "worsening"
+            if chg < -0.02:
+                return "worsening" if fav_up else "improving"
+            return "stable"
+
+        rev_dir  = _dir(_avg(rev_name,  last3), _avg(rev_name,  prior3), True)
+        prof_dir = _dir(_avg(prof_name, last3), _avg(prof_name, prior3), True)
+        cost_dir = _dir(_avg(cost_name, last3), _avg(cost_name, prior3), False)
+        dirs     = [rev_dir, prof_dir, cost_dir]
+        overall  = (
+            "improving" if dirs.count("improving") > dirs.count("worsening")
+            else "worsening" if dirs.count("worsening") > dirs.count("improving")
+            else "stable"
+        )
+        momentum = {
+            "available": True, "overall": overall,
+            "revenue_dir": rev_dir, "profit_dir": prof_dir, "cost_dir": cost_dir,
+            "periods_compared": 3,
+        }
+
+    # ── 8. FIXED vs VARIABLE ──────────────────────────────────────────
+    fixed_sum = float(driver_df[driver_df["Category"].isin(_FIXED_COST_CATEGORIES)]["Value"].sum())
+    var_sum   = float(driver_df[driver_df["Category"].isin(_VARIABLE_COST_CATEGORIES)]["Value"].sum())
+    contrib_pct, breakeven = None, None
+    if rev and rev != 0 and abs(var_sum) < abs(rev):
+        var_ratio   = abs(var_sum) / abs(rev)
+        contrib_pct = round((1 - var_ratio) * 100, 1)
+        if contrib_pct > 0 and fixed_sum:
+            breakeven = abs(fixed_sum) / (1 - var_ratio)
+
+    fixed_variable = {
+        "fixed_cost": abs(fixed_sum), "variable_cost": abs(var_sum),
+        "total_classified": abs(fixed_sum) + abs(var_sum),
+        "contribution_margin_pct": contrib_pct,
+        "breakeven_revenue": float(breakeven) if breakeven is not None else None,
+        "has_revenue": rev is not None and rev != 0,
+    }
+
+    # ── 9. NON-RECURRING LINES ───────────────────────────────────────
+    nonrecurring = []
+    check_n = min(6, len(sorted_periods))
+    if check_n >= 3:
+        check_ps = set(sorted_periods[max(0, idx - check_n + 1):idx + 1])
+        for acc in df_long[~df_long["Is Subtotal"]]["Account"].unique():
+            acc_rows = df_long[(df_long["Account"] == acc) & (df_long["Period"].isin(check_ps))]
+            present  = int(acc_rows[acc_rows["Value"].abs() > 0]["Period"].nunique())
+            if 0 < present < len(check_ps) / 2:
+                cat_m = driver_df[driver_df["Account"] == acc]["Category"]
+                val_m = driver_df[driver_df["Account"] == acc]["Value"]
+                cat   = str(cat_m.iloc[0]) if not cat_m.empty else "Other"
+                val   = float(val_m.iloc[0]) if not val_m.empty else None
+                nonrecurring.append({
+                    "account": str(acc), "category": cat,
+                    "present_count": present, "check_periods": len(check_ps),
+                    "value": val, "in_current": val is not None and val != 0,
+                })
+        nonrecurring.sort(key=lambda x: (not x["in_current"], x["account"]))
+
+    return {
+        "margins":        margins,
+        "common_size":    common_size,
+        "r12":            r12,
+        "run_rate":       run_rate,
+        "pareto":         pareto,
+        "sppy":           sppy,
+        "momentum":       momentum,
+        "fixed_variable": fixed_variable,
+        "nonrecurring":   nonrecurring[:20],
+        "period_label":   period_label(selected_period, mode),
+    }
+
+
+# ─────────────────────────────────────────────
 # BUDGET VS ACTUAL — SHEET & COLUMN DETECTION
 # ─────────────────────────────────────────────
 BVA_ACTUAL_KEYWORDS     = ["actual", "actuals", "actual amount", "current actual", "ytd actual"]

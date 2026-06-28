@@ -28,8 +28,8 @@ from pydantic import BaseModel, Field
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
-    get_period_data, get_ytd_data, load_bva_from_sheets, load_file,
-    make_pdf, make_xlsx, make_zip,
+    get_insights_data, get_period_data, get_ytd_data, load_bva_from_sheets,
+    load_file, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 
@@ -2940,6 +2940,36 @@ def get_anomalies(
         "total_found":  len(anomalies),
     }
 
+
+
+@app.get("/api/insights/{session_id}")
+def get_insights(session_id: str, period: str | None = None, mode: str = "monthly"):
+    """Return supplementary FP&A insights (margins, pareto, momentum, etc.)."""
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+    if s.get("analysis_type") == "budget_vs_actual":
+        raise HTTPException(400, "Insights are not available for Budget vs Actual sessions.")
+
+    analysis = s["analysis_m"] if mode != "quarterly" else s["analysis_q"]
+    df_long  = s["df_long_m"]  if mode != "quarterly" else s["df_long_q"]
+    kpi_accounts = s["kpi_accounts"]
+
+    sort_key = (lambda p: pd.Timestamp(p)) if mode != "quarterly" else quarter_sort_key
+    periods  = sorted(analysis["Period"].unique(), key=sort_key)
+    if not periods:
+        raise HTTPException(400, "No periods found.")
+
+    selected = None
+    if period:
+        for p in periods:
+            if str(p) == period or str(p)[:10] == period[:10]:
+                selected = p
+                break
+    if selected is None:
+        selected = periods[-1]
+
+    return get_insights_data(analysis, df_long, selected, kpi_accounts, mode)
 
 
 @app.get("/api/export/{session_id}")

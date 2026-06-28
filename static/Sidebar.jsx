@@ -47,6 +47,7 @@ function Sidebar({ active, onNav, hasData }) {
     { id: "dashboard", icon: "layout-dashboard",   label: "Dashboard" },
     { id: "copilot",   icon: "sparkles",            label: "AI Analyst" },
     { id: "movements", icon: "list-tree",           label: "Movements" },
+    { id: "insights",  icon: "lightbulb",           label: "Insights" },
     { id: "reports",   icon: "file-bar-chart",      label: "Reports" },
     { id: "scenarios", icon: "sliders-horizontal",  label: "Scenarios" },
   ];

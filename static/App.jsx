@@ -114,6 +114,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
     dashboard: "Variance dashboard",
     copilot:   "AI Analyst",
     movements: "Movements",
+    insights:  "Insights",
     reports:   "Reports",
     scenarios: "Scenario Analysis",
     portfolio: "Client Portfolio",
@@ -412,7 +413,7 @@ function Toast({ message, onDismiss }) {
 
 /* ── App ────────────────────────────────────────────────── */
 function App() {
-  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette, Portfolio } = window;
+  const { Sidebar, Dashboard, QnaCopilot, UploadScreen, ExportModal, Movements, Reports, DataSources, Scenarios, CommandPalette, Portfolio, Insights } = window;
 
   // Diagnostic: log any undefined components so we can spot load failures
   React.useEffect(() => {
@@ -667,6 +668,20 @@ function App() {
       />
     );
     body = eb("movements", movEl);
+  } else if (view === "insights") {
+    body = eb("insights", (
+      <div className="content">
+        {Insights
+          ? <Insights
+              sessionId={sessionId}
+              selectedPeriod={selectedPeriod}
+              periodMode={periodMode}
+              analysisType={analysisType}
+            />
+          : <div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Insights failed to load.</div>
+        }
+      </div>
+    ));
   } else if (view === "scenarios") {
     body = eb("scenarios", (
       <div className="content">
