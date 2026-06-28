@@ -2369,6 +2369,9 @@ def reclassify(session_id: str, body: ReclassifyBody):
                     df.loc[mask, "Category"] = category
                     updated += mask.sum()
 
+    # Invalidate the insights cache — reclassification changes category-level aggregates
+    s.pop("insights_cache", None)
+
     return {"ok": True, "account": account, "category": category, "rows_updated": int(updated)}
 
 
@@ -2969,7 +2972,17 @@ def get_insights(session_id: str, period: str | None = None, mode: str = "monthl
     if selected is None:
         selected = periods[-1]
 
-    return get_insights_data(analysis, df_long, selected, kpi_accounts, mode)
+    # ── In-memory cache: avoid recomputing all 9 insight sections on repeat loads ──
+    cache_key = f"{selected}|{mode}"
+    if "insights_cache" not in s:
+        s["insights_cache"] = {}
+    cached = s["insights_cache"].get(cache_key)
+    if cached is not None:
+        return cached
+
+    result = get_insights_data(analysis, df_long, selected, kpi_accounts, mode)
+    s["insights_cache"][cache_key] = result
+    return result
 
 
 @app.get("/api/export/{session_id}")
