@@ -1263,7 +1263,7 @@ def get_insights_data(
         for acc in df_long[~df_long["Is Subtotal"]]["Account"].unique():
             acc_rows = df_long[(df_long["Account"] == acc) & (df_long["Period"].isin(check_ps))]
             present  = int(acc_rows[acc_rows["Value"].abs() > 0]["Period"].nunique())
-            if 0 < present < len(check_ps) / 2:
+            if 0 < present < len(check_ps) * 2 / 3:
                 cat_m = driver_df[driver_df["Account"] == acc]["Category"]
                 val_m = driver_df[driver_df["Account"] == acc]["Value"]
                 cat   = str(cat_m.iloc[0]) if not cat_m.empty else "Other"

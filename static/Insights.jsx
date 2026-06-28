@@ -7,10 +7,11 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
   const fmtS  = (v) => window.fmtCurrency(v, { signed: true });
   const fmtSC = (v) => window.fmtCurrency(v, { signed: true, compact: true });
 
-  const [data,    setData]    = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error,   setError]   = React.useState(null);
-  const [csOpen,  setCsOpen]  = React.useState(false);
+  const [data,        setData]        = React.useState(null);
+  const [loading,     setLoading]     = React.useState(true);
+  const [error,       setError]       = React.useState(null);
+  const [csOpen,      setCsOpen]      = React.useState(false);
+  const [nrThreshold, setNrThreshold] = React.useState(0.5);
 
   React.useEffect(() => {
     if (!sessionId) return;
@@ -338,6 +339,8 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     const total = total_classified || 1;
     const fixedPct = Math.round(fixed_cost / total * 100);
     const varPct   = Math.round(variable_cost / total * 100);
+    const coveragePct = pareto.total_cost > 0
+      ? Math.round(total_classified / pareto.total_cost * 100) : null;
     return (
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
         <div>
@@ -359,6 +362,21 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
               </div>
             ))}
           </div>
+          {coveragePct != null && (
+            <div style={{
+              marginTop: 12, padding: "8px 12px", borderRadius: "var(--radius-sm)",
+              background: coveragePct < 60 ? "var(--caution-soft)" : "var(--surface-2)",
+              border: "1px solid var(--border)",
+              font: "var(--text-caption)", fontSize: 11,
+              color: coveragePct < 60 ? "var(--caution)" : "var(--fg-3)",
+              display: "flex", alignItems: "center", gap: 6,
+            }}>
+              <Icon name={coveragePct < 60 ? "alert-triangle" : "info"} size={11}
+                color={coveragePct < 60 ? "var(--caution)" : "var(--fg-3)"} />
+              {coveragePct}% of cost base classified — break-even is approximate.
+              {coveragePct < 60 && " Many lines are uncategorised; reclassify in Movements for a more accurate result."}
+            </div>
+          )}
         </div>
         <div>
           {has_revenue && contribution_margin_pct != null ? (
@@ -472,29 +490,40 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
 
   /* ── Non-recurring flags ─────────────────────────────────────────── */
   const NonRecurringSection = () => {
+    const visible = nonrecurring.filter(item =>
+      item.present_count / item.check_periods < nrThreshold
+    );
     if (!nonrecurring.length) return (
       <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
-        No potentially one-off items detected in the last {data.nonrecurring?.length || 6} periods.
+        No potentially one-off items detected in the last 6 periods.
       </div>
     );
     return (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        {nonrecurring.map((item, i) => (
-          <div key={i} title={`Present in ${item.present_count} of ${item.check_periods} recent periods`}
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              padding: "6px 12px", borderRadius: "var(--radius-pill)",
-              border: "1px solid var(--border)",
-              background: item.in_current ? "var(--caution-soft)" : "var(--surface-2)",
-            }}>
-            {item.in_current && <Icon name="alert-triangle" size={12} color="var(--caution)" />}
-            <span style={{ font: "var(--text-label)", fontSize: 12, color: "var(--ink)" }}>{item.account}</span>
-            <span style={{ font: "var(--text-caption)", fontSize: 10, color: "var(--fg-3)" }}>
-              {item.present_count}/{item.check_periods} periods
-              {item.in_current && item.value != null ? ` · ${fmtC(item.value)}` : ""}
-            </span>
+      <div>
+        {visible.length === 0 ? (
+          <div style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+            No items match the current sensitivity — try "Loose".
           </div>
-        ))}
+        ) : (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {visible.map((item, i) => (
+              <div key={i} title={`Present in ${item.present_count} of ${item.check_periods} recent periods`}
+                style={{
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "6px 12px", borderRadius: "var(--radius-pill)",
+                  border: "1px solid var(--border)",
+                  background: item.in_current ? "var(--caution-soft)" : "var(--surface-2)",
+                }}>
+                {item.in_current && <Icon name="alert-triangle" size={12} color="var(--caution)" />}
+                <span style={{ font: "var(--text-label)", fontSize: 12, color: "var(--ink)" }}>{item.account}</span>
+                <span style={{ font: "var(--text-caption)", fontSize: 10, color: "var(--fg-3)" }}>
+                  {item.present_count}/{item.check_periods} periods
+                  {item.in_current && item.value != null ? ` · ${fmtC(item.value)}` : ""}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
@@ -555,7 +584,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       <Divider />
 
       {/* ── SPPY ───────────────────────────────────────────────── */}
-      <SectionTitle icon="calendar-compare" title="Same-period prior year" sub="Year-on-year comparison for the selected month" />
+      <SectionTitle icon="calendar" title="Same-period prior year" sub="Year-on-year comparison for the selected month" />
       <SPPYSection />
       <Divider />
 
@@ -566,7 +595,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
 
       {/* ── Pareto ─────────────────────────────────────────────── */}
       <SectionTitle
-        icon="bar-chart-horizontal"
+        icon="bar-chart-2"
         title="Cost concentration (Pareto)"
         sub={pareto.total_cost ? `Total cost base ${fmtC(pareto.total_cost)}` : ""}
       />
@@ -574,19 +603,37 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       <Divider />
 
       {/* ── Fixed vs Variable ──────────────────────────────────── */}
-      <SectionTitle icon="split-square-horizontal" title="Fixed vs variable costs" sub="Break-even analysis" />
+      <SectionTitle icon="layers" title="Fixed vs variable costs" sub="Break-even analysis" />
       <FixedVarSection />
       <Divider />
 
       {/* ── Non-recurring ──────────────────────────────────────── */}
-      <SectionTitle icon="zap-off" title="Potentially non-recurring items" sub="Lines present in fewer than half of recent periods" />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+          <Icon name="alert-circle" size={16} color="var(--fg-3)" />
+          <span style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)" }}>Potentially non-recurring</span>
+          <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>Lines with irregular presence across recent periods</span>
+        </div>
+        <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+          {[[0.34, "Strict", "< 1 in 3 periods"], [0.5, "Normal", "< 1 in 2 periods"], [0.67, "Loose", "< 2 in 3 periods"]].map(([val, label, tip]) => (
+            <button key={label} onClick={() => setNrThreshold(val)} title={tip}
+              style={{
+                padding: "3px 10px", borderRadius: "var(--radius-pill)", cursor: "pointer",
+                border: nrThreshold === val ? "1.5px solid var(--primary)" : "1px solid var(--border-strong)",
+                background: nrThreshold === val ? "var(--primary-soft)" : "transparent",
+                color: nrThreshold === val ? "var(--primary)" : "var(--fg-3)",
+                font: "var(--text-label)", fontSize: 11,
+              }}>{label}</button>
+          ))}
+        </div>
+      </div>
       <NonRecurringSection />
       <Divider />
 
       {/* ── Common-size P&L ────────────────────────────────────── */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-          <Icon name="table-2" size={16} color="var(--fg-3)" />
+          <Icon name="table" size={16} color="var(--fg-3)" />
           <span style={{ font: "var(--text-body-strong)", fontSize: 15, color: "var(--ink)" }}>Common-size P&L</span>
           <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>Every line as % of revenue</span>
         </div>

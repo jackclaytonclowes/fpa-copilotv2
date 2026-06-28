@@ -160,7 +160,7 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
       )}
 
       {/* Right controls — hidden on mobile (bottom nav + full-screen views handle it) */}
-      {hasData && view === "dashboard" && analysisType !== "budget_vs_actual" && (
+      {hasData && (view === "dashboard" || view === "insights") && analysisType !== "budget_vs_actual" && (
         <div className="tb-controls-hide" style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
           {/* Consolidated badge */}
           {isConsolidated && (
@@ -301,9 +301,9 @@ function MobileNav({ active, onNav, hasData }) {
   const items = [
     { id: "dashboard", icon: "layout-dashboard", label: "Home" },
     { id: "copilot",   icon: "sparkles",          label: "AI" },
-    { id: "movements", icon: "list-tree",          label: "Movements" },
+    { id: "movements", icon: "list-tree",          label: "Moves" },
+    { id: "insights",  icon: "lightbulb",          label: "Insights" },
     { id: "reports",   icon: "file-bar-chart",     label: "Reports" },
-    { id: "data",      icon: "database",           label: "Data" },
     { id: "settings",  icon: "settings",           label: "Settings" },
   ];
   return (
