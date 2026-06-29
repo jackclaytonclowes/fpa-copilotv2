@@ -23,7 +23,7 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     setError(null);
     const p = new URLSearchParams({ period: selectedPeriod || "", mode: periodMode || "monthly" });
     fetch(apiUrl(`/api/insights/${sessionId}?${p}`))
-      .then(r => { if (!r.ok) return r.json().then(e => { throw new Error(e.detail || "Failed"); }); return r.json(); })
+      .then(async r => { if (!r.ok) { let msg; try { const e = await r.json(); msg = e.detail || "Failed"; } catch { msg = (await r.text()) || "Failed"; } throw new Error(msg); } return r.json(); })
       .then(setData)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));

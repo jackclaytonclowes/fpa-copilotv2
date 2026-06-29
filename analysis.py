@@ -1260,8 +1260,8 @@ def get_insights_data(
     check_n = min(6, len(sorted_periods))
     if check_n >= 3:
         check_ps = set(sorted_periods[max(0, idx - check_n + 1):idx + 1])
-        for acc in df_long[~df_long["Is Subtotal"]]["Account"].unique():
-            acc_rows = df_long[(df_long["Account"] == acc) & (df_long["Period"].isin(check_ps))]
+        for acc in analysis_df[~analysis_df["Is Subtotal"]]["Account"].unique():
+            acc_rows = analysis_df[(analysis_df["Account"] == acc) & (analysis_df["Period"].isin(check_ps))]
             present  = int(acc_rows[acc_rows["Value"].abs() > 0]["Period"].nunique())
             if 0 < present < len(check_ps) * 2 / 3:
                 cat_m = driver_df[driver_df["Account"] == acc]["Category"]
