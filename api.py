@@ -2076,6 +2076,7 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         selected = periods[-1]
 
     data = get_period_data(analysis, df_long, selected, kpi_accounts, mode)
+    _overlay_edited_commentary(s, data, selected)
     data["analysis_type"]   = "month_on_month"
     data["session_id"]      = session_id
     data["file_name"]       = s["filename"]
@@ -2612,17 +2613,37 @@ async def generate_commentary(session_id: str, body: CommentaryBody):
 
 class CommentaryUpdateBody(BaseModel):
     commentary: list[str] = Field(max_length=100)
+    period: str = ""
+    clear: bool = False
 
 
 @app.patch("/api/sessions/{session_id}/commentary")
 async def update_session_commentary(session_id: str, body: CommentaryUpdateBody):
-    """Persist hand-edited commentary bullets back into the live session so the
-    next export call picks them up without requiring a re-analysis."""
+    """Persist hand-edited commentary bullets back into the live session (per period)
+    so the next export picks them up without re-analysis."""
     s = SESSIONS.get(session_id)
     if not s:
         raise HTTPException(404, "Session not found.")
-    s["commentary"] = [line.strip() for line in body.commentary if line.strip()]
-    return {"ok": True, "count": len(s["commentary"])}
+    if "edited_commentary" not in s:
+        s["edited_commentary"] = {}
+    key = body.period or "__global__"
+    if body.clear or not body.commentary:
+        s["edited_commentary"].pop(key, None)
+    else:
+        s["edited_commentary"][key] = [line.strip() for line in body.commentary if line.strip()]
+    return {"ok": True}
+
+
+def _overlay_edited_commentary(s: dict, data: dict, selected_period) -> dict:
+    """Replace data['commentary'] with user-edited version if one exists for this period."""
+    edited = s.get("edited_commentary", {})
+    texts = edited.get(str(selected_period), edited.get("__global__"))
+    if texts is not None:
+        data["commentary"] = [
+            {"html": t, "icon": "edit-3", "fav": True, "edited": True}
+            for t in texts
+        ]
+    return data
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -3158,6 +3179,7 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
                 selected = p
                 break
         data = get_period_data(analysis, df_long, selected, kpi_accounts, "monthly")
+        _overlay_edited_commentary(s, data, selected)
         lbl  = data["period"]["label"]
         try:
             insights_data = get_insights_data(analysis, df_long, selected, kpi_accounts, "monthly")

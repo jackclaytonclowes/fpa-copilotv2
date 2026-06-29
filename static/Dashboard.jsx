@@ -668,6 +668,9 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [spotlight, setSpotlight]   = useStateDash(null);
   const [commentaryCopied, setCommentaryCopied] = useStateDash(false);
   const [, setRagRev] = useStateDash(0);
+  const [localComm, setLocalComm]   = useStateDash(null);
+  const [commSaveState, setCommSaveState] = useStateDash("idle"); // "idle"|"saving"|"saved"|"error"
+  const commTimer = useRefDash(null);
 
   // Track what we last fetched so we don't re-fetch on initial mount
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
@@ -726,10 +729,79 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
     fetchPeriod(controlledPeriod, periodMode);
   }, [controlledPeriod, periodMode]);
 
+  /* ── Commentary editor ──────────────────────────────────────────────── */
+  // Re-initialise local bullets whenever the fetched period data changes
+  useEffectDash(() => {
+    if (!data?.commentary) return;
+    const stripHtml = (h) => (h || "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+    setLocalComm(
+      data.commentary.map(c => ({
+        text:   stripHtml(c.html),
+        icon:   c.icon  || "circle",
+        fav:    c.fav !== false,
+        source: c.source || null,
+        edited: !!c.edited,
+      }))
+    );
+    setCommSaveState("idle");
+  }, [data?.selected_period, sessionId, periodMode]);
+
+  const _saveComm = (bullets) => {
+    clearTimeout(commTimer.current);
+    setCommSaveState("saving");
+    commTimer.current = setTimeout(() => {
+      const texts = bullets.filter(b => b.text.trim()).map(b => b.text.trim());
+      fetch(apiUrl(`/api/sessions/${sessionId}/commentary`), {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentary: texts, period: data?.selected_period || "" }),
+      }).then(r => {
+        if (r.ok) {
+          setCommSaveState("saved");
+          setTimeout(() => setCommSaveState("idle"), 1500);
+        } else setCommSaveState("error");
+      }).catch(() => setCommSaveState("error"));
+    }, 700);
+  };
+
+  const _updateBullet = (i, text) => {
+    const next = (localComm || []).map((b, idx) => idx === i ? { ...b, text, edited: true } : b);
+    setLocalComm(next);
+    _saveComm(next);
+  };
+  const _deleteBullet = (i) => {
+    const next = (localComm || []).filter((_, idx) => idx !== i);
+    setLocalComm(next);
+    _saveComm(next);
+  };
+  const _addBullet = () => {
+    setLocalComm(prev => [...(prev || []), { text: "", icon: "edit-3", fav: true, source: null, edited: true }]);
+  };
+  const _resetComm = () => {
+    fetch(apiUrl(`/api/sessions/${sessionId}/commentary`), {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentary: [], period: data?.selected_period || "", clear: true }),
+    }).then(() => fetchPeriod(data?.selected_period, periodMode));
+  };
+
   if (!data) return <div className="loading"><div className="spinner" />Loading…</div>;
 
   const isBvA = (analysisType || data.analysis_type) === "budget_vs_actual";
   const { kpis, trend, revenue_split, expense_split, movements, commentary, waterfall, period, selected_period } = data;
+
+  // Effective commentary: local edits take precedence over server data
+  const stripHtml = (h) => (h || "").replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+  const commItems = localComm ?? (commentary || []).map(c => ({
+    text: stripHtml(c.html), icon: c.icon || "circle", fav: c.fav !== false,
+    source: c.source || null, edited: !!c.edited,
+  }));
+  const hasEdits = commItems.some(b => b.edited);
 
   // Short month labels for waterfall x-axis  e.g. "August 2025" → "Aug"
   const shortLabel = (lbl) => lbl ? lbl.split(" ")[0].slice(0, 3) : "";
@@ -936,14 +1008,33 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           sub={isBvA ? "Budget vs Actual · figures from your ledger" : `${period?.label || selected_period} · figures from your ledger`}
           action={
             <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              {(commentary || []).length > 0 && (
+              {hasEdits && (
+                <button onClick={_resetComm} title="Restore AI-generated commentary"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 4,
+                    background: "none", border: "1px solid var(--border-strong)",
+                    borderRadius: "var(--radius-xs)", padding: "3px 8px", cursor: "pointer",
+                    font: "var(--text-label)", fontSize: 11, color: "var(--fg-3)",
+                  }}>
+                  <Icon name="rotate-ccw" size={10} /> Reset
+                </button>
+              )}
+              {commSaveState === "saving" && (
+                <span style={{ font: "var(--text-label)", fontSize: 11, color: "var(--fg-3)" }}>Saving…</span>
+              )}
+              {commSaveState === "saved" && (
+                <span style={{ font: "var(--text-label)", fontSize: 11, color: "var(--favourable)" }}>✓ Saved</span>
+              )}
+              {hasEdits && commSaveState === "idle" && (
+                <span style={{
+                  font: "var(--text-label)", fontSize: 10, color: "var(--primary)",
+                  background: "var(--primary-soft)", borderRadius: 20, padding: "2px 8px",
+                }}>Edited</span>
+              )}
+              {commItems.length > 0 && commSaveState === "idle" && (
                 <button
                   onClick={() => {
-                    const text = (commentary || []).map(c => {
-                      const div = document.createElement("div");
-                      div.innerHTML = c.html;
-                      return "• " + (div.innerText || div.textContent || "").trim();
-                    }).join("\n");
+                    const text = commItems.map(b => "• " + b.text).join("\n");
                     navigator.clipboard.writeText(text).catch(() => {});
                     setCommentaryCopied(true);
                     setTimeout(() => setCommentaryCopied(false), 2000);
@@ -964,41 +1055,50 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
             </div>
           }>
           <ul className="ai-list">
-            {(commentary || []).map((c, i) => {
-              const src = c.source;
-              const tip = src ? [
-                src.account,
-                `${src.actual_label || "Actual"}: ${fmtGBP(src.actual)}`,
-                src.comparison != null ? `${src.comparison_label || "Prior"}: ${fmtGBP(src.comparison)}` : null,
-                src.variance != null ? `Variance: ${fmtSignedGBP(src.variance)}${src.pct != null ? ` (${fmtPct(src.pct)})` : ""}` : null,
-                "— traced to your imported P&L",
-              ].filter(Boolean).join("\n") : null;
-              return (
-                <li key={i}>
-                  <span className="ic">
-                    <Icon name={c.icon} size={16} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
-                  </span>
-                  <span dangerouslySetInnerHTML={{ __html: c.html }} />
-                  {src && (
-                    <span
-                      title={tip}
-                      style={{
-                        marginLeft: 6, cursor: "help", flexShrink: 0,
-                        display: "inline-flex", alignItems: "center", gap: 3,
-                        font: "var(--text-label)", fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".04em",
-                        color: "var(--favourable-text)", background: "var(--favourable-soft)",
-                        border: "1px solid var(--favourable-border)", borderRadius: 20, padding: "1px 6px 1px 4px",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      <Icon name="shield-check" size={10} />
-                      Source
+            {commItems.map((b, i) => (
+              <li key={i} className="comm-row">
+                <span className="ic">
+                  <Icon name={b.icon} size={16} color={b.fav ? "var(--favourable)" : "var(--adverse)"} />
+                </span>
+                <textarea
+                  className="comm-textarea"
+                  value={b.text}
+                  rows={1}
+                  onChange={e => _updateBullet(i, e.target.value)}
+                  onInput={e => { e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
+                  placeholder="Enter commentary…"
+                />
+                {b.source && !b.edited && (() => {
+                  const src = b.source;
+                  const tip = [
+                    src.account,
+                    `${src.actual_label || "Actual"}: ${fmtGBP(src.actual)}`,
+                    src.comparison != null ? `${src.comparison_label || "Prior"}: ${fmtGBP(src.comparison)}` : null,
+                    src.variance != null ? `Variance: ${fmtSignedGBP(src.variance)}${src.pct != null ? ` (${fmtPct(src.pct)})` : ""}` : null,
+                    "— traced to your imported P&L",
+                  ].filter(Boolean).join("\n");
+                  return (
+                    <span title={tip} style={{
+                      flexShrink: 0, cursor: "help",
+                      display: "inline-flex", alignItems: "center", gap: 3,
+                      font: "var(--text-label)", fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".04em",
+                      color: "var(--favourable-text)", background: "var(--favourable-soft)",
+                      border: "1px solid var(--favourable-border)", borderRadius: 20, padding: "1px 6px 1px 4px",
+                      marginLeft: 6, verticalAlign: "middle",
+                    }}>
+                      <Icon name="shield-check" size={10} /> Source
                     </span>
-                  )}
-                </li>
-              );
-            })}
+                  );
+                })()}
+                <button className="comm-del" onClick={() => _deleteBullet(i)} title="Delete bullet">
+                  <Icon name="x" size={12} color="var(--fg-3)" />
+                </button>
+              </li>
+            ))}
           </ul>
+          <button className="comm-add" onClick={_addBullet}>
+            <Icon name="plus" size={12} color="var(--fg-3)" /> Add bullet
+          </button>
         </Card>
       </div>
 
@@ -1404,16 +1504,31 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         )}
 
         {activeTab === "commentary" && (
-          <ul className="ai-list">
-            {(commentary || []).map((c, i) => (
-              <li key={i}>
-                <span className="ic">
-                  <Icon name={c.icon} size={16} color={c.fav ? "var(--favourable)" : "var(--adverse)"} />
-                </span>
-                <span dangerouslySetInnerHTML={{ __html: c.html }} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="ai-list">
+              {commItems.map((b, i) => (
+                <li key={i} className="comm-row">
+                  <span className="ic">
+                    <Icon name={b.icon} size={16} color={b.fav ? "var(--favourable)" : "var(--adverse)"} />
+                  </span>
+                  <textarea
+                    className="comm-textarea"
+                    value={b.text}
+                    rows={1}
+                    onChange={e => _updateBullet(i, e.target.value)}
+                    onInput={e => { e.target.style.height = "auto"; e.target.style.height = e.target.scrollHeight + "px"; }}
+                    placeholder="Enter commentary…"
+                  />
+                  <button className="comm-del" onClick={() => _deleteBullet(i)} title="Delete bullet">
+                    <Icon name="x" size={12} color="var(--fg-3)" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button className="comm-add" onClick={_addBullet}>
+              <Icon name="plus" size={12} color="var(--fg-3)" /> Add bullet
+            </button>
+          </>
         )}
       </Card>
 
