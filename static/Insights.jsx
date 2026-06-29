@@ -13,6 +13,10 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
   const [csOpen,      setCsOpen]      = React.useState(false);
   const [nrThreshold, setNrThreshold] = React.useState(0.5);
 
+  const [strategy,     setStrategy]     = React.useState(null);
+  const [stratLoading, setStratLoading] = React.useState(false);
+  const [stratError,   setStratError]   = React.useState(null);
+
   React.useEffect(() => {
     if (!sessionId) return;
     setLoading(true);
@@ -23,6 +27,12 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
       .then(setData)
       .catch(e => setError(e.message))
       .finally(() => setLoading(false));
+  }, [sessionId, selectedPeriod, periodMode]);
+
+  React.useEffect(() => {
+    setStrategy(null);
+    setStratError(null);
+    setStratLoading(false);
   }, [sessionId, selectedPeriod, periodMode]);
 
   if (analysisType === "budget_vs_actual") return (
@@ -537,9 +547,137 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     );
   };
 
+  /* ── Strategy review ────────────────────────────────────────────── */
+  const generateStrategy = (refresh = false) => {
+    setStratLoading(true);
+    setStratError(null);
+    if (refresh) setStrategy(null);
+    const p = new URLSearchParams({
+      period: selectedPeriod || "", mode: periodMode || "monthly",
+      ...(refresh ? { refresh: "1" } : {}),
+    });
+    fetch(apiUrl(`/api/strategy/${sessionId}?${p}`))
+      .then(r => { if (!r.ok) return r.json().then(e => { throw new Error(e.detail || "Failed"); }); return r.json(); })
+      .then(setStrategy)
+      .catch(e => setStratError(e.message))
+      .finally(() => setStratLoading(false));
+  };
+
+  const StrategyPanel = () => (
+    <div style={{ marginBottom: 28, borderRadius: "var(--radius-lg)", border: "1px solid var(--border)", background: "var(--surface)", overflow: "hidden" }}>
+      {/* Header */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "13px 18px",
+        borderBottom: (strategy || stratLoading || stratError) ? "1px solid var(--border)" : "none",
+        background: "var(--surface-2)",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Icon name="cpu" size={15} color="var(--primary)" />
+          <span style={{ font: "var(--text-body-strong)", fontSize: 14, color: "var(--ink)" }}>AI Strategy Review</span>
+        </div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {strategy && !stratLoading && (
+            <button onClick={() => generateStrategy(true)}
+              style={{
+                display: "flex", alignItems: "center", gap: 4,
+                padding: "4px 10px", borderRadius: "var(--radius-sm)",
+                border: "1px solid var(--border)", background: "transparent",
+                color: "var(--fg-2)", font: "var(--text-label)", fontSize: 11, cursor: "pointer",
+              }}>
+              <Icon name="refresh-cw" size={11} color="var(--fg-2)" /> Regenerate
+            </button>
+          )}
+          {!strategy && (
+            <button onClick={() => generateStrategy()} disabled={stratLoading}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "6px 14px", borderRadius: "var(--radius-sm)",
+                border: "none", background: "var(--primary)",
+                color: "#fff", font: "var(--text-label)", fontSize: 12,
+                cursor: stratLoading ? "not-allowed" : "pointer", opacity: stratLoading ? 0.7 : 1,
+              }}>
+              {stratLoading
+                ? <><Icon name="loader" size={13} color="#fff" /> Generating…</>
+                : <><Icon name="zap" size={13} color="#fff" /> Generate</>}
+            </button>
+          )}
+        </div>
+      </div>
+      {/* Body */}
+      {stratError && (
+        <div style={{ padding: "12px 18px", color: "var(--adverse)", font: "var(--text-body)", fontSize: 13 }}>{stratError}</div>
+      )}
+      {stratLoading && (
+        <div style={{ padding: "20px 18px", display: "flex", alignItems: "center", gap: 8 }}>
+          <Icon name="loader" size={14} color="var(--fg-3)" />
+          <span style={{ font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>Analysing {period_label}…</span>
+        </div>
+      )}
+      {strategy && !stratLoading && (
+        <div style={{ padding: "18px", display: "flex", flexDirection: "column", gap: 14 }}>
+          {strategy.executive_summary && (
+            <div style={{ font: "var(--text-body)", fontSize: 14, color: "var(--ink)", lineHeight: 1.65 }}>
+              {strategy.executive_summary}
+            </div>
+          )}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 10 }}>
+            {strategy.whats_working?.length > 0 && (
+              <div style={{ padding: "13px 15px", borderRadius: "var(--radius-md)", background: "var(--favourable-soft)", border: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9 }}>
+                  <Icon name="check-circle" size={13} color="var(--favourable)" />
+                  <span style={{ font: "var(--text-label)", fontSize: 12, color: "var(--favourable)" }}>What's working</span>
+                </div>
+                <ul style={{ margin: 0, padding: "0 0 0 16px", display: "flex", flexDirection: "column", gap: 5 }}>
+                  {strategy.whats_working.map((item, i) => (
+                    <li key={i} style={{ font: "var(--text-body)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {strategy.areas_of_concern?.length > 0 && (
+              <div style={{ padding: "13px 15px", borderRadius: "var(--radius-md)", background: "var(--caution-soft)", border: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9 }}>
+                  <Icon name="alert-triangle" size={13} color="var(--caution)" />
+                  <span style={{ font: "var(--text-label)", fontSize: 12, color: "var(--caution)" }}>Areas of concern</span>
+                </div>
+                <ul style={{ margin: 0, padding: "0 0 0 16px", display: "flex", flexDirection: "column", gap: 5 }}>
+                  {strategy.areas_of_concern.map((item, i) => (
+                    <li key={i} style={{ font: "var(--text-body)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {strategy.recommended_actions?.length > 0 && (
+              <div style={{ padding: "13px 15px", borderRadius: "var(--radius-md)", background: "var(--primary-soft)", border: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 9 }}>
+                  <Icon name="arrow-right-circle" size={13} color="var(--primary)" />
+                  <span style={{ font: "var(--text-label)", fontSize: 12, color: "var(--primary)" }}>Recommended actions</span>
+                </div>
+                <ul style={{ margin: 0, padding: "0 0 0 16px", display: "flex", flexDirection: "column", gap: 5 }}>
+                  {strategy.recommended_actions.map((item, i) => (
+                    <li key={i} style={{ font: "var(--text-body)", fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {!strategy && !stratLoading && !stratError && (
+        <div style={{ padding: "13px 18px", color: "var(--fg-3)", font: "var(--text-body)", fontSize: 13 }}>
+          Get an AI-powered strategic review of {period_label} — key trends, risks, and recommended next actions.
+        </div>
+      )}
+    </div>
+  );
+
   /* ── Render ──────────────────────────────────────────────────────── */
   return (
     <div style={{ padding: "24px", maxWidth: 960, margin: "0 auto" }}>
+
+      {/* ── AI Strategy Review ─────────────────────────────────── */}
+      <StrategyPanel />
 
       {/* ── Margin summary ─────────────────────────────────────── */}
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>

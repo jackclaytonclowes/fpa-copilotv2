@@ -2377,6 +2377,7 @@ def reclassify(session_id: str, body: ReclassifyBody):
 
     # Invalidate the insights cache — reclassification changes category-level aggregates
     s.pop("insights_cache", None)
+    s.pop("strategy_cache", None)
 
     return {"ok": True, "account": account, "category": category, "rows_updated": int(updated)}
 
@@ -2622,6 +2623,31 @@ async def update_session_commentary(session_id: str, body: CommentaryUpdateBody)
         raise HTTPException(404, "Session not found.")
     s["commentary"] = [line.strip() for line in body.commentary if line.strip()]
     return {"ok": True, "count": len(s["commentary"])}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STRATEGY REVIEW — OpenAI-powered
+# ─────────────────────────────────────────────────────────────────────────────
+STRATEGY_PROMPT = """You are a senior FP&A director conducting a strategic review of a management pack.
+Using ONLY the financial data provided, write a concise strategic analysis.
+
+Respond with valid JSON only, using this exact structure:
+{{
+  "executive_summary": "2-3 sentences summarising financial position and the single most important theme",
+  "whats_working": ["specific positive with figure", "specific positive with figure"],
+  "areas_of_concern": ["specific risk or negative trend with figure", "specific issue with figure"],
+  "recommended_actions": ["concrete action tied to the data", "concrete action", "concrete action"]
+}}
+
+Rules:
+- Reference actual figures, percentages, and account names from the data provided
+- No generic advice — every point must be anchored to a specific number in the data
+- Maximum 3 bullets per list section
+- Currency symbol: {currency_sym}
+
+FINANCIAL DATA:
+{context}
+"""
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -2989,6 +3015,99 @@ def get_insights(session_id: str, period: str | None = None, mode: str = "monthl
     result = get_insights_data(analysis, df_long, selected, kpi_accounts, mode)
     s["insights_cache"][cache_key] = result
     return result
+
+
+@app.get("/api/strategy/{session_id}")
+def get_strategy(session_id: str, period: str = "", mode: str = "monthly",
+                 currency: str = "£", refresh: bool = False):
+    """AI strategy review: executive summary + what's working / concerns / actions."""
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found.")
+    if s.get("analysis_type") == "budget_vs_actual":
+        raise HTTPException(400, "Strategy review is available for month-on-month sessions only.")
+
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise HTTPException(503, "OpenAI API key not configured.")
+
+    analysis     = s["analysis_m"] if mode != "quarterly" else s.get("analysis_q", s["analysis_m"])
+    df_long      = s["df_long_m"]  if mode != "quarterly" else s.get("df_long_q",  s["df_long_m"])
+    kpi_accounts = s["kpi_accounts"]
+
+    sort_key = (lambda p: pd.Timestamp(p)) if mode != "quarterly" else quarter_sort_key
+    periods  = sorted(analysis["Period"].unique(), key=sort_key)
+    if not periods:
+        raise HTTPException(400, "No periods found.")
+
+    selected = periods[-1]
+    if period:
+        for p in periods:
+            if period_label(p, mode) == period or str(p) == period or str(p)[:10] == period[:10]:
+                selected = p
+                break
+
+    # In-memory cache (skipped when refresh=True)
+    cache_key = f"strategy|{selected}|{mode}"
+    if "strategy_cache" not in s:
+        s["strategy_cache"] = {}
+    if not refresh and cache_key in s["strategy_cache"]:
+        return s["strategy_cache"][cache_key]
+
+    # Build context: financial movements + key insight metrics
+    ctx = _build_financial_context(s, selected, mode, currency)
+    try:
+        insights = get_insights_data(analysis, df_long, selected, kpi_accounts, mode)
+        extras = []
+        m  = insights.get("margins", {})
+        mo = insights.get("momentum", {})
+        pa = insights.get("pareto", {})
+        sp = insights.get("sppy", {})
+        if m.get("op_pct") is not None:
+            extras.append(f"Operating margin: {m['op_pct']:.1f}%")
+        if m.get("payroll_pct") is not None:
+            extras.append(f"Payroll % of revenue: {m['payroll_pct']:.1f}%")
+        if mo.get("available"):
+            extras.append(f"Momentum — Revenue: {mo.get('revenue_dir')}, Costs: {mo.get('cost_dir')}, Profit: {mo.get('profit_dir')}")
+        if pa.get("top5"):
+            top5_str = ", ".join(
+                f"{r['account']} ({r['pct_of_cost']:.1f}% of costs)" for r in pa["top5"]
+            )
+            extras.append(f"Top 5 cost lines: {top5_str}")
+        if sp.get("available") and sp.get("prof_delta") is not None:
+            extras.append(
+                f"YoY profit vs same month prior year: {currency}{sp['prof_delta']:,.0f} "
+                f"({sp.get('prof_pct', 0):+.1f}%)"
+            )
+        if extras:
+            ctx += "\n\n=== KEY METRICS ===\n" + "\n".join(extras)
+    except Exception:
+        pass
+
+    try:
+        import json as _json
+        from openai import OpenAI
+        ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
+        client   = OpenAI(api_key=api_key)
+        resp = client.chat.completions.create(
+            model=ai_model,
+            messages=[
+                {"role": "system", "content": STRATEGY_PROMPT.format(context=ctx, currency_sym=currency)},
+                {"role": "user",   "content": "Generate the strategic review."},
+            ],
+            temperature=0.3,
+            max_tokens=700,
+            response_format={"type": "json_object"},
+        )
+        raw    = resp.choices[0].message.content.strip()
+        result = _json.loads(raw)
+        for key in ("executive_summary", "whats_working", "areas_of_concern", "recommended_actions"):
+            if key not in result:
+                result[key] = [] if key != "executive_summary" else ""
+        s["strategy_cache"][cache_key] = result
+        return result
+    except Exception as exc:
+        raise HTTPException(500, f"Strategy review failed: {str(exc)}")
 
 
 @app.get("/api/export/{session_id}")
