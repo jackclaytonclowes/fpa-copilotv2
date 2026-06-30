@@ -1318,24 +1318,8 @@ def _build_portfolio_client(name, sector, revenue, cogs, staff, overheads, cash)
 
 @app.get("/api/portfolio/demo")
 def portfolio_demo():
-    """Build a demo practice of clients and return a month-end triage list."""
-    clients = [
-        _build_portfolio_client(
-            "Harbour Retail Ltd", "Retail",
-            _ramp(82000, 2500), _ramp(41000, 1200), _ramp(22000, 400), _ramp(9000, 150), 240000),
-        _build_portfolio_client(
-            "Carter & Co Accountants", "Professional services",
-            _ramp(60000, 500), _ramp(12000, 100), _ramp(30000, 300), _ramp(7000, 50), 180000),
-        _build_portfolio_client(
-            "Nimbus Labs Ltd", "SaaS",
-            _ramp(21000, 3300), _ramp(10000, 700), _ramp(61000, 2500), _ramp(6700, 100), 350000),
-        _build_portfolio_client(
-            "Orbit Manufacturing Ltd", "Manufacturing",
-            _ramp(120000, 1000), _ramp(70000, 800), _ramp(20000, 200), _ramp(8000, 100, shock_last=45000), 320000),
-        _build_portfolio_client(
-            "Vale Hospitality Ltd", "Hospitality",
-            _ramp(95000, -1500), _ramp(38000, -300), _ramp(30000, 100), _ramp(9000, 0), 140000),
-    ]
+    """Build a demo NHS GP portfolio and return a month-end triage list."""
+    clients = []
 
     # ── NHS GP standalone practice demo clients (for side-by-side comparison) ──
     # Shankly Surgery — healthy performer: low locum, growing GMS, solid surplus
@@ -1593,6 +1577,7 @@ def portfolio_compare(session_ids: str):
             "surplus":    surplus,
             "kpis": {
                 "revenue":   latest_rev,
+                "total_cost": costs[-1] if costs else None,
                 "op_profit": latest_profit,
                 "margin":    margin,
             },

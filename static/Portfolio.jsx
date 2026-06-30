@@ -519,9 +519,10 @@ function ClientCompareModal({ data, onClose }) {
             </thead>
             <tbody>
               {[
-                { label:"Revenue",   key:"revenue",   fmt: fmtFull },
-                { label:"Op profit", key:"op_profit", fmt: fmtFull },
-                { label:"Margin",    key:"margin",    fmt: fmtPct  },
+                { label:"Revenue",      key:"revenue",    fmt: fmtFull },
+                { label:"Total costs",  key:"total_cost", fmt: fmtFull, alwaysRed: true },
+                { label:"Op surplus",   key:"op_profit",  fmt: fmtFull },
+                { label:"Margin",       key:"margin",     fmt: fmtPct  },
               ].map(row => (
                 <tr key={row.label}>
                   <td style={{ padding:"10px 0", font:"var(--text-caption)", fontSize:12.5,
@@ -530,10 +531,11 @@ function ClientCompareModal({ data, onClose }) {
                   </td>
                   {practices.map((p, i) => {
                     const v = p.kpis[row.key];
+                    const isAdverse = row.alwaysRed || (typeof v === "number" && v < 0);
                     return (
                       <td key={i} style={{ padding:"10px 12px", textAlign:"right",
                         font:"var(--text-data)", fontSize:15, fontVariantNumeric:"tabular-nums",
-                        color: typeof v === "number" && v < 0 ? "var(--adverse-text)" : "var(--ink)",
+                        color: isAdverse ? "var(--adverse-text)" : "var(--ink)",
                         borderBottom:"1px solid var(--border)" }}>
                         {row.fmt(v)}
                       </td>
@@ -552,6 +554,15 @@ function ClientCompareModal({ data, onClose }) {
             Revenue — 12-month trend
           </div>
           <TrendChart data={buildChartData("revenue")} series={series} />
+        </div>
+
+        {/* Costs chart */}
+        <div style={{ padding:"18px 24px", borderBottom:"1px solid var(--border)" }}>
+          <div style={{ font:"600 11px var(--font-display)", textTransform:"uppercase",
+            letterSpacing:".05em", color:"var(--fg-3)", marginBottom:10 }}>
+            Total costs — 12-month trend
+          </div>
+          <TrendChart data={buildChartData("costs")} series={series} />
         </div>
 
         {/* Surplus chart */}
