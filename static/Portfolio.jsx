@@ -9,9 +9,15 @@ function getFirmToken() {
 
 const SECTORS = [
   "Accountancy", "Construction", "E-commerce", "Hospitality",
-  "Manufacturing", "Professional services", "Property", "Retail",
-  "SaaS", "Other",
+  "Manufacturing", "NHS GP Practice", "NHS Federation", "Professional services",
+  "Property", "Retail", "SaaS", "Other",
 ];
+
+// Maps display sector to the internal sector value used by the API
+const SECTOR_VALUE_MAP = {
+  "NHS GP Practice": "nhs_gp",
+  "NHS Federation":  "nhs_federation",
+};
 
 const TIER = {
   action:  { label: "Action needed", color: "var(--adverse-text)",    bg: "var(--adverse-soft)",    border: "var(--adverse-border)",    icon: "alert-octagon" },
@@ -24,13 +30,16 @@ function AddClientModal({ firmToken, onClose, onAdded }) {
   const { Icon } = window;
   const [name, setName]       = React.useState("");
   const [sector, setSector]   = React.useState("Other");
+  const [listSize, setListSize] = React.useState("");
   const [cash, setCash]       = React.useState("");
   const [file, setFile]       = React.useState(null);
   const [status, setStatus]   = React.useState("idle"); // idle | uploading | error
   const [errMsg, setErrMsg]   = React.useState("");
   const fileRef               = React.useRef();
 
-  const canSubmit = name.trim() && file && status !== "uploading";
+  const isNhsGp    = sector === "NHS GP Practice";
+  const canSubmit  = name.trim() && file && status !== "uploading";
+  const apiSector  = SECTOR_VALUE_MAP[sector] || sector.toLowerCase().replace(/\s+/g, "_");
 
   async function submit(e) {
     e.preventDefault();
@@ -40,8 +49,9 @@ function AddClientModal({ firmToken, onClose, onAdded }) {
     const fd = new FormData();
     fd.append("firm_token",   firmToken);
     fd.append("name",         name.trim());
-    fd.append("sector",       sector);
+    fd.append("sector",       apiSector);
     fd.append("cash_balance", cash ? parseFloat(cash) : 0);
+    fd.append("list_size",    isNhsGp && listSize ? parseInt(listSize, 10) || 0 : 0);
     fd.append("file",         file);
     try {
       const r = await fetch(apiUrl("/api/portfolio/clients"), { method: "POST", body: fd });
@@ -103,6 +113,17 @@ function AddClientModal({ firmToken, onClose, onAdded }) {
               {SECTORS.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
+
+          {isNhsGp && (
+            <div>
+              <label style={labelStyle}>Weighted list size (registered patients)</label>
+              <input type="number" min="0" step="100" value={listSize} onChange={e => setListSize(e.target.value)}
+                placeholder="e.g. 8500" style={inputStyle} />
+              <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 4 }}>
+                Used for per-patient benchmarking. Leave blank if unknown.
+              </div>
+            </div>
+          )}
 
           <div>
             <label style={labelStyle}>Cash balance (optional — for runway)</label>
@@ -647,8 +668,34 @@ function Portfolio({ onOpenClient, onToast }) {
 
                       {/* Name + sector + reasons + brief */}
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ font: "var(--text-body-strong)", fontSize: 14.5, color: "var(--fg-1)" }}>
-                          {c.name}
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ font: "var(--text-body-strong)", fontSize: 14.5, color: "var(--fg-1)" }}>
+                            {c.name}
+                          </span>
+                          {c.sector === "nhs_gp" && (
+                            <span style={{
+                              display: "inline-flex", alignItems: "center", gap: 4,
+                              font: "var(--text-label)", fontSize: 10, fontWeight: 700,
+                              textTransform: "uppercase", letterSpacing: ".04em",
+                              color: "#005eb8", background: "#e8f0fe",
+                              border: "1px solid #b3c9f5",
+                              borderRadius: 20, padding: "2px 8px", flexShrink: 0,
+                            }}>
+                              NHS GP
+                            </span>
+                          )}
+                          {c.sector === "nhs_federation" && (
+                            <span style={{
+                              display: "inline-flex", alignItems: "center", gap: 4,
+                              font: "var(--text-label)", fontSize: 10, fontWeight: 700,
+                              textTransform: "uppercase", letterSpacing: ".04em",
+                              color: "#005eb8", background: "#cce0f5",
+                              border: "1px solid #7fb3e8",
+                              borderRadius: 20, padding: "2px 8px", flexShrink: 0,
+                            }}>
+                              NHS Federation
+                            </span>
+                          )}
                         </div>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
                           font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginBottom: 4 }}>
@@ -842,6 +889,134 @@ function Portfolio({ onOpenClient, onToast }) {
                 })}
               </div>
             )}
+
+            {/* NHS GP Benchmarking table */}
+            {(() => {
+              const gpPractices = (data?.clients || []).filter(
+                c => c.sector === "nhs_gp" && c.list_size > 0
+              );
+              if (gpPractices.length < 2) return null;
+
+              const rows = gpPractices.map(c => {
+                const rev  = c.revenue    || 0;
+                const cost = rev - (c.op_profit || 0);
+                const nonClinical = cost * 0.6; // approx overhead share
+                return {
+                  name:             c.name,
+                  list_size:        c.list_size,
+                  income_per_pt:    c.list_size > 0 ? rev  / c.list_size : null,
+                  cost_per_pt:      c.list_size > 0 ? cost / c.list_size : null,
+                  overhead_pct:     rev > 0 ? (nonClinical / rev * 100) : null,
+                  revenue:          rev,
+                  total_cost:       cost,
+                };
+              });
+
+              // Sort by income per patient descending
+              rows.sort((a, b) => (b.income_per_pt || 0) - (a.income_per_pt || 0));
+
+              // Federation totals row
+              const totRev  = rows.reduce((s, r) => s + r.revenue, 0);
+              const totCost = rows.reduce((s, r) => s + r.total_cost, 0);
+              const totLS   = rows.reduce((s, r) => s + r.list_size, 0);
+              const fedRow  = {
+                name:          "Federation totals",
+                list_size:     totLS,
+                income_per_pt: totLS > 0 ? totRev  / totLS : null,
+                cost_per_pt:   totLS > 0 ? totCost / totLS : null,
+                overhead_pct:  totRev > 0 ? ((totCost * 0.6) / totRev * 100) : null,
+                revenue:       totRev,
+                total_cost:    totCost,
+                isFedTotal:    true,
+              };
+
+              const fmt2 = v => v != null ? `£${v.toFixed(2)}` : "—";
+              const fmtP = v => v != null ? `${v.toFixed(1)}%` : "—";
+              const thStyle = {
+                font: "var(--text-label)", fontSize: 10.5, fontWeight: 700,
+                textTransform: "uppercase", letterSpacing: ".05em",
+                color: "var(--fg-3)", padding: "8px 12px",
+                textAlign: "right", borderBottom: "1px solid var(--border)",
+                whiteSpace: "nowrap",
+              };
+              const tdStyle = {
+                padding: "10px 12px", font: "var(--text-body)", fontSize: 13,
+                color: "var(--ink)", borderBottom: "1px solid var(--border)",
+                fontVariantNumeric: "tabular-nums", textAlign: "right",
+              };
+              const tdNameStyle = { ...tdStyle, textAlign: "left", fontWeight: 500 };
+              const fedStyle = { background: "var(--surface-2)", fontWeight: 700 };
+
+              return (
+                <div style={{ marginTop: 28 }}>
+                  <div style={{ marginBottom: 12 }}>
+                    <h3 style={{ font: "600 15px/1.2 var(--font-display)", color: "var(--ink)", margin: "0 0 3px" }}>
+                      NHS GP Benchmarking
+                    </h3>
+                    <p style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", margin: 0 }}>
+                      Per-patient metrics across {gpPractices.length} NHS GP practices
+                    </p>
+                  </div>
+                  <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead>
+                        <tr>
+                          <th style={{ ...thStyle, textAlign: "left" }}>Practice</th>
+                          <th style={thStyle}>List size</th>
+                          <th style={thStyle}>Income / patient</th>
+                          <th style={thStyle}>Cost / patient</th>
+                          <th style={thStyle}>Overhead %</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows.map((r, i) => (
+                          <tr key={r.name}>
+                            <td style={tdNameStyle}>
+                              {i === 0 && (
+                                <span style={{
+                                  display: "inline-block", marginRight: 6,
+                                  font: "var(--text-label)", fontSize: 9.5, fontWeight: 700,
+                                  textTransform: "uppercase", letterSpacing: ".04em",
+                                  color: "var(--favourable-text)", background: "var(--favourable-soft)",
+                                  border: "1px solid var(--favourable-border)", borderRadius: 20,
+                                  padding: "1px 6px",
+                                }}>Top</span>
+                              )}
+                              {r.name}
+                            </td>
+                            <td style={tdStyle}>{r.list_size.toLocaleString()}</td>
+                            <td style={tdStyle}>{fmt2(r.income_per_pt)}</td>
+                            <td style={tdStyle}>{fmt2(r.cost_per_pt)}</td>
+                            <td style={tdStyle}>{fmtP(r.overhead_pct)}</td>
+                          </tr>
+                        ))}
+                        {/* Federation totals row */}
+                        <tr style={fedStyle}>
+                          <td style={{ ...tdNameStyle, ...fedStyle, borderBottom: "none", borderTop: "2px solid var(--border)" }}>
+                            Federation totals
+                          </td>
+                          <td style={{ ...tdStyle, ...fedStyle, borderBottom: "none", borderTop: "2px solid var(--border)" }}>
+                            {fedRow.list_size.toLocaleString()}
+                          </td>
+                          <td style={{ ...tdStyle, ...fedStyle, borderBottom: "none", borderTop: "2px solid var(--border)" }}>
+                            {fmt2(fedRow.income_per_pt)}
+                          </td>
+                          <td style={{ ...tdStyle, ...fedStyle, borderBottom: "none", borderTop: "2px solid var(--border)" }}>
+                            {fmt2(fedRow.cost_per_pt)}
+                          </td>
+                          <td style={{ ...tdStyle, ...fedStyle, borderBottom: "none", borderTop: "2px solid var(--border)" }}>
+                            {fmtP(fedRow.overhead_pct)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style={{ marginTop: 6, font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                    Overhead % approximated as 60% of total costs ÷ revenue. Income and cost per patient based on weighted list size.
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Briefing error */}
             {briefStatus === "error" && (

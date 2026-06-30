@@ -32,7 +32,10 @@ from analysis import (
     load_file, load_sector_synonyms, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
-from kpis.nhs_gp import compute_nhs_kpis, nhs_kpi_cards
+from kpis.nhs_gp import (
+    compute_nhs_kpis, compute_workforce_breakdown, compute_utilisation,
+    is_locum_account, is_seasonal_nhs, nhs_kpi_cards,
+)
 
 app = FastAPI(title="MonthEndIQ")
 
@@ -89,11 +92,17 @@ def _init_db():
                 file_bytes   BLOB NOT NULL,
                 file_name    TEXT NOT NULL,
                 cash_balance REAL,
+                list_size    INTEGER NOT NULL DEFAULT 0,
                 created_at   TEXT NOT NULL,
                 updated_at   TEXT NOT NULL
             )
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_firm ON portfolio_clients(firm_token)")
+        # Migration: add list_size column if it doesn't exist (for existing databases)
+        try:
+            conn.execute("ALTER TABLE portfolio_clients ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0")
+        except Exception:
+            pass  # Column already exists — safe to ignore
         conn.commit()
 
 
@@ -811,7 +820,8 @@ def _rehydrate_from_file(session_id: str, contents: bytes, filename: str,
 
 
 def _score_session(sid: str, name: str, sector: str, cash,
-                   created_at: str, updated_at: str) -> dict | None:
+                   created_at: str, updated_at: str,
+                   list_size: int = 0) -> dict | None:
     """Score a loaded session and return a portfolio triage dict."""
     s = SESSIONS.get(sid)
     if not s:
@@ -866,6 +876,7 @@ def _score_session(sid: str, name: str, sector: str, cash,
 
     return {
         "session_id": sid, "name": name, "sector": sector,
+        "list_size": list_size or 0,
         "revenue": revenue_v, "op_profit": op_profit, "margin": margin,
         "profit_var": profit_var, "profit_var_pct": profit_pct,
         "cash": cash or None, "runway_months": runway, "burning": burning,
@@ -1015,7 +1026,7 @@ def portfolio_list_clients(firm_token: str):
         raise HTTPException(400, "firm_token is required.")
     with _db() as conn:
         rows = conn.execute(
-            "SELECT id, name, sector, file_bytes, file_name, cash_balance, created_at, updated_at "
+            "SELECT id, name, sector, list_size, file_bytes, file_name, cash_balance, created_at, updated_at "
             "FROM portfolio_clients WHERE firm_token = ? ORDER BY updated_at DESC",
             (firm_token,),
         ).fetchall()
@@ -1027,7 +1038,8 @@ def portfolio_list_clients(firm_token: str):
             _rehydrate_client(cid, bytes(row["file_bytes"]), row["file_name"],
                               row["name"], row["cash_balance"])
         summary = _score_session(cid, row["name"], row["sector"],
-                                 row["cash_balance"], row["created_at"], row["updated_at"])
+                                 row["cash_balance"], row["created_at"], row["updated_at"],
+                                 list_size=row["list_size"] or 0)
         if summary:
             clients.append(summary)
 
@@ -1050,6 +1062,7 @@ async def portfolio_add_client(
     name:         str        = Form(...),
     sector:       str        = Form("Other"),
     cash_balance: float      = Form(0.0),
+    list_size:    int        = Form(0),
 ):
     """Upload a real client P&L and add them to the firm's practice portfolio."""
     if not firm_token or not name:
@@ -1064,6 +1077,7 @@ async def portfolio_add_client(
     client_id = str(uuid.uuid4())
     now       = datetime.now(timezone.utc).isoformat()
     cash      = cash_balance if cash_balance else None
+    ls        = max(0, int(list_size or 0))
 
     ok = _rehydrate_client(client_id, contents, file.filename or "upload", name, cash)
     if not ok:
@@ -1076,13 +1090,13 @@ async def portfolio_add_client(
     with _db() as conn:
         conn.execute(
             "INSERT INTO portfolio_clients "
-            "(id, firm_token, name, sector, file_bytes, file_name, cash_balance, created_at, updated_at) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (client_id, firm_token, name, sector, contents, file.filename, cash, now, now),
+            "(id, firm_token, name, sector, file_bytes, file_name, cash_balance, list_size, created_at, updated_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (client_id, firm_token, name, sector, contents, file.filename, cash, ls, now, now),
         )
         conn.commit()
 
-    result = _score_session(client_id, name, sector, cash, now, now)
+    result = _score_session(client_id, name, sector, cash, now, now, list_size=ls)
     if not result:
         raise HTTPException(500, "Analysis succeeded but no periods were found in the file.")
     return result
@@ -1095,12 +1109,13 @@ async def portfolio_update_client(
     name:         str | None = Form(None),
     sector:       str | None = Form(None),
     cash_balance: float      = Form(0.0),
+    list_size:    int | None = Form(None),
     file:         UploadFile | None = File(None),
 ):
     """Re-upload or rename a client (re-runs analysis if a new file is provided)."""
     with _db() as conn:
         row = conn.execute(
-            "SELECT firm_token, file_bytes, file_name FROM portfolio_clients WHERE id = ?",
+            "SELECT firm_token, file_bytes, file_name, list_size FROM portfolio_clients WHERE id = ?",
             (client_id,),
         ).fetchone()
         if not row:
@@ -1112,6 +1127,7 @@ async def portfolio_update_client(
         cash     = cash_balance if cash_balance else None
         contents = bytes(row["file_bytes"])
         fname    = row["file_name"]
+        ls       = max(0, int(list_size)) if list_size is not None else (row["list_size"] or 0)
 
         if file:
             ext = (file.filename or "").split(".")[-1].lower()
@@ -1127,7 +1143,7 @@ async def portfolio_update_client(
         if not ok:
             raise HTTPException(400, "Could not parse the uploaded file.")
 
-        updates = {"cash_balance": cash, "updated_at": now}
+        updates = {"cash_balance": cash, "list_size": ls, "updated_at": now}
         if name:
             updates["name"] = name
         if sector:
@@ -1144,12 +1160,13 @@ async def portfolio_update_client(
         conn.commit()
 
         row2 = conn.execute(
-            "SELECT name, sector, cash_balance, created_at, updated_at FROM portfolio_clients WHERE id = ?",
+            "SELECT name, sector, list_size, cash_balance, created_at, updated_at FROM portfolio_clients WHERE id = ?",
             (client_id,),
         ).fetchone()
 
     return _score_session(client_id, row2["name"], row2["sector"],
-                          row2["cash_balance"], row2["created_at"], row2["updated_at"])
+                          row2["cash_balance"], row2["created_at"], row2["updated_at"],
+                          list_size=row2["list_size"] or 0)
 
 
 @app.delete("/api/portfolio/clients/{client_id}")
@@ -1184,7 +1201,7 @@ async def portfolio_briefing(firm_token: str, currency: str = "£"):
 
     with _db() as conn:
         rows = conn.execute(
-            "SELECT id, name, sector, file_bytes, file_name, cash_balance "
+            "SELECT id, name, sector, list_size, file_bytes, file_name, cash_balance "
             "FROM portfolio_clients WHERE firm_token = ? ORDER BY updated_at DESC",
             (firm_token,),
         ).fetchall()
@@ -1240,7 +1257,8 @@ async def portfolio_briefing(firm_token: str, currency: str = "£"):
     async def brief_one(row):
         cid = row["id"]
         summary = _score_session(cid, row["name"], row["sector"],
-                                 row["cash_balance"], None, None)
+                                 row["cash_balance"], None, None,
+                                 list_size=row["list_size"] or 0)
         if not summary:
             return cid, None
         try:
@@ -1780,10 +1798,13 @@ _MAX_UPLOAD_BYTES = 20 * 1024 * 1024  # 20 MB
 
 @app.post("/api/upload")
 async def upload(
-    file:      UploadFile = File(...),
-    mode:      str        = "month_on_month",
-    sector:    str        = Form("general"),
-    list_size: int        = Form(0),
+    file:             UploadFile = File(...),
+    mode:             str        = "month_on_month",
+    sector:           str        = Form("general"),
+    list_size:        int        = Form(0),
+    wte_partners:     float      = Form(0.0),
+    arrs_allocation:  float      = Form(0.0),
+    qof_entitlement:  float      = Form(0.0),
 ):
     if not file.filename:
         raise HTTPException(400, "No filename provided.")
@@ -1864,16 +1885,19 @@ async def upload(
         kpi_accounts = detect_kpis(df_for_kpis)
         session_id = str(uuid.uuid4())
         SESSIONS[session_id] = {
-            "df"           : df_for_kpis,
-            "bva_data"     : bva_snapshot,   # full-year aggregate snapshot
-            "bva_long"     : bva_long_store, # per-period long-form data (may be None)
-            "bva_periods"  : bva_periods,
-            "kpi_accounts" : kpi_accounts,
-            "filename"     : file.filename,
-            "analysis_type": "budget_vs_actual",
-            "sector"       : sector,
-            "list_size"    : list_size,
-            "chat"         : [],
+            "df"             : df_for_kpis,
+            "bva_data"       : bva_snapshot,
+            "bva_long"       : bva_long_store,
+            "bva_periods"    : bva_periods,
+            "kpi_accounts"   : kpi_accounts,
+            "filename"       : file.filename,
+            "analysis_type"  : "budget_vs_actual",
+            "sector"         : sector,
+            "list_size"      : list_size,
+            "wte_partners"   : wte_partners or None,
+            "arrs_allocation": arrs_allocation or None,
+            "qof_entitlement": qof_entitlement or None,
+            "chat"           : [],
         }
         data = get_bva_data(bva_snapshot, kpi_accounts, file.filename, bva_long=bva_long_store)
         data["session_id"]            = session_id
@@ -1920,17 +1944,20 @@ async def upload(
 
     session_id = str(uuid.uuid4())
     SESSIONS[session_id] = {
-        "df"            : df,
-        "df_long_m"     : df_long_m,
-        "df_long_q"     : df_long_q,
-        "analysis_m"    : analysis_m,
-        "analysis_q"    : analysis_q,
-        "kpi_accounts"  : kpi_accounts,
-        "filename"      : file.filename,
-        "analysis_type" : "month_on_month",
-        "sector"        : sector,
-        "list_size"     : list_size,
-        "chat"          : [],
+        "df"             : df,
+        "df_long_m"      : df_long_m,
+        "df_long_q"      : df_long_q,
+        "analysis_m"     : analysis_m,
+        "analysis_q"     : analysis_q,
+        "kpi_accounts"   : kpi_accounts,
+        "filename"       : file.filename,
+        "analysis_type"  : "month_on_month",
+        "sector"         : sector,
+        "list_size"      : list_size,
+        "wte_partners"   : wte_partners or None,
+        "arrs_allocation": arrs_allocation or None,
+        "qof_entitlement": qof_entitlement or None,
+        "chat"           : [],
     }
 
     periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
@@ -1959,10 +1986,18 @@ async def upload(
     data["file_name"]     = file.filename
     data["sector"]        = sector
     data["list_size"]     = list_size
-    if sector == "nhs_gp" and list_size:
-        nhs = compute_nhs_kpis(data, list_size)
-        data["nhs_kpis"]       = nhs
-        data["nhs_kpi_cards"]  = nhs_kpi_cards(nhs)
+    if sector == "nhs_gp":
+        movements = data.get("movements", [])
+        for m in movements:
+            m["is_locum"] = is_locum_account(m.get("account", ""))
+        data["workforce_breakdown"] = compute_workforce_breakdown(movements)
+        util = compute_utilisation(movements, arrs_allocation or None, qof_entitlement or None)
+        data["nhs_utilisation"] = util
+        if list_size:
+            nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
+            nhs.update(util)
+            data["nhs_kpis"]      = nhs
+            data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
     return data
 
 
@@ -2105,10 +2140,32 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
     data["selected_period"] = str(selected)
     data["sector"]          = s.get("sector", "general")
     data["list_size"]       = s.get("list_size", 0)
-    if s.get("sector") == "nhs_gp" and s.get("list_size"):
-        nhs = compute_nhs_kpis(data, s["list_size"])
-        data["nhs_kpis"]      = nhs
-        data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
+
+    if s.get("sector") == "nhs_gp":
+        movements = data.get("movements", [])
+
+        # Flag locum accounts in movements
+        for m in movements:
+            m["is_locum"] = is_locum_account(m.get("account", ""))
+
+        # Workforce breakdown
+        data["workforce_breakdown"] = compute_workforce_breakdown(movements)
+
+        # ARRS + QOF utilisation
+        util = compute_utilisation(
+            movements,
+            s.get("arrs_allocation"),
+            s.get("qof_entitlement"),
+        )
+        data["nhs_utilisation"] = util
+
+        # Per-patient KPIs
+        if s.get("list_size"):
+            nhs = compute_nhs_kpis(data, s["list_size"], s.get("wte_partners"))
+            nhs.update(util)           # merge utilisation into kpis dict for cards
+            data["nhs_kpis"]      = nhs
+            data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
+
     return data
 
 
