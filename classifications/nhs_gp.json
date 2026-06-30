@@ -91,5 +91,37 @@
     "total income", "net income", "total drawings",
     "surplus available", "profit available for drawings",
     "net surplus before drawings"
-  ]
+  ],
+  "workforce_role_types": {
+    "clinical": [
+      "gp", "doctor", "salaried gp", "gp salary", "partner salary", "partner drawings",
+      "drawings", "registrar", "nurse practitioner", "anp", "advanced nurse",
+      "pharmacist", "paramedic", "physiotherapist", "physio", "podiatrist",
+      "occupational therapist", "dietitian", "social prescrib", "first contact",
+      "healthcare assistant", "hca", "care coordinator", "health visitor",
+      "district nurse", "community nurse", "mental health"
+    ],
+    "locum": [
+      "locum", "sessional", "agency", "out of hours", "ooh"
+    ],
+    "management": [
+      "practice manager", "management", "director", "chief executive", "ceo",
+      "operations manager", "finance manager", "hr manager"
+    ],
+    "admin": [
+      "admin", "receptionist", "secretary", "clerical", "data entry",
+      "medical secretary", "call handler", "patient services"
+    ]
+  },
+  "seasonal_patterns": {
+    "qof":               [6],
+    "quality outcomes":  [6],
+    "enhanced services": [1, 4, 7, 10],
+    "directed enhanced": [1, 4, 7, 10],
+    "des payment":       [1, 4, 7, 10],
+    "local enhanced":    [1, 4, 7, 10],
+    "les payment":       [1, 4, 7, 10],
+    "arrs reimbursement":[1, 4, 7, 10],
+    "pcn":               [1, 4, 7, 10]
+  }
 }

@@ -971,7 +971,9 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                   <span className="kpi-ic"><Icon name={k.icon} size={16} /></span>
                 </div>
                 <div className="val">
-                  {k.icon === "users" ? k.value?.toLocaleString() : fmtGBP(k.value)}
+                  {k.fmt === "pct"    ? `${k.value?.toFixed(1)}%`
+                  : k.fmt === "number" ? k.value?.toLocaleString()
+                  : fmtGBP(k.value)}
                 </div>
                 {k.hint && (
                   <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 3 }}>
@@ -983,6 +985,42 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
           </div>
         </div>
       )}
+
+      {/* NHS GP workforce breakdown */}
+      {data.sector === "nhs_gp" && data.workforce_breakdown && (() => {
+        const wb = data.workforce_breakdown;
+        const roles = [
+          { key: "clinical",   label: "Clinical",    icon: "stethoscope",  color: "var(--favourable-text)" },
+          { key: "locum",      label: "Locum",       icon: "user-x",       color: "var(--caution-text, #b45309)" },
+          { key: "management", label: "Management",  icon: "briefcase",    color: "var(--primary)" },
+          { key: "admin",      label: "Admin",       icon: "clipboard",    color: "var(--fg-2)" },
+        ].filter(r => wb[r.key] && wb[r.key].total !== 0);
+        if (!roles.length) return null;
+        const total = roles.reduce((s, r) => s + Math.abs(wb[r.key].total), 0);
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <Icon name="users" size={14} color="var(--fg-3)" />
+              <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>Workforce cost breakdown</span>
+            </div>
+            {roles.map(r => {
+              const amt = Math.abs(wb[r.key].total);
+              const pct = total ? (amt / total * 100) : 0;
+              return (
+                <div key={r.key} style={{ marginBottom: 8 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+                    <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-1)" }}>{r.label}</span>
+                    <span style={{ font: "600 12px var(--font-mono)", color: r.color }}>{fmtGBP(amt)} <span style={{ fontWeight: 400, color: "var(--fg-3)", fontSize: 11 }}>({pct.toFixed(0)}%)</span></span>
+                  </div>
+                  <div style={{ height: 4, borderRadius: 2, background: "var(--surface-2)", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${pct}%`, background: r.color, borderRadius: 2, transition: "width .3s" }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })()}
 
       {/* Smart highlights */}
       <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
@@ -1502,7 +1540,12 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                   .slice(0, 15)
                   .map((m, i) => (
                     <tr key={i}>
-                      <td className="l">{m.account}</td>
+                      <td className="l">
+                        {m.account}
+                        {m.is_locum && (
+                          <span style={{ marginLeft: 6, font: "var(--text-label)", fontSize: 9.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", padding: "1px 5px", borderRadius: 10, background: "var(--caution-soft, #fff8e1)", color: "var(--caution-text, #b45309)", border: "1px solid var(--caution, #f59e0b)", whiteSpace: "nowrap" }}>Locum</span>
+                        )}
+                      </td>
                       <td className="l">
                         {(() => {
                           const chip = window.catChip && window.catChip(m.category);

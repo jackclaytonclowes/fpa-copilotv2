@@ -2800,8 +2800,16 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
 
 def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: list,
               analysis_type: str = "month_on_month",
-              insights: dict | None = None) -> bytes:
-    """Generate a formatted Excel workbook with sheets: Variance, KPIs, Commentary, Insights."""
+              insights: dict | None = None,
+              nhs_data: dict | None = None) -> bytes:
+    """Generate a formatted Excel workbook with sheets: Variance, KPIs, Commentary, Insights.
+
+    When nhs_data is provided (sector == 'nhs_gp'), also writes:
+      • ICB Variance Report  — commissioner-ready structured variance table
+      • Workforce            — staff cost breakdown by role type
+      • Partner Accounts     — net profit, drawings, surplus, tax reserve
+      • AISMA Mapping        — P&L mapped to standard NHS/AISMA headings
+    """
     import openpyxl
     from openpyxl.styles import (
         Font, PatternFill, Alignment, Border, Side, numbers as xl_numbers
@@ -3203,6 +3211,200 @@ def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: li
         ws4.column_dimensions["C"].width = 20
         ws4.column_dimensions["D"].width = 16
         ws4.column_dimensions["E"].width = 16
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # NHS SHEETS (only when nhs_data supplied)
+    # ══════════════════════════════════════════════════════════════════════════
+    if nhs_data:
+        re_html = re.compile(r"<[^>]+>")
+
+        # ── ICB Variance Report ───────────────────────────────────────────────
+        ws_icb = wb.create_sheet("ICB Variance Report")
+        ws_icb.merge_cells("A1:G1")
+        hdr = ws_icb["A1"]
+        hdr.value = f"ICB Variance Report — {period_label_str}"
+        hdr.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+        hdr.alignment = Alignment(horizontal="left", vertical="center")
+        ws_icb.row_dimensions[1].height = 22
+
+        icb_headers = ["Account", "Category", "Current (£)", "Prior (£)", "Variance (£)", "Var %", "Commentary"]
+        for ci, h in enumerate(icb_headers, 1):
+            c = ws_icb.cell(row=2, column=ci, value=h)
+            c.font  = hdr_font()
+            c.fill  = fill(C_HEADER)
+            c.alignment = Alignment(horizontal="center" if ci > 2 else "left", vertical="center")
+        ws_icb.row_dimensions[2].height = 18
+
+        icb_row = 3
+        # Group movements by category
+        from itertools import groupby as _groupby
+        sorted_mvs = sorted(movements, key=lambda m: m.get("category", ""))
+        for cat, grp in _groupby(sorted_mvs, key=lambda m: m.get("category", "")):
+            # Category sub-header
+            ws_icb.merge_cells(f"A{icb_row}:G{icb_row}")
+            ch = ws_icb.cell(row=icb_row, column=1, value=cat)
+            ch.font = body_font(bold=True, color="1A2B4C")
+            ch.fill = fill(C_SUBHEAD)
+            ws_icb.row_dimensions[icb_row].height = 16
+            icb_row += 1
+            for m in grp:
+                var = m.get("variance")
+                is_fav_m = m.get("is_fav", True)
+                row_bg = C_FAV_BG if (is_fav_m and var) else (C_ADV_BG if var else C_WHITE)
+                vals = [
+                    m.get("account", ""),
+                    m.get("category", ""),
+                    m.get("value"),
+                    m.get("prior_value"),
+                    var,
+                    m.get("variance_pct"),
+                    "",   # blank narrative for accountant to fill
+                ]
+                for ci, v in enumerate(vals, 1):
+                    c2 = ws_icb.cell(row=icb_row, column=ci, value=gbp_fmt(v) if ci in (3,4,5) else (pct_fmt(v) if ci == 6 else v))
+                    c2.font   = body_font()
+                    c2.fill   = fill(row_bg)
+                    c2.border = thin_border()
+                    c2.alignment = Alignment(horizontal="right" if ci > 2 else "left", vertical="center", wrap_text=(ci == 7))
+                    if ci in (3, 4) and isinstance(v, (int, float)):
+                        c2.number_format = GBP_FMT
+                    elif ci == 5 and isinstance(v, (int, float)):
+                        c2.number_format = GBP_SFMT
+                    elif ci == 6 and isinstance(v, (int, float)):
+                        c2.number_format = PCT_FMT
+                icb_row += 1
+
+        ws_icb.column_dimensions["A"].width = 36
+        ws_icb.column_dimensions["B"].width = 18
+        ws_icb.column_dimensions["C"].width = 15
+        ws_icb.column_dimensions["D"].width = 15
+        ws_icb.column_dimensions["E"].width = 15
+        ws_icb.column_dimensions["F"].width = 10
+        ws_icb.column_dimensions["G"].width = 40
+
+        # ── Workforce Sheet ───────────────────────────────────────────────────
+        wb_data = nhs_data.get("workforce_breakdown", {})
+        if wb_data:
+            ws_wf = wb.create_sheet("Workforce")
+            ws_wf.merge_cells("A1:D1")
+            wf_t = ws_wf["A1"]
+            wf_t.value = f"Workforce Cost Breakdown — {period_label_str}"
+            wf_t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+            wf_t.alignment = Alignment(horizontal="left", vertical="center")
+            ws_wf.row_dimensions[1].height = 22
+            for ci, h in enumerate(["Role Type", "Total (£)", "% of Payroll", "Accounts"], 1):
+                c = ws_wf.cell(row=2, column=ci, value=h)
+                c.font  = hdr_font()
+                c.fill  = fill(C_HEADER)
+                c.alignment = Alignment(horizontal="left", vertical="center")
+            total_payroll = sum(abs(v.get("total", 0)) for v in wb_data.values())
+            wf_row = 3
+            for role_key, role_label in [("clinical","Clinical"),("locum","Locum (Sessional)"),("management","Management"),("admin","Admin"),("other","Other")]:
+                rd = wb_data.get(role_key, {})
+                amt = abs(rd.get("total", 0))
+                if not amt:
+                    continue
+                pct_val = round(amt / total_payroll * 100, 1) if total_payroll else 0
+                accs = ", ".join(rd.get("accounts", [])[:5])
+                for ci, v in enumerate([role_label, amt, pct_val, accs], 1):
+                    c = ws_wf.cell(row=wf_row, column=ci, value=v)
+                    c.font   = body_font()
+                    c.fill   = fill(C_SUBHEAD if wf_row % 2 == 0 else C_WHITE)
+                    c.border = thin_border()
+                    c.alignment = Alignment(horizontal="left", vertical="center")
+                    if ci == 2 and isinstance(v, (int, float)):
+                        c.number_format = GBP_FMT
+                    elif ci == 3 and isinstance(v, (int, float)):
+                        c.number_format = "0.0%"
+                        c.value = v / 100
+                wf_row += 1
+            ws_wf.column_dimensions["A"].width = 22
+            ws_wf.column_dimensions["B"].width = 15
+            ws_wf.column_dimensions["C"].width = 15
+            ws_wf.column_dimensions["D"].width = 50
+
+        # ── Partner Accounts Sheet ────────────────────────────────────────────
+        partner_drawings = nhs_data.get("partner_drawings", 0) or 0
+        wte_partners = nhs_data.get("wte_partners", 0) or 0
+        net_profit = next((k["value"] for k in kpis if k.get("icon") == "wallet"), None)
+        if net_profit is not None:
+            ws_pa = wb.create_sheet("Partner Accounts")
+            ws_pa.merge_cells("A1:C1")
+            pa_t = ws_pa["A1"]
+            pa_t.value = f"Partner Accounts Summary — {period_label_str}"
+            pa_t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+            pa_t.alignment = Alignment(horizontal="left", vertical="center")
+            ws_pa.row_dimensions[1].height = 22
+            available = net_profit - partner_drawings
+            tax_reserve = max(0, round(available * 0.20, 0))
+            pa_rows = [
+                ("Net profit for period",        net_profit,        False),
+                ("Less: partner drawings",        -partner_drawings, False),
+                ("Surplus available to partners", available,         True),
+                ("Suggested tax reserve (20%)",   -tax_reserve,      False),
+            ]
+            if wte_partners:
+                pa_rows.append(("WTE partners", wte_partners, False))
+                if wte_partners > 0:
+                    pa_rows.append(("Profit per partner", round(net_profit / wte_partners, 2), False))
+            for ri, (label, val, is_total) in enumerate(pa_rows, start=2):
+                label_c = ws_pa.cell(row=ri, column=1, value=label)
+                label_c.font = body_font(bold=is_total)
+                label_c.fill = fill(C_SUBHEAD if is_total else C_WHITE)
+                val_c = ws_pa.cell(row=ri, column=2, value=val)
+                val_c.font = body_font(bold=is_total, color=C_FAV_FG if (isinstance(val,(int,float)) and val > 0) else C_ADV_FG)
+                val_c.fill = fill(C_SUBHEAD if is_total else C_WHITE)
+                val_c.number_format = GBP_FMT if isinstance(val, (int, float)) and abs(val) > 1 else "General"
+                for cc in (label_c, val_c):
+                    cc.border = thin_border()
+                    cc.alignment = Alignment(horizontal="left" if cc.column == 1 else "right", vertical="center")
+            ws_pa.column_dimensions["A"].width = 36
+            ws_pa.column_dimensions["B"].width = 18
+
+        # ── AISMA Mapping Sheet ───────────────────────────────────────────────
+        ws_am = wb.create_sheet("AISMA Mapping")
+        ws_am.merge_cells("A1:C1")
+        am_t = ws_am["A1"]
+        am_t.value = "AISMA Standard Chart of Accounts Mapping"
+        am_t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+        am_t.alignment = Alignment(horizontal="left", vertical="center")
+        ws_am.row_dimensions[1].height = 22
+        for ci, h in enumerate(["AISMA Heading", "MonthEndIQ Category", "Notes"], 1):
+            c = ws_am.cell(row=2, column=ci, value=h)
+            c.font  = hdr_font()
+            c.fill  = fill(C_HEADER)
+            c.alignment = Alignment(horizontal="left", vertical="center")
+        aisma_map = [
+            ("GMS / PMS / APMS Contract Income",   "Revenue",           "Global sum, MPIG, contract payments"),
+            ("QOF Income",                          "Revenue",           "Aspiration and achievement payments"),
+            ("Enhanced Services",                   "Revenue",           "DES, LES, PCN DES payments"),
+            ("Other NHS Income",                    "Revenue",           "ICB payments, reimbursements"),
+            ("Private / Non-NHS Income",            "Revenue",           "Private fees, non-NHS work"),
+            ("Partner Drawings / Salaries",         "Staff Costs",       "GP partner drawings or salaried GP costs"),
+            ("Locum / Sessional Costs",             "Staff Costs",       "Locum fees, sessional GP payments"),
+            ("ARRS Staff Costs",                    "Staff Costs",       "Additional Roles Reimbursement Scheme"),
+            ("Other Clinical Staff",                "Staff Costs",       "Nurses, ANPs, HCAs, pharmacists"),
+            ("Admin & Management Staff",            "Staff Costs / Management Costs", "Receptionists, practice manager"),
+            ("Employer NI & Pension",               "Staff Costs",       "Including NHS superannuation"),
+            ("Drugs & Medical Supplies",            "Direct Costs",      "Dispensing costs, clinical consumables"),
+            ("Premises (Rent, Rates, Utilities)",   "Premises Costs",    "Including notional rent reimbursements"),
+            ("Clinical Systems & IT",               "IT Costs",          "EMIS, SystmOne, Docman, etc."),
+            ("Medical Indemnity",                   "Insurance",         "MPS, MDDUS, MDU subscriptions"),
+            ("CQC Registration Fee",                "Professional Fees", "Annual CQC fee"),
+            ("Accountancy & Legal",                 "Professional Fees", "External professional services"),
+            ("Finance Costs",                       "Finance Costs",     "Bank charges, loan interest"),
+            ("Depreciation",                        "Depreciation & Amortisation", "Equipment and fixtures"),
+        ]
+        for ri, (aisma_h, meiq_cat, notes) in enumerate(aisma_map, start=3):
+            for ci, v in enumerate([aisma_h, meiq_cat, notes], 1):
+                c = ws_am.cell(row=ri, column=ci, value=v)
+                c.font   = body_font()
+                c.fill   = fill(C_SUBHEAD if ri % 2 == 0 else C_WHITE)
+                c.border = thin_border()
+                c.alignment = Alignment(horizontal="left", vertical="center")
+        ws_am.column_dimensions["A"].width = 38
+        ws_am.column_dimensions["B"].width = 28
+        ws_am.column_dimensions["C"].width = 40
 
     buf = BytesIO()
     wb.save(buf)

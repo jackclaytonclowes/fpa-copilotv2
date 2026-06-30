@@ -3054,6 +3054,15 @@ def get_anomalies(
         cat_mode = non_sub[non_sub["Account"].str.strip() == acc_strip]["Category"].mode()
         cat      = str(cat_mode.iloc[0]) if not cat_mode.empty else "Other"
 
+        # NHS seasonal suppression — known payment patterns are not anomalies
+        if s.get("sector") == "nhs_gp":
+            try:
+                sel_month = pd.Timestamp(selected).month
+            except Exception:
+                sel_month = 0
+            if sel_month and is_seasonal_nhs(acc_strip, sel_month):
+                continue
+
         change  = curr_val - hmean
         is_rev  = cat == "Revenue"
         is_fav  = (is_rev and change > 0) or (not is_rev and change < 0)
@@ -3220,8 +3229,9 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
     if not s:
         raise HTTPException(404, "Session not found.")
 
-    analysis_type = s.get("analysis_type", "month_on_month")
-    insights_data = None
+    analysis_type   = s.get("analysis_type", "month_on_month")
+    insights_data   = None
+    nhs_export_data = None
 
     if analysis_type == "budget_vs_actual":
         bva_long    = s.get("bva_long")
@@ -3269,6 +3279,26 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
         except Exception:
             insights_data = None
 
+        # NHS export enrichment
+        if s.get("sector") == "nhs_gp":
+            movements_for_nhs = data.get("movements", [])
+            for m in movements_for_nhs:
+                m["is_locum"] = is_locum_account(m.get("account", ""))
+            nhs_export_data = {
+                "workforce_breakdown": compute_workforce_breakdown(movements_for_nhs),
+                "partner_drawings":    s.get("partner_drawings"),
+                "wte_partners":        s.get("wte_partners"),
+                "list_size":           s.get("list_size"),
+            }
+            util = compute_utilisation(
+                movements_for_nhs,
+                s.get("arrs_allocation"),
+                s.get("qof_entitlement"),
+            )
+            nhs_export_data.update(util)
+        else:
+            nhs_export_data = None
+
     safe_lbl = re.sub(r"[^\w\s-]", "", lbl).replace(" ", "_")
 
     if fmt == "pdf":
@@ -3281,7 +3311,8 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
     elif fmt == "xlsx":
         content = make_xlsx(lbl, data["movements"], data["commentary"], data["kpis"],
                             analysis_type=analysis_type,
-                            insights=insights_data if analysis_type != "budget_vs_actual" else None)
+                            insights=insights_data if analysis_type != "budget_vs_actual" else None,
+                            nhs_data=nhs_export_data)
         return Response(
             content,
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
