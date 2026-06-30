@@ -2,11 +2,13 @@
 FP&A Copilot — pure analysis module.
 All data-processing logic extracted from app.py; no Streamlit dependency.
 """
+import json
 import os
 import re
 import sys
 import zipfile
 from io import BytesIO
+from pathlib import Path
 
 import pandas as pd
 
@@ -263,9 +265,36 @@ def _kw_matches(kw: str, acc: str) -> bool:
     return bool(re.search(r'\b' + re.escape(kw) + r'\b', acc))
 
 
-def classify(account, section=None):
+_CLASSIFICATIONS_DIR = Path(__file__).parent / "classifications"
+
+
+def load_sector_synonyms(sector: str) -> dict[str, str]:
+    """Load account→category synonym overrides for a given sector.
+
+    Returns an empty dict for unknown/unconfigured sectors so callers
+    don't need to guard against None.
+    """
+    path = _CLASSIFICATIONS_DIR / f"{sector}.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return {k.lower().strip(): v for k, v in data.get("synonyms", {}).items()}
+    except Exception:
+        return {}
+
+
+def classify(account, section=None, extra_overrides: dict | None = None):
     acc = normalise(account)
     sec = normalise(section) if section else ""
+
+    # Sector-specific synonyms checked before built-in rules
+    if extra_overrides:
+        if acc in extra_overrides:
+            return extra_overrides[acc]
+        for k, v in extra_overrides.items():
+            if k in acc:
+                return v
 
     if acc in ACCOUNT_CATEGORY_OVERRIDES:
         return ACCOUNT_CATEGORY_OVERRIDES[acc]
@@ -355,7 +384,7 @@ def build_long(df: pd.DataFrame, mode: str = "monthly") -> pd.DataFrame:
     return df_long
 
 
-def build_analysis(df_long: pd.DataFrame) -> pd.DataFrame:
+def build_analysis(df_long: pd.DataFrame, extra_overrides: dict | None = None) -> pd.DataFrame:
     grp = df_long.copy()
     grp = grp.sort_values(["Account","Period Sort"])
     grp["Prior Value"] = grp.groupby("Account")["Value"].shift(1)
@@ -365,7 +394,9 @@ def build_analysis(df_long: pd.DataFrame) -> pd.DataFrame:
         if pd.notna(r["Prior Value"]) and r["Prior Value"] != 0 else None, axis=1
     )
     grp["Abs Variance"] = grp["Variance"].abs()
-    grp["Category"] = grp.apply(lambda r: classify(r["Account"], r["Section"]), axis=1)
+    grp["Category"] = grp.apply(
+        lambda r: classify(r["Account"], r["Section"], extra_overrides), axis=1
+    )
     grp["Is Subtotal"] = grp["Account"].apply(is_subtotal)
     return grp
 

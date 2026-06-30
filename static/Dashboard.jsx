@@ -956,6 +956,34 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         })}
       </div>
 
+      {/* NHS GP per-patient KPI row */}
+      {data.sector === "nhs_gp" && (data.nhs_kpi_cards || []).length > 0 && (
+        <div style={{ marginTop: 4 }}>
+          <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+            <Icon name="heart-pulse" size={12} color="var(--fg-3)" />
+            NHS GP metrics
+          </div>
+          <div className="grid-kpi">
+            {(data.nhs_kpi_cards || []).map(k => (
+              <div key={k.label} className="card kpi">
+                <div className="kpi-top">
+                  <div className="lbl">{k.label}</div>
+                  <span className="kpi-ic"><Icon name={k.icon} size={16} /></span>
+                </div>
+                <div className="val">
+                  {k.icon === "users" ? k.value?.toLocaleString() : fmtGBP(k.value)}
+                </div>
+                {k.hint && (
+                  <div style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)", marginTop: 3 }}>
+                    {k.hint}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Smart highlights */}
       <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
 

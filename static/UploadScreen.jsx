@@ -77,6 +77,8 @@ function UploadScreen({ onLoad, onLoadDemo }) {
   const [loading,      setLoading]      = useStateUpload(false);
   const [demoLoading,  setDemoLoading]  = useStateUpload(null);
   const [error,        setError]        = useStateUpload(null);
+  const [sector,       setSector]       = useStateUpload("general");
+  const [listSize,     setListSize]     = useStateUpload("");
   const [mode,         setMode]         = useStateUpload(() => {
     try { return localStorage.getItem("meiq_upload_mode") || ""; } catch { return ""; }
   });
@@ -162,6 +164,8 @@ function UploadScreen({ onLoad, onLoadDemo }) {
     try {
       const fd = new FormData();
       fd.append("file", file);
+      fd.append("sector", sector);
+      fd.append("list_size", sector === "nhs_gp" && listSize ? String(parseInt(listSize, 10) || 0) : "0");
       const res = await fetch(apiUrl(`/api/upload?mode=${effectiveMode}`), { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Upload failed." }));
@@ -253,6 +257,40 @@ function UploadScreen({ onLoad, onLoadDemo }) {
                   {mode === "month_on_month"
                     ? "Upload a monthly P&L export. MonthEndIQ will compare each period against the prior period."
                     : "Upload a file with Actual and Budget columns. MonthEndIQ will calculate variances against budget."}
+                </div>
+              )}
+            </div>
+
+            {/* Sector selector */}
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 8 }}>
+                Sector <span style={{ textTransform: "none", letterSpacing: 0, fontWeight: 400 }}>(optional)</span>
+              </div>
+              <select
+                value={sector}
+                onChange={e => setSector(e.target.value)}
+                style={{ width: "100%", padding: "8px 10px", font: "var(--text-body)", fontSize: 13, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)" }}
+              >
+                <option value="general">General</option>
+                <option value="nhs_gp">NHS GP Practice</option>
+                <option value="nhs_federation">GP Federation</option>
+              </select>
+              {sector === "nhs_gp" && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 6 }}>
+                    Weighted list size
+                  </div>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="e.g. 8500"
+                    value={listSize}
+                    onChange={e => setListSize(e.target.value)}
+                    style={{ width: "100%", padding: "8px 10px", font: "var(--text-body)", fontSize: 13, color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", boxSizing: "border-box" }}
+                  />
+                  <div style={{ font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginTop: 5 }}>
+                    Used to calculate per-patient KPIs. Leave blank to skip.
+                  </div>
                 </div>
               )}
             </div>

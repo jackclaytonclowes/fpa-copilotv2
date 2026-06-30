@@ -29,9 +29,10 @@ from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
     get_insights_data, get_period_data, get_ytd_data, load_bva_from_sheets,
-    load_file, make_pdf, make_xlsx, make_zip,
+    load_file, load_sector_synonyms, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
+from kpis.nhs_gp import compute_nhs_kpis, nhs_kpi_cards
 
 app = FastAPI(title="MonthEndIQ")
 
@@ -1778,7 +1779,12 @@ _MAX_UPLOAD_BYTES = 20 * 1024 * 1024  # 20 MB
 
 
 @app.post("/api/upload")
-async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
+async def upload(
+    file:      UploadFile = File(...),
+    mode:      str        = "month_on_month",
+    sector:    str        = Form("general"),
+    list_size: int        = Form(0),
+):
     if not file.filename:
         raise HTTPException(400, "No filename provided.")
     ext = file.filename.split(".")[-1].lower()
@@ -1865,6 +1871,8 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
             "kpi_accounts" : kpi_accounts,
             "filename"     : file.filename,
             "analysis_type": "budget_vs_actual",
+            "sector"       : sector,
+            "list_size"    : list_size,
             "chat"         : [],
         }
         data = get_bva_data(bva_snapshot, kpi_accounts, file.filename, bva_long=bva_long_store)
@@ -1872,6 +1880,8 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
         data["file_name"]             = file.filename
         data["available_bva_periods"] = [str(ts)[:10] for ts in bva_periods]
         data["selected_bva_period"]   = "full_year"
+        data["sector"]                = sector
+        data["list_size"]             = list_size
         # Persist so share links survive server restarts
         try:
             with _db() as conn:
@@ -1903,21 +1913,24 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
     except ValueError as e:
         raise HTTPException(400, str(e))
 
-    kpi_accounts = detect_kpis(df_long_m)
-    analysis_m   = build_analysis(df_long_m)
-    analysis_q   = build_analysis(df_long_q)
+    kpi_accounts    = detect_kpis(df_long_m)
+    sector_synonyms = load_sector_synonyms(sector) if sector != "general" else None
+    analysis_m      = build_analysis(df_long_m, sector_synonyms)
+    analysis_q      = build_analysis(df_long_q, sector_synonyms)
 
     session_id = str(uuid.uuid4())
     SESSIONS[session_id] = {
-        "df"           : df,
-        "df_long_m"    : df_long_m,
-        "df_long_q"    : df_long_q,
-        "analysis_m"   : analysis_m,
-        "analysis_q"   : analysis_q,
-        "kpi_accounts" : kpi_accounts,
-        "filename"     : file.filename,
-        "analysis_type": "month_on_month",
-        "chat"         : [],
+        "df"            : df,
+        "df_long_m"     : df_long_m,
+        "df_long_q"     : df_long_q,
+        "analysis_m"    : analysis_m,
+        "analysis_q"    : analysis_q,
+        "kpi_accounts"  : kpi_accounts,
+        "filename"      : file.filename,
+        "analysis_type" : "month_on_month",
+        "sector"        : sector,
+        "list_size"     : list_size,
+        "chat"          : [],
     }
 
     periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
@@ -1940,9 +1953,16 @@ async def upload(file: UploadFile = File(...), mode: str = "month_on_month"):
         print(f"[Upload] persist MoM session: {exc}", file=sys.stderr)
 
     data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    _overlay_edited_commentary(SESSIONS[session_id], data, latest)
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = file.filename
+    data["sector"]        = sector
+    data["list_size"]     = list_size
+    if sector == "nhs_gp" and list_size:
+        nhs = compute_nhs_kpis(data, list_size)
+        data["nhs_kpis"]       = nhs
+        data["nhs_kpi_cards"]  = nhs_kpi_cards(nhs)
     return data
 
 
@@ -2083,6 +2103,12 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
     data["periods"]         = [str(p) for p in periods]
     data["period_labels"]   = [period_label(p, mode) for p in periods]
     data["selected_period"] = str(selected)
+    data["sector"]          = s.get("sector", "general")
+    data["list_size"]       = s.get("list_size", 0)
+    if s.get("sector") == "nhs_gp" and s.get("list_size"):
+        nhs = compute_nhs_kpis(data, s["list_size"])
+        data["nhs_kpis"]      = nhs
+        data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
     return data
 
 
