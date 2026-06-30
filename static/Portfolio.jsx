@@ -1134,10 +1134,9 @@ function Portfolio({ onOpenClient, onToast }) {
                       <div className="portfolio-row-figures" style={{ display: "flex", gap: 22, flexShrink: 0 }}>
                         {[
                           { k: "Revenue",   v: fmtGBP(c.revenue),   color: "var(--ink)" },
+                          { k: "Costs",     v: (c.revenue != null && c.op_profit != null) ? fmtGBP(c.revenue - c.op_profit) : "—", color: "var(--fg-2)" },
                           { k: "Op profit", v: fmtGBP(c.op_profit), color: c.op_profit != null && c.op_profit < 0 ? "var(--adverse-text)" : "var(--ink)" },
                           { k: "Margin",    v: c.margin != null ? `${c.margin.toFixed(1)}%` : "—", color: "var(--fg-2)" },
-                          { k: "Runway",    v: c.runway_months != null ? `${Math.floor(c.runway_months)} mo` : (c.burning ? "—" : "n/a"),
-                            color: c.runway_months != null && c.runway_months < 6 ? "var(--adverse-text)" : "var(--fg-2)" },
                         ].map((f) => (
                           <div key={f.k} style={{ textAlign: "right", minWidth: 64 }}>
                             <div style={{ font: "var(--text-label)", fontSize: 9.5, textTransform: "uppercase",

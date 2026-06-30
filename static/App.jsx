@@ -66,7 +66,7 @@ const _NEIGHBOURHOOD_SHARE_TOKEN = (() => {
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
                   bvaPeriods, bvaPeriod, onBvaPeriodChange, sessionId, onShareToast,
-                  isConsolidated, entityCount }) {
+                  isConsolidated, entityCount, fromPortfolio, onBackToPortfolio }) {
   const { Icon, Button } = window;
 
   const [shareCopied, setShareCopied] = useStateApp(false);
@@ -137,6 +137,20 @@ function TopBar({ view, period, periodMode, onMode, onExport, hasData,
       </div>
 
       <div className="tb-spacer" />
+
+      {/* Back to clients — shown when a client was opened from Portfolio */}
+      {fromPortfolio && view === "dashboard" && (
+        <button onClick={onBackToPortfolio} style={{
+          display: "inline-flex", alignItems: "center", gap: 5,
+          padding: "5px 12px", borderRadius: "var(--radius-sm)",
+          border: "1px solid var(--border-strong)",
+          background: "var(--surface)", color: "var(--fg-2)",
+          font: "var(--text-body)", fontSize: 12.5, cursor: "pointer",
+          flexShrink: 0,
+        }}>
+          <Icon name="arrow-left" size={13} /> Back to clients
+        </button>
+      )}
 
       {/* ⌘K trigger — hidden on mobile (bottom nav handles navigation there) */}
       {hasData && (
@@ -431,6 +445,7 @@ function App() {
   // Upload / session
   const [sessionData, setSessionData]     = useStateApp(null);
   const [view, setView]                   = useStateApp("dashboard");
+  const [fromPortfolio, setFromPortfolio] = useStateApp(false);
   const [periodMode, setPeriodMode]       = useStateApp("monthly");
   const [showExport, setShowExport]       = useStateApp(false);
   const [toast, setToast]                 = useStateApp(null);
@@ -524,8 +539,14 @@ function App() {
         data.session_id = clientSessionId;
         if (!data.file_name) data.file_name = clientName;
         onLoad(data);
+        setFromPortfolio(true);
       })
       .catch(() => fireToast("Session not found — re-upload the client P&L to continue"));
+  };
+
+  const handleNav = (v) => {
+    setFromPortfolio(false);
+    setView(v);
   };
 
   const onAddEntity = (data) => {
@@ -599,7 +620,7 @@ function App() {
   const [copilotQuestion, setCopilotQuestion] = useStateApp(null);
   const navigateToCopilot = (question) => {
     setCopilotQuestion(question);
-    setView("copilot");
+    handleNav("copilot");
   };
 
   const { ViewErrorBoundary } = window;
@@ -732,7 +753,7 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar active={view} onNav={setView} hasData={hasData} />
+      <Sidebar active={view} onNav={handleNav} hasData={hasData} />
       <div className="main">
         <TopBar
           view={view}
@@ -752,6 +773,8 @@ function App() {
           onShareToast={fireToast}
           isConsolidated={isConsolidated}
           entityCount={entities.length}
+          fromPortfolio={fromPortfolio}
+          onBackToPortfolio={() => { setFromPortfolio(false); setView("portfolio"); }}
         />
         {body}
       </div>
@@ -765,7 +788,7 @@ function App() {
           firmName={(() => { try { return localStorage.getItem("meiq_firm_name") || ""; } catch { return ""; } })()}
         />
       )}
-      <MobileNav active={view} onNav={setView} hasData={hasData} />
+      <MobileNav active={view} onNav={handleNav} hasData={hasData} />
       <Toast message={toast} onDismiss={() => { clearTimeout(window.__toastTimer); setToast(null); }} />
       {showChecklist && hasData && (
         <OnboardingChecklist
