@@ -1337,10 +1337,10 @@ def portfolio_demo():
             _ramp(95000, -1500), _ramp(38000, -300), _ramp(30000, 100), _ramp(9000, 0), 140000),
     ]
 
-    # ── NHS GP PCN demo clients (North London Neighbourhood) ─────────────────
-    # North Islington PCN — large, healthy ARRS utilisation, good surplus/patient
+    # ── NHS GP PCN demo clients (Merseyside Neighbourhood) ──────────────────
+    # Anfield PCN — large, healthy ARRS utilisation, good surplus/patient
     pcn1 = _build_nhs_pcn_client(
-        name="North Islington PCN",
+        name="Anfield PCN",
         list_size=10200, wte_partners=5.5,
         arrs_allocation=138500.0, qof_entitlement=208000.0,
         gms      = _ramp(88000, 300),
@@ -1357,9 +1357,9 @@ def portfolio_demo():
         cash     = 285000,
     )
 
-    # Camden Central PCN — medium, elevated locum dependency (watch-tier)
+    # Kensington PCN — medium, elevated locum dependency (watch-tier)
     pcn2 = _build_nhs_pcn_client(
-        name="Camden Central PCN",
+        name="Kensington PCN",
         list_size=7800, wte_partners=4.2,
         arrs_allocation=106000.0, qof_entitlement=159000.0,
         gms      = _ramp(72000, 150),
@@ -1376,9 +1376,9 @@ def portfolio_demo():
         cash     = 195000,
     )
 
-    # Whittington PCN — smaller, low ARRS utilisation (leaving money on table)
+    # Kirkby PCN — smaller, low ARRS utilisation (leaving money on table)
     pcn3 = _build_nhs_pcn_client(
-        name="Whittington PCN",
+        name="Kirkby PCN",
         list_size=6100, wte_partners=3.2,
         arrs_allocation=82800.0, qof_entitlement=124500.0,
         gms      = _ramp(56000, 100),
@@ -1402,12 +1402,12 @@ def portfolio_demo():
     # Build a demo neighbourhood rollup (no DB, computed in-memory)
     pcn_ids = [p["session_id"] for p in pcn_clients]
     pcn_summaries = [_nhs_client_summary(sid, name) for sid, name in
-                     zip(pcn_ids, ["North Islington PCN", "Camden Central PCN", "Whittington PCN"])]
+                     zip(pcn_ids, ["Anfield PCN", "Kensington PCN", "Kirkby PCN"])]
     pcn_summaries = [p for p in pcn_summaries if p]
 
     demo_neighbourhood = {
         "id":          "demo-neighbourhood-1",
-        "name":        "North London Neighbourhood",
+        "name":        "Merseyside Neighbourhood",
         "client_ids":  pcn_ids,
         "has_share":   False,
         "share_token": None,
