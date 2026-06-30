@@ -677,6 +677,7 @@ function App() {
               selectedPeriod={selectedPeriod}
               periodMode={periodMode}
               analysisType={analysisType}
+              sessionData={effectiveData}
             />
           : <div style={{ padding: "40px 24px", color: "var(--fg-2)" }}>Insights failed to load.</div>
         }

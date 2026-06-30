@@ -1,6 +1,6 @@
 /* FP&A Copilot — Insights view: margins, pareto, momentum, SPPY, run-rate, common-size P&L */
 
-function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
+function Insights({ sessionId, selectedPeriod, periodMode, analysisType, sessionData }) {
   const { Icon, Card, RagBadge } = window;
   const fmt   = (v) => window.fmtCurrency(v);
   const fmtC  = (v) => window.fmtCurrency(v, { compact: true });
@@ -672,12 +672,217 @@ function Insights({ sessionId, selectedPeriod, periodMode, analysisType }) {
     </div>
   );
 
+  /* ── NHS GP Insights panel ──────────────────────────────────────── */
+  const NhsPanel = () => {
+    const nhsKpis = sessionData?.nhs_kpis || {};
+    const util    = sessionData?.nhs_utilisation || {};
+    const wf      = sessionData?.workforce_breakdown || {};
+
+    const arrs = nhsKpis.arrs || util.arrs;
+    const qof  = nhsKpis.qof  || util.qof;
+
+    const hasAny = nhsKpis.income_per_patient != null || arrs || qof ||
+      Object.values(wf).some(r => r?.total > 0);
+    if (!hasAny) return null;
+
+    const UtilBar = ({ pct, color, bg }) => (
+      <div style={{ height: 8, borderRadius: 4, background: bg || "var(--surface-2)", overflow: "hidden" }}>
+        <div style={{
+          height: "100%", borderRadius: 4,
+          width: `${Math.min(100, Math.max(0, pct || 0)).toFixed(1)}%`,
+          background: color,
+          transition: "width .4s ease",
+        }} />
+      </div>
+    );
+
+    const wfRoles = ["clinical", "locum", "management", "admin", "other"];
+    const wfColors = {
+      clinical:   "var(--primary)",
+      locum:      "var(--adverse)",
+      management: "rgba(99,102,241,.7)",
+      admin:      "rgba(245,158,11,.7)",
+      other:      "var(--fg-3)",
+    };
+    const wfTotal = wfRoles.reduce((s, r) => s + (wf[r]?.total || 0), 0);
+
+    return (
+      <div style={{
+        marginBottom: 28, borderRadius: "var(--radius-md)",
+        border: "1px solid rgba(20,184,166,.25)",
+        background: "rgba(20,184,166,.04)",
+        overflow: "hidden",
+      }}>
+        {/* header */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 10,
+          padding: "13px 18px", borderBottom: "1px solid rgba(20,184,166,.18)",
+          background: "rgba(20,184,166,.07)",
+        }}>
+          <Icon name="activity" size={15} color="#0f766e" />
+          <span style={{ font: "var(--text-body-strong)", fontSize: 14, color: "#0f766e" }}>NHS GP Practice Metrics</span>
+          {sessionData?.list_size > 0 && (
+            <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)", marginLeft: 4 }}>
+              {sessionData.list_size.toLocaleString()} patients · {sessionData.wte_partners || "—"} WTE partners
+            </span>
+          )}
+        </div>
+
+        <div style={{ padding: "18px", display: "flex", flexDirection: "column", gap: 20 }}>
+
+          {/* Per-patient / per-partner KPIs */}
+          {nhsKpis.income_per_patient != null && (
+            <div>
+              <div style={{ font: "var(--text-label)", fontSize: 12, color: "var(--fg-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>
+                Per-patient &amp; per-partner
+              </div>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                {[
+                  { label: "Income / patient", value: fmt(nhsKpis.income_per_patient), sub: "Benchmark £130–160/yr", color: "var(--ink)" },
+                  nhsKpis.cost_per_patient != null && { label: "Cost / patient",   value: fmt(nhsKpis.cost_per_patient),  sub: null, color: "var(--ink)" },
+                  nhsKpis.profit_per_patient != null && { label: "Surplus / patient", value: fmt(nhsKpis.profit_per_patient), sub: "Target £5–15", color: nhsKpis.profit_per_patient >= 5 ? "var(--favourable)" : "var(--adverse)" },
+                  nhsKpis.income_per_partner != null && { label: "Income / partner",  value: fmt(nhsKpis.income_per_partner), sub: null, color: "var(--ink)" },
+                  nhsKpis.profit_per_partner != null && { label: "Surplus / partner", value: fmt(nhsKpis.profit_per_partner), sub: null, color: nhsKpis.profit_per_partner >= 0 ? "var(--favourable)" : "var(--adverse)" },
+                ].filter(Boolean).map((card, i) => (
+                  <div key={i} style={{
+                    flex: 1, minWidth: 130, padding: "14px 16px",
+                    borderRadius: "var(--radius-md)", border: "1px solid var(--border)",
+                    background: "var(--surface)",
+                  }}>
+                    <div style={{ font: "var(--text-mono)", fontSize: 22, fontWeight: 700, color: card.color, lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ font: "var(--text-label)", fontSize: 11.5, color: "var(--fg-2)", marginTop: 4 }}>{card.label}</div>
+                    {card.sub && <div style={{ font: "var(--text-caption)", fontSize: 10.5, color: "var(--fg-3)", marginTop: 2 }}>{card.sub}</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ARRS utilisation */}
+          {arrs && (
+            <div>
+              <div style={{ font: "var(--text-label)", fontSize: 12, color: "var(--fg-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>
+                ARRS utilisation
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                <div style={{ flex: 1, minWidth: 180 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <span style={{ font: "var(--text-body)", fontSize: 13, color: "var(--ink)" }}>
+                      {fmt(arrs.spend)} <span style={{ color: "var(--fg-3)" }}>of {fmt(arrs.allocation)}</span>
+                    </span>
+                    <span style={{
+                      font: "var(--text-label)", fontSize: 12, fontWeight: 700,
+                      color: arrs.utilisation_pct >= 80 ? "var(--favourable)" : arrs.utilisation_pct >= 50 ? "var(--caution)" : "var(--adverse)",
+                    }}>
+                      {arrs.utilisation_pct.toFixed(1)}%
+                    </span>
+                  </div>
+                  <UtilBar
+                    pct={arrs.utilisation_pct}
+                    color={arrs.utilisation_pct >= 80 ? "var(--favourable)" : arrs.utilisation_pct >= 50 ? "var(--caution)" : "var(--adverse)"}
+                    bg="var(--surface-2)"
+                  />
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
+                    <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                      {fmt(arrs.remaining)} remaining
+                    </span>
+                    <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                      ≥80% = good utilisation
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* QOF achievement */}
+          {qof && (
+            <div>
+              <div style={{ font: "var(--text-label)", fontSize: 12, color: "var(--fg-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>
+                QOF achievement
+              </div>
+              <div style={{ flex: 1, minWidth: 180 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <span style={{ font: "var(--text-body)", fontSize: 13, color: "var(--ink)" }}>
+                    {fmt(qof.income)} <span style={{ color: "var(--fg-3)" }}>of {fmt(qof.entitlement)}</span>
+                  </span>
+                  <span style={{
+                    font: "var(--text-label)", fontSize: 12, fontWeight: 700,
+                    color: qof.achievement_pct >= 95 ? "var(--favourable)" : qof.achievement_pct >= 80 ? "var(--caution)" : "var(--adverse)",
+                  }}>
+                    {qof.achievement_pct.toFixed(1)}%
+                  </span>
+                </div>
+                <UtilBar
+                  pct={qof.achievement_pct}
+                  color={qof.achievement_pct >= 95 ? "var(--favourable)" : qof.achievement_pct >= 80 ? "var(--caution)" : "var(--adverse)"}
+                  bg="var(--surface-2)"
+                />
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5 }}>
+                  <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                    {fmt(qof.gap)} gap to entitlement
+                  </span>
+                  <span style={{ font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                    ≥95% = excellent
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Workforce breakdown */}
+          {wfTotal > 0 && (
+            <div>
+              <div style={{ font: "var(--text-label)", fontSize: 12, color: "var(--fg-3)", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>
+                Workforce cost breakdown
+              </div>
+              {/* stacked bar */}
+              <div style={{ display: "flex", height: 10, borderRadius: 5, overflow: "hidden", marginBottom: 12 }}>
+                {wfRoles.map(r => {
+                  const w = wf[r]?.total || 0;
+                  if (!w) return null;
+                  return (
+                    <div key={r} style={{
+                      width: `${(w / wfTotal * 100).toFixed(1)}%`,
+                      background: wfColors[r],
+                    }} title={`${r}: ${fmt(w)}`} />
+                  );
+                })}
+              </div>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                {wfRoles.map(r => {
+                  const total = wf[r]?.total || 0;
+                  if (!total) return null;
+                  return (
+                    <div key={r} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ width: 10, height: 10, borderRadius: 2, background: wfColors[r], display: "inline-block", flexShrink: 0 }} />
+                      <span style={{ font: "var(--text-caption)", fontSize: 12, color: "var(--fg-2)" }}>
+                        {r.charAt(0).toUpperCase() + r.slice(1)}: {fmt(total)} ({(total / wfTotal * 100).toFixed(0)}%)
+                        {r === "locum" && total / wfTotal > 0.15 && (
+                          <span style={{ marginLeft: 5, color: "var(--caution)", fontSize: 11 }}>↑ high</span>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    );
+  };
+
   /* ── Render ──────────────────────────────────────────────────────── */
   return (
     <div style={{ padding: "24px", maxWidth: 960, margin: "0 auto" }}>
 
       {/* ── AI Strategy Review ─────────────────────────────────── */}
       <StrategyPanel />
+
+      {/* ── NHS GP Metrics (shown only for nhs_gp sector) ──────── */}
+      {sessionData?.sector === "nhs_gp" && <NhsPanel />}
 
       {/* ── Margin summary ─────────────────────────────────────── */}
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
