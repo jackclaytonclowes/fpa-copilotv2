@@ -1337,6 +1337,81 @@ def portfolio_demo():
             _ramp(95000, -1500), _ramp(38000, -300), _ramp(30000, 100), _ramp(9000, 0), 140000),
     ]
 
+    # ── NHS GP standalone practice demo clients (for side-by-side comparison) ──
+    # Shankly Surgery — healthy performer: low locum, growing GMS, solid surplus
+    gp1 = _build_nhs_pcn_client(
+        name="Shankly Surgery",
+        list_size=7200, wte_partners=4.2,
+        arrs_allocation=0.0, qof_entitlement=0.0,
+        gms      = _ramp(85000, 300),
+        qof      = [14500]*8 + [14500]*3 + [21000],
+        es       = [8200,0,0,8200,0,0,8200,0,0,8200,0,0],
+        arrs_ph  = _flat(0),
+        arrs_sp  = _flat(0),
+        clinical = _ramp(28000, 150),
+        locum    = [1200,1400,1000,1200,1000,1400,1200,1800,1500,1200,1000,1400],
+        admin_w  = _ramp(10500, 80),
+        prac_mgr = _flat(5000),
+        drawings = _flat(16500),
+        rent     = _flat(5800),
+        cash     = 265000,
+    )
+    # Dalglish Health Centre — stable, moderate locum, consistent margins
+    gp2 = _build_nhs_pcn_client(
+        name="Dalglish Health Centre",
+        list_size=5800, wte_partners=3.5,
+        arrs_allocation=0.0, qof_entitlement=0.0,
+        gms      = _ramp(70000, 150),
+        qof      = [11200]*8 + [11200]*3 + [16500],
+        es       = [6500,0,0,6500,0,0,6500,0,0,6500,0,0],
+        arrs_ph  = _flat(0),
+        arrs_sp  = _flat(0),
+        clinical = _ramp(23000, 80),
+        locum    = [3200,3800,3500,3200,2900,3500,3200,5200,4200,3200,2900,3500],
+        admin_w  = _ramp(9000, 50),
+        prac_mgr = _flat(4500),
+        drawings = _flat(13500),
+        rent     = _flat(5200),
+        cash     = 195000,
+    )
+    # Rush Medical Practice — escalating locum erodes margin, watch-tier
+    gp3 = _build_nhs_pcn_client(
+        name="Rush Medical Practice",
+        list_size=4900, wte_partners=2.8,
+        arrs_allocation=0.0, qof_entitlement=0.0,
+        gms      = _ramp(58000, 50),
+        qof      = [9200]*8 + [9200]*3 + [13800],
+        es       = [5400,0,0,5400,0,0,5400,0,0,5400,0,0],
+        arrs_ph  = _flat(0),
+        arrs_sp  = _flat(0),
+        clinical = _ramp(19000, 80),
+        locum    = [2000,2500,3000,3500,4000,4500,5000,5500,4500,4000,4000,4500],
+        admin_w  = _ramp(8200, 40),
+        prac_mgr = _flat(3800),
+        drawings = _flat(12500),
+        rent     = _flat(4600),
+        cash     = 145000,
+    )
+    # Paisley Road Practice — high volatile locum, declining GMS, action-tier
+    gp4 = _build_nhs_pcn_client(
+        name="Paisley Road Practice",
+        list_size=3600, wte_partners=2.1,
+        arrs_allocation=0.0, qof_entitlement=0.0,
+        gms      = _ramp(44000, -100),
+        qof      = [7200]*8 + [7200]*3 + [10800],
+        es       = [4200,0,0,4200,0,0,4200,0,0,4200,0,0],
+        arrs_ph  = _flat(0),
+        arrs_sp  = _flat(0),
+        clinical = _ramp(14000, 50),
+        locum    = [4000,5500,4200,4000,4800,6200,4000,7000,5500,4000,4800,5200],
+        admin_w  = _ramp(7000, 30),
+        prac_mgr = _flat(3200),
+        drawings = _flat(10000),
+        rent     = _flat(4200),
+        cash     = 85000,
+    )
+    clients.extend([gp1, gp2, gp3, gp4])
+
     # ── NHS GP PCN demo clients (Merseyside Neighbourhood) ──────────────────
     # Anfield PCN — large, healthy ARRS utilisation, good surplus/patient
     pcn1 = _build_nhs_pcn_client(
@@ -1467,6 +1542,63 @@ def portfolio_list_clients(firm_token: str):
         "burning":       sum(1 for c in clients if c["burning"]),
     }
     return {"clients": clients, "summary": totals}
+
+
+@app.get("/api/portfolio/compare")
+def portfolio_compare(session_ids: str):
+    """Return 12-month trend data for multiple sessions for side-by-side comparison."""
+    ids = [s.strip() for s in session_ids.split(",") if s.strip()]
+    if not ids or len(ids) > 10:
+        raise HTTPException(400, "Provide 1–10 session_ids.")
+
+    months    = _PORTFOLIO_MONTHS
+    practices = []
+
+    for sid in ids:
+        sess = SESSIONS.get(sid)
+        if not sess:
+            continue
+        df: pd.DataFrame = sess.get("df")
+        name = (sess.get("filename") or sid).replace(" — Demo", "")
+        if df is None:
+            continue
+
+        month_cols = [m for m in months if m in df.columns]
+
+        def _series(pattern, _df=df, _cols=month_cols):
+            mask = _df["Account"].str.lower().str.contains(pattern, na=False, regex=True)
+            rows = _df[mask]
+            if rows.empty:
+                return [0.0] * len(_cols)
+            return [float(v) for v in rows.iloc[0][_cols].tolist()]
+
+        revenue = _series("total turnover")
+        surplus = _series("net surplus|operating profit")
+        costs   = [r - s for r, s in zip(revenue, surplus)]
+
+        latest_rev    = revenue[-1] if revenue else None
+        latest_profit = surplus[-1] if surplus else None
+        margin = (
+            round(latest_profit / latest_rev * 100, 1)
+            if latest_rev and latest_rev != 0 and latest_profit is not None
+            else None
+        )
+
+        practices.append({
+            "session_id": sid,
+            "name":       name,
+            "months":     month_cols,
+            "revenue":    revenue,
+            "costs":      costs,
+            "surplus":    surplus,
+            "kpis": {
+                "revenue":   latest_rev,
+                "op_profit": latest_profit,
+                "margin":    margin,
+            },
+        })
+
+    return {"practices": practices}
 
 
 @app.post("/api/portfolio/clients")

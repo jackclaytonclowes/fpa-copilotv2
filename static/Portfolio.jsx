@@ -25,6 +25,8 @@ const TIER = {
   healthy: { label: "Healthy",       color: "var(--favourable-text)", bg: "var(--favourable-soft)", border: "var(--favourable-border)", icon: "check-circle" },
 };
 
+const COMPARE_COLORS = ["#4f46e5", "#059669", "#d97706", "#dc2626"];
+
 // ── Add-client modal ───────────────────────────────────────────────────────
 function AddClientModal({ firmToken, onClose, onAdded }) {
   const { Icon } = window;
@@ -422,6 +424,151 @@ function CreateNeighbourhoodModal({ firmToken, nhsClients, onClose, onCreated })
 }
 
 
+// ── Side-by-side comparison modal ─────────────────────────────────────────
+function ClientCompareModal({ data, onClose }) {
+  const { Icon, TrendChart } = window;
+  React.useEffect(() => {
+    const h = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  if (!data || !data.practices || data.practices.length === 0) return null;
+  const practices = data.practices;
+  const shortMonths = (practices[0]?.months || []).map(m => m.split(" ")[0]);
+
+  const buildChartData = (key) =>
+    shortMonths.map((m, i) => {
+      const row = { m };
+      practices.forEach((p, pi) => { row[`p${pi}`] = p[key][i] || 0; });
+      return row;
+    });
+
+  const series = practices.map((p, i) => ({
+    key: `p${i}`, label: p.name.split(" ")[0], color: COMPARE_COLORS[i],
+  }));
+
+  const fmtFull = v => v == null ? "—" : `£${Math.round(v).toLocaleString()}`;
+  const fmtPct  = v => v == null ? "—" : `${v.toFixed(1)}%`;
+
+  return (
+    <div onClick={e => e.target === e.currentTarget && onClose()}
+      style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.46)",
+        display:"flex", alignItems:"center", justifyContent:"center",
+        zIndex:1200, padding:16 }}>
+      <div style={{ background:"var(--surface)", borderRadius:16,
+        width:"min(960px,100%)", maxHeight:"92vh", overflowY:"auto",
+        boxShadow:"0 24px 64px rgba(0,0,0,.22)" }}>
+
+        {/* Header */}
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
+          padding:"18px 24px", borderBottom:"1px solid var(--border)",
+          position:"sticky", top:0, background:"var(--surface)", zIndex:1 }}>
+          <div>
+            <h3 style={{ margin:0, font:"700 16px/1.2 var(--font-display)", color:"var(--ink)" }}>
+              Side-by-side comparison
+            </h3>
+            <p style={{ margin:"3px 0 0", font:"var(--text-caption)", fontSize:12, color:"var(--fg-3)" }}>
+              {practices.length} practices · 12-month trends
+            </p>
+          </div>
+          <button onClick={onClose}
+            style={{ background:"none", border:"none", cursor:"pointer", color:"var(--fg-2)", padding:4 }}>
+            <Icon name="x" size={18} />
+          </button>
+        </div>
+
+        {/* Legend pills */}
+        <div style={{ display:"flex", gap:8, flexWrap:"wrap", padding:"14px 24px",
+          borderBottom:"1px solid var(--border)" }}>
+          {practices.map((p, i) => (
+            <span key={i} style={{
+              display:"inline-flex", alignItems:"center", gap:8,
+              padding:"5px 14px", borderRadius:20,
+              background: COMPARE_COLORS[i] + "18",
+              border: `1px solid ${COMPARE_COLORS[i]}50`,
+              font:"500 13px var(--font-display)", color: COMPARE_COLORS[i],
+            }}>
+              <span style={{ width:8, height:8, borderRadius:"50%",
+                background: COMPARE_COLORS[i], display:"inline-block", flexShrink:0 }} />
+              {p.name}
+            </span>
+          ))}
+        </div>
+
+        {/* KPI table */}
+        <div style={{ padding:"18px 24px", borderBottom:"1px solid var(--border)", overflowX:"auto" }}>
+          <div style={{ font:"600 11px var(--font-display)", textTransform:"uppercase",
+            letterSpacing:".05em", color:"var(--fg-3)", marginBottom:10 }}>
+            Latest period
+          </div>
+          <table style={{ width:"100%", borderCollapse:"collapse", minWidth:400 }}>
+            <thead>
+              <tr>
+                <th style={{ width:110, padding:"8px 0", textAlign:"left",
+                  font:"var(--text-label)", fontSize:11, color:"var(--fg-3)",
+                  borderBottom:"1px solid var(--border)" }} />
+                {practices.map((p, i) => (
+                  <th key={i} style={{ padding:"8px 12px", textAlign:"right",
+                    font:"600 13px var(--font-display)", color: COMPARE_COLORS[i],
+                    borderBottom:`2px solid ${COMPARE_COLORS[i]}` }}>
+                    {p.name}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { label:"Revenue",   key:"revenue",   fmt: fmtFull },
+                { label:"Op profit", key:"op_profit", fmt: fmtFull },
+                { label:"Margin",    key:"margin",    fmt: fmtPct  },
+              ].map(row => (
+                <tr key={row.label}>
+                  <td style={{ padding:"10px 0", font:"var(--text-caption)", fontSize:12.5,
+                    color:"var(--fg-3)", borderBottom:"1px solid var(--border)" }}>
+                    {row.label}
+                  </td>
+                  {practices.map((p, i) => {
+                    const v = p.kpis[row.key];
+                    return (
+                      <td key={i} style={{ padding:"10px 12px", textAlign:"right",
+                        font:"var(--text-data)", fontSize:15, fontVariantNumeric:"tabular-nums",
+                        color: typeof v === "number" && v < 0 ? "var(--adverse-text)" : "var(--ink)",
+                        borderBottom:"1px solid var(--border)" }}>
+                        {row.fmt(v)}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Revenue chart */}
+        <div style={{ padding:"18px 24px", borderBottom:"1px solid var(--border)" }}>
+          <div style={{ font:"600 11px var(--font-display)", textTransform:"uppercase",
+            letterSpacing:".05em", color:"var(--fg-3)", marginBottom:10 }}>
+            Revenue — 12-month trend
+          </div>
+          <TrendChart data={buildChartData("revenue")} series={series} />
+        </div>
+
+        {/* Surplus chart */}
+        <div style={{ padding:"18px 24px" }}>
+          <div style={{ font:"600 11px var(--font-display)", textTransform:"uppercase",
+            letterSpacing:".05em", color:"var(--fg-3)", marginBottom:10 }}>
+            Operating surplus — 12-month trend
+          </div>
+          <TrendChart data={buildChartData("surplus")} series={series} />
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+
 // ── Main Portfolio component ───────────────────────────────────────────────
 function Portfolio({ onOpenClient, onToast }) {
   const { Icon, RagBadge } = window;
@@ -442,6 +589,10 @@ function Portfolio({ onOpenClient, onToast }) {
   const [, setRagRev]                 = React.useState(0);
   const [neighbourhoods, setNeighbourhoods] = React.useState([]);
   const [showNeighModal, setShowNeighModal] = React.useState(false);
+  const [compareIds, setCompareIds]         = React.useState(new Set());
+  const [compareData, setCompareData]       = React.useState(null);
+  const [showCompare, setShowCompare]       = React.useState(false);
+  const [compareLoading, setCompareLoading] = React.useState(false);
   const [neighShareStates, setNeighShareStates] = React.useState({}); // {id: "idle"|"loading"|"copied"}
 
   const load = React.useCallback((m) => {
@@ -550,6 +701,26 @@ function Portfolio({ onOpenClient, onToast }) {
       console.error("[Briefing]", ex);
       setBriefStatus("error");
     }
+  }
+
+  function toggleCompare(sid) {
+    setCompareIds(prev => {
+      const next = new Set(prev);
+      if (next.has(sid)) next.delete(sid);
+      else if (next.size < 4) next.add(sid);
+      return next;
+    });
+  }
+
+  async function openCompare() {
+    setCompareLoading(true);
+    try {
+      const ids = [...compareIds].join(",");
+      const r = await fetch(apiUrl(`/api/portfolio/compare?session_ids=${encodeURIComponent(ids)}`));
+      if (!r.ok) throw new Error(r.status);
+      setCompareData(await r.json());
+      setShowCompare(true);
+    } catch { /* silent */ } finally { setCompareLoading(false); }
   }
 
   function fmtGBP(v) { return window.fmtCurrency(v, { compact: true }); }
@@ -789,6 +960,38 @@ function Portfolio({ onOpenClient, onToast }) {
             {/* Triage list */}
             {hasClients && (
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {/* Floating compare bar */}
+                {compareIds.size >= 2 && (
+                  <div style={{
+                    position:"sticky", top:0, zIndex:10,
+                    display:"flex", alignItems:"center", gap:10,
+                    background:"var(--primary)", color:"#fff",
+                    borderRadius:"var(--radius-sm)", padding:"10px 16px",
+                    boxShadow:"0 4px 16px rgba(79,70,229,.35)",
+                  }}>
+                    <Icon name="bar-chart-2" size={15} />
+                    <span style={{ flex:1, font:"600 13px var(--font-display)" }}>
+                      {compareIds.size} practice{compareIds.size > 1 ? "s" : ""} selected for comparison
+                    </span>
+                    <button onClick={openCompare} disabled={compareLoading} style={{
+                      padding:"6px 16px", borderRadius:"var(--radius-sm)", border:"none",
+                      background:"#fff", color:"var(--primary)",
+                      font:"600 13px var(--font-display)",
+                      cursor: compareLoading ? "default" : "pointer",
+                      opacity: compareLoading ? .75 : 1,
+                    }}>
+                      {compareLoading ? "Loading…" : "Compare side by side →"}
+                    </button>
+                    <button onClick={() => setCompareIds(new Set())} style={{
+                      background:"rgba(255,255,255,.2)", border:"none",
+                      borderRadius:"var(--radius-sm)", padding:"6px 8px",
+                      cursor:"pointer", color:"#fff", display:"flex", alignItems:"center",
+                    }}>
+                      <Icon name="x" size={13} />
+                    </button>
+                  </div>
+                )}
+
                 {visibleClients.length === 0 && (
                   <div style={{ padding: "28px 16px", textAlign: "center",
                     font: "var(--text-body)", fontSize: 13, color: "var(--fg-3)" }}>
@@ -1026,6 +1229,25 @@ function Portfolio({ onOpenClient, onToast }) {
                             }}>No</button>
                           </React.Fragment>
                         )}
+                        {/* Compare toggle */}
+                        <button
+                          title={compareIds.has(c.session_id) ? "Remove from comparison" : compareIds.size >= 4 ? "Max 4 selected" : "Compare"}
+                          onClick={() => toggleCompare(c.session_id)}
+                          style={{
+                            background: compareIds.has(c.session_id) ? "var(--primary-soft)" : "var(--surface-2)",
+                            border: `1px solid ${compareIds.has(c.session_id) ? "var(--primary)" : "var(--border)"}`,
+                            borderRadius: "var(--radius-sm)", padding: "6px 9px",
+                            cursor: compareIds.size >= 4 && !compareIds.has(c.session_id) ? "not-allowed" : "pointer",
+                            color: compareIds.has(c.session_id) ? "var(--primary)" : "var(--fg-2)",
+                            display: "flex", alignItems: "center", gap: 5,
+                            opacity: compareIds.size >= 4 && !compareIds.has(c.session_id) ? .35 : 1,
+                            transition: "all .12s",
+                            font: "600 11.5px var(--font-display)",
+                          }}
+                        >
+                          <Icon name={compareIds.has(c.session_id) ? "check-square" : "layout-template"} size={13} />
+                          {compareIds.has(c.session_id) ? "Selected" : "Compare"}
+                        </button>
                         <button onClick={() => onOpenClient && onOpenClient(c.session_id, c.name)} style={{
                           display: "inline-flex", alignItems: "center", gap: 6,
                           padding: "8px 14px", borderRadius: "var(--radius-sm)", border: "none",
@@ -1424,6 +1646,12 @@ function Portfolio({ onOpenClient, onToast }) {
             setNeighbourhoods(prev => [n, ...prev]);
             setShowNeighModal(false);
           }}
+        />
+      )}
+      {showCompare && compareData && (
+        <ClientCompareModal
+          data={compareData}
+          onClose={() => { setShowCompare(false); setCompareData(null); }}
         />
       )}
     </div>
