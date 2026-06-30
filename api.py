@@ -101,6 +101,10 @@ def _init_db():
         # Migrations: add columns that didn't exist in earlier schema versions
         for migration in [
             "ALTER TABLE portfolio_clients ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE portfolio_clients ADD COLUMN wte_partners REAL",
+            "ALTER TABLE portfolio_clients ADD COLUMN arrs_allocation REAL",
+            "ALTER TABLE portfolio_clients ADD COLUMN qof_entitlement REAL",
+            "ALTER TABLE portfolio_clients ADD COLUMN partner_drawings REAL",
             "ALTER TABLE sessions ADD COLUMN sector TEXT NOT NULL DEFAULT 'general'",
             "ALTER TABLE sessions ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0",
             "ALTER TABLE sessions ADD COLUMN wte_partners REAL",
@@ -112,6 +116,24 @@ def _init_db():
                 conn.execute(migration)
             except Exception:
                 pass  # Column already exists — safe to ignore
+
+        # Neighbourhoods — groups of existing portfolio clients (PCNs) for
+        # borough-level rollup reporting. Client books are never merged; this
+        # table only stores which client IDs belong to which neighbourhood,
+        # plus an optional public share token for the external portal view.
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS neighbourhoods (
+                id          TEXT PRIMARY KEY,
+                firm_token  TEXT NOT NULL,
+                name        TEXT NOT NULL,
+                client_ids  TEXT NOT NULL,
+                share_token TEXT,
+                created_at  TEXT NOT NULL,
+                updated_at  TEXT NOT NULL
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_neigh_firm ON neighbourhoods(firm_token)")
+        conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_neigh_share ON neighbourhoods(share_token)")
         conn.commit()
 
 
@@ -224,6 +246,12 @@ def privacy_page():
 @app.get("/view/{session_id}")
 def view_shared(session_id: str):
     """Serve the SPA for a shareable session link — the frontend reads the ID from the URL."""
+    return FileResponse(STATIC / "index.html")
+
+
+@app.get("/portal/neighbourhood/{share_token}")
+def view_neighbourhood_portal(share_token: str):
+    """Serve the SPA for a public neighbourhood portal link — the frontend reads the token from the URL."""
     return FileResponse(STATIC / "index.html")
 
 
@@ -945,9 +973,15 @@ def _rehydrate_mom(session_id: str, file_bytes: bytes, file_name: str,
 
 
 def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
-                      name: str, cash_balance) -> bool:
+                      name: str, cash_balance, sector: str = "other",
+                      list_size: int = 0, wte_partners=None,
+                      arrs_allocation=None, qof_entitlement=None,
+                      partner_drawings=None) -> bool:
     """Rehydrate a portfolio client session (MoM only)."""
-    return _rehydrate_mom(client_id, file_bytes, file_name, cash_balance)
+    return _rehydrate_mom(client_id, file_bytes, file_name, cash_balance,
+                          sector=sector or "other", list_size=list_size,
+                          wte_partners=wte_partners, arrs_allocation=arrs_allocation,
+                          qof_entitlement=qof_entitlement, partner_drawings=partner_drawings)
 
 
 def _rehydrate_from_file(session_id: str, contents: bytes, filename: str,
@@ -1234,7 +1268,9 @@ def portfolio_list_clients(firm_token: str):
         raise HTTPException(400, "firm_token is required.")
     with _db() as conn:
         rows = conn.execute(
-            "SELECT id, name, sector, list_size, file_bytes, file_name, cash_balance, created_at, updated_at "
+            "SELECT id, name, sector, list_size, file_bytes, file_name, cash_balance, "
+            "wte_partners, arrs_allocation, qof_entitlement, partner_drawings, "
+            "created_at, updated_at "
             "FROM portfolio_clients WHERE firm_token = ? ORDER BY updated_at DESC",
             (firm_token,),
         ).fetchall()
@@ -1244,7 +1280,12 @@ def portfolio_list_clients(firm_token: str):
         cid = row["id"]
         if cid not in SESSIONS:
             _rehydrate_client(cid, bytes(row["file_bytes"]), row["file_name"],
-                              row["name"], row["cash_balance"])
+                              row["name"], row["cash_balance"], sector=row["sector"],
+                              list_size=row["list_size"] or 0,
+                              wte_partners=row["wte_partners"],
+                              arrs_allocation=row["arrs_allocation"],
+                              qof_entitlement=row["qof_entitlement"],
+                              partner_drawings=row["partner_drawings"])
         summary = _score_session(cid, row["name"], row["sector"],
                                  row["cash_balance"], row["created_at"], row["updated_at"],
                                  list_size=row["list_size"] or 0)
@@ -1265,12 +1306,16 @@ def portfolio_list_clients(firm_token: str):
 
 @app.post("/api/portfolio/clients")
 async def portfolio_add_client(
-    file:         UploadFile = File(...),
-    firm_token:   str        = Form(...),
-    name:         str        = Form(...),
-    sector:       str        = Form("Other"),
-    cash_balance: float      = Form(0.0),
-    list_size:    int        = Form(0),
+    file:             UploadFile = File(...),
+    firm_token:       str        = Form(...),
+    name:             str        = Form(...),
+    sector:           str        = Form("Other"),
+    cash_balance:     float      = Form(0.0),
+    list_size:        int        = Form(0),
+    wte_partners:     float | None = Form(None),
+    arrs_allocation:  float | None = Form(None),
+    qof_entitlement:  float | None = Form(None),
+    partner_drawings: float | None = Form(None),
 ):
     """Upload a real client P&L and add them to the firm's practice portfolio."""
     if not firm_token or not name:
@@ -1287,7 +1332,10 @@ async def portfolio_add_client(
     cash      = cash_balance if cash_balance else None
     ls        = max(0, int(list_size or 0))
 
-    ok = _rehydrate_client(client_id, contents, file.filename or "upload", name, cash)
+    ok = _rehydrate_client(client_id, contents, file.filename or "upload", name, cash,
+                           sector=sector, list_size=ls, wte_partners=wte_partners,
+                           arrs_allocation=arrs_allocation, qof_entitlement=qof_entitlement,
+                           partner_drawings=partner_drawings)
     if not ok:
         raise HTTPException(
             400,
@@ -1298,9 +1346,11 @@ async def portfolio_add_client(
     with _db() as conn:
         conn.execute(
             "INSERT INTO portfolio_clients "
-            "(id, firm_token, name, sector, file_bytes, file_name, cash_balance, list_size, created_at, updated_at) "
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (client_id, firm_token, name, sector, contents, file.filename, cash, ls, now, now),
+            "(id, firm_token, name, sector, file_bytes, file_name, cash_balance, list_size, "
+            "wte_partners, arrs_allocation, qof_entitlement, partner_drawings, created_at, updated_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (client_id, firm_token, name, sector, contents, file.filename, cash, ls,
+             wte_partners, arrs_allocation, qof_entitlement, partner_drawings, now, now),
         )
         conn.commit()
 
@@ -1312,18 +1362,24 @@ async def portfolio_add_client(
 
 @app.put("/api/portfolio/clients/{client_id}")
 async def portfolio_update_client(
-    client_id:    str,
-    firm_token:   str        = Form(...),
-    name:         str | None = Form(None),
-    sector:       str | None = Form(None),
-    cash_balance: float      = Form(0.0),
-    list_size:    int | None = Form(None),
-    file:         UploadFile | None = File(None),
+    client_id:        str,
+    firm_token:       str        = Form(...),
+    name:             str | None = Form(None),
+    sector:           str | None = Form(None),
+    cash_balance:     float      = Form(0.0),
+    list_size:        int | None = Form(None),
+    wte_partners:     float | None = Form(None),
+    arrs_allocation:  float | None = Form(None),
+    qof_entitlement:  float | None = Form(None),
+    partner_drawings: float | None = Form(None),
+    file:             UploadFile | None = File(None),
 ):
     """Re-upload or rename a client (re-runs analysis if a new file is provided)."""
     with _db() as conn:
         row = conn.execute(
-            "SELECT firm_token, file_bytes, file_name, list_size FROM portfolio_clients WHERE id = ?",
+            "SELECT firm_token, file_bytes, file_name, sector, list_size, "
+            "wte_partners, arrs_allocation, qof_entitlement, partner_drawings "
+            "FROM portfolio_clients WHERE id = ?",
             (client_id,),
         ).fetchone()
         if not row:
@@ -1336,6 +1392,11 @@ async def portfolio_update_client(
         contents = bytes(row["file_bytes"])
         fname    = row["file_name"]
         ls       = max(0, int(list_size)) if list_size is not None else (row["list_size"] or 0)
+        sec      = sector or row["sector"]
+        wte      = wte_partners     if wte_partners     is not None else row["wte_partners"]
+        arrs     = arrs_allocation  if arrs_allocation  is not None else row["arrs_allocation"]
+        qof      = qof_entitlement  if qof_entitlement  is not None else row["qof_entitlement"]
+        drawings = partner_drawings if partner_drawings is not None else row["partner_drawings"]
 
         if file:
             ext = (file.filename or "").split(".")[-1].lower()
@@ -1347,11 +1408,18 @@ async def portfolio_update_client(
             fname    = file.filename or fname
             SESSIONS.pop(client_id, None)
 
-        ok = _rehydrate_client(client_id, contents, fname, name or "Client", cash)
+        ok = _rehydrate_client(client_id, contents, fname, name or "Client", cash,
+                               sector=sec, list_size=ls, wte_partners=wte,
+                               arrs_allocation=arrs, qof_entitlement=qof,
+                               partner_drawings=drawings)
         if not ok:
             raise HTTPException(400, "Could not parse the uploaded file.")
 
-        updates = {"cash_balance": cash, "list_size": ls, "updated_at": now}
+        updates = {
+            "cash_balance": cash, "list_size": ls, "updated_at": now,
+            "wte_partners": wte, "arrs_allocation": arrs,
+            "qof_entitlement": qof, "partner_drawings": drawings,
+        }
         if name:
             updates["name"] = name
         if sector:
@@ -1421,7 +1489,8 @@ async def portfolio_briefing(firm_token: str, currency: str = "£"):
     for row in rows:
         if row["id"] not in SESSIONS:
             _rehydrate_client(row["id"], bytes(row["file_bytes"]), row["file_name"],
-                              row["name"], row["cash_balance"])
+                              row["name"], row["cash_balance"], sector=row["sector"],
+                              list_size=row["list_size"] or 0)
 
     ai_model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 
@@ -1479,6 +1548,297 @@ async def portfolio_briefing(firm_token: str, currency: str = "£"):
     results = await asyncio.gather(*[brief_one(r) for r in rows])
     briefs = {cid: text for cid, text in results if text}
     return {"briefs": briefs}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEIGHBOURHOODS — borough-level rollup across PCNs (firm mode, NHS GP)
+#
+# IMPORTANT: individual PCN Xero books are NEVER merged. A neighbourhood is
+# just a named grouping of existing portfolio_clients rows; the rollup sums
+# and averages each PCN's already-computed KPI figures side by side. Unlike
+# /api/consolidate, no account-level data is combined across entities.
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _nhs_client_summary(client_id: str, name: str) -> dict | None:
+    """Compute one PCN's latest-period NHS summary for a neighbourhood rollup."""
+    s = SESSIONS.get(client_id)
+    if not s or s.get("analysis_type") != "month_on_month":
+        return None
+    analysis_m   = s.get("analysis_m")
+    df_long_m    = s.get("df_long_m")
+    kpi_accounts = s.get("kpi_accounts")
+    if analysis_m is None or df_long_m is None:
+        return None
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    if not periods_m:
+        return None
+    latest = periods_m[-1]
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+
+    kpis   = data.get("kpis", [])
+    rev_k  = next((k for k in kpis if k.get("icon") == "trending-up"), None)
+    cost_k = next((k for k in kpis if k.get("icon") == "receipt"), None)
+    prof_k = next((k for k in kpis if k.get("icon") == "wallet"), None)
+
+    revenue    = rev_k["value"]  if rev_k  else None
+    total_cost = cost_k["value"] if cost_k else None
+    surplus    = prof_k["value"] if prof_k else None
+
+    list_size = s.get("list_size") or 0
+    wte       = s.get("wte_partners")
+
+    ytd_mvts = _nhs_ytd_movements(s, latest, "monthly")
+    util = compute_utilisation(ytd_mvts, s.get("arrs_allocation"), s.get("qof_entitlement"))
+
+    return {
+        "client_id":            client_id,
+        "name":                 name,
+        "period_label":         period_label(latest, "monthly"),
+        "list_size":            list_size,
+        "wte_partners":         wte,
+        "revenue":              revenue,
+        "total_cost":           total_cost,
+        "surplus":              surplus,
+        "income_per_patient":   (revenue / list_size) if (revenue is not None and list_size) else None,
+        "surplus_per_patient":  (surplus / list_size) if (surplus is not None and list_size) else None,
+        "surplus_per_partner":  (surplus / wte) if (surplus is not None and wte) else None,
+        "arrs_utilisation_pct": util["arrs"]["utilisation_pct"],
+        "qof_achievement_pct":  util["qof"]["achievement_pct"],
+    }
+
+
+def _neighbourhood_rollup(client_ids: list[str], firm_token: str) -> dict:
+    """Aggregate KPI summaries across the neighbourhood's PCNs without merging books."""
+    if not client_ids:
+        return {"pcns": [], "aggregate": _empty_neighbourhood_aggregate()}
+
+    placeholders = ",".join("?" for _ in client_ids)
+    with _db() as conn:
+        rows = conn.execute(
+            f"SELECT id, name, sector, list_size, file_bytes, file_name, cash_balance, "
+            f"wte_partners, arrs_allocation, qof_entitlement, partner_drawings "
+            f"FROM portfolio_clients WHERE id IN ({placeholders}) AND firm_token = ?",
+            (*client_ids, firm_token),
+        ).fetchall()
+
+    pcns = []
+    for row in rows:
+        cid = row["id"]
+        if cid not in SESSIONS:
+            _rehydrate_client(cid, bytes(row["file_bytes"]), row["file_name"],
+                              row["name"], row["cash_balance"], sector=row["sector"],
+                              list_size=row["list_size"] or 0,
+                              wte_partners=row["wte_partners"],
+                              arrs_allocation=row["arrs_allocation"],
+                              qof_entitlement=row["qof_entitlement"],
+                              partner_drawings=row["partner_drawings"])
+        summary = _nhs_client_summary(cid, row["name"])
+        if summary:
+            pcns.append(summary)
+
+    return {"pcns": pcns, "aggregate": _aggregate_neighbourhood(pcns)}
+
+
+def _empty_neighbourhood_aggregate() -> dict:
+    return {
+        "pcn_count": 0, "total_list_size": 0, "total_revenue": None,
+        "total_cost": None, "total_surplus": None, "total_wte_partners": None,
+        "income_per_patient": None, "surplus_per_patient": None,
+        "avg_arrs_utilisation_pct": None, "avg_qof_achievement_pct": None,
+    }
+
+
+def _aggregate_neighbourhood(pcns: list[dict]) -> dict:
+    if not pcns:
+        return _empty_neighbourhood_aggregate()
+    list_sizes = [p["list_size"] for p in pcns if p["list_size"]]
+    revenues   = [p["revenue"] for p in pcns if p["revenue"] is not None]
+    costs      = [p["total_cost"] for p in pcns if p["total_cost"] is not None]
+    surpluses  = [p["surplus"] for p in pcns if p["surplus"] is not None]
+    wtes       = [p["wte_partners"] for p in pcns if p["wte_partners"]]
+    arrs_pcts  = [p["arrs_utilisation_pct"] for p in pcns if p["arrs_utilisation_pct"] is not None]
+    qof_pcts   = [p["qof_achievement_pct"] for p in pcns if p["qof_achievement_pct"] is not None]
+
+    total_list_size = sum(list_sizes)
+    total_revenue   = sum(revenues) if revenues else None
+    total_surplus   = sum(surpluses) if surpluses else None
+
+    return {
+        "pcn_count":                len(pcns),
+        "total_list_size":          total_list_size,
+        "total_revenue":            total_revenue,
+        "total_cost":               sum(costs) if costs else None,
+        "total_surplus":            total_surplus,
+        "total_wte_partners":       sum(wtes) if wtes else None,
+        "income_per_patient":       (total_revenue / total_list_size) if (total_revenue is not None and total_list_size) else None,
+        "surplus_per_patient":      (total_surplus / total_list_size) if (total_surplus is not None and total_list_size) else None,
+        "avg_arrs_utilisation_pct": (sum(arrs_pcts) / len(arrs_pcts)) if arrs_pcts else None,
+        "avg_qof_achievement_pct":  (sum(qof_pcts) / len(qof_pcts)) if qof_pcts else None,
+    }
+
+
+class NeighbourhoodBody(BaseModel):
+    firm_token: str
+    name:       str = Field(min_length=1, max_length=200)
+    client_ids: list[str] = Field(min_length=1, max_length=50)
+
+
+@app.get("/api/portfolio/neighbourhoods")
+def list_neighbourhoods(firm_token: str):
+    if not firm_token:
+        raise HTTPException(400, "firm_token is required.")
+    with _db() as conn:
+        rows = conn.execute(
+            "SELECT id, name, client_ids, share_token, created_at, updated_at "
+            "FROM neighbourhoods WHERE firm_token = ? ORDER BY updated_at DESC",
+            (firm_token,),
+        ).fetchall()
+
+    out = []
+    for row in rows:
+        client_ids = json.loads(row["client_ids"])
+        rollup = _neighbourhood_rollup(client_ids, firm_token)
+        out.append({
+            "id":          row["id"],
+            "name":        row["name"],
+            "client_ids":  client_ids,
+            "has_share":   bool(row["share_token"]),
+            "share_token": row["share_token"],
+            "created_at":  row["created_at"],
+            "updated_at":  row["updated_at"],
+            "pcns":        rollup["pcns"],
+            "aggregate":   rollup["aggregate"],
+        })
+    return {"neighbourhoods": out}
+
+
+@app.post("/api/portfolio/neighbourhoods")
+def create_neighbourhood(body: NeighbourhoodBody):
+    if not body.firm_token:
+        raise HTTPException(400, "firm_token is required.")
+    placeholders = ",".join("?" for _ in body.client_ids)
+    with _db() as conn:
+        rows = conn.execute(
+            f"SELECT id FROM portfolio_clients WHERE id IN ({placeholders}) AND firm_token = ?",
+            (*body.client_ids, body.firm_token),
+        ).fetchall()
+        valid_ids = {r["id"] for r in rows}
+        if not valid_ids:
+            raise HTTPException(400, "None of the selected clients belong to this firm.")
+
+        now = datetime.now(timezone.utc).isoformat()
+        neighbourhood_id = str(uuid.uuid4())
+        conn.execute(
+            "INSERT INTO neighbourhoods (id, firm_token, name, client_ids, share_token, created_at, updated_at) "
+            "VALUES (?, ?, ?, ?, NULL, ?, ?)",
+            (neighbourhood_id, body.firm_token, body.name.strip(),
+             json.dumps(sorted(valid_ids)), now, now),
+        )
+        conn.commit()
+
+    rollup = _neighbourhood_rollup(sorted(valid_ids), body.firm_token)
+    return {
+        "id": neighbourhood_id, "name": body.name.strip(),
+        "client_ids": sorted(valid_ids), "has_share": False, "share_token": None,
+        "pcns": rollup["pcns"], "aggregate": rollup["aggregate"],
+    }
+
+
+@app.delete("/api/portfolio/neighbourhoods/{neighbourhood_id}")
+def delete_neighbourhood(neighbourhood_id: str, firm_token: str):
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT firm_token FROM neighbourhoods WHERE id = ?", (neighbourhood_id,)
+        ).fetchone()
+        if not row:
+            raise HTTPException(404, "Neighbourhood not found.")
+        if row["firm_token"] != firm_token:
+            raise HTTPException(403, "Not authorised.")
+        conn.execute("DELETE FROM neighbourhoods WHERE id = ?", (neighbourhood_id,))
+        conn.commit()
+    return {"ok": True}
+
+
+@app.post("/api/portfolio/neighbourhoods/{neighbourhood_id}/share")
+def create_neighbourhood_share(neighbourhood_id: str, firm_token: str):
+    """Generate (or rotate) the public portal access token for this neighbourhood.
+
+    This token is a dedicated, revocable secret distinct from the existing
+    unauthenticated /view/{session_id} share-link pattern, since the portal
+    is intended for external organisations (e.g. partner NHS trusts).
+    """
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT firm_token FROM neighbourhoods WHERE id = ?", (neighbourhood_id,)
+        ).fetchone()
+        if not row:
+            raise HTTPException(404, "Neighbourhood not found.")
+        if row["firm_token"] != firm_token:
+            raise HTTPException(403, "Not authorised.")
+        token = secrets.token_urlsafe(32)
+        now   = datetime.now(timezone.utc).isoformat()
+        conn.execute(
+            "UPDATE neighbourhoods SET share_token = ?, updated_at = ? WHERE id = ?",
+            (token, now, neighbourhood_id),
+        )
+        conn.commit()
+    return {"share_token": token}
+
+
+@app.delete("/api/portfolio/neighbourhoods/{neighbourhood_id}/share")
+def revoke_neighbourhood_share(neighbourhood_id: str, firm_token: str):
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT firm_token FROM neighbourhoods WHERE id = ?", (neighbourhood_id,)
+        ).fetchone()
+        if not row:
+            raise HTTPException(404, "Neighbourhood not found.")
+        if row["firm_token"] != firm_token:
+            raise HTTPException(403, "Not authorised.")
+        now = datetime.now(timezone.utc).isoformat()
+        conn.execute(
+            "UPDATE neighbourhoods SET share_token = NULL, updated_at = ? WHERE id = ?",
+            (now, neighbourhood_id),
+        )
+        conn.commit()
+    return {"ok": True}
+
+
+@app.get("/api/portal/neighbourhood/{share_token}")
+def get_neighbourhood_portal(share_token: str):
+    """PUBLIC — no firm_token required. Looked up solely by the dedicated share
+    token. Returns aggregate + per-PCN summary figures only: no raw P&L line
+    items, no firm_token, and no internal session/client IDs that could be
+    used to query other endpoints for a PCN's full underlying data.
+    """
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT id, name, client_ids, updated_at FROM neighbourhoods WHERE share_token = ?",
+            (share_token,),
+        ).fetchone()
+    if not row:
+        raise HTTPException(404, "This link is invalid or has been revoked.")
+
+    client_ids = json.loads(row["client_ids"])
+    with _db() as conn:
+        placeholders = ",".join("?" for _ in client_ids) if client_ids else "''"
+        firm_row = conn.execute(
+            f"SELECT firm_token FROM portfolio_clients WHERE id IN ({placeholders}) LIMIT 1",
+            tuple(client_ids),
+        ).fetchone() if client_ids else None
+    firm_token = firm_row["firm_token"] if firm_row else ""
+
+    rollup = _neighbourhood_rollup(client_ids, firm_token)
+    public_pcns = [
+        {k: v for k, v in p.items() if k != "client_id"} for p in rollup["pcns"]
+    ]
+    return {
+        "name":       row["name"],
+        "updated_at": row["updated_at"],
+        "pcns":       public_pcns,
+        "aggregate":  rollup["aggregate"],
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────

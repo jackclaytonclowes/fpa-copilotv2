@@ -292,6 +292,136 @@ function UpdateCashModal({ client, firmToken, onClose, onUpdated }) {
   );
 }
 
+// ── Create Neighbourhood modal ─────────────────────────────────────────────
+function CreateNeighbourhoodModal({ firmToken, nhsClients, onClose, onCreated }) {
+  const { Icon } = window;
+  const [name, setName]       = React.useState("");
+  const [selected, setSelected] = React.useState(new Set());
+  const [status, setStatus]   = React.useState("idle");
+  const [errMsg, setErrMsg]   = React.useState("");
+
+  const toggle = (id) => setSelected(prev => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
+
+  const canSubmit = name.trim() && selected.size >= 1 && status !== "loading";
+
+  async function submit(e) {
+    e.preventDefault();
+    if (!canSubmit) return;
+    setStatus("loading"); setErrMsg("");
+    try {
+      const r = await fetch(apiUrl("/api/portfolio/neighbourhoods"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firm_token: firmToken, name: name.trim(), client_ids: [...selected] }),
+      });
+      if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.detail || `Error ${r.status}`); }
+      onCreated(await r.json());
+    } catch (ex) { setErrMsg(ex.message); setStatus("error"); }
+  }
+
+  React.useEffect(() => {
+    const h = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [onClose]);
+
+  const inputStyle = { width: "100%", padding: "9px 12px", fontSize: 13.5,
+    border: "1px solid var(--border-strong)", borderRadius: "var(--radius-sm)",
+    background: "var(--surface)", color: "var(--ink)", outline: "none", boxSizing: "border-box" };
+  const labelStyle = { font: "var(--text-label)", fontSize: 11, fontWeight: 600,
+    textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", display: "block", marginBottom: 5 };
+
+  return (
+    <div onClick={onClose} style={{
+      position: "fixed", inset: 0, background: "rgba(0,0,0,.45)", zIndex: 1000,
+      display: "flex", alignItems: "center", justifyContent: "center", padding: 20,
+    }}>
+      <div onClick={(e) => e.stopPropagation()} style={{
+        background: "var(--surface)", borderRadius: 20, padding: "28px 28px 24px",
+        width: "100%", maxWidth: 500, boxShadow: "var(--shadow-hover)", maxHeight: "90vh", overflow: "auto",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 22 }}>
+          <h3 style={{ margin: 0, font: "700 17px/1.2 var(--font-display)", color: "var(--ink)" }}>
+            Create neighbourhood
+          </h3>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg-3)", padding: 4 }}>
+            <Icon name="x" size={18} />
+          </button>
+        </div>
+
+        <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div>
+            <label style={labelStyle}>Neighbourhood name *</label>
+            <input value={name} onChange={e => setName(e.target.value)}
+              placeholder="e.g. North Islington Neighbourhood" style={inputStyle} autoFocus />
+          </div>
+
+          <div>
+            <label style={labelStyle}>Select PCNs * ({selected.size} selected)</label>
+            <div style={{ border: "1px solid var(--border-strong)", borderRadius: "var(--radius-sm)",
+                          maxHeight: 200, overflowY: "auto" }}>
+              {nhsClients.length === 0 && (
+                <div style={{ padding: "14px 16px", color: "var(--fg-3)", fontSize: 13 }}>
+                  No NHS GP clients uploaded yet. Add NHS GP Practice clients first.
+                </div>
+              )}
+              {nhsClients.map((c, i) => (
+                <label key={c.session_id} style={{
+                  display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", cursor: "pointer",
+                  borderBottom: i < nhsClients.length - 1 ? "1px solid var(--border)" : "none",
+                  background: selected.has(c.session_id) ? "var(--primary-soft,#eff6ff)" : "transparent",
+                }}>
+                  <input type="checkbox" checked={selected.has(c.session_id)} onChange={() => toggle(c.session_id)}
+                    style={{ width: 15, height: 15, accentColor: "var(--primary)" }} />
+                  <span style={{ flex: 1, font: "500 13px/1.3 var(--font-display)", color: "var(--ink)" }}>
+                    {c.name}
+                  </span>
+                  {c.list_size > 0 && (
+                    <span style={{ fontSize: 12, color: "var(--fg-3)" }}>{c.list_size.toLocaleString()} pts</span>
+                  )}
+                </label>
+              ))}
+            </div>
+            <div style={{ fontSize: 11, color: "var(--fg-3)", marginTop: 5 }}>
+              Each PCN keeps its own books — data is never merged.
+            </div>
+          </div>
+
+          {errMsg && (
+            <div style={{ padding: "10px 14px", background: "var(--adverse-soft)", border: "1px solid var(--adverse-border)",
+              borderRadius: "var(--radius-sm)", color: "var(--adverse-text)", fontSize: 12.5 }}>
+              {errMsg}
+            </div>
+          )}
+
+          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+            <button type="button" onClick={onClose} style={{
+              padding: "9px 18px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-strong)",
+              background: "var(--surface)", color: "var(--fg-2)", fontSize: 13.5, cursor: "pointer",
+            }}>Cancel</button>
+            <button type="submit" disabled={!canSubmit} style={{
+              padding: "9px 20px", borderRadius: "var(--radius-sm)", border: "none",
+              background: canSubmit ? "var(--primary)" : "var(--border-strong)",
+              color: canSubmit ? "#fff" : "var(--fg-3)",
+              fontSize: 13.5, cursor: canSubmit ? "pointer" : "default",
+              display: "inline-flex", alignItems: "center", gap: 7,
+            }}>
+              {status === "loading"
+                ? <React.Fragment><div className="spinner" style={{ width: 14, height: 14 }} /> Creating…</React.Fragment>
+                : <React.Fragment><Icon name="map-pin" size={14} /> Create</React.Fragment>}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+
 // ── Main Portfolio component ───────────────────────────────────────────────
 function Portfolio({ onOpenClient, onToast }) {
   const { Icon, RagBadge } = window;
@@ -310,6 +440,9 @@ function Portfolio({ onOpenClient, onToast }) {
   const [search, setSearch]           = React.useState("");
   const [tierFilter, setTierFilter]   = React.useState("all"); // "all" | "action" | "watch" | "healthy"
   const [, setRagRev]                 = React.useState(0);
+  const [neighbourhoods, setNeighbourhoods] = React.useState([]);
+  const [showNeighModal, setShowNeighModal] = React.useState(false);
+  const [neighShareStates, setNeighShareStates] = React.useState({}); // {id: "idle"|"loading"|"copied"}
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -324,6 +457,16 @@ function Portfolio({ onOpenClient, onToast }) {
   }, [mode, firmToken]);
 
   React.useEffect(() => { load(); }, [load]);
+
+  const loadNeighbourhoods = React.useCallback(() => {
+    if (mode === "demo") { setNeighbourhoods([]); return; }
+    fetch(apiUrl(`/api/portfolio/neighbourhoods?firm_token=${encodeURIComponent(firmToken)}`))
+      .then(r => r.json())
+      .then(d => setNeighbourhoods(d.neighbourhoods || []))
+      .catch(() => {});
+  }, [mode, firmToken]);
+
+  React.useEffect(() => { loadNeighbourhoods(); }, [loadNeighbourhoods]);
 
   React.useEffect(() => {
     const h = () => setRagRev(v => v + 1);
@@ -1018,6 +1161,196 @@ function Portfolio({ onOpenClient, onToast }) {
               );
             })()}
 
+            {/* Neighbourhoods */}
+            {!isDemo && (() => {
+              const nhsClients = (data?.clients || []).filter(c => c.sector === "nhs_gp");
+              const hasNhsOrNeigh = nhsClients.length > 0 || neighbourhoods.length > 0;
+              if (!hasNhsOrNeigh) return null;
+
+              const fmt = v => v == null ? "—" : "£" + Math.round(v).toLocaleString();
+              const pct = v => v == null ? "—" : v.toFixed(1) + "%";
+              const pctColor = (v, low, high) => {
+                if (v == null) return "var(--fg-3)";
+                if (v >= high) return "var(--favourable-text,#15803d)";
+                if (v >= low) return "var(--caution-text,#b45309)";
+                return "var(--adverse-text,#b91c1c)";
+              };
+
+              async function generateShare(n) {
+                setNeighShareStates(p => ({ ...p, [n.id]: "loading" }));
+                try {
+                  const r = await fetch(
+                    apiUrl(`/api/portfolio/neighbourhoods/${n.id}/share?firm_token=${encodeURIComponent(firmToken)}`),
+                    { method: "POST" }
+                  );
+                  if (!r.ok) throw new Error();
+                  const { share_token } = await r.json();
+                  const url = `${window.location.origin}/portal/neighbourhood/${share_token}`;
+                  await navigator.clipboard?.writeText(url);
+                  setNeighbourhoods(prev => prev.map(x => x.id === n.id ? { ...x, has_share: true, share_token } : x));
+                  setNeighShareStates(p => ({ ...p, [n.id]: "copied" }));
+                  setTimeout(() => setNeighShareStates(p => ({ ...p, [n.id]: "idle" })), 2500);
+                } catch { setNeighShareStates(p => ({ ...p, [n.id]: "idle" })); }
+              }
+
+              async function copyShare(n) {
+                const url = `${window.location.origin}/portal/neighbourhood/${n.share_token}`;
+                await navigator.clipboard?.writeText(url);
+                setNeighShareStates(p => ({ ...p, [n.id]: "copied" }));
+                setTimeout(() => setNeighShareStates(p => ({ ...p, [n.id]: "idle" })), 2500);
+              }
+
+              async function revokeShare(n) {
+                await fetch(
+                  apiUrl(`/api/portfolio/neighbourhoods/${n.id}/share?firm_token=${encodeURIComponent(firmToken)}`),
+                  { method: "DELETE" }
+                );
+                setNeighbourhoods(prev => prev.map(x => x.id === n.id ? { ...x, has_share: false, share_token: null } : x));
+              }
+
+              async function deleteNeigh(id) {
+                await fetch(
+                  apiUrl(`/api/portfolio/neighbourhoods/${id}?firm_token=${encodeURIComponent(firmToken)}`),
+                  { method: "DELETE" }
+                );
+                setNeighbourhoods(prev => prev.filter(x => x.id !== id));
+              }
+
+              return (
+                <div style={{ marginTop: 32 }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+                    <div>
+                      <h3 style={{ margin: "0 0 2px", font: "700 15px/1.2 var(--font-display)", color: "var(--ink)" }}>
+                        Neighbourhoods
+                      </h3>
+                      <p style={{ margin: 0, font: "var(--text-caption)", fontSize: 12, color: "var(--fg-3)" }}>
+                        Borough-level reporting across PCNs &mdash; individual books stay separate
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setShowNeighModal(true)}
+                      style={{
+                        display: "inline-flex", alignItems: "center", gap: 6,
+                        padding: "8px 14px", borderRadius: "var(--radius-sm)", border: "none",
+                        background: "var(--primary)", color: "#fff",
+                        font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer", whiteSpace: "nowrap",
+                      }}
+                    >
+                      <Icon name="plus" size={13} /> New
+                    </button>
+                  </div>
+
+                  {neighbourhoods.length === 0 && (
+                    <div style={{ padding: "18px 20px", border: "1px dashed var(--border-strong)", borderRadius: 12,
+                                  textAlign: "center", color: "var(--fg-3)", fontSize: 13 }}>
+                      No neighbourhoods yet. Create one to generate a borough-level portal link for external stakeholders.
+                    </div>
+                  )}
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {neighbourhoods.map(n => {
+                      const agg = n.aggregate || {};
+                      const shareState = neighShareStates[n.id] || "idle";
+                      return (
+                        <div key={n.id} style={{
+                          border: "1px solid var(--border)", borderRadius: 14,
+                          overflow: "hidden", background: "var(--surface)",
+                        }}>
+                          {/* Neighbourhood header */}
+                          <div style={{ padding: "14px 18px", display: "flex", alignItems: "flex-start",
+                                        justifyContent: "space-between", gap: 12,
+                                        borderBottom: "1px solid var(--border)", background: "var(--surface-2,#f8fafc)" }}>
+                            <div>
+                              <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                                <Icon name="map-pin" size={14} style={{ color: "var(--primary,#2563eb)" }} />
+                                <span style={{ font: "700 14px/1 var(--font-display)", color: "var(--ink)" }}>
+                                  {n.name}
+                                </span>
+                              </div>
+                              <div style={{ marginTop: 4, fontSize: 12, color: "var(--fg-3)" }}>
+                                {agg.pcn_count} PCN{agg.pcn_count !== 1 ? "s" : ""}&nbsp;&middot;&nbsp;
+                                {agg.total_list_size ? agg.total_list_size.toLocaleString() + " patients" : ""}
+                              </div>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                              {/* Share link controls */}
+                              {n.has_share ? (
+                                <React.Fragment>
+                                  <button onClick={() => copyShare(n)} style={{
+                                    display: "inline-flex", alignItems: "center", gap: 5,
+                                    padding: "6px 12px", borderRadius: "var(--radius-sm)",
+                                    border: "1px solid var(--primary-border,rgba(37,99,235,.25))",
+                                    background: shareState === "copied" ? "var(--primary)" : "var(--primary-soft,#eff6ff)",
+                                    color: shareState === "copied" ? "#fff" : "var(--primary)",
+                                    fontSize: 12, cursor: "pointer", whiteSpace: "nowrap",
+                                  }}>
+                                    <Icon name={shareState === "copied" ? "check" : "copy"} size={12} />
+                                    {shareState === "copied" ? "Copied!" : "Copy portal link"}
+                                  </button>
+                                  <button onClick={() => revokeShare(n)} title="Revoke link" style={{
+                                    padding: "6px 8px", borderRadius: "var(--radius-sm)",
+                                    border: "1px solid var(--adverse-border,#fecaca)",
+                                    background: "var(--adverse-soft,#fef2f2)", color: "var(--adverse-text,#b91c1c)",
+                                    fontSize: 12, cursor: "pointer",
+                                  }}>
+                                    <Icon name="link-off" size={12} />
+                                  </button>
+                                </React.Fragment>
+                              ) : (
+                                <button onClick={() => generateShare(n)} style={{
+                                  display: "inline-flex", alignItems: "center", gap: 5,
+                                  padding: "6px 12px", borderRadius: "var(--radius-sm)",
+                                  border: "1px solid var(--border-strong)",
+                                  background: "var(--surface)", color: "var(--fg-2)",
+                                  fontSize: 12, cursor: "pointer", whiteSpace: "nowrap",
+                                }}>
+                                  {shareState === "loading"
+                                    ? <React.Fragment><div className="spinner" style={{ width: 10, height: 10 }} /> Generating…</React.Fragment>
+                                    : <React.Fragment><Icon name="share-2" size={12} /> Generate portal link</React.Fragment>}
+                                </button>
+                              )}
+                              <button onClick={() => deleteNeigh(n.id)} title="Delete neighbourhood" style={{
+                                padding: "6px 8px", borderRadius: "var(--radius-sm)",
+                                border: "1px solid var(--border-strong)", background: "none",
+                                color: "var(--fg-3)", cursor: "pointer",
+                              }}>
+                                <Icon name="trash-2" size={12} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Aggregate KPI row */}
+                          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(140px,1fr))",
+                                        gap: 0, padding: "12px 18px 14px" }}>
+                            {[
+                              { label: "Income/patient",  value: fmt(agg.income_per_patient) },
+                              { label: "Surplus/patient", value: fmt(agg.surplus_per_patient) },
+                              { label: "ARRS util.",
+                                value: pct(agg.avg_arrs_utilisation_pct),
+                                color: pctColor(agg.avg_arrs_utilisation_pct, 50, 80) },
+                              { label: "QOF ach.",
+                                value: pct(agg.avg_qof_achievement_pct),
+                                color: pctColor(agg.avg_qof_achievement_pct, 80, 95) },
+                            ].map(kpi => (
+                              <div key={kpi.label} style={{ padding: "4px 0" }}>
+                                <div style={{ fontSize: 10.5, color: "var(--fg-3)", textTransform: "uppercase",
+                                              letterSpacing: ".05em", fontWeight: 600, marginBottom: 2 }}>
+                                  {kpi.label}
+                                </div>
+                                <div style={{ font: "700 15px/1 var(--font-display)", color: kpi.color || "var(--ink)" }}>
+                                  {kpi.value}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Briefing error */}
             {briefStatus === "error" && (
               <div style={{ marginTop: 14, padding: "10px 14px", background: "var(--adverse-soft)",
@@ -1075,6 +1408,17 @@ function Portfolio({ onOpenClient, onToast }) {
       {updating && (
         <UpdateCashModal client={updating} firmToken={firmToken}
           onClose={() => setUpdating(null)} onUpdated={handleUpdated} />
+      )}
+      {showNeighModal && (
+        <CreateNeighbourhoodModal
+          firmToken={firmToken}
+          nhsClients={(data?.clients || []).filter(c => c.sector === "nhs_gp")}
+          onClose={() => setShowNeighModal(false)}
+          onCreated={(n) => {
+            setNeighbourhoods(prev => [n, ...prev]);
+            setShowNeighModal(false);
+          }}
+        />
       )}
     </div>
   );

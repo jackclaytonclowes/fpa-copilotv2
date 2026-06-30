@@ -769,3 +769,133 @@ class TestSessionSettingsEndpoint:
         data = client.get(f"/api/data/{self.session_id}").json()
         nhs = data.get("nhs_kpis", {})
         assert nhs.get("list_size") == 5000
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEIGHBOURHOOD ENDPOINTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestNeighbourhoodEndpoints:
+    """Tests for the /api/portfolio/neighbourhoods and /api/portal/neighbourhood endpoints."""
+
+    @pytest.fixture(autouse=True)
+    def setup(self, client, tmp_path, nhs_csv_path):
+        self.client = client
+        self.firm_token = "test-firm-neigh"
+
+        # Add two NHS GP portfolio clients
+        with open(nhs_csv_path, "rb") as f:
+            r1 = client.post("/api/portfolio/clients", data={
+                "firm_token": self.firm_token, "name": "PCN Alpha",
+                "sector": "nhs_gp", "list_size": "8000",
+                "wte_partners": "4.0", "arrs_allocation": "140000",
+                "qof_entitlement": "40000",
+            }, files={"file": ("test.csv", f, "text/csv")})
+        self.cid1 = r1.json()["session_id"]
+
+        with open(nhs_csv_path, "rb") as f:
+            r2 = client.post("/api/portfolio/clients", data={
+                "firm_token": self.firm_token, "name": "PCN Beta",
+                "sector": "nhs_gp", "list_size": "6000",
+                "wte_partners": "3.2", "arrs_allocation": "110000",
+                "qof_entitlement": "32000",
+            }, files={"file": ("test.csv", f, "text/csv")})
+        self.cid2 = r2.json()["session_id"]
+
+    @pytest.fixture
+    def nhs_csv_path(self, tmp_path):
+        import csv
+        p = tmp_path / "nhs.csv"
+        with open(p, "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerows([
+                ["Account", "Section", "Jan 2025", "Feb 2025", "Mar 2025"],
+                ["GMS Income", "Revenue", "80000", "82000", "81000"],
+                ["QOF Income", "Revenue", "20000", "20500", "20200"],
+                ["ARRS Staff", "Staff Costs", "35000", "35500", "35000"],
+                ["Clinical Staff", "Staff Costs", "20000", "20000", "20000"],
+                ["Admin Wages", "Management Costs", "10000", "10000", "10000"],
+            ])
+        return str(p)
+
+    def test_create_neighbourhood(self):
+        r = self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token,
+            "name": "North Borough",
+            "client_ids": [self.cid1, self.cid2],
+        })
+        assert r.status_code == 200
+        data = r.json()
+        assert data["name"] == "North Borough"
+        assert data["aggregate"]["pcn_count"] == 2
+        assert data["aggregate"]["total_list_size"] == 14000
+        assert data["has_share"] is False
+
+    def test_list_neighbourhoods(self):
+        self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token, "name": "Test Hood",
+            "client_ids": [self.cid1],
+        })
+        r = self.client.get(f"/api/portfolio/neighbourhoods?firm_token={self.firm_token}")
+        assert r.status_code == 200
+        hoods = r.json()["neighbourhoods"]
+        assert len(hoods) >= 1
+        assert hoods[0]["name"] == "Test Hood"
+
+    def test_delete_neighbourhood(self):
+        r = self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token, "name": "Temp",
+            "client_ids": [self.cid1],
+        })
+        nid = r.json()["id"]
+        del_r = self.client.delete(f"/api/portfolio/neighbourhoods/{nid}?firm_token={self.firm_token}")
+        assert del_r.json()["ok"] is True
+
+    def test_share_token_lifecycle(self):
+        r = self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token, "name": "Share Test",
+            "client_ids": [self.cid1, self.cid2],
+        })
+        nid = r.json()["id"]
+
+        # Generate token
+        sr = self.client.post(f"/api/portfolio/neighbourhoods/{nid}/share?firm_token={self.firm_token}")
+        assert sr.status_code == 200
+        token = sr.json()["share_token"]
+        assert len(token) > 20
+
+        # Public portal returns data
+        pr = self.client.get(f"/api/portal/neighbourhood/{token}")
+        assert pr.status_code == 200
+        portal = pr.json()
+        assert portal["name"] == "Share Test"
+        # client_id must NOT be in any PCN row (security: would expose session IDs)
+        for pcn in portal["pcns"]:
+            assert "client_id" not in pcn
+        assert portal["aggregate"]["pcn_count"] == 2
+
+        # Revoke token
+        rev = self.client.delete(f"/api/portfolio/neighbourhoods/{nid}/share?firm_token={self.firm_token}")
+        assert rev.json()["ok"] is True
+
+        # Portal now returns 404
+        pr2 = self.client.get(f"/api/portal/neighbourhood/{token}")
+        assert pr2.status_code == 404
+
+    def test_wrong_firm_token_rejected(self):
+        r = self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token, "name": "Private",
+            "client_ids": [self.cid1],
+        })
+        nid = r.json()["id"]
+        bad = self.client.delete(f"/api/portfolio/neighbourhoods/{nid}?firm_token=hacker")
+        assert bad.status_code == 403
+
+    def test_aggregate_sums_list_sizes(self):
+        r = self.client.post("/api/portfolio/neighbourhoods", json={
+            "firm_token": self.firm_token, "name": "Agg Test",
+            "client_ids": [self.cid1, self.cid2],
+        })
+        agg = r.json()["aggregate"]
+        assert agg["total_list_size"] == 14000  # 8000 + 6000
+        assert agg["total_wte_partners"] == pytest.approx(7.2)  # 4.0 + 3.2

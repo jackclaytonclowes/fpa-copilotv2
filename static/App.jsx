@@ -56,6 +56,12 @@ const _SHARED_SESSION_ID = (() => {
   return parts[0] === "view" && parts[1] ? parts[1] : null;
 })();
 
+// Detect a /portal/neighbourhood/{token} public portal link
+const _NEIGHBOURHOOD_SHARE_TOKEN = (() => {
+  const parts = window.location.pathname.split("/").filter(Boolean);
+  return parts[0] === "portal" && parts[1] === "neighbourhood" && parts[2] ? parts[2] : null;
+})();
+
 /* ── TopBar ─────────────────────────────────────────────── */
 function TopBar({ view, period, periodMode, onMode, onExport, hasData,
                   periods, selectedPeriod, onPeriodChange, analysisType,
@@ -708,6 +714,13 @@ function App() {
         />
       </div>
     ));
+  }
+
+  // Render the public neighbourhood portal
+  if (_NEIGHBOURHOOD_SHARE_TOKEN) {
+    return window.NeighbourhoodPortal
+      ? <NeighbourhoodPortal shareToken={_NEIGHBOURHOOD_SHARE_TOKEN} />
+      : null;
   }
 
   // Render the read-only digest for shared /view/{id} links
