@@ -1403,7 +1403,7 @@ function Portfolio({ onOpenClient, onToast }) {
             })()}
 
             {/* Neighbourhoods */}
-            {!isDemo && (() => {
+            {(() => {
               const nhsClients = (data?.clients || []).filter(c => c.sector === "nhs_gp");
 
               const fmt = v => v == null ? "—" : "£" + Math.round(v).toLocaleString();
@@ -1466,17 +1466,19 @@ function Portfolio({ onOpenClient, onToast }) {
                         Borough-level reporting across PCNs &mdash; individual books stay separate
                       </p>
                     </div>
-                    <button
-                      onClick={() => setShowNeighModal(true)}
-                      style={{
-                        display: "inline-flex", alignItems: "center", gap: 6,
-                        padding: "8px 14px", borderRadius: "var(--radius-sm)", border: "none",
-                        background: "var(--primary)", color: "#fff",
-                        font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer", whiteSpace: "nowrap",
-                      }}
-                    >
-                      <Icon name="plus" size={13} /> New
-                    </button>
+                    {!isDemo && (
+                      <button
+                        onClick={() => setShowNeighModal(true)}
+                        style={{
+                          display: "inline-flex", alignItems: "center", gap: 6,
+                          padding: "8px 14px", borderRadius: "var(--radius-sm)", border: "none",
+                          background: "var(--primary)", color: "#fff",
+                          font: "var(--text-body-strong)", fontSize: 12.5, cursor: "pointer", whiteSpace: "nowrap",
+                        }}
+                      >
+                        <Icon name="plus" size={13} /> New
+                      </button>
+                    )}
                   </div>
 
                   {neighbourhoods.length === 0 && (
@@ -1512,8 +1514,8 @@ function Portfolio({ onOpenClient, onToast }) {
                               </div>
                             </div>
                             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              {/* Share link controls */}
-                              {n.has_share ? (
+                              {/* Share link controls — real mode only */}
+                              {!isDemo && n.has_share ? (
                                 <React.Fragment>
                                   <button onClick={() => copyShare(n)} style={{
                                     display: "inline-flex", alignItems: "center", gap: 5,
@@ -1535,7 +1537,7 @@ function Portfolio({ onOpenClient, onToast }) {
                                     <Icon name="link-off" size={12} />
                                   </button>
                                 </React.Fragment>
-                              ) : (
+                              ) : !isDemo ? (
                                 <button onClick={() => generateShare(n)} style={{
                                   display: "inline-flex", alignItems: "center", gap: 5,
                                   padding: "6px 12px", borderRadius: "var(--radius-sm)",
@@ -1547,14 +1549,16 @@ function Portfolio({ onOpenClient, onToast }) {
                                     ? <React.Fragment><div className="spinner" style={{ width: 10, height: 10 }} /> Generating…</React.Fragment>
                                     : <React.Fragment><Icon name="share-2" size={12} /> Generate portal link</React.Fragment>}
                                 </button>
+                              ) : null}
+                              {!isDemo && (
+                                <button onClick={() => deleteNeigh(n.id)} title="Delete neighbourhood" style={{
+                                  padding: "6px 8px", borderRadius: "var(--radius-sm)",
+                                  border: "1px solid var(--border-strong)", background: "none",
+                                  color: "var(--fg-3)", cursor: "pointer",
+                                }}>
+                                  <Icon name="trash-2" size={12} />
+                                </button>
                               )}
-                              <button onClick={() => deleteNeigh(n.id)} title="Delete neighbourhood" style={{
-                                padding: "6px 8px", borderRadius: "var(--radius-sm)",
-                                border: "1px solid var(--border-strong)", background: "none",
-                                color: "var(--fg-3)", cursor: "pointer",
-                              }}>
-                                <Icon name="trash-2" size={12} />
-                              </button>
                             </div>
                           </div>
 
