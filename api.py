@@ -28,8 +28,8 @@ from pydantic import BaseModel, Field
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
     build_waterfall, classify_nhs_income_streams, detect_bva_columns, detect_kpis,
-    get_bva_data, get_insights_data, get_period_data, get_ytd_data, load_bva_from_sheets,
-    load_file, load_sector_synonyms, make_pdf, make_xlsx, make_zip,
+    get_bva_data, get_insights_data, get_period_data, get_ytd_data, get_quarter,
+    load_bva_from_sheets, load_file, load_sector_synonyms, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 from kpis.nhs_gp import (
@@ -1345,7 +1345,7 @@ def portfolio_demo():
     gp1 = _build_nhs_pcn_client(
         name="Shankly Surgery",
         list_size=7200, wte_partners=4.2,
-        arrs_allocation=0.0, qof_entitlement=0.0,
+        arrs_allocation=0.0, qof_entitlement=195000,
         gms      = _ramp(85000, 300),
         qof      = [14500]*8 + [14500]*3 + [21000],
         es       = [8200,0,0,8200,0,0,8200,0,0,8200,0,0],
@@ -1363,7 +1363,7 @@ def portfolio_demo():
     gp2 = _build_nhs_pcn_client(
         name="Dalglish Health Centre",
         list_size=5800, wte_partners=3.5,
-        arrs_allocation=0.0, qof_entitlement=0.0,
+        arrs_allocation=0.0, qof_entitlement=152000,
         gms      = _ramp(70000, 150),
         qof      = [11200]*8 + [11200]*3 + [16500],
         es       = [6500,0,0,6500,0,0,6500,0,0,6500,0,0],
@@ -1381,7 +1381,7 @@ def portfolio_demo():
     gp3 = _build_nhs_pcn_client(
         name="Rush Medical Practice",
         list_size=4900, wte_partners=2.8,
-        arrs_allocation=0.0, qof_entitlement=0.0,
+        arrs_allocation=0.0, qof_entitlement=126000,
         gms      = _ramp(58000, 50),
         qof      = [9200]*8 + [9200]*3 + [13800],
         es       = [5400,0,0,5400,0,0,5400,0,0,5400,0,0],
@@ -1399,7 +1399,7 @@ def portfolio_demo():
     gp4 = _build_nhs_pcn_client(
         name="Paisley Road Practice",
         list_size=3600, wte_partners=2.1,
-        arrs_allocation=0.0, qof_entitlement=0.0,
+        arrs_allocation=0.0, qof_entitlement=95000,
         gms      = _ramp(44000, -100),
         qof      = [7200]*8 + [7200]*3 + [10800],
         es       = [4200,0,0,4200,0,0,4200,0,0,4200,0,0],
@@ -2923,18 +2923,26 @@ def _adapt_commentary_for_nhs(commentary: list[dict]) -> list[dict]:
 def _nhs_ytd_movements(session: dict, selected_period, mode: str = "monthly") -> list[dict]:
     """Return all non-subtotal movements from period-start through selected_period.
 
-    Used for ARRS/QOF utilisation so the numbers reflect cumulative annual spend
-    rather than a single period's top-15 movements.
+    Always uses monthly analysis for accurate cumulative totals. In quarterly mode
+    the selected quarter label (e.g. "FY24/25 Q2") is converted to a sort-key so
+    all months falling in quarters up to and including the selected one are summed.
     """
-    analysis = session.get("analysis_m") if mode in ("monthly", "ytd") else session.get("analysis_q")
+    analysis = session.get("analysis_m")
     if analysis is None:
         return []
     try:
-        sel_ts = pd.Timestamp(selected_period)
-        ytd_mask = (
-            (~analysis["Is Subtotal"]) &
-            (analysis["Period"].apply(pd.Timestamp) <= sel_ts)
-        )
+        if mode == "quarterly":
+            target_qsk = quarter_sort_key(str(selected_period))
+            ytd_mask = (
+                (~analysis["Is Subtotal"]) &
+                (analysis["Period"].apply(lambda p: quarter_sort_key(get_quarter(p))) <= target_qsk)
+            )
+        else:
+            sel_ts = pd.Timestamp(selected_period)
+            ytd_mask = (
+                (~analysis["Is Subtotal"]) &
+                (analysis["Period"].apply(pd.Timestamp) <= sel_ts)
+            )
         subset = analysis[ytd_mask]
         return [
             {"account": row["Account"], "category": row["Category"],
