@@ -134,6 +134,19 @@ def _init_db():
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_neigh_firm ON neighbourhoods(firm_token)")
         conn.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_neigh_share ON neighbourhoods(share_token)")
+        # Xero persistent connections — stores refresh token per portfolio client so
+        # data can be re-pulled without re-authenticating.
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS xero_connections (
+                client_id     TEXT PRIMARY KEY,
+                tenant_id     TEXT NOT NULL,
+                tenant_name   TEXT,
+                access_token  TEXT,
+                refresh_token TEXT NOT NULL,
+                expires_at    TEXT,
+                synced_at     TEXT NOT NULL
+            )
+        """)
         conn.commit()
 
 
@@ -1499,6 +1512,18 @@ def portfolio_list_clients(firm_token: str):
             (firm_token,),
         ).fetchall()
 
+    # Fetch Xero connection metadata for all clients in one query
+    client_ids = [r["id"] for r in rows]
+    xero_map: dict = {}
+    if client_ids:
+        with _db() as conn2:
+            xrows = conn2.execute(
+                f"SELECT client_id, synced_at FROM xero_connections "
+                f"WHERE client_id IN ({','.join('?' for _ in client_ids)})",
+                client_ids,
+            ).fetchall()
+        xero_map = {r["client_id"]: r["synced_at"] for r in xrows}
+
     clients = []
     for row in rows:
         cid = row["id"]
@@ -1514,6 +1539,9 @@ def portfolio_list_clients(firm_token: str):
                                  row["cash_balance"], row["created_at"], row["updated_at"],
                                  list_size=row["list_size"] or 0)
         if summary:
+            if cid in xero_map:
+                summary["xero_connected"] = True
+                summary["xero_synced_at"] = xero_map[cid]
             clients.append(summary)
 
     clients.sort(key=lambda c: c["score"], reverse=True)
@@ -2439,71 +2467,123 @@ async def _fetch_xero_cash(client, access_token: str, tenant_id: str, as_at: str
         return None
 
 
-@app.get("/api/xero/import")
-async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: str = ""):
-    """Pull Profit & Loss from Xero and create an analysis session."""
+async def _get_valid_xero_token(client_id: str) -> dict:
+    """Return a valid Xero access token for a stored connection, refreshing if expired.
+
+    Raises HTTPException(401) if no connection is stored or the refresh fails.
+    Returns dict with access_token, tenant_id, tenant_name.
+    """
     import httpx
 
-    tok = XERO_TOKENS.get(state)
-    if not tok or tok.get("status") != "connected":
-        raise HTTPException(400, "Not connected to Xero.")
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT tenant_id, tenant_name, access_token, refresh_token, expires_at "
+            "FROM xero_connections WHERE client_id = ?", (client_id,)
+        ).fetchone()
+    if not row:
+        raise HTTPException(401, "No Xero connection stored for this client. Connect via Data & Connections.")
 
-    access_token = tok["access_token"]
+    # Check if the stored access token is still valid (with 60s buffer)
+    needs_refresh = True
+    if row["expires_at"]:
+        try:
+            exp = datetime.fromisoformat(row["expires_at"])
+            exp = exp.replace(tzinfo=timezone.utc) if exp.tzinfo is None else exp
+            needs_refresh = (exp - datetime.now(timezone.utc)).total_seconds() < 60
+        except Exception:
+            pass
 
-    # Default date range: 12 months ending this month
-    if not to_date:
-        today = datetime.utcnow()
-        to_date = today.strftime("%Y-%m-%d")
-    if not from_date:
-        d = datetime.strptime(to_date, "%Y-%m-%d")
-        from_date = (d.replace(year=d.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
+    access_token = row["access_token"]
+    if needs_refresh:
+        async with httpx.AsyncClient() as client:
+            resp = await client.post(
+                "https://identity.xero.com/connect/token",
+                data={
+                    "grant_type":    "refresh_token",
+                    "refresh_token": row["refresh_token"],
+                    "client_id":     XERO_CLIENT_ID,
+                    "client_secret": XERO_CLIENT_SECRET,
+                },
+            )
+        if resp.status_code != 200:
+            raise HTTPException(401, "Xero refresh token expired. Please reconnect via Data & Connections.")
+        tokens = resp.json()
+        access_token = tokens["access_token"]
+        expires_at = (
+            datetime.now(timezone.utc) + timedelta(seconds=tokens.get("expires_in", 1800))
+        ).isoformat()
+        with _db() as conn:
+            conn.execute(
+                "UPDATE xero_connections SET access_token=?, refresh_token=?, expires_at=? "
+                "WHERE client_id=?",
+                (access_token, tokens.get("refresh_token", row["refresh_token"]),
+                 expires_at, client_id),
+            )
+            conn.commit()
 
-    # Fetch monthly P&L with separate periods (Xero max periods = 11)
-    d_from = datetime.strptime(from_date, "%Y-%m-%d")
-    d_to   = datetime.strptime(to_date, "%Y-%m-%d")
-    n_months = (d_to.year - d_from.year) * 12 + (d_to.month - d_from.month)
+    return {
+        "access_token": access_token,
+        "tenant_id":    row["tenant_id"],
+        "tenant_name":  row["tenant_name"] or "Xero",
+    }
+
+
+async def _fetch_and_build_xero_session(access_token: str, tenant_id: str,
+                                         tenant_name: str, existing_session_id: str = None,
+                                         sector: str = "general", list_size: int = 0,
+                                         wte_partners=None, arrs_allocation=None,
+                                         qof_entitlement=None, partner_drawings=None,
+                                         xero_cash_override=None):
+    """Pull 12-month rolling P&L from Xero, build + store analysis session.
+
+    Returns (session_id, xero_cash, data_dict) where data_dict is the API response
+    payload for the latest period.
+    """
+    import httpx
+
+    today  = datetime.utcnow()
+    to_date   = today.strftime("%Y-%m-%d")
+    from_date = (today.replace(year=today.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
+
     params = {
-        "fromDate":   from_date,
-        "toDate":     to_date,
-        "periods":    min(max(n_months, 1), 11),
-        "timeframe":  "MONTH",
+        "fromDate":  from_date,
+        "toDate":    to_date,
+        "periods":   11,
+        "timeframe": "MONTH",
+    }
+    headers = {
+        "Authorization":  f"Bearer {access_token}",
+        "Xero-Tenant-Id": tenant_id,
+        "Accept":         "application/json",
     }
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         resp = await client.get(
             "https://api.xero.com/api.xro/2.0/Reports/ProfitAndLoss",
-            params=params,
-            headers={
-                "Authorization":  f"Bearer {access_token}",
-                "Xero-Tenant-Id": tenant_id,
-                "Accept":         "application/json",
-            },
+            params=params, headers=headers,
         )
         if resp.status_code == 401:
             raise HTTPException(401, "Xero token expired. Please reconnect.")
         if resp.status_code != 200:
             raise HTTPException(resp.status_code, f"Xero API error: {resp.text[:300]}")
-
         report = resp.json()
+        xero_cash = xero_cash_override
+        if xero_cash is None:
+            xero_cash = await _fetch_xero_cash(client, access_token, tenant_id, to_date)
 
-        # Also pull the balance sheet cash position (best-effort, non-fatal)
-        xero_cash = await _fetch_xero_cash(client, access_token, tenant_id, to_date)
-
-    # Parse Xero report into a wide DataFrame
     df = _parse_xero_pnl(report)
     if df is None or df.empty:
-        raise HTTPException(400, "Could not parse the Xero P&L report. It may have no data for the selected period.")
+        raise HTTPException(400, "Could not parse the Xero P&L report.")
 
-    # Build analysis session
     df_long_m    = build_long(df, "monthly")
     df_long_q    = build_long(df, "quarterly")
     kpi_accounts = detect_kpis(df_long_m)
-    analysis_m   = build_analysis(df_long_m)
-    analysis_q   = build_analysis(df_long_q)
+    sector_synonyms = load_sector_synonyms(sector) if sector != "general" else None
+    analysis_m   = build_analysis(df_long_m, sector_synonyms)
+    analysis_q   = build_analysis(df_long_q, sector_synonyms)
 
-    session_id = str(uuid.uuid4())
-    tenant_name = next((t["tenantName"] for t in tok.get("tenants", []) if t["tenantId"] == tenant_id), "Xero")
-    filename = f"{tenant_name} — Xero Import"
+    session_id = existing_session_id or str(uuid.uuid4())
+    filename   = f"{tenant_name} — Xero"
 
     SESSIONS[session_id] = {
         "df":            df,
@@ -2515,17 +2595,125 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
         "filename":      filename,
         "analysis_type": "month_on_month",
         "xero_cash":     xero_cash,
+        "sector":        sector,
+        "list_size":     list_size,
+        "wte_partners":  wte_partners,
+        "arrs_allocation": arrs_allocation,
+        "qof_entitlement": qof_entitlement,
+        "partner_drawings": partner_drawings,
         "chat":          [],
     }
 
     periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
-    latest = periods_m[-1]
+    latest    = periods_m[-1]
     data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
     data["xero_cash"]     = xero_cash
+    return session_id, xero_cash, data, df
+
+
+@app.get("/api/xero/import")
+async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: str = "",
+                      client_id: str = ""):
+    """Pull Profit & Loss from Xero and create an analysis session.
+
+    If client_id is provided, the Xero connection (including refresh token) is
+    persisted in xero_connections so the client can be re-synced without re-auth.
+    """
+    import httpx
+
+    tok = XERO_TOKENS.get(state)
+    if not tok or tok.get("status") != "connected":
+        raise HTTPException(400, "Not connected to Xero.")
+
+    access_token = tok["access_token"]
+    tenant_name  = next((t["tenantName"] for t in tok.get("tenants", []) if t["tenantId"] == tenant_id), "Xero")
+
+    # Always pull last 12 months rolling — no manual date selection needed
+    session_id, xero_cash, data, _df = await _fetch_and_build_xero_session(
+        access_token, tenant_id, tenant_name,
+    )
+
+    # If linked to a portfolio client, persist the connection for future re-syncs
+    if client_id and tok.get("refresh_token"):
+        now_iso    = datetime.now(timezone.utc).isoformat()
+        expires_at = (datetime.now(timezone.utc) + timedelta(seconds=1800)).isoformat()
+        with _db() as conn:
+            conn.execute(
+                "INSERT INTO xero_connections (client_id, tenant_id, tenant_name, "
+                "access_token, refresh_token, expires_at, synced_at) "
+                "VALUES (?,?,?,?,?,?,?) "
+                "ON CONFLICT(client_id) DO UPDATE SET "
+                "tenant_id=excluded.tenant_id, tenant_name=excluded.tenant_name, "
+                "access_token=excluded.access_token, refresh_token=excluded.refresh_token, "
+                "expires_at=excluded.expires_at, synced_at=excluded.synced_at",
+                (client_id, tenant_id, tenant_name,
+                 access_token, tok["refresh_token"], expires_at, now_iso),
+            )
+            conn.commit()
+        data["xero_connected"] = True
+        data["xero_synced_at"] = now_iso
     return data
+
+
+@app.post("/api/portfolio/clients/{client_id}/xero-sync")
+async def portfolio_xero_sync(client_id: str):
+    """Re-pull the latest 12-month P&L from Xero for a portfolio client.
+
+    Uses the stored refresh token — no re-authentication needed as long as the
+    refresh token is valid (Xero refresh tokens last 60 days).
+    Updates the stored session and persists the fresh data bytes to the DB.
+    """
+    # Get (and auto-refresh) the stored token
+    conn_info = await _get_valid_xero_token(client_id)
+
+    # Look up the client's sector/NHS params so re-analysis uses correct synonyms
+    with _db() as conn:
+        row = conn.execute(
+            "SELECT name, sector, cash_balance, list_size, wte_partners, "
+            "arrs_allocation, qof_entitlement, partner_drawings "
+            "FROM portfolio_clients WHERE id=?", (client_id,)
+        ).fetchone()
+    if not row:
+        raise HTTPException(404, "Client not found.")
+
+    _sid, xero_cash, _data, df = await _fetch_and_build_xero_session(
+        conn_info["access_token"], conn_info["tenant_id"], conn_info["tenant_name"],
+        existing_session_id=client_id,
+        sector=row["sector"] or "general",
+        list_size=row["list_size"] or 0,
+        wte_partners=row["wte_partners"],
+        arrs_allocation=row["arrs_allocation"],
+        qof_entitlement=row["qof_entitlement"],
+        partner_drawings=row["partner_drawings"],
+    )
+
+    # Serialize the fresh DataFrame as CSV and persist it so the session
+    # survives a server restart without needing another Xero round-trip.
+    now_iso   = datetime.now(timezone.utc).isoformat()
+    csv_bytes = df.to_csv(index=False).encode()
+    filename  = f"{row['name']} — Xero"
+    with _db() as conn:
+        conn.execute(
+            "UPDATE portfolio_clients SET file_bytes=?, file_name=?, updated_at=? WHERE id=?",
+            (csv_bytes, filename, now_iso, client_id),
+        )
+        conn.execute(
+            "UPDATE xero_connections SET synced_at=? WHERE client_id=?",
+            (now_iso, client_id),
+        )
+        conn.commit()
+
+    # Return updated triage summary
+    summary = _score_session(client_id, row["name"], row["sector"] or "general",
+                              xero_cash or row["cash_balance"], now_iso, now_iso,
+                              list_size=row["list_size"] or 0)
+    if summary:
+        summary["xero_connected"] = True
+        summary["xero_synced_at"] = now_iso
+    return summary or {"error": "Could not score session after sync"}
 
 
 def _parse_xero_pnl(report_json: dict) -> pd.DataFrame | None:

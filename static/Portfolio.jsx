@@ -607,6 +607,7 @@ function Portfolio({ onOpenClient, onToast }) {
   const [showCompare, setShowCompare]       = React.useState(false);
   const [compareLoading, setCompareLoading] = React.useState(false);
   const [neighShareStates, setNeighShareStates] = React.useState({}); // {id: "idle"|"loading"|"copied"}
+  const [xeroSyncing, setXeroSyncing]           = React.useState({}); // {client_id: bool}
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -736,12 +737,45 @@ function Portfolio({ onOpenClient, onToast }) {
     } catch { /* silent */ } finally { setCompareLoading(false); }
   }
 
+  async function syncFromXero(clientId) {
+    setXeroSyncing(prev => ({ ...prev, [clientId]: true }));
+    try {
+      const r = await fetch(apiUrl(`/api/portfolio/clients/${clientId}/xero-sync`), { method: "POST" });
+      if (!r.ok) {
+        const j = await r.json().catch(() => ({}));
+        throw new Error(j.detail || `Error ${r.status}`);
+      }
+      const updated = await r.json();
+      setData(prev => {
+        const clients = (prev?.clients || []).map(c =>
+          c.session_id === clientId ? { ...c, ...updated } : c
+        ).sort((a, b) => b.score - a.score);
+        return { ...prev, clients };
+      });
+      onToast?.("Synced from Xero");
+    } catch (ex) {
+      onToast?.(ex.message || "Xero sync failed");
+    } finally {
+      setXeroSyncing(prev => ({ ...prev, [clientId]: false }));
+    }
+  }
+
   function fmtGBP(v) { return window.fmtCurrency(v, { compact: true }); }
 
   function fmtDate(iso) {
     if (!iso) return "";
     try { return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); }
     catch { return ""; }
+  }
+
+  function fmtSyncedAgo(iso) {
+    if (!iso) return "";
+    const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+    if (mins < 2)   return "just now";
+    if (mins < 60)  return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24)   return `${hrs}h ago`;
+    return `${Math.floor(hrs / 24)}d ago`;
   }
 
   function dataFreshness(iso) {
@@ -1119,9 +1153,15 @@ function Portfolio({ onOpenClient, onToast }) {
                         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
                           font: "var(--text-caption)", fontSize: 11.5, color: "var(--fg-3)", marginBottom: 4 }}>
                           <span>{c.sector}</span>
-                          {c.updated_at && (
-                            <span style={{ opacity: .7 }}>· updated {fmtDate(c.updated_at)}</span>
-                          )}
+                          {c.xero_connected && c.xero_synced_at
+                            ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4,
+                                color: "#0a7fa5", fontWeight: 600 }}>
+                                · Xero · synced {fmtSyncedAgo(c.xero_synced_at)}
+                              </span>
+                            : c.updated_at && (
+                              <span style={{ opacity: .7 }}>· updated {fmtDate(c.updated_at)}</span>
+                            )
+                          }
                           {(() => {
                             const f = dataFreshness(c.updated_at);
                             if (!f) return null;
@@ -1212,6 +1252,31 @@ function Portfolio({ onOpenClient, onToast }) {
                       <div style={{ flexShrink: 0, display: "flex", gap: 8, alignItems: "center" }}>
                         {!isDemo && !isConfirmingDelete && (
                           <React.Fragment>
+                            {/* Xero sync — shown for connected clients */}
+                            {c.xero_connected && (
+                              <button
+                                title={c.xero_synced_at ? `Last synced ${fmtSyncedAgo(c.xero_synced_at)}` : "Sync from Xero"}
+                                onClick={() => syncFromXero(c.session_id)}
+                                disabled={!!xeroSyncing[c.session_id]}
+                                style={{
+                                  display: "inline-flex", alignItems: "center", gap: 5,
+                                  padding: "6px 10px", borderRadius: "var(--radius-sm)",
+                                  border: "1px solid #1AB4D8",
+                                  background: xeroSyncing[c.session_id] ? "#e0f7fb" : "#f0fafe",
+                                  color: "#0a7fa5",
+                                  font: "600 11.5px var(--font-display)", cursor: "pointer",
+                                  opacity: xeroSyncing[c.session_id] ? .7 : 1,
+                                  transition: "all .12s",
+                                }}
+                              >
+                                {xeroSyncing[c.session_id]
+                                  ? <React.Fragment><div className="spinner" style={{ width: 11, height: 11, borderColor: "#0a7fa5", borderTopColor: "transparent", flexShrink: 0 }} /> Syncing…</React.Fragment>
+                                  : <React.Fragment>
+                                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4v4l3 3-1.41 1.41L11 12.83V6h1z"/></svg>
+                                      Sync Xero
+                                    </React.Fragment>}
+                              </button>
+                            )}
                             <button onClick={() => setUpdating(c)} title="Update" style={{
                               background: "var(--surface-2)", border: "1px solid var(--border)",
                               borderRadius: "var(--radius-sm)", padding: "6px 8px",
