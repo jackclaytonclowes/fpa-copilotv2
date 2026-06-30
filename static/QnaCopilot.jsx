@@ -42,6 +42,16 @@ const SUGGESTIONS_BVA = [
   "What should I investigate first?",
 ];
 
+const SUGGESTIONS_NHS_GP = [
+  "What is our income per patient this month?",
+  "What is our surplus per patient and how does it compare to the £5–15 target?",
+  "How is our ARRS utilisation — are we getting full value from our allocation?",
+  "What is our QOF achievement and is there a gap to entitlement?",
+  "How does locum spend compare to our permanent clinical staff costs?",
+  "What is the surplus per WTE GP partner?",
+  "Summarise this month's performance for a GP partner meeting.",
+];
+
 /* ── Storage helpers ─────────────────────────────────────────────────────── */
 const CHAT_KEY_BY_FILE    = (name) => `monthendiq_chat_f_${encodeURIComponent((name || "").trim())}`;
 const CHAT_KEY_BY_SESSION = (sid)  => `monthendiq_chat_${sid}`;  // legacy
@@ -112,29 +122,34 @@ function stripHtml(html) {
     .trim();
 }
 
-function makeWelcome(periodLabel, analysisType) {
-  const isBvA = analysisType === "budget_vs_actual";
-  const period = periodLabel ? "<b>" + periodLabel + "</b>" : "your P&amp;L";
+function makeWelcome(periodLabel, analysisType, sector) {
+  const isBvA   = analysisType === "budget_vs_actual";
+  const isNhsGp = sector === "nhs_gp";
+  const period  = periodLabel ? "<b>" + periodLabel + "</b>" : "your P&amp;L";
   const contextLine = isBvA
     ? "I have your budget vs actual data loaded for " + period + "."
-    : "I have your month-on-month P&amp;L loaded for " + period + ".";
+    : isNhsGp
+      ? "I have your NHS GP practice P&amp;L loaded for " + period + ". I understand GMS contracts, QOF, ARRS, and NHS GP benchmarks."
+      : "I have your month-on-month P&amp;L loaded for " + period + ".";
+  const bullets = isBvA
+    ? "<li>Why did profit differ from budget?</li><li>Which areas are most over budget?</li><li>Summarise budget performance for a Finance Director</li>"
+    : isNhsGp
+      ? "<li>What is our income per patient this month?</li><li>How is our ARRS utilisation?</li><li>What is our surplus per WTE partner?</li>"
+      : "<li>Why did operating profit change this month?</li><li>What were the biggest cost movements?</li><li>Summarise this period for a Finance Director</li>";
   return {
     who: "ai",
     html:
       contextLine +
       " Here are some things you can ask me:" +
       "<ul style=\"margin:8px 0 0;padding-left:18px;line-height:1.8\">" +
-      (isBvA
-        ? "<li>Why did profit differ from budget?</li><li>Which areas are most over budget?</li><li>Summarise budget performance for a Finance Director</li>"
-        : "<li>Why did operating profit change this month?</li><li>What were the biggest cost movements?</li><li>Summarise this period for a Finance Director</li>"
-      ) +
+      bullets +
       "<li>What should I investigate further?</li>" +
       "</ul>",
   };
 }
 
 /* ── Component ───────────────────────────────────────────────────────────── */
-function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, analysisType, prefillQuestion, onPrefillConsumed }) {
+function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, analysisType, sector, prefillQuestion, onPrefillConsumed }) {
   const { Icon } = window;
 
   const userInitials = (() => {
@@ -158,7 +173,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
    */
   const [msgs, setMsgs] = useStateQna(() => {
     const saved = chatLoad(sessionId, fileName);
-    return [makeWelcome(period?.label, analysisType), ...saved];
+    return [makeWelcome(period?.label, analysisType, sector), ...saved];
   });
 
   const [text, setText]       = useStateQna("");
@@ -189,7 +204,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
   /* ── Clear chat ──────────────────────────────────────────────────────── */
   const clearChat = () => {
     chatClear(sessionId, fileName);
-    setMsgs([makeWelcome(period?.label, analysisType)]);
+    setMsgs([makeWelcome(period?.label, analysisType, sector)]);
     // Clear server-side history too (best-effort)
     fetch(apiUrl("/api/chat/" + sessionId), {
       method: "POST",
@@ -412,7 +427,7 @@ function QnaCopilot({ sessionId, fileName, period, periodMode, selectedPeriod, a
 
         {/* Suggested questions */}
         <div className="qna-suggest">
-          {(analysisType === "budget_vs_actual" ? SUGGESTIONS_BVA : SUGGESTIONS_MOM).map((s) => (
+          {(analysisType === "budget_vs_actual" ? SUGGESTIONS_BVA : sector === "nhs_gp" ? SUGGESTIONS_NHS_GP : SUGGESTIONS_MOM).map((s) => (
             <button key={s} className="suggest" onClick={() => ask(s)} disabled={loading}>
               {s}
             </button>

@@ -636,6 +636,7 @@ function App() {
         periodMode={periodMode}
         selectedPeriod={selectedPeriod}
         analysisType={analysisType}
+        sector={sessionData?.sector}
         prefillQuestion={copilotQuestion}
         onPrefillConsumed={() => setCopilotQuestion(null)}
       />);

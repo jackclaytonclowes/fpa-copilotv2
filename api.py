@@ -3165,6 +3165,35 @@ FINANCIAL DATA:
 {context}
 """
 
+STRATEGY_PROMPT_NHS_GP = """You are a senior FP&A adviser specialising in NHS GP practice finance.
+Using ONLY the financial data provided, write a concise strategic analysis for a GP practice.
+
+Respond with valid JSON only, using this exact structure:
+{{
+  "executive_summary": "2-3 sentences summarising the practice's financial position, referencing surplus per patient and/or per partner",
+  "whats_working": ["specific positive with figure", "specific positive with figure"],
+  "areas_of_concern": ["specific risk or negative trend with figure", "specific issue with figure"],
+  "recommended_actions": ["concrete action tied to the data", "concrete action", "concrete action"]
+}}
+
+NHS GP benchmarks to apply where data is available:
+- Surplus per patient: target {currency_sym}5–15 per month. Below {currency_sym}5 is a concern.
+- ARRS utilisation: ≥80% is good; <50% means the practice is leaving PCN funding on the table.
+- QOF achievement: ≥95% is excellent; <80% warrants investigation.
+- Locum costs: if locum spend exceeds 15% of total staff costs, flag as a dependency risk.
+- Payroll % of revenue: >65% in NHS GP is high; >75% is critical.
+
+Rules:
+- Reference actual figures, percentages, and account names from the data provided
+- Use NHS terminology: GMS/PMS contract, QOF, ARRS, PCN, ICB, enhanced services, partner drawings
+- No generic advice — every point must be anchored to a specific number in the data
+- Maximum 3 bullets per list section
+- Currency symbol: {currency_sym}
+
+FINANCIAL DATA:
+{context}
+"""
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Q&A COPILOT — OpenAI-powered
@@ -3617,7 +3646,7 @@ def get_strategy(session_id: str, period: str = "", mode: str = "monthly",
         resp = client.chat.completions.create(
             model=ai_model,
             messages=[
-                {"role": "system", "content": STRATEGY_PROMPT.format(context=ctx, currency_sym=currency)},
+                {"role": "system", "content": (STRATEGY_PROMPT_NHS_GP if s.get("sector") == "nhs_gp" else STRATEGY_PROMPT).format(context=ctx, currency_sym=currency)},
                 {"role": "user",   "content": "Generate the strategic review."},
             ],
             temperature=0.3,
