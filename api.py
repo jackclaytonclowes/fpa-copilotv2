@@ -891,8 +891,11 @@ def demo_gp():
     for m in movements:
         m["is_locum"] = is_locum_account(m.get("account", ""))
     data["workforce_breakdown"] = compute_workforce_breakdown(movements)
-    util = compute_utilisation(movements, NHS_PARAMS["arrs_allocation"], NHS_PARAMS["qof_entitlement"])
+    # Use full-year YTD movements so ARRS/QOF reflect total annual spend vs allocation
+    ytd_mvts = _nhs_ytd_movements(SESSIONS[session_id], latest, "monthly")
+    util = compute_utilisation(ytd_mvts, NHS_PARAMS["arrs_allocation"], NHS_PARAMS["qof_entitlement"])
     data["nhs_utilisation"] = util
+    data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
     nhs = compute_nhs_kpis(data, NHS_PARAMS["list_size"], NHS_PARAMS["wte_partners"])
     nhs.update(util)
     data["nhs_kpis"]      = nhs
@@ -2001,6 +2004,78 @@ def _friendly_upload_error(raw: str, mode: str) -> str:
 _MAX_UPLOAD_BYTES = 20 * 1024 * 1024  # 20 MB
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# NHS GP HELPERS
+# ─────────────────────────────────────────────────────────────────────────────
+_NHS_COMMENTARY_SUBS = [
+    # More specific patterns first to avoid partial overlaps
+    ("Operating profit", "Net Surplus"),
+    ("Operating Profit", "Net Surplus"),
+    ("operating profit", "net surplus"),
+    ("Net profit",       "Net Surplus"),
+    ("Net Profit",       "Net Surplus"),
+    ("net profit",       "net surplus"),
+    ("Revenue increased", "Income increased"),
+    ("Revenue decreased", "Income decreased"),
+    ("Revenue declined",  "Income declined"),
+    ("Revenue grew",      "Income grew"),
+    ("Revenue fell",      "Income fell"),
+    ("revenue increased", "income increased"),
+    ("revenue decreased", "income decreased"),
+    (" revenue ",   " income "),
+    (" Revenue ",   " Income "),
+    (">Revenue<",   ">Income<"),
+    (">Revenue ",   ">Income "),
+    ("reduces profit",   "reduces surplus"),
+    ("improves profit",  "improves surplus"),
+    ("improved profit",  "improved surplus"),
+    ("reducing profit",  "reducing surplus"),
+    (" profit.",  " surplus."),
+    (" profit,",  " surplus,"),
+    (" profit<",  " surplus<"),
+    (" profit ",  " surplus "),
+    (" Profit.",  " Surplus."),
+    (" Profit<",  " Surplus<"),
+    (" Profit ",  " Surplus "),
+]
+
+
+def _adapt_commentary_for_nhs(commentary: list[dict]) -> list[dict]:
+    """Rewrite auto-commentary using NHS GP terminology (Income, Surplus) in-place clone."""
+    result = []
+    for c in commentary:
+        html = c.get("html", "")
+        for old, new in _NHS_COMMENTARY_SUBS:
+            html = html.replace(old, new)
+        result.append({**c, "html": html})
+    return result
+
+
+def _nhs_ytd_movements(session: dict, selected_period, mode: str = "monthly") -> list[dict]:
+    """Return all non-subtotal movements from period-start through selected_period.
+
+    Used for ARRS/QOF utilisation so the numbers reflect cumulative annual spend
+    rather than a single period's top-15 movements.
+    """
+    analysis = session.get("analysis_m") if mode in ("monthly", "ytd") else session.get("analysis_q")
+    if analysis is None:
+        return []
+    try:
+        sel_ts = pd.Timestamp(selected_period)
+        ytd_mask = (
+            (~analysis["Is Subtotal"]) &
+            (analysis["Period"].apply(pd.Timestamp) <= sel_ts)
+        )
+        subset = analysis[ytd_mask]
+        return [
+            {"account": row["Account"], "category": row["Category"],
+             "value": float(row["Value"])}
+            for _, row in subset.iterrows()
+        ]
+    except Exception:
+        return []
+
+
 @app.post("/api/upload")
 async def upload(
     file:              UploadFile = File(...),
@@ -2205,8 +2280,11 @@ async def upload(
         for m in movements:
             m["is_locum"] = is_locum_account(m.get("account", ""))
         data["workforce_breakdown"] = compute_workforce_breakdown(movements)
-        util = compute_utilisation(movements, arrs_allocation or None, qof_entitlement or None)
+        # YTD movements give accurate annual ARRS/QOF totals vs annual allocations
+        ytd_mvts = _nhs_ytd_movements(SESSIONS[session_id], latest, "monthly")
+        util = compute_utilisation(ytd_mvts, arrs_allocation or None, qof_entitlement or None)
         data["nhs_utilisation"] = util
+        data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
         if list_size:
             nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
             nhs.update(util)
@@ -2362,16 +2440,16 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         for m in movements:
             m["is_locum"] = is_locum_account(m.get("account", ""))
 
-        # Workforce breakdown
+        # Workforce breakdown — per selected period (correct: shows current staffing mix)
         data["workforce_breakdown"] = compute_workforce_breakdown(movements)
 
-        # ARRS + QOF utilisation
-        util = compute_utilisation(
-            movements,
-            s.get("arrs_allocation"),
-            s.get("qof_entitlement"),
-        )
+        # ARRS + QOF utilisation — YTD so numbers compare annual spend vs annual allocation
+        ytd_mvts = _nhs_ytd_movements(s, selected, mode)
+        util = compute_utilisation(ytd_mvts, s.get("arrs_allocation"), s.get("qof_entitlement"))
         data["nhs_utilisation"] = util
+
+        # NHS-adapted commentary
+        data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
 
         # Per-patient KPIs
         if s.get("list_size"):
