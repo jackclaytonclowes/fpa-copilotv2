@@ -608,6 +608,7 @@ function Portfolio({ onOpenClient, onToast }) {
   const [compareLoading, setCompareLoading] = React.useState(false);
   const [neighShareStates, setNeighShareStates] = React.useState({}); // {id: "idle"|"loading"|"copied"}
   const [xeroSyncing, setXeroSyncing]           = React.useState({}); // {client_id: bool}
+  const [xeroSyncPeriod, setXeroSyncPeriod]     = React.useState({}); // {client_id: "rolling_12"|"financial_year"}
 
   const load = React.useCallback((m) => {
     const which = m ?? mode;
@@ -740,7 +741,8 @@ function Portfolio({ onOpenClient, onToast }) {
   async function syncFromXero(clientId) {
     setXeroSyncing(prev => ({ ...prev, [clientId]: true }));
     try {
-      const r = await fetch(apiUrl(`/api/portfolio/clients/${clientId}/xero-sync`), { method: "POST" });
+      const pm = xeroSyncPeriod[clientId] || "rolling_12";
+      const r = await fetch(apiUrl(`/api/portfolio/clients/${clientId}/xero-sync?period_mode=${pm}`), { method: "POST" });
       if (!r.ok) {
         const j = await r.json().catch(() => ({}));
         throw new Error(j.detail || `Error ${r.status}`);
@@ -1252,30 +1254,60 @@ function Portfolio({ onOpenClient, onToast }) {
                       <div style={{ flexShrink: 0, display: "flex", gap: 8, alignItems: "center" }}>
                         {!isDemo && !isConfirmingDelete && (
                           <React.Fragment>
-                            {/* Xero sync — shown for connected clients */}
+                            {/* Xero sync — period toggle + sync button for connected clients */}
                             {c.xero_connected && (
-                              <button
-                                title={c.xero_synced_at ? `Last synced ${fmtSyncedAgo(c.xero_synced_at)}` : "Sync from Xero"}
-                                onClick={() => syncFromXero(c.session_id)}
-                                disabled={!!xeroSyncing[c.session_id]}
-                                style={{
-                                  display: "inline-flex", alignItems: "center", gap: 5,
-                                  padding: "6px 10px", borderRadius: "var(--radius-sm)",
-                                  border: "1px solid #1AB4D8",
-                                  background: xeroSyncing[c.session_id] ? "#e0f7fb" : "#f0fafe",
-                                  color: "#0a7fa5",
-                                  font: "600 11.5px var(--font-display)", cursor: "pointer",
-                                  opacity: xeroSyncing[c.session_id] ? .7 : 1,
-                                  transition: "all .12s",
-                                }}
-                              >
-                                {xeroSyncing[c.session_id]
-                                  ? <React.Fragment><div className="spinner" style={{ width: 11, height: 11, borderColor: "#0a7fa5", borderTopColor: "transparent", flexShrink: 0 }} /> Syncing…</React.Fragment>
-                                  : <React.Fragment>
-                                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4v4l3 3-1.41 1.41L11 12.83V6h1z"/></svg>
-                                      Sync Xero
-                                    </React.Fragment>}
-                              </button>
+                              <React.Fragment>
+                                {/* Period selector: Last 12 months vs NHS financial year */}
+                                <div style={{
+                                  display: "inline-flex", borderRadius: "var(--radius-sm)",
+                                  border: "1px solid #1AB4D8", overflow: "hidden", flexShrink: 0,
+                                }}>
+                                  {[
+                                    { v: "rolling_12",    label: "12M" },
+                                    { v: "financial_year", label: "FY"  },
+                                  ].map(opt => {
+                                    const active = (xeroSyncPeriod[c.session_id] || "rolling_12") === opt.v;
+                                    return (
+                                      <button
+                                        key={opt.v}
+                                        title={opt.v === "rolling_12" ? "Last 12 months" : "NHS financial year (Apr–Mar)"}
+                                        onClick={() => setXeroSyncPeriod(prev => ({ ...prev, [c.session_id]: opt.v }))}
+                                        style={{
+                                          padding: "5px 9px", border: "none",
+                                          background: active ? "#1AB4D8" : "#f0fafe",
+                                          color: active ? "#fff" : "#0a7fa5",
+                                          font: "600 10.5px var(--font-display)",
+                                          cursor: "pointer", transition: "all .1s",
+                                        }}
+                                      >
+                                        {opt.label}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                                <button
+                                  title={c.xero_synced_at ? `Last synced ${fmtSyncedAgo(c.xero_synced_at)}` : "Sync from Xero"}
+                                  onClick={() => syncFromXero(c.session_id)}
+                                  disabled={!!xeroSyncing[c.session_id]}
+                                  style={{
+                                    display: "inline-flex", alignItems: "center", gap: 5,
+                                    padding: "6px 10px", borderRadius: "var(--radius-sm)",
+                                    border: "1px solid #1AB4D8",
+                                    background: xeroSyncing[c.session_id] ? "#e0f7fb" : "#f0fafe",
+                                    color: "#0a7fa5",
+                                    font: "600 11.5px var(--font-display)", cursor: "pointer",
+                                    opacity: xeroSyncing[c.session_id] ? .7 : 1,
+                                    transition: "all .12s",
+                                  }}
+                                >
+                                  {xeroSyncing[c.session_id]
+                                    ? <React.Fragment><div className="spinner" style={{ width: 11, height: 11, borderColor: "#0a7fa5", borderTopColor: "transparent", flexShrink: 0 }} /> Syncing…</React.Fragment>
+                                    : <React.Fragment>
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4v4l3 3-1.41 1.41L11 12.83V6h1z"/></svg>
+                                        Sync Xero
+                                      </React.Fragment>}
+                                </button>
+                              </React.Fragment>
                             )}
                             <button onClick={() => setUpdating(c)} title="Update" style={{
                               background: "var(--surface-2)", border: "1px solid var(--border)",
