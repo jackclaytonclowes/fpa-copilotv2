@@ -1798,13 +1798,14 @@ _MAX_UPLOAD_BYTES = 20 * 1024 * 1024  # 20 MB
 
 @app.post("/api/upload")
 async def upload(
-    file:             UploadFile = File(...),
-    mode:             str        = "month_on_month",
-    sector:           str        = Form("general"),
-    list_size:        int        = Form(0),
-    wte_partners:     float      = Form(0.0),
-    arrs_allocation:  float      = Form(0.0),
-    qof_entitlement:  float      = Form(0.0),
+    file:              UploadFile = File(...),
+    mode:              str        = "month_on_month",
+    sector:            str        = Form("general"),
+    list_size:         int        = Form(0),
+    wte_partners:      float      = Form(0.0),
+    arrs_allocation:   float      = Form(0.0),
+    qof_entitlement:   float      = Form(0.0),
+    partner_drawings:  float      = Form(0.0),
 ):
     if not file.filename:
         raise HTTPException(400, "No filename provided.")
@@ -1885,19 +1886,20 @@ async def upload(
         kpi_accounts = detect_kpis(df_for_kpis)
         session_id = str(uuid.uuid4())
         SESSIONS[session_id] = {
-            "df"             : df_for_kpis,
-            "bva_data"       : bva_snapshot,
-            "bva_long"       : bva_long_store,
-            "bva_periods"    : bva_periods,
-            "kpi_accounts"   : kpi_accounts,
-            "filename"       : file.filename,
-            "analysis_type"  : "budget_vs_actual",
-            "sector"         : sector,
-            "list_size"      : list_size,
-            "wte_partners"   : wte_partners or None,
-            "arrs_allocation": arrs_allocation or None,
-            "qof_entitlement": qof_entitlement or None,
-            "chat"           : [],
+            "df"               : df_for_kpis,
+            "bva_data"         : bva_snapshot,
+            "bva_long"         : bva_long_store,
+            "bva_periods"      : bva_periods,
+            "kpi_accounts"     : kpi_accounts,
+            "filename"         : file.filename,
+            "analysis_type"    : "budget_vs_actual",
+            "sector"           : sector,
+            "list_size"        : list_size,
+            "wte_partners"     : wte_partners or None,
+            "arrs_allocation"  : arrs_allocation or None,
+            "qof_entitlement"  : qof_entitlement or None,
+            "partner_drawings" : partner_drawings or None,
+            "chat"             : [],
         }
         data = get_bva_data(bva_snapshot, kpi_accounts, file.filename, bva_long=bva_long_store)
         data["session_id"]            = session_id
@@ -1944,20 +1946,21 @@ async def upload(
 
     session_id = str(uuid.uuid4())
     SESSIONS[session_id] = {
-        "df"             : df,
-        "df_long_m"      : df_long_m,
-        "df_long_q"      : df_long_q,
-        "analysis_m"     : analysis_m,
-        "analysis_q"     : analysis_q,
-        "kpi_accounts"   : kpi_accounts,
-        "filename"       : file.filename,
-        "analysis_type"  : "month_on_month",
-        "sector"         : sector,
-        "list_size"      : list_size,
-        "wte_partners"   : wte_partners or None,
-        "arrs_allocation": arrs_allocation or None,
-        "qof_entitlement": qof_entitlement or None,
-        "chat"           : [],
+        "df"               : df,
+        "df_long_m"        : df_long_m,
+        "df_long_q"        : df_long_q,
+        "analysis_m"       : analysis_m,
+        "analysis_q"       : analysis_q,
+        "kpi_accounts"     : kpi_accounts,
+        "filename"         : file.filename,
+        "analysis_type"    : "month_on_month",
+        "sector"           : sector,
+        "list_size"        : list_size,
+        "wte_partners"     : wte_partners or None,
+        "arrs_allocation"  : arrs_allocation or None,
+        "qof_entitlement"  : qof_entitlement or None,
+        "partner_drawings" : partner_drawings or None,
+        "chat"             : [],
     }
 
     periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))

@@ -77,11 +77,12 @@ function UploadScreen({ onLoad, onLoadDemo }) {
   const [loading,      setLoading]      = useStateUpload(false);
   const [demoLoading,  setDemoLoading]  = useStateUpload(null);
   const [error,        setError]        = useStateUpload(null);
-  const [sector,          setSector]          = useStateUpload("general");
-  const [listSize,        setListSize]        = useStateUpload("");
-  const [wtePartners,     setWtePartners]     = useStateUpload("");
-  const [arrsAllocation,  setArrsAllocation]  = useStateUpload("");
-  const [qofEntitlement,  setQofEntitlement]  = useStateUpload("");
+  const [sector,           setSector]           = useStateUpload("general");
+  const [listSize,         setListSize]         = useStateUpload("");
+  const [wtePartners,      setWtePartners]      = useStateUpload("");
+  const [arrsAllocation,   setArrsAllocation]   = useStateUpload("");
+  const [qofEntitlement,   setQofEntitlement]   = useStateUpload("");
+  const [partnerDrawings,  setPartnerDrawings]  = useStateUpload("");
   const [mode,         setMode]         = useStateUpload(() => {
     try { return localStorage.getItem("meiq_upload_mode") || ""; } catch { return ""; }
   });
@@ -168,10 +169,11 @@ function UploadScreen({ onLoad, onLoadDemo }) {
       const fd = new FormData();
       fd.append("file", file);
       fd.append("sector", sector);
-      fd.append("list_size",       sector === "nhs_gp" && listSize       ? String(parseInt(listSize, 10) || 0)         : "0");
-      fd.append("wte_partners",    sector === "nhs_gp" && wtePartners    ? String(parseFloat(wtePartners) || 0)        : "0");
-      fd.append("arrs_allocation", sector === "nhs_gp" && arrsAllocation ? String(parseFloat(arrsAllocation) || 0)    : "0");
-      fd.append("qof_entitlement", sector === "nhs_gp" && qofEntitlement ? String(parseFloat(qofEntitlement) || 0)    : "0");
+      fd.append("list_size",        sector === "nhs_gp" && listSize        ? String(parseInt(listSize, 10) || 0)      : "0");
+      fd.append("wte_partners",    sector === "nhs_gp" && wtePartners    ? String(parseFloat(wtePartners) || 0)       : "0");
+      fd.append("arrs_allocation", sector === "nhs_gp" && arrsAllocation ? String(parseFloat(arrsAllocation) || 0)   : "0");
+      fd.append("qof_entitlement", sector === "nhs_gp" && qofEntitlement ? String(parseFloat(qofEntitlement) || 0)   : "0");
+      fd.append("partner_drawings",sector === "nhs_gp" && partnerDrawings? String(parseFloat(partnerDrawings) || 0)  : "0");
       const res = await fetch(apiUrl(`/api/upload?mode=${effectiveMode}`), { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: "Upload failed." }));
@@ -284,10 +286,11 @@ function UploadScreen({ onLoad, onLoadDemo }) {
               {sector === "nhs_gp" && (
                 <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 10 }}>
                   {[
-                    { label: "Weighted list size",     placeholder: "e.g. 8500",    val: listSize,       set: setListSize,       hint: "Used to calculate per-patient KPIs." },
-                    { label: "WTE GP partners",        placeholder: "e.g. 4.5",     val: wtePartners,    set: setWtePartners,    hint: "Whole-time-equivalent partners for income per partner." },
-                    { label: "ARRS allocation (£)",    placeholder: "e.g. 120000",  val: arrsAllocation, set: setArrsAllocation, hint: "PCN annual ARRS funding to track utilisation." },
-                    { label: "QOF entitlement (£)",    placeholder: "e.g. 95000",   val: qofEntitlement, set: setQofEntitlement, hint: "Annual QOF aspiration to track achievement." },
+                    { label: "Weighted list size",     placeholder: "e.g. 8500",    val: listSize,        set: setListSize,        hint: "Used to calculate per-patient KPIs." },
+                    { label: "WTE GP partners",        placeholder: "e.g. 4.5",     val: wtePartners,    set: setWtePartners,     hint: "Whole-time-equivalent partners for income per partner." },
+                    { label: "ARRS allocation (£)",    placeholder: "e.g. 120000",  val: arrsAllocation, set: setArrsAllocation,  hint: "PCN annual ARRS funding to track utilisation." },
+                    { label: "QOF entitlement (£)",    placeholder: "e.g. 95000",   val: qofEntitlement, set: setQofEntitlement,  hint: "Annual QOF aspiration to track achievement." },
+                    { label: "Partner drawings (£)",   placeholder: "e.g. 280000",  val: partnerDrawings,set: setPartnerDrawings, hint: "Total partner drawings for Partner Accounts export sheet." },
                   ].map(({ label, placeholder, val, set, hint }) => (
                     <div key={label}>
                       <div style={{ font: "var(--text-label)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 5 }}>{label}</div>
