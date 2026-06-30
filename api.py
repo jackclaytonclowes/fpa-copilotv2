@@ -1148,7 +1148,7 @@ def _flat(v, n=12):
 def _build_nhs_pcn_client(
     name, list_size, wte_partners, arrs_allocation, qof_entitlement,
     gms, qof, es, arrs_ph, arrs_sp, clinical, locum, admin_w, prac_mgr,
-    drawings, rent, cash
+    drawings, rent, cash, sector="nhs_gp"
 ):
     """Build an NHS GP PCN P&L session for use in the demo portfolio.
 
@@ -1221,12 +1221,12 @@ def _build_nhs_pcn_client(
         "analysis_m": analysis_m, "analysis_q": analysis_q,
         "kpi_accounts": kpi_accounts, "filename": f"{name} — Demo",
         "analysis_type": "month_on_month", "xero_cash": cash, "chat": [],
-        "sector": "nhs_gp", "list_size": list_size, "wte_partners": wte_partners,
+        "sector": sector, "list_size": list_size, "wte_partners": wte_partners,
         "arrs_allocation": arrs_allocation, "qof_entitlement": qof_entitlement,
         "partner_drawings": sum(drawings),
     }
 
-    return _score_session(sid, name, "nhs_gp", cash, now, now, list_size=list_size)
+    return _score_session(sid, name, sector, cash, now, now, list_size=list_size)
 
 
 def _build_portfolio_client(name, sector, revenue, cogs, staff, overheads, cash):
@@ -1399,7 +1399,7 @@ def portfolio_demo():
     # ── NHS GP PCN demo clients (Merseyside Neighbourhood) ──────────────────
     # Anfield PCN — large, healthy ARRS utilisation, good surplus/patient
     pcn1 = _build_nhs_pcn_client(
-        name="Anfield PCN",
+        name="Anfield PCN", sector="nhs_pcn",
         list_size=10200, wte_partners=5.5,
         arrs_allocation=138500.0, qof_entitlement=208000.0,
         gms      = _ramp(88000, 300),
@@ -1418,7 +1418,7 @@ def portfolio_demo():
 
     # Kensington PCN — medium, elevated locum dependency (watch-tier)
     pcn2 = _build_nhs_pcn_client(
-        name="Kensington PCN",
+        name="Kensington PCN", sector="nhs_pcn",
         list_size=7800, wte_partners=4.2,
         arrs_allocation=106000.0, qof_entitlement=159000.0,
         gms      = _ramp(72000, 150),
@@ -1437,7 +1437,7 @@ def portfolio_demo():
 
     # Kirkby PCN — smaller, low ARRS utilisation (leaving money on table)
     pcn3 = _build_nhs_pcn_client(
-        name="Kirkby PCN",
+        name="Kirkby PCN", sector="nhs_pcn",
         list_size=6100, wte_partners=3.2,
         arrs_allocation=82800.0, qof_entitlement=124500.0,
         gms      = _ramp(56000, 100),

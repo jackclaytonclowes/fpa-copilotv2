@@ -9,13 +9,14 @@ function getFirmToken() {
 
 const SECTORS = [
   "Accountancy", "Construction", "E-commerce", "Hospitality",
-  "Manufacturing", "NHS GP Practice", "NHS Federation", "Professional services",
+  "Manufacturing", "NHS GP Practice", "NHS PCN", "NHS Federation", "Professional services",
   "Property", "Retail", "SaaS", "Other",
 ];
 
 // Maps display sector to the internal sector value used by the API
 const SECTOR_VALUE_MAP = {
   "NHS GP Practice": "nhs_gp",
+  "NHS PCN":         "nhs_pcn",
   "NHS Federation":  "nhs_federation",
 };
 
@@ -597,6 +598,7 @@ function Portfolio({ onOpenClient, onToast }) {
   const [emailedLink, setEmailedLink] = React.useState(null); // session_id of last emailed card
   const [search, setSearch]           = React.useState("");
   const [tierFilter, setTierFilter]   = React.useState("all"); // "all" | "action" | "watch" | "healthy"
+  const [typeFilter, setTypeFilter]   = React.useState("all"); // "all" | "nhs_gp" | "nhs_pcn"
   const [, setRagRev]                 = React.useState(0);
   const [neighbourhoods, setNeighbourhoods] = React.useState([]);
   const [showNeighModal, setShowNeighModal] = React.useState(false);
@@ -758,12 +760,13 @@ function Portfolio({ onOpenClient, onToast }) {
   const visibleClients = React.useMemo(() => {
     let list = data?.clients || [];
     if (tierFilter !== "all") list = list.filter(c => c.tier === tierFilter);
+    if (typeFilter !== "all") list = list.filter(c => c.sector === typeFilter);
     const q = search.trim().toLowerCase();
     if (q) list = list.filter(c =>
       c.name.toLowerCase().includes(q) || (c.sector || "").toLowerCase().includes(q)
     );
     return list;
-  }, [data, tierFilter, search]);
+  }, [data, tierFilter, typeFilter, search]);
 
   return (
     <div className="content">
@@ -915,58 +918,97 @@ function Portfolio({ onOpenClient, onToast }) {
             )}
 
             {/* Search + tier filter */}
-            {hasClients && (
-              <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap", alignItems: "center" }}>
-                <div style={{
-                  display: "flex", alignItems: "center", gap: 8,
-                  flex: "1 1 200px", padding: "7px 12px",
-                  background: "var(--surface)", border: "1px solid var(--border-strong)",
-                  borderRadius: "var(--radius-sm)",
-                }}>
-                  <Icon name="search" size={14} color="var(--fg-3)" style={{ flexShrink: 0 }} />
-                  <input
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    placeholder="Search clients…"
-                    style={{
-                      flex: 1, border: "none", outline: "none",
-                      font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
-                      background: "transparent",
-                    }}
-                  />
-                  {search && (
-                    <button onClick={() => setSearch("")} style={{
-                      background: "none", border: "none", cursor: "pointer",
-                      color: "var(--fg-3)", padding: 0, display: "flex", alignItems: "center",
+            {hasClients && (() => {
+              const allClients = data?.clients || [];
+              const hasGp  = allClients.some(c => c.sector === "nhs_gp");
+              const hasPcn = allClients.some(c => c.sector === "nhs_pcn");
+              const showTypeFilter = hasGp || hasPcn;
+              return (
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: 8,
+                      flex: "1 1 200px", padding: "7px 12px",
+                      background: "var(--surface)", border: "1px solid var(--border-strong)",
+                      borderRadius: "var(--radius-sm)",
                     }}>
-                      <Icon name="x" size={13} />
-                    </button>
+                      <Icon name="search" size={14} color="var(--fg-3)" style={{ flexShrink: 0 }} />
+                      <input
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        placeholder="Search clients…"
+                        style={{
+                          flex: 1, border: "none", outline: "none",
+                          font: "var(--text-body)", fontSize: 13, color: "var(--ink)",
+                          background: "transparent",
+                        }}
+                      />
+                      {search && (
+                        <button onClick={() => setSearch("")} style={{
+                          background: "none", border: "none", cursor: "pointer",
+                          color: "var(--fg-3)", padding: 0, display: "flex", alignItems: "center",
+                        }}>
+                          <Icon name="x" size={13} />
+                        </button>
+                      )}
+                    </div>
+                    <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                      {[
+                        { key: "all",     label: "All" },
+                        { key: "action",  label: "Action", color: "var(--adverse-text)",         bg: "var(--adverse-soft)",    border: "var(--adverse-border)" },
+                        { key: "watch",   label: "Watch",  color: "var(--caution-text, #b45309)",bg: "var(--caution-soft, #fef3c7)", border: "var(--caution-border, #fcd34d)" },
+                        { key: "healthy", label: "Healthy",color: "var(--favourable-text)",      bg: "var(--favourable-soft)", border: "var(--favourable-border)" },
+                      ].map(f => {
+                        const active = tierFilter === f.key;
+                        return (
+                          <button key={f.key} onClick={() => setTierFilter(f.key)} style={{
+                            padding: "5px 12px", borderRadius: 20, cursor: "pointer",
+                            font: "var(--text-label)", fontSize: 11.5, fontWeight: 600,
+                            border: `1px solid ${active && f.border ? f.border : "var(--border-strong)"}`,
+                            background: active && f.bg ? f.bg : (active ? "var(--surface-2)" : "var(--surface)"),
+                            color: active && f.color ? f.color : (active ? "var(--ink)" : "var(--fg-3)"),
+                            transition: "all .12s",
+                          }}>
+                            {f.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  {/* Type filter — only shown when both GP practices and PCNs are present */}
+                  {showTypeFilter && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ font: "var(--text-label)", fontSize: 11, color: "var(--fg-3)",
+                        textTransform: "uppercase", letterSpacing: ".05em", flexShrink: 0 }}>
+                        View
+                      </span>
+                      <div style={{ display: "inline-flex", background: "var(--surface-2)",
+                        borderRadius: "var(--radius-sm)", padding: 2, border: "1px solid var(--border)", gap: 2 }}>
+                        {[
+                          { key: "all",     label: "All clients" },
+                          { key: "nhs_gp",  label: "GP Practices" },
+                          { key: "nhs_pcn", label: "PCNs" },
+                        ].map(t => {
+                          const active = typeFilter === t.key;
+                          return (
+                            <button key={t.key} onClick={() => setTypeFilter(t.key)} style={{
+                              padding: "4px 13px", borderRadius: "calc(var(--radius-sm) - 2px)", border: "none",
+                              background: active ? "var(--surface)" : "transparent",
+                              boxShadow: active ? "0 1px 3px rgba(0,0,0,.12)" : "none",
+                              color: active ? "var(--primary)" : "var(--fg-3)",
+                              font: "var(--text-body)", fontSize: 12, fontWeight: active ? 600 : 400,
+                              cursor: "pointer", transition: "all .12s",
+                            }}>
+                              {t.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
                 </div>
-                <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                  {[
-                    { key: "all",     label: "All" },
-                    { key: "action",  label: "Action", color: "var(--adverse-text)",         bg: "var(--adverse-soft)",    border: "var(--adverse-border)" },
-                    { key: "watch",   label: "Watch",  color: "var(--caution-text, #b45309)",bg: "var(--caution-soft, #fef3c7)", border: "var(--caution-border, #fcd34d)" },
-                    { key: "healthy", label: "Healthy",color: "var(--favourable-text)",      bg: "var(--favourable-soft)", border: "var(--favourable-border)" },
-                  ].map(f => {
-                    const active = tierFilter === f.key;
-                    return (
-                      <button key={f.key} onClick={() => setTierFilter(f.key)} style={{
-                        padding: "5px 12px", borderRadius: 20, cursor: "pointer",
-                        font: "var(--text-label)", fontSize: 11.5, fontWeight: 600,
-                        border: `1px solid ${active && f.border ? f.border : "var(--border-strong)"}`,
-                        background: active && f.bg ? f.bg : (active ? "var(--surface-2)" : "var(--surface)"),
-                        color: active && f.color ? f.color : (active ? "var(--ink)" : "var(--fg-3)"),
-                        transition: "all .12s",
-                      }}>
-                        {f.label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Triage list */}
             {hasClients && (
@@ -1046,7 +1088,19 @@ function Portfolio({ onOpenClient, onToast }) {
                               border: "1px solid #b3c9f5",
                               borderRadius: 20, padding: "2px 8px", flexShrink: 0,
                             }}>
-                              NHS GP
+                              GP Practice
+                            </span>
+                          )}
+                          {c.sector === "nhs_pcn" && (
+                            <span style={{
+                              display: "inline-flex", alignItems: "center", gap: 4,
+                              font: "var(--text-label)", fontSize: 10, fontWeight: 700,
+                              textTransform: "uppercase", letterSpacing: ".04em",
+                              color: "#0f5ea8", background: "#dbeafe",
+                              border: "1px solid #93c5fd",
+                              borderRadius: 20, padding: "2px 8px", flexShrink: 0,
+                            }}>
+                              PCN
                             </span>
                           )}
                           {c.sector === "nhs_federation" && (
