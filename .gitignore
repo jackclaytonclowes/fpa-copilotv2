@@ -8,3 +8,4 @@ diag_*.py
 test_bva_period.py
 test_bva_upload.py
 test_classify.py
+*.db
