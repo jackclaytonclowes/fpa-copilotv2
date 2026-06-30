@@ -98,11 +98,20 @@ def _init_db():
             )
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_firm ON portfolio_clients(firm_token)")
-        # Migration: add list_size column if it doesn't exist (for existing databases)
-        try:
-            conn.execute("ALTER TABLE portfolio_clients ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0")
-        except Exception:
-            pass  # Column already exists — safe to ignore
+        # Migrations: add columns that didn't exist in earlier schema versions
+        for migration in [
+            "ALTER TABLE portfolio_clients ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE sessions ADD COLUMN sector TEXT NOT NULL DEFAULT 'general'",
+            "ALTER TABLE sessions ADD COLUMN list_size INTEGER NOT NULL DEFAULT 0",
+            "ALTER TABLE sessions ADD COLUMN wte_partners REAL",
+            "ALTER TABLE sessions ADD COLUMN arrs_allocation REAL",
+            "ALTER TABLE sessions ADD COLUMN qof_entitlement REAL",
+            "ALTER TABLE sessions ADD COLUMN partner_drawings REAL",
+        ]:
+            try:
+                conn.execute(migration)
+            except Exception:
+                pass  # Column already exists — safe to ignore
         conn.commit()
 
 
@@ -152,13 +161,21 @@ class SessionStore(dict):
         try:
             with _db() as conn:
                 row = conn.execute(
-                    "SELECT file_bytes, file_name, analysis_type, xero_cash "
+                    "SELECT file_bytes, file_name, analysis_type, xero_cash, "
+                    "sector, list_size, wte_partners, arrs_allocation, "
+                    "qof_entitlement, partner_drawings "
                     "FROM sessions WHERE id = ?", (key,)
                 ).fetchone()
             if row:
                 ok = _rehydrate_from_file(
                     key, bytes(row["file_bytes"]), row["file_name"],
                     row["analysis_type"], row["xero_cash"],
+                    sector=row["sector"] or "general",
+                    list_size=row["list_size"] or 0,
+                    wte_partners=row["wte_partners"],
+                    arrs_allocation=row["arrs_allocation"],
+                    qof_entitlement=row["qof_entitlement"],
+                    partner_drawings=row["partner_drawings"],
                 )
                 if ok:
                     self._miss.discard(key)
@@ -719,12 +736,183 @@ def demo_burn():
     return data
 
 
+@app.get("/api/demo-gp")
+def demo_gp():
+    """NHS GP practice demo — Riverside Medical Practice (9,200 patients, 3 partners)."""
+
+    months = [
+        "Jul 2024", "Aug 2024", "Sep 2024", "Oct 2024", "Nov 2024", "Dec 2024",
+        "Jan 2025", "Feb 2025", "Mar 2025", "Apr 2025", "May 2025", "Jun 2025",
+    ]
+
+    # ── Revenue components ────────────────────────────────────────────────────
+    gms      = [78200,77800,77600,78400,78800,78500,79000,78600,79200,79600,79900,80000]
+    qof      = [15200,15200,15200,15200,15200,15200,15200,15200,15200,15200,15200,22600]
+    es_ci    = [8200,0,0,8200,0,0,8200,0,0,8200,0,0]       # quarterly: Jul/Oct/Jan/Apr
+    es_ext   = [3100]*12
+    es_smr   = [3500,0,0,3500,0,0,3500,0,0,3500,0,0]       # quarterly
+    pcn_dev  = [5500,0,0,5500,0,0,5500,0,0,5500,0,0]       # quarterly
+    icb_prem = [7300]*12
+    minor_p  = [1700,1500,1800,1600,1400,1600,1800,1700,1900,1600,1700,1800]
+    total_rev = [sum(x) for x in zip(gms,qof,es_ci,es_ext,es_smr,pcn_dev,icb_prem,minor_p)]
+
+    # ── Staff cost components ─────────────────────────────────────────────────
+    clinical = [28500,28500,28500,29000,29000,29000,29500,29500,29500,29800,29800,30000]
+    arrs_ph  = [4500]*12   # ARRS Salary - Clinical Pharmacist
+    arrs_sp  = [2200]*12   # ARRS Salary - Social Prescriber
+    admin_w  = [10200,10200,10200,10200,10200,10200,10400,10400,10400,10500,10500,10700]
+    prac_mgr = [4800]*12
+    locum    = [2000,8500,6500,2000,1500,2500,2000,4500,3000,2000,1500,2500]
+    emp_ni   = [6800,7400,7200,6800,6700,6800,6900,7200,7000,6900,6800,6900]
+    pension  = [5600,5600,5600,5700,5700,5700,5800,5800,5800,5900,5900,5900]
+    total_staff = [sum(x) for x in zip(clinical,arrs_ph,arrs_sp,admin_w,prac_mgr,locum,emp_ni,pension)]
+
+    # ── Partner drawings ──────────────────────────────────────────────────────
+    drawings = [25000]*12
+
+    # ── Premises ──────────────────────────────────────────────────────────────
+    rent     = [5500]*12
+    utils    = [1200,1200,1100,1100,1100,1200,1200,1100,1100,1100,1100,1200]
+    cleaning = [800]*12
+    total_premises = [sum(x) for x in zip(rent,utils,cleaning)]
+
+    # ── IT ─────────────────────────────────────────────────────────────────────
+    emis     = [1850]*12
+    it_supp  = [650,650,650,650,650,650,1200,650,650,650,650,650]
+    total_it = [sum(x) for x in zip(emis,it_supp)]
+
+    # ── Other costs ────────────────────────────────────────────────────────────
+    medical  = [2800]*12
+    accy     = [1500]*12
+    bank_c   = [180]*12
+    depr     = [900]*12
+
+    # ── Net surplus ────────────────────────────────────────────────────────────
+    total_costs = [sum(x) for x in zip(
+        total_staff, drawings, total_premises, total_it, medical, accy, bank_c, depr
+    )]
+    surplus  = [r - c for r, c in zip(total_rev, total_costs)]
+
+    rows = [
+        # Revenue
+        ("GMS Global Sum",                              "Turnover",                 gms),
+        ("QOF - Quality and Outcomes",                  "Turnover",                 qof),
+        ("Enhanced Services - Childhood Immunisation",  "Turnover",                 es_ci),
+        ("Enhanced Services - Extended Hours",          "Turnover",                 es_ext),
+        ("Enhanced Services - Structured Medication Reviews", "Turnover",           es_smr),
+        ("PCN Development Fund",                        "Turnover",                 pcn_dev),
+        ("ICB Premises Reimbursement",                  "Turnover",                 icb_prem),
+        ("Minor Procedures Income",                     "Turnover",                 minor_p),
+        ("Total Turnover",                              "Turnover",                 total_rev),
+        # Staff Costs
+        ("Clinical Staff Salaries",                     "Staff Costs",              clinical),
+        ("ARRS Salary - Clinical Pharmacist",           "Staff Costs",              arrs_ph),
+        ("ARRS Salary - Social Prescriber",             "Staff Costs",              arrs_sp),
+        ("Admin Staff Wages",                           "Staff Costs",              admin_w),
+        ("Practice Manager Salary",                     "Staff Costs",              prac_mgr),
+        ("Locum Costs",                                 "Staff Costs",              locum),
+        ("Employer NI",                                 "Staff Costs",              emp_ni),
+        ("NHS Pension Contributions",                   "Staff Costs",              pension),
+        ("Total Staff Costs",                           "Staff Costs",              total_staff),
+        # GP Partner Drawings
+        ("GP Partners' Drawings",                       "Management Costs",         drawings),
+        ("Total Management Costs",                      "Management Costs",         drawings),
+        # Premises
+        ("Building Rent",                               "Premises Costs",           rent),
+        ("Utilities",                                   "Premises Costs",           utils),
+        ("Cleaning & Maintenance",                      "Premises Costs",           cleaning),
+        ("Total Premises Costs",                        "Premises Costs",           total_premises),
+        # IT
+        ("EMIS Health System",                          "IT Costs",                 emis),
+        ("IT Support & Hardware",                       "IT Costs",                 it_supp),
+        ("Total IT Costs",                              "IT Costs",                 total_it),
+        # Medical Supplies
+        ("Medical Consumables",                         "Direct Costs",             medical),
+        ("Total Medical Supplies",                      "Direct Costs",             medical),
+        # Professional Fees
+        ("Accountancy",                                 "Professional Fees",        accy),
+        ("Total Professional Fees",                     "Professional Fees",        accy),
+        # Finance
+        ("Bank Charges",                                "Finance Costs",            bank_c),
+        ("Total Finance Costs",                         "Finance Costs",            bank_c),
+        # Depreciation
+        ("Depreciation",                                "Depreciation & Amortisation", depr),
+        ("Total Depreciation",                          "Depreciation & Amortisation", depr),
+        # Surplus
+        ("Net Surplus",                                 "Profit",                   surplus),
+    ]
+
+    data_dict: dict = {"Account": [], "Section": []}
+    for m in months:
+        data_dict[m] = []
+    for account, section, values in rows:
+        data_dict["Account"].append(account)
+        data_dict["Section"].append(section)
+        for i, m in enumerate(months):
+            data_dict[m].append(float(values[i]))
+
+    df = pd.DataFrame(data_dict)
+    sector_synonyms = load_sector_synonyms("nhs_gp")
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m, sector_synonyms)
+    analysis_q   = build_analysis(df_long_q, sector_synonyms)
+
+    NHS_PARAMS = {
+        "sector":          "nhs_gp",
+        "list_size":       9200,
+        "wte_partners":    3.0,
+        "arrs_allocation": 125000.0,
+        "qof_entitlement": 188000.0,
+        "partner_drawings": 300000.0,
+    }
+
+    session_id = str(uuid.uuid4())
+    filename   = "Riverside Medical Practice — NHS GP Demo"
+    SESSIONS[session_id] = {
+        "df":            df,
+        "df_long_m":     df_long_m,
+        "df_long_q":     df_long_q,
+        "analysis_m":    analysis_m,
+        "analysis_q":    analysis_q,
+        "kpi_accounts":  kpi_accounts,
+        "filename":      filename,
+        "analysis_type": "month_on_month",
+        "chat":          [],
+        **NHS_PARAMS,
+    }
+
+    periods_m = sorted(analysis_m["Period"].unique(), key=lambda p: pd.Timestamp(p))
+    latest    = periods_m[-1]
+
+    data = get_period_data(analysis_m, df_long_m, latest, kpi_accounts, "monthly")
+    movements = data.get("movements", [])
+    for m in movements:
+        m["is_locum"] = is_locum_account(m.get("account", ""))
+    data["workforce_breakdown"] = compute_workforce_breakdown(movements)
+    util = compute_utilisation(movements, NHS_PARAMS["arrs_allocation"], NHS_PARAMS["qof_entitlement"])
+    data["nhs_utilisation"] = util
+    nhs = compute_nhs_kpis(data, NHS_PARAMS["list_size"], NHS_PARAMS["wte_partners"])
+    nhs.update(util)
+    data["nhs_kpis"]      = nhs
+    data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
+    data["analysis_type"] = "month_on_month"
+    data["session_id"]    = session_id
+    data["file_name"]     = filename
+    data["sector"]        = "nhs_gp"
+    data["list_size"]     = NHS_PARAMS["list_size"]
+    return data
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # PRACTICE PORTFOLIO — multi-client month-end triage (firm mode)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _rehydrate_mom(session_id: str, file_bytes: bytes, file_name: str,
-                   xero_cash=None) -> bool:
+                   xero_cash=None, sector: str = "general", list_size: int = 0,
+                   wte_partners=None, arrs_allocation=None,
+                   qof_entitlement=None, partner_drawings=None) -> bool:
     """Run the MoM analysis pipeline from raw bytes and store in SESSIONS."""
     try:
         df = load_file(file_bytes, file_name)
@@ -734,13 +922,18 @@ def _rehydrate_mom(session_id: str, file_bytes: bytes, file_name: str,
         df_long_m    = build_long(df, "monthly")
         df_long_q    = build_long(df, "quarterly")
         kpi_accounts = detect_kpis(df_long_m)
-        analysis_m   = build_analysis(df_long_m)
-        analysis_q   = build_analysis(df_long_q)
+        sector_synonyms = load_sector_synonyms(sector) if sector != "general" else None
+        analysis_m   = build_analysis(df_long_m, sector_synonyms)
+        analysis_q   = build_analysis(df_long_q, sector_synonyms)
         SESSIONS[session_id] = {
             "df": df, "df_long_m": df_long_m, "df_long_q": df_long_q,
             "analysis_m": analysis_m, "analysis_q": analysis_q,
             "kpi_accounts": kpi_accounts, "filename": file_name,
-            "analysis_type": "month_on_month", "xero_cash": xero_cash, "chat": [],
+            "analysis_type": "month_on_month", "xero_cash": xero_cash,
+            "sector": sector, "list_size": list_size,
+            "wte_partners": wte_partners, "arrs_allocation": arrs_allocation,
+            "qof_entitlement": qof_entitlement, "partner_drawings": partner_drawings,
+            "chat": [],
         }
         return True
     except Exception as exc:
@@ -755,14 +948,20 @@ def _rehydrate_client(client_id: str, file_bytes: bytes, file_name: str,
 
 
 def _rehydrate_from_file(session_id: str, contents: bytes, filename: str,
-                          analysis_type: str, xero_cash) -> bool:
+                          analysis_type: str, xero_cash,
+                          sector: str = "general", list_size: int = 0,
+                          wte_partners=None, arrs_allocation=None,
+                          qof_entitlement=None, partner_drawings=None) -> bool:
     """
     Rehydrate any persisted session from stored file bytes.
     Handles both month_on_month and budget_vs_actual modes.
     Called automatically by SessionStore.get() on a cache miss.
     """
     if analysis_type != "budget_vs_actual":
-        return _rehydrate_mom(session_id, contents, filename, xero_cash)
+        return _rehydrate_mom(session_id, contents, filename, xero_cash,
+                              sector=sector, list_size=list_size,
+                              wte_partners=wte_partners, arrs_allocation=arrs_allocation,
+                              qof_entitlement=qof_entitlement, partner_drawings=partner_drawings)
 
     # BvA path
     try:
@@ -804,14 +1003,20 @@ def _rehydrate_from_file(session_id: str, contents: bytes, filename: str,
         bva_periods  = sorted(bva_long_store["Period"].unique()) if bva_long_store is not None else []
         kpi_accounts = detect_kpis(df_for_kpis)
         SESSIONS[session_id] = {
-            "df":           df_for_kpis,
-            "bva_data":     bva_snapshot,
-            "bva_long":     bva_long_store,
-            "bva_periods":  bva_periods,
-            "kpi_accounts": kpi_accounts,
-            "filename":     filename,
-            "analysis_type": "budget_vs_actual",
-            "chat":         [],
+            "df":              df_for_kpis,
+            "bva_data":        bva_snapshot,
+            "bva_long":        bva_long_store,
+            "bva_periods":     bva_periods,
+            "kpi_accounts":    kpi_accounts,
+            "filename":        filename,
+            "analysis_type":   "budget_vs_actual",
+            "sector":          sector,
+            "list_size":       list_size,
+            "wte_partners":    wte_partners,
+            "arrs_allocation": arrs_allocation,
+            "qof_entitlement": qof_entitlement,
+            "partner_drawings": partner_drawings,
+            "chat":            [],
         }
         return True
     except Exception as exc:
@@ -1913,10 +2118,13 @@ async def upload(
             with _db() as conn:
                 conn.execute(
                     "INSERT OR REPLACE INTO sessions "
-                    "(id, file_bytes, file_name, analysis_type, xero_cash, created_at) "
-                    "VALUES (?,?,?,?,?,?)",
+                    "(id, file_bytes, file_name, analysis_type, xero_cash, created_at, "
+                    " sector, list_size, wte_partners, arrs_allocation, qof_entitlement, partner_drawings) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                     (session_id, contents, file.filename, "budget_vs_actual", None,
-                     datetime.now(timezone.utc).isoformat()),
+                     datetime.now(timezone.utc).isoformat(),
+                     sector, list_size, wte_partners or None, arrs_allocation or None,
+                     qof_entitlement or None, partner_drawings or None),
                 )
                 conn.commit()
         except Exception as exc:
@@ -1973,10 +2181,13 @@ async def upload(
         with _db() as conn:
             conn.execute(
                 "INSERT OR REPLACE INTO sessions "
-                "(id, file_bytes, file_name, analysis_type, xero_cash, created_at) "
-                "VALUES (?,?,?,?,?,?)",
+                "(id, file_bytes, file_name, analysis_type, xero_cash, created_at, "
+                " sector, list_size, wte_partners, arrs_allocation, qof_entitlement, partner_drawings) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                 (session_id, contents, file.filename, "month_on_month", None,
-                 datetime.now(timezone.utc).isoformat()),
+                 datetime.now(timezone.utc).isoformat(),
+                 sector, list_size, wte_partners or None, arrs_allocation or None,
+                 qof_entitlement or None, partner_drawings or None),
             )
             conn.commit()
     except Exception as exc:
@@ -2170,6 +2381,59 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
             data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
 
     return data
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SESSION SETTINGS (post-upload NHS / sector params update)
+# ─────────────────────────────────────────────────────────────────────────────
+class SessionSettingsBody(BaseModel):
+    list_size:        int   | None = None
+    wte_partners:     float | None = None
+    arrs_allocation:  float | None = None
+    qof_entitlement:  float | None = None
+    partner_drawings: float | None = None
+
+
+@app.patch("/api/session/{session_id}/settings")
+def update_session_settings(session_id: str, body: SessionSettingsBody):
+    """Update NHS / sector parameters for an existing session without re-uploading."""
+    s = SESSIONS.get(session_id)
+    if not s:
+        raise HTTPException(404, "Session not found. Please re-upload your file.")
+
+    if body.list_size is not None:
+        s["list_size"] = body.list_size
+    if body.wte_partners is not None:
+        s["wte_partners"] = body.wte_partners or None
+    if body.arrs_allocation is not None:
+        s["arrs_allocation"] = body.arrs_allocation or None
+    if body.qof_entitlement is not None:
+        s["qof_entitlement"] = body.qof_entitlement or None
+    if body.partner_drawings is not None:
+        s["partner_drawings"] = body.partner_drawings or None
+
+    # Persist updated values to SQLite
+    try:
+        with _db() as conn:
+            conn.execute(
+                "UPDATE sessions SET list_size=?, wte_partners=?, arrs_allocation=?, "
+                "qof_entitlement=?, partner_drawings=? WHERE id=?",
+                (s.get("list_size", 0), s.get("wte_partners"),
+                 s.get("arrs_allocation"), s.get("qof_entitlement"),
+                 s.get("partner_drawings"), session_id),
+            )
+            conn.commit()
+    except Exception as exc:
+        print(f"[Settings] persist {session_id}: {exc}", file=sys.stderr)
+
+    return {
+        "ok": True,
+        "list_size":        s.get("list_size", 0),
+        "wte_partners":     s.get("wte_partners"),
+        "arrs_allocation":  s.get("arrs_allocation"),
+        "qof_entitlement":  s.get("qof_entitlement"),
+        "partner_drawings": s.get("partner_drawings"),
+    }
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -2403,6 +2667,73 @@ def _build_financial_context(session: dict, selected_period, mode: str, currency
             clean = re.sub(r"<[^>]+>", "", c.get("html", "")).strip()
             if clean:
                 lines.append(f"  - {clean}")
+
+    # ── NHS GP sector context ─────────────────────────────────────────────────
+    if session.get("sector") == "nhs_gp":
+        lines += ["", "NHS GP PRACTICE CONTEXT:"]
+        ls = session.get("list_size", 0)
+        if ls:
+            lines.append(f"  List Size (weighted patients): {ls:,}")
+
+        nhs_kpis = data.get("nhs_kpis") or {}
+        if nhs_kpis:
+            ipp = nhs_kpis.get("income_per_patient")
+            cpp = nhs_kpis.get("cost_per_patient")
+            ppp = nhs_kpis.get("profit_per_patient")
+            if ipp is not None:
+                lines.append(f"  Income per Patient    : {_sym}{ipp:,.2f}")
+            if cpp is not None:
+                lines.append(f"  Cost per Patient      : {_sym}{cpp:,.2f}")
+            if ppp is not None:
+                lines.append(f"  Surplus per Patient   : {_sym}{ppp:,.2f}")
+            ipp_p = nhs_kpis.get("income_per_partner")
+            ppp_p = nhs_kpis.get("profit_per_partner")
+            if ipp_p is not None:
+                lines.append(f"  Income per WTE Partner: {_sym}{ipp_p:,.0f}")
+            if ppp_p is not None:
+                lines.append(f"  Surplus per WTE Partner: {_sym}{ppp_p:,.0f}")
+
+        arrs = nhs_kpis.get("arrs") or session.get("nhs_utilisation", {}).get("arrs")
+        if arrs:
+            lines.append(
+                f"  ARRS Utilisation: {arrs['utilisation_pct']:.1f}% "
+                f"({_sym}{arrs['spend']:,.0f} of {_sym}{arrs['allocation']:,.0f} allocation, "
+                f"{_sym}{arrs['remaining']:,.0f} remaining)"
+            )
+
+        qof = nhs_kpis.get("qof") or session.get("nhs_utilisation", {}).get("qof")
+        if qof:
+            lines.append(
+                f"  QOF Achievement: {qof['achievement_pct']:.1f}% "
+                f"({_sym}{qof['income']:,.0f} of {_sym}{qof['entitlement']:,.0f} entitlement, "
+                f"{_sym}{qof['gap']:,.0f} gap)"
+            )
+
+        wf_breakdown = data.get("workforce_breakdown") or {}
+        if any(wf_breakdown.get(r, {}).get("total", 0) > 0 for r in ("clinical", "locum", "management", "admin")):
+            total_wf = sum(wf_breakdown.get(r, {}).get("total", 0)
+                           for r in ("clinical", "locum", "management", "admin", "other"))
+            lines += ["", "  WORKFORCE COST BREAKDOWN (this period):"]
+            for role in ("clinical", "locum", "management", "admin", "other"):
+                role_total = wf_breakdown.get(role, {}).get("total", 0)
+                if role_total > 0:
+                    pct = role_total / total_wf * 100 if total_wf else 0
+                    lines.append(f"    {role.capitalize()}: {_sym}{role_total:,.0f} ({pct:.1f}%)")
+            if total_wf:
+                lines.append(f"    Total staff costs: {_sym}{total_wf:,.0f}")
+
+        wte = session.get("wte_partners")
+        if wte:
+            lines.append(f"  WTE Partners: {wte}")
+
+        lines += [
+            "",
+            "  NOTE: You are assisting with NHS GP practice management accounts.",
+            "  Use NHS-specific terminology: GMS/PMS contract, QOF, ARRS, enhanced services,",
+            "  ICB, PCN. Reference NICE guidance and NHS England benchmarks where relevant.",
+            "  Surplus targets for NHS GP are typically £5-15/patient. ARRS utilisation",
+            "  above 80% is considered good. QOF achievement above 95% is excellent.",
+        ]
 
     return "\n".join(lines)
 

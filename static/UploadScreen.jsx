@@ -444,6 +444,18 @@ function UploadScreen({ onLoad, onLoadDemo }) {
               loading={loading}
               onDemo={loadDemo}
             />
+            <DemoCard
+              icon="heart-pulse"
+              title="Riverside Medical Practice"
+              badge="NHS GP Practice"
+              description="NHS GP practice P&L — GMS contract, QOF, ARRS, locum, workforce breakdown"
+              detail="Jul 2024 – Jun 2025 · 9,200 patients · 3 GP partners · QOF & ARRS tracking"
+              endpoint="/api/demo-gp"
+              demoKey="gp"
+              demoLoading={demoLoading}
+              loading={loading}
+              onDemo={loadDemo}
+            />
           </div>
         )}
 

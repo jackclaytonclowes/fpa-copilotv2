@@ -99,7 +99,9 @@
       "pharmacist", "paramedic", "physiotherapist", "physio", "podiatrist",
       "occupational therapist", "dietitian", "social prescrib", "first contact",
       "healthcare assistant", "hca", "care coordinator", "health visitor",
-      "district nurse", "community nurse", "mental health"
+      "district nurse", "community nurse", "mental health",
+      "clinical staff", "nurse salary", "nursing staff", "clinical salary",
+      "arrs salary", "arrs staff", "arrs reimbursement", "additional roles"
     ],
     "locum": [
       "locum", "sessional", "agency", "out of hours", "ooh"

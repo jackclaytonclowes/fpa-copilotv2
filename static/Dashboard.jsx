@@ -671,6 +671,9 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
   const [localComm, setLocalComm]   = useStateDash(null);
   const [commSaveState, setCommSaveState] = useStateDash("idle"); // "idle"|"saving"|"saved"|"error"
   const commTimer = useRefDash(null);
+  const [nhsSettingsOpen, setNhsSettingsOpen] = useStateDash(false);
+  const [nhsSettingsDraft, setNhsSettingsDraft] = useStateDash(null);
+  const [nhsSettingsSaving, setNhsSettingsSaving] = useStateDash(false);
 
   // Track what we last fetched so we don't re-fetch on initial mount
   const lastFetched = useRefDash({ period: initialData?.selected_period, mode: periodMode });
@@ -959,10 +962,87 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
       {/* NHS GP per-patient KPI row */}
       {data.sector === "nhs_gp" && (data.nhs_kpi_cards || []).length > 0 && (
         <div style={{ marginTop: 4 }}>
-          <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
-            <Icon name="heart-pulse" size={12} color="var(--fg-3)" />
-            NHS GP metrics
+          <div style={{ font: "var(--text-label)", fontSize: 10.5, textTransform: "uppercase", letterSpacing: ".07em", color: "var(--fg-3)", marginBottom: 8, display: "flex", alignItems: "center", gap: 6, justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Icon name="heart-pulse" size={12} color="var(--fg-3)" />
+              NHS GP metrics
+            </div>
+            <button
+              onClick={() => {
+                if (!nhsSettingsOpen) {
+                  setNhsSettingsDraft({
+                    list_size: data.list_size || 0,
+                    wte_partners: data.nhs_kpis?.list_size ? "" : "",
+                    arrs_allocation: "",
+                    qof_entitlement: "",
+                    partner_drawings: "",
+                  });
+                }
+                setNhsSettingsOpen(v => !v);
+              }}
+              style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--primary)", background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center", gap: 4 }}
+            >
+              <Icon name="settings" size={10} color="var(--primary)" />
+              {nhsSettingsOpen ? "close" : "edit settings"}
+            </button>
           </div>
+          {nhsSettingsOpen && (() => {
+            const draft = nhsSettingsDraft || {};
+            const setField = (k, v) => setNhsSettingsDraft(d => ({ ...d, [k]: v }));
+            const save = async () => {
+              setNhsSettingsSaving(true);
+              try {
+                const body = {};
+                if (draft.list_size !== "" && draft.list_size !== undefined) body.list_size = parseInt(draft.list_size) || 0;
+                if (draft.wte_partners !== "" && draft.wte_partners !== undefined) body.wte_partners = parseFloat(draft.wte_partners) || null;
+                if (draft.arrs_allocation !== "" && draft.arrs_allocation !== undefined) body.arrs_allocation = parseFloat(draft.arrs_allocation) || null;
+                if (draft.qof_entitlement !== "" && draft.qof_entitlement !== undefined) body.qof_entitlement = parseFloat(draft.qof_entitlement) || null;
+                if (draft.partner_drawings !== "" && draft.partner_drawings !== undefined) body.partner_drawings = parseFloat(draft.partner_drawings) || null;
+                const res = await fetch(apiUrl(`/api/session/${sessionId}/settings`), {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(body),
+                });
+                if (res.ok) {
+                  setNhsSettingsOpen(false);
+                  // Refresh period data to recompute NHS KPIs
+                  if (data.selected_period) fetchPeriod(data.selected_period, periodMode);
+                }
+              } finally {
+                setNhsSettingsSaving(false);
+              }
+            };
+            const fieldStyle = { font: "var(--text-body)", fontSize: 12.5, padding: "5px 8px", borderRadius: "var(--radius-xs)", border: "1.5px solid var(--border)", background: "var(--surface)", color: "var(--ink)", width: "100%", boxSizing: "border-box" };
+            const labelStyle = { font: "var(--text-label)", fontSize: 10.5, color: "var(--fg-3)", textTransform: "uppercase", letterSpacing: ".05em", display: "block", marginBottom: 4 };
+            return (
+              <div style={{ background: "var(--surface-2)", border: "1.5px solid var(--border)", borderRadius: "var(--radius-sm)", padding: 14, marginBottom: 10 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <div>
+                    <label style={labelStyle}>List size (patients)</label>
+                    <input type="number" style={fieldStyle} placeholder={data.list_size || "e.g. 9200"} value={draft.list_size ?? ""} onChange={e => setField("list_size", e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>WTE GP partners</label>
+                    <input type="number" style={fieldStyle} placeholder="e.g. 3.0" step="0.5" value={draft.wte_partners ?? ""} onChange={e => setField("wte_partners", e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>ARRS allocation (£)</label>
+                    <input type="number" style={fieldStyle} placeholder="e.g. 125000" value={draft.arrs_allocation ?? ""} onChange={e => setField("arrs_allocation", e.target.value)} />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>QOF entitlement (£)</label>
+                    <input type="number" style={fieldStyle} placeholder="e.g. 188000" value={draft.qof_entitlement ?? ""} onChange={e => setField("qof_entitlement", e.target.value)} />
+                  </div>
+                </div>
+                <div style={{ marginTop: 10, display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                  <button onClick={() => setNhsSettingsOpen(false)} style={{ font: "var(--text-body)", fontSize: 12.5, padding: "5px 12px", borderRadius: "var(--radius-xs)", border: "1.5px solid var(--border)", background: "transparent", color: "var(--fg-2)", cursor: "pointer" }}>Cancel</button>
+                  <button onClick={save} disabled={nhsSettingsSaving} style={{ font: "var(--text-body-strong)", fontSize: 12.5, padding: "5px 14px", borderRadius: "var(--radius-xs)", border: "none", background: "var(--primary)", color: "#fff", cursor: nhsSettingsSaving ? "wait" : "pointer", opacity: nhsSettingsSaving ? 0.7 : 1 }}>
+                    {nhsSettingsSaving ? "Saving…" : "Update"}
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
           <div className="grid-kpi">
             {(data.nhs_kpi_cards || []).map(k => (
               <div key={k.label} className="card kpi">
