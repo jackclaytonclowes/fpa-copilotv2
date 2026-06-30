@@ -165,6 +165,107 @@ def compute_utilisation(
     return out
 
 
+# ── ARRS role caps (NHSE 2024/25, incl. employer NI + pension) ────────────────
+# Each entry: (key, display_name, account_keywords, annual_cap_gbp)
+_ARRS_ROLES: list[tuple[str, str, list[str], int]] = [
+    ("clinical_pharmacist",   "Clinical Pharmacist",            ["clinical pharmacist"],                            67900),
+    ("pharmacy_technician",   "Pharmacy Technician",            ["pharmacy technician"],                            43642),
+    ("social_prescriber",     "Social Prescribing Link Worker", ["social prescrib", "link worker"],                 37191),
+    ("health_coach",          "Health & Wellbeing Coach",       ["health and wellbeing coach", "hwb coach",
+                                                                  "health coach", "wellbeing coach"],                37191),
+    ("care_coordinator",      "Care Coordinator",               ["care coordinator", "care co-ordinator"],          37191),
+    ("first_contact_physio",  "First Contact Physiotherapist",  ["physiotherap", "first contact physio",
+                                                                  "fcp physio"],                                     70097),
+    ("physician_associate",   "Physician Associate",            ["physician associate", " pa "],                    56257),
+    ("mental_health",         "Mental Health Practitioner",     ["mental health practitioner", "mhp "],             70097),
+    ("paramedic",             "Paramedic",                      ["paramedic", "community paramedic"],               70097),
+    ("advanced_practitioner", "Advanced Practitioner",          ["advanced practitioner", "advanced nurse",
+                                                                  " anp ", "advanced clinical practitioner"],        80693),
+    ("gp_assistant",          "GP Assistant",                   ["gp assistant", " gpa "],                          37191),
+]
+
+_ARRS_GENERIC_KWS = ["arrs salary", "arrs staff", "arrs reimbursement", "additional roles reimbursement"]
+
+
+def compute_arrs_headcount(
+    ytd_movements: list[dict],
+    arrs_allocation: float | None,
+    months_elapsed: int = 12,
+) -> dict:
+    """Break down YTD ARRS spend by role and estimate headcount (WTE).
+
+    WTE is computed as: (ytd_spend / months_elapsed * 12) / annual_cap
+    meaning a full-year run-rate divided by the NHSE maximum reimbursable salary.
+
+    Returns:
+        {roles: [...], total_ytd_spend, total_annual_rate, arrs_allocation, months_elapsed}
+    """
+    me = max(months_elapsed, 1)
+    roles_out: list[dict] = []
+    claimed_accounts: set[str] = set()
+
+    for key, display, keywords, annual_cap in _ARRS_ROLES:
+        matched = [
+            m for m in ytd_movements
+            if any(kw in (m.get("account") or "").lower() for kw in keywords)
+        ]
+        ytd_spend = sum(abs(m.get("value") or 0.0) for m in matched)
+        for m in matched:
+            claimed_accounts.add(m.get("account", ""))
+
+        if ytd_spend <= 0:
+            continue
+
+        monthly_avg  = ytd_spend / me
+        annual_rate  = monthly_avg * 12
+        wte          = round(annual_rate / annual_cap, 2)
+        pct_of_cap   = round(annual_rate / annual_cap * 100, 1)
+
+        roles_out.append({
+            "key":         key,
+            "role":        display,
+            "ytd_spend":   round(ytd_spend),
+            "monthly_avg": round(monthly_avg),
+            "annual_rate": round(annual_rate),
+            "annual_cap":  annual_cap,
+            "wte_est":     wte,
+            "pct_of_cap":  pct_of_cap,
+        })
+
+    # Catch any ARRS spend not matched by the known-role table
+    other = [
+        m for m in ytd_movements
+        if (
+            any(kw in (m.get("account") or "").lower() for kw in _ARRS_GENERIC_KWS)
+            and m.get("account", "") not in claimed_accounts
+        )
+    ]
+    if other:
+        ytd_spend  = sum(abs(m.get("value") or 0.0) for m in other)
+        monthly_avg = ytd_spend / me
+        roles_out.append({
+            "key":         "other_arrs",
+            "role":        "Other ARRS roles",
+            "ytd_spend":   round(ytd_spend),
+            "monthly_avg": round(monthly_avg),
+            "annual_rate": round(monthly_avg * 12),
+            "annual_cap":  None,
+            "wte_est":     None,
+            "pct_of_cap":  None,
+        })
+
+    total_ytd   = sum(r["ytd_spend"]   for r in roles_out)
+    total_ann   = sum(r["annual_rate"]  for r in roles_out)
+
+    return {
+        "roles":             roles_out,
+        "total_ytd_spend":   round(total_ytd),
+        "total_annual_rate": round(total_ann),
+        "arrs_allocation":   arrs_allocation or 0,
+        "months_elapsed":    me,
+    }
+
+
 def nhs_kpi_cards(nhs_kpis: dict) -> list[dict]:
     """Convert nhs_kpis dict into KpiCard-compatible dicts for the frontend."""
     ls = nhs_kpis.get("list_size") or 0

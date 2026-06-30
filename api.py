@@ -33,8 +33,8 @@ from analysis import (
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 from kpis.nhs_gp import (
-    compute_nhs_kpis, compute_workforce_breakdown, compute_utilisation,
-    is_locum_account, is_seasonal_nhs, nhs_kpi_cards,
+    compute_arrs_headcount, compute_nhs_kpis, compute_workforce_breakdown,
+    compute_utilisation, is_locum_account, is_seasonal_nhs, nhs_kpi_cards,
 )
 
 app = FastAPI(title="MonthEndIQ")
@@ -947,6 +947,8 @@ def demo_gp():
     data["nhs_kpis"]             = nhs
     data["nhs_kpi_cards"]        = nhs_kpi_cards(nhs)
     data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
+    me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
+    data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, NHS_PARAMS["arrs_allocation"], me)
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
@@ -2953,6 +2955,23 @@ def _nhs_ytd_movements(session: dict, selected_period, mode: str = "monthly") ->
         return []
 
 
+def _count_ytd_months(session: dict, selected_period, mode: str = "monthly") -> int:
+    """Count distinct monthly periods from data start through selected_period."""
+    analysis = session.get("analysis_m")
+    if analysis is None:
+        return 1
+    try:
+        if mode == "quarterly":
+            target_qsk = quarter_sort_key(str(selected_period))
+            mask = analysis["Period"].apply(lambda p: quarter_sort_key(get_quarter(p))) <= target_qsk
+        else:
+            sel_ts = pd.Timestamp(selected_period)
+            mask = analysis["Period"].apply(pd.Timestamp) <= sel_ts
+        return max(1, int(analysis.loc[~analysis["Is Subtotal"] & mask, "Period"].nunique()))
+    except Exception:
+        return 1
+
+
 @app.post("/api/upload")
 async def upload(
     file:              UploadFile = File(...),
@@ -3163,6 +3182,8 @@ async def upload(
         data["nhs_utilisation"] = util
         data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
         data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
+        me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
+        data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, arrs_allocation or None, me)
         if list_size:
             nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
             nhs.update(util)
@@ -3331,6 +3352,10 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
 
         # Income stream classification (always available, regardless of list_size)
         data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
+
+        # ARRS headcount — YTD WTE estimates per NHSE role
+        me = _count_ytd_months(s, selected, mode)
+        data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, s.get("arrs_allocation"), me)
 
         # Per-patient KPIs
         if s.get("list_size"):

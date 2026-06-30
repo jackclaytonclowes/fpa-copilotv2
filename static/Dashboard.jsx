@@ -1177,6 +1177,68 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         );
       })()}
 
+      {/* ARRS headcount tracker */}
+      {(data.sector === "nhs_gp" || data.sector === "nhs_pcn") && (data.arrs_headcount?.roles || []).length > 0 && (() => {
+        const hc = data.arrs_headcount;
+        const alloc = hc.arrs_allocation || 0;
+        const totalYtd = hc.total_ytd_spend || 0;
+        const utilPct = alloc > 0 ? Math.min(100, totalYtd / alloc * 100) : null;
+        const statusColor = pct => pct == null ? "var(--fg-3)" : pct >= 80 ? "var(--favourable-text, #15803d)" : pct >= 50 ? "var(--caution-text, #b45309)" : "var(--adverse-text, #b91c1c)";
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Icon name="users" size={14} color="var(--fg-3)" />
+                <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>ARRS headcount tracker</span>
+                <span style={{ font: "600 10px var(--font-display)", color: "var(--fg-3)", textTransform: "uppercase", letterSpacing: ".04em" }}>YTD • {hc.months_elapsed}m</span>
+              </div>
+              {utilPct != null && (
+                <span style={{ font: "600 12px var(--font-mono)", color: statusColor(utilPct) }}>
+                  {utilPct.toFixed(0)}% of allocation
+                </span>
+              )}
+            </div>
+            {alloc > 0 && (
+              <div style={{ height: 6, borderRadius: 3, background: "var(--surface-2)", overflow: "hidden", marginBottom: 12 }}>
+                <div style={{ height: "100%", width: `${Math.min(100, utilPct || 0)}%`, background: statusColor(utilPct), borderRadius: 3, transition: "width .3s" }} />
+              </div>
+            )}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto auto", gap: "4px 12px", alignItems: "center" }}>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)" }}>Role</span>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", textAlign: "right" }}>WTE</span>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", textAlign: "right" }}>Monthly avg</span>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", textAlign: "right" }}>% cap</span>
+              {hc.roles.map(r => {
+                const pct = r.pct_of_cap;
+                const col = statusColor(pct);
+                return [
+                  <span key={r.key + "_name"} style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-1)", paddingTop: 6, borderTop: "1px solid var(--border)" }}>{r.role}</span>,
+                  <span key={r.key + "_wte"} style={{ font: "600 12px var(--font-mono)", color: "var(--fg-1)", textAlign: "right", paddingTop: 6, borderTop: "1px solid var(--border)" }}>
+                    {r.wte_est != null ? r.wte_est.toFixed(2) : "—"}
+                  </span>,
+                  <span key={r.key + "_avg"} style={{ font: "600 12px var(--font-mono)", color: "var(--fg-2)", textAlign: "right", paddingTop: 6, borderTop: "1px solid var(--border)" }}>
+                    {window.fmtCurrency ? window.fmtCurrency(r.monthly_avg, { compact: true }) : `£${(r.monthly_avg||0).toLocaleString()}`}
+                  </span>,
+                  <span key={r.key + "_pct"} style={{ font: "600 12px var(--font-mono)", color: col, textAlign: "right", paddingTop: 6, borderTop: "1px solid var(--border)" }}>
+                    {pct != null ? `${pct.toFixed(0)}%` : "—"}
+                  </span>,
+                ];
+              })}
+            </div>
+            {alloc > 0 && (
+              <div style={{ marginTop: 10, display: "flex", justifyContent: "flex-end", gap: 16 }}>
+                <span style={{ font: "var(--text-body)", fontSize: 11, color: "var(--fg-3)" }}>
+                  Spent YTD: <b style={{ color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>£{totalYtd.toLocaleString()}</b>
+                </span>
+                <span style={{ font: "var(--text-body)", fontSize: 11, color: "var(--fg-3)" }}>
+                  Allocation: <b style={{ color: "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>£{alloc.toLocaleString()}</b>
+                </span>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
       {/* Smart highlights */}
       <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
 
