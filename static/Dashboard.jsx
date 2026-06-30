@@ -1066,6 +1066,78 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         </div>
       )}
 
+      {/* NHS income stream breakdown */}
+      {(data.sector === "nhs_gp" || data.sector === "nhs_pcn") && (data.nhs_income_breakdown || []).length > 0 && (() => {
+        const streams = data.nhs_income_breakdown;
+        const total   = streams.reduce((s, r) => s + r.value, 0);
+        const STREAM_COLORS = {
+          core_contract:     "#2563eb",
+          qof:               "#7c3aed",
+          enhanced_services: "#059669",
+          pcn_des:           "#0891b2",
+          premises:          "#d97706",
+          private:           "#64748b",
+          other_nhs:         "#94a3b8",
+        };
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+              <Icon name="layers" size={14} color="var(--fg-3)" />
+              <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>
+                Income stream breakdown
+              </span>
+              <span style={{ marginLeft: "auto", font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                {streams.length} stream{streams.length !== 1 ? "s" : ""} · {data.selected_period || ""}
+              </span>
+            </div>
+
+            {/* Stacked bar */}
+            <div style={{ display: "flex", height: 8, borderRadius: 4, overflow: "hidden", marginBottom: 14, gap: 1 }}>
+              {streams.map(s => (
+                <div key={s.key} title={`${s.label}: ${fmtGBP(s.value)} (${s.pct}%)`}
+                  style={{ width: `${s.pct}%`, background: STREAM_COLORS[s.key] || "#94a3b8", flexShrink: 0, minWidth: s.pct > 0.5 ? 2 : 0 }} />
+              ))}
+            </div>
+
+            {/* Stream rows */}
+            {streams.map(s => (
+              <div key={s.key} style={{ marginBottom: 9 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 2, background: STREAM_COLORS[s.key] || "#94a3b8", display: "inline-block", flexShrink: 0 }} />
+                    <span style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-1)" }}>{s.label}</span>
+                    {s.accounts && s.accounts.length > 1 && (
+                      <span style={{ font: "var(--text-caption)", fontSize: 10.5, color: "var(--fg-3)" }}>
+                        ({s.accounts.length} lines)
+                      </span>
+                    )}
+                  </div>
+                  <span style={{ font: "600 12px var(--font-mono)", color: STREAM_COLORS[s.key] || "var(--fg-2)", tabularNums: true }}>
+                    {fmtGBP(s.value)}{" "}
+                    <span style={{ fontWeight: 400, color: "var(--fg-3)", fontSize: 11 }}>({s.pct}%)</span>
+                  </span>
+                </div>
+                <div style={{ height: 4, borderRadius: 2, background: "var(--surface-2)", overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${s.pct}%`, background: STREAM_COLORS[s.key] || "#94a3b8", borderRadius: 2, transition: "width .3s" }} />
+                </div>
+                {/* Sub-account list when multiple lines collapsed into one stream */}
+                {s.accounts && s.accounts.length > 1 && (
+                  <div style={{ marginTop: 4, paddingLeft: 14, display: "flex", flexDirection: "column", gap: 2 }}>
+                    {s.accounts.map((a, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between",
+                        font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                        <span>{a.name}</span>
+                        <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtGBP(a.value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+
       {/* NHS GP workforce breakdown */}
       {data.sector === "nhs_gp" && data.workforce_breakdown && (() => {
         const wb = data.workforce_breakdown;

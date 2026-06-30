@@ -1064,6 +1064,85 @@ _CATEGORY_ORDER = {
     "Tax": 13, "Other": 99,
 }
 
+# ─────────────────────────────────────────────
+# NHS INCOME STREAM CLASSIFICATION
+# ─────────────────────────────────────────────
+_NHS_INCOME_STREAMS: list[tuple[str, str, list[str]]] = [
+    ("core_contract", "Core contract", [
+        "global sum", "gms contract", "pms contract", "apms",
+        "minimum practice income", "mpig", "dispensing income", "dispensary",
+        "core funding", "capitation",
+    ]),
+    ("qof", "QOF", [
+        "qof", "quality and outcomes", "quality outcomes framework",
+    ]),
+    ("enhanced_services", "Enhanced services", [
+        "enhanced service", "locally enhanced", " les ", " nes ",
+        "flu vacc", "flu immunis", "influenza", "vaccination", "immunisation",
+        "covid", "contraception", "minor surgery",
+        "learning disability", "ld annual", "health check",
+        "nhs 111", "extended access", "extended hours", "extended hour",
+        "childhood imm", "phlebotomy", "weight management", "teledermatology",
+        "structured medication", "investment and impact fund",
+        "digital", "capacity and access",
+    ]),
+    ("pcn_des", "PCN / Network DES", [
+        "pcn des", "pcn participation", "network des", "network participation",
+        "arrs", "additional roles", "iif ",
+        "clinical director", "social prescrib",
+        "care coordinator", "first contact",
+        "physician associate", "clinical pharmacist",
+        "mental health practitioner", "paramedic", "physiotherap",
+        "pcn income", "network income", "pcn funding",
+        "meeting backfill", "supervision",
+    ]),
+    ("premises", "Premises & reimbursements", [
+        "premises", "notional rent", "actual rent", "rates reimburs",
+        "water reimburs", "registrar reimb", "trainee reimb",
+        "salaried reimb", "maternity reimb", "sick pay reimb",
+        "gp registrar", "locum reimb", "staff reimb",
+    ]),
+    ("private", "Private / non-NHS", [
+        "private", "non-nhs", "non nhs", "solicitor", "cremation",
+        "insurance report", "medical report", "private certificate",
+        "indemnity", "medico-legal", "dvla", "firearms", "hgv",
+        "travel vaccine", "travel clinic",
+    ]),
+]
+
+
+def classify_nhs_income_streams(revenue_split: list) -> list:
+    """Bucket a revenue_split list (from get_period_data) into NHS income stream categories.
+
+    Returns a list of dicts sorted by value descending:
+      {key, label, value, pct, accounts: [{name, value}, ...]}
+    Non-matched accounts fall into 'other_nhs'.
+    """
+    buckets: dict[str, dict] = {
+        key: {"key": key, "label": label, "value": 0.0, "accounts": []}
+        for key, label, _ in _NHS_INCOME_STREAMS
+    }
+    buckets["other_nhs"] = {"key": "other_nhs", "label": "Other NHS income", "value": 0.0, "accounts": []}
+
+    for item in revenue_split:
+        name_lower = item["name"].lower()
+        matched_key = "other_nhs"
+        for key, _, keywords in _NHS_INCOME_STREAMS:
+            if any(kw in name_lower for kw in keywords):
+                matched_key = key
+                break
+        buckets[matched_key]["value"] += item["value"]
+        buckets[matched_key]["accounts"].append({"name": item["name"], "value": item["value"]})
+
+    total = sum(b["value"] for b in buckets.values())
+    result = [
+        {**b, "pct": round(b["value"] / total * 100, 1) if total else 0.0}
+        for b in buckets.values()
+        if b["value"] > 0
+    ]
+    result.sort(key=lambda x: x["value"], reverse=True)
+    return result
+
 
 def get_insights_data(
     analysis_df: pd.DataFrame,

@@ -27,8 +27,8 @@ from pydantic import BaseModel, Field
 
 from analysis import (
     build_analysis, build_bva, build_bva_long_from_sheets, build_long,
-    build_waterfall, detect_bva_columns, detect_kpis, get_bva_data,
-    get_insights_data, get_period_data, get_ytd_data, load_bva_from_sheets,
+    build_waterfall, classify_nhs_income_streams, detect_bva_columns, detect_kpis,
+    get_bva_data, get_insights_data, get_period_data, get_ytd_data, load_bva_from_sheets,
     load_file, load_sector_synonyms, make_pdf, make_xlsx, make_zip,
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
@@ -944,8 +944,9 @@ def demo_gp():
     data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
     nhs = compute_nhs_kpis(data, NHS_PARAMS["list_size"], NHS_PARAMS["wte_partners"])
     nhs.update(util)
-    data["nhs_kpis"]      = nhs
-    data["nhs_kpi_cards"] = nhs_kpi_cards(nhs)
+    data["nhs_kpis"]             = nhs
+    data["nhs_kpi_cards"]        = nhs_kpi_cards(nhs)
+    data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
@@ -3153,6 +3154,7 @@ async def upload(
         util = compute_utilisation(ytd_mvts, arrs_allocation or None, qof_entitlement or None)
         data["nhs_utilisation"] = util
         data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
+        data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
         if list_size:
             nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
             nhs.update(util)
@@ -3301,7 +3303,7 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
     data["sector"]          = s.get("sector", "general")
     data["list_size"]       = s.get("list_size", 0)
 
-    if s.get("sector") == "nhs_gp":
+    if s.get("sector") in ("nhs_gp", "nhs_pcn"):
         movements = data.get("movements", [])
 
         # Flag locum accounts in movements
@@ -3318,6 +3320,9 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
 
         # NHS-adapted commentary
         data["commentary"] = _adapt_commentary_for_nhs(data.get("commentary", []))
+
+        # Income stream classification (always available, regardless of list_size)
+        data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
 
         # Per-patient KPIs
         if s.get("list_size"):
