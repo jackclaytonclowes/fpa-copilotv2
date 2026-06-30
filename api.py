@@ -1141,6 +1141,94 @@ def _ramp(start, step, shock_last=0):
     return vals
 
 
+def _flat(v, n=12):
+    return [float(v)] * n
+
+
+def _build_nhs_pcn_client(
+    name, list_size, wte_partners, arrs_allocation, qof_entitlement,
+    gms, qof, es, arrs_ph, arrs_sp, clinical, locum, admin_w, prac_mgr,
+    drawings, rent, cash
+):
+    """Build an NHS GP PCN P&L session for use in the demo portfolio.
+
+    Uses the same account/section structure as /api/demo-gp so that
+    compute_utilisation, compute_workforce_breakdown, and compute_nhs_kpis
+    all receive correctly-categorised movements.
+    """
+    months = _PORTFOLIO_MONTHS
+    ni_pct    = 0.138   # employer NI rate approximation
+    pension_pct = 0.203 # NHS pension rate approximation
+
+    emp_ni   = [round((clinical[i] + admin_w[i] + prac_mgr[i]) * ni_pct) for i in range(12)]
+    pension  = [round((clinical[i] + admin_w[i]) * pension_pct) for i in range(12)]
+    total_staff = [clinical[i] + arrs_ph[i] + arrs_sp[i] + admin_w[i] + prac_mgr[i]
+                   + locum[i] + emp_ni[i] + pension[i] for i in range(12)]
+    total_rev = [gms[i] + qof[i] + es[i] for i in range(12)]
+    utils     = _flat(900)
+    it_costs  = _flat(1400)
+    misc      = _flat(600)
+    total_costs = [total_staff[i] + drawings[i] + rent[i] + utils[i]
+                   + it_costs[i] + misc[i] for i in range(12)]
+    surplus   = [total_rev[i] - total_costs[i] for i in range(12)]
+
+    rows = [
+        ("GMS Global Sum",                        "Turnover",    gms),
+        ("QOF - Quality and Outcomes",            "Turnover",    qof),
+        ("Enhanced Services Income",              "Turnover",    es),
+        ("Total Turnover",                        "Turnover",    total_rev),
+        ("Clinical Staff Salaries",               "Staff Costs", clinical),
+        ("ARRS Salary - Clinical Pharmacist",     "Staff Costs", arrs_ph),
+        ("ARRS Salary - Social Prescriber",       "Staff Costs", arrs_sp),
+        ("Admin Staff Wages",                     "Staff Costs", admin_w),
+        ("Practice Manager Salary",               "Staff Costs", prac_mgr),
+        ("Locum Costs",                           "Staff Costs", locum),
+        ("Employer NI",                           "Staff Costs", emp_ni),
+        ("NHS Pension Contributions",             "Staff Costs", pension),
+        ("Total Staff Costs",                     "Staff Costs", total_staff),
+        ("GP Partners' Drawings",                 "Management Costs", drawings),
+        ("Total Management Costs",                "Management Costs", drawings),
+        ("Building Rent",                         "Premises Costs", rent),
+        ("Utilities",                             "Premises Costs", utils),
+        ("Total Premises Costs",                  "Premises Costs",
+         [rent[i] + utils[i] for i in range(12)]),
+        ("IT & Systems",                          "IT Costs",    it_costs),
+        ("Miscellaneous",                         "Other",       misc),
+        ("Net Surplus",                           "Profit",      surplus),
+    ]
+
+    data_dict: dict = {"Account": [], "Section": []}
+    for m in months:
+        data_dict[m] = []
+    for acc, sec, vals in rows:
+        data_dict["Account"].append(acc)
+        data_dict["Section"].append(sec)
+        for i, m in enumerate(months):
+            data_dict[m].append(float(vals[i]))
+
+    df = pd.DataFrame(data_dict)
+    sector_synonyms = load_sector_synonyms("nhs_gp")
+    df_long_m    = build_long(df, "monthly")
+    df_long_q    = build_long(df, "quarterly")
+    kpi_accounts = detect_kpis(df_long_m)
+    analysis_m   = build_analysis(df_long_m, sector_synonyms)
+    analysis_q   = build_analysis(df_long_q, sector_synonyms)
+
+    sid = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    SESSIONS[sid] = {
+        "df": df, "df_long_m": df_long_m, "df_long_q": df_long_q,
+        "analysis_m": analysis_m, "analysis_q": analysis_q,
+        "kpi_accounts": kpi_accounts, "filename": f"{name} — Demo",
+        "analysis_type": "month_on_month", "xero_cash": cash, "chat": [],
+        "sector": "nhs_gp", "list_size": list_size, "wte_partners": wte_partners,
+        "arrs_allocation": arrs_allocation, "qof_entitlement": qof_entitlement,
+        "partner_drawings": sum(drawings),
+    }
+
+    return _score_session(sid, name, "nhs_gp", cash, now, now, list_size=list_size)
+
+
 def _build_portfolio_client(name, sector, revenue, cogs, staff, overheads, cash):
     """Build & store a client P&L session, then return a triage summary."""
     total_costs = [cogs[i] + staff[i] + overheads[i] for i in range(12)]
@@ -1248,7 +1336,84 @@ def portfolio_demo():
             "Vale Hospitality Ltd", "Hospitality",
             _ramp(95000, -1500), _ramp(38000, -300), _ramp(30000, 100), _ramp(9000, 0), 140000),
     ]
+
+    # ── NHS GP PCN demo clients (North London Neighbourhood) ─────────────────
+    # North Islington PCN — large, healthy ARRS utilisation, good surplus/patient
+    pcn1 = _build_nhs_pcn_client(
+        name="North Islington PCN",
+        list_size=10200, wte_partners=5.5,
+        arrs_allocation=138500.0, qof_entitlement=208000.0,
+        gms      = _ramp(88000, 300),
+        qof      = [17300]*8 + [17300]*3 + [25800],  # bump in Jun (year-end reconciliation)
+        es       = [9200,0,0,9200,0,0,9200,0,0,9200,0,0],
+        arrs_ph  = _flat(5800),
+        arrs_sp  = _flat(3100),
+        clinical = _ramp(32000, 200),
+        locum    = [1800,2200,1500,1800,1600,2000,1800,3500,2800,1800,1500,2200],  # ~8% staff — healthy
+        admin_w  = _ramp(11500, 100),
+        prac_mgr = _flat(5200),
+        drawings = _flat(27500),
+        rent     = _flat(6200),
+        cash     = 285000,
+    )
+
+    # Camden Central PCN — medium, elevated locum dependency (watch-tier)
+    pcn2 = _build_nhs_pcn_client(
+        name="Camden Central PCN",
+        list_size=7800, wte_partners=4.2,
+        arrs_allocation=106000.0, qof_entitlement=159000.0,
+        gms      = _ramp(72000, 150),
+        qof      = [13200]*8 + [13200]*3 + [19800],
+        es       = [7000,0,0,7000,0,0,7000,0,0,7000,0,0],
+        arrs_ph  = _flat(4400),
+        arrs_sp  = _flat(2400),
+        clinical = _ramp(26000, 100),
+        locum    = [8500,12000,9500,8500,7800,9200,8500,14000,11000,8500,7800,9500],  # ~22% — concern
+        admin_w  = _ramp(9200, 50),
+        prac_mgr = _flat(4600),
+        drawings = _flat(21000),
+        rent     = _flat(5400),
+        cash     = 195000,
+    )
+
+    # Whittington PCN — smaller, low ARRS utilisation (leaving money on table)
+    pcn3 = _build_nhs_pcn_client(
+        name="Whittington PCN",
+        list_size=6100, wte_partners=3.2,
+        arrs_allocation=82800.0, qof_entitlement=124500.0,
+        gms      = _ramp(56000, 100),
+        qof      = [10200]*8 + [10200]*3 + [15300],
+        es       = [5500,0,0,5500,0,0,5500,0,0,5500,0,0],
+        arrs_ph  = _flat(1800),  # only one ARRS role filled — 48% utilisation
+        arrs_sp  = _flat(1400),
+        clinical = _ramp(22000, 80),
+        locum    = [2200,2200,1800,2200,1800,2200,2200,2200,1800,2200,1800,2200],
+        admin_w  = _ramp(8000, 50),
+        prac_mgr = _flat(3800),
+        drawings = _flat(16000),
+        rent     = _flat(4800),
+        cash     = 158000,
+    )
+
+    pcn_clients = [pcn1, pcn2, pcn3]
+    clients.extend(pcn_clients)
     clients.sort(key=lambda c: c["score"], reverse=True)
+
+    # Build a demo neighbourhood rollup (no DB, computed in-memory)
+    pcn_ids = [p["session_id"] for p in pcn_clients]
+    pcn_summaries = [_nhs_client_summary(sid, name) for sid, name in
+                     zip(pcn_ids, ["North Islington PCN", "Camden Central PCN", "Whittington PCN"])]
+    pcn_summaries = [p for p in pcn_summaries if p]
+
+    demo_neighbourhood = {
+        "id":          "demo-neighbourhood-1",
+        "name":        "North London Neighbourhood",
+        "client_ids":  pcn_ids,
+        "has_share":   False,
+        "share_token": None,
+        "pcns":        pcn_summaries,
+        "aggregate":   _aggregate_neighbourhood(pcn_summaries),
+    }
 
     summary = {
         "total":         len(clients),
@@ -1258,7 +1423,7 @@ def portfolio_demo():
         "total_revenue": sum(c["revenue"] or 0 for c in clients),
         "burning":       sum(1 for c in clients if c["burning"]),
     }
-    return {"clients": clients, "summary": summary}
+    return {"clients": clients, "summary": summary, "neighbourhoods": [demo_neighbourhood]}
 
 
 @app.get("/api/portfolio/clients")

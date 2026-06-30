@@ -452,14 +452,22 @@ function Portfolio({ onOpenClient, onToast }) {
       : apiUrl(`/api/portfolio/clients?firm_token=${encodeURIComponent(firmToken)}`);
     fetch(url)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(d => { setData(d); setStatus("done"); })
+      .then(d => {
+        setData(d);
+        setStatus("done");
+        if (which === "demo") setNeighbourhoods(d.neighbourhoods || []);
+      })
       .catch(() => setStatus("error"));
   }, [mode, firmToken]);
 
   React.useEffect(() => { load(); }, [load]);
 
-  const loadNeighbourhoods = React.useCallback(() => {
-    if (mode === "demo") { setNeighbourhoods([]); return; }
+  const loadNeighbourhoods = React.useCallback((demoData) => {
+    if (mode === "demo") {
+      // Demo neighbourhoods come bundled in the portfolio/demo response
+      setNeighbourhoods(demoData || []);
+      return;
+    }
     fetch(apiUrl(`/api/portfolio/neighbourhoods?firm_token=${encodeURIComponent(firmToken)}`))
       .then(r => r.json())
       .then(d => setNeighbourhoods(d.neighbourhoods || []))
