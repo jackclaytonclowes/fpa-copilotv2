@@ -1164,8 +1164,6 @@ function Portfolio({ onOpenClient, onToast }) {
             {/* Neighbourhoods */}
             {!isDemo && (() => {
               const nhsClients = (data?.clients || []).filter(c => c.sector === "nhs_gp");
-              const hasNhsOrNeigh = nhsClients.length > 0 || neighbourhoods.length > 0;
-              if (!hasNhsOrNeigh) return null;
 
               const fmt = v => v == null ? "—" : "£" + Math.round(v).toLocaleString();
               const pct = v => v == null ? "—" : v.toFixed(1) + "%";
