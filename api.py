@@ -144,9 +144,14 @@ def _init_db():
                 access_token  TEXT,
                 refresh_token TEXT NOT NULL,
                 expires_at    TEXT,
-                synced_at     TEXT NOT NULL
+                synced_at     TEXT NOT NULL,
+                period_mode   TEXT NOT NULL DEFAULT 'rolling_12'
             )
         """)
+        try:
+            conn.execute("ALTER TABLE xero_connections ADD COLUMN period_mode TEXT NOT NULL DEFAULT 'rolling_12'")
+        except Exception:
+            pass  # already exists
         conn.commit()
 
 
@@ -2528,22 +2533,46 @@ async def _get_valid_xero_token(client_id: str) -> dict:
     }
 
 
+def _xero_date_range(period_mode: str = "rolling_12", fy_start_month: int = 4) -> tuple[str, str]:
+    """Return (from_date, to_date) strings for a Xero P&L pull.
+
+    period_mode:
+      "rolling_12"     — last 12 calendar months ending today (default)
+      "financial_year" — start of the current financial year to today
+
+    fy_start_month: month number (1-12) that begins the financial year.
+    Defaults to 4 (April) — the standard NHS / UK financial year.
+    """
+    today = datetime.utcnow().date()
+    to_date = today.strftime("%Y-%m-%d")
+
+    if period_mode == "financial_year":
+        fy_year = today.year if today.month >= fy_start_month else today.year - 1
+        from_date = f"{fy_year}-{fy_start_month:02d}-01"
+    else:
+        # rolling 12 months
+        d = today.replace(year=today.year - 1)
+        from_date = (d + timedelta(days=1)).strftime("%Y-%m-%d")
+
+    return from_date, to_date
+
+
 async def _fetch_and_build_xero_session(access_token: str, tenant_id: str,
                                          tenant_name: str, existing_session_id: str = None,
                                          sector: str = "general", list_size: int = 0,
                                          wte_partners=None, arrs_allocation=None,
                                          qof_entitlement=None, partner_drawings=None,
-                                         xero_cash_override=None):
-    """Pull 12-month rolling P&L from Xero, build + store analysis session.
+                                         xero_cash_override=None,
+                                         period_mode: str = "rolling_12",
+                                         fy_start_month: int = 4):
+    """Pull P&L from Xero, build + store analysis session.
 
-    Returns (session_id, xero_cash, data_dict) where data_dict is the API response
-    payload for the latest period.
+    period_mode: "rolling_12" | "financial_year" (see _xero_date_range).
+    Returns (session_id, xero_cash, data_dict, df).
     """
     import httpx
 
-    today  = datetime.utcnow()
-    to_date   = today.strftime("%Y-%m-%d")
-    from_date = (today.replace(year=today.year - 1) + timedelta(days=1)).strftime("%Y-%m-%d")
+    from_date, to_date = _xero_date_range(period_mode, fy_start_month)
 
     params = {
         "fromDate":  from_date,
@@ -2659,13 +2688,20 @@ async def xero_import(state: str, tenant_id: str, from_date: str = "", to_date: 
 
 
 @app.post("/api/portfolio/clients/{client_id}/xero-sync")
-async def portfolio_xero_sync(client_id: str):
-    """Re-pull the latest 12-month P&L from Xero for a portfolio client.
+async def portfolio_xero_sync(client_id: str,
+                               period_mode: str = "rolling_12",
+                               fy_start_month: int = 4):
+    """Re-pull P&L from Xero for a portfolio client.
 
-    Uses the stored refresh token — no re-authentication needed as long as the
-    refresh token is valid (Xero refresh tokens last 60 days).
-    Updates the stored session and persists the fresh data bytes to the DB.
+    period_mode: "rolling_12" (default) | "financial_year"
+    fy_start_month: 1-12, month the financial year starts (default 4 = April, NHS standard).
+    Uses the stored refresh token — no re-authentication needed (Xero tokens last 60 days).
     """
+    if period_mode not in ("rolling_12", "financial_year"):
+        raise HTTPException(400, "period_mode must be 'rolling_12' or 'financial_year'.")
+    if not (1 <= fy_start_month <= 12):
+        raise HTTPException(400, "fy_start_month must be 1–12.")
+
     # Get (and auto-refresh) the stored token
     conn_info = await _get_valid_xero_token(client_id)
 
@@ -2688,6 +2724,8 @@ async def portfolio_xero_sync(client_id: str):
         arrs_allocation=row["arrs_allocation"],
         qof_entitlement=row["qof_entitlement"],
         partner_drawings=row["partner_drawings"],
+        period_mode=period_mode,
+        fy_start_month=fy_start_month,
     )
 
     # Serialize the fresh DataFrame as CSV and persist it so the session
@@ -2701,8 +2739,8 @@ async def portfolio_xero_sync(client_id: str):
             (csv_bytes, filename, now_iso, client_id),
         )
         conn.execute(
-            "UPDATE xero_connections SET synced_at=? WHERE client_id=?",
-            (now_iso, client_id),
+            "UPDATE xero_connections SET synced_at=?, period_mode=? WHERE client_id=?",
+            (now_iso, period_mode, client_id),
         )
         conn.commit()
 
