@@ -1239,6 +1239,59 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
         );
       })()}
 
+      {/* Partner drawings tracker */}
+      {data.sector === "nhs_gp" && (() => {
+        const drawTrend = (data.trend || []).filter(t => t.drawings > 0);
+        if (!drawTrend.length) return null;
+        const maxProfit = Math.max(...drawTrend.map(t => Math.abs(t.profit || 0)), 1);
+        const maxDraw   = Math.max(...drawTrend.map(t => t.drawings), 1);
+        const scale     = Math.max(maxProfit, maxDraw);
+        const ytdDraw   = drawTrend.reduce((s, t) => s + t.drawings, 0);
+        const overdraw  = drawTrend.filter(t => t.drawings > (t.profit || 0));
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Icon name="briefcase" size={14} color="var(--fg-3)" />
+                <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>Partner drawings</span>
+              </div>
+              <span style={{ font: "600 12px var(--font-mono)", color: "var(--fg-2)" }}>
+                YTD: {window.fmtCurrency ? window.fmtCurrency(ytdDraw, { compact: true }) : `£${ytdDraw.toLocaleString()}`}
+              </span>
+            </div>
+            {overdraw.length > 0 && (
+              <div style={{ background: "var(--adverse-soft)", border: "1px solid var(--adverse)", borderRadius: 6, padding: "6px 10px", marginBottom: 10, font: "var(--text-body)", fontSize: 12, color: "var(--adverse-text, #b91c1c)" }}>
+                Drawings exceeded surplus in {overdraw.length} period{overdraw.length > 1 ? "s" : ""}: {overdraw.map(t => t.m).join(", ")}
+              </div>
+            )}
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 60 }}>
+              {drawTrend.map(t => {
+                const drawH  = Math.round((t.drawings / scale) * 54);
+                const profH  = Math.round((Math.abs(t.profit || 0) / scale) * 54);
+                const over   = t.drawings > (t.profit || 0);
+                return (
+                  <div key={t.m} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                    <div style={{ width: "100%", display: "flex", alignItems: "flex-end", gap: 1, height: 54 }}>
+                      <div title={`Surplus: £${(t.profit||0).toLocaleString()}`} style={{ flex: 1, height: profH, background: "var(--favourable, #16a34a)", borderRadius: "2px 2px 0 0", opacity: 0.75 }} />
+                      <div title={`Drawings: £${t.drawings.toLocaleString()}`} style={{ flex: 1, height: drawH, background: over ? "var(--adverse, #dc2626)" : "var(--primary, #2F62E8)", borderRadius: "2px 2px 0 0", opacity: 0.85 }} />
+                    </div>
+                    <span style={{ font: "600 9px var(--font-display)", color: "var(--fg-3)", textAlign: "center" }}>{t.m}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ display: "flex", gap: 16, marginTop: 8, justifyContent: "flex-end" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 4, font: "var(--text-body)", fontSize: 11, color: "var(--fg-3)" }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, background: "var(--favourable, #16a34a)", opacity: 0.75, display: "inline-block" }} />Surplus
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 4, font: "var(--text-body)", fontSize: 11, color: "var(--fg-3)" }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, background: "var(--primary, #2F62E8)", opacity: 0.85, display: "inline-block" }} />Drawings
+              </span>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* Smart highlights */}
       <SmartInsights movements={movements} kpis={kpis} isBvA={isBvA} />
 

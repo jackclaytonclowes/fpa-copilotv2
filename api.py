@@ -949,6 +949,7 @@ def demo_gp():
     data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
     me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
     data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, NHS_PARAMS["arrs_allocation"], me)
+    _enrich_trend_with_drawings(data, SESSIONS[session_id], "monthly")
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
@@ -2972,6 +2973,27 @@ def _count_ytd_months(session: dict, selected_period, mode: str = "monthly") -> 
         return 1
 
 
+def _enrich_trend_with_drawings(data: dict, session: dict, mode: str = "monthly") -> None:
+    """Append per-period partner drawings to each item in data['trend']."""
+    analysis = session.get("analysis_m" if mode == "monthly" else "analysis_q")
+    trend = data.get("trend", [])
+    if analysis is None or not trend:
+        return
+    kws = ["drawings", "partner draw"]
+    mask = (
+        (~analysis["Is Subtotal"]) &
+        (analysis["Account"].str.lower().apply(lambda a: any(kw in a for kw in kws)))
+    )
+    draw_df = analysis[mask]
+    if draw_df.empty:
+        return
+    draw_map: dict = {}
+    for p, grp in draw_df.groupby("Period"):
+        draw_map[period_label(p, mode)] = abs(float(grp["Value"].sum()))
+    for item in trend:
+        item["drawings"] = draw_map.get(item.get("full", ""), 0)
+
+
 @app.post("/api/upload")
 async def upload(
     file:              UploadFile = File(...),
@@ -3184,6 +3206,7 @@ async def upload(
         data["nhs_income_breakdown"] = classify_nhs_income_streams(data.get("revenue_split", []))
         me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
         data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, arrs_allocation or None, me)
+        _enrich_trend_with_drawings(data, SESSIONS[session_id], "monthly")
         if list_size:
             nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
             nhs.update(util)
@@ -3356,6 +3379,7 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         # ARRS headcount — YTD WTE estimates per NHSE role
         me = _count_ytd_months(s, selected, mode)
         data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, s.get("arrs_allocation"), me)
+        _enrich_trend_with_drawings(data, s, mode)
 
         # Per-patient KPIs
         if s.get("list_size"):
@@ -4544,6 +4568,67 @@ def get_strategy(session_id: str, period: str = "", mode: str = "monthly",
     except Exception:
         pass
 
+    # NHS GP — enrich with QOF, ARRS, per-patient, income streams
+    if s.get("sector") in ("nhs_gp", "nhs_pcn"):
+        try:
+            nhs_extras = []
+            ytd_for_strat = _nhs_ytd_movements(s, selected, mode)
+            me_strat = _count_ytd_months(s, selected, mode)
+            util = compute_utilisation(ytd_for_strat, s.get("arrs_allocation"), s.get("qof_entitlement"))
+            arrs_hc = compute_arrs_headcount(ytd_for_strat, s.get("arrs_allocation"), me_strat)
+
+            ls = s.get("list_size") or 0
+            wte = s.get("wte_partners")
+            pd_data = get_period_data(analysis, df_long, selected, kpi_accounts, mode)
+            kpis_list = pd_data.get("kpis", [])
+            rev   = next((k["value"] for k in kpis_list if k.get("icon") == "trending-up"), None)
+            prof  = next((k["value"] for k in kpis_list if k.get("icon") == "wallet"), None)
+
+            if ls and rev:
+                nhs_extras.append(f"Income per patient (annualised): {currency}{rev/ls*12:,.2f}")
+            if ls and prof:
+                nhs_extras.append(f"Surplus per patient (annualised): {currency}{prof/ls*12:,.2f}")
+            if wte and prof:
+                nhs_extras.append(f"Surplus per WTE partner: {currency}{prof/wte:,.0f}")
+            if ls:
+                nhs_extras.append(f"Weighted list size: {ls:,}")
+
+            arrs_u = util.get("arrs")
+            if arrs_u:
+                nhs_extras.append(
+                    f"ARRS utilisation: {arrs_u['utilisation_pct']:.1f}% "
+                    f"({currency}{arrs_u['spend']:,.0f} spent of {currency}{arrs_u['allocation']:,.0f} allocation, "
+                    f"{currency}{arrs_u['remaining']:,.0f} unclaimed)"
+                )
+            qof_u = util.get("qof")
+            if qof_u:
+                nhs_extras.append(
+                    f"QOF achievement: {qof_u['achievement_pct']:.1f}% "
+                    f"({currency}{qof_u['income']:,.0f} of {currency}{qof_u['entitlement']:,.0f}, "
+                    f"gap {currency}{qof_u['gap']:,.0f})"
+                )
+
+            if arrs_hc.get("roles"):
+                roles_str = ", ".join(
+                    f"{r['role']} (WTE {r['wte_est']:.2f}, {r['pct_of_cap']:.0f}% of cap)"
+                    for r in arrs_hc["roles"] if r.get("wte_est") is not None
+                )
+                if roles_str:
+                    nhs_extras.append(f"ARRS headcount: {roles_str}")
+
+            income_streams = classify_nhs_income_streams(pd_data.get("revenue_split", []))
+            if income_streams:
+                top3 = income_streams[:3]
+                streams_str = ", ".join(
+                    f"{st['label']} {currency}{st['value']:,.0f} ({st['pct']:.0f}%)" for st in top3
+                )
+                nhs_extras.append(f"Income streams (top 3): {streams_str}")
+
+            if nhs_extras:
+                ctx += "\n\n=== NHS GP METRICS ===\n" + "\n".join(nhs_extras)
+        except Exception:
+            pass
+
     try:
         import json as _json
         from openai import OpenAI
@@ -4627,21 +4712,22 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
             insights_data = None
 
         # NHS export enrichment
-        if s.get("sector") == "nhs_gp":
+        if s.get("sector") in ("nhs_gp", "nhs_pcn"):
             movements_for_nhs = data.get("movements", [])
             for m in movements_for_nhs:
                 m["is_locum"] = is_locum_account(m.get("account", ""))
+            ytd_for_export = _nhs_ytd_movements(s, selected, "monthly")
+            me_export = _count_ytd_months(s, selected, "monthly")
             nhs_export_data = {
-                "workforce_breakdown": compute_workforce_breakdown(movements_for_nhs),
-                "partner_drawings":    s.get("partner_drawings"),
-                "wte_partners":        s.get("wte_partners"),
-                "list_size":           s.get("list_size"),
+                "workforce_breakdown":  compute_workforce_breakdown(movements_for_nhs),
+                "partner_drawings":     s.get("partner_drawings"),
+                "wte_partners":         s.get("wte_partners"),
+                "list_size":            s.get("list_size"),
+                "nhs_income_breakdown": classify_nhs_income_streams(data.get("revenue_split", [])),
+                "arrs_headcount":       compute_arrs_headcount(ytd_for_export, s.get("arrs_allocation"), me_export),
+                "nhs_kpis":             data.get("nhs_kpis"),
             }
-            util = compute_utilisation(
-                movements_for_nhs,
-                s.get("arrs_allocation"),
-                s.get("qof_entitlement"),
-            )
+            util = compute_utilisation(ytd_for_export, s.get("arrs_allocation"), s.get("qof_entitlement"))
             nhs_export_data.update(util)
         else:
             nhs_export_data = None
@@ -4652,7 +4738,8 @@ def export(session_id: str, period: str = "", fmt: str = "pdf", firm: str = "", 
         content = make_pdf(lbl, data["movements"], data["commentary"], data["kpis"],
                            analysis_type=analysis_type, waterfall=data.get("waterfall"),
                            firm_name=firm, currency_sym=currency,
-                           insights=insights_data if analysis_type != "budget_vs_actual" else None)
+                           insights=insights_data if analysis_type != "budget_vs_actual" else None,
+                           nhs_data=nhs_export_data)
         return Response(content, media_type="application/pdf",
                         headers={"Content-Disposition": f'attachment; filename="management_pack_{safe_lbl}.pdf"'})
     elif fmt == "xlsx":

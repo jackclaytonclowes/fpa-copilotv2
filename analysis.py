@@ -2233,7 +2233,8 @@ def _build_report_text(period_label_str, movements, commentary, kpis,
 def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: list,
              analysis_type: str = "month_on_month", waterfall: dict | None = None,
              firm_name: str = "", currency_sym: str = "£",
-             insights: dict | None = None) -> bytes:
+             insights: dict | None = None,
+             nhs_data: dict | None = None) -> bytes:
     """Generate a professional management pack PDF using ReportLab platypus."""
     import datetime
     from reportlab.lib import colors as C
@@ -2872,6 +2873,155 @@ def make_pdf(period_label_str: str, movements: list, commentary: list, kpis: lis
             ]))
             story.append(sppy_tbl)
 
+    # PAGE 5 — NHS Practice KPIs (only when nhs_data provided)
+    if nhs_data:
+        story.append(NextPageTemplate("standard"))
+        story.append(PageBreak())
+        story.append(Paragraph("NHS Practice KPIs", s_h2))
+        story.append(Sp(0.3))
+
+        _sym = currency_sym.strip()
+
+        def _nf(v, prefix=""):
+            if v is None: return "—"
+            try:
+                fv = float(v)
+            except (TypeError, ValueError):
+                return "—"
+            return f"{prefix}{_sym}{fv:,.2f}"
+
+        def _npct(v):
+            return f"{v:.1f}%" if v is not None else "—"
+
+        # Per-patient KPIs
+        nhs_kpis = nhs_data.get("nhs_kpis") or {}
+        ls = nhs_kpis.get("list_size") or nhs_data.get("list_size") or 0
+        per_pat_rows = [
+            [Paragraph("Metric", s_lbl), Paragraph("Value", s_lbl), Paragraph("Notes", s_lbl)],
+        ]
+        if ls:
+            per_pat_rows.append([Paragraph("List size", s_body), Paragraph(f"{ls:,}", s_numb), Paragraph("Weighted registered patients", s_body)])
+        for key, label, note in [
+            ("income_per_patient", "Income / patient", "Annual income ÷ list size"),
+            ("cost_per_patient",   "Cost / patient",   "Annual costs ÷ list size"),
+            ("profit_per_patient", "Surplus / patient","Annual surplus ÷ list size"),
+            ("income_per_partner", "Income / partner", "Annual income ÷ WTE partners"),
+            ("profit_per_partner", "Surplus / partner","Annual surplus ÷ WTE partners"),
+        ]:
+            v = nhs_kpis.get(key)
+            if v is not None:
+                per_pat_rows.append([Paragraph(label, s_body), Paragraph(_nf(v), s_numb), Paragraph(note, s_body)])
+
+        if len(per_pat_rows) > 1:
+            pp_tbl = Table(per_pat_rows, colWidths=[AW*0.38, AW*0.22, AW*0.40])
+            pp_tbl.setStyle(TableStyle([
+                ("BACKGROUND",   (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",     (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",     (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",    (0, 0), (-1, 0), FG3),
+                ("ALIGN",        (1, 0), (1, -1), "RIGHT"),
+                ("GRID",         (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",   (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ]))
+            story.append(pp_tbl)
+            story.append(Sp(0.4))
+
+        # QOF & ARRS utilisation
+        qof  = nhs_data.get("qof")
+        arrs = nhs_data.get("arrs")
+        util_rows = [[Paragraph("Metric", s_lbl), Paragraph("Value", s_lbl), Paragraph("vs Target", s_lbl)]]
+        if arrs:
+            util_rows.append([
+                Paragraph("ARRS utilisation", s_body),
+                Paragraph(_npct(arrs.get("utilisation_pct")), s_numb),
+                Paragraph(f"{_sym}{arrs['spend']:,.0f} spent of {_sym}{arrs['allocation']:,.0f} ({_sym}{arrs['remaining']:,.0f} remaining)", s_body),
+            ])
+        if qof:
+            util_rows.append([
+                Paragraph("QOF achievement", s_body),
+                Paragraph(_npct(qof.get("achievement_pct")), s_numb),
+                Paragraph(f"{_sym}{qof['income']:,.0f} of {_sym}{qof['entitlement']:,.0f} (gap {_sym}{qof['gap']:,.0f})", s_body),
+            ])
+        if len(util_rows) > 1:
+            story.append(Paragraph("Utilisation", _ps("u_h", fontSize=9, textColor=FG3, fontName="Helvetica-Bold", leading=13, spaceBefore=4, spaceAfter=4)))
+            ut = Table(util_rows, colWidths=[AW*0.28, AW*0.16, AW*0.56])
+            ut.setStyle(TableStyle([
+                ("BACKGROUND",   (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",     (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",     (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",    (0, 0), (-1, 0), FG3),
+                ("ALIGN",        (1, 0), (1, -1), "RIGHT"),
+                ("GRID",         (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",   (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ]))
+            story.append(ut)
+            story.append(Sp(0.4))
+
+        # Income streams
+        income_streams = nhs_data.get("nhs_income_breakdown") or []
+        if income_streams:
+            story.append(Paragraph("Income streams", _ps("is_h", fontSize=9, textColor=FG3, fontName="Helvetica-Bold", leading=13, spaceBefore=4, spaceAfter=4)))
+            is_rows = [[Paragraph("Stream", s_lbl), Paragraph("Amount", s_lbl), Paragraph("% of income", s_lbl)]]
+            for st in income_streams:
+                is_rows.append([
+                    Paragraph(st["label"], s_body),
+                    Paragraph(f"{_sym}{st['value']:,.0f}", s_numb),
+                    Paragraph(f"{st['pct']:.1f}%", s_numb),
+                ])
+            is_tbl = Table(is_rows, colWidths=[AW*0.50, AW*0.25, AW*0.25])
+            is_tbl.setStyle(TableStyle([
+                ("BACKGROUND",   (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",     (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",     (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",    (0, 0), (-1, 0), FG3),
+                ("ALIGN",        (1, 0), (-1, -1), "RIGHT"),
+                ("GRID",         (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",   (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ]))
+            story.append(is_tbl)
+            story.append(Sp(0.4))
+
+        # ARRS headcount
+        arrs_hc = nhs_data.get("arrs_headcount") or {}
+        arrs_roles = arrs_hc.get("roles") or []
+        if arrs_roles:
+            story.append(Paragraph("ARRS headcount (YTD estimates)", _ps("ah_h", fontSize=9, textColor=FG3, fontName="Helvetica-Bold", leading=13, spaceBefore=4, spaceAfter=4)))
+            ah_rows = [[Paragraph(h, s_lbl) for h in ["Role", "WTE (est.)", "Monthly avg", "% of NHSE cap"]]]
+            for r in arrs_roles:
+                ah_rows.append([
+                    Paragraph(r["role"], s_body),
+                    Paragraph(f"{r['wte_est']:.2f}" if r.get("wte_est") is not None else "—", s_numb),
+                    Paragraph(f"{_sym}{r['monthly_avg']:,.0f}" if r.get("monthly_avg") else "—", s_numb),
+                    Paragraph(f"{r['pct_of_cap']:.0f}%" if r.get("pct_of_cap") is not None else "—", s_numb),
+                ])
+            ah_tbl = Table(ah_rows, colWidths=[AW*0.40, AW*0.18, AW*0.21, AW*0.21])
+            ah_tbl.setStyle(TableStyle([
+                ("BACKGROUND",   (0, 0), (-1, 0), SOFT),
+                ("FONTNAME",     (0, 0), (-1, 0), "Helvetica-Bold"),
+                ("FONTSIZE",     (0, 0), (-1, 0), 8),
+                ("TEXTCOLOR",    (0, 0), (-1, 0), FG3),
+                ("ALIGN",        (1, 0), (-1, -1), "RIGHT"),
+                ("GRID",         (0, 0), (-1, -1), 0.3, BORDER),
+                ("ROWBACKGROUNDS",(0, 1), (-1, -1), [C.white, SOFT]),
+                ("TOPPADDING",   (0, 0), (-1, -1), 5),
+                ("BOTTOMPADDING",(0, 0), (-1, -1), 5),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+            ]))
+            story.append(ah_tbl)
+
     doc.build(story)
     buf.seek(0)
     return buf.read()
@@ -3484,6 +3634,102 @@ def make_xlsx(period_label_str: str, movements: list, commentary: list, kpis: li
         ws_am.column_dimensions["A"].width = 38
         ws_am.column_dimensions["B"].width = 28
         ws_am.column_dimensions["C"].width = 40
+
+        # ── Income Streams Sheet ──────────────────────────────────────────────
+        income_streams = nhs_data.get("nhs_income_breakdown") or []
+        if income_streams:
+            ws_is = wb.create_sheet("Income Streams")
+            ws_is.merge_cells("A1:D1")
+            is_t = ws_is["A1"]
+            is_t.value = f"NHS Income Streams — {period_label_str}"
+            is_t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+            is_t.alignment = Alignment(horizontal="left", vertical="center")
+            ws_is.row_dimensions[1].height = 22
+            for ci, h in enumerate(["Income Stream", "Amount (£)", "% of Total", "Sub-accounts"], 1):
+                c = ws_is.cell(row=2, column=ci, value=h)
+                c.font  = hdr_font()
+                c.fill  = fill(C_HEADER)
+                c.alignment = Alignment(horizontal="left" if ci in (1,4) else "right", vertical="center")
+            is_row = 3
+            for st in income_streams:
+                accs = ", ".join(a["name"] for a in st.get("accounts", []))
+                for ci, v in enumerate([st["label"], gbp_fmt(st["value"]), pct_fmt(st["pct"]), accs], 1):
+                    c = ws_is.cell(row=is_row, column=ci, value=v)
+                    c.font   = body_font()
+                    c.fill   = fill(C_SUBHEAD if is_row % 2 == 0 else C_WHITE)
+                    c.border = thin_border()
+                    c.alignment = Alignment(horizontal="left" if ci in (1,4) else "right", vertical="center", wrap_text=(ci==4))
+                    if ci == 2 and isinstance(v, (int, float)):
+                        c.number_format = GBP_FMT
+                    elif ci == 3 and isinstance(v, (int, float)):
+                        c.number_format = "0.0"
+                is_row += 1
+            ws_is.column_dimensions["A"].width = 30
+            ws_is.column_dimensions["B"].width = 16
+            ws_is.column_dimensions["C"].width = 12
+            ws_is.column_dimensions["D"].width = 55
+
+        # ── ARRS Tracker Sheet ────────────────────────────────────────────────
+        arrs_hc = nhs_data.get("arrs_headcount") or {}
+        arrs_roles = arrs_hc.get("roles") or []
+        if arrs_roles:
+            ws_arrs = wb.create_sheet("ARRS Tracker")
+            ws_arrs.merge_cells("A1:F1")
+            arrs_t = ws_arrs["A1"]
+            arrs_t.value = f"ARRS Headcount Tracker — {period_label_str} (YTD {arrs_hc.get('months_elapsed', 12)}m)"
+            arrs_t.font  = Font(name="Calibri", bold=True, size=13, color=C_HEADER)
+            arrs_t.alignment = Alignment(horizontal="left", vertical="center")
+            ws_arrs.row_dimensions[1].height = 22
+            for ci, h in enumerate(["Role", "YTD Spend", "Monthly Avg", "Annual Rate", "WTE (est.)", "% of NHSE Cap"], 1):
+                c = ws_arrs.cell(row=2, column=ci, value=h)
+                c.font  = hdr_font()
+                c.fill  = fill(C_HEADER)
+                c.alignment = Alignment(horizontal="left" if ci == 1 else "right", vertical="center")
+            ar_row = 3
+            for r in arrs_roles:
+                for ci, v in enumerate([
+                    r["role"],
+                    gbp_fmt(r.get("ytd_spend")),
+                    gbp_fmt(r.get("monthly_avg")),
+                    gbp_fmt(r.get("annual_rate")),
+                    r.get("wte_est"),
+                    pct_fmt(r.get("pct_of_cap")),
+                ], 1):
+                    c = ws_arrs.cell(row=ar_row, column=ci, value=v)
+                    c.font   = body_font()
+                    c.fill   = fill(C_SUBHEAD if ar_row % 2 == 0 else C_WHITE)
+                    c.border = thin_border()
+                    c.alignment = Alignment(horizontal="left" if ci == 1 else "right", vertical="center")
+                    if ci in (2, 3, 4) and isinstance(v, (int, float)):
+                        c.number_format = GBP_FMT
+                    elif ci == 5 and isinstance(v, float):
+                        c.number_format = "0.00"
+                    elif ci == 6 and isinstance(v, (int, float)):
+                        c.number_format = "0.0"
+                ar_row += 1
+            # Totals row
+            tot_row = ar_row
+            for ci, v in enumerate([
+                "TOTAL",
+                gbp_fmt(arrs_hc.get("total_ytd_spend")),
+                None,
+                gbp_fmt(arrs_hc.get("total_annual_rate")),
+                None,
+                None,
+            ], 1):
+                c = ws_arrs.cell(row=tot_row, column=ci, value=v)
+                c.font   = body_font(bold=True)
+                c.fill   = fill(C_SUBHEAD)
+                c.border = thin_border()
+                c.alignment = Alignment(horizontal="left" if ci == 1 else "right", vertical="center")
+                if ci in (2, 4) and isinstance(v, (int, float)):
+                    c.number_format = GBP_FMT
+            ws_arrs.column_dimensions["A"].width = 32
+            ws_arrs.column_dimensions["B"].width = 16
+            ws_arrs.column_dimensions["C"].width = 16
+            ws_arrs.column_dimensions["D"].width = 16
+            ws_arrs.column_dimensions["E"].width = 14
+            ws_arrs.column_dimensions["F"].width = 16
 
     buf = BytesIO()
     wb.save(buf)
