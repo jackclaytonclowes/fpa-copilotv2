@@ -803,7 +803,7 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
         ].copy()
 
         # Group by Account (individual income lines)
-        df = df.groupby("Account", as_index=False)["Value"].sum()
+        df = df.groupby("Account", as_index=False)[["Value", "Prior Value"]].sum()
         df["Chart Value"] = df["Value"].abs()
         df = df[df["Chart Value"] > 0].sort_values("Chart Value", ascending=False)
 
@@ -814,14 +814,22 @@ def get_period_data(analysis_df: pd.DataFrame, df_long: pd.DataFrame,
             other = df.iloc[top_n:]["Chart Value"].sum()
             top   = df.head(top_n).copy()
             if other > 0:
-                df = pd.concat([top, pd.DataFrame([{"Account": "Other", "Value": other, "Chart Value": other}])], ignore_index=True)
+                other_row = pd.DataFrame([{"Account": "Other", "Value": other,
+                                           "Prior Value": 0.0, "Chart Value": other}])
+                df = pd.concat([top, other_row], ignore_index=True)
             else:
                 df = top
 
         total = df["Chart Value"].sum()
-        return [{"name": r["Account"], "value": float(r["Chart Value"]),
-                 "pct": round(r["Chart Value"] / total * 100, 1) if total else 0}
-                for _, r in df.iterrows()]
+        return [
+            {
+                "name":        r["Account"],
+                "value":       float(r["Chart Value"]),
+                "prior_value": float(abs(r["Prior Value"])) if pd.notna(r.get("Prior Value")) else None,
+                "pct":         round(r["Chart Value"] / total * 100, 1) if total else 0,
+            }
+            for _, r in df.iterrows()
+        ]
 
     revenue_split = revenue_split_fn()
     expense_split = expense_split_fn(EXPENSE_CATEGORIES)

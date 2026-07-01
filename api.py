@@ -33,8 +33,9 @@ from analysis import (
     period_label, quarter_sort_key, EXPENSE_CATEGORIES,
 )
 from kpis.nhs_gp import (
-    compute_arrs_headcount, compute_nhs_kpis, compute_workforce_breakdown,
-    compute_utilisation, is_locum_account, is_seasonal_nhs, nhs_kpi_cards,
+    compute_arrs_headcount, compute_benchmarks, compute_nhs_kpis,
+    compute_workforce_breakdown, compute_utilisation,
+    is_locum_account, is_seasonal_nhs, nhs_kpi_cards,
 )
 
 app = FastAPI(title="MonthEndIQ")
@@ -950,6 +951,21 @@ def demo_gp():
     me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
     data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, NHS_PARAMS["arrs_allocation"], me)
     _enrich_trend_with_drawings(data, SESSIONS[session_id], "monthly")
+    ytd_ann = _ytd_annualised(ytd_mvts, me)
+    data["nhs_benchmarks"] = {
+        "items": compute_benchmarks(
+            ytd_ann["revenue"], ytd_ann["profit"],
+            NHS_PARAMS["list_size"], NHS_PARAMS["wte_partners"],
+            util.get("arrs", {}).get("utilisation_pct"),
+            util.get("qof", {}).get("achievement_pct"),
+            ytd_ann["payroll_pct"],
+        ),
+        "ann_revenue": ytd_ann["revenue"],
+        "ann_profit":  ytd_ann["profit"],
+        "months_elapsed": me,
+    }
+    data["wte_partners"]   = NHS_PARAMS["wte_partners"]
+    data["ytd_drawings"]   = ytd_ann["ytd_drawings"]
     data["analysis_type"] = "month_on_month"
     data["session_id"]    = session_id
     data["file_name"]     = filename
@@ -2973,6 +2989,27 @@ def _count_ytd_months(session: dict, selected_period, mode: str = "monthly") -> 
         return 1
 
 
+_DRAW_KWS  = ["drawings", "partner draw"]
+_REV_CATS  = {"Revenue", "Turnover"}
+_PAY_CATS  = {"Staff Costs", "Management Costs"}
+
+
+def _ytd_annualised(ytd_mvts: list[dict], me: int) -> dict:
+    """Return annualised revenue, profit, payroll%, and ytd_drawings from YTD movements."""
+    ytd_rev  = sum(abs(m["value"]) for m in ytd_mvts if m.get("category") in _REV_CATS)
+    ytd_pay  = sum(abs(m["value"]) for m in ytd_mvts if m.get("category") in _PAY_CATS)
+    ytd_cost = sum(abs(m["value"]) for m in ytd_mvts if m.get("category") not in _REV_CATS)
+    ytd_draw = sum(abs(m["value"]) for m in ytd_mvts
+                   if any(kw in (m.get("account") or "").lower() for kw in _DRAW_KWS))
+    ann = 12 / max(me, 1)
+    return {
+        "revenue":     round(ytd_rev * ann),
+        "profit":      round((ytd_rev - ytd_cost) * ann),
+        "payroll_pct": round(ytd_pay / ytd_rev * 100, 1) if ytd_rev > 0 else None,
+        "ytd_drawings": round(ytd_draw),
+    }
+
+
 def _enrich_trend_with_drawings(data: dict, session: dict, mode: str = "monthly") -> None:
     """Append per-period partner drawings to each item in data['trend']."""
     analysis = session.get("analysis_m" if mode == "monthly" else "analysis_q")
@@ -3207,6 +3244,21 @@ async def upload(
         me = _count_ytd_months(SESSIONS[session_id], latest, "monthly")
         data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, arrs_allocation or None, me)
         _enrich_trend_with_drawings(data, SESSIONS[session_id], "monthly")
+        ytd_ann = _ytd_annualised(ytd_mvts, me)
+        data["nhs_benchmarks"] = {
+            "items": compute_benchmarks(
+                ytd_ann["revenue"], ytd_ann["profit"],
+                list_size, wte_partners or None,
+                util.get("arrs", {}).get("utilisation_pct"),
+                util.get("qof", {}).get("achievement_pct"),
+                ytd_ann["payroll_pct"],
+            ),
+            "ann_revenue": ytd_ann["revenue"],
+            "ann_profit":  ytd_ann["profit"],
+            "months_elapsed": me,
+        }
+        data["wte_partners"]  = wte_partners or None
+        data["ytd_drawings"]  = ytd_ann["ytd_drawings"]
         if list_size:
             nhs = compute_nhs_kpis(data, list_size, wte_partners or None)
             nhs.update(util)
@@ -3380,6 +3432,21 @@ def get_data(session_id: str, period: str | None = None, mode: str = "monthly"):
         me = _count_ytd_months(s, selected, mode)
         data["arrs_headcount"] = compute_arrs_headcount(ytd_mvts, s.get("arrs_allocation"), me)
         _enrich_trend_with_drawings(data, s, mode)
+        ytd_ann = _ytd_annualised(ytd_mvts, me)
+        data["nhs_benchmarks"] = {
+            "items": compute_benchmarks(
+                ytd_ann["revenue"], ytd_ann["profit"],
+                s.get("list_size") or 0, s.get("wte_partners"),
+                util.get("arrs", {}).get("utilisation_pct"),
+                util.get("qof", {}).get("achievement_pct"),
+                ytd_ann["payroll_pct"],
+            ),
+            "ann_revenue": ytd_ann["revenue"],
+            "ann_profit":  ytd_ann["profit"],
+            "months_elapsed": me,
+        }
+        data["wte_partners"]  = s.get("wte_partners")
+        data["ytd_drawings"]  = ytd_ann["ytd_drawings"]
 
         # Per-patient KPIs
         if s.get("list_size"):

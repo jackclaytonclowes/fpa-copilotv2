@@ -165,6 +165,100 @@ def compute_utilisation(
     return out
 
 
+# ── NHS GP benchmark comparisons (AISMA 2024/25 + NHS England) ───────────────
+
+def compute_benchmarks(
+    ann_revenue: float,
+    ann_profit: float,
+    list_size: int,
+    wte_partners: float | None,
+    arrs_pct: float | None,
+    qof_pct: float | None,
+    payroll_pct: float | None,
+) -> list[dict]:
+    """Compare annualised practice metrics against published NHS GP benchmarks.
+
+    Returns a list of benchmark dicts, each with:
+      key, label, value, value_str, benchmark, status ("good"|"watch"|"concern"), hint
+    """
+    out: list[dict] = []
+
+    def _item(key, label, value, value_str, bench_str, status, hint):
+        return {"key": key, "label": label, "value": value, "value_str": value_str,
+                "benchmark": bench_str, "status": status, "hint": hint}
+
+    if list_size and ann_revenue:
+        ipp = ann_revenue / list_size
+        out.append(_item(
+            "income_pp", "Income / patient", round(ipp), f"£{ipp:,.0f}",
+            "£150–185 / yr",
+            "good" if ipp >= 150 else "watch" if ipp >= 120 else "concern",
+            "Annual NHS income per weighted patient. AISMA typical: £150–185.",
+        ))
+
+    if list_size and ann_profit is not None:
+        spp = ann_profit / list_size
+        out.append(_item(
+            "surplus_pp", "Surplus / patient", round(spp), f"£{spp:,.0f}",
+            "£10–18 / yr",
+            "good" if spp >= 10 else "watch" if spp >= 5 else "concern",
+            "Annual surplus per weighted patient. NHS GP target ≥£10.",
+        ))
+
+    if payroll_pct is not None:
+        out.append(_item(
+            "payroll_pct", "Payroll % of revenue", round(payroll_pct, 1), f"{payroll_pct:.1f}%",
+            "Target <65%",
+            "good" if payroll_pct < 65 else "watch" if payroll_pct < 72 else "concern",
+            "Staff costs (incl. NI + pension) as % of gross income. >72% is critical.",
+        ))
+
+    if qof_pct is not None:
+        out.append(_item(
+            "qof_pct", "QOF achievement", round(qof_pct, 1), f"{qof_pct:.1f}%",
+            "Target ≥95%",
+            "good" if qof_pct >= 95 else "watch" if qof_pct >= 85 else "concern",
+            "QOF income as % of maximum entitlement. <85% warrants review.",
+        ))
+
+    if arrs_pct is not None:
+        out.append(_item(
+            "arrs_pct", "ARRS utilisation", round(arrs_pct, 1), f"{arrs_pct:.1f}%",
+            "Target ≥80%",
+            "good" if arrs_pct >= 80 else "watch" if arrs_pct >= 50 else "concern",
+            "<50% leaves significant PCN funding unclaimed.",
+        ))
+
+    if wte_partners and ann_revenue:
+        ipp_part = ann_revenue / wte_partners
+        out.append(_item(
+            "income_per_partner", "Income / WTE partner", round(ipp_part), f"£{ipp_part:,.0f}",
+            "£350k–480k",
+            "good" if ipp_part >= 350_000 else "watch" if ipp_part >= 250_000 else "concern",
+            "Annual practice income per WTE GP partner. Typical: £350k–£480k.",
+        ))
+
+    if wte_partners and ann_profit is not None:
+        spp_part = ann_profit / wte_partners
+        out.append(_item(
+            "surplus_per_partner", "Surplus / WTE partner", round(spp_part), f"£{spp_part:,.0f}",
+            "£85k–130k",
+            "good" if spp_part >= 85_000 else "watch" if spp_part >= 60_000 else "concern",
+            "Annual surplus available per WTE GP partner. Typical: £85k–£130k.",
+        ))
+
+    if wte_partners and list_size:
+        lsp = list_size / wte_partners
+        out.append(_item(
+            "list_per_partner", "Patients / WTE partner", round(lsp), f"{lsp:,.0f}",
+            "1,500–2,200",
+            "good" if 1_500 <= lsp <= 2_200 else "watch" if 1_000 <= lsp <= 2_500 else "concern",
+            "Weighted patients per WTE GP partner. NHS England typical: 1,500–2,200.",
+        ))
+
+    return out
+
+
 # ── ARRS role caps (NHSE 2024/25, incl. employer NI + pension) ────────────────
 # Each entry: (key, display_name, account_keywords, annual_cap_gbp)
 _ARRS_ROLES: list[tuple[str, str, list[str], int]] = [

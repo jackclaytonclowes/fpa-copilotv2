@@ -1126,13 +1126,24 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 </div>
                 {s.accounts && s.accounts.length > 1 && (
                   <div style={{ paddingLeft: 17, paddingBottom: 2 }}>
-                    {s.accounts.map((a, i) => (
-                      <div key={i} style={{ display: "flex", justifyContent: "space-between",
-                        padding: "2px 0", font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
-                        <span>{a.name}</span>
-                        <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtCompact(a.value)}</span>
-                      </div>
-                    ))}
+                    {s.accounts.map((a, i) => {
+                      const delta = a.prior_value != null ? a.value - a.prior_value : null;
+                      const fav   = delta != null && delta >= 0;
+                      return (
+                        <div key={i} style={{ display: "flex", justifyContent: "space-between",
+                          padding: "2px 0", font: "var(--text-caption)", fontSize: 11, color: "var(--fg-3)" }}>
+                          <span>{a.name}</span>
+                          <span style={{ display: "flex", gap: 6, fontVariantNumeric: "tabular-nums" }}>
+                            {fmtCompact(a.value)}
+                            {delta != null && (
+                              <span style={{ color: fav ? "var(--favourable-text, #15803d)" : "var(--adverse-text, #b91c1c)" }}>
+                                {fav ? "+" : ""}{fmtCompact(delta)}
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </React.Fragment>
@@ -1235,6 +1246,98 @@ function Dashboard({ sessionId, initialData, periodMode, controlledPeriod, onDat
                 </span>
               </div>
             )}
+          </div>
+        );
+      })()}
+
+      {/* NHS Practice Benchmarks */}
+      {(data.sector === "nhs_gp" || data.sector === "nhs_pcn") && (data.nhs_benchmarks?.items || []).length > 0 && (() => {
+        const items = data.nhs_benchmarks.items;
+        const STATUS = {
+          good:    { bg: "var(--favourable-soft, #dcfce7)",  color: "var(--favourable-text, #15803d)",  label: "Good" },
+          watch:   { bg: "var(--caution-soft, #fef3c7)",     color: "var(--caution-text, #b45309)",     label: "Watch" },
+          concern: { bg: "var(--adverse-soft, #fee2e2)",      color: "var(--adverse-text, #b91c1c)",     label: "Concern" },
+        };
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <Icon name="bar-chart-2" size={14} color="var(--fg-3)" />
+              <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>Practice benchmarks</span>
+              <span style={{ font: "600 10px var(--font-display)", color: "var(--fg-3)", textTransform: "uppercase", letterSpacing: ".04em" }}>
+                Annualised · {data.nhs_benchmarks.months_elapsed}m YTD
+              </span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "3px 10px", alignItems: "center" }}>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)" }}>Metric</span>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", textAlign: "right" }}>Your figure</span>
+              <span style={{ font: "var(--text-label)", fontSize: 10, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--fg-3)", textAlign: "right" }}>Benchmark</span>
+              {items.map(b => {
+                const s = STATUS[b.status] || STATUS.watch;
+                return [
+                  <span key={b.key+"_l"} title={b.hint} style={{ font: "var(--text-body)", fontSize: 12.5, color: "var(--fg-1)", paddingTop: 5, borderTop: "1px solid var(--border)", cursor: "help" }}>
+                    {b.label}
+                  </span>,
+                  <span key={b.key+"_v"} style={{ font: "600 12px var(--font-mono)", color: "var(--fg-1)", textAlign: "right", paddingTop: 5, borderTop: "1px solid var(--border)", whiteSpace: "nowrap" }}>
+                    {b.value_str}
+                  </span>,
+                  <span key={b.key+"_b"} style={{ textAlign: "right", paddingTop: 5, borderTop: "1px solid var(--border)" }}>
+                    <span style={{ display: "inline-block", padding: "1px 7px", borderRadius: 10, background: s.bg, color: s.color, font: "600 10.5px var(--font-display)", whiteSpace: "nowrap" }}>
+                      {s.label}
+                    </span>
+                  </span>,
+                ];
+              })}
+            </div>
+            <div style={{ marginTop: 8, font: "var(--text-body)", fontSize: 10.5, color: "var(--fg-3)" }}>
+              Sources: AISMA 2024/25, NHS England GP contract data. Hover metric for detail.
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Year-end tax reserve panel */}
+      {data.sector === "nhs_gp" && data.nhs_benchmarks && data.wte_partners > 0 && (() => {
+        const me = data.nhs_benchmarks.months_elapsed || 12;
+        const annProfit = data.nhs_benchmarks.ann_profit || 0;
+        const ytdDraw   = data.ytd_drawings || 0;
+        const annDraw   = Math.round(ytdDraw / me * 12);
+        const wte       = data.wte_partners;
+        const profPerPartner   = wte ? Math.round(annProfit / wte) : null;
+        const drawPerPartner   = wte ? Math.round(annDraw   / wte) : null;
+        const taxReserve       = profPerPartner != null ? Math.round(profPerPartner * 0.20) : null;
+        const pensionRate      = 0.1438;  // NHS employer pension rate (14.38%)
+        const netAfterTax      = profPerPartner != null && taxReserve != null ? profPerPartner - taxReserve : null;
+        if (profPerPartner == null) return null;
+        const fmtK = v => v != null ? `£${Math.abs(v).toLocaleString()}` : "—";
+        const Row = ({ label, value, bold, color, borderTop }) => (
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
+            padding: "5px 0", borderTop: borderTop ? "1px solid var(--border)" : "none" }}>
+            <span style={{ font: bold ? "var(--text-body-strong)" : "var(--text-body)", fontSize: 12.5, color: "var(--fg-1)" }}>{label}</span>
+            <span style={{ font: `600 12px var(--font-mono)`, color: color || "var(--fg-1)", fontVariantNumeric: "tabular-nums" }}>{value}</span>
+          </div>
+        );
+        return (
+          <div className="card" style={{ marginTop: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+              <Icon name="calculator" size={14} color="var(--fg-3)" />
+              <span style={{ font: "var(--text-body-strong)", fontSize: 13, color: "var(--fg-1)" }}>Year-end tax reserve</span>
+              <span style={{ font: "600 10px var(--font-display)", color: "var(--fg-3)", textTransform: "uppercase", letterSpacing: ".04em" }}>Per WTE partner · annualised</span>
+            </div>
+            <Row label="Annualised practice surplus" value={fmtK(annProfit)} />
+            <Row label="÷ WTE partners" value={`${wte.toFixed(1)}`} />
+            <Row label="= Surplus per partner" value={fmtK(profPerPartner)} bold />
+            {drawPerPartner != null && <Row label="Less: annualised drawings" value={`(${fmtK(drawPerPartner)})`} color="var(--fg-2)" />}
+            {taxReserve != null && (
+              <Row label="Suggested tax reserve (20%)" value={`(${fmtK(taxReserve)})`} color="var(--adverse-text, #b91c1c)" borderTop />
+            )}
+            {netAfterTax != null && (
+              <Row label="Balance after tax reserve" value={fmtK(netAfterTax)}
+                bold color={netAfterTax >= 0 ? "var(--favourable-text, #15803d)" : "var(--adverse-text, #b91c1c)"}
+                borderTop />
+            )}
+            <div style={{ marginTop: 10, font: "var(--text-body)", fontSize: 10.5, color: "var(--fg-3)", lineHeight: 1.5 }}>
+              Tax reserve estimate only — based on 20% effective rate. Actual liability depends on individual partner drawings, pension contributions, and other income. Always confirm with your tax adviser.
+            </div>
           </div>
         );
       })()}
